@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <f:view contracts="#{themeSwitching.selectedTheme}">
+        <h:head>
+            <title>Facelet Title</title>
+            <h:outputStylesheet  name="style/login.css"/>
+            <h:outputStylesheet  name="style/main.css"/>
+        </h:head>
+        <h:body>
+            <div id="temHead">
+                <div id="temLogo"></div>
+                <div class="temStatus">เดือนเพ็ญ สีหรัตน์ <div class="temIconLogout"></div></div>
+            </div>
+            <div id="temLeft">
+                <div id="temTogle">
+                    <div class="temTab">
+                        <div class="temIcon">
+                        </div>
+                        <div style="clear: both;">
+                        </div>
+                    </div>
+                    <div class="temMenu1">
+                        กลับสู่หน้าหลัก
+                    </div>
+                    <div class="temMenu2">
+                        รายงานบันทึกผู้ป่วย
+                    </div>
+                </div>
+            </div>
+            <style>
+                .temBreadcrumLeft{
+                    float:left;
+                }
+                .temBreadcrumRight{
+
+                }
+            </style>
+            <div id="temRight">
+                <div id="temBreadcrum">
+                    <h:form>
+                        <span class="temBreadcrumLeft">HOME:</span>
+                        <span class="temBreadcrumRight">
+                            <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" >
+                                <f:selectItem itemLabel="Green" itemValue="green" />
+                                <f:selectItem itemLabel="Purple" itemValue="purple" />
+                            </p:selectOneButton>
+
+                        </span>
+                    </h:form>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>
