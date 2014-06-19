@@ -1,11 +1,11 @@
 body{
     margin: 0;
+    background: #ECECEE;
 }
 #temHead{
     display: block;
     height: 45px;
     background: #3b9c9d;
-    border-bottom: 1px solid #257f80;
 }
 #temLogo{
     display: block;
@@ -15,19 +15,24 @@ body{
 }
 #temLeft{
     display: block;
-    position: fixed;
-    height: 100%;
+    left: 0;
+    position: absolute;
     width: 250px;
+    float: left;
+    background: #fff;
+}
+#temLeft2{
+    display: block;
+    left: 0;
+    position: absolute;
+    width: 35px;
     float: left;
     background: #fff;
 }
 #temRight{
     display: block;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    float: left;
-    margin-left: 250px;
+    right: 0;
+    position: absolute;
     background: #ececee;
 }
 .temTab{
@@ -47,6 +52,17 @@ body{
 .temIcon:hover{
     background: url('#{request.contextPath}/contracts/green/images/template/icontoglehover.png');
 }
+.temIcon2{
+    float:right;
+    display: block;
+    width: 35px;
+    height: 35px;
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontogle.png');
+    cursor: pointer;
+}
+.temIcon2:hover{
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontoglehover.png');
+}
 #temBreadcrum{
     display: block;
     background: #f7f7f7;
@@ -60,13 +76,13 @@ body{
     font-size: 14px;
     font-family: tahoma;
     vertical-align: bottom;
-    padding: 15px 20px 15px 65px;
+    padding: 15px 20px 15px 45px;
     background: #fff url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
-    background-position: 30px 11px;
+    background-position: 15px 11px;
 }
 .temMenu1:hover{
     background: #f7f7f7 url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
-    background-position: 30px 11px;
+    background-position: 15px 11px;
 }
 .temMenu2{
     display: block;
@@ -75,13 +91,13 @@ body{
     font-size: 14px;
     font-family: tahoma;
     vertical-align: bottom;
-    padding: 15px 20px 15px 65px;
+    padding: 15px 20px 15px 45px;
     background: #fff url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
-    background-position: 30px -35px; 
+    background-position: 15px -35px; 
 }
 .temMenu2:hover{
     background: #f7f7f7 url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
-    background-position: 30px -35px;
+    background-position: 15px -35px;
 }
 .temStatus{
     float:right;
@@ -102,4 +118,29 @@ body{
     height: 24px;
     background: url('#{request.contextPath}/contracts/green/images/template/iconlogout.png');
     margin-top: -38px;
+}
+.complet{
+    position: absolute;
+    width: 100%;
+}
+.iconRight{
+    float: right;
+    height: 35px;
+    margin-right: 20px;
+}
+.iconRight>.IconSub{
+    margin: 0 !important;
+}
+.IconSub>div{
+    height: 33px;
+    border: 0px !important;
+    outline: 0 !important;
+    border-radius: 0 !important;
+}
+.IconSub>div>span{
+    line-height: 33px !important;
+    font-size: 13px;
+    font-family: tahoma;
+    font-weight: bold;
+    padding:0px 15px 0px 15px !important;
 }

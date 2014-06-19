@@ -11,49 +11,59 @@
             <title>Facelet Title</title>
             <h:outputStylesheet  name="style/login.css"/>
             <h:outputStylesheet  name="style/main.css"/>
+            <h:outputScript name="script/jquery.js"/>
+            <h:outputScript name="script/temdesign.js"/>
         </h:head>
         <h:body>
             <div id="temHead">
                 <div id="temLogo"></div>
                 <div class="temStatus">เดือนเพ็ญ สีหรัตน์ <div class="temIconLogout"></div></div>
             </div>
-            <div id="temLeft">
-                <div id="temTogle">
-                    <div class="temTab">
-                        <div class="temIcon">
+            <div class="complet">
+                <div id="temLeft">
+                    <div id="temTogle">
+                        <div class="temTab">
+                            <div class="temIcon">
+                            </div>
+                            <div style="clear: both;">
+                            </div>
                         </div>
-                        <div style="clear: both;">
+                        <div class="temMenu1">
+                            กลับสู่หน้าหลัก
                         </div>
-                    </div>
-                    <div class="temMenu1">
-                        กลับสู่หน้าหลัก
-                    </div>
-                    <div class="temMenu2">
-                        รายงานบันทึกผู้ป่วย
+                        <div class="temMenu2">
+                            รายงานบันทึกผู้ป่วย
+                        </div>
                     </div>
                 </div>
-            </div>
-            <style>
-                .temBreadcrumLeft{
-                    float:left;
-                }
-                .temBreadcrumRight{
-
-                }
-            </style>
-            <div id="temRight">
-                <div id="temBreadcrum">
-                    <h:form>
-                        <span class="temBreadcrumLeft">HOME:</span>
-                        <span class="temBreadcrumRight">
-                            <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" >
-                                <f:selectItem itemLabel="Green" itemValue="green" />
-                                <f:selectItem itemLabel="Purple" itemValue="purple" />
-                            </p:selectOneButton>
-
-                        </span>
-                    </h:form>
+                <div id="temLeft2">
+                    <div id="temTogle">
+                        <div class="temTab">
+                            <div class="temIcon2">
+                            </div>
+                            <div style="clear: both;">
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div id="temRight">
+                    <div id="temBreadcrum">
+                        <h:form>
+                            <span class="temBreadcrumRight">
+                                <div class="iconRight">
+                                    <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">
+                                        <f:selectItem itemLabel="Green"  itemValue="green" />
+                                        <f:selectItem itemLabel="Purple"  itemValue="purple" />
+                                    </p:selectOneButton>
+                                </div>
+                            </span>
+                        </h:form>
+                    </div>
+                    <div>
+                        TEST
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
             </div>
         </h:body>
     </f:view>
