@@ -76,13 +76,13 @@ body{
     font-size: 14px;
     font-family: tahoma;
     vertical-align: bottom;
-    padding: 15px 20px 15px 65px;
+    padding: 15px 20px 15px 45px;
     background: #fff url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 30px 11px;
+    background-position: 15px 11px;
 }
 .temMenu1:hover{
     background: #f7f7f7 url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 30px 11px;
+    background-position: 15px 11px;
 }
 .temMenu2{
     display: block;
@@ -91,13 +91,13 @@ body{
     font-size: 14px;
     font-family: tahoma;
     vertical-align: bottom;
-    padding: 15px 20px 15px 65px;
+    padding: 15px 20px 15px 45px;
     background: #fff url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 30px -35px; 
+    background-position: 15px -35px; 
 }
 .temMenu2:hover{
     background: #f7f7f7 url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 30px -35px;
+    background-position: 15px -35px;
 }
 .temStatus{
     float:right;
