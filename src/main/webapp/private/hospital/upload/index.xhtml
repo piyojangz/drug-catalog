@@ -11,8 +11,11 @@
             <ui:define name="content">
                 File : 
                 <h:form enctype="multipart/form-data">
-                    <p:fileUpload value="#{uploadMappedDrug.file}" mode="simple"  sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xls)$/" />
-                    <p:commandButton value="Upload" ajax="false" actionListener="#{uploadMappedDrug.upload}" />
+                    <p:fileUpload fileUploadListener="#{uploadMappedDrug.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+                    <p:growl id="messages" showDetail="true" />
+
                     <br/>
                     จำนวนข้อมูลทั้งหมด 10 เรคคอร์ด <br/>
                     จำนวนข้อมูลที่ผิดโครงสร้างตามมาตรฐาน Drug catalog 10 เรคคอร์ด <br/>

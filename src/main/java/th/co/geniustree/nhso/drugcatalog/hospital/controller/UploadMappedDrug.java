@@ -6,7 +6,10 @@
 package th.co.geniustree.nhso.drugcatalog.hospital.controller;
 
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.primefaces.component.fileupload.FileUpload;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -30,10 +33,16 @@ public class UploadMappedDrug implements Serializable {
         this.file = file;
     }
 
+    public void handleFileUpload(FileUploadEvent event) {
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
     public void upload() {
         LOG.debug("File : {}", file);
     }
-    public String save(){
+
+    public String save() {
         return "OK";
     }
 }
