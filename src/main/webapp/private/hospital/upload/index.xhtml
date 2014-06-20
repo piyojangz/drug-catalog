@@ -11,8 +11,7 @@
             <ui:define name="content">
                 File : 
                 <h:form enctype="multipart/form-data">
-                    <p:fileUpload fileUploadListener="#{uploadMappedDrug.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                    <p:fileUpload fileUploadListener="#{uploadMappedDrug.handleFileUpload}" mode="advanced" dragDropSupport="false" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
                     <p:growl id="messages" showDetail="true" />
 
