@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <f:view contracts="#{themeSwitching.selectedTheme}">
         <h:head>
-            <title>Facelet Title</title>
+            <title>Drug Catalog</title>
             <h:outputStylesheet name="style/login.css"/>
             <h:outputStylesheet name="style/main.css"/>
         </h:head>
@@ -17,7 +17,7 @@
                     <input class="textbox textboxpass" type="password" />
                 </div>
                 <div class="bgbutton">
-                    <input type="submit" class="buttons" value="เข้าสู่ระบบ"/>
+                    <h:button styleClass="buttons" value="เข้าสู่ระบบ" outcome="/private/index" />
                     <input type="submit" class="buttonc" value="ยกเลิก"/>
                 </div>
             </div>

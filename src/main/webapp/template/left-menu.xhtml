@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition>
+        <div class="temMenu1">
+            <h:link outcome="/private/index" value="กลับสู่หน้าหลัก"/>
+        </div>
+        <div class="temMenu2">
+            <h:link outcome="/private/hospital/upload/index" value="นำเข้าข้อมูล Map รหัสยา"/>
+        </div>
+        <div class="temMenu2">
+            <h:link outcome="/private/hospital/create/index" value="Map รหัสยา TMT"/>
+        </div>
+        <div class="temMenu2">
+            <h:link outcome="/private/hospital/listdrug/index" value="รายการยาทั้งหมดของ รพ."/>
+        </div>
+    </ui:composition>
+</html>
