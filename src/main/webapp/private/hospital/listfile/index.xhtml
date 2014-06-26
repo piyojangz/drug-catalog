@@ -8,7 +8,7 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            File : #{uploadMappedDrug.originalFileName}
+            File : #{uploadMappedDrug.file.fileName}
             <h:form enctype="multipart/form-data">
                 <p:fileUpload required="true"  value="#{uploadMappedDrug.file}" mode="simple"  update="messages" sizeLimit="10000000" fileLimit="1" allowTypes="/(\.|\/)(xls|xlsx)$/" />
                 <p:growl id="messages" showDetail="true" />
@@ -179,8 +179,6 @@
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
-                <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrug.save()}" disabled="#{empty uploadMappedDrug.models}"/>
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrug.reset()}" disabled="#{empty uploadMappedDrug.models}"/>
             </h:form>
         </ui:define>
     </ui:composition>

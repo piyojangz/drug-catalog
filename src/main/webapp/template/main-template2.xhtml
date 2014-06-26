@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <f:view contracts="#{themeSwitching.selectedTheme}">
+        <h:head>
+            <title>Drug Catalog</title>
+            <h:outputStylesheet  name="style/login.css"/>
+            <h:outputStylesheet  name="style/main.css"/>
+            <h:outputScript name="script/temdesign.js"/>
+        </h:head>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="100" resizable="false" closable="false" collapsible="false">
+                <div id="temHead">
+                    <div id="temLogo"></div>
+                    <div class="temStatus">เดือนเพ็ญ สีหรัตน์ <div class="temIconLogout"></div></div>
+                </div>
+                <div id="temRight">
+                    <div id="temBreadcrum">
+                        <h:form>
+                            <span class="temBreadcrumRight">
+                                <div class="iconRight">
+                                    <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">
+                                        <f:selectItem itemLabel="Green"  itemValue="green" />
+                                        <f:selectItem itemLabel="Purple"  itemValue="purple" />
+                                    </p:selectOneButton>
+                                </div>
+                            </span>
+                        </h:form>
+                    </div>
+                </div>
+            </p:layoutUnit>
+            <p:layoutUnit position="west" size="260" header="Menu" resizable="true" closable="false" collapsible="true">
+                <ui:insert name="leftMenu">
+                    <ui:include src="left-menu.xhtml" />
+                </ui:insert>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <ui:insert name="content">
+                    Content Here.
+                </ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+    </f:view>
+</html>

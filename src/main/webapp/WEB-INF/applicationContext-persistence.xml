@@ -16,12 +16,9 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
      
-<!--    <jpa:repositories base-package="th.co.geniustree.mra2.api.repository"/>    
-    <jpa:repositories base-package="th.co.geniustree.mra2.api.repository.ipd"/>    
-    <jpa:repositories base-package="th.co.geniustree.mra2.api.repository.opd"/>      
-    <jpa:repositories base-package="th.co.geniustree.nhso.basicmodel.repository"/>
+    <jpa:repositories base-package="th.co.geniustree.nhso.drugcatalog.repo"/>
      
-    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/mra2" />
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/drugcatalog" />
      
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
@@ -29,13 +26,18 @@
      
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
  
-    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="mra2_pu"/>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="drugcatalog-pu"/>
         <property name="persistenceXmlLocation" value="classpath:persistence.xml"/>
         <property name="jpaDialect" ref="jpaDialect"/>
+        <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter "/>
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="generateDdl" value="true"/>
+                <property name="showSql" value="true"/>
+                <property name="database" value="DERBY" />
+            </bean>
         </property> 
     </bean>
-    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect " /> -->
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" /> 
 </beans>

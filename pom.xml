@@ -112,7 +112,32 @@
             <artifactId>hibernate-core</artifactId>
             <version>4.3.5.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.5.Final</version>
+        </dependency>
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>4.5.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>th.co.geniustree</groupId>
+            <artifactId>xls-beans</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>th.co.geniustree.springjsf</groupId>
+            <artifactId>spring-jsf-integration</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.1.1.Final</version>
+        </dependency>
         <!-- primefaces **************************************************** -->
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -134,6 +159,26 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>persistence.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/logback.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>persistence.xml</exclude>
+                    <exclude>**/*.properties</exclude>
+                    <exclude>**/logback.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -153,6 +198,26 @@
                 <version>2.3</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>index.zul</include>
+                                <include>**/applicationContext.xml</include>
+                                <include>**/applicationContext-security.xml</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>false</filtering>
+                            <excludes>
+                                <exclude>index.zul</exclude>
+                                <exclude>**/applicationContext.xml</exclude>
+                                <exclude>**/applicationContext-security.xml</exclude>
+                            </excludes>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
             <plugin>
@@ -182,5 +247,75 @@
             </plugin>
         </plugins>
     </build>
-
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault />
+            </activation>
+            <id>local</id>
+            <properties>
+                <log.spring.level>DEBUG</log.spring.level>
+                <log.geniustree.level>DEBUG</log.geniustree.level>
+                <log.appender>STDOUT</log.appender>
+                <log.file.location>c:\\temp\${project.artifactId}\log</log.file.location>
+                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProviderMock</authentication.provider>
+                <report.temp.location>c:\\temp\${project.artifactId}\report</report.temp.location>
+                <upload.temp.location>c:\\temp\${project.artifactId}\upload_temp</upload.temp.location>   
+            </properties>
+        </profile>
+        <profile>
+            <activation>
+                <activeByDefault />
+            </activation>
+            <id>geniustree-dev</id>
+            <properties>
+                <log.spring.level>DEBUG</log.spring.level>
+                <log.geniustree.level>DEBUG</log.geniustree.level>
+                <log.appender>STDOUT</log.appender>
+                <log.file.location>c:\\temp\mra2\log</log.file.location>
+                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <report.temp.location>c:\\temp\mra2\report</report.temp.location>
+                <upload.temp.location>c:\\temp\mra2\upload</upload.temp.location>
+                <wsdlDocumentResource>http://203.147.36.85/nhso-wsauthen-wrapper/UCDCAuthenService?wsdl</wsdlDocumentResource>
+                <namespaceUri>http://wrapper.wsauthen.nhso.geniustree.co.th/</namespaceUri>
+                <serviceName>UCDCAuthenService</serviceName>
+                <portName>UCDCAuthenServicePort</portName>
+                <endpointAddress>http://203.147.36.85:80/nhso-wsauthen-wrapper/UCDCAuthenService</endpointAddress>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <log.spring.level>TRACE</log.spring.level>
+                <log.geniustree.level>TRACE</log.geniustree.level>
+                <log.appender>FILE</log.appender>
+                <log.file.location>/mra2/log_test/</log.file.location>
+                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <report.temp.location>/mra2/report</report.temp.location>
+                <upload.temp.location>/mra2/upload</upload.temp.location>
+                <wsdlDocumentResource>http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
+                <namespaceUri>http://www.mfec.co.th</namespaceUri>
+                <serviceName>UCDCAuthenService</serviceName>
+                <portName>UCDCAuthenInfPort</portName>
+                <endpointAddress>http://ucdcws.nhso.go.th/UCDCWS/authenService</endpointAddress>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <log.spring.level>INFO</log.spring.level>
+                <log.geniustree.level>TRACE</log.geniustree.level>
+                <log.appender>FILE</log.appender>
+                <log.file.location>/mra2/log/</log.file.location>
+                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <report.temp.location>/mra2/report</report.temp.location>
+                <upload.temp.location>/mra2/upload</upload.temp.location>
+                <wsdlDocumentResource>http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
+                <namespaceUri>http://www.mfec.co.th</namespaceUri>
+                <serviceName>UCDCAuthenService</serviceName>
+                <portName>UCDCAuthenInfPort</portName>
+                <endpointAddress>http://ucdcws.nhso.go.th/UCDCWS/authenService</endpointAddress>
+            </properties>
+        </profile>
+    </profiles>
 </project>
