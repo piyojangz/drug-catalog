@@ -46,9 +46,8 @@ a:active {
 }
 #temRight{
     display: block;
-    right: 0;
+    top: 0;
     position: absolute;
-    background: #ececee;
 }
 .temTab{
     display: block;
@@ -77,12 +76,6 @@ a:active {
 }
 .temIcon2:hover{
     background: url('#{request.contextPath}/contracts/purple/images/template/icontoglehover.png');
-}
-#temBreadcrum{
-    display: block;
-    background: #f7f7f7;
-    width: 100%;
-    height: 35px;
 }
 .temMenu1{
     display: block;
@@ -139,9 +132,8 @@ a:active {
     width: 100%;
 }
 .iconRight{
-    float: right;
+    width: 150px;
     height: 35px;
-    margin-right: 20px;
 }
 .iconRight>.IconSub{
     margin: 0 !important;
@@ -158,4 +150,20 @@ a:active {
     font-family: tahoma;
     font-weight: bold;
     padding:0px 15px 0px 15px !important;
+}
+.ui-layout-unit, .ui-layout-unit-content{
+    padding: 0 !important;
+}
+.ui-widget-content{
+    border: 0 !important;
+}
+.ui-layout-unit{
+    font-family: tahoma;
+    font-size: 13px;
+}
+.buttoncolor{
+    position: absolute;
+    top: 5px;
+    right: 0;
+    margin-right: 200px;
 }

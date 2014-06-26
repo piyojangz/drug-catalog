@@ -14,22 +14,16 @@
             <h:outputScript name="script/temdesign.js"/>
         </h:head>
         <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="100" resizable="false" closable="false" collapsible="false">
+            <p:layoutUnit position="north" size="45" resizable="false" closable="false" collapsible="false">
                 <div id="temHead">
                     <div id="temLogo"></div>
                     <div class="temStatus">เดือนเพ็ญ สีหรัตน์ <div class="temIconLogout"></div></div>
-                </div>
-                <div id="temRight">
-                    <div id="temBreadcrum">
+                    <div class="buttoncolor">
                         <h:form>
-                            <span class="temBreadcrumRight">
-                                <div class="iconRight">
-                                    <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">
-                                        <f:selectItem itemLabel="Green"  itemValue="green" />
-                                        <f:selectItem itemLabel="Purple"  itemValue="purple" />
-                                    </p:selectOneButton>
-                                </div>
-                            </span>
+                            <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">
+                                <f:selectItem itemLabel="Green"  itemValue="green" />
+                                <f:selectItem itemLabel="Purple"  itemValue="purple" />
+                            </p:selectOneButton>
                         </h:form>
                     </div>
                 </div>

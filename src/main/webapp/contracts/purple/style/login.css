@@ -1,110 +1,108 @@
-    body{
-        margin: 0;
-    }
-    .backgroundlogin{
-        display: block;
-        background: #952fba url('#{request.contextPath}/contracts/purple/images/bglogin_purple.png') no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        -mo-background-size: cover;
-        background-size: cover;
-    }
-    .loglogin{
-        display: block;
-        position: absolute;
-        left: 50%;
-        top:50%;
-        margin-left: -250px;
-        margin-top: -150px;
-        width: 500px;
-        height: 300px;
-        background: url('#{request.contextPath}/contracts/purple/images/bglog.png');
-        border-radius: 3px;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        -o-border-radius: 3px;
-        -mo-border-radius: 3px;
-    }
-    .logo{
-        display: block;
-        background: url('#{request.contextPath}/contracts/purple/images/logo.png') center;
-        width: 200px;
-        height: 40px;
-        margin-left: 163px;
-        margin-top: 50px;
-    }
-    .bgtextbox{
-        display: block;
-        background: url('#{request.contextPath}/contracts/purple/images/bgtextbox.png') center;
-        width: 351px;
-        height: 79px;
-        margin: auto;
-        margin-top: 20px;
-    }
-    input.textbox{
-        display: block;
-        height: 37px;
-        width: 290px;
-        margin-left: 35px;
-        border:0px;
-        outline: 0px;
-        font-size: 15px;
-        font-family: tahoma;
-        font-weight: normal;
-        background: #f7f7f7;
-        color: #666;
-    }
-    .textboxpass{
-        margin-top: 1px;
-    }
-    .bgbutton{
-        display: block;
-        width: 201px;
-        margin: auto;
-        margin-top: 10px;
-        background: #666;
-        border-radius: 50px;
-        background: #b1b1b1;
-    }
-    input.buttons{
-        background: url('#{request.contextPath}/contracts/purple/images/bgbutton.png');
-        margin: 0px;
-        color: #777;
-        font-size: 14px;
-        font-family: tahoma;
-        font-weight: normal;
-        text-shadow: 1px 1px 1px #e4e4e4;
-        width: 100px;
-        height: 33px;
-        outline: 0px;
-        border: 0px;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-        border-right: 1px solid #b1b1b1;
-    }
-    input.buttonc{
-        background: url('#{request.contextPath}/contracts/purple/images/bgbutton.png');
-        margin: 0px;
-        color: #777;
-        font-size: 14px;
-        font-family: tahoma;
-        font-weight: normal;
-        text-shadow: 1px 1px 1px #e4e4e4;
-        width: 100px;
-        height: 33px;
-        outline: 0px;
-        border: 0px;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-        border-left: 1px solid #fdfdfd;
-        margin-left: -4px;
-    }
-    input.buttons:hover{
-        color: #555;
-        background: url('#{request.contextPath}/contracts/purple/images/bgbuttonhover.png');
-    }
-    input.buttonc:hover{
-        color: #555;
-        background: url('#{request.contextPath}/contracts/purple/images/bgbuttonhover.png');
-    }
+body{
+    margin: 0;
+}
+.backgroundlogin{
+    display: block;
+    background: #952fba url('#{request.contextPath}/contracts/purple/images/bglogin_purple.png') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -mo-background-size: cover;
+    background-size: cover;
+}
+.loglogin{
+    display: block;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    width: 500px;
+    height: 300px;
+    background: url('#{request.contextPath}/contracts/purple/images/bglog.png');
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -mo-border-radius: 3px;
+}
+.logo{
+    display: block;
+    background: url('#{request.contextPath}/contracts/purple/images/logo.png') center;
+    width: 200px;
+    height: 40px;
+    margin-left: 163px;
+    margin-top: 50px;
+}
+.bgtextbox{
+    display: block;
+    background: url('#{request.contextPath}/contracts/purple/images/bgtextbox.png') center;
+    width: 351px;
+    height: 79px;
+    margin: auto;
+    margin-top: 20px;
+}
+input.textbox{
+    display: block;
+    height: 37px;
+    width: 290px;
+    margin-left: 35px;
+    border:0px;
+    outline: 0px;
+    font-size: 15px;
+    font-family: tahoma;
+    font-weight: normal;
+    background: #f7f7f7;
+    color: #666;
+}
+.textboxpass{
+    margin-top: 1px;
+}
+.bgbutton{
+    display: block;
+    width: 205px;
+    margin: auto;
+    margin-top: 10px;
+    background: transparent;
+}
+input.buttons{
+    background: url('#{request.contextPath}/contracts/purple/images/bgbutton.png');
+    margin: 0px;
+    color: #777;
+    font-size: 14px;
+    font-family: tahoma;
+    font-weight: normal;
+    text-shadow: 1px 1px 1px #e4e4e4;
+    width: 100px;
+    height: 33px;
+    outline: 0px;
+    border: 0px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid #b1b1b1;
+}
+input.buttonc{
+    background: url('#{request.contextPath}/contracts/purple/images/bgbutton.png');
+    margin: 0px;
+    color: #777;
+    font-size: 14px;
+    font-family: tahoma;
+    font-weight: normal;
+    text-shadow: 1px 1px 1px #e4e4e4;
+    width: 100px;
+    height: 33px;
+    outline: 0px;
+    border: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: 1px solid #fdfdfd;
+    margin-left: -4px;
+}
+input.buttons:hover{
+    color: #555;
+    background: url('#{request.contextPath}/contracts/purple/images/bgbuttonhover.png');
+}
+input.buttonc:hover{
+    color: #555;
+    background: url('#{request.contextPath}/contracts/purple/images/bgbuttonhover.png');
+}
