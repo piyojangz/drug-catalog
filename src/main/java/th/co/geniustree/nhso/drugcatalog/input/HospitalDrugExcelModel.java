@@ -25,43 +25,43 @@ import th.co.geniustree.xls.beans.XlsColumn;
 public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "hospDrugCode may not be empty")
     private String hospDrugCode;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "productCat may not be empty")
     private String productCat;
     @XlsColumn
     private String tmtId;
     @XlsColumn
     private String specPrep;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "genericName may not be empty")
     private String genericName;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "tradeName may not be empty")
     private String tradeName;
     @XlsColumn
     private String dsfCode;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "dosageForm may not be empty")
     private String dosageForm;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "strength may not be empty")
     private String strength;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "content may not be empty")
     private String content;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "unitPrice may not be empty")
     private String unitPrice;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "distributor may not be empty")
     private String distributor;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "manufacturer may not be empty")
     private String manufacturer;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "ised may not be empty")
     private String ised;
     @XlsColumn
     private String ndc24;
@@ -70,18 +70,18 @@ public class HospitalDrugExcelModel implements Serializable {
     @XlsColumn
     private String packPrice;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "updateFlag may not be empty")
     private String updateFlag;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "dateChange may not be empty")
     @DateAndOptionalTime(message = "dateChange ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateChange;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "dateUpdate may not be empty")
     @DateAndOptionalTime(message = "dateUpdate ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateUpdate;
     @XlsColumn
-    @NotEmpty
+    @NotEmpty(message = "dateEffective may not be empty")
     @DateAndOptionalTime(message = "dateEffective ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateEffective;
     private int rowNum;
@@ -266,7 +266,8 @@ public class HospitalDrugExcelModel implements Serializable {
     public void setRowNum(int rowNum) {
         this.rowNum = rowNum;
     }
-    public String getErrors(){
+
+    public String getErrors() {
         return Joiner.on(",").join(errorMap.values());
     }
 

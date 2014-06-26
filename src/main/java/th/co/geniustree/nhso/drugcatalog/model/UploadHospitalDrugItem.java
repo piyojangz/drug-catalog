@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,67 +23,68 @@ import th.co.geniustree.xls.beans.XlsColumn;
  * @author moth
  */
 @Entity
-public class UploadHospitalDrugItem implements Serializable{
+public class UploadHospitalDrugItem implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "UPLOAD_DRUG_ID")
     private UploadHospitalDrug uploadDrug;
     @NotEmpty
     private String hospDrugCode;
-    
+
     @NotEmpty
     private String productCat;
-    
+
     private String tmtId;
-    
+
     private String specPrep;
-    
+
     @NotEmpty
     private String genericName;
-    
+
     @NotEmpty
     private String tradeName;
-    
+
     private String dsfCode;
-    
+
     @NotEmpty
     private String dosageForm;
-    
+
     @NotEmpty
     private String strength;
-    
+
     @NotEmpty
     private String content;
-    
+
     @NotEmpty
     private String unitPrice;
-    
+
     @NotEmpty
     private String distributor;
-    
+
     @NotEmpty
     private String manufacturer;
-    
+
     @NotEmpty
     private String ised;
-    
+
     private String ndc24;
-    
+
     private String packSize;
-    
+
     private String packPrice;
-    
+
     @NotEmpty
     private String updateFlag;
-    
+
     @NotEmpty
     private String dateChange;
-    
+
     @NotEmpty
     private String dateUpdate;
-    
+
     @NotEmpty
     private String dateEffective;
 
@@ -292,5 +293,5 @@ public class UploadHospitalDrugItem implements Serializable{
         }
         return true;
     }
-    
+
 }

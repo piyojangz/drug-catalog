@@ -8,177 +8,38 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            File : #{uploadMappedDrug.file.fileName}
-            <h:form enctype="multipart/form-data">
-                <p:fileUpload required="true"  value="#{uploadMappedDrug.file}" mode="simple"  update="messages" sizeLimit="10000000" fileLimit="1" allowTypes="/(\.|\/)(xls|xlsx)$/" />
-                <p:growl id="messages" showDetail="true" />
-                <br/>
-                <p:commandButton value="Upload" ajax="false" action="#{uploadMappedDrug.upload()}" />
-                <br/>
-                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadMappedDrug.models.size()+uploadMappedDrug.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadMappedDrug.file.fileName}"/><br/>
-                <br/>
-                <p:panel  header="จำนวนข้อมูลที่ผิดโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.notPassModels.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.notPassModels}">
-                    <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10">
-                            <f:facet name="header">
-                                <h:commandLink style="float:left">
-                                    <p:graphicImage name="images/excel24.png" />
-                                    <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
-                                </h:commandLink>
-                                <p:commandButton id="toggler" type="button" value="Columns"
-                                                 style="float:right" icon="ui-icon-calculator" />
-                                <p:columnToggler datasource="errorTable" trigger="toggler" />
-                            </f:facet>
-                            <p:column   headerText="ROW#" width="100">
-                                <h:outputText value="#{model.rowNum}"/>
-                            </p:column>
-                            <p:column   headerText="HOSPDRUGCODE" width="100">
-                                <h:outputText value="#{model.hospDrugCode}" style="#{empty model.errorMap['hospDrugCode']?'color:black':'color:red'}" title="#{model.errorMap['hospDrugCode']}"/>
-                            </p:column>
-                            <p:column headerText="PRODUCTCAT">
-                                <h:outputText value="#{model.productCat}" style="#{empty model.errorMap['productCat']?'color:black':'color:red'}" title="#{model.errorMap['productCat']}"/>
-                            </p:column>
-                            <p:column headerText="TMTID">
-                                <h:outputText value="#{model.tmtId}" style="#{empty model.errorMap['tmtId']?'color:black':'color:red'}" title="#{model.errorMap['tmtId']}"/>
-                            </p:column>
-                            <p:column headerText="SPECPREP">
-                                <h:outputText value="#{model.specPrep}" style="#{empty model.errorMap['specPrep']?'color:black':'color:red'}" title="#{model.errorMap['specPrep']}"/>
-                            </p:column>
-                            <p:column headerText="GENERICNAME">
-                                <h:outputText value="#{model.genericName}" style="#{empty model.errorMap['genericName']?'color:black':'color:red'}" title="#{model.errorMap['genericName']}"/>
-                            </p:column>
-                            <p:column headerText="TRADENAME">
-                                <h:outputText value="#{model.tradeName}" style="#{empty model.errorMap['tradeName']?'color:black':'color:red'}" title="#{model.errorMap['tradeName']}"/>
-                            </p:column>
-                            <p:column headerText="DSFCODE">
-                                <h:outputText value="#{model.dsfCode}" style="#{empty model.errorMap['dsfCode']?'color:black':'color:red'}" title="#{model.errorMap['dsfCode']}"/>
-                            </p:column>
-                            <p:column headerText="DOSAGEFORM">
-                                <h:outputText value="#{model.dosageForm}" style="#{empty model.errorMap['dosageForm']?'color:black':'color:red'}" title="#{model.errorMap['dosageForm']}"/>
-                            </p:column>
-                            <p:column headerText="STRENGTH">
-                                <h:outputText value="#{model.strength}" style="#{empty model.errorMap['strength']?'color:black':'color:red'}" title="#{model.errorMap['strength']}"/>
-                            </p:column>
-                            <p:column headerText="CONTENT">
-                                <h:outputText value="#{model.content}" style="#{empty model.errorMap['content']?'color:black':'color:red'}" title="#{model.errorMap['content']}"/>
-                            </p:column>
-                            <p:column headerText="UNITPRICE">
-                                <h:outputText value="#{model.unitPrice}" style="#{empty model.errorMap['unitPrice']?'color:black':'color:red'}" title="#{model.errorMap['unitPrice']}"/>
-                            </p:column>
-                            <p:column headerText="DISTRIBUTOR">
-                                <h:outputText value="#{model.distributor}" style="#{empty model.errorMap['distributor']?'color:black':'color:red'}" title="#{model.errorMap['distributor']}"/>
-                            </p:column>
-                            <p:column headerText="MANUFACTURER">
-                                <h:outputText value="#{model.manufacturer}" style="#{empty model.errorMap['manufacturer']?'color:black':'color:red'}" title="#{model.errorMap['manufacturer']}"/>
-                            </p:column>
-                            <p:column headerText="ISED">
-                                <h:outputText value="#{model.ised}" style="#{empty model.errorMap['ised']?'color:black':'color:red'}" title="#{model.errorMap['ised']}"/>
-                            </p:column>
-                            <p:column headerText="NDC24">
-                                <h:outputText value="#{model.ndc24}" style="#{empty model.errorMap['ndc24']?'color:black':'color:red'}" title="#{model.errorMap['ndc24']}"/>
-                            </p:column>
-                            <p:column headerText="PACKSIZE">
-                                <h:outputText value="#{model.packSize}" style="#{empty model.errorMap['packSize']?'color:black':'color:red'}" title="#{model.errorMap['packSize']}"/>
-                            </p:column>
-                            <p:column headerText="PACKPRICE">
-                                <h:outputText value="#{model.packPrice}" style="#{empty model.errorMap['packPrice']?'color:black':'color:red'}" title="#{model.errorMap['packPrice']}"/>
-                            </p:column>
-                            <p:column headerText="UPDATEFLAG">
-                                <h:outputText value="#{model.updateFlag}" style="#{empty model.errorMap['updateFlag']?'color:black':'color:red'}" title="#{model.errorMap['updateFlag']}"/>
-                            </p:column>
-                            <p:column headerText="DATECHANGE">
-                                <h:outputText value="#{model.dateChange}" style="#{empty model.errorMap['dateChange']?'color:black':'color:red'}" title="#{model.errorMap['dateChange']}"/>
-                            </p:column>
-                            <p:column headerText="DATEUPDATE">
-                                <h:outputText value="#{model.dateUpdate}" style="#{empty model.errorMap['dateUpdate']?'color:black':'color:red'}" title="#{model.errorMap['dateUpdate']}"/>
-                            </p:column>
-                            <p:column headerText="DATEEFFECTIVE">
-                                <h:outputText value="#{model.dateEffective}" style="#{empty model.errorMap['dateEffective']?'color:black':'color:red'}" title="#{model.errorMap['dateEffective']}"/>
-                            </p:column>
-                            <p:column headerText="ERROR">
-                                <h:outputText value="#{model.errors}" style="color:orange"/>
-                            </p:column>
-                        </p:dataTable>
-                    </h:panelGrid>
-                </p:panel>
-                <p:panel header="จำนวนข้อมูลที่ผ่านโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.models.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.models}">
-                    <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10">
-                            <f:facet name="header">
-                                <h:commandLink style="float:left">
-                                    <p:graphicImage name="images/excel24.png" />
-                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
-                                </h:commandLink>
-                                <p:commandButton id="toggler" type="button" value="Columns"
-                                                 style="float:right" icon="ui-icon-calculator" />
-                                <p:columnToggler datasource="passTable" trigger="toggler" />
-                            </f:facet>
-                            <p:column   headerText="HOSPDRUGCODE" width="100">
-                                #{model.hospDrugCode}
-                            </p:column>
-                            <p:column headerText="PRODUCTCAT">
-                                #{model.productCat}
-                            </p:column>
-                            <p:column headerText="TMTID">
-                                #{model.tmtId}
-                            </p:column>
-                            <p:column headerText="SPECPREP">
-                                #{model.specPrep}
-                            </p:column>
-                            <p:column headerText="GENERICNAME">
-                                #{model.genericName}
-                            </p:column>
-                            <p:column headerText="TRADENAME">
-                                #{model.tradeName}
-                            </p:column>
-                            <p:column headerText="DSFCODE">
-                                #{model.dsfCode}
-                            </p:column>
-                            <p:column headerText="DOSAGEFORM">
-                                #{model.dosageForm}
-                            </p:column>
-                            <p:column headerText="STRENGTH">
-                                #{model.strength}
-                            </p:column>
-                            <p:column headerText="CONTENT">
-                                #{model.content}
-                            </p:column>
-                            <p:column headerText="UNITPRICE">
-                                #{model.unitPrice}
-                            </p:column>
-                            <p:column headerText="DISTRIBUTOR">
-                                #{model.distributor}
-                            </p:column>
-                            <p:column headerText="MANUFACTURER">
-                                #{model.manufacturer}
-                            </p:column>
-                            <p:column headerText="ISED">
-                                #{model.ised}
-                            </p:column>
-                            <p:column headerText="NDC24">
-                                #{model.ndc24}
-                            </p:column>
-                            <p:column headerText="PACKSIZE">
-                                #{model.packSize}
-                            </p:column>
-                            <p:column headerText="PACKPRICE">
-                                #{model.packPrice}
-                            </p:column>
-                            <p:column headerText="UPDATEFLAG">
-                                #{model.updateFlag}
-                            </p:column>
-                            <p:column headerText="DATECHANGE">
-                                #{model.updateFlag}
-                            </p:column>
-                            <p:column headerText="DATEUPDATE">
-                                #{model.dateUpdate}
-                            </p:column>
-                            <p:column headerText="DATEEFFECTIVE">
-                                #{model.dateEffective}
-                            </p:column>
-                        </p:dataTable>
-                    </h:panelGrid>
-                </p:panel>
+            <h:form>
+                <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadFileList.uploadHospitalDrugs}" var="model"  paginator="true" rows="10">
+                    <f:facet name="header">
+                        <h:commandLink style="float:left">
+                            <p:graphicImage name="images/excel24.png" />
+                            <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                        </h:commandLink>
+                        <p:commandButton id="toggler" type="button" value="Columns"
+                                         style="float:right" icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="passTable" trigger="toggler" />
+                    </f:facet>
+                    <p:column   headerText="ID" width="40">
+                        #{model.id}
+                    </p:column>
+                    <p:column headerText="File name">
+                        #{model.originalFilename}
+                    </p:column>
+                    <p:column headerText="Pass item">
+                        #{model.passItemCount}
+                    </p:column>
+                    <p:column headerText="Total item">
+                        #{model.itemCount}
+                    </p:column>
+                    <p:column headerText="Create date">
+                        #{model.createDate}
+                    </p:column>
+                    <p:column headerText="">
+                        <h:link outcome="details" value="Detail">
+                            <f:param name="uploadFileId" value="#{model.id}"/>
+                        </h:link>
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </ui:define>
     </ui:composition>

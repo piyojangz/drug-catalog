@@ -29,7 +29,7 @@
                                                  style="float:right" icon="ui-icon-calculator" />
                                 <p:columnToggler datasource="errorTable" trigger="toggler" />
                             </f:facet>
-                            <p:column   headerText="ROW#" width="100">
+                            <p:column   headerText="ROW#">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
                             <p:column   headerText="HOSPDRUGCODE" width="100">
@@ -44,7 +44,7 @@
                             <p:column headerText="SPECPREP">
                                 <h:outputText value="#{model.specPrep}" style="#{empty model.errorMap['specPrep']?'color:black':'color:red'}" title="#{model.errorMap['specPrep']}"/>
                             </p:column>
-                            <p:column headerText="GENERICNAME">
+                            <p:column headerText="GENERICNAME" width="120">
                                 <h:outputText value="#{model.genericName}" style="#{empty model.errorMap['genericName']?'color:black':'color:red'}" title="#{model.errorMap['genericName']}"/>
                             </p:column>
                             <p:column headerText="TRADENAME">
@@ -95,13 +95,13 @@
                             <p:column headerText="DATEEFFECTIVE">
                                 <h:outputText value="#{model.dateEffective}" style="#{empty model.errorMap['dateEffective']?'color:black':'color:red'}" title="#{model.errorMap['dateEffective']}"/>
                             </p:column>
-                            <p:column headerText="ERROR">
+                            <p:column headerText="ERROR" width="200">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
-                <p:panel header="จำนวนข้อมูลที่ผ่านโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.models.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.models}">
+                <p:panel  header="จำนวนข้อมูลที่ผ่านโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.models.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.models}">
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10">
                             <f:facet name="header">

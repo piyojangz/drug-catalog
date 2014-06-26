@@ -95,7 +95,6 @@ public class UploadMappedDrug implements Serializable {
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-    
 
     public String save() {
         List<UploadHospitalDrugItem> items = new ArrayList<>();
@@ -113,6 +112,7 @@ public class UploadMappedDrug implements Serializable {
         uploadDrug.setPassItemCount(models.size());
         uploadHospitalDrugRepo.save(uploadDrug);
         FacesMessageUtils.info("Save completed.");
+        reset();
         return null;
     }
 
