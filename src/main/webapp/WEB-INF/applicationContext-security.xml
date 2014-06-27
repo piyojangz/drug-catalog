@@ -5,70 +5,42 @@
              xmlns:util="http://www.springframework.org/schema/util"
              xmlns:context="http://www.springframework.org/schema/context"
              xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                 http://www.springframework.org/schema/beans/spring-beans.xsd
                  http://www.springframework.org/schema/security 
-                 http://www.springframework.org/schema/security/spring-security-3.1.xsd
+                 http://www.springframework.org/schema/security/spring-security.xsd
                  http://www.springframework.org/schema/util 
-                 http://www.springframework.org/schema/util/spring-util-3.1.xsd
+                 http://www.springframework.org/schema/util/spring-util.xsd
                  http://www.springframework.org/schema/context 
-                 http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+                 http://www.springframework.org/schema/context/spring-context.xsd">
  
-<!--    <global-method-security pre-post-annotations="enabled"/>
- 
-    <http  use-expressions="true" 
-           auto-config="true" 
-           authentication-manager-ref="authenManager">
-        
-        <intercept-url pattern="/private/adMi2iztraT0r/**"
-                       access="hasRole('ADMIN')" />
-        
-        <intercept-url pattern="/private/random/**" access="hasRole('ADMIN') or hasRole('ZONE') or hasRole('PROVINCE')"/>
-        <intercept-url pattern="/private/report/report3/**" access="hasRole('ADMIN') or hasRole('ZONE') or hasRole('PROVINCE')"/>
-        <intercept-url pattern="/private/report/report9/**" access="hasRole('ADMIN') or hasRole('ZONE') or hasRole('PROVINCE')"/>
-                
+    <global-method-security pre-post-annotations="enabled">
+        <!--
+                AspectJ pointcut expression that locates our "post" method and
+                applies security that way <protect-pointcut expression="execution(*
+                bigbank.*Service.post*(..))" access="ROLE_TELLER"/>
+        -->
+    </global-method-security>
+    <http use-expressions="true" auto-config="true" authentication-manager-ref="authenManager">
         <intercept-url pattern="/private/**" access="isAuthenticated()" />
-        
-        <logout logout-success-url="/logouts" 
-                logout-url="/logout/"/>
-        <form-login login-page="/authen/"
-                    login-processing-url="/login/"
-                    default-target-url="/private/"
-                    password-parameter="password"
-                    username-parameter="username"
-                    always-use-default-target="true" />
-        
-        <custom-filter ref="sessionManagementFilter" before="SESSION_MANAGEMENT_FILTER"/>  
+        <form-login  default-target-url="/private/index.xhtml" login-page="/index.xhtml" />
+        <logout logout-url="/logout" invalidate-session="true"
+                logout-success-url="/private/index.xhtml" />
     </http>
-    
-    
-    <beans:bean id="sessionManagementFilter" class="org.springframework.security.web.session.SessionManagementFilter">
-        <beans:constructor-arg name="securityContextRepository" ref="httpSessionSecurityContextRepository" />
-        <beans:property name="invalidSessionStrategy" ref="redirectStrategy"/>
-    </beans:bean>
-    
-    <beans:bean id="redirectStrategy" class="th.co.geniustree.mra2.web.security.JsfRedirectStrategy">
-        <beans:constructor-arg name="invalidSessionUrl" value="/authen/" />
-    </beans:bean>
-    
-    <beans:bean id="httpSessionSecurityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository"/>
-    
-    
-    <beans:bean id="wsAuthenticationProvider" class="${authentication.provider}"></beans:bean>
     <authentication-manager alias="authenManager">
         <authentication-provider ref="wsAuthenticationProvider"></authentication-provider>
     </authentication-manager>
-    
+    <beans:bean id="wsAuthenticationProvider" class="${authentication.provider}"></beans:bean>
     <beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <beans:property name="basename" value="springsecurity"></beans:property>
+        <beans:property name="basename" value="org.springframework.security.messages"/>
     </beans:bean>
-    
+ 
     <beans:bean id="dcService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean" scope="singleton" >
-        <beans:property name="serviceInterface" value="th.co.geniustree.nhso.authen.UCDCAuthenService"/>
-        <beans:property name="wsdlDocumentResource" value="${wsdlDocumentResource}"/>
-        <beans:property name="namespaceUri" value="${namespaceUri}"/>
-        <beans:property name="serviceName" value="${serviceName}"/>
-        <beans:property name="portName" value="${portName}"/>
-        <beans:property name="endpointAddress" value="${endpointAddress}"/>
+        <beans:property name="serviceInterface" value="th.co.geniustree.drugserver.wsauthen.UCDCAuthenService"/>
+        <beans:property name="wsdlDocumentResource" value="http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl"/>
+        <beans:property name="namespaceUri" value="http://www.mfec.co.th"/>
+        <beans:property name="serviceName" value="UCDCAuthenService"/>
+        <beans:property name="portName" value="UCDCAuthenInfPort"/>
+        <beans:property name="endpointAddress" value="http://ucdcws.nhso.go.th/UCDCWS/authenService"/>
         <beans:property name="lookupServiceOnStartup" value="false"/>
-    </beans:bean>-->
+    </beans:bean>
 </beans:beans> 

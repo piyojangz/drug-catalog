@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
@@ -23,11 +24,13 @@ import javax.persistence.Temporal;
  * @author moth
  */
 @Entity
+@Table(name="TMT_UPLOADHOSP_DRUG")
 public class UploadHospitalDrug implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
+    private String hcode;
     @OneToMany(mappedBy = "uploadDrug", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UploadHospitalDrugItem> passItems;
     private String originalFilename;
@@ -49,6 +52,15 @@ public class UploadHospitalDrug implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public String getHcode() {
+        return hcode;
+    }
+
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
+    }
+    
 
     public List<UploadHospitalDrugItem> getPassItems() {
         return passItems;

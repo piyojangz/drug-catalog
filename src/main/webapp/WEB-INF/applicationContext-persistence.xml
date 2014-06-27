@@ -17,6 +17,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
      
     <jpa:repositories base-package="th.co.geniustree.nhso.drugcatalog.repo"/>
+    <jpa:repositories base-package="th.co.geniustree.nhso.basicmodel.repository"/>
      
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/drugcatalog" />
      
@@ -26,7 +27,7 @@
      
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
  
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+<!--    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="drugcatalog-pu"/>
         <property name="persistenceXmlLocation" value="classpath:persistence.xml"/>
         <property name="jpaDialect" ref="jpaDialect"/>
@@ -35,9 +36,25 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="generateDdl" value="true"/>
                 <property name="showSql" value="true"/>
-                <property name="database" value="DERBY" />
+                <property name="database" value="ORACLE" />
             </bean>
         </property> 
     </bean>
     <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" /> 
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />-->
+ 
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="drugcatalog-pu"/>
+        <property name="persistenceXmlLocation" value="classpath:persistence.xml"/>
+        <property name="jpaDialect" ref="jpaDialect"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+                <property name="generateDdl" value="true"/>
+                <property name="showSql" value="true"/>
+                <property name="database" value="ORACLE" />
+            </bean>
+        </property> 
+    </bean>
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect" /> 
 </beans>

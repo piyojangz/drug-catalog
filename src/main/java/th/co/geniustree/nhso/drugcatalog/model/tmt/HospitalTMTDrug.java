@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model;
+package th.co.geniustree.nhso.drugcatalog.model.tmt;
 
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -22,17 +20,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author moth
  */
 @Entity
-@Table(name="TMT_UPLOADHOSP_DRUGITEM")
-public class UploadHospitalDrugItem implements Serializable {
+@Table(name="TMT_HOSP_TMTDRUG")
+@IdClass(HospitalTMTDrugPK.class)
+public class HospitalTMTDrug implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "UPLOAD_DRUG_ID")
-    private UploadHospitalDrug uploadDrug;
-    @NotEmpty
     private String hospDrugCode;
+    @Id
+    private String hcode;
 
     @NotEmpty
     private String productCat;
@@ -87,30 +82,26 @@ public class UploadHospitalDrugItem implements Serializable {
 
     @NotEmpty
     private String dateEffective;
+    private Boolean approved = Boolean.FALSE;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getHospDrugCode() {
         return hospDrugCode;
     }
 
+    public String getHcode() {
+        return hcode;
+    }
+
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
+    }
+    
+
     public void setHospDrugCode(String hospDrugCode) {
         this.hospDrugCode = hospDrugCode;
     }
 
-    public UploadHospitalDrug getUploadDrug() {
-        return uploadDrug;
-    }
-
-    public void setUploadDrug(UploadHospitalDrug uploadDrug) {
-        this.uploadDrug = uploadDrug;
-    }
 
     public String getProductCat() {
         return productCat;
@@ -272,10 +263,20 @@ public class UploadHospitalDrugItem implements Serializable {
         this.dateEffective = dateEffective;
     }
 
+    public Boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
+    }
+    
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 29 * hash + Objects.hashCode(this.hcode);
         return hash;
     }
 
@@ -287,11 +288,15 @@ public class UploadHospitalDrugItem implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final UploadHospitalDrugItem other = (UploadHospitalDrugItem) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        final HospitalTMTDrug other = (HospitalTMTDrug) obj;
+        if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
+            return false;
+        }
+        if (!Objects.equals(this.hcode, other.hcode)) {
             return false;
         }
         return true;
     }
+
 
 }

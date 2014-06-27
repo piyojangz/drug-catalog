@@ -8,8 +8,8 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            <h:form>
-                <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10">
+            <h:form >
+                <p:dataTable id="passTable" resizableColumns="true"  value="#{adminInbox.requestItems}" var="model"  paginator="true" rows="10">
                     <f:facet name="header">
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
@@ -19,68 +19,80 @@
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="passTable" trigger="toggler" />
                     </f:facet>
+                    <p:column   headerText="">
+                        <h:link outcome="diff" value="Diff" style="color:blue">
+                            <f:param name="requestId" value="#{model.id}"/>
+                            <f:param name="tmtCode" value="#{model.requestItem.tmtId}"/>
+                        </h:link>
+                    </p:column>
+                    <p:column   headerText="Request date" width="100">
+                        #{model.requestDate}
+                    </p:column>
+                    <p:column   headerText="Request user" width="100">
+                        #{model.requestUser}
+                    </p:column>
                     <p:column   headerText="HOSPDRUGCODE" width="100">
-                        #{model.hospDrugCode}
+                        #{model.requestItem.hospDrugCode}
                     </p:column>
                     <p:column headerText="PRODUCTCAT">
-                        #{model.productCat}
+                        #{model.requestItem.productCat}
                     </p:column>
                     <p:column headerText="TMTID">
-                        #{model.tmtId}
+                        #{model.requestItem.tmtId}
                     </p:column>
                     <p:column headerText="SPECPREP">
-                        #{model.specPrep}
+                        #{model.requestItem.specPrep}
                     </p:column>
                     <p:column headerText="GENERICNAME">
-                        #{model.genericName}
+                        #{model.requestItem.genericName}
                     </p:column>
                     <p:column headerText="TRADENAME">
-                        #{model.tradeName}
+                        #{model.requestItem.tradeName}
                     </p:column>
                     <p:column headerText="DSFCODE">
-                        #{model.dsfCode}
+                        #{model.requestItem.dsfCode}
                     </p:column>
                     <p:column headerText="DOSAGEFORM">
-                        #{model.dosageForm}
+                        #{model.requestItem.dosageForm}
                     </p:column>
                     <p:column headerText="STRENGTH">
-                        #{model.strength}
+                        #{model.requestItem.strength}
                     </p:column>
                     <p:column headerText="CONTENT">
-                        #{model.content}
+                        #{model.requestItem.content}
                     </p:column>
                     <p:column headerText="UNITPRICE">
-                        #{model.unitPrice}
+                        #{model.requestItem.unitPrice}
                     </p:column>
                     <p:column headerText="DISTRIBUTOR">
-                        #{model.distributor}
+                        #{model.requestItem.distributor}
                     </p:column>
                     <p:column headerText="MANUFACTURER">
-                        #{model.manufacturer}
+                        #{model.requestItem.manufacturer}
                     </p:column>
                     <p:column headerText="ISED">
-                        #{model.ised}
+                        #{model.requestItem.ised}
                     </p:column>
                     <p:column headerText="NDC24">
-                        #{model.ndc24}
+                        #{model.requestItem.ndc24}
                     </p:column>
                     <p:column headerText="PACKSIZE">
-                        #{model.packSize}
+                        #{model.requestItem.packSize}
                     </p:column>
                     <p:column headerText="PACKPRICE">
-                        #{model.packPrice}
+                        #{model.requestItem.packPrice}
                     </p:column>
                     <p:column headerText="UPDATEFLAG">
-                        #{model.updateFlag}
+                        #{model.requestItem.updateFlag}
                     </p:column>
                     <p:column headerText="DATECHANGE">
-                        #{model.updateFlag}
+                        #{model.requestItem.updateFlag}
                     </p:column>
                     <p:column headerText="DATEUPDATE">
-                        #{model.dateUpdate}
+                        #{model.requestItem.dateUpdate}
                     </p:column>
                     <p:column headerText="DATEEFFECTIVE">
-                        #{model.dateEffective}
+                        #{model.requestItem.dateEffective}
                     </p:column>
                 </p:dataTable>
             </h:form>

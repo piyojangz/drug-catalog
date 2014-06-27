@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.hospital.controller;
+package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import com.google.common.io.Files;
 import java.io.File;
@@ -17,19 +17,21 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
+import th.co.geniustree.nhso.drugcatalog.hospital.controller.*;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import th.co.geniustree.nhso.drugcatalog.model.tmt.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
 import th.co.geniustree.xls.beans.ReaderUtils;
@@ -40,23 +42,19 @@ import th.co.geniustree.xls.beans.ReaderUtils;
  */
 @Component
 @Scope("view")
-public class UploadMappedDrug implements Serializable {
+public class UploadMasterDrug implements Serializable {
 
-    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadMappedDrug.class);
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadMasterDrug.class);
     private UploadedFile file;
-    private List<HospitalDrugExcelModel> models = new ArrayList<>();
-    private List<HospitalDrugExcelModel> notPassModels = new ArrayList<>();
+    private List<TMTDrug> models = new ArrayList<>();
     @Autowired
     @Qualifier("app")
     private Properties app;
+    @Autowired
+    private TMTDrugRepo tmtDrugRepo;
     private File uploadtempFileDir;
-    @Autowired
-    private Validator beanValidator;
-    @Autowired
-    private UploadHospitalDrugService uploadHospitalDrugService;
     private String saveFileName;
     private String originalFileName;
-    private String loginHcode;
 
     @PostConstruct
     public void postConstruct() {
@@ -67,21 +65,6 @@ public class UploadMappedDrug implements Serializable {
         }
     }
 
-    public List<HospitalDrugExcelModel> getModels() {
-        return models;
-    }
-
-    public void setModels(List<HospitalDrugExcelModel> models) {
-        this.models = models;
-    }
-
-    public List<HospitalDrugExcelModel> getNotPassModels() {
-        return notPassModels;
-    }
-
-    public void setNotPassModels(List<HospitalDrugExcelModel> notPassModels) {
-        this.notPassModels = notPassModels;
-    }
 
     public String getOriginalFileName() {
         return originalFileName;
@@ -99,22 +82,17 @@ public class UploadMappedDrug implements Serializable {
         this.file = file;
     }
 
+    public List<TMTDrug> getModels() {
+        return models;
+    }
+
+    public void setModels(List<TMTDrug> models) {
+        this.models = models;
+    }
+    
+
     public String save() {
-        List<UploadHospitalDrugItem> items = new ArrayList<>();
-        UploadHospitalDrug uploadDrug = new UploadHospitalDrug();
-        uploadDrug.setHcode(loginHcode);
-        for (HospitalDrugExcelModel passModel : models) {
-            UploadHospitalDrugItem item = new UploadHospitalDrugItem();
-            BeanUtils.copyProperties(passModel, item);
-            item.setUploadDrug(uploadDrug);
-            items.add(item);
-        }
-        uploadDrug.setPassItems(items);
-        uploadDrug.setOriginalFilename(originalFileName);
-        uploadDrug.setSavedFileName(saveFileName);
-        uploadDrug.setItemCount(models.size() + notPassModels.size());
-        uploadDrug.setPassItemCount(models.size());
-        uploadHospitalDrugService.saveUploadHospitalDrugAndRequest(uploadDrug);
+        tmtDrugRepo.save(models);
         FacesMessageUtils.info("Save completed.");
         reset();
         return null;
@@ -124,29 +102,12 @@ public class UploadMappedDrug implements Serializable {
         saveFileName = null;
         originalFileName = null;
         models.clear();
-        notPassModels.clear();
         return null;
     }
 
     public String upload() {
         models.clear();
-        notPassModels.clear();
         //TODO file == null NOT work in prime fileupload(simple) and require NOT work too.
-        if (file.getFileName() == null || file.getFileName().isEmpty()) {
-            FacesMessageUtils.info("Please select file first.");
-            return null;
-        }
-        String nameWithoutExtension = Files.getNameWithoutExtension(file.getFileName());
-        if(nameWithoutExtension.length() <5){
-            FacesMessageUtils.info("File name must have HCODE 5 Digit.");
-            return null;
-        }
-        String hcode = file.getFileName().substring(0, 5);
-        loginHcode = SecurityUtil.getUserDetails().getHospital().getHcode();
-        if(!hcode.equalsIgnoreCase(loginHcode)){
-            FacesMessageUtils.error("Upload HCODE must match with login HCODE");
-            return null;
-        }
         if (file.getFileName() == null || file.getFileName().isEmpty()) {
             FacesMessageUtils.info("Please select file first.");
             return null;
@@ -158,7 +119,7 @@ public class UploadMappedDrug implements Serializable {
             LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
 
-            ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
+            ReaderUtils.read(targetFile, TMTDrug.class, new ReadCallback<TMTDrug>() {
                 int rowNum = 0;
 
                 @Override
@@ -168,17 +129,8 @@ public class UploadMappedDrug implements Serializable {
                 }
 
                 @Override
-                public void ok(int rowNum, HospitalDrugExcelModel bean) {
-                    bean.setRowNum(rowNum);
-                    Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
-                    if (violations.isEmpty()) {
-                        models.add(bean);
-                    } else {
-                        for (ConstraintViolation<HospitalDrugExcelModel> violation : violations) {
-                            bean.addError(violation.getPropertyPath().toString(), violation.getMessage());
-                        }
-                        notPassModels.add(bean);
-                    }
+                public void ok(int rowNum, TMTDrug bean) {
+                    models.add(bean);
                 }
 
                 @Override
@@ -186,6 +138,7 @@ public class UploadMappedDrug implements Serializable {
                     LOG.error(null, e);
                 }
             });
+            FacesMessageUtils.info("Parse file completed. Please press 'Save' button.");
         } catch (ColumnNotFoundException columnNotFound) {
             FacesMessageUtils.error(columnNotFound);
         } catch (Exception iOException) {

@@ -10,17 +10,56 @@
         <div class="temMenu1">
             <h:link outcome="/private/index" value="กลับสู่หน้าหลัก"/>
         </div>
+
+        <h:link outcome="/private/hospital/upload/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <div class="temMenu2">
+                นำเข้าข้อมูล Map รหัสยา
+            </div>
+        </h:link>
+        <h:link outcome="/private/hospital/listfile/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <div class="temMenu2">
+                ประวัตินำเข้าข้อมูล Map รหัสยา
+            </div>
+        </h:link>
+
+
+        <h:link outcome="/private/hospital/listdrug/approved"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <f:param name="accept" value="true"/>
+            <div class="temMenu2">
+                รายการยาที่อนุมัติรหัส TMT แล้ว
+            </div>
+        </h:link>
+        <h:link outcome="/private/hospital/listdrug/wait"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <f:param name="wait" value="true"/>
+            <div class="temMenu2">
+                รายการยาที่ยังไม่ได้อนุมัติรหัส TMT
+            </div>
+        </h:link>
+        <h:link outcome="/private/hospital/listdrug/noTmt"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <f:param name="no-tmt" value="true"/>
+            <div class="temMenu2">
+                รายการยาที่ยังไม่มีรหัส TMT
+            </div>
+        </h:link>
+        <h:link outcome="/private/hospital/create/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <div class="temMenu2">
+                Map รหัสยา TMT
+            </div>
+        </h:link>
+
+        <h:link outcome="/private/admin/drug/index"  rendered="#{request.isUserInRole('ADMIN')}">
+            <div class="temMenu2">
+                นำเข้าฐาน TMT
+            </div>
+        </h:link>
+        <h:link outcome="/private/admin/drug/inbox"  rendered="#{request.isUserInRole('ADMIN')}">
+            <div class="temMenu2">
+                Inbox
+            </div>
+        </h:link>
+
         <div class="temMenu2">
-            <h:link outcome="/private/hospital/upload/index" value="นำเข้าข้อมูล Map รหัสยา"/>
-        </div>
-        <div class="temMenu2">
-            <h:link outcome="/private/hospital/listfile/index" value="ประวัตินำเข้าข้อมูล Map รหัสยา"/>
-        </div>
-        <div class="temMenu2">
-            <h:link outcome="/private/hospital/create/index" value="Map รหัสยา TMT"/>
-        </div>
-        <div class="temMenu2">
-            <h:link outcome="/private/hospital/listdrug/index" value="รายการยาทั้งหมดของ รพ."/>
+            <a href="#{request.contextPath}/logout">Logout</a>
         </div>
     </ui:composition>
 </html>

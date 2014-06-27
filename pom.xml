@@ -16,6 +16,49 @@
     </properties>
     
     <dependencies>
+        <!-- ******* Geniustree ******** -->
+        <dependency>
+            <groupId>th.co.geniustree.nhso.expatcard</groupId>
+            <artifactId>dc-authen</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>th.co.geniustree</groupId>
+            <artifactId>xls-beans</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>th.co.geniustree.springjsf</groupId>
+            <artifactId>spring-jsf-integration</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>th.co.geniustree</groupId>
+            <artifactId>eclipselink-slf4j</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- jpa *********************************************************** -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+         
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.5.1</version><!-- 2.3.2 -->
+        </dependency>
+         
+        <!-- meta model -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+            <version>2.5.1</version>
+            <scope>provided</scope>
+        </dependency> 
+        
+        <!-- ****** Spring ********* -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -122,16 +165,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search-orm</artifactId>
             <version>4.5.1.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>th.co.geniustree</groupId>
-            <artifactId>xls-beans</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>th.co.geniustree.springjsf</groupId>
-            <artifactId>spring-jsf-integration</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -258,7 +291,7 @@
                 <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
                 <log.file.location>c:\\temp\${project.artifactId}\log</log.file.location>
-                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProviderMock</authentication.provider>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderMock</authentication.provider>
                 <report.temp.location>c:\\temp\${project.artifactId}\report</report.temp.location>
                 <upload.temp.location>c:\\temp\${project.artifactId}\upload_temp</upload.temp.location>   
             </properties>

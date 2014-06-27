@@ -8,16 +8,20 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <f:metadata>
+                <f:viewAction action="#{hospitalDrugListController.loadNonTmtModel()}" />
+            </f:metadata>
             <h:form>
-                <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10">
+                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.noTmtModels}" var="model"  paginator="true" rows="10">
                     <f:facet name="header">
+                        รายการยาที่ยังไม่มีรหัส TMT
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />
-                        <p:columnToggler datasource="passTable" trigger="toggler" />
+                        <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
                     <p:column   headerText="HOSPDRUGCODE" width="100">
                         #{model.hospDrugCode}

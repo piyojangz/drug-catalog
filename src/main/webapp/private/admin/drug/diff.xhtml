@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="requestId" value="#{adminDiff.requestId}"/>
+                <f:viewParam name="tmtCode" value="#{adminDiff.tmtCode}"/>
+                <f:viewAction action="#{adminDiff.loadData()}"/>
+            </f:metadata>
+            <h:form >
+                <h:panelGrid columns="3"  border="1" cellpadding="5" cellspacing="1" >
+                    <f:facet name="header">
+                        ตารางการเปรียบเทียบระหว่างรหัสยามาตรฐาน TMT  กับ ยาที่ขอรหัส
+                    </f:facet>
+                    <h:outputText value=""/>
+                    <h:outputText value="รหัสยามาตรฐาน TMT"/>
+                    <h:outputText value="ยาที่ขอรหัส"/>
+                    
+                    <h:outputText value="TMTID"/>
+                    <h:outputText value="#{adminDiff.masterDrug.tmtId}"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.tmtId}"/>
+                    
+                    <h:outputText value="NDC24"/>
+                    <h:outputText value="X"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.ndc24}"/>
+                    
+                    <h:outputText value="TRADENAME"/>
+                    <h:outputText value="#{adminDiff.masterDrug.tradeName}"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.tradeName}"/>
+                    
+                    <h:outputText value="DOSAGEFORM"/>
+                    <h:outputText value="#{adminDiff.masterDrug.dosageform}"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.dosageForm}"/>
+                    
+                    <h:outputText value="STRENGTH"/>
+                    <h:outputText value="#{adminDiff.masterDrug.strength}"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.strength}"/>
+                    
+                    <h:outputText value="CONTENT"/>
+                    <h:outputText value="#{adminDiff.masterDrug.contvalue} #{adminDiff.masterDrug.contunit}"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.content}"/>
+                    
+                    <h:outputText value="DISTRIBUTOR"/>
+                    <h:outputText value="X"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.distributor}"/>
+                    
+                    <h:outputText value="MANUFACTURER"/>
+                    <h:outputText value="#{adminDiff.masterDrug.manufacturer}"/>
+                    <h:outputText value="#{adminDiff.requestItem.targetItem.manufacturer}"/>
+                    
+                </h:panelGrid>
+                <br/>
+                <p:commandButton ajax="false" value="Accept" action="#{adminDiff.accept()}" rendered="#{not adminDiff.back}"/>
+                &nbsp;
+                <p:commandButton ajax="false" value="Reject" action="#{adminDiff.reject()}" rendered="#{not adminDiff.back}"/>
+                &nbsp;
+                <p:commandButton ajax="false" value="Cancel" action="inbox"  rendered="#{not adminDiff.back}"/>
+                <h:link outcome="inbox" rendered="#{adminDiff.back}" style="color:blue">
+                    Back to Inbox.
+                </h:link>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

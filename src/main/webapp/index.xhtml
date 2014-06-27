@@ -9,17 +9,19 @@
         <h:outputStylesheet name="style/main.css"/>
     </h:head>
     <h:body styleClass="backgroundlogin">
-        <div class="loglogin">
-            <div class="logo"></div>
-            <div class="bgtextbox">
-                <input class="textbox" type="text" />
-                <input class="textbox textboxpass" type="password" />
+        <form action="#{request.contextPath}/j_spring_security_check" method="POST">
+            <div class="loglogin">
+                <div class="logo"></div>
+                <div class="bgtextbox">
+                    <input class="textbox" type="text" name="j_username"/>
+                    <input class="textbox textboxpass" type="password" name="j_password"/>
+                </div>
+                <div class="bgbutton">
+                    <input type="submit" class="buttons" value="เข้าสู่ระบบ"  />
+                    <input type="submit" class="buttonc" value="ยกเลิก"/>
+                </div>
             </div>
-            <div class="bgbutton">
-                <h:button styleClass="buttons" value="เข้าสู่ระบบ" outcome="/private/index" />
-                <input type="submit" class="buttonc" value="ยกเลิก"/>
-            </div>
-        </div>
+        </form>
     </h:body>
 </html>
 

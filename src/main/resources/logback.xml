@@ -31,4 +31,7 @@
     <logger name="th.co.geniustree" level="DEBUG">
         <appender-ref ref="STDOUT" />
     </logger>
+    <logger name="org.eclipse" level="TRACE">
+        <appender-ref ref="STDOUT" />
+    </logger>
 </configuration>

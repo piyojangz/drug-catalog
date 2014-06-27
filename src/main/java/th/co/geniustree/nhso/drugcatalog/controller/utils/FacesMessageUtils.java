@@ -20,7 +20,11 @@ public class FacesMessageUtils {
     }
 
     public static void error(Exception e) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+        error(e.getMessage());
+    }
+
+    public static void error(String msg) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }
