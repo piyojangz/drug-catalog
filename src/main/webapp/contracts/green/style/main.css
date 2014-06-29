@@ -27,7 +27,7 @@ a:active {
     display: block;
     width: 225px;
     height: 45px;
-    background: url('/gf3/drugcatalog/contracts/green/images/template/logo_g.png') no-repeat;
+    background: url('#{request.contextPath}/contracts/green/images/template/logo_g.png') no-repeat;
 }
 #temLeft{
     display: block;
@@ -61,22 +61,22 @@ a:active {
     display: block;
     width: 35px;
     height: 35px;
-    background: url('/gf3/drugcatalog/contracts/green/images/template/icontogle.png');
+    background: url('#{request.contextPath}/contracts/green/images/template/icontogle.png');
     cursor: pointer;
 }
 .temIcon:hover{
-    background: url('/gf3/drugcatalog/contracts/green/images/template/icontoglehover.png');
+    background: url('#{request.contextPath}/contracts/green/images/template/icontoglehover.png');
 }
 .temIcon2{
     float:right;
     display: block;
     width: 35px;
     height: 35px;
-    background: url('/gf3/drugcatalog/contracts/purple/images/template/icontogle.png');
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontogle.png');
     cursor: pointer;
 }
 .temIcon2:hover{
-    background: url('/gf3/drugcatalog/contracts/purple/images/template/icontoglehover.png');
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontoglehover.png');
 }
 .temMenu1{
     display: block;
@@ -86,11 +86,11 @@ a:active {
     font-family: tahoma;
     vertical-align: bottom;
     padding: 15px 20px 15px 45px;
-    background: #fff url('/gf3/drugcatalog/contracts/green/images/template/iconspy.png') no-repeat;
+    background: #fff url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
     background-position: 15px 11px;
 }
 .temMenu1:hover{
-    background: #f7f7f7 url('/gf3/drugcatalog/contracts/green/images/template/iconspy.png') no-repeat;
+    background: #f7f7f7 url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
     background-position: 15px 11px;
 }
 .temMenu2{
@@ -101,13 +101,31 @@ a:active {
     font-family: tahoma;
     vertical-align: bottom;
     padding: 15px 20px 15px 45px;
-    background: #fff url('/gf3/drugcatalog/contracts/green/images/template/iconspy.png') no-repeat;
+    background: #fff url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
     background-position: 15px -35px; 
 }
 .temMenu2:hover{
-    background: #f7f7f7 url('/gf3/drugcatalog/contracts/green/images/template/iconspy.png') no-repeat;
+    background: #f7f7f7 url('#{request.contextPath}/contracts/green/images/template/iconspy.png') no-repeat;
     background-position: 15px -35px;
 }
+
+/*********** must be chenge ***********/
+.temMenu3{
+    display: block;
+    color: #737373;
+    font-weight: normal;
+    font-size: 14px;
+    font-family: tahoma;
+    vertical-align: bottom;
+    padding: 15px 20px 15px 45px;
+    background: #fff url('#{request.contextPath}/contracts/green/images/template/vcalendar.png') no-repeat;
+    background-position: 15px -35px; 
+}
+.temMenu3:hover{
+    background: #f7f7f7 url('#{request.contextPath}/contracts/green/images/template/vcalendar.png') no-repeat;
+    background-position: 15px -35px;
+}
+/*********** must be chenge ***********/
 .temStatus{
     float:right;
     margin-right: 20px;
@@ -125,7 +143,7 @@ a:active {
     margin-left: 15px;
     width: 24px;
     height: 24px;
-    background: url('/gf3/drugcatalog/contracts/green/images/template/iconlogout.png');
+    background: url('#{request.contextPath}/contracts/green/images/template/iconlogout.png');
     margin-top: -38px;
 }
 .complet{

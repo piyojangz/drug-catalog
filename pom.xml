@@ -305,15 +305,10 @@
                 <log.spring.level>DEBUG</log.spring.level>
                 <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
-                <log.file.location>c:\\temp\mra2\log</log.file.location>
-                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProvider</authentication.provider>
-                <report.temp.location>c:\\temp\mra2\report</report.temp.location>
-                <upload.temp.location>c:\\temp\mra2\upload</upload.temp.location>
-                <wsdlDocumentResource>http://203.147.36.85/nhso-wsauthen-wrapper/UCDCAuthenService?wsdl</wsdlDocumentResource>
-                <namespaceUri>http://wrapper.wsauthen.nhso.geniustree.co.th/</namespaceUri>
-                <serviceName>UCDCAuthenService</serviceName>
-                <portName>UCDCAuthenServicePort</portName>
-                <endpointAddress>http://203.147.36.85:80/nhso-wsauthen-wrapper/UCDCAuthenService</endpointAddress>
+                <log.file.location>/home/pramoth/temp/${project.artifactId}/log</log.file.location>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderMock</authentication.provider>
+                <report.temp.location>/home/pramoth/temp/${project.artifactId}/report</report.temp.location>
+                <upload.temp.location>/home/pramoth/temp/${project.artifactId}/upload_temp</upload.temp.location>
             </properties>
         </profile>
         <profile>

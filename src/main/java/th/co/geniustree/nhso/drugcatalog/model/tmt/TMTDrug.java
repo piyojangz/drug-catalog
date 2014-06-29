@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -60,6 +61,8 @@ public class TMTDrug implements Serializable {
     @XlsColumn
     @Column(name = "STATUS", length = 2)
     private String status;
+    @Version
+    private Integer version;
 
     @PrePersist
     public void prePersist() {

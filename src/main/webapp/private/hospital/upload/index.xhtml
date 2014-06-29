@@ -29,70 +29,70 @@
                                                  style="float:right" icon="ui-icon-calculator" />
                                 <p:columnToggler datasource="errorTable" trigger="toggler" />
                             </f:facet>
-                            <p:column   headerText="ROW#">
+                            <p:column   headerText="ROW#" width="40">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
-                            <p:column   headerText="HOSPDRUGCODE" width="100">
+                            <p:column   headerText="HOSPDRUGCODE" width="110">
                                 <h:outputText value="#{model.hospDrugCode}" style="#{empty model.errorMap['hospDrugCode']?'color:black':'color:red'}" title="#{model.errorMap['hospDrugCode']}"/>
                             </p:column>
-                            <p:column headerText="PRODUCTCAT">
+                            <p:column headerText="PRODUCTCAT" width="80">
                                 <h:outputText value="#{model.productCat}" style="#{empty model.errorMap['productCat']?'color:black':'color:red'}" title="#{model.errorMap['productCat']}"/>
                             </p:column>
-                            <p:column headerText="TMTID">
+                            <p:column headerText="TMTID" width="60">
                                 <h:outputText value="#{model.tmtId}" style="#{empty model.errorMap['tmtId']?'color:black':'color:red'}" title="#{model.errorMap['tmtId']}"/>
                             </p:column>
-                            <p:column headerText="SPECPREP">
+                            <p:column headerText="SPECPREP" width="60">
                                 <h:outputText value="#{model.specPrep}" style="#{empty model.errorMap['specPrep']?'color:black':'color:red'}" title="#{model.errorMap['specPrep']}"/>
                             </p:column>
-                            <p:column headerText="GENERICNAME" width="120">
+                            <p:column headerText="GENERICNAME" width="200">
                                 <h:outputText value="#{model.genericName}" style="#{empty model.errorMap['genericName']?'color:black':'color:red'}" title="#{model.errorMap['genericName']}"/>
                             </p:column>
-                            <p:column headerText="TRADENAME">
+                            <p:column headerText="TRADENAME" width="200">
                                 <h:outputText value="#{model.tradeName}" style="#{empty model.errorMap['tradeName']?'color:black':'color:red'}" title="#{model.errorMap['tradeName']}"/>
                             </p:column>
-                            <p:column headerText="DSFCODE">
+                            <p:column headerText="DSFCODE" width="60">
                                 <h:outputText value="#{model.dsfCode}" style="#{empty model.errorMap['dsfCode']?'color:black':'color:red'}" title="#{model.errorMap['dsfCode']}"/>
                             </p:column>
-                            <p:column headerText="DOSAGEFORM">
+                            <p:column headerText="DOSAGEFORM" width="100">
                                 <h:outputText value="#{model.dosageForm}" style="#{empty model.errorMap['dosageForm']?'color:black':'color:red'}" title="#{model.errorMap['dosageForm']}"/>
                             </p:column>
-                            <p:column headerText="STRENGTH">
+                            <p:column headerText="STRENGTH" width="100">
                                 <h:outputText value="#{model.strength}" style="#{empty model.errorMap['strength']?'color:black':'color:red'}" title="#{model.errorMap['strength']}"/>
                             </p:column>
-                            <p:column headerText="CONTENT">
+                            <p:column headerText="CONTENT" width="120">
                                 <h:outputText value="#{model.content}" style="#{empty model.errorMap['content']?'color:black':'color:red'}" title="#{model.errorMap['content']}"/>
                             </p:column>
-                            <p:column headerText="UNITPRICE">
+                            <p:column headerText="UNITPRICE" width="60">
                                 <h:outputText value="#{model.unitPrice}" style="#{empty model.errorMap['unitPrice']?'color:black':'color:red'}" title="#{model.errorMap['unitPrice']}"/>
                             </p:column>
-                            <p:column headerText="DISTRIBUTOR">
+                            <p:column headerText="DISTRIBUTOR" width="160">
                                 <h:outputText value="#{model.distributor}" style="#{empty model.errorMap['distributor']?'color:black':'color:red'}" title="#{model.errorMap['distributor']}"/>
                             </p:column>
-                            <p:column headerText="MANUFACTURER">
+                            <p:column headerText="MANUFACTURER" width="160">
                                 <h:outputText value="#{model.manufacturer}" style="#{empty model.errorMap['manufacturer']?'color:black':'color:red'}" title="#{model.errorMap['manufacturer']}"/>
                             </p:column>
-                            <p:column headerText="ISED">
+                            <p:column headerText="ISED" width="60">
                                 <h:outputText value="#{model.ised}" style="#{empty model.errorMap['ised']?'color:black':'color:red'}" title="#{model.errorMap['ised']}"/>
                             </p:column>
-                            <p:column headerText="NDC24">
+                            <p:column headerText="NDC24" width="100">
                                 <h:outputText value="#{model.ndc24}" style="#{empty model.errorMap['ndc24']?'color:black':'color:red'}" title="#{model.errorMap['ndc24']}"/>
                             </p:column>
-                            <p:column headerText="PACKSIZE">
+                            <p:column headerText="PACKSIZE" width="100">
                                 <h:outputText value="#{model.packSize}" style="#{empty model.errorMap['packSize']?'color:black':'color:red'}" title="#{model.errorMap['packSize']}"/>
                             </p:column>
-                            <p:column headerText="PACKPRICE">
+                            <p:column headerText="PACKPRICE" width="100">
                                 <h:outputText value="#{model.packPrice}" style="#{empty model.errorMap['packPrice']?'color:black':'color:red'}" title="#{model.errorMap['packPrice']}"/>
                             </p:column>
-                            <p:column headerText="UPDATEFLAG">
+                            <p:column headerText="UPDATEFLAG" width="100">
                                 <h:outputText value="#{model.updateFlag}" style="#{empty model.errorMap['updateFlag']?'color:black':'color:red'}" title="#{model.errorMap['updateFlag']}"/>
                             </p:column>
-                            <p:column headerText="DATECHANGE">
+                            <p:column headerText="DATECHANGE" width="120">
                                 <h:outputText value="#{model.dateChange}" style="#{empty model.errorMap['dateChange']?'color:black':'color:red'}" title="#{model.errorMap['dateChange']}"/>
                             </p:column>
-                            <p:column headerText="DATEUPDATE">
+                            <p:column headerText="DATEUPDATE" width="120">
                                 <h:outputText value="#{model.dateUpdate}" style="#{empty model.errorMap['dateUpdate']?'color:black':'color:red'}" title="#{model.errorMap['dateUpdate']}"/>
                             </p:column>
-                            <p:column headerText="DATEEFFECTIVE">
+                            <p:column headerText="DATEEFFECTIVE" width="120">
                                 <h:outputText value="#{model.dateEffective}" style="#{empty model.errorMap['dateEffective']?'color:black':'color:red'}" title="#{model.errorMap['dateEffective']}"/>
                             </p:column>
                             <p:column headerText="ERROR" width="200">

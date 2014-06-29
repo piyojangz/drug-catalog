@@ -13,12 +13,12 @@
 
         <h:link outcome="/private/hospital/upload/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
             <div class="temMenu2">
-                นำเข้าข้อมูล Map รหัสยา
+                นำเข้าข้อมูล Drug Catalog
             </div>
         </h:link>
         <h:link outcome="/private/hospital/listfile/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
             <div class="temMenu2">
-                ประวัตินำเข้าข้อมูล Map รหัสยา
+                ประวัตินำเข้าข้อมูล Drug Catalog
             </div>
         </h:link>
 
@@ -41,12 +41,6 @@
                 รายการยาที่ยังไม่มีรหัส TMT
             </div>
         </h:link>
-        <h:link outcome="/private/hospital/create/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
-            <div class="temMenu2">
-                Map รหัสยา TMT
-            </div>
-        </h:link>
-
         <h:link outcome="/private/admin/drug/index"  rendered="#{request.isUserInRole('ADMIN')}">
             <div class="temMenu2">
                 นำเข้าฐาน TMT

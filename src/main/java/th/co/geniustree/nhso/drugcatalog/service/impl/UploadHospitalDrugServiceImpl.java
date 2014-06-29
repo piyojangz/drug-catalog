@@ -45,7 +45,7 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
                 HospitalTMTDrug drug = new HospitalTMTDrug();
                 BeanUtils.copyProperties(uploadItem, drug);
                 drug.setHcode(uploadItem.getHospDrugCode());
-                hospitalTMTDrugRepo.save(drug);
+                drug = hospitalTMTDrugRepo.save(drug);
                 //create Request
                 if (drug.getTmtId() != null) {
                     RequestItem requestItem = new RequestItem();
