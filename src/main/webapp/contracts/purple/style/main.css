@@ -2,20 +2,8 @@ body{
     margin: 0;
     background: #ECECEE;
 }
-a:link {
+a{
     text-decoration: none;
-}
-
-a:visited {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-a:active {
-    text-decoration: underline;
 }
 #temHead{
     display: block;
@@ -77,35 +65,86 @@ a:active {
 .temIcon2:hover{
     background: url('#{request.contextPath}/contracts/purple/images/template/icontoglehover.png');
 }
-.temMenu1{
+.temMenu{
+    text-decoration: none;
     display: block;
     color: #737373;
     font-weight: normal;
     font-size: 14px;
     font-family: tahoma;
     vertical-align: bottom;
-    padding: 15px 20px 15px 45px;
-    background: #fff url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 15px 11px;
+    padding: 15px 15px 15px 15px;
+    line-height: 24px;
+    background: #fff;
 }
-.temMenu1:hover{
-    background: #f7f7f7 url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 15px 11px;
+.temMenu:hover{
+    color: #000;
+    background: #f7f7f7;
 }
-.temMenu2{
-    display: block;
-    color: #737373;
-    font-weight: normal;
-    font-size: 14px;
-    font-family: tahoma;
-    vertical-align: bottom;
-    padding: 15px 20px 15px 45px;
-    background: #fff url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 15px -35px; 
+.temIconSize24{
+    width: 24px;
+    height: 24px;
+    float: left;
 }
-.temMenu2:hover{
-    background: #f7f7f7 url('#{request.contextPath}/contracts/purple/images/template/iconspy.png') no-repeat;
-    background-position: 15px -35px;
+.temMarginRight5{
+ margin-right: 5px;   
+}
+.temMarginRight10{
+ margin-right: 10px;   
+}
+.temMarginRight15{
+ margin-right: 15px;   
+}
+.temMarginRight20{
+ margin-right: 20px;   
+}
+.temMarginLeft5{
+ margin-right: 5px;   
+}
+.temMarginLeft10{
+ margin-right: 10px;   
+}
+.temMarginLeft15{
+ margin-right: 15px;   
+}
+.temMarginLeft20{
+ margin-right: 20px;   
+}
+.temIconBackgroundHome{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px 0px;
+}
+.temIconBackgroundImportData{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -144px;
+}
+.temIconBackgroundHistoryImportData{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -96px;
+}
+.temIconBackgroundPassApproveCode{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -240px;
+}
+.temIconBackgroundNotApproveCode{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -288px;
+}
+.temIconBackgroundNotCode{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -336px;
+}
+.temIconBackgroundInbox{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -384px;
+}
+.temIconBackgroundLogout{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -192px;
+}
+.temIconBackgroundImportTMT{
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -480px;
 }
 .temStatus{
     float:right;

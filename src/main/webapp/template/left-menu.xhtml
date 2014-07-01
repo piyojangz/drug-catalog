@@ -7,53 +7,54 @@
       xmlns:f="http://java.sun.com/jsf/core"
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition>
-        <div class="temMenu1">
-            <h:link outcome="/private/index" value="กลับสู่หน้าหลัก"/>
-        </div>
-
+        <h:link outcome="/private/index">
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundHome temMarginRight5"></div> กลับสู่หน้าหลัก
+            </div>
+        </h:link>
         <h:link outcome="/private/hospital/upload/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
-            <div class="temMenu2">
-                นำเข้าข้อมูล Drug Catalog
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundImportData temMarginRight5"></div>นำเข้าข้อมูล Drug Catalog
             </div>
         </h:link>
         <h:link outcome="/private/hospital/listfile/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
-            <div class="temMenu2">
-                ประวัตินำเข้าข้อมูล Drug Catalog
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundHistoryImportData temMarginRight5"></div>ประวัตินำเข้าข้อมูล Drug Catalog
             </div>
         </h:link>
-
-
         <h:link outcome="/private/hospital/listdrug/approved"  rendered="#{request.isUserInRole('HOSPITAL')}">
             <f:param name="accept" value="true"/>
-            <div class="temMenu2">
-                รายการยาที่อนุมัติรหัส TMT แล้ว
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5"></div>รายการยาที่อนุมัติรหัส TMT แล้ว
             </div>
         </h:link>
         <h:link outcome="/private/hospital/listdrug/wait"  rendered="#{request.isUserInRole('HOSPITAL')}">
             <f:param name="wait" value="true"/>
-            <div class="temMenu2">
-                รายการยาที่ยังไม่ได้อนุมัติรหัส TMT
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundNotApproveCode temMarginRight5"></div>รายการยาที่ยังไม่ได้อนุมัติรหัส TMT
             </div>
         </h:link>
         <h:link outcome="/private/hospital/listdrug/noTmt"  rendered="#{request.isUserInRole('HOSPITAL')}">
             <f:param name="no-tmt" value="true"/>
-            <div class="temMenu2">
-                รายการยาที่ยังไม่มีรหัส TMT
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundNotCode temMarginRight5"></div>รายการยาที่ยังไม่มีรหัส TMT
             </div>
         </h:link>
         <h:link outcome="/private/admin/drug/index"  rendered="#{request.isUserInRole('ADMIN')}">
-            <div class="temMenu2">
-                นำเข้าฐาน TMT
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundImportTMT temMarginRight5"></div>นำเข้าฐาน TMT
             </div>
         </h:link>
         <h:link outcome="/private/admin/drug/inbox"  rendered="#{request.isUserInRole('ADMIN')}">
-            <div class="temMenu2">
-                Inbox
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundInbox temMarginRight5"></div>Inbox
             </div>
-        </h:link>
-
-        <div class="temMenu2">
-            <a href="#{request.contextPath}/logout">Logout</a>
-        </div>
+        </h:link>        
+        <h:outputLink value="#{request.contextPath}/logout">
+            <div class="temMenu">
+                <div class="temIconSize24 temIconBackgroundLogout temMarginRight5"></div>Logout
+            </div>
+        </h:outputLink>
+        
     </ui:composition>
 </html>
