@@ -3,17 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model.tmt;
+package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
+import th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalDrugPK;
 
 /**
  *
@@ -21,8 +24,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name="TMT_HOSP_TMTDRUG")
-@IdClass(HospitalTMTDrugPK.class)
-public class HospitalTMTDrug implements Serializable {
+@IdClass(HospitalDrugPK.class)
+public class HospitalDrug implements Serializable {
 
     @Id
     private String hospDrugCode;
@@ -83,6 +86,18 @@ public class HospitalTMTDrug implements Serializable {
     @NotEmpty
     private String dateEffective;
     private Boolean approved = Boolean.FALSE;
+    @OneToMany
+    @JoinColumns({
+        @JoinColumn(name = "HCODE",referencedColumnName = "HCODE",nullable = false),
+        @JoinColumn(name = "HOSPDRUGCODE",referencedColumnName = "HOSPDRUGCODE",nullable = false)
+    })
+    private List<Price> prices;
+    @OneToMany
+    @JoinColumns({
+        @JoinColumn(name = "HCODE",referencedColumnName = "HCODE",nullable = false),
+        @JoinColumn(name = "HOSPDRUGCODE",referencedColumnName = "HOSPDRUGCODE",nullable = false)
+    })
+    private List<HospitalEdNed> edNeds;
 
 
     public String getHospDrugCode() {
@@ -270,6 +285,23 @@ public class HospitalTMTDrug implements Serializable {
     public void setApproved(Boolean approved) {
         this.approved = approved;
     }
+
+    public List<Price> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Price> prices) {
+        this.prices = prices;
+    }
+
+    public List<HospitalEdNed> getEdNeds() {
+        return edNeds;
+    }
+
+    public void setEdNeds(List<HospitalEdNed> edNeds) {
+        this.edNeds = edNeds;
+    }
+    
     
 
     @Override
@@ -288,7 +320,7 @@ public class HospitalTMTDrug implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final HospitalTMTDrug other = (HospitalTMTDrug) obj;
+        final HospitalDrug other = (HospitalDrug) obj;
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
             return false;
         }

@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
+import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
@@ -56,7 +57,7 @@ public class UploadMappedDrug implements Serializable {
     private UploadHospitalDrugService uploadHospitalDrugService;
     private String saveFileName;
     private String originalFileName;
-    private String loginHcode;
+    private WSUserDetails user;
 
     @PostConstruct
     public void postConstruct() {
@@ -65,6 +66,7 @@ public class UploadMappedDrug implements Serializable {
         if (!uploadtempFileDir.exists()) {
             uploadtempFileDir.mkdirs();
         }
+        user = SecurityUtil.getUserDetails();
     }
 
     public List<HospitalDrugExcelModel> getModels() {
@@ -102,7 +104,7 @@ public class UploadMappedDrug implements Serializable {
     public String save() {
         List<UploadHospitalDrugItem> items = new ArrayList<>();
         UploadHospitalDrug uploadDrug = new UploadHospitalDrug();
-        uploadDrug.setHcode(loginHcode);
+        uploadDrug.setHcode(user.getOrgId());
         for (HospitalDrugExcelModel passModel : models) {
             UploadHospitalDrugItem item = new UploadHospitalDrugItem();
             BeanUtils.copyProperties(passModel, item);
@@ -142,8 +144,7 @@ public class UploadMappedDrug implements Serializable {
             return null;
         }
         String hcode = file.getFileName().substring(0, 5);
-        loginHcode = SecurityUtil.getUserDetails().getHospital().getHcode();
-        if(!hcode.equalsIgnoreCase(loginHcode)){
+        if(!hcode.equalsIgnoreCase(user.getOrgId())){
             FacesMessageUtils.error("Upload HCODE must match with login HCODE");
             return null;
         }

@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model.request;
+package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,8 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalTMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 
 /**
  *
@@ -51,7 +49,7 @@ public class RequestItem implements Serializable {
     @OneToOne
     private UploadHospitalDrugItem requestItem;
     @OneToOne
-    private HospitalTMTDrug targetItem;
+    private HospitalDrug targetItem;
 
     @PrePersist
     public void prePersist() {
@@ -130,11 +128,11 @@ public class RequestItem implements Serializable {
         this.requestItem = requestItem;
     }
 
-    public HospitalTMTDrug getTargetItem() {
+    public HospitalDrug getTargetItem() {
         return targetItem;
     }
 
-    public void setTargetItem(HospitalTMTDrug targetItem) {
+    public void setTargetItem(HospitalDrug targetItem) {
         this.targetItem = targetItem;
     }
 

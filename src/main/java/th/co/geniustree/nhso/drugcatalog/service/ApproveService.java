@@ -6,7 +6,7 @@
 
 package th.co.geniustree.nhso.drugcatalog.service;
 
-import th.co.geniustree.nhso.drugcatalog.model.request.RequestItem;
+import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 
 /**
  *

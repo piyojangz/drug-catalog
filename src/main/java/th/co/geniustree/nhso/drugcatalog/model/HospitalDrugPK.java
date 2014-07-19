@@ -12,15 +12,15 @@ import java.util.Objects;
  *
  * @author moth
  */
-public class HospitalTMTDrugPK implements Serializable {
+public class HospitalDrugPK implements Serializable {
 
     private String hospDrugCode;
     private String hcode;
 
-    public HospitalTMTDrugPK() {
+    public HospitalDrugPK() {
     }
 
-    public HospitalTMTDrugPK(String hospDrugCode, String hcode) {
+    public HospitalDrugPK(String hospDrugCode, String hcode) {
         this.hospDrugCode = hospDrugCode;
         this.hcode = hcode;
     }
@@ -57,7 +57,7 @@ public class HospitalTMTDrugPK implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final HospitalTMTDrugPK other = (HospitalTMTDrugPK) obj;
+        final HospitalDrugPK other = (HospitalDrugPK) obj;
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
             return false;
         }

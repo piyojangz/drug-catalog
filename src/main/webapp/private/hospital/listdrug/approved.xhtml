@@ -12,7 +12,9 @@
                 <f:viewAction action="#{hospitalDrugListController.loadApproveModel()}" />
             </f:metadata>
             <h:form>
-                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.models}" var="model"  paginator="true" rows="10">
+                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.models}" var="model"  
+                             paginator="true" rows="10" lazy="true" rowsPerPageTemplate="10,20,30,40,50"
+                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         รายการยาที่อนุมัติรหัส TMT แล้ว
                         <h:commandLink style="float:left">

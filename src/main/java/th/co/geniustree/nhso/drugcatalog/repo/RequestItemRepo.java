@@ -8,7 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.repo;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import th.co.geniustree.nhso.drugcatalog.model.request.RequestItem;
+import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 
 /**
  *

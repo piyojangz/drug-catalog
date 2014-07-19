@@ -4,14 +4,16 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <!--    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
     <jta-data-source>jdbc/drugcatalog</jta-data-source>
-    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.Hospital</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.Province</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.Zone</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalTMTDrug</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.tmt.TMTDrug</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.request.RequestItem</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.HospitalEdNed</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.Price</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.RequestItem</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>
@@ -22,7 +24,7 @@
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
       <property name="eclipselink.logging.level" value="FINEST"/>
       <property name="eclipselink.logging.parameters" value="true"/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
       <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
     </properties>

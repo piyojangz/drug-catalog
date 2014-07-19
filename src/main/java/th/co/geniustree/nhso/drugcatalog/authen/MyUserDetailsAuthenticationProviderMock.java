@@ -77,6 +77,7 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
         }
         wsUserDetails.setPid(username);
         wsUserDetails.setStaffName(username + " " + username);
+        wsUserDetails.setOrgId(username);
         return wsUserDetails;
     }
 }

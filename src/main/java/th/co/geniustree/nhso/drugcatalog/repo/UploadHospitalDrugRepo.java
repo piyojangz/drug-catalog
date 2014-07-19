@@ -6,6 +6,8 @@
 
 package th.co.geniustree.nhso.drugcatalog.repo;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,5 +19,7 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
  */
 @Transactional(propagation = Propagation.REQUIRED)
 public interface UploadHospitalDrugRepo extends JpaRepository<UploadHospitalDrug, Integer>{
+
+    public Page<UploadHospitalDrug> findByHcode(String hcode, Pageable pageReQuest);
     
 }

@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.model.tmt.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
@@ -55,7 +55,6 @@ public class UploadMasterDrug implements Serializable {
         }
     }
 
-
     public String getOriginalFileName() {
         return originalFileName;
     }
@@ -79,7 +78,6 @@ public class UploadMasterDrug implements Serializable {
     public void setModels(List<TMTDrug> models) {
         this.models = models;
     }
-    
 
     public String save() {
         tmtDrugRepo.save(models);

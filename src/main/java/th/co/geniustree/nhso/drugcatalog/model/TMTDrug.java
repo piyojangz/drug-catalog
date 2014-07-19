@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model.tmt;
+package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.annotation.PostConstruct;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
