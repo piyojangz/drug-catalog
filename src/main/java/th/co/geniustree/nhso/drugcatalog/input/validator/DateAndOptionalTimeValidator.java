@@ -6,9 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.input.validator;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.text.SimpleDateFormat;import java.util.Locale;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -31,13 +29,15 @@ public class DateAndOptionalTimeValidator implements ConstraintValidator<DateAnd
             return true;
         }
         try {
-            SimpleDateFormat thDateFormat = new SimpleDateFormat(constraintAnnotation.pattern1(), Locale.US);
-            thDateFormat.parse(value);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(constraintAnnotation.pattern1(), Locale.US);
+            dateFormat.setLenient(false);
+            dateFormat.parse(value);
             return true;
         } catch (ParseException ex) {
-            SimpleDateFormat thDateFormat = new SimpleDateFormat(constraintAnnotation.pattern1(), Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(constraintAnnotation.pattern2(), Locale.US);
             try {
-                thDateFormat.parse(value);
+                dateFormat.parse(value);
+                dateFormat.setLenient(false);
                 return true;
             } catch (ParseException parseException) {
                 return false;

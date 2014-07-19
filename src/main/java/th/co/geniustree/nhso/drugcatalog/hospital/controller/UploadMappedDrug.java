@@ -29,7 +29,6 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
@@ -139,12 +138,12 @@ public class UploadMappedDrug implements Serializable {
             return null;
         }
         String nameWithoutExtension = Files.getNameWithoutExtension(file.getFileName());
-        if(nameWithoutExtension.length() <5){
+        if (nameWithoutExtension.length() < 5) {
             FacesMessageUtils.info("File name must have HCODE 5 Digit.");
             return null;
         }
         String hcode = file.getFileName().substring(0, 5);
-        if(!hcode.equalsIgnoreCase(user.getOrgId())){
+        if (!hcode.equalsIgnoreCase(user.getOrgId())) {
             FacesMessageUtils.error("Upload HCODE must match with login HCODE");
             return null;
         }
@@ -173,7 +172,11 @@ public class UploadMappedDrug implements Serializable {
                     bean.setRowNum(rowNum);
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if (violations.isEmpty()) {
-                        models.add(bean);
+                        if (!duplicate(bean)) {
+                            models.add(bean);
+                        } else {
+                            bean.addError("duplicated", "duplicated entry.");
+                        }
                     } else {
                         for (ConstraintViolation<HospitalDrugExcelModel> violation : violations) {
                             bean.addError(violation.getPropertyPath().toString(), violation.getMessage());
@@ -196,5 +199,14 @@ public class UploadMappedDrug implements Serializable {
                 "File : {}", file);
 
         return null;
+    }
+
+    public boolean duplicate(HospitalDrugExcelModel bean) {
+        for (HospitalDrugExcelModel model : models) {
+            if (bean.isEqual(model)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -16,7 +16,7 @@ import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.repo.HospitalTMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 
 /**
  *
@@ -27,7 +27,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.HospitalTMTDrugRepo;
 public class HospitalDrugListController implements Serializable {
 
     @Autowired
-    private HospitalTMTDrugRepo hospitalTMTDrugRepo;
+    private HospitalDrugRepo hospitalTMTDrugRepo;
     private SpringDataLazyDataModelSupport<HospitalDrug> models;
     private SpringDataLazyDataModelSupport<HospitalDrug> noTmtModels;
     private SpringDataLazyDataModelSupport<HospitalDrug> waitModels;

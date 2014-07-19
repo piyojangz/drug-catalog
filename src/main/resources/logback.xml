@@ -25,7 +25,7 @@
     <logger name="org.springframework" level="DEBUG">
         <appender-ref ref="STDOUT" />
     </logger>
-    <logger name="org.springframework.security" level="DEBUG">
+    <logger name="org.springframework.security" level="WARN">
         <appender-ref ref="STDOUT" />
     </logger>
     <logger name="th.co.geniustree" level="DEBUG">

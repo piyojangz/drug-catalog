@@ -8,12 +8,9 @@ package th.co.geniustree.nhso.drugcatalog.input;
 import com.google.common.base.Joiner;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.avro.generic.GenericData;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.xls.beans.XlsColumn;
@@ -280,6 +277,17 @@ public class HospitalDrugExcelModel implements Serializable {
             errorMap.put(propertyPath, new ArrayList<String>());
         }
         errorMap.get(propertyPath).add(message);
+    }
+
+    public boolean isEqual(HospitalDrugExcelModel other) {
+        boolean equal = this.hospDrugCode.equals(other.hospDrugCode) && this.updateFlag.equalsIgnoreCase(other.updateFlag);
+        if (this.updateFlag.equalsIgnoreCase("U")) {
+            //Check only date part
+            equal = equal && this.dateEffective.substring(0, 10).equals(other.dateEffective.substring(0, 10));
+        } else {
+            equal = equal && this.dateChange.substring(0, 10).equals(other.dateChange.substring(0, 10));
+        }
+        return equal;
     }
 
 }

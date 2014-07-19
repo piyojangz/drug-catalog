@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.repo.HospitalTMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 
@@ -25,7 +25,7 @@ public class ApproveServiceImpl implements ApproveService{
     @Autowired
     private RequestItemRepo requestItemRepo;
     @Autowired
-    private HospitalTMTDrugRepo hospitalTMTDrugRepo;
+    private HospitalDrugRepo hospitalTMTDrugRepo;
     @Override
     public void approve(RequestItem requestItem) {
         requestItem.setStatus(RequestItem.Status.ACCEPT);

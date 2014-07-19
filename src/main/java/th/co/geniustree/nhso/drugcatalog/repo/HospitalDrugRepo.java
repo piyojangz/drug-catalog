@@ -17,9 +17,9 @@ import th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalDrugPK;
  *
  * @author moth
  */
-public interface HospitalTMTDrugRepo extends JpaRepository<HospitalDrug, HospitalDrugPK> {
+public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDrugPK> {
 
-    @Query(countQuery = "select count(d.hospDrugCode) from HospitalTMTDrug  d where d.HospitalTMTDrug =?1 and d.hcode = ?2")
+    @Query(countQuery = "select count(d.hospDrugCode) from HospitalDrug  d where d.hospitalTMTDrug =?1 and d.hcode = ?2")
     public Integer countByHospDrugCodeAndHcode(String hospDrugCode, String hcode);
 
     public Page<HospitalDrug> findByHcodeAndApproved(String hcode, boolean b, Pageable page);
