@@ -9,7 +9,7 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <f:metadata>
-                <f:viewAction action="#{hospitalDrugListController.loadWaitModel()}"/>
+                <f:viewAction action="#{hospitalDrugListController.loadWaitModel()}" onPostback="true"/>
             </f:metadata>
             <h:form>
                 <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.waitModels}" var="model"  
@@ -19,7 +19,7 @@
                         รายการยาที่ยังไม่ได้อนุมัติรหัส TMT
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                            <p:dataExporter type="xls" target="table" fileName="wait_approve" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />

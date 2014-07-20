@@ -27,7 +27,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 public class HospitalDrugListController implements Serializable {
 
     @Autowired
-    private HospitalDrugRepo hospitalTMTDrugRepo;
+    private HospitalDrugRepo hospitalDrugRepo;
     private SpringDataLazyDataModelSupport<HospitalDrug> models;
     private SpringDataLazyDataModelSupport<HospitalDrug> noTmtModels;
     private SpringDataLazyDataModelSupport<HospitalDrug> waitModels;
@@ -67,7 +67,7 @@ public class HospitalDrugListController implements Serializable {
 
             @Override
             public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalTMTDrugRepo.findByHcodeAndApproved(user.getOrgId(), true, pageAble);
+                return hospitalDrugRepo.findByHcodeAndApproved(user.getOrgId(), true, pageAble);
             }
         };
         return null;
@@ -78,7 +78,7 @@ public class HospitalDrugListController implements Serializable {
 
             @Override
             public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalTMTDrugRepo.findByHcodeAndTmtIdIsNull(user.getOrgId(), pageAble);
+                return hospitalDrugRepo.findByHcodeAndTmtIdIsNull(user.getOrgId(), pageAble);
             }
         };
         return null;
@@ -89,7 +89,7 @@ public class HospitalDrugListController implements Serializable {
 
             @Override
             public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalTMTDrugRepo.findByHcodeAndApprovedAndTmtIdIsNotNull(user.getOrgId(), false, pageAble);
+                return hospitalDrugRepo.findByHcodeAndApprovedAndTmtIdIsNotNull(user.getOrgId(), false, pageAble);
             }
 
         };
