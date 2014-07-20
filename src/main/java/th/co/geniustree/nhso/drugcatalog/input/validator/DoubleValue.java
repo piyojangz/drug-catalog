@@ -19,11 +19,11 @@ import javax.validation.Payload;
  */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = DateAndOptionalTimeValidator.class)
+@Constraint(validatedBy = DoubleValidator.class)
 @Documented
-public @interface DateAndOptionalTime {
+public @interface DoubleValue {
 
-    String message() default "{th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime}";
+    String message() default "{th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue}";
 
     Class<?>[] groups() default {};
 

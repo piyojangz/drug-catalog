@@ -5,35 +5,30 @@
  */
 package th.co.geniustree.nhso.drugcatalog.input.validator;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;import java.util.Locale;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 
 /**
  *
  * @author moth
  */
-public class DateAndOptionalTimeValidator implements ConstraintValidator<DateAndOptionalTime, String> {
-
-    private DateAndOptionalTime constraintAnnotation;
+public class DoubleValidator implements ConstraintValidator<DoubleValue, String> {
 
     @Override
-    public void initialize(DateAndOptionalTime constraintAnnotation) {
-        this.constraintAnnotation = constraintAnnotation;
+    public void initialize(DoubleValue constraintAnnotation) {
+        
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) {
+        if (value == null || value.trim().isEmpty()) {
             return true;
         }
         try {
-            DateUtils.parseDateWithOptionalTimeAndNoneLeneint(value);
+            Double.parseDouble(value);
             return true;
         } catch (Exception ex) {
-                return false;
+            return false;
         }
     }
 

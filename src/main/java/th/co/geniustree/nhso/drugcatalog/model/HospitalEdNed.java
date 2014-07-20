@@ -29,6 +29,8 @@ public class HospitalEdNed implements Serializable {
         NORMAL, WITH_CONDITION
     }
     @Id
+    private String hcode;
+    @Id
     @Temporal(TemporalType.DATE)
     private Date dateIn;
     @Id
@@ -70,12 +72,21 @@ public class HospitalEdNed implements Serializable {
         this.dateOut = dateOut;
     }
 
+    public String getHcode() {
+        return hcode;
+    }
+
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 73 * hash + Objects.hashCode(this.dateIn);
-        hash = 73 * hash + Objects.hashCode(this.classifier);
-        hash = 73 * hash + Objects.hashCode(this.hospDrugCode);
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.hcode);
+        hash = 23 * hash + Objects.hashCode(this.dateIn);
+        hash = 23 * hash + Objects.hashCode(this.classifier);
+        hash = 23 * hash + Objects.hashCode(this.hospDrugCode);
         return hash;
     }
 
@@ -88,6 +99,9 @@ public class HospitalEdNed implements Serializable {
             return false;
         }
         final HospitalEdNed other = (HospitalEdNed) obj;
+        if (!Objects.equals(this.hcode, other.hcode)) {
+            return false;
+        }
         if (!Objects.equals(this.dateIn, other.dateIn)) {
             return false;
         }
@@ -99,5 +113,7 @@ public class HospitalEdNed implements Serializable {
         }
         return true;
     }
+
+   
 
 }

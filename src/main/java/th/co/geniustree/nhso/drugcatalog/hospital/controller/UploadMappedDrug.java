@@ -29,6 +29,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
@@ -54,6 +55,8 @@ public class UploadMappedDrug implements Serializable {
     private Validator beanValidator;
     @Autowired
     private UploadHospitalDrugService uploadHospitalDrugService;
+    @Autowired
+    private DuplicateCheckFacade duplicateCheckFacade;
     private String saveFileName;
     private String originalFileName;
     private WSUserDetails user;
@@ -170,12 +173,15 @@ public class UploadMappedDrug implements Serializable {
                 @Override
                 public void ok(int rowNum, HospitalDrugExcelModel bean) {
                     bean.setRowNum(rowNum);
+                    bean.setHcode(user.getOrgId());
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if (violations.isEmpty()) {
-                        if (!duplicate(bean)) {
+                        checkDuplicateInCurrentFile(bean);
+                        duplicateCheckFacade.checkDuplicateInDatabase(bean);
+                        if (bean.getErrorMap().isEmpty()) {
                             models.add(bean);
                         } else {
-                            bean.addError("duplicated", "duplicated entry.");
+                            notPassModels.add(bean);
                         }
                     } else {
                         for (ConstraintViolation<HospitalDrugExcelModel> violation : violations) {
@@ -195,18 +201,35 @@ public class UploadMappedDrug implements Serializable {
         } catch (Exception iOException) {
             throw new RuntimeException(iOException);
         }
-        LOG.debug(
-                "File : {}", file);
-
+        LOG.debug("File : {}", file);
         return null;
     }
 
-    public boolean duplicate(HospitalDrugExcelModel bean) {
+    private void checkDuplicateInCurrentFile(HospitalDrugExcelModel bean) {
         for (HospitalDrugExcelModel model : models) {
             if (bean.isEqual(model)) {
-                return true;
+                bean.addError("duplicated", "duplicated entry in current file.");
             }
         }
-        return false;
+    }
+
+    private void checkDuplicatePriceInDataBase(HospitalDrugExcelModel bean) {
+        for (HospitalDrugExcelModel model : models) {
+            if (bean.isEqual(model)) {
+                bean.addError("duplicated", "duplicated entry in current file.");
+            }
+        }
+        models.add(bean);
+        throw new IllegalStateException("Not sure is this can happen.");
+    }
+
+    private void checkDuplicateEdInDataBase(HospitalDrugExcelModel bean) {
+        for (HospitalDrugExcelModel model : models) {
+            if (bean.isEqual(model)) {
+                bean.addError("duplicated", "duplicated entry in current file.");
+            }
+        }
+        models.add(bean);
+        throw new IllegalStateException("Not sure is this can happen.");
     }
 }

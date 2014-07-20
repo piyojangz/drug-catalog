@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,15 +37,13 @@ public class Price implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateEffectInclusive;
 
-    @Temporal(TemporalType.DATE)
-    private Date dateEndInclusive;
-
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price;
     @Column(name = "CREATE_DATE", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date createDate;
 
+    @PrePersist
     public void prePersist() {
         createDate = new Date();
     }
@@ -71,14 +70,6 @@ public class Price implements Serializable {
 
     public void setDateEffectInclusive(Date dateEffectInclusive) {
         this.dateEffectInclusive = dateEffectInclusive;
-    }
-
-    public Date getDateEndInclusive() {
-        return dateEndInclusive;
-    }
-
-    public void setDateEndInclusive(Date dateEndInclusive) {
-        this.dateEndInclusive = dateEndInclusive;
     }
 
     public BigDecimal getPrice() {

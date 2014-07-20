@@ -6,8 +6,12 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -15,6 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalDrugPK;
 
@@ -23,7 +29,7 @@ import th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalDrugPK;
  * @author moth
  */
 @Entity
-@Table(name="TMT_HOSP_TMTDRUG")
+@Table(name = "TMT_HOSP_TMTDRUG")
 @IdClass(HospitalDrugPK.class)
 public class HospitalDrug implements Serializable {
 
@@ -57,7 +63,7 @@ public class HospitalDrug implements Serializable {
     private String content;
 
     @NotEmpty
-    private String unitPrice;
+    private BigDecimal unitPrice;
 
     @NotEmpty
     private String distributor;
@@ -72,33 +78,38 @@ public class HospitalDrug implements Serializable {
 
     private String packSize;
 
-    private String packPrice;
+    private BigDecimal packPrice;
 
     @NotEmpty
     private String updateFlag;
 
     @NotEmpty
-    private String dateChange;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateChange;
 
     @NotEmpty
-    private String dateUpdate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateUpdate;
 
     @NotEmpty
-    private String dateEffective;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateEffective;
+
     private Boolean approved = Boolean.FALSE;
-    @OneToMany
+
+    private Boolean deleted = Boolean.TRUE;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumns({
-        @JoinColumn(name = "HCODE",referencedColumnName = "HCODE",nullable = false),
-        @JoinColumn(name = "HOSPDRUGCODE",referencedColumnName = "HOSPDRUGCODE",nullable = false)
+        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
     })
     private List<Price> prices;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumns({
-        @JoinColumn(name = "HCODE",referencedColumnName = "HCODE",nullable = false),
-        @JoinColumn(name = "HOSPDRUGCODE",referencedColumnName = "HOSPDRUGCODE",nullable = false)
+        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
     })
     private List<HospitalEdNed> edNeds;
-
 
     public String getHospDrugCode() {
         return hospDrugCode;
@@ -111,12 +122,10 @@ public class HospitalDrug implements Serializable {
     public void setHcode(String hcode) {
         this.hcode = hcode;
     }
-    
 
     public void setHospDrugCode(String hospDrugCode) {
         this.hospDrugCode = hospDrugCode;
     }
-
 
     public String getProductCat() {
         return productCat;
@@ -190,11 +199,11 @@ public class HospitalDrug implements Serializable {
         this.content = content;
     }
 
-    public String getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(String unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -238,11 +247,11 @@ public class HospitalDrug implements Serializable {
         this.packSize = packSize;
     }
 
-    public String getPackPrice() {
+    public BigDecimal getPackPrice() {
         return packPrice;
     }
 
-    public void setPackPrice(String packPrice) {
+    public void setPackPrice(BigDecimal packPrice) {
         this.packPrice = packPrice;
     }
 
@@ -254,27 +263,27 @@ public class HospitalDrug implements Serializable {
         this.updateFlag = updateFlag;
     }
 
-    public String getDateChange() {
+    public Date getDateChange() {
         return dateChange;
     }
 
-    public void setDateChange(String dateChange) {
+    public void setDateChange(Date dateChange) {
         this.dateChange = dateChange;
     }
 
-    public String getDateUpdate() {
+    public Date getDateUpdate() {
         return dateUpdate;
     }
 
-    public void setDateUpdate(String dateUpdate) {
+    public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
 
-    public String getDateEffective() {
+    public Date getDateEffective() {
         return dateEffective;
     }
 
-    public void setDateEffective(String dateEffective) {
+    public void setDateEffective(Date dateEffective) {
         this.dateEffective = dateEffective;
     }
 
@@ -287,6 +296,9 @@ public class HospitalDrug implements Serializable {
     }
 
     public List<Price> getPrices() {
+        if (prices == null) {
+            prices = new ArrayList<>();
+        }
         return prices;
     }
 
@@ -295,14 +307,23 @@ public class HospitalDrug implements Serializable {
     }
 
     public List<HospitalEdNed> getEdNeds() {
+        if (edNeds == null) {
+            edNeds = new ArrayList<>();
+        }
         return edNeds;
     }
 
     public void setEdNeds(List<HospitalEdNed> edNeds) {
         this.edNeds = edNeds;
     }
-    
-    
+
+    public Boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     @Override
     public int hashCode() {
@@ -329,6 +350,5 @@ public class HospitalDrug implements Serializable {
         }
         return true;
     }
-
 
 }

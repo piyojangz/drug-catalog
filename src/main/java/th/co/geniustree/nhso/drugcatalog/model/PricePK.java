@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
@@ -15,10 +14,20 @@ import java.util.Objects;
  *
  * @author moth
  */
-public class PricePK implements Serializable{
+public class PricePK implements Serializable {
+
     private String hcode;
     private Date dateEffectInclusive;
     private String hospDrugCode;
+
+    public PricePK() {
+    }
+
+    public PricePK(String hcode, String hospDrugCode, Date dateEffectInclusive) {
+        this.hcode = hcode;
+        this.dateEffectInclusive = dateEffectInclusive;
+        this.hospDrugCode = hospDrugCode;
+    }
 
     public String getHcode() {
         return hcode;
@@ -73,5 +82,5 @@ public class PricePK implements Serializable{
         }
         return true;
     }
-    
+
 }

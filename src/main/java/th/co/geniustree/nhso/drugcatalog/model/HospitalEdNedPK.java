@@ -16,6 +16,7 @@ import java.util.Objects;
 public class HospitalEdNedPK implements Serializable {
 
     public static final String SUPPORT_CASSIFIER = "UC";
+    private String hcode;
     private Date dateIn;
     private String classifier = SUPPORT_CASSIFIER;//support only UC in current version.
     private String hospDrugCode;
@@ -23,7 +24,8 @@ public class HospitalEdNedPK implements Serializable {
     public HospitalEdNedPK() {
     }
 
-    public HospitalEdNedPK(Date dateIn, String hospDrugCode) {
+    public HospitalEdNedPK(String hcode, String hospDrugCode, Date dateIn) {
+        this.hcode = hcode;
         this.dateIn = dateIn;
         this.classifier = SUPPORT_CASSIFIER;
         this.hospDrugCode = hospDrugCode;
@@ -41,12 +43,21 @@ public class HospitalEdNedPK implements Serializable {
         return hospDrugCode;
     }
 
+    public String getHcode() {
+        return hcode;
+    }
+
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.dateIn);
-        hash = 71 * hash + Objects.hashCode(this.classifier);
-        hash = 71 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 67 * hash + Objects.hashCode(this.hcode);
+        hash = 67 * hash + Objects.hashCode(this.dateIn);
+        hash = 67 * hash + Objects.hashCode(this.classifier);
+        hash = 67 * hash + Objects.hashCode(this.hospDrugCode);
         return hash;
     }
 
@@ -59,6 +70,9 @@ public class HospitalEdNedPK implements Serializable {
             return false;
         }
         final HospitalEdNedPK other = (HospitalEdNedPK) obj;
+        if (!Objects.equals(this.hcode, other.hcode)) {
+            return false;
+        }
         if (!Objects.equals(this.dateIn, other.dateIn)) {
             return false;
         }

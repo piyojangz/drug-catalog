@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
+import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
+import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -50,6 +52,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String content;
     @XlsColumn
     @NotEmpty(message = "unitPrice may not be empty")
+    @DoubleValue(message = "unitPrice is not decimal number.")
     private String unitPrice;
     @XlsColumn
     @NotEmpty(message = "distributor may not be empty")
@@ -59,15 +62,18 @@ public class HospitalDrugExcelModel implements Serializable {
     private String manufacturer;
     @XlsColumn
     @NotEmpty(message = "ised may not be empty")
+    @ValueSet(values = {"E","N","E*"})
     private String ised;
     @XlsColumn
     private String ndc24;
     @XlsColumn
     private String packSize;
     @XlsColumn
+    @DoubleValue(message = "unitPrice is not decimal number.")
     private String packPrice;
     @XlsColumn
     @NotEmpty(message = "updateFlag may not be empty")
+    @ValueSet(values = {"A","D","E","U"})
     private String updateFlag;
     @XlsColumn
     @NotEmpty(message = "dateChange may not be empty")
@@ -82,6 +88,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @DateAndOptionalTime(message = "dateEffective ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateEffective;
     private int rowNum;
+    private String hcode;
     private Map<String, List<String>> errorMap = new HashMap<>();
 
     public String getHospDrugCode() {
@@ -278,6 +285,15 @@ public class HospitalDrugExcelModel implements Serializable {
         }
         errorMap.get(propertyPath).add(message);
     }
+
+    public String getHcode() {
+        return hcode;
+    }
+
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
+    }
+    
 
     public boolean isEqual(HospitalDrugExcelModel other) {
         boolean equal = this.hospDrugCode.equals(other.hospDrugCode) && this.updateFlag.equalsIgnoreCase(other.updateFlag);

@@ -19,13 +19,15 @@ import javax.validation.Payload;
  */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = DateAndOptionalTimeValidator.class)
+@Constraint(validatedBy = ValueSetValidator.class)
 @Documented
-public @interface DateAndOptionalTime {
+public @interface ValueSet {
 
-    String message() default "{th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime}";
+    String message() default "{th.co.geniustree.nhso.drugcatalog.input.validator.valueset}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    String[] values();
 }
