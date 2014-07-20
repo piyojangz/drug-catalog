@@ -6,8 +6,12 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.Date;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalEdNedPK;
@@ -19,8 +23,10 @@ import th.co.geniustree.nhso.drugcatalog.service.EdNEdService;
  * @author moth
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class EdNEdServiceImpl implements EdNEdService {
 
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(EdNEdServiceImpl.class);
     @Autowired
     private HospitalEdNedRepo hospitalEdNedRepo;
 
@@ -34,19 +40,20 @@ public class EdNEdServiceImpl implements EdNEdService {
     }
 
     @Override
-    public void addNewEdNed(HospitalDrug alreadyDrug, String ised) {
-        boolean exist = isDuplicateEdNed(alreadyDrug.getHcode(), alreadyDrug.getHospDrugCode(), alreadyDrug.getDateChange());
+    public void addNewEdNed(HospitalDrug drug, String ised) {
+        boolean exist = isDuplicateEdNed(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange());
         if (exist) {
-            throw new IllegalStateException("Ed/Ned at "+alreadyDrug.getDateChange()+" is already exist.");
+            throw new IllegalStateException("Ed/Ned at " + drug.getDateChange() + " is already exist.");
         }
         //TODO MUST check range of ED/NED
-        HospitalEdNed edNed = new HospitalEdNed();
-        edNed.setHcode(alreadyDrug.getHcode());
-        edNed.setHospDrugCode(alreadyDrug.getHospDrugCode());
-        edNed.setDateIn(alreadyDrug.getDateChange());
-        alreadyDrug.getEdNeds().add(hospitalEdNedRepo.save(edNed));
+        createFirstEdNed(drug);
     }
 
+    /**
+     * by pass check duplicated
+     *
+     * @param drug
+     */
     @Override
     public void createFirstEdNed(HospitalDrug drug) {
         HospitalEdNed edNed = new HospitalEdNed();

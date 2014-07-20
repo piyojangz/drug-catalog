@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,14 +16,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.validator.constraints.NotEmpty;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 
 /**
  *
  * @author moth
  */
 @Entity
-@Table(name="TMT_UPLOADHOSP_DRUGITEM")
+@Table(name = "TMT_UPLOADHOSP_DRUGITEM")
 public class UploadHospitalDrugItem implements Serializable {
 
     @Id
@@ -87,6 +91,12 @@ public class UploadHospitalDrugItem implements Serializable {
 
     @NotEmpty
     private String dateEffective;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateChangeDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateUpdateDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateEffectiveDate;
 
     public Integer getId() {
         return id;
@@ -254,6 +264,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateChange(String dateChange) {
         this.dateChange = dateChange;
+        this.dateChangeDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateChange);
     }
 
     public String getDateUpdate() {
@@ -262,6 +273,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
+        this.dateUpdateDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateUpdate);
     }
 
     public String getDateEffective() {
@@ -270,6 +282,19 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateEffective(String dateEffective) {
         this.dateEffective = dateEffective;
+        this.dateEffectiveDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateEffective);
+    }
+
+    public Date getDateChangeDate() {
+        return dateChangeDate;
+    }
+
+    public Date getDateUpdateDate() {
+        return dateUpdateDate;
+    }
+
+    public Date getDateEffectiveDate() {
+        return dateEffectiveDate;
     }
 
     @Override

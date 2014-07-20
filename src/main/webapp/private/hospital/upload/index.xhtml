@@ -8,7 +8,7 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            File : #{uploadMappedDrug.originalFileName}
+            <span>File : #{uploadMappedDrug.originalFileName}</span>
             <h:form enctype="multipart/form-data">
                 <p:fileUpload required="true"  value="#{uploadMappedDrug.file}" mode="simple"  update="messages" sizeLimit="10000000" fileLimit="1" allowTypes="/(\.|\/)(xls|xlsx)$/" />
                 <p:growl id="messages" showDetail="true" />
@@ -17,9 +17,12 @@
                 <br/>
                 <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadMappedDrug.models.size()+uploadMappedDrug.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadMappedDrug.file.fileName}"/><br/>
                 <br/>
-                <p:panel  header="จำนวนข้อมูลที่ผิดโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.notPassModels.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.notPassModels}">
+                <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" rendered="#{uploadMappedDrug.duplicateFile}" style="color:red;font-weight: bold"/><br/>
+                <br/>
+                <p:panel  header="จำนวนข้อมูลที่ไม่ผ่านการตรวจสอบตามโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.notPassModels.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.notPassModels}">
                     <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10">
+                        <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png" />
@@ -59,19 +62,19 @@
                             <p:column headerText="STRENGTH" width="100">
                                 <h:outputText value="#{model.strength}" style="#{empty model.errorMap['strength']?'color:black':'color:red'}" title="#{model.errorMap['strength']}"/>
                             </p:column>
-                            <p:column headerText="CONTENT" width="120">
+                            <p:column headerText="CONTENT" width="80">
                                 <h:outputText value="#{model.content}" style="#{empty model.errorMap['content']?'color:black':'color:red'}" title="#{model.errorMap['content']}"/>
                             </p:column>
                             <p:column headerText="UNITPRICE" width="60">
                                 <h:outputText value="#{model.unitPrice}" style="#{empty model.errorMap['unitPrice']?'color:black':'color:red'}" title="#{model.errorMap['unitPrice']}"/>
                             </p:column>
-                            <p:column headerText="DISTRIBUTOR" width="160">
+                            <p:column headerText="DISTRIBUTOR" width="260">
                                 <h:outputText value="#{model.distributor}" style="#{empty model.errorMap['distributor']?'color:black':'color:red'}" title="#{model.errorMap['distributor']}"/>
                             </p:column>
-                            <p:column headerText="MANUFACTURER" width="160">
+                            <p:column headerText="MANUFACTURER" width="260">
                                 <h:outputText value="#{model.manufacturer}" style="#{empty model.errorMap['manufacturer']?'color:black':'color:red'}" title="#{model.errorMap['manufacturer']}"/>
                             </p:column>
-                            <p:column headerText="ISED" width="60">
+                            <p:column headerText="ISED" width="40">
                                 <h:outputText value="#{model.ised}" style="#{empty model.errorMap['ised']?'color:black':'color:red'}" title="#{model.errorMap['ised']}"/>
                             </p:column>
                             <p:column headerText="NDC24" width="100">
@@ -95,7 +98,7 @@
                             <p:column headerText="DATEEFFECTIVE" width="120">
                                 <h:outputText value="#{model.dateEffective}" style="#{empty model.errorMap['dateEffective']?'color:black':'color:red'}" title="#{model.errorMap['dateEffective']}"/>
                             </p:column>
-                            <p:column headerText="ERROR" width="200">
+                            <p:column headerText="ERROR" width="400">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
                         </p:dataTable>
@@ -103,84 +106,85 @@
                 </p:panel>
                 <p:panel  header="จำนวนข้อมูลที่ผ่านโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.models.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.models}">
                     <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10">
+                        <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
-                                    <p:graphicImage name="images/excel24.png" />
+                                    <p:graphicImage name="images/excel24.png"/>
                                     <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                                 <p:commandButton id="toggler" type="button" value="Columns"
                                                  style="float:right" icon="ui-icon-calculator" />
                                 <p:columnToggler datasource="passTable" trigger="toggler" />
                             </f:facet>
-                            <p:column   headerText="HOSPDRUGCODE" width="100">
+                            <p:column   headerText="HOSPDRUGCODE" width="110">
                                 #{model.hospDrugCode}
                             </p:column>
-                            <p:column headerText="PRODUCTCAT">
+                            <p:column headerText="PRODUCTCAT" width="80">
                                 #{model.productCat}
                             </p:column>
-                            <p:column headerText="TMTID">
+                            <p:column headerText="TMTID" width="60">
                                 #{model.tmtId}
                             </p:column>
-                            <p:column headerText="SPECPREP">
+                            <p:column headerText="SPECPREP" width="60">
                                 #{model.specPrep}
                             </p:column>
-                            <p:column headerText="GENERICNAME">
+                            <p:column headerText="GENERICNAME" width="200">
                                 #{model.genericName}
                             </p:column>
-                            <p:column headerText="TRADENAME">
+                            <p:column headerText="TRADENAME" width="200">
                                 #{model.tradeName}
                             </p:column>
-                            <p:column headerText="DSFCODE">
+                            <p:column headerText="DSFCODE" width="60">
                                 #{model.dsfCode}
                             </p:column>
-                            <p:column headerText="DOSAGEFORM">
+                            <p:column headerText="DOSAGEFORM" width="100">
                                 #{model.dosageForm}
                             </p:column>
-                            <p:column headerText="STRENGTH">
+                            <p:column headerText="STRENGTH" width="100">
                                 #{model.strength}
                             </p:column>
-                            <p:column headerText="CONTENT">
+                            <p:column headerText="CONTENT" width="80">
                                 #{model.content}
                             </p:column>
-                            <p:column headerText="UNITPRICE">
+                            <p:column headerText="UNITPRICE" width="60">
                                 #{model.unitPrice}
                             </p:column>
-                            <p:column headerText="DISTRIBUTOR">
+                            <p:column headerText="DISTRIBUTOR" width="260">
                                 #{model.distributor}
                             </p:column>
-                            <p:column headerText="MANUFACTURER">
+                            <p:column headerText="MANUFACTURER" width="260">
                                 #{model.manufacturer}
                             </p:column>
-                            <p:column headerText="ISED">
+                            <p:column headerText="ISED" width="40">
                                 #{model.ised}
                             </p:column>
-                            <p:column headerText="NDC24">
+                            <p:column headerText="NDC24" width="100">
                                 #{model.ndc24}
                             </p:column>
-                            <p:column headerText="PACKSIZE">
+                            <p:column headerText="PACKSIZE" width="100">
                                 #{model.packSize}
                             </p:column>
-                            <p:column headerText="PACKPRICE">
+                            <p:column headerText="PACKPRICE" width="100">
                                 #{model.packPrice}
                             </p:column>
-                            <p:column headerText="UPDATEFLAG">
+                            <p:column headerText="UPDATEFLAG" width="100">
                                 #{model.updateFlag}
                             </p:column>
-                            <p:column headerText="DATECHANGE">
-                                #{model.updateFlag}
+                            <p:column headerText="DATECHANGE"  width="120">
+                                #{model.dateChange}
                             </p:column>
-                            <p:column headerText="DATEUPDATE">
+                            <p:column headerText="DATEUPDATE" width="120">
                                 #{model.dateUpdate}
                             </p:column>
-                            <p:column headerText="DATEEFFECTIVE">
+                            <p:column headerText="DATEEFFECTIVE" width="120">
                                 #{model.dateEffective}
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
-                <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrug.save()}" disabled="#{empty uploadMappedDrug.models}"/>
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrug.reset()}" disabled="#{empty uploadMappedDrug.models}"/>
+                <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrug.save()}" disabled="#{empty uploadMappedDrug.models or uploadMappedDrug.duplicateFile}"/>
+                <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrug.reset()}" disabled="#{empty uploadMappedDrug.file}"/>
             </h:form>
         </ui:define>
     </ui:composition>

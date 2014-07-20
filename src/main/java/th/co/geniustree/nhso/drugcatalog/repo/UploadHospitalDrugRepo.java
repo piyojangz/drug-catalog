@@ -21,5 +21,6 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 public interface UploadHospitalDrugRepo extends JpaRepository<UploadHospitalDrug, Integer>{
 
     public Page<UploadHospitalDrug> findByHcode(String hcode, Pageable pageReQuest);
+    public Long countByShaHex(String shaHex);
     
 }

@@ -5,12 +5,10 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalEdNedPK;
 import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
 import th.co.geniustree.nhso.drugcatalog.service.EdNEdService;
 import th.co.geniustree.nhso.drugcatalog.service.PriceService;
@@ -29,7 +27,9 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
 
     @Override
     public void checkDuplicateInDatabase(HospitalDrugExcelModel uploadDrugModel) {
-        checkDuplicateForPrice(uploadDrugModel);
+        if ("U".equalsIgnoreCase(uploadDrugModel.getUpdateFlag())) {
+            checkDuplicateForPrice(uploadDrugModel);
+        }
         checkDuplicateForEdNed(uploadDrugModel);
     }
 
@@ -43,7 +43,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     private void checkDuplicateForEdNed(HospitalDrugExcelModel uploadDrugModel) {
         boolean duplicateEdNed = edNedService.isDuplicateEdNed(uploadDrugModel.getHcode(), uploadDrugModel.getHospDrugCode(), DateUtils.parseDateWithOptionalTimeAndNoneLeneint(uploadDrugModel.getDateChange()));
         if (duplicateEdNed) {
-            uploadDrugModel.addError("unitPrice", "ED at dateIn(dateChange) is already exist.");
+            uploadDrugModel.addError("ised", "ED at dateIn(dateChange) is already exist.");
         }
     }
 

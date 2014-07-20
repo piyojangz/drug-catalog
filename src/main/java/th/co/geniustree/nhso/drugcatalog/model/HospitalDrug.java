@@ -97,7 +97,7 @@ public class HospitalDrug implements Serializable {
 
     private Boolean approved = Boolean.FALSE;
 
-    private Boolean deleted = Boolean.TRUE;
+    private Boolean deleted = Boolean.FALSE;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),

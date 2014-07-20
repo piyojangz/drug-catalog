@@ -39,6 +39,7 @@ public class UploadHospitalDrug implements Serializable {
     private Date createDate;
     private Integer itemCount;
     private Integer passItemCount;
+    private String shaHex;
 
     @PrePersist
     public void prePersist() {
@@ -109,6 +110,15 @@ public class UploadHospitalDrug implements Serializable {
     public void setPassItemCount(Integer passItemCount) {
         this.passItemCount = passItemCount;
     }
+
+    public String getShaHex() {
+        return shaHex;
+    }
+
+    public void setShaHex(String shaHex) {
+        this.shaHex = shaHex;
+    }
+    
     
 
     @Override

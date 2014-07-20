@@ -8,9 +8,13 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 import com.google.common.base.Strings;
 import java.math.BigDecimal;
 import java.util.List;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
@@ -31,8 +35,10 @@ import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
  * @author moth
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService {
 
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadHospitalDrugServiceImpl.class);
     @Autowired
     private UploadHospitalDrugRepo uploadHospitalDrugRepo;
     @Autowired
@@ -49,37 +55,39 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         uploadHospitalDrugs = uploadHospitalDrugRepo.save(uploadHospitalDrugs);
         List<UploadHospitalDrugItem> passItems = uploadHospitalDrugs.getPassItems();
         for (UploadHospitalDrugItem uploadItem : passItems) {
-            if (!alreadyExistAndNotYetApprove(uploadItem) && !Strings.isNullOrEmpty(uploadItem.getTmtId())) {
-                //create HospitalDrug
-                HospitalDrug drug = new HospitalDrug();
-                BeanUtils.copyProperties(uploadItem, drug);
-                copyAndConvertAttribute(uploadItem, drug);
-                drug.setHcode(uploadHospitalDrugs.getHcode());
-                drug = hospitalDrugRepo.save(drug);
-                createPrice(drug);
-                createEdNed(drug);
-                //create Request is new
-                RequestItem requestItem = new RequestItem();
-                requestItem.setHcode(uploadHospitalDrugs.getHcode());
-                requestItem.setRequestItem(uploadItem);
-                requestItem.setTargetItem(drug);
-                requestItem.setStatus(RequestItem.Status.REQUEST);
-                requestItem.setRequestUser(SecurityUtil.getUserDetails().getStaffName());
-                requestItem = requestItemRepo.save(requestItem);
+            HospitalDrugPK key = new HospitalDrugPK(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode());
+            HospitalDrug hospitalDrug = hospitalDrugRepo.findOne(key);
+            LOG.debug("{}", ToStringBuilder.reflectionToString(hospitalDrug, ToStringStyle.MULTI_LINE_STYLE));
+            if (hospitalDrug == null) {
+                hospitalDrug = new HospitalDrug();
+                hospitalDrug.setHcode(uploadHospitalDrugs.getHcode());
+                BeanUtils.copyProperties(uploadItem, hospitalDrug);
+                copyAndConvertAttribute(uploadItem, hospitalDrug);
+                hospitalDrug = hospitalDrugRepo.save(hospitalDrug);
+                createFirstPrice(hospitalDrug);
+                createFirstEdNed(hospitalDrug);
+                createRequestItem(uploadHospitalDrugs, uploadItem, hospitalDrug);
             } else {
-                processUpdate(uploadItem);
+                if (Strings.isNullOrEmpty(hospitalDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId())) {
+                    createRequestItem(uploadHospitalDrugs, uploadItem, hospitalDrug);
+                }
+                processUpdate(hospitalDrug, uploadItem);
             }
         }
     }
 
-    private boolean alreadyExistAndNotYetApprove(UploadHospitalDrugItem uploadItem) {
-        Integer countByHospDrugCodeAndHcodeAndApproved = hospitalDrugRepo.countByHospDrugCodeAndHcodeAndApproved(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode(), false);
-        return countByHospDrugCodeAndHcodeAndApproved > 0;
+    private void createRequestItem(UploadHospitalDrug uploadHospitalDrugs, UploadHospitalDrugItem uploadItem, HospitalDrug hospitalDrug) {
+        //create Request is new
+        RequestItem requestItem = new RequestItem();
+        requestItem.setHcode(uploadHospitalDrugs.getHcode());
+        requestItem.setRequestItem(uploadItem);
+        requestItem.setTargetItem(hospitalDrug);
+        requestItem.setStatus(RequestItem.Status.REQUEST);
+        requestItem.setRequestUser(SecurityUtil.getUserDetails().getStaffName());
+        requestItem = requestItemRepo.save(requestItem);
     }
 
-    private void processUpdate(UploadHospitalDrugItem uploadItem) {
-        HospitalDrugPK key = new HospitalDrugPK(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode());
-        HospitalDrug alreadyDrug = hospitalDrugRepo.findOne(key);
+    private void processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
         copyAndConvertAttribute(uploadItem, alreadyDrug);
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             addNewPrice(alreadyDrug, uploadItem);
@@ -95,24 +103,22 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     }
 
     private void updateAttribute(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
-        if (!alreadyDrug.getIsed().equals(uploadItem.getIsed())) {
-            edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
-        }
+        edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
         BeanUtils.copyProperties(uploadItem, alreadyDrug);
     }
 
-    private void createPrice(HospitalDrug drug) {
+    private void createFirstPrice(HospitalDrug drug) {
         priceService.createFirstPrice(drug);
     }
 
-    private void createEdNed(HospitalDrug drug) {
+    private void createFirstEdNed(HospitalDrug drug) {
         edNedService.createFirstEdNed(drug);
     }
 
     private void copyAndConvertAttribute(UploadHospitalDrugItem uploadItem, HospitalDrug drug) {
-        drug.setDateChange(DateUtils.parseDateWithOptionalTimeAndNoneLeneint(uploadItem.getDateChange()));
-        drug.setDateUpdate(DateUtils.parseDateWithOptionalTimeAndNoneLeneint(uploadItem.getDateUpdate()));
-        drug.setDateEffective(DateUtils.parseDateWithOptionalTimeAndNoneLeneint(uploadItem.getDateEffective()));
+        drug.setDateChange(uploadItem.getDateChangeDate());
+        drug.setDateUpdate(uploadItem.getDateUpdateDate());
+        drug.setDateEffective(uploadItem.getDateEffectiveDate());
         drug.setUnitPrice(new BigDecimal(uploadItem.getUnitPrice()));
         if (uploadItem.getPackPrice() != null && !uploadItem.getPackPrice().isEmpty()) {
             drug.setPackPrice(new BigDecimal(uploadItem.getPackPrice()));

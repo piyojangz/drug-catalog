@@ -30,6 +30,11 @@ public class PriceServiceImpl implements PriceService {
         Price findOne = priceRepo.findOne(new PricePK(hcode, hospDrugCode, dateEffective));
         return findOne != null;
     }
+    /**
+     * like  createFirstPrice but check duplicated against database.
+     * @param hospitalDrug
+     * @param unitprice 
+     */
 
     @Override
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
@@ -37,14 +42,12 @@ public class PriceServiceImpl implements PriceService {
         if (exist) {
             throw new IllegalStateException("Price at " + hospitalDrug.getDateEffective() + " is already exist.");
         }
-        Price price = new Price();
-        price.setHcode(hospitalDrug.getHcode());
-        price.setHospDrugCode(hospitalDrug.getHospDrugCode());
-        price.setDateEffectInclusive(hospitalDrug.getDateEffective());
-        price.setPrice(unitprice);
-        hospitalDrug.getPrices().add(priceRepo.save(price));
+        createFirstPrice(hospitalDrug);
     }
-
+/**
+ * Bypass check duplicate
+ * @param hospitalDrug 
+ */
     @Override
     public void createFirstPrice(HospitalDrug hospitalDrug) {
         Price price = new Price();

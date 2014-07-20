@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -17,6 +19,7 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,11 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.UploadItemOrderHelper;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
@@ -60,6 +65,10 @@ public class UploadMappedDrug implements Serializable {
     private String saveFileName;
     private String originalFileName;
     private WSUserDetails user;
+    private String shaHex;
+    @Autowired
+    private UploadHospitalDrugRepo uploadHospitalDrugRepo;
+    private boolean duplicateFile;
 
     @PostConstruct
     public void postConstruct() {
@@ -103,9 +112,18 @@ public class UploadMappedDrug implements Serializable {
         this.file = file;
     }
 
+    public boolean isDuplicateFile() {
+        return duplicateFile;
+    }
+
     public String save() {
+        if (duplicateFile) {
+            FacesMessageUtils.info("ไฟล์นี้เคยนำเข้าแล้ว.");
+            return null;
+        }
         List<UploadHospitalDrugItem> items = new ArrayList<>();
         UploadHospitalDrug uploadDrug = new UploadHospitalDrug();
+        uploadDrug.setShaHex(shaHex);
         uploadDrug.setHcode(user.getOrgId());
         for (HospitalDrugExcelModel passModel : models) {
             UploadHospitalDrugItem item = new UploadHospitalDrugItem();
@@ -113,6 +131,7 @@ public class UploadMappedDrug implements Serializable {
             item.setUploadDrug(uploadDrug);
             items.add(item);
         }
+        UploadItemOrderHelper.reorderByUpdateFlageAFirstDeleteLast(items);
         uploadDrug.setPassItems(items);
         uploadDrug.setOriginalFilename(originalFileName);
         uploadDrug.setSavedFileName(saveFileName);
@@ -129,6 +148,8 @@ public class UploadMappedDrug implements Serializable {
         originalFileName = null;
         models.clear();
         notPassModels.clear();
+        duplicateFile = false;
+        file = null;
         return null;
     }
 
@@ -154,13 +175,15 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.info("Please select file first.");
             return null;
         }
+
         try (InputStream inputFileStream = file.getInputstream()) {
             originalFileName = file.getFileName();
             saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
             File targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
-
+            shaHex = DigestUtils.shaHex(inputFileStream);
+            duplicateFile = uploadHospitalDrugRepo.countByShaHex(shaHex) > 0;
             ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
                 int rowNum = 0;
 
@@ -211,25 +234,5 @@ public class UploadMappedDrug implements Serializable {
                 bean.addError("duplicated", "duplicated entry in current file.");
             }
         }
-    }
-
-    private void checkDuplicatePriceInDataBase(HospitalDrugExcelModel bean) {
-        for (HospitalDrugExcelModel model : models) {
-            if (bean.isEqual(model)) {
-                bean.addError("duplicated", "duplicated entry in current file.");
-            }
-        }
-        models.add(bean);
-        throw new IllegalStateException("Not sure is this can happen.");
-    }
-
-    private void checkDuplicateEdInDataBase(HospitalDrugExcelModel bean) {
-        for (HospitalDrugExcelModel model : models) {
-            if (bean.isEqual(model)) {
-                bean.addError("duplicated", "duplicated entry in current file.");
-            }
-        }
-        models.add(bean);
-        throw new IllegalStateException("Not sure is this can happen.");
     }
 }
