@@ -21,17 +21,17 @@ import th.co.geniustree.xls.beans.XlsColumn;
  * @author moth
  */
 @Entity
-@Table(name="TMT_DRUG")
+@Table(name = "TMT_DRUG")
 public class TMTDrug implements Serializable {
 
     @Id
-    @Column(name = "TMT_ID", length = 10)
+    @Column(name = "TMTID", length = 6, nullable = false)
     private String tmtId;
     @Transient
     @XlsColumn
     private String tpuCode;
     @XlsColumn
-    @Column(name = "ACTIVE_INGREDIENT", length = 300)
+    @Column(name = "ACTIVEINGREDIENT", length = 300)
     private String activeIngredient;
     @XlsColumn
     @Column(name = "STRENGTH", length = 255)
@@ -46,7 +46,7 @@ public class TMTDrug implements Serializable {
     @Column(name = "CONTUNIT", length = 255)
     private String contunit;
     @XlsColumn
-    @Column(name = "DISP_UNIT", length = 255)
+    @Column(name = "DISPUNIT", length = 255)
     private String dispUnit;
     @XlsColumn
     @Column(name = "TRADENAME", length = 255)
@@ -185,6 +185,5 @@ public class TMTDrug implements Serializable {
         }
         return true;
     }
-    
 
 }

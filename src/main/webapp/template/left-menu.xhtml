@@ -45,6 +45,11 @@
                 <div class="temIconSize24 temIconBackgroundImportTMT temMarginRight5"></div>นำเข้าฐาน TMT
             </div>
         </h:link>
+        <h:link outcome="/private/common/drug/index">
+            <div class="temMenu" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/common/drug/index'), 0)?'background-color: #e4e4e4':''}">
+                <div class="temIconSize24 temIconBackgroundImportTMT temMarginRight5"></div>ฐานข้อมูลรหัสยา TMT
+            </div>
+        </h:link>
         <h:link outcome="/private/admin/drug/inbox"  rendered="#{request.isUserInRole('ADMIN')}">
             <div class="temMenu" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #e4e4e4':''}">
                 <div class="temIconSize24 temIconBackgroundInbox temMarginRight5"></div>Inbox

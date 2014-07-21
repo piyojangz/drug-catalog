@@ -10,13 +10,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 
 /**
@@ -24,21 +27,45 @@ import javax.persistence.Temporal;
  * @author moth
  */
 @Entity
-@Table(name="TMT_UPLOADHOSP_DRUG")
+@Table(name = "TMT_UPLOADHOSPDRUG", indexes = {
+    @Index(name = "UPLOADHOSPDRUG_HCODE_IDX", columnList = "HCODE"),
+    @Index(name = "UPLOADHOSPDRUG_SHAHEX_IDX", columnList = "SHAHEX", unique = true)
+})
 public class UploadHospitalDrug implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @TableGenerator(name = "TMT_UPLOADHOSPDRUG_GEN",
+            table = "TMT_SEQUENCE",
+            pkColumnName = "name",
+            valueColumnName = "value",
+            pkColumnValue = "TMT_UPLOADHOSPDRUG", allocationSize = 1)
+    @GeneratedValue(generator = "TMT_UPLOADHOSPDRUG_GEN", strategy = GenerationType.TABLE)
+
+    @Column(name = "ID", nullable = false)
     private Integer id;
+
+    @Column(name = "HCODE", nullable = false, length = 5)
     private String hcode;
+
     @OneToMany(mappedBy = "uploadDrug", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UploadHospitalDrugItem> passItems;
+
+    @Column(name = "ORIGINALFILENAME", length = 255, nullable = false)
     private String originalFilename;
+
+    @Column(name = "SAVEDFILENAME", length = 255, nullable = false)
     private String savedFileName;
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createDate;
-    private Integer itemCount;
-    private Integer passItemCount;
+
+    @Column(name = "ITEMCOUNT", nullable = false)
+    private Integer itemCount = 0;
+
+    @Column(name = "PASSITEMCOUNT", nullable = false)
+    private Integer passItemCount = 0;
+
+    @Column(name = "SHAHEX", nullable = false, length = 100)
     private String shaHex;
 
     @PrePersist
@@ -61,7 +88,6 @@ public class UploadHospitalDrug implements Serializable {
     public void setHcode(String hcode) {
         this.hcode = hcode;
     }
-    
 
     public List<UploadHospitalDrugItem> getPassItems() {
         return passItems;
@@ -118,8 +144,6 @@ public class UploadHospitalDrug implements Serializable {
     public void setShaHex(String shaHex) {
         this.shaHex = shaHex;
     }
-    
-    
 
     @Override
     public int hashCode() {

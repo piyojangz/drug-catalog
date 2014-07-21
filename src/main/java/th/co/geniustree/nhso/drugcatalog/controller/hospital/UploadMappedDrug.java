@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.hospital.controller;
+package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
 import com.google.common.io.Files;
 import java.io.File;

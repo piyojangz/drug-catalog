@@ -12,17 +12,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import org.hibernate.validator.constraints.NotEmpty;
-import th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalDrugPK;
 
 /**
  *
@@ -34,70 +36,95 @@ import th.co.geniustree.nhso.drugcatalog.model.tmt.HospitalDrugPK;
 public class HospitalDrug implements Serializable {
 
     @Id
-    private String hospDrugCode;
-    @Id
+    @Column(name = "HCODE", nullable = false, length = 5)
     private String hcode;
+    @Id
+    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
+    private String hospDrugCode;
 
     @NotEmpty
+    @Column(name = "PRODUCTCAT", nullable = false, length = 1)
     private String productCat;
 
+    @Column(name = "TMTID", nullable = true, length = 6)
     private String tmtId;
 
+    @Column(name = "SPECPREP", nullable = true, length = 1)
     private String specPrep;
 
     @NotEmpty
+    @Column(name = "GENERICNAME", nullable = false, length = 255)
     private String genericName;
 
     @NotEmpty
+    @Column(name = "TRADENAME", nullable = false, length = 255)
     private String tradeName;
 
+    @Column(name = "DSFCODE", nullable = true, length = 100)
     private String dsfCode;
 
     @NotEmpty
+    @Column(name = "DOSAGEFORM", nullable = false, length = 255)
     private String dosageForm;
 
     @NotEmpty
+    @Column(name = "STRENGTH", nullable = false, length = 255)
     private String strength;
 
     @NotEmpty
+    @Column(name = "CONTENT", nullable = false, length = 100)
     private String content;
 
     @NotEmpty
+    @Column(name = "UNITPRICE", precision = 10, scale = 2, nullable = false)
     private BigDecimal unitPrice;
 
     @NotEmpty
+    @Column(name = "DISTRIBUTOR", nullable = false, length = 255)
     private String distributor;
 
     @NotEmpty
+    @Column(name = "MANUFACTURER", nullable = false, length = 255)
     private String manufacturer;
 
     @NotEmpty
+    @Column(name = "ISED", nullable = false, length = 2)
     private String ised;
 
+    @Column(name = "NDC24", nullable = true, length = 24)
     private String ndc24;
 
+    @Column(name = "PACKSIZE", nullable = true, length = 100)
     private String packSize;
 
+    @Column(name = "PACKPRICE", precision = 10, scale = 2, nullable = true)
     private BigDecimal packPrice;
 
     @NotEmpty
+    @Column(name = "UPDATEFLAG", nullable = false, length = 1)
     private String updateFlag;
 
     @NotEmpty
+    @Column(name = "DATECHANGE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateChange;
 
     @NotEmpty
+    @Column(name = "DATEUPDATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdate;
 
     @NotEmpty
+    @Column(name = "DATEEFFECTIVE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEffective;
 
+    @Column(name = "APPROVED", nullable = false)
     private Boolean approved = Boolean.FALSE;
 
+    @Column(name = "DELETED", nullable = false)
     private Boolean deleted = Boolean.FALSE;
+
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
@@ -110,6 +137,12 @@ public class HospitalDrug implements Serializable {
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
     })
     private List<HospitalEdNed> edNeds;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
+    private TMTDrug tmtDrug;
+
+    @Version
+    private Integer version;
 
     public String getHospDrugCode() {
         return hospDrugCode;
@@ -323,6 +356,14 @@ public class HospitalDrug implements Serializable {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public TMTDrug getTmtDrug() {
+        return tmtDrug;
+    }
+
+    public void setTmtDrug(TMTDrug tmtDrug) {
+        this.tmtDrug = tmtDrug;
     }
 
     @Override

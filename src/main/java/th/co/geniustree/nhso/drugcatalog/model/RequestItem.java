@@ -14,11 +14,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 
 /**
  *
@@ -33,22 +35,46 @@ public class RequestItem implements Serializable {
         REQUEST, REJECT, ACCEPT
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+        @TableGenerator(name = "TMT_REQUEST_ITEM_GEN",
+            table = "TMT_SEQUENCE",
+            pkColumnName = "name",
+            valueColumnName = "value",
+            pkColumnValue = "TMT_REQUEST_ITEM")
+    @GeneratedValue(generator = "TMT_REQUEST_ITEM_GEN", strategy = GenerationType.TABLE)
     private Integer id;
-    @Column(name = "HCODE", insertable = false, updatable = false)
+    @Column(name = "HCODE", insertable = false, updatable = false, length = 5)
     private String hcode;
+
+    @Column(name = "REQUESTUSER", nullable = false, length = 60)
     private String requestUser;
+
+    @Column(name = "REQUESTDATE", nullable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date requestDate;
+
+    @Column(name = "STATUS", length = 10)
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column(name = "APPROVEUSER", nullable = true, length = 60)
     private String approveUser;
+
+    @Column(name = "APPROVEDATE", nullable = true)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date approveDate;
+
+    @Column(name = "MESSAGE", length = 256, nullable = true)
     private String message;
+
     @OneToOne
+    @JoinColumn(name = "UPLOADHOSPDRUG_ITEM_ID", referencedColumnName = "ID", nullable = false)
     private UploadHospitalDrugItem requestItem;
+
     @OneToOne
+    @JoinColumns({
+        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
+    })
     private HospitalDrug targetItem;
 
     @PrePersist

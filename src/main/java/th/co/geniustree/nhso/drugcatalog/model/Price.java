@@ -28,19 +28,23 @@ import javax.persistence.TemporalType;
 public class Price implements Serializable {
 
     @Id
+    @Column(name = "HCODE", nullable = false, length = 5)
     private String hcode;
 
     @Id
+    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
     private String hospDrugCode;
 
     @Id
     @Temporal(TemporalType.DATE)
+    @Column(name = "DATE_EFFECTIVE", nullable = false)
     private Date dateEffectInclusive;
 
-    @Column(name = "PRICE", nullable = false)
+    @Column(name = "PRICE", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
+    
     @Column(name = "CREATE_DATE", nullable = false)
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
     @PrePersist

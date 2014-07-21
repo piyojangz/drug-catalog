@@ -8,9 +8,11 @@ package th.co.geniustree.nhso.drugcatalog.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,16 +31,27 @@ public class HospitalEdNed implements Serializable {
         NORMAL, WITH_CONDITION
     }
     @Id
+    @Column(name = "HCODE", nullable = false, length = 5)
     private String hcode;
     @Id
     @Temporal(TemporalType.DATE)
+    @Column(name = "DATEIN", nullable = false)
     private Date dateIn;
     @Id
+    @Column(name = "CLASSIFIER", nullable = false, length = 3)
     private String classifier = HospitalEdNedPK.SUPPORT_CASSIFIER;//support only UC in current version.
     @Id
+    @Column(name = "HOSPDRUGCODE", length = 30, nullable = false)
     private String hospDrugCode;
-    @Temporal(TemporalType.DATE)
-    private Date dateOut;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATEDATE", nullable = false)
+    private Date createDate;
+
+    @PrePersist
+    public void prePersist() {
+        createDate = new Date();
+    }
 
     public Date getDateIn() {
         return dateIn;
@@ -64,20 +77,20 @@ public class HospitalEdNed implements Serializable {
         this.hospDrugCode = hospDrugCode;
     }
 
-    public Date getDateOut() {
-        return dateOut;
-    }
-
-    public void setDateOut(Date dateOut) {
-        this.dateOut = dateOut;
-    }
-
     public String getHcode() {
         return hcode;
     }
 
     public void setHcode(String hcode) {
         this.hcode = hcode;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Override
@@ -113,7 +126,5 @@ public class HospitalEdNed implements Serializable {
         }
         return true;
     }
-
-   
 
 }

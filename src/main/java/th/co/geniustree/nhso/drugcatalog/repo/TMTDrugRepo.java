@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package th.co.geniustree.nhso.drugcatalog.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 
 /**
  *
  * @author moth
  */
-public interface TMTDrugRepo extends JpaRepository<TMTDrug, String>{
-    
+public interface TMTDrugRepo extends JpaRepository<TMTDrug, String>, JpaSpecificationExecutor<TMTDrug> {
+
 }

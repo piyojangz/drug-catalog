@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
@@ -28,10 +29,12 @@ public class HospitalDrugExcelModel implements Serializable {
     private String hospDrugCode;
     @XlsColumn
     @NotEmpty(message = "productCat may not be empty")
+    @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"})
     private String productCat;
     @XlsColumn
     private String tmtId;
     @XlsColumn
+    @ValueSet(values = {"F", "M", "R"})
     private String specPrep;
     @XlsColumn
     @NotEmpty(message = "genericName may not be empty")
@@ -62,18 +65,19 @@ public class HospitalDrugExcelModel implements Serializable {
     private String manufacturer;
     @XlsColumn
     @NotEmpty(message = "ised may not be empty")
-    @ValueSet(values = {"E","N","E*"})
+    @ValueSet(values = {"E", "N", "E*"})
     private String ised;
     @XlsColumn
+    @Size(min = 19, max = 24, message = "NDC24 length between {min} and {max}.")
     private String ndc24;
     @XlsColumn
     private String packSize;
     @XlsColumn
-    @DoubleValue(message = "unitPrice is not decimal number.")
+    @DoubleValue(message = "packPrice is not decimal number.")
     private String packPrice;
     @XlsColumn
     @NotEmpty(message = "updateFlag may not be empty")
-    @ValueSet(values = {"A","D","E","U"})
+    @ValueSet(values = {"A", "D", "E", "U"})
     private String updateFlag;
     @XlsColumn
     @NotEmpty(message = "dateChange may not be empty")
@@ -293,7 +297,6 @@ public class HospitalDrugExcelModel implements Serializable {
     public void setHcode(String hcode) {
         this.hcode = hcode;
     }
-    
 
     public boolean isEqual(HospitalDrugExcelModel other) {
         boolean equal = this.hospDrugCode.equals(other.hospDrugCode) && this.updateFlag.equalsIgnoreCase(other.updateFlag);

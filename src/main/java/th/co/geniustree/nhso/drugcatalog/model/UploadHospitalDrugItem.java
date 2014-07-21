@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -26,14 +27,19 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
  * @author moth
  */
 @Entity
-@Table(name = "TMT_UPLOADHOSP_DRUGITEM")
+@Table(name = "TMT_UPLOADHOSPDRUG_ITEM")
 public class UploadHospitalDrugItem implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @TableGenerator(name = "TMT_UPLOADHOSPDRUG_ITEM_GEN",
+            table = "TMT_SEQUENCE",
+            pkColumnName = "name",
+            valueColumnName = "value",
+            pkColumnValue = "TMT_UPLOADHOSPDRUG_ITEM")
+    @GeneratedValue(generator = "TMT_UPLOADHOSPDRUG_ITEM_GEN", strategy = GenerationType.TABLE)
     private Integer id;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "UPLOAD_DRUG_ID")
+    @JoinColumn(name = "UPLOADHOSPDRUG_ID")
     private UploadHospitalDrug uploadDrug;
     @NotEmpty
     private String hospDrugCode;
