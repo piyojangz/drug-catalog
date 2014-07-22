@@ -6,7 +6,9 @@
 package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
 import com.google.common.io.Files;
+import com.google.common.io.InputSupplier;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,11 +17,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.DigestUtils;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
@@ -179,8 +179,15 @@ public class UploadMappedDrug implements Serializable {
             saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
             File targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
-            Files.asByteSink(targetFile).writeFrom(inputFileStream);
-            shaHex = DigestUtils.shaHex(inputFileStream);
+            Files.copy(new InputSupplier<InputStream>() {
+
+                @Override
+                public InputStream getInput() throws IOException {
+                    return inputFileStream;
+                }
+            }, targetFile);
+            //Files.asByteSink(targetFile).writeFrom(inputFileStream); is not close targetFile.
+            shaHex = DigestUtils.shaHex(targetFile);
             duplicateFile = uploadHospitalDrugRepo.countByShaHex(shaHex) > 0;
             ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
                 int rowNum = 0;
