@@ -112,44 +112,48 @@ a{
  margin-right: 20px;   
 }
 .temIconBackgroundHome{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px 0px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px 0px !important;
 }
 .temIconBackgroundImportData{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -144px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -144px !important;
 }
 .temIconBackgroundHistoryImportData{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -96px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -96px !important;
 }
 .temIconBackgroundPassApproveCode{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -240px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -240px !important;
 }
 .temIconBackgroundNotApproveCode{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -288px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -288px !important;
 }
 .temIconBackgroundNotCode{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -336px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -336px !important;
 }
 .temIconBackgroundInbox{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -384px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -384px !important;
 }
 .temIconBackgroundLogout{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -192px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -192px !important;
 }
 .temIconBackgroundImportTMT{
-    background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -480px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -480px !important;
 }
 .temIconBackgroundApproveCode{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat;
-    background-position: 0px -625px;
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -625px !important;
+}
+.temIconBackgroundSave{
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -673px !important;
 }
 .temStatus{
     float:right;
@@ -210,4 +214,40 @@ a{
     top: 5px;
     right: 0;
     margin-right: 200px;
+}
+
+
+/*/////////////////////// new menu ////////////////*/
+.menunew{
+    width: 100% !important;
+}
+.ui-menuitem>a{
+    color: #737373;
+    padding: 5px 15px 5px 15px !important;
+    width: 96.2% !important;
+}
+.ui-menu.ui-widget li > .ui-menuitem-link{
+    width: auto;
+}
+.ui-menuitem-text{
+    height: 24px !important;
+    line-height: 24px !important;
+    padding-left: 10px !important;
+}
+.ui-menuitem:hover{
+    background: #E4E4E4 !important;
+}
+.ui-menuitem>a:hover{
+    background: transparent  !important;
+    color: #000;
+}
+.ui-menuitem>a>span.ui-menuitem-text:hover{
+    background: transparent  !important;
+    color: #000;
+}
+.ui-menuitem>a>span{
+    color: #000;
+}
+.ui-widget-header{
+    padding: 5px 0px !important;
 }
