@@ -15,7 +15,7 @@ a{
     display: block;
     width: 225px;
     height: 45px;
-    background: url('/gf4/drugcatalog/contracts/purple/images/template/logo.png') no-repeat;
+    background: url('#{request.contextPath}/contracts/purple/images/template/logo.png') no-repeat;
 }
 #temLeft{
     display: block;
@@ -49,22 +49,22 @@ a{
     display: block;
     width: 35px;
     height: 35px;
-    background: url('/gf4/drugcatalog/contracts/purple/images/template/icontogle.png');
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontogle.png');
     cursor: pointer;
 }
 .temIcon:hover{
-    background: url('/gf4/drugcatalog/contracts/purple/images/template/icontoglehover.png');
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontoglehover.png');
 }
 .temIcon2{
     float:right;
     display: block;
     width: 35px;
     height: 35px;
-    background: url('/gf4/drugcatalog/contracts/purple/images/template/icontogle.png');
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontogle.png');
     cursor: pointer;
 }
 .temIcon2:hover{
-    background: url('/gf4/drugcatalog/contracts/purple/images/template/icontoglehover.png');
+    background: url('#{request.contextPath}/contracts/purple/images/template/icontoglehover.png');
 }
 .temMenu{
     text-decoration: none;
@@ -112,47 +112,47 @@ a{
  margin-right: 20px;   
 }
 .temIconBackgroundHome{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px 0px !important;
 }
 .temIconBackgroundImportData{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -144px !important;
 }
 .temIconBackgroundHistoryImportData{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -96px !important;
 }
 .temIconBackgroundPassApproveCode{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -240px !important;
 }
 .temIconBackgroundNotApproveCode{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -288px !important;
 }
 .temIconBackgroundNotCode{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -336px !important;
 }
 .temIconBackgroundInbox{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -384px !important;
 }
 .temIconBackgroundLogout{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -192px !important;
 }
 .temIconBackgroundImportTMT{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -480px !important;
 }
 .temIconBackgroundApproveCode{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -625px !important;
 }
 .temIconBackgroundSave{
-    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -673px !important;
 }
 .temStatus{
@@ -172,7 +172,7 @@ a{
     margin-left: 15px;
     width: 24px;
     height: 24px;
-    background: url('/gf4/drugcatalog/contracts/purple/images/template/iconlogout.png');
+    background: url('#{request.contextPath}/contracts/purple/images/template/iconlogout.png');
     margin-top: -38px;
 }
 .complet{
