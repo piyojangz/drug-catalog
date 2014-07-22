@@ -22,12 +22,6 @@
                 <div class="temIconSize24 temIconBackgroundHistoryImportData temMarginRight5"></div>ประวัตินำเข้าข้อมูล Drug Catalog
             </div>
         </h:link>
-        <h:link outcome="/private/hospital/listdrug/approved"  rendered="#{request.isUserInRole('HOSPITAL')}">
-            <f:param name="accept" value="true"/>
-            <div class="temMenu" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/approved'), 0)?'background-color: #e4e4e4':''}">
-                <div class="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5"></div>รายการยาที่อนุมัติรหัส TMT แล้ว
-            </div>
-        </h:link>
         <h:link outcome="/private/hospital/listdrug/wait"  rendered="#{request.isUserInRole('HOSPITAL')}">
             <f:param name="wait" value="true"/>
             <div class="temMenu" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/wait'), 0)?'background-color: #e4e4e4':''}">
@@ -38,6 +32,18 @@
             <f:param name="no-tmt" value="true"/>
             <div class="temMenu" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/noTmt'), 0)?'background-color: #e4e4e4':''}">
                 <div class="temIconSize24 temIconBackgroundNotCode temMarginRight5"></div>รายการยาที่ยังไม่มีรหัส TMT
+            </div>
+        </h:link>
+        <h:link outcome="/private/hospital/listdrug/approved"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <f:param name="accept" value="true"/>
+            <div class="temMenu" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/approved'), 0)?'background-color: #e4e4e4':''}">
+                <div class="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5"></div>รายการยาที่อนุมัติรหัส TMT แล้ว
+            </div>
+        </h:link>
+        <h:link outcome="/private/hospital/listdrug/index"  rendered="#{request.isUserInRole('HOSPITAL')}">
+            <f:param name="all" value="true"/>
+            <div class="temMenu" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #e4e4e4':''}">
+                <div class="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5"></div>รายการยาของโรงพยาบาล
             </div>
         </h:link>
         <h:link outcome="/private/admin/drug/index"  rendered="#{request.isUserInRole('ADMIN')}">
@@ -60,6 +66,6 @@
                 <div class="temIconSize24 temIconBackgroundLogout temMarginRight5"></div>Logout
             </div>
         </h:outputLink>
-        
+
     </ui:composition>
 </html>
