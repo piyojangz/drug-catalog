@@ -328,6 +328,18 @@
             </properties>
         </profile>
         <profile>
+            <id>local2</id>
+            <properties>
+                <log.spring.level>DEBUG</log.spring.level>
+                <log.geniustree.level>DEBUG</log.geniustree.level>
+                <log.appender>STDOUT</log.appender>
+                <log.file.location>c:\\${project.artifactId}\log</log.file.location>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderMock</authentication.provider>
+                <report.temp.location>c:\\${project.artifactId}\report</report.temp.location>
+                <upload.temp.location>c:\\${project.artifactId}\upload_temp</upload.temp.location>   
+            </properties>
+        </profile>
+        <profile>
             <activation>
                 <activeByDefault />
             </activation>

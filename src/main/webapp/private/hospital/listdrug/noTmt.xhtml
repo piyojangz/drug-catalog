@@ -10,7 +10,7 @@
         <ui:define name="content">
             <h:form>
                 <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.noTmtModels}" var="model"  
-                             paginator="true" rows="10" lazy="true" rowsPerPageTemplate="10,20,30,40,50"
+                             paginator="true" rows="50" lazy="true" rowsPerPageTemplate="10,20,30,40,50"
                               paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         รายการยาที่ยังไม่มีรหัส TMT
