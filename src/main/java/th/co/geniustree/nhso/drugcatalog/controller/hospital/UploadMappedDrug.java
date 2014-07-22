@@ -179,14 +179,7 @@ public class UploadMappedDrug implements Serializable {
             saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
             File targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
-            Files.copy(new InputSupplier<InputStream>() {
-
-                @Override
-                public InputStream getInput() throws IOException {
-                    return inputFileStream;
-                }
-            }, targetFile);
-            //Files.asByteSink(targetFile).writeFrom(inputFileStream); is not close targetFile.
+            Files.asByteSink(targetFile).writeFrom(inputFileStream);
             shaHex = DigestUtils.shaHex(targetFile);
             duplicateFile = uploadHospitalDrugRepo.countByShaHex(shaHex) > 0;
             ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
