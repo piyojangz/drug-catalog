@@ -173,10 +173,6 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.error("Upload HCODE must match with login HCODE");
             return null;
         }
-        if (file.getFileName() == null || file.getFileName().isEmpty()) {
-            FacesMessageUtils.info("Please select file first.");
-            return null;
-        }
 
         try (InputStream inputFileStream = file.getInputstream()) {
             originalFileName = file.getFileName();
