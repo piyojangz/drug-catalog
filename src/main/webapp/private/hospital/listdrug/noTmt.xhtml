@@ -8,9 +8,6 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            <f:metadata>
-                <f:viewAction action="#{hospitalDrugListController.loadNonTmtModel()}" onPostback="true"/>
-            </f:metadata>
             <h:form>
                 <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.noTmtModels}" var="model"  
                              paginator="true" rows="10" lazy="true" rowsPerPageTemplate="10,20,30,40,50"

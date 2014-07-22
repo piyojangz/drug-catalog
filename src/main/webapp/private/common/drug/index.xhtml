@@ -11,7 +11,7 @@
             <h:form>
                 <div>
                     <span>ค้นหา :</span>
-                    <h:inputText id="x" value="#{searchTmtDrug.keyword}"/>
+                    <h:inputText id="x" value="#{searchTmtDrug.keyword}" size="60"/>
                     &nbsp;&nbsp;
                     <p:commandButton action="#{searchTmtDrug.search()}" update="drug" value="Search" ajax="false"/>
                 </div>

@@ -8,16 +8,13 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-             <f:metadata>
-                 <f:viewAction action="#{hospitalDrugListController.loadAll()}" onPostback="true"/>
-            </f:metadata>
             <h:form>
                 <p:dataTable id="passTable" resizableColumns="true"  value="#{hospitalDrugListController.all}" var="model"  
                              paginator="true" rows="10" lazy="true" rowsPerPageTemplate="10,20,30,40,50"
-                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
+                        แก้ไขรายการยา (ONLINE)
                         <h:commandLink style="float:left">
-                            รายการยาของโรงพยาบาล
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="table" fileName="errorTable" pageOnly="false"/>
                         </h:commandLink>
@@ -25,6 +22,9 @@
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="passTable" trigger="toggler" />
                     </f:facet>
+                    <p:column   headerText="" width="40">
+                        <span style="color:blue">แก้ไข</span>
+                    </p:column>
                     <p:column   headerText="HOSPDRUGCODE" width="110">
                         #{model.hospDrugCode}
                     </p:column>

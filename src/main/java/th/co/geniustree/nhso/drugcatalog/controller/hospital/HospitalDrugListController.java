@@ -24,7 +24,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.spec.HospitalDrugSpecs;
  *
  * @author moth
  */
-@Scope("request")
+@Scope("view")
 @Component
 public class HospitalDrugListController implements Serializable {
 
@@ -39,6 +39,37 @@ public class HospitalDrugListController implements Serializable {
     @PostConstruct
     public void postConstruct() {
         user = SecurityUtil.getUserDetails();
+        models = new SpringDataLazyDataModelSupport<HospitalDrug>() {
+
+            @Override
+            public Page<HospitalDrug> load(Pageable pageAble) {
+                return hospitalDrugRepo.findByHcodeAndApproved(user.getOrgId(), true, pageAble);
+            }
+        };
+        noTmtModels = new SpringDataLazyDataModelSupport<HospitalDrug>() {
+
+            @Override
+            public Page<HospitalDrug> load(Pageable pageAble) {
+                return hospitalDrugRepo.findByHcodeAndTmtIdIsNull(user.getOrgId(), pageAble);
+            }
+        };
+        waitModels = new SpringDataLazyDataModelSupport<HospitalDrug>() {
+
+            @Override
+            public Page<HospitalDrug> load(Pageable pageAble) {
+                return hospitalDrugRepo.findByHcodeAndApprovedAndTmtIdIsNotNull(user.getOrgId(), false, pageAble);
+            }
+
+        };
+        all = new SpringDataLazyDataModelSupport<HospitalDrug>() {
+
+            @Override
+            public Page<HospitalDrug> load(Pageable pageAble) {
+                Specifications<HospitalDrug> spec = Specifications.where(HospitalDrugSpecs.hcodeEq(user.getOrgId()));
+                return hospitalDrugRepo.findAll(spec, pageAble);
+            }
+
+        };
     }
 
     public SpringDataLazyDataModelSupport<HospitalDrug> getModels() {
@@ -63,54 +94,6 @@ public class HospitalDrugListController implements Serializable {
 
     public void setWaitModels(SpringDataLazyDataModelSupport<HospitalDrug> waitModels) {
         this.waitModels = waitModels;
-    }
-
-    public String loadApproveModel() {
-        models = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
-            @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalDrugRepo.findByHcodeAndApproved(user.getOrgId(), true, pageAble);
-            }
-        };
-        return null;
-    }
-
-    public String loadNonTmtModel() {
-        noTmtModels = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
-            @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalDrugRepo.findByHcodeAndTmtIdIsNull(user.getOrgId(), pageAble);
-            }
-        };
-        return null;
-    }
-
-    public String loadWaitModel() {
-        waitModels = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
-            @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalDrugRepo.findByHcodeAndApprovedAndTmtIdIsNotNull(user.getOrgId(), false, pageAble);
-            }
-
-        };
-        return null;
-    }
-
-    public String loadAll() {
-        all = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
-            @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                Specifications<HospitalDrug> spec = Specifications.where(HospitalDrugSpecs.hcodeEq(user.getOrgId()));
-                System.out.println("------------------------------------------------------");
-                return hospitalDrugRepo.findAll(spec, pageAble);
-            }
-
-        };
-        return null;
     }
 
     public SpringDataLazyDataModelSupport<HospitalDrug> getAll() {
