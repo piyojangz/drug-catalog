@@ -15,4 +15,6 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
  */
 public interface TMTDrugRepo extends JpaRepository<TMTDrug, String>, JpaSpecificationExecutor<TMTDrug> {
 
+    public long countByTmtId(String tmtId);
+
 }
