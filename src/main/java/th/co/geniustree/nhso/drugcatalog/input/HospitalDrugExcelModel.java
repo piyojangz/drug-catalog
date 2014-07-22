@@ -65,7 +65,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String manufacturer;
     @XlsColumn
     @NotEmpty(message = "ised may not be empty")
-    @ValueSet(values = {"E", "N", "E*"})
+    @ValueSet(values = {"E", "N", "E*"}, message = "Must be \"E,N,E*\" only.")
     private String ised;
     @XlsColumn
     @Size(min = 19, max = 24, message = "NDC24 length between {min} and {max}.")
@@ -77,7 +77,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String packPrice;
     @XlsColumn
     @NotEmpty(message = "updateFlag may not be empty")
-    @ValueSet(values = {"A", "D", "E", "U"})
+    @ValueSet(values = {"A", "D", "E", "U"}, message = "Must be \"A,D,E,U\" only.")
     private String updateFlag;
     @XlsColumn
     @NotEmpty(message = "dateChange may not be empty")

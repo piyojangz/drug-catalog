@@ -23,12 +23,12 @@ public class ValueSetValidator implements ConstraintValidator<ValueSet, String> 
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) {
+        if (value == null || value.isEmpty()) {
             return true;
         }
         String[] constrainValues = valueSet.values();
         for (String constrainValue : constrainValues) {
-            if (constrainValue.equals(value)) {
+            if (constrainValue.trim().equals(value.trim())) {
                 return true;
             }
         }
