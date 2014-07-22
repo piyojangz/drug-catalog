@@ -9,9 +9,10 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <h:form>
-                FSN:<h:inputText value="#{searchTmtDrug.keyword}"/>
-                <p:commandButton action="#{searchTmtDrug.search()}" update="drug" value="Search" ajax="true"/>
-                <p:dataTable id="drug" resizableColumns="true"  value="#{searchTmtDrug.models}" var="model"  
+                FSN:<h:inputText id="x" value="#{searchTmtDrug.keyword}"/>
+                <h:messages for="x" style="color: red"/>
+                <p:commandButton action="#{searchTmtDrug.search()}" update="drug" value="Search" ajax="false"/>
+                <p:dataTable id="drug" resizableColumns="true"  value="#{searchTmtDrug.models}" var="model"  rowIndexVar="rowIndex"
                              paginator="true" rows="10" lazy="true" rowsPerPageTemplate="10,20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
@@ -20,25 +21,41 @@
                             <p:dataExporter type="xls" target="drug" fileName="tmt_drug" pageOnly="false"/>
                         </h:commandLink>
                     </f:facet>
-                    <p:column   headerText="ID" width="40">
-                        #{model}
+                    <p:column   headerText="#" width="20">
+                        #{rowIndex}
                     </p:column>
-                    <p:column headerText="File name">
-                        #{model}
+                    <p:column headerText="TPUCODE/TMTID" width="100">
+                        #{model.tmtId}
                     </p:column>
-                    <p:column headerText="Pass item">
-                        #{model}
+                    <p:column headerText="ActiveIngredient" width="100">
+                        #{model.activeIngredient}
                     </p:column>
-                    <p:column headerText="Total item">
-                        #{model}
+                    <p:column headerText="Strength" width="100">
+                        #{model.strength}
                     </p:column>
-                    <p:column headerText="Create date">
-                        #{model}
+                    <p:column headerText="dosageform" width="100">
+                        #{model.dosageform}
                     </p:column>
-                    <p:column headerText="" width="60">
-                        <h:link outcome="details" value="Detail">
-                            <f:param name="uploadFileId" value="#{model}"/>
-                        </h:link>
+                    <p:column headerText="contunit" width="60">
+                        #{model.contunit}
+                    </p:column>
+                    <p:column headerText="contvalue" width="60">
+                        #{model.contvalue}
+                    </p:column>
+                    <p:column headerText="DispUnit" width="100">
+                        #{model.dispUnit}
+                    </p:column>
+                    <p:column headerText="TradeName" width="200">
+                        #{model.tradeName}
+                    </p:column>
+                    <p:column headerText="Manufacturer" width="200">
+                        #{model.manufacturer}
+                    </p:column>
+                    <p:column headerText="FSN" width="300">
+                        #{model.fsn}
+                    </p:column>
+                    <p:column headerText="Status" width="60">
+                        #{model.status}
                     </p:column>
                 </p:dataTable>
             </h:form>

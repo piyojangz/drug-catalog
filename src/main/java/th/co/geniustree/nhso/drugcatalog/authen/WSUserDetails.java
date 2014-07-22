@@ -164,4 +164,9 @@ public class WSUserDetails implements UserDetails {
         this.orgId = orgId;
     }
 
+    @Override
+    public String toString() {
+        return staffName;
+    }
+
 }
