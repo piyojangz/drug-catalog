@@ -22,7 +22,7 @@
                 <p:panel  header="จำนวนข้อมูลที่ไม่ผ่านการตรวจสอบตามโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.notPassModels.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.notPassModels}">
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
-                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png" />
@@ -68,11 +68,11 @@
                             <p:column headerText="UNITPRICE" width="60">
                                 <h:outputText value="#{model.unitPrice}" style="#{empty model.errorMap['unitPrice']?'color:black':'color:red'}" title="#{model.errorMap['unitPrice']}"/>
                             </p:column>
-                            <p:column headerText="DISTRIBUTOR" width="260">
+                            <p:column headerText="DISTRIBUTOR" width="260" >
                                 <h:outputText value="#{model.distributor}" style="#{empty model.errorMap['distributor']?'color:black':'color:red'}" title="#{model.errorMap['distributor']}"/>
                             </p:column>
-                            <p:column headerText="MANUFACTURER" width="260">
-                                <h:outputText value="#{model.manufacturer}" style="#{empty model.errorMap['manufacturer']?'color:black':'color:red'}" title="#{model.errorMap['manufacturer']}"/>
+                            <p:column headerText="MANUFACTURER" width="260" styleClass="#{empty model.errorMap['manufacturer']?'':'errorBackground'}">
+                                <h:outputText value="#{model.manufacturer}" title="#{model.errorMap['manufacturer']}"/>
                             </p:column>
                             <p:column headerText="ISED" width="40">
                                 <h:outputText value="#{model.ised}" style="#{empty model.errorMap['ised']?'color:black':'color:red'}" title="#{model.errorMap['ised']}"/>
@@ -107,7 +107,7 @@
                 <p:panel  header="จำนวนข้อมูลที่ผ่านโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.models.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.models}">
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
-                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
