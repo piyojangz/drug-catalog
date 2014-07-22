@@ -53,8 +53,8 @@
                             <p:column headerText="TRADENAME" width="200">
                                 <h:outputText value="#{model.tradeName}" style="#{empty model.errorMap['tradeName']?'color:black':'color:red'}" title="#{model.errorMap['tradeName']}"/>
                             </p:column>
-                            <p:column headerText="DSFCODE" width="60">
-                                <h:outputText value="#{model.dsfCode}" style="#{empty model.errorMap['dsfCode']?'color:black':'color:red'}" title="#{model.errorMap['dsfCode']}"/>
+                            <p:column headerText="DFSCODE" width="60">
+                                <h:outputText value="#{model.dfsCode}" style="#{empty model.errorMap['dsfCode']?'color:black':'color:red'}" title="#{model.errorMap['dsfCode']}"/>
                             </p:column>
                             <p:column headerText="DOSAGEFORM" width="100">
                                 <h:outputText value="#{model.dosageForm}" style="#{empty model.errorMap['dosageForm']?'color:black':'color:red'}" title="#{model.errorMap['dosageForm']}"/>
@@ -136,7 +136,7 @@
                                 #{model.tradeName}
                             </p:column>
                             <p:column headerText="DSFCODE" width="60">
-                                #{model.dsfCode}
+                                #{model.dfsCode}
                             </p:column>
                             <p:column headerText="DOSAGEFORM" width="100">
                                 #{model.dosageForm}

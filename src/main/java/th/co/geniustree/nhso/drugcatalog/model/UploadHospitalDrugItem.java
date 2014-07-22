@@ -57,7 +57,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @NotEmpty
     private String tradeName;
 
-    private String dsfCode;
+    private String dfsCode;
 
     @NotEmpty
     private String dosageForm;
@@ -168,12 +168,12 @@ public class UploadHospitalDrugItem implements Serializable {
         this.tradeName = tradeName;
     }
 
-    public String getDsfCode() {
-        return dsfCode;
+    public String getDfsCode() {
+        return dfsCode;
     }
 
-    public void setDsfCode(String dsfCode) {
-        this.dsfCode = dsfCode;
+    public void setDfsCode(String dfsCode) {
+        this.dfsCode = dfsCode;
     }
 
     public String getDosageForm() {

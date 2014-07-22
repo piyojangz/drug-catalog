@@ -43,7 +43,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @NotEmpty(message = "tradeName may not be empty")
     private String tradeName;
     @XlsColumn
-    private String dsfCode;
+    private String dfsCode;
     @XlsColumn
     @NotEmpty(message = "dosageForm may not be empty")
     private String dosageForm;
@@ -143,12 +143,12 @@ public class HospitalDrugExcelModel implements Serializable {
         this.tradeName = tradeName;
     }
 
-    public String getDsfCode() {
-        return dsfCode;
+    public String getDfsCode() {
+        return dfsCode;
     }
 
-    public void setDsfCode(String dsfCode) {
-        this.dsfCode = dsfCode;
+    public void setDfsCode(String dfsCode) {
+        this.dfsCode = dfsCode;
     }
 
     public String getDosageForm() {

@@ -60,8 +60,8 @@ public class HospitalDrug implements Serializable {
     @Column(name = "TRADENAME", nullable = false, length = 255)
     private String tradeName;
 
-    @Column(name = "DSFCODE", nullable = true, length = 100)
-    private String dsfCode;
+    @Column(name = "DFSCODE", nullable = true, length = 100)
+    private String dfsCode;
 
     @NotEmpty
     @Column(name = "DOSAGEFORM", nullable = false, length = 255)
@@ -200,12 +200,12 @@ public class HospitalDrug implements Serializable {
         this.tradeName = tradeName;
     }
 
-    public String getDsfCode() {
-        return dsfCode;
+    public String getDfsCode() {
+        return dfsCode;
     }
 
-    public void setDsfCode(String dsfCode) {
-        this.dsfCode = dsfCode;
+    public void setDfsCode(String dfsCode) {
+        this.dfsCode = dfsCode;
     }
 
     public String getDosageForm() {

@@ -150,6 +150,7 @@ public class UploadMappedDrug implements Serializable {
         notPassModels.clear();
         duplicateFile = false;
         file = null;
+        shaHex = null;
         return null;
     }
 
@@ -220,8 +221,10 @@ public class UploadMappedDrug implements Serializable {
                 }
             });
         } catch (ColumnNotFoundException columnNotFound) {
+            reset();
             FacesMessageUtils.error(columnNotFound);
         } catch (Exception iOException) {
+            reset();
             throw new RuntimeException(iOException);
         }
         LOG.debug("File : {}", file);
