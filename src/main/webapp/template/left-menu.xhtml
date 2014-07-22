@@ -10,7 +10,7 @@
         <h:form>
             <p:menu styleClass="menunew">
                 <p:submenu label="การจัดการแฟ้มข้อมูล Drug Catalogue" rendered="#{request.isUserInRole('HOSPITAL')}">
-                    <p:menuitem  value="นำเข้าข้อมูล" outcome="/private/hospital/upload/index"  icon="temIconSize24 temMarginRight5 temIconBackgroundHome" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/upload/index'), 0)?'background-color: #FFF2DB ':''}"/>
+                    <p:menuitem  value="นำเข้าข้อมูล" outcome="/private/hospital/upload/index"  icon="temIconSize24 temIconBackgroundImportData temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/upload/index'), 0)?'background-color: #FFF2DB ':''}"/>
                     <p:menuitem value="ประวัตินำเข้าข้อมูล" outcome="/private/hospital/listfile/index"  icon="temIconSize24 temIconBackgroundHistoryImportData temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listfile'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="รายการยาที่ยังไม่มีรหัสยา TMT" outcome="/private/hospital/listdrug/noTmt" icon="temIconSize24 temIconBackgroundNotCode temMarginRight5"  style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/noTmt'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="รายการยาที่ยังไม่อนุมัติ" outcome="/private/hospital/listdrug/wait" icon="temIconSize24 temIconBackgroundNotApproveCode temMarginRight5"  style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/wait'), 0)?'background-color: #FFF2DB':''}"/>
