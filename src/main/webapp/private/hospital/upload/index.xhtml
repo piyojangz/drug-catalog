@@ -8,17 +8,12 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            <span>File : #{uploadMappedDrug.originalFileName}</span>
-            <h:form enctype="multipart/form-data">
-                <p:fileUpload required="true"  value="#{uploadMappedDrug.file}" mode="simple"  update="messages" sizeLimit="10000000" fileLimit="1" allowTypes="/(\.|\/)(xls|xlsx)$/" />
+            <h:form enctype="multipart/form-data" id="form">
                 <p:growl id="messages" showDetail="true" />
-                <br/>
-                <p:commandButton value="Upload" ajax="false" action="#{uploadMappedDrug.upload()}" />
-                <br/>
-                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadMappedDrug.models.size()+uploadMappedDrug.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadMappedDrug.file.fileName}"/><br/>
-                <br/>
+                <p:fileUpload fileUploadListener="#{uploadMappedDrug.handleFileUpload}" mode="advanced"
+                              update="form" auto="true" sizeLimit="10000000" allowTypes="/(\.|\/)(xls|xlsx)$/" label="#{not empty uploadMappedDrug.originalFileName?'File : '.concat(uploadMappedDrug.originalFileName):'เลือกไฟล์ drug catalog (xls,xlsx)'}"/>
+                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadMappedDrug.models.size()+uploadMappedDrug.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadMappedDrug.file}"/><br/>
                 <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" rendered="#{uploadMappedDrug.duplicateFile}" style="color:red;font-weight: bold"/><br/>
-                <br/>
                 <p:panel  header="จำนวนข้อมูลที่ไม่ผ่านการตรวจสอบตามโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.notPassModels.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.notPassModels}">
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
@@ -184,6 +179,7 @@
                     </h:panelGrid>
                 </p:panel>
                 <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrug.save()}" disabled="#{empty uploadMappedDrug.models or uploadMappedDrug.duplicateFile}"/>
+                &nbsp;
                 <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrug.reset()}" disabled="#{empty uploadMappedDrug.file}"/>
             </h:form>
         </ui:define>

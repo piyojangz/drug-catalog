@@ -10,16 +10,17 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -229,6 +230,11 @@ public class UploadMappedDrug implements Serializable {
         }
         LOG.debug("File : {}", file);
         return null;
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        file = event.getFile();
+        upload();
     }
 
     private void checkDuplicateInCurrentFile(HospitalDrugExcelModel bean) {
