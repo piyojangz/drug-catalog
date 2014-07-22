@@ -66,6 +66,30 @@
                 <div class="temIconSize24 temIconBackgroundLogout temMarginRight5"></div>Logout
             </div>
         </h:outputLink>
-
+        <ui:remove>
+            <h:form>
+                <p:menu >
+                    <p:submenu label="การจัดการแฟ้มข้อมูล Drug Catalogue" rendered="#{request.isUserInRole('HOSPITAL')}">
+                        <p:menuitem  value="นำเข้าข้อมูล" outcome="/private/hospital/upload/index" styleClass="temIconSize24 temIconBackgroundHome temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/upload/index'), 0)?'background-color: #e4e4e4':''}"/>
+                        <p:menuitem value="ประวัตินำเข้าข้อมูล" outcome="/private/hospital/listfile/index" styleClass="temIconSize24 temIconBackgroundHistoryImportData temMarginRight5"  style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/noTmt'), 0)?'background-color: #e4e4e4':''}"/>
+                        <p:menuitem value="รายการยาที่ยังไม่มีรหัสยา TMT" outcome="/private/hospital/listdrug/noTmt" styleClass="temIconSize24 temIconBackgroundNotCode temMarginRight5"  style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/noTmt'), 0)?'background-color: #e4e4e4':''}"/>
+                        <p:menuitem value="รายการยาที่ยังไม่อนุมัติ" outcome="/private/hospital/listdrug/wait" styleClass="temIconSize24 temIconBackgroundNotApproveCode temMarginRight5"  style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/wait'), 0)?'background-color: #e4e4e4':''}"/>
+                        <p:menuitem value="รายการยาที่อนุมัติ" outcome="/private/hospital/listdrug/index" styleClass="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/approved'), 0)?'background-color: #e4e4e4':''}"/>
+                    </p:submenu>
+                    <p:submenu label="การจัดการข้อมูลรายการยาของโรงพยาบาล" rendered="#{request.isUserInRole('HOSPITAL')}">
+                        <p:menuitem value="บันทึก / แก้ไข " url="http://www.primefaces.org" icon="ui-icon-home"/>
+                        <p:menuitem value="รายการยาของโรงพยาบาล" outcome="/private/hospital/listdrug/index" styleClass="temIconSize24 temIconBackgroundApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #e4e4e4':''}"/>
+                    </p:submenu>
+                    <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN')}">
+                        <p:menuitem value="Inbox" outcome="/private/admin/drug/inbox" styleClass="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #e4e4e4':''}"/>
+                    </p:submenu>
+                    <p:submenu label="ฐานข้อมูลยา TMT Master">
+                        <p:menuitem value="นำเข้าฐาน TMT" outcome="/private/admin/drug/index"  styleClass="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/index'), 0)?'background-color: #e4e4e4':''}"/>
+                        <p:menuitem value="ฐานข้อมูลรหัสยา TMT" outcome="/private/common/drug/index" styleClass="temIconSize24 temIconBackgroundImportTMT temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/common/drug/index'), 0)?'background-color: #e4e4e4':''}"/>
+                    </p:submenu>
+                    <p:menuitem value="Logout" url="#{request.contextPath}/logout" styleClass="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
+                </p:menu>
+            </h:form>
+        </ui:remove>
     </ui:composition>
 </html>

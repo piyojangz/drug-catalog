@@ -9,9 +9,12 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <h:form>
-                FSN:<h:inputText id="x" value="#{searchTmtDrug.keyword}"/>
-                <h:messages for="x" style="color: red"/>
-                <p:commandButton action="#{searchTmtDrug.search()}" update="drug" value="Search" ajax="false"/>
+                <div>
+                    <span>ค้นหา :</span>
+                    <h:inputText id="x" value="#{searchTmtDrug.keyword}"/>
+                    &nbsp;&nbsp;
+                    <p:commandButton action="#{searchTmtDrug.search()}" update="drug" value="Search" ajax="false"/>
+                </div>
                 <p:dataTable id="drug" resizableColumns="true"  value="#{searchTmtDrug.models}" var="model"  rowIndexVar="rowIndex"
                              paginator="true" rows="10" lazy="true" rowsPerPageTemplate="10,20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
