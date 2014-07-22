@@ -254,3 +254,6 @@ a{
 .errorBackground{
     background: #FFC3C3 !important;
 }
+.reSizeContent{
+    padding:  10px !important;
+}
