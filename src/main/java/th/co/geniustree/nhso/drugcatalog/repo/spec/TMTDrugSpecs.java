@@ -28,9 +28,9 @@ public class TMTDrugSpecs {
                 Predicate and = null;
                 for (String key : keywords) {
                     if (and == null) {
-                        and = cb.like(root.get(TMTDrug_.fsn), "%"+key+"%");
+                        and = cb.like(cb.lower(root.get(TMTDrug_.fsn)), "%"+key.toLowerCase()+"%");
                     } else {
-                        and = cb.and(and, cb.like(root.get(TMTDrug_.fsn), "%"+key+"%"));
+                        and = cb.and(and, cb.like(cb.lower(root.get(TMTDrug_.fsn)), "%"+key.toLowerCase()+"%"));
                     }
                 }
                 return and;

@@ -31,7 +31,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author moth
  */
 @Entity
-@Table(name = "TMT_HOSP_TMTDRUG")
+@Table(name = "TMT_HOSPDRUG")
 @IdClass(HospitalDrugPK.class)
 public class HospitalDrug implements Serializable {
 
