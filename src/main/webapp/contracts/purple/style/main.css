@@ -9,6 +9,7 @@ a{
     display: block;
     height: 45px;
     background: #8b25b2;
+    overflow: hidden;
 }
 #temLogo{
     display: block;
@@ -145,6 +146,10 @@ a{
 .temIconBackgroundImportTMT{
     background: url('#{request.contextPath}/contracts/purple/images/template/iconspy24.png') no-repeat;
     background-position: 0px -480px;
+}
+.temIconBackgroundApproveCode{
+    background: url('/gf4/drugcatalog/contracts/green/images/template/iconspy24.png') no-repeat;
+    background-position: 0px -625px;
 }
 .temStatus{
     float:right;
