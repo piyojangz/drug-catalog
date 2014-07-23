@@ -7,7 +7,7 @@ a{
 }
 #temHead{
     display: block;
-    height: 45px;
+    height: 60px;
     background: #3b9c9d;
     overflow: hidden;
 }
@@ -174,7 +174,7 @@ a{
 /*********** must be chenge ***********/
 .temStatus{
     float:right;
-    margin-right: 20px;
+    margin-right: 130px;
     margin-top: -45px;
     line-height: 50px;
     font-size: 13px;
@@ -183,6 +183,7 @@ a{
     color: #ffc000;
 
 }
+
 .temIconLogout{
     display: block;
     float: right;
@@ -231,7 +232,6 @@ a{
     position: absolute;
     top: 5px;
     right: 0;
-    margin-right: 200px;
 }
 
 /*/////////////////////// new menu ////////////////*/

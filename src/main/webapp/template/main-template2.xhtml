@@ -14,10 +14,12 @@
             <h:outputScript name="script/temdesign.js"/>
         </h:head>
         <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="45" resizable="false" closable="false" collapsible="false">
+            <p:layoutUnit position="north" size="60" resizable="false" closable="false" collapsible="false">
                 <div id="temHead">
                     <div id="temLogo"></div>
-                    <div class="temStatus">ผู้ใช้งาน: #{request.userPrincipal.principal}<div class="temIconLogout"></div></div>
+                    <div class="temStatus">ผู้ใช้งาน: #{request.userPrincipal.principal} #{request.userPrincipal.principal.hospital.hname} <div class="temIconLogout"></div></div>
+                    
+                   
                     <div class="buttoncolor">
                         <h:form>
                             <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">

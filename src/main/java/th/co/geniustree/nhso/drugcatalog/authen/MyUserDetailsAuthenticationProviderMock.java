@@ -59,7 +59,7 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
         } else if ("p".equalsIgnoreCase(username)) {
             wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.PROVINCE});
             wsUserDetails.setFromType("P");
-            Hospital hospital = hospitalRepo.findByHcode("00037");
+            Hospital hospital = hospitalRepo.findByHcode(username);
             if (hospital == null) {
                 throw new UsernameNotFoundException("Not found HCODE " + username);
             }
