@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -24,10 +25,12 @@ import th.co.geniustree.nhso.drugcatalog.repo.spec.HospitalDrugSpecs;
  *
  * @author moth
  */
-@Scope("view")
+@Scope("session")
 @Component
 public class HospitalDrugListController implements Serializable {
 
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugListController.class);
+    
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
     private SpringDataLazyDataModelSupport<HospitalDrug> all;

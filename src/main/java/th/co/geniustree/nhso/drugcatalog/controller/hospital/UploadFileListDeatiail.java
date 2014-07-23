@@ -19,7 +19,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
  *
  * @author moth
  */
-@Scope("request")
+@Scope("view")
 @Component
 public class UploadFileListDeatiail implements Serializable {
 

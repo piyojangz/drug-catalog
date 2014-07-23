@@ -21,7 +21,7 @@ public class SpringDataLazyDataModelSupport<T> extends LazyDataModel {
 
     @Override
     public List load(int first, int pageSize, List multiSortMeta, Map filters) {
-        PageRequest pageRequest = new PageRequest(first, pageSize);
+        PageRequest pageRequest = new PageRequest(first / pageSize, pageSize);
         Page<T> page = load(pageRequest);
         setRowCount((int)page.getTotalElements());
         return page.getContent();
@@ -29,7 +29,7 @@ public class SpringDataLazyDataModelSupport<T> extends LazyDataModel {
 
     @Override
     public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-        PageRequest pageRequest = new PageRequest(first, pageSize);
+        PageRequest pageRequest = new PageRequest(first / pageSize, pageSize);
         Page<T> page = load(pageRequest);
         setRowCount((int)page.getTotalElements());
         return page.getContent();

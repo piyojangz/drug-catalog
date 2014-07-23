@@ -64,9 +64,11 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
                 hospitalDrug = hospitalDrugRepo.save(hospitalDrug);
                 createFirstPrice(hospitalDrug);
                 createFirstEdNed(hospitalDrug);
-                createRequestItem(uploadHospitalDrugs, uploadItem, hospitalDrug);
+                if (!Strings.isNullOrEmpty(uploadItem.getTmtId())) {
+                    createRequestItem(uploadHospitalDrugs, uploadItem, hospitalDrug);
+                }
             } else {
-                if (Strings.isNullOrEmpty(hospitalDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId())) {
+                if (Strings.isNullOrEmpty(hospitalDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId())) {//not have tmt id before.
                     createRequestItem(uploadHospitalDrugs, uploadItem, hospitalDrug);
                 }
                 processUpdate(hospitalDrug, uploadItem);
