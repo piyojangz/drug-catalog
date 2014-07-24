@@ -79,8 +79,7 @@ public class HospitalDrug implements Serializable {
     @Column(name = "UNITPRICE", precision = 10, scale = 2, nullable = false)
     private BigDecimal unitPrice;
 
-    @NotEmpty
-    @Column(name = "DISTRIBUTOR", nullable = false, length = 255)
+    @Column(name = "DISTRIBUTOR", nullable = true, length = 255)
     private String distributor;
 
     @NotEmpty

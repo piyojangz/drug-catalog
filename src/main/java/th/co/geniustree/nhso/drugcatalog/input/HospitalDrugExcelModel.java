@@ -58,8 +58,8 @@ public class HospitalDrugExcelModel implements Serializable {
     @NotEmpty(message = "unitPrice may not be empty")
     @DoubleValue(message = "unitPrice is not decimal number.")
     private String unitPrice;
+    
     @XlsColumn
-    @NotEmpty(message = "distributor may not be empty")
     private String distributor;
     @XlsColumn
     @NotEmpty(message = "manufacturer may not be empty")
