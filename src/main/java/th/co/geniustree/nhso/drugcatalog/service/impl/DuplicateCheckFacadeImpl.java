@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
 import th.co.geniustree.nhso.drugcatalog.service.EdNEdService;
 import th.co.geniustree.nhso.drugcatalog.service.PriceService;
@@ -21,29 +22,28 @@ import th.co.geniustree.nhso.drugcatalog.service.PriceService;
 public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
 
     @Autowired
-    private PriceService priceService;
-    @Autowired
-    private EdNEdService edNedService;
+    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
 
     @Override
     public void checkDuplicateInDatabase(HospitalDrugExcelModel uploadDrugModel) {
         if ("U".equalsIgnoreCase(uploadDrugModel.getUpdateFlag())) {
-            checkDuplicateForPrice(uploadDrugModel);
-        }
-        checkDuplicateForEdNed(uploadDrugModel);
-    }
-
-    private void checkDuplicateForPrice(HospitalDrugExcelModel uploadDrugModel) {
-        boolean priceDuplicate = priceService.isPriceDuplicate(uploadDrugModel.getHcode(), uploadDrugModel.getHospDrugCode(), DateUtils.parseDateWithOptionalTimeAndNoneLeneint(uploadDrugModel.getDateEffective()));
-        if (priceDuplicate) {
-            uploadDrugModel.addError("unitPrice", "UnitPrice at dateEffective is already exist.");
+            checkDuplicateForUpdateFlageU(uploadDrugModel);
+        } else {
+            checkDuplicateForUpdateFlagAED(uploadDrugModel);
         }
     }
 
-    private void checkDuplicateForEdNed(HospitalDrugExcelModel uploadDrugModel) {
-        boolean duplicateEdNed = edNedService.isDuplicateEdNed(uploadDrugModel.getHcode(), uploadDrugModel.getHospDrugCode(), DateUtils.parseDateWithOptionalTimeAndNoneLeneint(uploadDrugModel.getDateChange()));
-        if (duplicateEdNed) {
-            uploadDrugModel.addError("ised", "ED at dateIn(dateChange) is already exist.");
+    private void checkDuplicateForUpdateFlageU(HospitalDrugExcelModel uploadDrugModel) {
+        long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateUpdate());
+        if (countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate > 0) {
+            uploadDrugModel.addError("dateUpdate", "Flag U at dateUpdate is already exist.");
+        }
+    }
+
+    private void checkDuplicateForUpdateFlagAED(HospitalDrugExcelModel uploadDrugModel) {
+        long countByHospDrugCodeAndUploadDrugHcodeAndDateChange = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateChange(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateChange());
+        if (countByHospDrugCodeAndUploadDrugHcodeAndDateChange > 0) {
+            uploadDrugModel.addError("dateChange", "Flag A,E,D at dateChange is already exist.");
         }
     }
 

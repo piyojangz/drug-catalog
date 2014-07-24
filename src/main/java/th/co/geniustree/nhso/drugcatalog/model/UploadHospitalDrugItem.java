@@ -8,11 +8,13 @@ package th.co.geniustree.nhso.drugcatalog.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -27,7 +29,13 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
  * @author moth
  */
 @Entity
-@Table(name = "TMT_UPLOADHOSPDRUG_ITEM")
+@Table(name = "TMT_UPLOADHOSPDRUG_ITEM",
+        indexes = {
+            @Index(name = "UPLOAD_ITEM_HOSPDRUGCODE", columnList = "HOSPDRUGCODE"),
+            @Index(name = "UPLOAD_ITEM_DATECHANGE", columnList = "DATECHANGE"),
+            @Index(name = "UPLOAD_ITEM_DATEUPDATE", columnList = "DATEUPDATE"),
+            @Index(name = "UPLOAD_ITEM_UPDATEFLAG", columnList = "UPDATEFLAG")
+        })
 public class UploadHospitalDrugItem implements Serializable {
 
     @Id
@@ -42,6 +50,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @JoinColumn(name = "UPLOADHOSPDRUG_ID")
     private UploadHospitalDrug uploadDrug;
     @NotEmpty
+    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
     private String hospDrugCode;
 
     @NotEmpty
@@ -87,18 +96,23 @@ public class UploadHospitalDrugItem implements Serializable {
     private String packPrice;
 
     @NotEmpty
+    @Column(name = "UPDATEFLAG")
     private String updateFlag;
 
     @NotEmpty
+    @Column(name = "DATECHANGE")
     private String dateChange;
 
     @NotEmpty
+    @Column(name = "DATEUPDATE")
     private String dateUpdate;
 
     @NotEmpty
     private String dateEffective;
+    @Column(name = "DATECHANGEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateChangeDate;
+    @Column(name = "DATEUPDATEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdateDate;
     @Temporal(TemporalType.TIMESTAMP)

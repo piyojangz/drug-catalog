@@ -6,8 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.Date;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,12 +39,12 @@ public class EdNEdServiceImpl implements EdNEdService {
 
     @Override
     public void addNewEdNed(HospitalDrug drug, String ised) {
-        boolean exist = isDuplicateEdNed(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange());
-        if (exist) {
-            throw new IllegalStateException("Ed/Ned at " + drug.getDateChange() + " is already exist.");
+        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange()));
+        if (findOne == null) {
+            createFirstEdNed(drug);
+        } else {
+            findOne.setStatusEd(ised);
         }
-        //TODO MUST check range of ED/NED
-        createFirstEdNed(drug);
     }
 
     /**
@@ -60,6 +58,7 @@ public class EdNEdServiceImpl implements EdNEdService {
         edNed.setHcode(drug.getHcode());
         edNed.setHospDrugCode(drug.getHospDrugCode());
         edNed.setDateIn(drug.getDateChange());
+        edNed.setStatusEd(drug.getIsed());
         drug.getEdNeds().add(hospitalEdNedRepo.save(edNed));
     }
 

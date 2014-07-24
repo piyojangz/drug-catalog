@@ -47,6 +47,8 @@ public class HospitalEdNed implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATEDATE", nullable = false)
     private Date createDate;
+    @Column(name = "STATUS_ED", length = 2, nullable = false)
+    private String statusEd;
 
     @PrePersist
     public void prePersist() {
@@ -92,6 +94,15 @@ public class HospitalEdNed implements Serializable {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+    public String getStatusEd() {
+        return statusEd;
+    }
+
+    public void setStatusEd(String statusEd) {
+        this.statusEd = statusEd;
+    }
+    
 
     @Override
     public int hashCode() {

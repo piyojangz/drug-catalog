@@ -90,21 +90,15 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     private void processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
         copyAndConvertAttribute(uploadItem, alreadyDrug);
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            addNewPrice(alreadyDrug, uploadItem);
+            priceService.addNewPrice(alreadyDrug, new BigDecimal(uploadItem.getUnitPrice()));
+            BeanUtils.copyProperties(uploadItem, alreadyDrug);
         } else if ("E".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            updateAttribute(alreadyDrug, uploadItem);
+            edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
+            BeanUtils.copyProperties(uploadItem, alreadyDrug);
         } else if ("D".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             alreadyDrug.setDeleted(Boolean.TRUE);
+            BeanUtils.copyProperties(uploadItem, alreadyDrug);
         }
-    }
-
-    private void addNewPrice(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
-        priceService.addNewPrice(alreadyDrug, new BigDecimal(uploadItem.getUnitPrice()));
-    }
-
-    private void updateAttribute(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
-        edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
-        BeanUtils.copyProperties(uploadItem, alreadyDrug);
     }
 
     private void createFirstPrice(HospitalDrug drug) {

@@ -59,7 +59,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @NotEmpty(message = "unitPrice may not be empty")
     @DoubleValue(message = "unitPrice is not decimal number.")
     private String unitPrice;
-    
+
     @XlsColumn
     private String distributor;
     @XlsColumn
@@ -82,15 +82,16 @@ public class HospitalDrugExcelModel implements Serializable {
     @ValueSet(values = {"A", "D", "E", "U"}, message = "Must be \"A,D,E,U\" only.")
     private String updateFlag;
     @XlsColumn
-    @NotEmpty(message = "dateChange may not be empty")
+    @NotEmpty(message = "dateChange may not be empty for update flag A,E,D")
     @DateAndOptionalTime(message = "dateChange ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateChange;
     @XlsColumn
-    @NotEmpty(message = "dateUpdate may not be empty")
+    @NotEmpty(message = "dateUpdate may not be empty for update flag U", groups = UGroup.class)
     @DateAndOptionalTime(message = "dateUpdate ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateUpdate;
+    
     @XlsColumn
-    @NotEmpty(message = "dateEffective may not be empty")
+    @NotEmpty(message = "dateEffective may not be empty for update flag U", groups = UGroup.class)
     @DateAndOptionalTime(message = "dateEffective ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateEffective;
     private int rowNum;
@@ -303,10 +304,9 @@ public class HospitalDrugExcelModel implements Serializable {
     public boolean isEqual(HospitalDrugExcelModel other) {
         boolean equal = this.hospDrugCode.equals(other.hospDrugCode) && this.updateFlag.equalsIgnoreCase(other.updateFlag);
         if (this.updateFlag.equalsIgnoreCase("U")) {
-            //Check only date part
-            equal = equal && this.dateEffective.substring(0, 10).equals(other.dateEffective.substring(0, 10));
+            equal = equal && this.dateUpdate.equals(other.dateUpdate);
         } else {
-            equal = equal && this.dateChange.substring(0, 10).equals(other.dateChange.substring(0, 10));
+            equal = equal && this.dateChange.equals(other.dateChange);
         }
         return equal;
     }

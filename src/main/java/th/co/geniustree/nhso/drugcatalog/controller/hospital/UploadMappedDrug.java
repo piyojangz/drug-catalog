@@ -35,6 +35,7 @@ import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.UploadItemOrderHelper;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
+import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
@@ -52,7 +53,7 @@ import th.co.geniustree.xls.beans.ReaderUtils;
 @Component
 @Scope("view")
 public class UploadMappedDrug implements Serializable {
-    
+
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadMappedDrug.class);
     private UploadedFile file;
     private List<HospitalDrugExcelModel> models = new ArrayList<>();
@@ -78,7 +79,7 @@ public class UploadMappedDrug implements Serializable {
     private TMTDrugRepo tmtDrugRepo;
     private File uploadDir;
     private File targetFile;
-    
+
     @PostConstruct
     public void postConstruct() {
         String uploadtempLocation = app.getProperty("uploadtempLocation");
@@ -90,43 +91,43 @@ public class UploadMappedDrug implements Serializable {
         uploadDir.mkdir();
         user = SecurityUtil.getUserDetails();
     }
-    
+
     public List<HospitalDrugExcelModel> getModels() {
         return models;
     }
-    
+
     public void setModels(List<HospitalDrugExcelModel> models) {
         this.models = models;
     }
-    
+
     public List<HospitalDrugExcelModel> getNotPassModels() {
         return notPassModels;
     }
-    
+
     public void setNotPassModels(List<HospitalDrugExcelModel> notPassModels) {
         this.notPassModels = notPassModels;
     }
-    
+
     public String getOriginalFileName() {
         return originalFileName;
     }
-    
+
     public void setOriginalFileName(String originalFileName) {
         this.originalFileName = originalFileName;
     }
-    
+
     public UploadedFile getFile() {
         return file;
     }
-    
+
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-    
+
     public boolean isDuplicateFile() {
         return duplicateFile;
     }
-    
+
     public String save() {
         if (duplicateFile) {
             FacesMessageUtils.info("ไฟล์นี้เคยนำเข้าแล้ว.");
@@ -160,7 +161,7 @@ public class UploadMappedDrug implements Serializable {
         reset();
         return null;
     }
-    
+
     public String reset() {
         saveFileName = null;
         originalFileName = null;
@@ -171,7 +172,7 @@ public class UploadMappedDrug implements Serializable {
         shaHex = null;
         return null;
     }
-    
+
     public String upload() {
         models.clear();
         notPassModels.clear();
@@ -190,7 +191,7 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.error("Upload HCODE must match with login HCODE");
             return null;
         }
-        
+
         try (InputStream inputFileStream = file.getInputstream()) {
             originalFileName = file.getFileName();
             saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
@@ -201,18 +202,19 @@ public class UploadMappedDrug implements Serializable {
             duplicateFile = uploadHospitalDrugRepo.countByShaHex(shaHex) > 0;
             ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
                 int rowNum = 0;
-                
+
                 @Override
                 public void header(List<String> headers) {
                     LOG.debug("HEADERS = {}", headers);
                     rowNum++;
                 }
-                
+
                 @Override
                 public void ok(int rowNum, HospitalDrugExcelModel bean) {
                     bean.setRowNum(rowNum);
                     bean.setHcode(user.getOrgId());
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
+                    violations.addAll(beanValidator.validate(bean, UGroup.class));
                     if (violations.isEmpty()) {
                         checkDuplicateInCurrentFile(bean);
                         checkTmt(bean);
@@ -229,12 +231,12 @@ public class UploadMappedDrug implements Serializable {
                         notPassModels.add(bean);
                     }
                 }
-                
+
                 @Override
                 public void err(Exception e) {
                     LOG.error(null, e);
                 }
-                
+
             });
         } catch (ColumnNotFoundException columnNotFound) {
             reset();
@@ -246,12 +248,12 @@ public class UploadMappedDrug implements Serializable {
         LOG.debug("File : {}", file);
         return null;
     }
-    
+
     public void handleFileUpload(FileUploadEvent event) {
         file = event.getFile();
         upload();
     }
-    
+
     private void checkDuplicateInCurrentFile(HospitalDrugExcelModel bean) {
         for (HospitalDrugExcelModel model : models) {
             if (bean.isEqual(model)) {
@@ -259,7 +261,7 @@ public class UploadMappedDrug implements Serializable {
             }
         }
     }
-    
+
     private void checkTmt(HospitalDrugExcelModel bean) {
         if (Strings.isNullOrEmpty(bean.getTmtId()) || bean.getTmtId().length() < 6) {
             return;
