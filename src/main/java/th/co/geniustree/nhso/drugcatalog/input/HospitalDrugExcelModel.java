@@ -62,7 +62,7 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
     private String distributor;
-    @XlsColumn
+    @XlsColumn(columnNames = {"manufacturer","manufacture"})
     @NotEmpty(message = "manufacturer may not be empty")
     private String manufacturer;
     @XlsColumn

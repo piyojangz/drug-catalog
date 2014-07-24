@@ -214,10 +214,12 @@ public class UploadMappedDrug implements Serializable {
                     bean.setRowNum(rowNum);
                     bean.setHcode(user.getOrgId());
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
-                    violations.addAll(beanValidator.validate(bean, UGroup.class));
+                    if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
+                        violations.addAll(beanValidator.validate(bean, UGroup.class));
+                    }
                     if (violations.isEmpty()) {
                         checkDuplicateInCurrentFile(bean);
-                        checkTmt(bean);
+                        //checkTmt(bean); TODO temporary disable.
                         duplicateCheckFacade.checkDuplicateInDatabase(bean);
                         if (bean.getErrorMap().isEmpty()) {
                             models.add(bean);
