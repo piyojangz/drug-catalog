@@ -11,7 +11,7 @@
             <h:form>
                 <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadFileList.uploadHospitalDrugs}" var="model"  
                              paginator="true" rows="10" lazy="true" rowsPerPageTemplate="10,20,30,40,50"
-                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         ประวัตินำเข้าข้อมูล
                         <h:commandLink style="float:left">
@@ -35,7 +35,9 @@
                         #{model.itemCount}
                     </p:column>
                     <p:column headerText="Create date">
-                        #{model.createDate}
+                        <h:outputText value="#{model.createDate}">
+                            <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
                     </p:column>
                     <p:column headerText="" width="60">
                         <h:link outcome="details" value="Detail">
