@@ -12,12 +12,12 @@ import javax.validation.ConstraintValidatorContext;
  *
  * @author pramoth
  */
-public class StartWithValidator implements ConstraintValidator<StartWith, String> {
+public class NDC24Validator implements ConstraintValidator<NDC24, String> {
 
-    private StartWith valueSet;
+    private NDC24 valueSet;
 
     @Override
-    public void initialize(StartWith constraintAnnotation) {
+    public void initialize(NDC24 constraintAnnotation) {
         this.valueSet = constraintAnnotation;
     }
 
@@ -26,12 +26,15 @@ public class StartWithValidator implements ConstraintValidator<StartWith, String
         if (value == null || value.trim().isEmpty()) {
             return true;
         }
-        String[] constrainValues = valueSet.values();
-        for (String constrainValue : constrainValues) {
-            if (value.trim().startsWith(constrainValue.trim())) {
-                return true;
+        value = value.trim();
+        if (value.length() != 24) {
+            return false;
+        }
+        for (char c : value.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }

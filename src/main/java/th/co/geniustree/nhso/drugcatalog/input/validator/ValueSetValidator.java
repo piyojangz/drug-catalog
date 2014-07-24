@@ -23,7 +23,7 @@ public class ValueSetValidator implements ConstraintValidator<ValueSet, String> 
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null || value.isEmpty()) {
+        if (value == null || value.trim().isEmpty()) {
             return true;
         }
         String[] constrainValues = valueSet.values();

@@ -25,7 +25,7 @@ public class DoubleValidator implements ConstraintValidator<DoubleValue, String>
             return true;
         }
         try {
-            Double.parseDouble(value);
+            Double.parseDouble(value.trim());
             return true;
         } catch (Exception ex) {
             return false;

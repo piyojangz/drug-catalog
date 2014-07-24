@@ -19,15 +19,14 @@ import javax.validation.Payload;
  */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = StartWithValidator.class)
+@Constraint(validatedBy = NDC24Validator.class)
 @Documented
-public @interface StartWith {
+public @interface NDC24 {
 
-    String message() default "{th.co.geniustree.nhso.drugcatalog.input.validator.startwith}";
+    String message() default "{th.co.geniustree.nhso.drugcatalog.input.validator.ndc}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    String[] values();
 }

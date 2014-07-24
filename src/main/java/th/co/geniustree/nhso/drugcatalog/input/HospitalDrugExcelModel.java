@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
+import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
 import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
 import th.co.geniustree.xls.beans.XlsColumn;
@@ -69,7 +70,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @ValueSet(values = {"E", "N", "E*"}, message = "Must be \"E,N,E*\" only.")
     private String ised;
     @XlsColumn
-    @Size(min = 19, max = 24, message = "NDC24 length between {min} and {max}.")
+    @NDC24(message = "NDC24 length must be 24 and digit only.")
     private String ndc24;
     @XlsColumn
     private String packSize;
