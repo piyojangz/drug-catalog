@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
+import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
 import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
 import th.co.geniustree.xls.beans.XlsColumn;
 
@@ -34,7 +35,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @XlsColumn
     private String tmtId;
     @XlsColumn
-    @ValueSet(values = {"F", "M", "R"})
+    @StartWith(values = {"F", "M", "R"})
     private String specPrep;
     @XlsColumn
     @NotEmpty(message = "genericName may not be empty")
