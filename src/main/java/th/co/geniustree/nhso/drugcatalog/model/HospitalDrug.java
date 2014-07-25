@@ -109,7 +109,7 @@ public class HospitalDrug implements Serializable {
     private Date dateChange;
 
     @NotEmpty
-    @Column(name = "DATEUPDATE", nullable = false)
+    @Column(name = "DATEUPDATE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdate;
 

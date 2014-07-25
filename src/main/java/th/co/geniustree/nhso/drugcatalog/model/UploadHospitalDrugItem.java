@@ -293,7 +293,9 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
-        this.dateUpdateDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateUpdate);
+        if (dateUpdate != null) {
+            this.dateUpdateDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateUpdate);
+        }
     }
 
     public String getDateEffective() {
