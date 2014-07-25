@@ -20,8 +20,8 @@ public class DateUtils {
         Date date = null;
         SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
         try {
-            date = dateAndTimeFormat.parse(dateString);
             dateAndTimeFormat.setLenient(false);
+            date = dateAndTimeFormat.parse(dateString);
         } catch (ParseException ex) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
             dateFormat.setLenient(false);
