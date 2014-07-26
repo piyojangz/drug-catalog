@@ -210,6 +210,9 @@ public class UploadMasterDrug implements Serializable {
     private Map<String, TradeDrugExcelModel> readTPU() {
         final Map<String, TradeDrugExcelModel> tpuDrug = new HashMap<>();
         File tpu = new File(tmtRFFolder, bonusFolder + "/Concept/TPU" + secondFileNamePart + ".xls");
+        if (!tpu.exists()) {
+            tpu = new File(tmtRFFolder, bonusFolder + "/Concepts/TPU" + secondFileNamePart + ".xls");
+        }
         try {
             ReaderUtils.read(tpu, TradeDrugExcelModel.class, new ReadCallback<TradeDrugExcelModel>() {
                 @Override
