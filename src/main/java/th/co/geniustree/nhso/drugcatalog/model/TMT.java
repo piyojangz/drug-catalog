@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package th.co.geniustree.nhso.drugcatalog.input;
+package th.co.geniustree.nhso.drugcatalog.model;
 
 /**
  *

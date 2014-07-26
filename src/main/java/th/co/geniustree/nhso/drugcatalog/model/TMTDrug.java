@@ -28,7 +28,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
 @Table(name = "TMT_DRUG", indexes = {
     @Index(name = "TMT_DRUG_TYPE_IDX", columnList = "TYPE")
 })
-public class TMTDrug implements Serializable {
+public class TMTDrug implements Serializable, TMT {
 
     public enum Type {
 

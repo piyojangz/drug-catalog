@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.input.GenericDrugExcelModel;
-import th.co.geniustree.nhso.drugcatalog.input.TMT;
+import th.co.geniustree.nhso.drugcatalog.model.TMT;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload;
 import th.co.geniustree.nhso.drugcatalog.input.TradeDrugExcelModel;
@@ -42,17 +42,17 @@ public class TMTRFServiceImpl implements TMTRFService {
         saveEachEntity(gp);
         saveEachEntity(gpu);
         saveEachEntity(tp);
-        tmtDrugrepo.save(tmtDrug);
+        saveEachEntity(tmtDrug, "createDate","lastModifiedDate");
         tmtReleaseFileUploadRepo.save(new TMTReleaseFileUpload(releaseDate));
     }
 
-    private void saveEachEntity(List<? extends TMT> tp) throws BeansException {
+    private void saveEachEntity(List<? extends TMT> tp, String... ignoedProperties) throws BeansException {
         for (TMT tmt : tp) {
             TMTDrug findOne = tmtDrugrepo.findOne(tmt.getTmtId());
             if (findOne == null) {
                 findOne = tmtDrugrepo.save(new TMTDrug());
             }
-            BeanUtils.copyProperties(tmt, findOne);
+            BeanUtils.copyProperties(tmt, findOne, ignoedProperties);
         }
     }
 
