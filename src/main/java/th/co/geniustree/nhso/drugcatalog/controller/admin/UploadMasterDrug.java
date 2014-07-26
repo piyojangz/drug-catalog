@@ -108,6 +108,8 @@ public class UploadMasterDrug implements Serializable {
 
     public String save() {
         tmtrfService.save(tmtDrugs, tp, gpu, gp, vtm, subs, releaseDate);
+        boolean deleteTempFile = tempFile.delete();
+        LOG.info("Delete temp file =>{}, result => {}", tempFile.getAbsolutePath(), deleteTempFile);
         FacesMessageUtils.info("บันทึกเสร็จสิ้น.");
         reset();
         return null;
