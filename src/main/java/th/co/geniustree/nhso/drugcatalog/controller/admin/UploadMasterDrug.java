@@ -143,6 +143,11 @@ public class UploadMasterDrug implements Serializable {
         saveFileName = null;
         originalFileName = null;
         tmtDrugs.clear();
+        tp.clear();
+        subs.clear();
+        vtm.clear();
+        gp.clear();
+        gpu.clear();
         return null;
     }
 
@@ -167,10 +172,15 @@ public class UploadMasterDrug implements Serializable {
         createTempFile(file);
         createTMTMaster();
         tp = readGenericDrug("TP", TradeDrugExcelModel.class, Type.TP);
+        LOG.info("----------------TP size {}(\"----------------", tp.size());
         gpu = readGenericDrug("GPU", GenericDrugExcelModel.class, Type.GPU);
+        LOG.info("----------------GPU size {}(\"----------------", tp.size());
         gp = readGenericDrug("GP", GenericDrugExcelModel.class, Type.GP);
+        LOG.info("----------------GP size {}(\"----------------", tp.size());
         vtm = readGenericDrug("VTM", GenericDrugExcelModel.class, Type.VTM);
+        LOG.info("----------------VTM size {}(\"----------------", tp.size());
         subs = readGenericDrug("SUBS", GenericDrugExcelModel.class, Type.SUB);
+        LOG.info("----------------SUBS size {}(\"----------------", tp.size());
     }
 
     private void createTempFile(UploadedFile file) {
@@ -290,6 +300,7 @@ public class UploadMasterDrug implements Serializable {
             FacesMessageUtils.warn(iOException);
             LOG.error(null, iOException);
         }
+        LOG.info("----------------TPU size {}(\"----------------", tmtDrugs.size());
     }
 
 }

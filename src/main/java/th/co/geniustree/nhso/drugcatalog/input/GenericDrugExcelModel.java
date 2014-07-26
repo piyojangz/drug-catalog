@@ -19,7 +19,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
  */
 public class GenericDrugExcelModel implements Serializable, Typeable, TMT {
 
-    @XlsColumn(columnNames = {"TMTID","TMTID(GPU)", "TMTID(GP)", "TMTID(SUBS)", "TMTID(VTM)"})
+    @XlsColumn(columnNames = {"TMTID","TMTID(GPU)", "TMTID(GP)", "TMTID(SUBS)", "TMTID(VTM)","TMTID (GPU)", "TMTID (GP)", "TMTID (SUBS)", "TMTID (VTM)"})
     private String tmtId;
     @XlsColumn(columnNames = "changeDate")
     private String changeDateString;
