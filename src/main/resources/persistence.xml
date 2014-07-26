@@ -15,8 +15,6 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.GenericTMTDrug</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.GenericDrug</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.TradeDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>

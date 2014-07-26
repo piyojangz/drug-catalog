@@ -3,73 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model;
+package th.co.geniustree.nhso.drugcatalog.input;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.Transient;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
  *
  * @author moth
  */
-@Entity
-@Table(name = "TMT_DRUG")
-//TODO Duplicat table maybe cause probremm on create schema
-public class TradeDrug implements Serializable, Typeable {
+public class TradeDrugExcelModel implements Serializable, Typeable, TMT {
 
-    @Id
     @XlsColumn(columnNames = {"TMTID(TPU)", "TMTID(TP)"})
-    @Column(name = "TMTID", length = 6, nullable = false)
     private String tmtId;
-    @Transient
     @XlsColumn(columnNames = "changeDate")
     private String changeDateString;
 
-    @Column(name = "CHANGEDATE", nullable = false)
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Date changeDate;
 
     @XlsColumn
-    @Column(name = "FSN", length = 1000)
     private String fsn;
     @XlsColumn
-    @Column(name = "MANUFACTURER", length = 255)
     private String manufacturer;
-    @Column(name = "TYPE", nullable = false, length = 3)
-    @Enumerated(EnumType.STRING)
+
     private TMTDrug.Type type;
-
-    @Column(name = "CREATEDATE", nullable = false)
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date createDate;
-
-    @Column(name = "LASTMODIFIEDDATE", nullable = false)
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
-
-    @PrePersist
-    public void prepersist() {
-        createDate = new Date();
-        lastModifiedDate = new Date();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        lastModifiedDate = new Date();
-    }
 
     public String getTmtId() {
         return tmtId;
@@ -120,22 +81,6 @@ public class TradeDrug implements Serializable, Typeable {
         this.changeDate = changeDate;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -151,7 +96,7 @@ public class TradeDrug implements Serializable, Typeable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TradeDrug other = (TradeDrug) obj;
+        final TradeDrugExcelModel other = (TradeDrugExcelModel) obj;
         if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }

@@ -27,12 +27,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.model.GenericDrug;
+import th.co.geniustree.nhso.drugcatalog.input.GenericDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload;
-import th.co.geniustree.nhso.drugcatalog.model.TradeDrug;
-import th.co.geniustree.nhso.drugcatalog.model.Typeable;
+import th.co.geniustree.nhso.drugcatalog.input.TradeDrugExcelModel;
+import th.co.geniustree.nhso.drugcatalog.input.Typeable;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTReleaseFileUploadRepo;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRFService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
@@ -50,11 +50,11 @@ public class UploadMasterDrug implements Serializable {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadMasterDrug.class);
     private UploadedFile file;
     private List<TMTDrug> tmtDrugs = new ArrayList<>();
-    private List<TradeDrug> tp;
-    private List<GenericDrug> subs;
-    private List<GenericDrug> vtm;
-    private List<GenericDrug> gp;
-    private List<GenericDrug> gpu;
+    private List<TradeDrugExcelModel> tp;
+    private List<GenericDrugExcelModel> subs;
+    private List<GenericDrugExcelModel> vtm;
+    private List<GenericDrugExcelModel> gp;
+    private List<GenericDrugExcelModel> gpu;
     @Autowired
     @Qualifier("app")
     private Properties app;
@@ -115,23 +115,23 @@ public class UploadMasterDrug implements Serializable {
         return null;
     }
 
-    public List<TradeDrug> getTp() {
+    public List<TradeDrugExcelModel> getTp() {
         return tp;
     }
 
-    public List<GenericDrug> getSubs() {
+    public List<GenericDrugExcelModel> getSubs() {
         return subs;
     }
 
-    public List<GenericDrug> getVtm() {
+    public List<GenericDrugExcelModel> getVtm() {
         return vtm;
     }
 
-    public List<GenericDrug> getGp() {
+    public List<GenericDrugExcelModel> getGp() {
         return gp;
     }
 
-    public List<GenericDrug> getGpu() {
+    public List<GenericDrugExcelModel> getGpu() {
         return gpu;
     }
 
@@ -162,11 +162,11 @@ public class UploadMasterDrug implements Serializable {
         }
         createTempFile(file);
         createTMTMaster();
-        tp = readGenericDrug("TP", TradeDrug.class, Type.TP);
-        gpu = readGenericDrug("GPU", GenericDrug.class, Type.GPU);
-        gp = readGenericDrug("GP", GenericDrug.class, Type.GP);
-        vtm = readGenericDrug("VTM", GenericDrug.class, Type.VTM);
-        subs = readGenericDrug("SUBS", GenericDrug.class, Type.SUB);
+        tp = readGenericDrug("TP", TradeDrugExcelModel.class, Type.TP);
+        gpu = readGenericDrug("GPU", GenericDrugExcelModel.class, Type.GPU);
+        gp = readGenericDrug("GP", GenericDrugExcelModel.class, Type.GP);
+        vtm = readGenericDrug("VTM", GenericDrugExcelModel.class, Type.VTM);
+        subs = readGenericDrug("SUBS", GenericDrugExcelModel.class, Type.SUB);
     }
 
     private void createTempFile(UploadedFile file) {
@@ -186,18 +186,18 @@ public class UploadMasterDrug implements Serializable {
         }
     }
 
-    private Map<String, TradeDrug> readTPU() {
-        final Map<String, TradeDrug> tpuDrug = new HashMap<>();
+    private Map<String, TradeDrugExcelModel> readTPU() {
+        final Map<String, TradeDrugExcelModel> tpuDrug = new HashMap<>();
         File tpu = new File(tmtRFFolder, bonusFolder + "/Concept/TPU" + secondFileNamePart + ".xls");
         try {
-            ReaderUtils.read(tpu, TradeDrug.class, new ReadCallback<TradeDrug>() {
+            ReaderUtils.read(tpu, TradeDrugExcelModel.class, new ReadCallback<TradeDrugExcelModel>() {
                 @Override
                 public void header(List<String> headers) {
                     LOG.debug("HEADERS = {}", headers);
                 }
 
                 @Override
-                public void ok(int rowNum, TradeDrug bean) {
+                public void ok(int rowNum, TradeDrugExcelModel bean) {
                     tpuDrug.put(bean.getTmtId(), bean);
                 }
 
@@ -247,7 +247,7 @@ public class UploadMasterDrug implements Serializable {
     }
 
     private void createTMTMaster() {
-        final Map<String, TradeDrug> tpuDrugs = readTPU();
+        final Map<String, TradeDrugExcelModel> tpuDrugs = readTPU();
         File tpu = new File(tmtRFFolder, bonusFolder + "/MasterTMT_" + secondFileNamePart + ".xls");
         LOG.debug("Master file: {}", tpu.getAbsolutePath());
         try {
