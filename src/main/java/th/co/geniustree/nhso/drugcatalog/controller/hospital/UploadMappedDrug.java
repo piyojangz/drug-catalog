@@ -245,7 +245,7 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.error(columnNotFound);
         } catch (Exception iOException) {
             reset();
-            throw new RuntimeException(iOException);
+            FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
         return null;
