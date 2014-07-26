@@ -14,7 +14,7 @@
                               update="form" auto="true" sizeLimit="10000000" allowTypes="/(\.|\/)(zip)$/" 
                               label="#{not empty uploadMasterDrug.originalFileName?'File : '.concat(uploadMasterDrug.originalFileName):'เลือกไฟล์ TMTRFyyyyMMdd.zip'}"/>
                 <p:messages id="messages" showDetail="true" globalOnly="true"/>
-                <h:panelGrid columns="2"  rendered="#{not empty uploadMasterDrug.tmtDrugs}">
+                <h:panelGrid columns="2"  rendered="#{uploadMasterDrug.canSave}">
                     <h:outputLabel value="TPU " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.tmtDrugs.size()} เรคคอร์ด" />
                     <h:outputLabel value="TP " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.tp.size()} เรคคอร์ด" />
                     <h:outputLabel value="GPU " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.gpu.size()} เรคคอร์ด" />

@@ -42,7 +42,7 @@ public class TMTRFServiceImpl implements TMTRFService {
         saveEachEntity(gp);
         saveEachEntity(gpu);
         saveEachEntity(tp);
-        saveEachEntity(tmtDrug, "createDate","lastModifiedDate");
+        saveEachEntity(tmtDrug, "createDate","lastModifiedDate","version");
         tmtReleaseFileUploadRepo.save(new TMTReleaseFileUpload(releaseDate));
     }
 
@@ -50,7 +50,7 @@ public class TMTRFServiceImpl implements TMTRFService {
         for (TMT tmt : tp) {
             TMTDrug findOne = tmtDrugrepo.findOne(tmt.getTmtId());
             if (findOne == null) {
-                findOne = tmtDrugrepo.save(new TMTDrug());
+                findOne = tmtDrugrepo.save(new TMTDrug(tmt.getTmtId()));
             }
             BeanUtils.copyProperties(tmt, findOne, ignoedProperties);
         }

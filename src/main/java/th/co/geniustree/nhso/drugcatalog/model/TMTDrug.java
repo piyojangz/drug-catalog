@@ -18,6 +18,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Version;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -83,6 +84,15 @@ public class TMTDrug implements Serializable, TMT {
     @Column(name = "TYPE", nullable = false, length = 3)
     @Enumerated(EnumType.STRING)
     private Type type;
+    @Version
+    private Integer version;
+
+    public TMTDrug() {
+    }
+
+    public TMTDrug(String tmtId) {
+        this.tmtId = tmtId;
+    }
 
     @PrePersist
     public void prePersist() {
