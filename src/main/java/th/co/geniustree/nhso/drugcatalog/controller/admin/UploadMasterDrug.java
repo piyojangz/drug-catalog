@@ -180,7 +180,7 @@ public class UploadMasterDrug implements Serializable {
             LOG.debug("Extract TMT dir: {}", tmtRFFolder.getAbsolutePath());
         } catch (Exception iOException) {
             FacesMessageUtils.error(iOException);
-            throw new RuntimeException(iOException);
+            LOG.error(null, iOException);
         }
     }
 
@@ -208,7 +208,7 @@ public class UploadMasterDrug implements Serializable {
             FacesMessageUtils.error(columnNotFound);
         } catch (Exception iOException) {
             FacesMessageUtils.error(iOException);
-            throw new RuntimeException(iOException);
+            LOG.error(null, iOException);
         }
         return tpuDrug;
     }
@@ -239,7 +239,7 @@ public class UploadMasterDrug implements Serializable {
             FacesMessageUtils.error(columnNotFound);
         } catch (Exception iOException) {
             FacesMessageUtils.error(iOException);
-            throw new RuntimeException(iOException);
+            LOG.error(null, iOException);
         }
         return genericDrugs;
     }
@@ -272,7 +272,7 @@ public class UploadMasterDrug implements Serializable {
             FacesMessageUtils.error(columnNotFound);
         } catch (Exception iOException) {
             FacesMessageUtils.error(iOException);
-            throw new RuntimeException(iOException);
+            LOG.error(null, iOException);
         }
     }
 
