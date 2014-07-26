@@ -153,10 +153,12 @@ public class UploadMasterDrug implements Serializable {
         if (lastestRelease != null) {
             if (lastestRelease.getReleaseDate().after(releaseDate)) {
                 FacesMessageUtils.error("TMTRF file is outdate.");
+                return;
             } else if (lastestRelease.getReleaseDate().equals(releaseDate)) {
                 FacesMessageUtils.error("TMTRF file is already uploaded.");
+                return;
             }
-            return;
+            
         }
         createTempFile(file);
         createTMTMaster();
