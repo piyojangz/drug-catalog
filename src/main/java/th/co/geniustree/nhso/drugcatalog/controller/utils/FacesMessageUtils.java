@@ -27,4 +27,12 @@ public class FacesMessageUtils {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+    public static void warn(Exception e) {
+        warn(e.getMessage());
+    }
+
+    public static void warn(String msg) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Warnning", msg);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 }

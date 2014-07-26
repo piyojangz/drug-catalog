@@ -50,11 +50,11 @@ public class UploadMasterDrug implements Serializable {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadMasterDrug.class);
     private UploadedFile file;
     private List<TMTDrug> tmtDrugs = new ArrayList<>();
-    private List<TradeDrugExcelModel> tp;
-    private List<GenericDrugExcelModel> subs;
-    private List<GenericDrugExcelModel> vtm;
-    private List<GenericDrugExcelModel> gp;
-    private List<GenericDrugExcelModel> gpu;
+    private List<TradeDrugExcelModel> tp = new ArrayList<>();
+    private List<GenericDrugExcelModel> subs = new ArrayList<>();
+    private List<GenericDrugExcelModel> vtm = new ArrayList<>();
+    private List<GenericDrugExcelModel> gp = new ArrayList<>();
+    private List<GenericDrugExcelModel> gpu = new ArrayList<>();
     @Autowired
     @Qualifier("app")
     private Properties app;
@@ -135,6 +135,10 @@ public class UploadMasterDrug implements Serializable {
         return gpu;
     }
 
+    public boolean isCanSave() {
+        return !tmtDrugs.isEmpty() || !tp.isEmpty() || !gp.isEmpty() || !gpu.isEmpty() || !subs.isEmpty() || !vtm.isEmpty();
+    }
+
     public String reset() {
         saveFileName = null;
         originalFileName = null;
@@ -158,7 +162,7 @@ public class UploadMasterDrug implements Serializable {
                 FacesMessageUtils.error("TMTRF file is already uploaded.");
                 return;
             }
-            
+
         }
         createTempFile(file);
         createTMTMaster();
@@ -178,7 +182,14 @@ public class UploadMasterDrug implements Serializable {
             Files.asByteSink(tempFile).writeFrom(inputFileStream);
             tmtRFFolder = new File(uploadtempFileDir, firstFileNamePart + secondFileNamePart);
             tmtRFFolder.mkdir();
-            TFile.cp_r(new TFile(tempFile, root), new File(uploadtempFileDir, firstFileNamePart + secondFileNamePart), TArchiveDetector.NULL);
+            //TMTRF is create by human and we must check if to try to import.
+            TFile mostOuter = new TFile(tempFile);
+            TFile[] listFiles = mostOuter.listFiles();
+            if (listFiles.length == 1) {
+                TFile.cp_r(new TFile(tempFile, root), new File(uploadtempFileDir, firstFileNamePart + secondFileNamePart), TArchiveDetector.NULL);
+            } else {
+                TFile.cp_r(new TFile(tempFile), new File(uploadtempFileDir, firstFileNamePart + secondFileNamePart), TArchiveDetector.NULL);
+            }
             LOG.debug("Extract TMT dir: {}", tmtRFFolder.getAbsolutePath());
         } catch (Exception iOException) {
             FacesMessageUtils.error(iOException);
@@ -207,9 +218,9 @@ public class UploadMasterDrug implements Serializable {
                 }
             });
         } catch (ColumnNotFoundException columnNotFound) {
-            FacesMessageUtils.error(columnNotFound);
+            FacesMessageUtils.warn(columnNotFound);
         } catch (Exception iOException) {
-            FacesMessageUtils.error(iOException);
+            FacesMessageUtils.warn(iOException);
             LOG.error(null, iOException);
         }
         return tpuDrug;
@@ -218,6 +229,9 @@ public class UploadMasterDrug implements Serializable {
     private <T extends Typeable> List<T> readGenericDrug(String preix, Class<T> beanClass, final Type type) {
         final List<T> genericDrugs = new ArrayList<>();
         File tpu = new File(tmtRFFolder, bonusFolder + "/Concept/" + preix + secondFileNamePart + ".xls");
+        if (!tpu.exists()) {
+            tpu = new File(tmtRFFolder, bonusFolder + "/Concepts/" + preix + secondFileNamePart + ".xls");
+        }
         LOG.debug("file: {}", tpu.getAbsolutePath());
         try {
             ReaderUtils.read(tpu, beanClass, new ReadCallback<T>() {
@@ -238,9 +252,9 @@ public class UploadMasterDrug implements Serializable {
                 }
             });
         } catch (ColumnNotFoundException columnNotFound) {
-            FacesMessageUtils.error(columnNotFound);
+            FacesMessageUtils.warn(columnNotFound);
         } catch (Exception iOException) {
-            FacesMessageUtils.error(iOException);
+            FacesMessageUtils.warn(iOException);
             LOG.error(null, iOException);
         }
         return genericDrugs;
@@ -271,9 +285,9 @@ public class UploadMasterDrug implements Serializable {
                 }
             });
         } catch (ColumnNotFoundException columnNotFound) {
-            FacesMessageUtils.error(columnNotFound);
+            FacesMessageUtils.warn(columnNotFound);
         } catch (Exception iOException) {
-            FacesMessageUtils.error(iOException);
+            FacesMessageUtils.warn(iOException);
             LOG.error(null, iOException);
         }
     }
