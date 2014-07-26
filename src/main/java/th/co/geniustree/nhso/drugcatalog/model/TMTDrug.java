@@ -63,7 +63,7 @@ public class TMTDrug implements Serializable {
     @Column(name = "MANUFACTURER", length = 255)
     private String manufacturer;
     @XlsColumn
-    @Column(name = "FSN", length = 500)
+    @Column(name = "FSN", length = 1000)
     private String fsn;
     @XlsColumn
     @Column(name = "STATUS", length = 2)
