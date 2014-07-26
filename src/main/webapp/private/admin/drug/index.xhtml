@@ -22,9 +22,12 @@
                     <h:outputLabel value="VTM " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.vtm.size()} เรคคอร์ด" />
                     <h:outputLabel value="SUBS " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.subs.size()} เรคคอร์ด" />
                 </h:panelGrid>
-                <p:commandButton ajax="false" value="Save" action="#{uploadMasterDrug.save()}" disabled="#{empty uploadMasterDrug.tmtDrugs}"/>
+                <p:commandButton ajax="false" value="Save" action="#{uploadMasterDrug.save()}" disabled="#{empty uploadMasterDrug.tmtDrugs}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadMasterDrug.reset()}" disabled="#{empty uploadMasterDrug.tmtDrugs}"/>
+                <p:commandButton ajax="false" value="Cancle" action="#{uploadMasterDrug.reset()}" disabled="#{empty uploadMasterDrug.tmtDrugs}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
+                <p:blockUI block="form" widgetVar="allblock" >
+                    Please wait...
+                </p:blockUI>
             </h:form>
         </ui:define>
     </ui:composition>
