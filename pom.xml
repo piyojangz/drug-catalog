@@ -195,10 +195,15 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>17.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.truevfs</groupId>
+            <artifactId>truevfs-profile-base</artifactId>
+            <version>0.10.6</version>
         </dependency>
     </dependencies>
 

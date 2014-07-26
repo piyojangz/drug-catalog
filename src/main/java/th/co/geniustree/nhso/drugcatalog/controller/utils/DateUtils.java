@@ -33,4 +33,13 @@ public class DateUtils {
         }
         return date;
     }
+
+    public static Date parseUSDate(String yyyyMMdd, String dateToParse) {
+        SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat(yyyyMMdd, Locale.US);
+        try {
+            return dateAndTimeFormat.parse(dateToParse);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }

@@ -9,18 +9,22 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             File : #{uploadMasterDrug.originalFileName}
-            <h:form enctype="multipart/form-data">
-                <p:fileUpload required="true"  value="#{uploadMasterDrug.file}" mode="simple"  update="messages" sizeLimit="20000000" fileLimit="1" allowTypes="/(\.|\/)(xls|xlsx)$/" />
-                <p:growl id="messages" showDetail="true" />
-                <br/>
-                <p:commandButton value="Upload" ajax="false" action="#{uploadMasterDrug.upload()}" />
-                <br/>
-                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadMasterDrug.models.size()} เรคคอร์ด" rendered="#{not empty uploadMasterDrug.models}"/><br/>
-                <br/>
-                This form cannot efficiency display because of of large content.
-                <br/>
-                <p:commandButton ajax="false" value="Save" action="#{uploadMasterDrug.save()}" disabled="#{empty uploadMasterDrug.models}"/>
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadMasterDrug.reset()}" disabled="#{empty uploadMasterDrug.models}"/>
+            <h:form id="form" enctype="multipart/form-data">
+                <p:fileUpload fileUploadListener="#{uploadMasterDrug.handleFileUpload}" mode="advanced"
+                              update="form" auto="true" sizeLimit="10000000" allowTypes="/(\.|\/)(zip)$/" 
+                              label="#{not empty uploadMasterDrug.originalFileName?'File : '.concat(uploadMasterDrug.originalFileName):'เลือกไฟล์ TMTRFyyyyMMdd.zip'}"/>
+                <p:messages id="messages" showDetail="true" globalOnly="true"/>
+                <h:panelGrid columns="2"  rendered="#{not empty uploadMasterDrug.tmtDrugs}">
+                    <h:outputLabel value="TPU " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.tmtDrugs.size()} เรคคอร์ด" />
+                    <h:outputLabel value="TP " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.tp.size()} เรคคอร์ด" />
+                    <h:outputLabel value="GPU " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.gpu.size()} เรคคอร์ด" />
+                    <h:outputLabel value="GP " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.gp.size()} เรคคอร์ด" />
+                    <h:outputLabel value="VTM " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.vtm.size()} เรคคอร์ด" />
+                    <h:outputLabel value="SUBS " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.subs.size()} เรคคอร์ด" />
+                </h:panelGrid>
+                <p:commandButton ajax="false" value="Save" action="#{uploadMasterDrug.save()}" disabled="#{empty uploadMasterDrug.tmtDrugs}"/>
+                &nbsp;
+                <p:commandButton ajax="false" value="Cancle" action="#{uploadMasterDrug.reset()}" disabled="#{empty uploadMasterDrug.tmtDrugs}"/>
             </h:form>
         </ui:define>
     </ui:composition>

@@ -6,14 +6,18 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.Version;
+import javax.persistence.Temporal;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -21,15 +25,19 @@ import th.co.geniustree.xls.beans.XlsColumn;
  * @author moth
  */
 @Entity
-@Table(name = "TMT_DRUG")
+@Table(name = "TMT_DRUG", indexes = {
+    @Index(name = "TMT_DRUG_TYPE_IDX", columnList = "TYPE")
+})
 public class TMTDrug implements Serializable {
 
+    public enum Type {
+
+        SUB, VTM, GP, GPU, TP, TPU
+    }
+    @XlsColumn(columnNames = {"TPUCODE"})
     @Id
     @Column(name = "TMTID", length = 6, nullable = false)
     private String tmtId;
-    @Transient
-    @XlsColumn
-    private String tpuCode;
     @XlsColumn
     @Column(name = "ACTIVEINGREDIENT", length = 300)
     private String activeIngredient;
@@ -60,12 +68,31 @@ public class TMTDrug implements Serializable {
     @XlsColumn
     @Column(name = "STATUS", length = 2)
     private String status;
-    @Version
-    private Integer version;
+
+    @Column(name = "CHANGEDATE", nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date changeDate;
+
+    @Column(name = "CREATEDATE", nullable = false)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @Column(name = "LASTMODIFIEDDATE", nullable = false)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+    @Column(name = "TYPE", nullable = false, length = 3)
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @PrePersist
     public void prePersist() {
-        tmtId = tpuCode;
+        createDate = new Date();
+        lastModifiedDate = new Date();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        lastModifiedDate = new Date();
     }
 
     public String getTmtId() {
@@ -74,14 +101,6 @@ public class TMTDrug implements Serializable {
 
     public void setTmtId(String tmtId) {
         this.tmtId = tmtId;
-    }
-
-    public String getTpuCode() {
-        return tpuCode;
-    }
-
-    public void setTpuCode(String tpuCode) {
-        this.tpuCode = tpuCode;
     }
 
     public String getActiveIngredient() {
@@ -162,6 +181,46 @@ public class TMTDrug implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Date getChageDate() {
+        return changeDate;
+    }
+
+    public void setChageDate(Date chageDate) {
+        this.changeDate = chageDate;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Date getChangeDate() {
+        return changeDate;
+    }
+
+    public void setChangeDate(Date changeDate) {
+        this.changeDate = changeDate;
     }
 
     @Override

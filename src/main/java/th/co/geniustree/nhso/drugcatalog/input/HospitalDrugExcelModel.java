@@ -30,7 +30,6 @@ public class HospitalDrugExcelModel implements Serializable {
     @NotEmpty(message = "hospDrugCode may not be empty")
     private String hospDrugCode;
     @XlsColumn
-    @NotEmpty(message = "productCat may not be empty")
     @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"})
     private String productCat;
     @XlsColumn

@@ -157,7 +157,7 @@ public class UploadMappedDrug implements Serializable {
         } catch (IOException ex) {
             LOG.warn(null, ex);
         }
-        FacesMessageUtils.info("Save completed.");
+        FacesMessageUtils.info("บันทึกเสร็จสิ้น.");
         reset();
         return null;
     }
@@ -219,7 +219,7 @@ public class UploadMappedDrug implements Serializable {
                     }
                     if (violations.isEmpty()) {
                         checkDuplicateInCurrentFile(bean);
-                        //checkTmt(bean); TODO temporary disable.
+                        checkTmt(bean);
                         duplicateCheckFacade.checkDuplicateInDatabase(bean);
                         if (bean.getErrorMap().isEmpty()) {
                             models.add(bean);
