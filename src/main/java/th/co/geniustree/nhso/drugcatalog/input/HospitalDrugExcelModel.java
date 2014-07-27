@@ -28,44 +28,58 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
     @NotEmpty(message = "hospDrugCode may not be empty")
+    @Size(max = 30, message = "hospDrugCode size must not more than {max}.")
     private String hospDrugCode;
     @XlsColumn
+    @Size(max = 30, message = "hospDrugCode size must not more than {max}.")
     @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"})
     private String productCat;
     @XlsColumn
-    @Size(min = 6,max = 6,message = "TMTID size must be 6 or empty.")
+    @Size(min = 6, max = 6, message = "tmtId size must not more than {max}.")
     private String tmtId;
     @XlsColumn
+    @Size(max = 2, message = "specPrep size must not more than {max}.")
     @StartWith(values = {"F", "M", "R"})
     private String specPrep;
     @XlsColumn
+    @Size(max = 255, message = "genericName size must not more than {max}.")
     @NotEmpty(message = "genericName may not be empty")
     private String genericName;
     @XlsColumn
+    @Size(max = 255, message = "tradeName size must not more than {max}.")
     @NotEmpty(message = "tradeName may not be empty")
     private String tradeName;
     @XlsColumn
+    @Size(max = 100, message = "dfsCode size must not more than {max}.")
     private String dfsCode;
     @XlsColumn
+    @Size(max = 255, message = "dosageForm size must not more than {max}.")
     @NotEmpty(message = "dosageForm may not be empty")
     private String dosageForm;
     @XlsColumn
+    @Size(max = 255, message = "strength size must not more than {max}.")
     @NotEmpty(message = "strength may not be empty")
     private String strength;
     @XlsColumn
+    @Size(max = 100, message = "content size must not more than {max}.")
     @NotEmpty(message = "content may not be empty")
     private String content;
     @XlsColumn
+    @Size(max = 11, message = "unitPrice size must not more than {max} (########.##).")
     @NotEmpty(message = "unitPrice may not be empty")
     @DoubleValue(message = "unitPrice is not decimal number.")
     private String unitPrice;
 
     @XlsColumn
+    @Size(max = 255, message = "distributor size must not more than {max}.")
     private String distributor;
-    @XlsColumn(columnNames = {"manufacturer","manufacture"})
+    
+    @XlsColumn(columnNames = {"manufacturer", "manufacture"})
+    @Size(max = 255, message = "manufacturer size must not more than {max}.")
     @NotEmpty(message = "manufacturer may not be empty")
     private String manufacturer;
     @XlsColumn
+    @Size(max = 2, message = "manufacturer size must not more than {max}.")
     @NotEmpty(message = "ised may not be empty")
     @ValueSet(values = {"E", "N", "E*"}, message = "Must be \"E,N,E*\" only.")
     private String ised;
@@ -73,11 +87,14 @@ public class HospitalDrugExcelModel implements Serializable {
     @NDC24(message = "NDC24 length must be 24 and digit only.")
     private String ndc24;
     @XlsColumn
+    @Size(max = 100, message = "packSize size must not more than {max}.")
     private String packSize;
     @XlsColumn
+    @Size(max = 11, message = "packPrice size must not more than {max} (########.##).")
     @DoubleValue(message = "packPrice is not decimal number.")
     private String packPrice;
     @XlsColumn
+    @Size(max = 1, message = "packSize size must not more than {max}.")
     @NotEmpty(message = "updateFlag may not be empty")
     @ValueSet(values = {"A", "D", "E", "U"}, message = "Must be \"A,D,E,U\" only.")
     private String updateFlag;
@@ -89,7 +106,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @NotEmpty(message = "dateUpdate may not be empty for update flag U", groups = UGroup.class)
     @DateAndOptionalTime(message = "dateUpdate ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
     private String dateUpdate;
-    
+
     @XlsColumn
     @NotEmpty(message = "dateEffective may not be empty for update flag U", groups = UGroup.class)
     @DateAndOptionalTime(message = "dateEffective ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
