@@ -33,6 +33,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"})
     private String productCat;
     @XlsColumn
+    @Size(min = 6,max = 6,message = "TMTID size must be 6")
     private String tmtId;
     @XlsColumn
     @StartWith(values = {"F", "M", "R"})
