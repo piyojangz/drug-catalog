@@ -19,14 +19,16 @@
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
-                    <p:column   headerText="">
+                    <p:column   headerText="" width="40">
                         <h:link outcome="diff" value="Diff" style="color:blue">
                             <f:param name="requestId" value="#{model.id}"/>
                             <f:param name="tmtCode" value="#{model.requestItem.tmtId}"/>
                         </h:link>
                     </p:column>
                     <p:column   headerText="Request date" width="100">
-                        <h:outputText value="#{model.requestDate}"/>
+                        <h:outputText value="#{model.requestDate}">
+                            <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
                     </p:column>
                     <p:column   headerText="Request user" width="100">
                         <h:outputText value="#{model.requestUser}"/>
@@ -34,64 +36,64 @@
                     <p:column   headerText="HOSPDRUGCODE" width="100">
                         <h:outputText value="#{model.requestItem.hospDrugCode}"/>
                     </p:column>
-                    <p:column headerText="PRODUCTCAT">
+                    <p:column headerText="PRODUCTCAT" width="100">
                         <h:outputText value="#{model.requestItem.productCat}"/>
                     </p:column>
-                    <p:column headerText="TMTID">
-                        <h:outputText value="#{model.requestItem.tmtId}"/>
+                    <p:column headerText="TMTID" width="100">
+                        <h:outputText value="#{model.requestItem.tmtId}" />
                     </p:column>
-                    <p:column headerText="SPECPREP">
+                    <p:column headerText="SPECPREP" width="100">
                         <h:outputText value="#{model.requestItem.specPrep}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME">
+                    <p:column headerText="GENERICNAME" width="200">
                         <h:outputText value="#{model.requestItem.genericName}"/>
                     </p:column>
-                    <p:column headerText="TRADENAME">
+                    <p:column headerText="TRADENAME" width="200">
                         <h:outputText value="#{model.requestItem.tradeName}"/>
                     </p:column>
-                    <p:column headerText="DFSCODE">
+                    <p:column headerText="DFSCODE" width="100">
                         <h:outputText value="#{model.requestItem.dfsCode}"/>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM">
+                    <p:column headerText="DOSAGEFORM" width="100">
                         <h:outputText value="#{model.requestItem.dosageForm}"/>
                     </p:column>
-                    <p:column headerText="STRENGTH">
+                    <p:column headerText="STRENGTH" width="100">
                         <h:outputText value="#{model.requestItem.strength}"/>
                     </p:column>
-                    <p:column headerText="CONTENT">
+                    <p:column headerText="CONTENT" width="100">
                         <h:outputText value="#{model.requestItem.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE">
+                    <p:column headerText="UNITPRICE" width="100">
                         <h:outputText value="#{model.requestItem.unitPrice}"/>
                     </p:column>
-                    <p:column headerText="DISTRIBUTOR">
+                    <p:column headerText="DISTRIBUTOR" width="200">
                         <h:outputText value="#{model.requestItem.distributor}"/>
                     </p:column>
-                    <p:column headerText="MANUFACTURER">
+                    <p:column headerText="MANUFACTURER" width="200">
                         <h:outputText value="#{model.requestItem.manufacturer}"/>
                     </p:column>
-                    <p:column headerText="ISED">
+                    <p:column headerText="ISED" width="60">
                         <h:outputText value="#{model.requestItem.ised}"/>
                     </p:column>
-                    <p:column headerText="NDC24">
+                    <p:column headerText="NDC24" width="180">
                         <h:outputText value="#{model.requestItem.ndc24}"/>
                     </p:column>
-                    <p:column headerText="PACKSIZE">
+                    <p:column headerText="PACKSIZE" width="80">
                         <h:outputText value="#{model.requestItem.packSize}"/>
                     </p:column>
-                    <p:column headerText="PACKPRICE">
+                    <p:column headerText="PACKPRICE" width="100">
                         <h:outputText value="#{model.requestItem.packPrice}"/>
                     </p:column>
-                    <p:column headerText="UPDATEFLAG">
+                    <p:column headerText="UPDATEFLAG" width="80">
                         <h:outputText value="#{model.requestItem.updateFlag}"/>
                     </p:column>
-                    <p:column headerText="DATECHANGE">
-                        <h:outputText value="#{model.requestItem.updateFlag}"/>
+                    <p:column headerText="DATECHANGE" width="100">
+                        <h:outputText value="#{model.requestItem.dateChange}"/>
                     </p:column>
-                    <p:column headerText="DATEUPDATE">
+                    <p:column headerText="DATEUPDATE" width="100">
                         <h:outputText value="#{model.requestItem.dateUpdate}"/>
                     </p:column>
-                    <p:column headerText="DATEEFFECTIVE">
+                    <p:column headerText="DATEEFFECTIVE" width="100">
                         <h:outputText value="#{model.requestItem.dateEffective}"/>
                     </p:column>
                 </p:dataTable>
