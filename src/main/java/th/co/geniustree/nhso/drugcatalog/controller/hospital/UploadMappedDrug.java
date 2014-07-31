@@ -5,9 +5,9 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
-import com.google.common.io.InputSupplier;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -236,13 +234,16 @@ public class UploadMappedDrug implements Serializable {
 
                 @Override
                 public void err(Exception e) {
+                    if (e instanceof ColumnNotFoundException) {
+                        FacesMessageUtils.error("ไม่พบ column => " + Joiner.on("xx").join(((ColumnNotFoundException) e).getColumnNames()));
+                    }
                     LOG.error(null, e);
                 }
 
             });
         } catch (ColumnNotFoundException columnNotFound) {
             reset();
-            FacesMessageUtils.error(columnNotFound);
+            FacesMessageUtils.error("ไม่พบ column => " + Joiner.on(",").join(columnNotFound.getColumnNames()));
         } catch (Exception iOException) {
             reset();
             FacesMessageUtils.error(iOException);
