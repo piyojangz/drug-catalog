@@ -18,9 +18,9 @@
     <dependencies>
         <!-- ******* Geniustree ******** -->
         <dependency>
-            <groupId>th.co.geniustree.nhso.expatcard</groupId>
-            <artifactId>dc-authen</artifactId>
-            <version>1.0.1</version>
+            <groupId>th.co.geniustree.nhso</groupId>
+            <artifactId>ws-authen-api</artifactId>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>th.co.geniustree</groupId>
@@ -373,6 +373,23 @@
             </properties>
         </profile>
         <profile>
+            <id>local_real_login</id>
+            <properties>
+                <log.spring.level>DEBUG</log.spring.level>
+                <log.geniustree.level>DEBUG</log.geniustree.level>
+                <log.appender>STDOUT</log.appender>
+                <log.file.location>c:\\${project.artifactId}\log</log.file.location>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <report.temp.location>c:\\${project.artifactId}\report</report.temp.location>
+                <upload.temp.location>c:\\${project.artifactId}\upload_temp</upload.temp.location> 
+                <wsdlDocumentResource>http://gucws.nhso.go.th/nhso-wsauthen-wrapper/UCDCAuthenService?wsdl</wsdlDocumentResource>
+                <endpointAddress>http://gucws.nhso.go.th:80/nhso-wsauthen-wrapper/UCDCAuthenService</endpointAddress>  
+                <namespaceUri>http://wrapper.wsauthen.nhso.geniustree.co.th/</namespaceUri>
+                <serviceName>UCDCAuthenService</serviceName>
+                <portName>UCDCAuthenServicePort</portName>
+            </properties>
+        </profile>
+        <profile>
             <activation>
                 <activeByDefault />
             </activation>
@@ -385,6 +402,11 @@
                 <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderMock</authentication.provider>
                 <report.temp.location>/home/pramoth/temp/${project.artifactId}/report</report.temp.location>
                 <upload.temp.location>/home/pramoth/temp/${project.artifactId}/upload_temp</upload.temp.location>
+                <wsdlDocumentResource>http://gucws.nhso.go.th/nhso-wsauthen-wrapper/UCDCAuthenService?wsdl</wsdlDocumentResource>
+                <endpointAddress>http://gucws.nhso.go.th/nhso-wsauthen-wrapper/UCDCAuthenService</endpointAddress>
+                <namespaceUri>http://wrapper.wsauthen.nhso.geniustree.co.th/</namespaceUri>
+                <serviceName>UCDCAuthenService</serviceName>
+                <portName>UCDCAuthenServicePort</portName>
             </properties>
         </profile>
         <profile>
@@ -393,10 +415,10 @@
                 <log.spring.level>TRACE</log.spring.level>
                 <log.geniustree.level>TRACE</log.geniustree.level>
                 <log.appender>FILE</log.appender>
-                <log.file.location>/mra2/log_test/</log.file.location>
-                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProvider</authentication.provider>
-                <report.temp.location>/mra2/report</report.temp.location>
-                <upload.temp.location>/mra2/upload</upload.temp.location>
+                <log.file.location>/${project.artifactId}/log_test/</log.file.location>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <report.temp.location>/${project.artifactId}/report</report.temp.location>
+                <upload.temp.location>/${project.artifactId}/upload</upload.temp.location>
                 <wsdlDocumentResource>http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
                 <namespaceUri>http://www.mfec.co.th</namespaceUri>
                 <serviceName>UCDCAuthenService</serviceName>
@@ -410,10 +432,10 @@
                 <log.spring.level>INFO</log.spring.level>
                 <log.geniustree.level>TRACE</log.geniustree.level>
                 <log.appender>FILE</log.appender>
-                <log.file.location>/mra2/log/</log.file.location>
-                <authentication.provider>th.co.geniustree.mra2.web.security.MyUserDetailsAuthenticationProvider</authentication.provider>
-                <report.temp.location>/mra2/report</report.temp.location>
-                <upload.temp.location>/mra2/upload</upload.temp.location>
+                <log.file.location>/${project.artifactId}/log/</log.file.location>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <report.temp.location>/${project.artifactId}/report</report.temp.location>
+                <upload.temp.location>/${project.artifactId}/upload</upload.temp.location>
                 <wsdlDocumentResource>http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
                 <namespaceUri>http://www.mfec.co.th</namespaceUri>
                 <serviceName>UCDCAuthenService</serviceName>

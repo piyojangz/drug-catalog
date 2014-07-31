@@ -4,6 +4,9 @@
  */
 package th.co.geniustree.nhso.drugcatalog.authen;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import th.co.geniustree.drugserver.wsauthen.AuthenResultDto;
-import th.co.geniustree.drugserver.wsauthen.UCDCAuthenService;
-import th.co.geniustree.drugserver.wsauthen.UserDto;
 import th.co.geniustree.nhso.basicmodel.repository.HospitalRepository;
 import th.co.geniustree.nhso.drugcatalog.service.NhsoZoneService;
-
+import th.co.geniustree.nhso.ws.authen.api.AuthenResultDto;
+import th.co.geniustree.nhso.ws.authen.api.MenuDto;
+import th.co.geniustree.nhso.ws.authen.api.UCDCAuthenService;
+import th.co.geniustree.nhso.ws.authen.api.UserDto;
 
 /**
  *
@@ -40,7 +43,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        AuthenResultDto authenResultDto = dcService.getUserWithPermissions(username, authentication.getCredentials().toString(), "40");
+        AuthenResultDto authenResultDto = dcService.getUserWithPermissions(username, authentication.getCredentials().toString(), "51");
         log.info("Login DC {}", ToStringBuilder.reflectionToString(authenResultDto));
         if (authenResultDto.getUserDto() != null) {
             UserDto userDto = authenResultDto.getUserDto();
@@ -48,7 +51,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
             if ("O".equalsIgnoreCase(userDto.getFromType())) {
                 wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
                 wsUserDetails.getAuthorities().add(Role.ADMIN);
-                
+
             } else if ("Z".equalsIgnoreCase(userDto.getFromType())) {
                 wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
                 wsUserDetails.getAuthorities().add(Role.ZONE);
@@ -57,7 +60,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
                 wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
                 wsUserDetails.getAuthorities().add(Role.PROVINCE);
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-            } else if ("H".equalsIgnoreCase(userDto.getFromType())) {
+            } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
                 wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
                 wsUserDetails.getAuthorities().add(Role.HOSPITAL);
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
@@ -69,6 +72,15 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
         } else {
             throw new AuthenticationCredentialsNotFoundException("Not found user. " + username);
         }
+    }
+
+    private boolean categoryContains(AuthenResultDto authenResultDto, String checkCategory) {
+        Set<String> categorys = new HashSet<String>();
+        List<MenuDto> menus = authenResultDto.getMenus();
+        for (MenuDto menu : menus) {
+            categorys.add(menu.getCategory());
+        }
+        return categorys.contains(checkCategory);
     }
 
 }

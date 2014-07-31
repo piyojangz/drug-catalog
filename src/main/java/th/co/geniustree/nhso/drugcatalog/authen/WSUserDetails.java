@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
-import th.co.geniustree.drugserver.wsauthen.UserDto;
+import th.co.geniustree.nhso.ws.authen.api.UserDto;
 
 /**
  *

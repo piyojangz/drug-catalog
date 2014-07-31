@@ -6,7 +6,7 @@ package th.co.geniustree.nhso.drugcatalog.authen;
 
 import java.net.URL;
 import org.springframework.beans.factory.FactoryBean; 
-import th.co.geniustree.drugserver.wsauthen.UCDCAuthenService;
+import th.co.geniustree.nhso.ws.authen.api.UCDCAuthenService;
 
 /**
  *

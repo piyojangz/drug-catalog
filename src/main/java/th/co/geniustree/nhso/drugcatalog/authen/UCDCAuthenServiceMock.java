@@ -4,9 +4,10 @@
  */
 package th.co.geniustree.nhso.drugcatalog.authen;
 
-import th.co.geniustree.drugserver.wsauthen.AuthenResultDto;
-import th.co.geniustree.drugserver.wsauthen.UCDCAuthenService;
-import th.co.geniustree.drugserver.wsauthen.UserDto;
+import th.co.geniustree.nhso.ws.authen.api.AuthenResultDto;
+import th.co.geniustree.nhso.ws.authen.api.UCDCAuthenService;
+import th.co.geniustree.nhso.ws.authen.api.UserDto;
+
 
 
 

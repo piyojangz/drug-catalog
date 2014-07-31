@@ -35,12 +35,12 @@
     </beans:bean>
  
     <beans:bean id="dcService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean" scope="singleton" >
-        <beans:property name="serviceInterface" value="th.co.geniustree.drugserver.wsauthen.UCDCAuthenService"/>
-        <beans:property name="wsdlDocumentResource" value="http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl"/>
-        <beans:property name="namespaceUri" value="http://www.mfec.co.th"/>
-        <beans:property name="serviceName" value="UCDCAuthenService"/>
-        <beans:property name="portName" value="UCDCAuthenInfPort"/>
-        <beans:property name="endpointAddress" value="http://ucdcws.nhso.go.th/UCDCWS/authenService"/>
+        <beans:property name="serviceInterface" value="th.co.geniustree.nhso.ws.authen.api.UCDCAuthenService"/>
+        <beans:property name="wsdlDocumentResource" value="${wsdlDocumentResource}"/>
+        <beans:property name="namespaceUri" value="${namespaceUri}"/>
+        <beans:property name="serviceName" value="${serviceName}"/>
+        <beans:property name="portName" value="${portName}"/>
+        <beans:property name="endpointAddress" value="${endpointAddress}"/>
         <beans:property name="lookupServiceOnStartup" value="false"/>
     </beans:bean>
 </beans:beans> 
