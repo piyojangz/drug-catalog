@@ -7,13 +7,13 @@
 package th.co.geniustree.nhso.drugcatalog.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import th.co.geniustree.nhso.drugcatalog.model.Price;
-import th.co.geniustree.nhso.drugcatalog.model.PricePK;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalPrice;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalPricePK;
 
 /**
  *
  * @author moth
  */
-public interface PriceRepo extends JpaRepository<Price, PricePK>{
+public interface HospitalPriceRepo extends JpaRepository<HospitalPrice, HospitalPricePK>{
     
 }

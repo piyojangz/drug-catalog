@@ -14,16 +14,16 @@ import java.util.Objects;
  *
  * @author moth
  */
-public class PricePK implements Serializable {
+public class HospitalPricePK implements Serializable {
 
     private String hcode;
     private Date dateEffectInclusive;
     private String hospDrugCode;
 
-    public PricePK() {
+    public HospitalPricePK() {
     }
 
-    public PricePK(String hcode, String hospDrugCode, Date dateEffectInclusive) {
+    public HospitalPricePK(String hcode, String hospDrugCode, Date dateEffectInclusive) {
         this.hcode = hcode;
         this.dateEffectInclusive = dateEffectInclusive;
         this.hospDrugCode = hospDrugCode;
@@ -70,7 +70,7 @@ public class PricePK implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final PricePK other = (PricePK) obj;
+        final HospitalPricePK other = (HospitalPricePK) obj;
         if (!Objects.equals(this.hcode, other.hcode)) {
             return false;
         }

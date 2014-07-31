@@ -9,13 +9,13 @@
     <class>th.co.geniustree.nhso.basicmodel.readonly.Zone</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalEdNed</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.Price</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.RequestItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.GenericTMTDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.HospitalPrice</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>

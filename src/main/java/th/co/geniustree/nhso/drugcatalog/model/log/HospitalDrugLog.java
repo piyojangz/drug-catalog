@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model;
+package th.co.geniustree.nhso.drugcatalog.model.log;
 
+import th.co.geniustree.nhso.drugcatalog.model.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,31 +15,45 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
  * @author moth
  */
+@Deprecated
 @Entity
-@Table(name = "TMT_HOSPDRUG")
-@IdClass(HospitalDrugPK.class)
-public class HospitalDrug implements Serializable {
+@Table(name = "TMT_HOSPDRUG_LOG")
+public class HospitalDrugLog implements Serializable {
 
     @Id
+    @TableGenerator(name = "TMT_HOSPDRUG_GEN",
+            table = "TMT_SEQUENCE",
+            pkColumnName = "name",
+            valueColumnName = "value",
+            pkColumnValue = "TMT_HOSPDRUG")
+    @GeneratedValue(generator = "TMT_HOSPDRUG_GEN", strategy = GenerationType.TABLE)
+    private Long id;
+    @Column(name = "LOGDATE")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date logDate;
+    private String modifiedBy;
+
     @Column(name = "HCODE", nullable = false, length = 5)
     private String hcode;
-    @Id
+
     @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
     private String hospDrugCode;
 
@@ -139,8 +154,36 @@ public class HospitalDrug implements Serializable {
     @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
-    @Version
-    private Integer version;
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+    
+
+    public Date getLogDate() {
+        return logDate;
+    }
+
+    public void setLogDate(Date logDate) {
+        this.logDate = logDate;
+    }
+    
+
+    @PrePersist
+    public void prePersist() {
+        logDate = new Date();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getHospDrugCode() {
         return hospDrugCode;
@@ -380,7 +423,7 @@ public class HospitalDrug implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final HospitalDrug other = (HospitalDrug) obj;
+        final HospitalDrugLog other = (HospitalDrugLog) obj;
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
             return false;
         }

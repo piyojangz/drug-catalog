@@ -9,15 +9,15 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <h:form >
-                <p:dataTable id="passTable" resizableColumns="true"  value="#{adminInbox.requestItems}" var="model"  paginator="true" rows="10">
+                <p:dataTable id="table" resizableColumns="true"  value="#{adminInbox.requestItems}" var="model"  paginator="true" rows="20">
                     <f:facet name="header">
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                            <p:dataExporter type="xls" target="table" fileName="inbox" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />
-                        <p:columnToggler datasource="passTable" trigger="toggler" />
+                        <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
                     <p:column   headerText="">
                         <h:link outcome="diff" value="Diff" style="color:blue">
@@ -26,73 +26,73 @@
                         </h:link>
                     </p:column>
                     <p:column   headerText="Request date" width="100">
-                        #{model.requestDate}
+                        <h:outputText value="#{model.requestDate}"/>
                     </p:column>
                     <p:column   headerText="Request user" width="100">
-                        #{model.requestUser}
+                        <h:outputText value="#{model.requestUser}"/>
                     </p:column>
                     <p:column   headerText="HOSPDRUGCODE" width="100">
-                        #{model.requestItem.hospDrugCode}
+                        <h:outputText value="#{model.requestItem.hospDrugCode}"/>
                     </p:column>
                     <p:column headerText="PRODUCTCAT">
-                        #{model.requestItem.productCat}
+                        <h:outputText value="#{model.requestItem.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID">
-                        #{model.requestItem.tmtId}
+                        <h:outputText value="#{model.requestItem.tmtId}"/>
                     </p:column>
                     <p:column headerText="SPECPREP">
-                        #{model.requestItem.specPrep}
+                        <h:outputText value="#{model.requestItem.specPrep}"/>
                     </p:column>
                     <p:column headerText="GENERICNAME">
-                        #{model.requestItem.genericName}
+                        <h:outputText value="#{model.requestItem.genericName}"/>
                     </p:column>
                     <p:column headerText="TRADENAME">
-                        #{model.requestItem.tradeName}
+                        <h:outputText value="#{model.requestItem.tradeName}"/>
                     </p:column>
                     <p:column headerText="DFSCODE">
-                        #{model.requestItem.dfsCode}
+                        <h:outputText value="#{model.requestItem.dfsCode}"/>
                     </p:column>
                     <p:column headerText="DOSAGEFORM">
-                        #{model.requestItem.dosageForm}
+                        <h:outputText value="#{model.requestItem.dosageForm}"/>
                     </p:column>
                     <p:column headerText="STRENGTH">
-                        #{model.requestItem.strength}
+                        <h:outputText value="#{model.requestItem.strength}"/>
                     </p:column>
                     <p:column headerText="CONTENT">
-                        #{model.requestItem.content}
+                        <h:outputText value="#{model.requestItem.content}"/>
                     </p:column>
                     <p:column headerText="UNITPRICE">
-                        #{model.requestItem.unitPrice}
+                        <h:outputText value="#{model.requestItem.unitPrice}"/>
                     </p:column>
                     <p:column headerText="DISTRIBUTOR">
-                        #{model.requestItem.distributor}
+                        <h:outputText value="#{model.requestItem.distributor}"/>
                     </p:column>
                     <p:column headerText="MANUFACTURER">
-                        #{model.requestItem.manufacturer}
+                        <h:outputText value="#{model.requestItem.manufacturer}"/>
                     </p:column>
                     <p:column headerText="ISED">
-                        #{model.requestItem.ised}
+                        <h:outputText value="#{model.requestItem.ised}"/>
                     </p:column>
                     <p:column headerText="NDC24">
-                        #{model.requestItem.ndc24}
+                        <h:outputText value="#{model.requestItem.ndc24}"/>
                     </p:column>
                     <p:column headerText="PACKSIZE">
-                        #{model.requestItem.packSize}
+                        <h:outputText value="#{model.requestItem.packSize}"/>
                     </p:column>
                     <p:column headerText="PACKPRICE">
-                        #{model.requestItem.packPrice}
+                        <h:outputText value="#{model.requestItem.packPrice}"/>
                     </p:column>
                     <p:column headerText="UPDATEFLAG">
-                        #{model.requestItem.updateFlag}
+                        <h:outputText value="#{model.requestItem.updateFlag}"/>
                     </p:column>
                     <p:column headerText="DATECHANGE">
-                        #{model.requestItem.updateFlag}
+                        <h:outputText value="#{model.requestItem.updateFlag}"/>
                     </p:column>
                     <p:column headerText="DATEUPDATE">
-                        #{model.requestItem.dateUpdate}
+                        <h:outputText value="#{model.requestItem.dateUpdate}"/>
                     </p:column>
                     <p:column headerText="DATEEFFECTIVE">
-                        #{model.requestItem.dateEffective}
+                        <h:outputText value="#{model.requestItem.dateEffective}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

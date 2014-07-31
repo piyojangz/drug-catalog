@@ -10,9 +10,9 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.model.Price;
-import th.co.geniustree.nhso.drugcatalog.model.PricePK;
-import th.co.geniustree.nhso.drugcatalog.repo.PriceRepo;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalPrice;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalPricePK;
+import th.co.geniustree.nhso.drugcatalog.repo.HospitalPriceRepo;
 import th.co.geniustree.nhso.drugcatalog.service.PriceService;
 
 /**
@@ -23,11 +23,11 @@ import th.co.geniustree.nhso.drugcatalog.service.PriceService;
 public class PriceServiceImpl implements PriceService {
 
     @Autowired
-    private PriceRepo priceRepo;
+    private HospitalPriceRepo priceRepo;
 
     @Override
     public boolean isPriceDuplicate(String hcode, String hospDrugCode, Date dateEffective) {
-        Price findOne = priceRepo.findOne(new PricePK(hcode, hospDrugCode, dateEffective));
+        HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hcode, hospDrugCode, dateEffective));
         return findOne != null;
     }
 
@@ -40,7 +40,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
-        Price findOne = priceRepo.findOne(new PricePK(hospitalDrug.getHcode(), hospitalDrug.getHospDrugCode(), hospitalDrug.getDateEffective()));
+        HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hospitalDrug.getHcode(), hospitalDrug.getHospDrugCode(), hospitalDrug.getDateEffective()));
         if (findOne == null) {
             createFirstPrice(hospitalDrug);
         } else {
@@ -56,7 +56,7 @@ public class PriceServiceImpl implements PriceService {
      */
     @Override
     public void createFirstPrice(HospitalDrug hospitalDrug) {
-        Price price = new Price();
+        HospitalPrice price = new HospitalPrice();
         price.setHcode(hospitalDrug.getHcode());
         price.setHospDrugCode(hospitalDrug.getHospDrugCode());
         price.setDateEffectInclusive(hospitalDrug.getDateEffective());

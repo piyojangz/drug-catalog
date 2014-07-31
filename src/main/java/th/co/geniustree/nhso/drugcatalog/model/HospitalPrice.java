@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Index;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,9 +24,11 @@ import javax.persistence.TemporalType;
  * @author moth
  */
 @Entity
-@Table(name = "TMT_PRICE")
-@IdClass(PricePK.class)
-public class Price implements Serializable {
+@Table(name = "TMT_HOSPPRICE",indexes = {
+    @Index(name = "TMT_HOSPPRICE_DATE_F",columnList = "DATE_EFFECTIVE")
+})
+@IdClass(HospitalPricePK.class)
+public class HospitalPrice implements Serializable {
 
     @Id
     @Column(name = "HCODE", nullable = false, length = 5)
@@ -109,7 +112,7 @@ public class Price implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Price other = (Price) obj;
+        final HospitalPrice other = (HospitalPrice) obj;
         if (!Objects.equals(this.hcode, other.hcode)) {
             return false;
         }

@@ -18,6 +18,7 @@
            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     
     <context:annotation-config />
+    <aop:aspectj-autoproxy />
     <context:component-scan base-package="th.co.geniustree" />
     <util:properties id="app" location="classpath:app.properties" />
     <bean id="beanValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
