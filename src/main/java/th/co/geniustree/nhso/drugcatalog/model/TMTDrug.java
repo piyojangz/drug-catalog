@@ -58,13 +58,13 @@ public class TMTDrug implements Serializable, TMT {
     @Column(name = "DISPUNIT", length = 255)
     private String dispUnit;
     @XlsColumn
-    @Column(name = "TRADENAME", length = 255)
+    @Column(name = "TRADENAME", length = 255, columnDefinition = "NVARCHAR2(255)")
     private String tradeName;
     @XlsColumn
-    @Column(name = "MANUFACTURER", length = 255)
+    @Column(name = "MANUFACTURER", length = 255, columnDefinition = "NVARCHAR2(255)")
     private String manufacturer;
     @XlsColumn
-    @Column(name = "FSN", length = 1000)
+    @Column(name = "FSN", length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String fsn;
     @XlsColumn
     @Column(name = "STATUS", length = 2)

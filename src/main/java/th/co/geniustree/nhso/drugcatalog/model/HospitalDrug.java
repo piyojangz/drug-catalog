@@ -52,18 +52,18 @@ public class HospitalDrug implements Serializable {
     private String specPrep;
 
     @NotEmpty
-    @Column(name = "GENERICNAME", nullable = false, length = 255)
+    @Column(name = "GENERICNAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String genericName;
 
     @NotEmpty
-    @Column(name = "TRADENAME", nullable = false, length = 255)
+    @Column(name = "TRADENAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String tradeName;
 
-    @Column(name = "DFSCODE", nullable = true, length = 100)
+    @Column(name = "DFSCODE", nullable = true, length = 100, columnDefinition = "NVARCHAR2(100)")
     private String dfsCode;
 
     @NotEmpty
-    @Column(name = "DOSAGEFORM", nullable = false, length = 255)
+    @Column(name = "DOSAGEFORM", nullable = false, length = 255, columnDefinition = "NVARCHAR2(100)")
     private String dosageForm;
 
     @NotEmpty
@@ -78,11 +78,11 @@ public class HospitalDrug implements Serializable {
     @Column(name = "UNITPRICE", precision = 10, scale = 2, nullable = false)
     private BigDecimal unitPrice;
 
-    @Column(name = "DISTRIBUTOR", nullable = true, length = 255)
+    @Column(name = "DISTRIBUTOR", nullable = true, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String distributor;
 
     @NotEmpty
-    @Column(name = "MANUFACTURER", nullable = false, length = 255)
+    @Column(name = "MANUFACTURER", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String manufacturer;
 
     @NotEmpty
