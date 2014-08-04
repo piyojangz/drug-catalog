@@ -31,7 +31,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @Size(max = 30, message = "hospDrugCode size must not more than {max}.")
     private String hospDrugCode;
     @XlsColumn
-    @Size(max = 30, message = "hospDrugCode size must not more than {max}.")
+    @Size(max = 1, message = "productCat size must not more than {max}.")
     @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"})
     private String productCat;
     @XlsColumn
