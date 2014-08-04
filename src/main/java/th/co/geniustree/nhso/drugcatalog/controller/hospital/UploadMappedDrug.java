@@ -32,6 +32,7 @@ import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.UploadItemOrderHelper;
+import th.co.geniustree.nhso.drugcatalog.input.AEDGroup;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
@@ -214,6 +215,8 @@ public class UploadMappedDrug implements Serializable {
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
                         violations.addAll(beanValidator.validate(bean, UGroup.class));
+                    } else {
+                        violations.addAll(beanValidator.validate(bean, AEDGroup.class));
                     }
                     if (violations.isEmpty()) {
                         checkDuplicateInCurrentFile(bean);

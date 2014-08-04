@@ -100,7 +100,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String updateFlag;
     @XlsColumn
     @NotEmpty(message = "dateChange may not be empty for update flag A,E,D")
-    @DateAndOptionalTime(message = "dateChange ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
+    @DateAndOptionalTime(message = "dateChange ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)",groups = AEDGroup.class)
     private String dateChange;
     @XlsColumn
     @NotEmpty(message = "dateUpdate may not be empty for update flag U", groups = UGroup.class)
