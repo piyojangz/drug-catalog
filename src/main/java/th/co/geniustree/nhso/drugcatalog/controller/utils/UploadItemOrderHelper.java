@@ -45,7 +45,7 @@ public class UploadItemOrderHelper {
                 } else {
                     date1 = o1.getDateChangeDate();
                 }
-                if ("U".equalsIgnoreCase(o1.getUpdateFlag())) {
+                if ("U".equalsIgnoreCase(o2.getUpdateFlag())) {
                     date2 = o2.getDateUpdateDate();
                 } else {
                     date2 = o2.getDateChangeDate();
