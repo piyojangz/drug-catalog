@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
@@ -18,6 +20,7 @@ import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
 import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
+import static th.co.geniustree.nhso.drugcatalog.model.RequestItem_.message;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -39,7 +42,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String tmtId;
     @XlsColumn
     @Size(max = 2, message = "specPrep size must not more than {max}.")
-    @StartWith(values = {"F", "M", "R"})
+    @StartWith(values = {"F", "M", "R"},message = "specPrep Must start with F,M,R")
     private String specPrep;
     @XlsColumn
     @Size(max = 255, message = "genericName size must not more than {max}.")
@@ -49,7 +52,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @Size(max = 255, message = "tradeName size must not more than {max}.")
     @NotEmpty(message = "tradeName may not be empty")
     private String tradeName;
-    @XlsColumn(columnNames = {"dfsCode","dsfCode"})
+    @XlsColumn(columnNames = {"dfsCode", "dsfCode"})
     @Size(max = 100, message = "dfsCode size must not more than {max}.")
     private String dfsCode;
     @XlsColumn
@@ -73,7 +76,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @XlsColumn
     @Size(max = 255, message = "distributor size must not more than {max}.")
     private String distributor;
-    
+
     @XlsColumn(columnNames = {"manufacturer", "manufacture"})
     @Size(max = 255, message = "manufacturer size must not more than {max}.")
     @NotEmpty(message = "manufacturer may not be empty")
@@ -100,7 +103,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String updateFlag;
     @XlsColumn
     @NotEmpty(message = "dateChange may not be empty for update flag A,E,D")
-    @DateAndOptionalTime(message = "dateChange ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)",groups = AEDGroup.class)
+    @DateAndOptionalTime(message = "dateChange ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)", groups = AEDGroup.class)
     private String dateChange;
     @XlsColumn
     @NotEmpty(message = "dateUpdate may not be empty for update flag U", groups = UGroup.class)
@@ -308,6 +311,12 @@ public class HospitalDrugExcelModel implements Serializable {
             errorMap.put(propertyPath, new ArrayList<String>());
         }
         errorMap.get(propertyPath).add(message);
+    }
+
+    public void addErrors(Set<ConstraintViolation<HospitalDrugExcelModel>> violations) {
+        for (ConstraintViolation<HospitalDrugExcelModel> violation : violations) {
+            addError(violation.getPropertyPath().toString(), violation.getMessage());
+        }
     }
 
     public String getHcode() {
