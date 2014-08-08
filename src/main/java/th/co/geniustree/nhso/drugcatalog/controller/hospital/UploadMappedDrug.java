@@ -228,9 +228,7 @@ public class UploadMappedDrug implements Serializable {
                             notPassModels.add(bean);
                         }
                     } else {
-                        for (ConstraintViolation<HospitalDrugExcelModel> violation : violations) {
-                            bean.addError(violation.getPropertyPath().toString(), violation.getMessage());
-                        }
+                        bean.addErrors(violations);
                         notPassModels.add(bean);
                     }
                 }
