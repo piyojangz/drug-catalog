@@ -49,7 +49,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @Size(max = 255, message = "tradeName size must not more than {max}.")
     @NotEmpty(message = "tradeName may not be empty")
     private String tradeName;
-    @XlsColumn
+    @XlsColumn(columnNames = {"dfsCode","dsfCode"})
     @Size(max = 100, message = "dfsCode size must not more than {max}.")
     private String dfsCode;
     @XlsColumn
