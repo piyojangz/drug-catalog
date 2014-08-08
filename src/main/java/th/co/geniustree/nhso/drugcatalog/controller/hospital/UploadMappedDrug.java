@@ -37,6 +37,7 @@ import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
@@ -78,6 +79,8 @@ public class UploadMappedDrug implements Serializable {
     private TMTDrugRepo tmtDrugRepo;
     private File uploadDir;
     private File targetFile;
+    @Autowired
+    private HospitalDrugRepo hospitalDrugRepo;
 
     @PostConstruct
     public void postConstruct() {
@@ -273,6 +276,10 @@ public class UploadMappedDrug implements Serializable {
         long count = tmtDrugRepo.countByTmtId(bean.getTmtId());
         if (count == 0) {
             bean.addError("tmtId", "Invalid TMT.");
+            return;
+        }
+        if (hospitalDrugRepo.countByHcodeAndTmtIdAndApprovedIsTrue(bean.getHcode(), bean.getTmtId()) > 0) {
+            bean.addError("tmtId", "TMTID was already register and approved.");
         }
     }
 }
