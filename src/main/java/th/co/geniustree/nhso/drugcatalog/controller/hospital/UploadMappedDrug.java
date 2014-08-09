@@ -239,7 +239,7 @@ public class UploadMappedDrug implements Serializable {
                 @Override
                 public void err(Exception e) {
                     if (e instanceof ColumnNotFoundException) {
-                        FacesMessageUtils.error("ไม่พบ column => " + Joiner.on("xx").join(((ColumnNotFoundException) e).getColumnNames()));
+                        FacesMessageUtils.error("ไม่พบ column => " + Joiner.on(",").join(((ColumnNotFoundException) e).getColumnNames()));
                     }
                     LOG.error(null, e);
                 }
