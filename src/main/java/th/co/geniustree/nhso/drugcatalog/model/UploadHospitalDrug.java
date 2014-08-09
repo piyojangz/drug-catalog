@@ -50,6 +50,9 @@ public class UploadHospitalDrug implements Serializable {
     @OneToMany(mappedBy = "uploadDrug", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UploadHospitalDrugItem> passItems;
 
+    @OneToMany(mappedBy = "uploadDrug", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UploadHospitalDrugErrorItem> errorItems;
+    
     @Column(name = "ORIGINALFILENAME", length = 255, nullable = false)
     private String originalFilename;
 
@@ -144,6 +147,15 @@ public class UploadHospitalDrug implements Serializable {
     public void setShaHex(String shaHex) {
         this.shaHex = shaHex;
     }
+
+    public List<UploadHospitalDrugErrorItem> getErrorItems() {
+        return errorItems;
+    }
+
+    public void setErrorItems(List<UploadHospitalDrugErrorItem> errorItems) {
+        this.errorItems = errorItems;
+    }
+    
 
     @Override
     public int hashCode() {

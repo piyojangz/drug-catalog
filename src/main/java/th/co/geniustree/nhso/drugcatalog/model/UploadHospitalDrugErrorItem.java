@@ -5,10 +5,15 @@
  */
 package th.co.geniustree.nhso.drugcatalog.model;
 
+import com.google.common.base.Joiner;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,123 +22,114 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import org.hibernate.validator.constraints.NotEmpty;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 
 /**
  *
  * @author moth
  */
 @Entity
-@Table(name = "TMT_UPLOADHOSPDRUG_ITEM",
+@Table(name = "TMT_UPLOADHOSPDRUG_ERRORITEM",
         indexes = {
-            @Index(name = "UPLOAD_ITEM_HOSPDRUGCODE", columnList = "HOSPDRUGCODE"),
-            @Index(name = "UPLOAD_ITEM_DATECHANGE", columnList = "DATECHANGE"),
-            @Index(name = "UPLOAD_ITEM_DATEUPDATE", columnList = "DATEUPDATE"),
-            @Index(name = "UPLOAD_ITEM_UPDATEFLAG", columnList = "UPDATEFLAG")
+            @Index(name = "UPLOAD_ERROR_HOSPDRUGCODE", columnList = "HOSPDRUGCODE")
         })
-public class UploadHospitalDrugItem implements Serializable {
+public class UploadHospitalDrugErrorItem implements Serializable {
 
     @Id
-    @TableGenerator(name = "TMT_UPLOADHOSPDRUG_ITEM_GEN",
+    @TableGenerator(name = "TMT_UPLOADHOSPDRUG_ERRORITEM_GEN",
             table = "TMT_SEQUENCE",
             pkColumnName = "name",
             valueColumnName = "value",
-            pkColumnValue = "TMT_UPLOADHOSPDRUG_ITEM")
-    @GeneratedValue(generator = "TMT_UPLOADHOSPDRUG_ITEM_GEN", strategy = GenerationType.TABLE)
+            pkColumnValue = "TMT_UPLOADHOSPDRUG_ERRORITEM")
+    @GeneratedValue(generator = "TMT_UPLOADHOSPDRUG_ERRORITEM_GEN", strategy = GenerationType.TABLE)
     private Integer id;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "UPLOADHOSPDRUG_ID")
     private UploadHospitalDrug uploadDrug;
-    @NotEmpty
-    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
+
+    @Column(name = "HOSPDRUGCODE", length = 255)
     private String hospDrugCode;
 
-    @Column(name = "PRODUCTCAT", nullable = true, length = 3)
+    @Column(name = "PRODUCTCAT", length = 255)
     private String productCat;
 
-    @Column(name = "TMTID", nullable = true, length = 6)
+    @Column(name = "TMTID", length = 255)
     private String tmtId;
 
-    @Column(name = "SPECPREP", nullable = true, length = 2)
+    @Column(name = "SPECPREP", length = 255)
     private String specPrep;
 
     @NotEmpty
-    @Column(name = "GENERICNAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "GENERICNAME", length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String genericName;
 
     @NotEmpty
-    @Column(name = "TRADENAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "TRADENAME", length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String tradeName;
 
-    @Column(name = "DFSCODE", nullable = true, length = 100, columnDefinition = "NVARCHAR2(100)")
+    @Column(name = "DFSCODE", length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String dfsCode;
 
     @NotEmpty
-    @Column(name = "DOSAGEFORM", nullable = false, length = 255, columnDefinition = "NVARCHAR2(100)")
+    @Column(name = "DOSAGEFORM", length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String dosageForm;
 
     @NotEmpty
-    @Column(name = "STRENGTH", nullable = false, length = 255)
+    @Column(name = "STRENGTH", length = 1000)
     private String strength;
 
     @NotEmpty
-    @Column(name = "CONTENT", nullable = false, length = 100)
+    @Column(name = "CONTENT", length = 1000)
     private String content;
 
     @NotEmpty
-    @Column(name = "UNITPRICE", nullable = false)
+    @Column(name = "UNITPRICE", length = 100)
     private String unitPrice;
 
-    @Column(name = "DISTRIBUTOR", nullable = true, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "DISTRIBUTOR", length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String distributor;
 
     @NotEmpty
-    @Column(name = "MANUFACTURER", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "MANUFACTURER", length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String manufacturer;
 
     @NotEmpty
-    @Column(name = "ISED", nullable = false, length = 2)
+    @Column(name = "ISED", length = 255)
     private String ised;
 
-    @Column(name = "NDC24", nullable = true, length = 24)
+    @Column(name = "NDC24", length = 255)
     private String ndc24;
 
-    @Column(name = "PACKSIZE", nullable = true, length = 100)
+    @Column(name = "PACKSIZE", length = 255)
     private String packSize;
-    @Column(name = "PACKPRICE", nullable = true)
+
+    @Column(name = "PACKPRICE", length = 255)
     private String packPrice;
 
     @NotEmpty
-    @Column(name = "UPDATEFLAG", nullable = false, length = 1)
+    @Column(name = "UPDATEFLAG", length = 255)
     private String updateFlag;
 
     @NotEmpty
-    @Column(name = "DATECHANGE", nullable = false)
+    @Column(name = "DATECHANGE", length = 255)
     private String dateChange;
 
     @NotEmpty
-    @Column(name = "DATEUPDATE", nullable = true)
+    @Column(name = "DATEUPDATE", length = 255)
     private String dateUpdate;
 
     @NotEmpty
-    @Column(name = "DATEEFFECTIVE", nullable = false)
+    @Column(name = "DATEEFFECTIVE", length = 255)
     private String dateEffective;
 
-    @Column(name = "DATECHANGEDATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateChangeDate;
-    @Column(name = "DATEUPDATEDATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateUpdateDate;
-    @Column(name = "DATEEFFECTIVEDATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateEffectiveDate;
+    @ElementCollection
+    @CollectionTable(name = "TMT_ERRORMSG_ITEM")
+    @Column(name = "ERRORMSG", length = 1500, columnDefinition = "NVARCHAR2(1500)")
+    private Map<String, String> errorMap;
 
     public Integer getId() {
         return id;
@@ -301,9 +297,6 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateChange(String dateChange) {
         this.dateChange = dateChange;
-        if (dateChange != null) {
-            this.dateChangeDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateChange);
-        }
     }
 
     public String getDateUpdate() {
@@ -312,9 +305,6 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
-        if (dateUpdate != null) {
-            this.dateUpdateDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateUpdate);
-        }
     }
 
     public String getDateEffective() {
@@ -323,21 +313,18 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateEffective(String dateEffective) {
         this.dateEffective = dateEffective;
-        if (dateEffective != null) {
-            this.dateEffectiveDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateEffective);
-        }
     }
 
-    public Date getDateChangeDate() {
-        return dateChangeDate;
+    public Map<String, String> getErrorMap() {
+        return errorMap;
     }
 
-    public Date getDateUpdateDate() {
-        return dateUpdateDate;
+    public void setErrorMap(Map<String, String> errorMap) {
+        this.errorMap = errorMap;
     }
 
-    public Date getDateEffectiveDate() {
-        return dateEffectiveDate;
+    public String getErrors() {
+        return Joiner.on(",").join(errorMap.values());
     }
 
     @Override
@@ -355,11 +342,20 @@ public class UploadHospitalDrugItem implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final UploadHospitalDrugItem other = (UploadHospitalDrugItem) obj;
+        final UploadHospitalDrugErrorItem other = (UploadHospitalDrugErrorItem) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
+    }
+
+    public void addAllError(Map<String, List<String>> errorMap) {
+        if (this.errorMap == null) {
+            this.errorMap = new HashMap<>();
+        }
+        for (String key : errorMap.keySet()) {
+            this.errorMap.put(key, Joiner.on(",").join(errorMap.get(key)));
+        }
     }
 
 }

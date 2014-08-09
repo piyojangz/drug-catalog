@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
 import com.google.common.io.Files;
+import java.io.File;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugErrorItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugErrorItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 
 /**
@@ -25,14 +27,14 @@ import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
  */
 @Scope("view")
 @Component
-public class UploadFileListDeatiail implements Serializable {
+public class UploadFileListErrorDeatiail implements Serializable {
 
-    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadFileListDeatiail.class);
-    private SpringDataLazyDataModelSupport<UploadHospitalDrugItem> uploadHospitalDrugItems;
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadFileListErrorDeatiail.class);
+    private SpringDataLazyDataModelSupport<UploadHospitalDrugErrorItem> uploadHospitalDrugItems;
     @Autowired
     private UploadHospitalDrugRepo uploadFileRepo;
     @Autowired
-    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    private UploadHospitalDrugErrorItemRepo uploadHospitalDrugErrorItemRepo;
     private Integer uploadId;
     private UploadHospitalDrug uploadFileDrug;
     private String fileName;
@@ -44,17 +46,17 @@ public class UploadFileListDeatiail implements Serializable {
 //        if (!uploadFileDrug.getHcode().equals(SecurityUtil.getUserDetails().getHospital().getHcode())) {
 //            return;
 //        }
-        uploadHospitalDrugItems = new SpringDataLazyDataModelSupport<UploadHospitalDrugItem>() {
+        uploadHospitalDrugItems = new SpringDataLazyDataModelSupport<UploadHospitalDrugErrorItem>() {
 
             @Override
-            public Page<UploadHospitalDrugItem> load(Pageable pageAble) {
-                return uploadHospitalDrugItemRepo.findByUploadDrugId(uploadId,pageAble);
+            public Page<UploadHospitalDrugErrorItem> load(Pageable pageAble) {
+                return uploadHospitalDrugErrorItemRepo.findByUploadDrugId(uploadId,pageAble);
             }
 
         };
     }
 
-    public SpringDataLazyDataModelSupport<UploadHospitalDrugItem> getUploadHospitalDrugItems() {
+    public SpringDataLazyDataModelSupport<UploadHospitalDrugErrorItem> getUploadHospitalDrugItems() {
         return uploadHospitalDrugItems;
     }
 
@@ -81,5 +83,5 @@ public class UploadFileListDeatiail implements Serializable {
     public void setFileName(String fileName) {
         this.fileName = Files.getNameWithoutExtension(fileName);
     }
-    
+
 }

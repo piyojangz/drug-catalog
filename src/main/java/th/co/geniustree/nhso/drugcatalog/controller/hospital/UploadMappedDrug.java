@@ -23,6 +23,7 @@ import javax.validation.Validator;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -36,6 +37,7 @@ import th.co.geniustree.nhso.drugcatalog.input.AEDGroup;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugErrorItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
@@ -135,18 +137,14 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.info("ไฟล์นี้เคยนำเข้าแล้ว.");
             return null;
         }
-        List<UploadHospitalDrugItem> items = new ArrayList<>();
         UploadHospitalDrug uploadDrug = new UploadHospitalDrug();
         uploadDrug.setShaHex(shaHex);
         uploadDrug.setHcode(user.getOrgId());
-        for (HospitalDrugExcelModel passModel : models) {
-            UploadHospitalDrugItem item = new UploadHospitalDrugItem();
-            BeanUtils.copyProperties(passModel, item);
-            item.setUploadDrug(uploadDrug);
-            items.add(item);
-        }
+        List<UploadHospitalDrugItem> items = createPassItem(uploadDrug);
+        List<UploadHospitalDrugErrorItem> errorItems = createErrorItem(uploadDrug);
         UploadItemOrderHelper.reorderByUpdateFlageAFirstDeleteLast(items);
         uploadDrug.setPassItems(items);
+        uploadDrug.setErrorItems(errorItems);
         uploadDrug.setOriginalFilename(originalFileName);
         uploadDrug.setSavedFileName(saveFileName);
         uploadDrug.setItemCount(models.size() + notPassModels.size());
@@ -162,6 +160,29 @@ public class UploadMappedDrug implements Serializable {
         FacesMessageUtils.info("บันทึกเสร็จสิ้น.");
         reset();
         return null;
+    }
+
+    private List<UploadHospitalDrugItem> createPassItem(UploadHospitalDrug uploadDrug) throws BeansException {
+        List<UploadHospitalDrugItem> items = new ArrayList<>();
+        for (HospitalDrugExcelModel passModel : models) {
+            UploadHospitalDrugItem item = new UploadHospitalDrugItem();
+            BeanUtils.copyProperties(passModel, item);
+            item.setUploadDrug(uploadDrug);
+            items.add(item);
+        }
+        return items;
+    }
+    
+    private List<UploadHospitalDrugErrorItem> createErrorItem(UploadHospitalDrug uploadDrug) {
+        List<UploadHospitalDrugErrorItem> errorItems = new ArrayList<>();
+        for (HospitalDrugExcelModel notPassModel : notPassModels) {
+            UploadHospitalDrugErrorItem errorItem = new UploadHospitalDrugErrorItem();
+            BeanUtils.copyProperties(notPassModel, errorItem);
+            errorItem.addAllError(notPassModel.getErrorMap());
+            errorItem.setUploadDrug(uploadDrug);
+            errorItems.add(errorItem);
+        }
+        return errorItems;
     }
 
     public String reset() {
@@ -282,4 +303,5 @@ public class UploadMappedDrug implements Serializable {
             bean.addError("tmtId", "TMTID was already register and approved.");
         }
     }
+
 }

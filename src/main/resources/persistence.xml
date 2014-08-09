@@ -16,6 +16,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.GenericTMTDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalPrice</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugErrorItem</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <validation-mode>NONE</validation-mode>
     <properties>

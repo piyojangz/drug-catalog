@@ -28,21 +28,25 @@
                     <p:column headerText="File name">
                         <h:outputText value="#{model.originalFilename}"/>
                     </p:column>
-                    <p:column headerText="Pass item">
-                        <h:outputText value="#{model.passItemCount}"/>
+                    <p:column headerText="Pass item" width="120">
+                        <h:link outcome="details" value="#{model.passItemCount}" style="color:blue">
+                            <f:param name="uploadFileId" value="#{model.id}"/>
+                            <f:param name="fileName" value="#{model.originalFilename}"/>
+                        </h:link>
                     </p:column>
-                    <p:column headerText="Total item">
+                    <p:column headerText="Error item" width="120">
+                        <h:link outcome="error_details" value="#{model.itemCount - model.passItemCount}" style="color:blue">
+                            <f:param name="uploadFileId" value="#{model.id}"/>
+                            <f:param name="fileName" value="#{model.originalFilename}"/>
+                        </h:link>
+                    </p:column>
+                    <p:column headerText="Total item" width="120">
                         <h:outputText value="#{model.itemCount}"/>
                     </p:column>
-                    <p:column headerText="Create date">
+                    <p:column headerText="Create date" width="200">
                         <h:outputText value="#{model.createDate}">
                             <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
                         </h:outputText>
-                    </p:column>
-                    <p:column headerText="" width="60">
-                        <h:link outcome="details" value="Detail">
-                            <f:param name="uploadFileId" value="#{model.id}"/>
-                        </h:link>
                     </p:column>
                 </p:dataTable>
             </h:form>
