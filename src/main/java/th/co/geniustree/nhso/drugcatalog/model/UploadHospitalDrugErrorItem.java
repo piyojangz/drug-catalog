@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import org.hibernate.search.annotations.Key;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -128,6 +129,7 @@ public class UploadHospitalDrugErrorItem implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "TMT_ERRORMSG_ITEM")
+    @MapKeyColumn(name = "ERRORMAP_KEY", nullable = false)
     @Column(name = "ERRORMSG", length = 1500, columnDefinition = "NVARCHAR2(1500)")
     private Map<String, String> errorMap;
 
