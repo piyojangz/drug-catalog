@@ -10,8 +10,14 @@ import com.google.common.base.Splitter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.faces.event.FacesEvent;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -32,6 +38,8 @@ import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 @Component
 @Scope("view")
 public class SearchTmtDrug implements Serializable {
+
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(SearchTmtDrug.class);
 
     private List<String> selectColumns = new ArrayList<>();
     private Type[] selectTypes = {Type.GPU, Type.TPU, Type.TP};
@@ -104,5 +112,23 @@ public class SearchTmtDrug implements Serializable {
             }
         };
 
+    }
+
+    public void prepareAssigngroup(String tmtId) {
+        LOG.info("Prepare assign druggroup data for tmt id {}", tmtId);
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 500);
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> tmtIds = new ArrayList<>();
+        tmtIds.add(tmtId);
+        params.put("tmtId", tmtIds);
+        RequestContext.getCurrentInstance().openDialog("/private/common/drug/selectDrugGroupDialog", options, params);
+    }
+
+    public void onSaveGroup(SelectEvent event) {
+        LOG.info("receive event {}", event.getObject());
     }
 }

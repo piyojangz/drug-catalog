@@ -5,15 +5,19 @@
  */
 package th.co.geniustree.nhso.drugcatalog.model;
 
+import com.google.common.base.Joiner;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -84,6 +88,8 @@ public class TMTDrug implements Serializable, TMT {
     @Column(name = "TYPE", nullable = false, length = 3)
     @Enumerated(EnumType.STRING)
     private Type type;
+    @OneToMany(mappedBy = "tmtDrug")
+    private List<TMTDrugGroupItem> drugGroupItems;
     @Version
     private Integer version;
 
@@ -232,6 +238,15 @@ public class TMTDrug implements Serializable, TMT {
     public void setChangeDate(Date changeDate) {
         this.changeDate = changeDate;
     }
+
+    public List<TMTDrugGroupItem> getDrugGroupItems() {
+        return drugGroupItems;
+    }
+
+    public void setDrugGroupItems(List<TMTDrugGroupItem> drugGroupItems) {
+        this.drugGroupItems = drugGroupItems;
+    }
+
 
     @Override
     public int hashCode() {
