@@ -14,7 +14,14 @@
                               update="form" auto="true" sizeLimit="10000000" allowTypes="/(\.|\/)(xls|xlsx)$/" label="#{not empty uploadMappedDrug.originalFileName?'File : '.concat(uploadMappedDrug.originalFileName):'เลือกไฟล์ drug catalog (xls,xlsx)'}"/>
                 <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadMappedDrug.models.size()+uploadMappedDrug.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadMappedDrug.file}"/><br/>
                 <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" rendered="#{uploadMappedDrug.duplicateFile}" style="color:red;font-weight: bold"/><br/>
-                <p:panel  header="จำนวนข้อมูลที่ไม่ผ่านการตรวจสอบตามโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.notPassModels.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.notPassModels}">
+                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadMappedDrug.notPassModels}">
+                    <f:facet name="header">
+                        <h:outputText value="จำนวนข้อมูลที่" />
+                        <h:outputText value="ไม่ผ่าน" style="color:red"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้างตามมาตรฐาน Drug catalog "/>
+                        <h:outputText value="#{uploadMappedDrug.notPassModels.size()} " style="color:red"/>
+                        <h:outputText value="เรคคอร์ด"/>
+                    </f:facet>
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
@@ -99,7 +106,14 @@
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
-                <p:panel  header="จำนวนข้อมูลที่ผ่านโครงสร้างตามมาตรฐาน Drug catalog #{uploadMappedDrug.models.size()} เรคคอร์ด" style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.models}">
+                <p:panel style="margin-bottom:20px" rendered="#{not empty uploadMappedDrug.models}">
+                    <f:facet name="header">
+                        <h:outputText value="จำนวนข้อมูลที่" />
+                        <h:outputText value="ผ่าน" style="color:green"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้างตามมาตรฐาน Drug catalog "/>
+                        <h:outputText value="#{uploadMappedDrug.models.size()} " style="color:green"/>
+                        <h:outputText value="เรคคอร์ด"/>
+                    </f:facet>
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="passTable" resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
@@ -166,14 +180,14 @@
                             <p:column headerText="UPDATEFLAG" width="100">
                                 <h:outputText value="#{model.updateFlag}"/>
                             </p:column>
-                            <p:column headerText="DATECHANGE"  width="120">
-                                <h:outputText value="#{model.dateChange}"/>
+                            <p:column headerText="DATECHANGE"  width="120" styleClass="#{model.originalDateChange eq model.dateChange ?'color:black':'warnBackground'}">
+                                <h:outputText value="#{model.dateChange}" title="#{model.originalDateChange eq model.dateChange ?'color:black':'มีการแปลงวันที่จาก '.concat(model.originalDateChange).concat(' เป็น ').concat(model.dateChange)}"/>
                             </p:column>
-                            <p:column headerText="DATEUPDATE" width="120">
-                                <h:outputText value="#{model.dateUpdate}"/>
+                            <p:column headerText="DATEUPDATE" width="120" styleClass="#{model.originaleDateUpdate eq model.dateUpdate ?'color:black':'warnBackground'}">
+                                <h:outputText value="#{model.dateUpdate}" title="#{model.originaleDateUpdate eq model.dateUpdate ?'color:black':'มีการแปลงวันที่จาก '.concat(model.originaleDateUpdate).concat(' เป็น ').concat(model.dateUpdate)}"/>
                             </p:column>
-                            <p:column headerText="DATEEFFECTIVE" width="120">
-                                <h:outputText value="#{model.dateEffective}"/>
+                            <p:column headerText="DATEEFFECTIVE" width="120" styleClass="#{model.originalDateEffective eq model.dateEffective ?'color:black':'warnBackground'}">
+                                <h:outputText value="#{model.dateEffective}" title="#{model.originalDateEffective eq model.dateEffective ?'color:black':'มีการแปลงวันที่จาก '.concat(model.originalDateEffective).concat(' เป็น ').concat(model.dateEffective)}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>

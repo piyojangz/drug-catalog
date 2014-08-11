@@ -53,7 +53,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     private void checkDuplicateForUpdateFlagA(HospitalDrugExcelModel uploadDrugModel) {
         boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(),uploadDrugModel.getHcode()));
         if(exists){
-            uploadDrugModel.addError("updateFlag", "UpdateFlag 'A' (Add new one) but is already added.");
+            uploadDrugModel.addError("updateFlag", "UpdateFlag 'A' (Add new one) but is already added.Please use flag E for update.");
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.input.validator;
 
+import java.text.DecimalFormat;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -13,6 +14,7 @@ import javax.validation.ConstraintValidatorContext;
  * @author moth
  */
 public class DoubleValidator implements ConstraintValidator<DoubleValue, String> {
+    private final DecimalFormat formatter = new DecimalFormat("########.##");
 
     @Override
     public void initialize(DoubleValue constraintAnnotation) {
@@ -25,7 +27,7 @@ public class DoubleValidator implements ConstraintValidator<DoubleValue, String>
             return true;
         }
         try {
-            Double.parseDouble(value.trim());
+            formatter.parse(value.trim());
             return true;
         } catch (Exception ex) {
             return false;

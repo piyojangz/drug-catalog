@@ -172,7 +172,7 @@ public class UploadMappedDrug implements Serializable {
         }
         return items;
     }
-    
+
     private List<UploadHospitalDrugErrorItem> createErrorItem(UploadHospitalDrug uploadDrug) {
         List<UploadHospitalDrugErrorItem> errorItems = new ArrayList<>();
         for (HospitalDrugExcelModel notPassModel : notPassModels) {
@@ -224,24 +224,24 @@ public class UploadMappedDrug implements Serializable {
             shaHex = DigestUtils.shaHex(targetFile);
             duplicateFile = uploadHospitalDrugRepo.countByShaHex(shaHex) > 0;
             ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
-                int rowNum = 0;
-
                 @Override
                 public void header(List<String> headers) {
                     LOG.debug("HEADERS = {}", headers);
-                    rowNum++;
                 }
 
                 @Override
                 public void ok(int rowNum, HospitalDrugExcelModel bean) {
-                    bean.setRowNum(rowNum);
+                    bean.setRowNum(rowNum+1);
                     bean.setHcode(user.getOrgId());
+                    bean.cutFractionMorethan2();
+                    bean.subtractYearIsWrongYear();
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
                         violations.addAll(beanValidator.validate(bean, UGroup.class));
                     } else {
                         violations.addAll(beanValidator.validate(bean, AEDGroup.class));
                     }
+
                     if (violations.isEmpty()) {
                         checkDuplicateInCurrentFile(bean);
                         checkTmt(bean);

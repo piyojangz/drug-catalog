@@ -42,4 +42,9 @@ public class DateUtils {
             throw new RuntimeException(ex);
         }
     }
+
+    public static String format(String pattern, Date value) {
+        SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat(pattern, Locale.US);
+        return dateAndTimeFormat.format(value);
+    }
 }
