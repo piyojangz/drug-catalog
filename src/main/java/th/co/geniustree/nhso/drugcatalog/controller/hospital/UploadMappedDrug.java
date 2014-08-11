@@ -285,7 +285,7 @@ public class UploadMappedDrug implements Serializable {
     private void checkDuplicateInCurrentFile(HospitalDrugExcelModel bean) {
         for (HospitalDrugExcelModel model : models) {
             if (bean.isEqual(model)) {
-                bean.addError("duplicated", "duplicated entry in current file.");
+                bean.addError("duplicated", "มีรายการยาของโรงพยาบาลซ้ำอยู่ในแฟ้มข้อมูลเดียวกัน");
             }
         }
     }
@@ -296,11 +296,11 @@ public class UploadMappedDrug implements Serializable {
         }
         long count = tmtDrugRepo.countByTmtId(bean.getTmtId());
         if (count == 0) {
-            bean.addError("tmtId", "Invalid TMT.");
+            bean.addError("tmtId", "ไม่พบ TMTID ตามรหัสยามาตรฐาน TMT");
             return;
         }
         if (hospitalDrugRepo.countByHcodeAndTmtIdAndApprovedIsTrue(bean.getHcode(), bean.getTmtId()) > 0) {
-            bean.addError("tmtId", "TMTID was already register and approved.");
+            bean.addError("tmtId", "รหัส  TMT นี้ ได้รับการ approve ไปแล้ว");
         }
     }
 

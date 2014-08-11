@@ -39,21 +39,21 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     private void checkDuplicateForUpdateFlageU(HospitalDrugExcelModel uploadDrugModel) {
         long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateUpdate());
         if (countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate > 0) {
-            uploadDrugModel.addError("dateUpdate", "Flag U at dateUpdate is already exist.");
+            uploadDrugModel.addError("dateUpdate", "พบ DataUpdate + UpdateFlag = \"U\"  ซ้ำในฐานข้อมูล");
         }
     }
 
     private void checkDuplicateForUpdateFlagAED(HospitalDrugExcelModel uploadDrugModel) {
         long countByHospDrugCodeAndUploadDrugHcodeAndDateChange = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateChange(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateChange());
         if (countByHospDrugCodeAndUploadDrugHcodeAndDateChange > 0) {
-            uploadDrugModel.addError("dateChange", "Flag E,D at dateChange is already exist.");
+            uploadDrugModel.addError("dateChange", "พบ DataChange + UpdateFlag = \"E\" หรือ \"D\"  ซ้ำในฐานข้อมูล");
         }
     }
 
     private void checkDuplicateForUpdateFlagA(HospitalDrugExcelModel uploadDrugModel) {
         boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(),uploadDrugModel.getHcode()));
         if(exists){
-            uploadDrugModel.addError("updateFlag", "UpdateFlag 'A' (Add new one) but is already added.Please use flag E for update.");
+            uploadDrugModel.addError("updateFlag", "UpdateFlag \"A\" ใช้เฉพาะเพิ่มรายการยาใหม่ เท่านั้น หากต้องการปรับปรุง/แก้ไขรายการยาเดิม ให้ระบุ UpdateFlag ให้ถูกต้อง");
         }
     }
 

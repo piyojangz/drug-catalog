@@ -40,13 +40,13 @@ public class HospitalDrugExcelModel implements Serializable {
 
     private final DecimalFormat formatter = new DecimalFormat("########.##");
     @XlsColumn
-    @NotEmpty(message = "hospDrugCode may not be empty")
-    @Size(max = 30, message = "hospDrugCode size must not more than {max}.")
+    @NotEmpty(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
+    @Size(max = 30, message = "HospDrugCode ต้องไม่เกิน 30 ตัวอักษร")
     private String hospDrugCode;
 
     @XlsColumn
-    @Size(max = 1, message = "productCat size must not more than {max}.")
-    @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"}, message = "productCat จะต้องมีค่า 1,2,3,4,5,6,7")
+    @Size(max = 1, message = "ProductCat ต้องไม่เกิน 1 ตัวอักษร")
+    @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"}, message = "ProductCat ต้องประกอบด้วย 1 หรือ 2 หรือ 3 หรือ 4 หรือ 5 หรือ 6 หรือ 7 เท่านั้น")
     private String productCat;
 
     @XlsColumn
@@ -54,90 +54,90 @@ public class HospitalDrugExcelModel implements Serializable {
     private String tmtId;
 
     @XlsColumn
-    @Size(max = 2, message = "specPrep size must not more than {max}.")
-    @StartWith(values = {"F", "M", "R"}, message = "specPrep Must start with F,M,R")
+    @Size(max = 2, message = "SpecRep ต้องไม่เกิน 2 ตัวอักษร")
+    @StartWith(values = {"F", "M", "R"}, message = "SpecRep ตัวอักษรตัวแรก ต้องประกอบด้วย F หรือ M หรือ R เท่านั้น")
     private String specPrep;
 
     @XlsColumn
-    @Size(max = 255, message = "genericName size must not more than {max}.")
-    @NotEmpty(message = "genericName may not be empty")
+    @Size(max = 255, message = "GenericName ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด GenericName มาด้วยทุกครั้ง")
     private String genericName;
     @XlsColumn
-    @Size(max = 255, message = "tradeName size must not more than {max}.")
-    @NotEmpty(message = "tradeName may not be empty")
+    @Size(max = 255, message = "TradeName ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด TradeName มาด้วยทุกครั้ง")
     private String tradeName;
 
     @XlsColumn(columnNames = {"dfsCode", "dsfCode"})
-    @Size(max = 100, message = "dfsCode size must not more than {max}.")
+    @Size(max = 100, message = "DFSCode ต้องไม่เกิน 100 ตัวอักษร")
     private String dfsCode;
 
     @XlsColumn
-    @Size(max = 255, message = "dosageForm size must not more than {max}.")
-    @NotEmpty(message = "dosageForm may not be empty")
+    @Size(max = 255, message = "DosageForm ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด DosageForm มาด้วยทุกครั้ง")
     private String dosageForm;
 
     @XlsColumn
-    @Size(max = 255, message = "strength size must not more than {max}.")
-    @NotEmpty(message = "strength may not be empty")
+    @Size(max = 255, message = "Strength ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด Strength มาด้วยทุกครั้ง")
     private String strength;
 
     @XlsColumn
-    @Size(max = 100, message = "content size must not more than {max}.")
-    @NotEmpty(message = "content may not be empty")
+    @Size(max = 100, message = "Content ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด Content มาด้วยทุกครั้ง")
     private String content;
 
     @XlsColumn
-    @Size(max = 11, message = "unitPrice size must not more than {max} (########.##).")
-    @NotEmpty(message = "unitPrice may not be empty")
-    @DoubleValue(message = "unitPrice is not decimal number.")
+    @Size(max = 11, message = "UnitPrice ต้องประกอบด้วยตัวเลขหรือจุดทศนิยม ไม่เกิน 11 ตัวอักษร (99999999.99)")
+    @NotEmpty(message = "ต้องกำหนด UnitPrice มาด้วยทุกครั้ง")
+    @DoubleValue(message = "UnitPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น")
     private String unitPrice;
 
     @XlsColumn
-    @Size(max = 255, message = "distributor size must not more than {max}.")
+    @Size(max = 255, message = "Distributer ต้องไม่เกิน 255 ตัวอักษร")
     private String distributor;
 
     @XlsColumn(columnNames = {"manufacturer", "manufacture"})
-    @Size(max = 255, message = "manufacturer size must not more than {max}.")
-    @NotEmpty(message = "manufacturer may not be empty")
+    @Size(max = 255, message = "Manufacturer ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด Manufacturer มาด้วยทุกครั้ง")
     private String manufacturer;
 
     @XlsColumn
-    @Size(max = 2, message = "ised size must not more than {max}.")
-    @NotEmpty(message = "ised may not be empty")
-    @ValueSet(values = {"E", "N", "E*"}, message = "ised must be \"E,N,E*\" only.")
+    @Size(max = 2, message = "ISED ต้องไม่เกิน 2 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด ISED มาด้วยทุกครั้ง")
+    @ValueSet(values = {"E", "N", "E*"}, message = "ISED ต้องประกอบด้วย N หรือ E หรือ E* เท่านั้น")
     private String ised;
 
     @XlsColumn
-    @NDC24(message = "NDC24 length must be 24 and digit only.")
+    @NDC24(message = "NDC24 ต้องประกอบด้วยตัวเลข 24 หลัก เท่านั้น")
     private String ndc24;
 
     @XlsColumn
-    @Size(max = 100, message = "packSize size must not more than {max}.")
+    @Size(max = 100, message = "PackSize ต้องไม่เกิน 100 ตัวอักษร")
     private String packSize;
 
     @XlsColumn
-    @Size(max = 11, message = "packPrice size must not more than {max} (########.##).")
-    @DoubleValue(message = "packPrice is not decimal number.")
+    @Size(max = 11, message = "PackPrice ต้องประกอบด้วยตัวเลขหรือจุดทศนิยม ไม่เกิน 11 ตัวอักษร (99999999.99)")
+    @DoubleValue(message = "PackPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น")
     private String packPrice;
 
     @XlsColumn
-    @Size(max = 1, message = "updateFlag size must not more than {max}.")
-    @NotEmpty(message = "updateFlag may not be empty")
-    @ValueSet(values = {"A", "D", "E", "U"}, message = "updateFlag must be \"A,D,E,U\" only.")
+    @Size(max = 1, message = "UpdateFlag ต้องไม่เกิน 1 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด UpdateFlag มาด้วยทุกครั้ง")
+    @ValueSet(values = {"A", "D", "E", "U"}, message = "UpdateFlag ต้องประกอบด้วย A หรือ หรือ D หรือ E หรือ U เท่านั้น")
     private String updateFlag;
 
     @XlsColumn
-    @NotEmpty(message = "dateChange may not be empty for update flag A,E,D")
-    @DateAndOptionalTime(message = "dateChange ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)", groups = AEDGroup.class)
+    @NotEmpty(message = "ต้องกำหนด DataChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ หรือ D หรือ E ")
+    @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataChange ไม่ถูกต้อง (dd/mm/yyyy hh:mm)", groups = AEDGroup.class)
     private String dateChange;
     @XlsColumn
-    @NotEmpty(message = "dateUpdate may not be empty for update flag U", groups = UGroup.class)
-    @DateAndOptionalTime(message = "dateUpdate ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
+    @NotEmpty(message = "ต้องกำหนด DataUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
+    @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataUpdate ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     private String dateUpdate;
 
     @XlsColumn
-    @NotEmpty(message = "dateEffective may not be empty for update flag U", groups = UGroup.class)
-    @DateAndOptionalTime(message = "dateEffective ไม่ถูกต้องตาม format dd/mm/yyyy hh:mm (hh:mm เป็น optional)")
+    @NotEmpty(message = "ต้องกำหนด DataEffective มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
+    @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataEffective ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     private String dateEffective;
     private int rowNum;
     private String hcode;
