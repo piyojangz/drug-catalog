@@ -315,6 +315,7 @@
                             </excludes>
                         </resource>
                     </webResources>
+                    <warName>drugcatalogue-${project.version}</warName>
                 </configuration>
             </plugin>
             <plugin>
