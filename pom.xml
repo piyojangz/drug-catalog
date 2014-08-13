@@ -14,7 +14,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.springframework.version>4.0.5.RELEASE</org.springframework.version>
     </properties>
-    
+    <scm>
+        <connection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</connection>
+        <developerConnection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</developerConnection>
+        <url>http://192.168.1.126/git/drug-catalog.git</url>
+        <tag>HEAD</tag>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>Geniustree Release</id>
+            <url>http://192.168.1.126:8088/nexus/content/repositories/geniustree/</url>
+        </repository>
+        <snapshotRepository>
+            <id>Geniustree Snapshots</id>
+            <url>http://192.168.1.126:8088/nexus/content/repositories/GeniustreeSnapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <dependencies>
         <!-- ******* Geniustree ******** -->
         <dependency>
