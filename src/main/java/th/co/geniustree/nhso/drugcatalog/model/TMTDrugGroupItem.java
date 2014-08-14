@@ -18,7 +18,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -49,8 +48,13 @@ public class TMTDrugGroupItem implements Serializable {
     private DrugGroup drugGroup;
 
     @Id
+    @Column(name="DATEIN")
     @Temporal(TemporalType.DATE)
     private Date datein;
+
+    @Column(name="DATEOUT")
+    @Temporal(TemporalType.DATE)
+    private Date dateOut;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
@@ -91,6 +95,15 @@ public class TMTDrugGroupItem implements Serializable {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+    public Date getDateOut() {
+        return dateOut;
+    }
+
+    public void setDateOut(Date dateOut) {
+        this.dateOut = dateOut;
+    }
+    
 
     @Override
     public int hashCode() {
