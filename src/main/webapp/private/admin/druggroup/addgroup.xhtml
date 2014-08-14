@@ -16,7 +16,7 @@
                         </p:column>
                         <p:column>
                             <h:inputText id="groupName" value="#{addDrugGroup.drugGroup.id}" required="true" requiredMessage="Group name may be not empty." size="30" readonly="#{addDrugGroup.editMode}">
-                                <f:validateLength maximum="10"/>
+                                <f:validateLength maximum="20"/>
                             </h:inputText>
                         </p:column>
                     </p:row>
@@ -25,7 +25,7 @@
                             Description:
                         </p:column>
                         <p:column>
-                            <h:inputText id="desc" value="#{addDrugGroup.drugGroup.description}" size="60">
+                            <h:inputText id="desc" value="#{addDrugGroup.drugGroup.description}" size="200">
                                 <f:validateLength maximum="255"/>
                             </h:inputText>
                         </p:column>

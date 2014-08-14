@@ -26,7 +26,7 @@ import javax.persistence.Version;
 public class DrugGroup implements Serializable {
 
     @Id
-    @Column(name = "ID", length = 10)
+    @Column(name = "ID", length = 20)
     private String id;
 
     @Column(name = "DESCRIPTION", length = 255)
