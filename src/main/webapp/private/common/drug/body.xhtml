@@ -12,17 +12,17 @@
             <h:panelGrid columns="3" >
                 <h:outputLabel value="Keyword:"/>
                 <h:inputText id="x" value="#{searchTmtDrug.keyword}" size="60"/>
-                <p:commandButton action="#{searchTmtDrug.search()}" update="form" value="Search" ajax="false"/>
+                <p:commandButton action="#{searchTmtDrug.search()}" update="table selectColumns selectTypes" value="Search" />
 
                 <h:outputLabel value="Columns:"/>
-                <p:selectManyCheckbox value="#{searchTmtDrug.selectColumns}">
+                <p:selectManyCheckbox id="selectColumns" value="#{searchTmtDrug.selectColumns}">
                     <f:selectItem  itemValue="FSN" itemLabel="FSN"/>
                     <f:selectItem  itemValue="TMTID" itemLabel="TMTID"/>
                 </p:selectManyCheckbox>
                 <h:outputLabel value=""/>
 
                 <h:outputLabel value="Type:"/>
-                <p:selectManyCheckbox value="#{searchTmtDrug.selectTypes}">
+                <p:selectManyCheckbox id="selectTypes" value="#{searchTmtDrug.selectTypes}">
                     <f:selectItems value="#{searchTmtDrug.types}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
                 </p:selectManyCheckbox>
                 <h:outputLabel value=""/>
@@ -36,8 +36,11 @@
                         <p:dataExporter type="xls" target="table" fileName="tmt_drug" pageOnly="false"/>
                     </h:commandLink>
                 </f:facet>
-                <p:column   headerText="#" width="20">
+                <p:column   headerText="#" width="20" rendered="#{empty selectable}">
                     <h:outputText value="#{rowIndex}"/>
+                </p:column>
+                <p:column   headerText="" width="30" rendered="#{not empty selectable}">
+                    <p:commandLink value="เลือก" style="color:blue" actionListener="#{searchTmtDrug.selectDrug(model)}"/>
                 </p:column>
                 <p:column headerText="TPUCODE/TMTID" width="60">
                     <h:outputText value="#{model.tmtId}"/>
@@ -69,7 +72,7 @@
                 <p:column headerText="FSN" width="300">
                     <h:outputText value="#{model.fsn}"/>
                 </p:column>
-                <p:column headerText="Status" width="30">
+                <p:column headerText="Status" width="30" rendered="#{not empty selectable}">
                     <h:outputText value="#{model.status}"/>
                 </p:column>
                 <p:column headerText="TYPE" width="30">

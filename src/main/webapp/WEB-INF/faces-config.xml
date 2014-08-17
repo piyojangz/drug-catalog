@@ -26,4 +26,8 @@
         <converter-for-class>java.lang.Enum</converter-for-class>
         <converter-class>javax.faces.convert.EnumConverter</converter-class>
     </converter>
+    <converter>
+        <converter-for-class>java.lang.String</converter-for-class>
+        <converter-class>th.co.geniustree.nhso.drugcatalog.controller.EmptyToNullConverter</converter-class>
+    </converter>
 </faces-config>

@@ -21,8 +21,17 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.input.AEDGroup;
+import th.co.geniustree.nhso.drugcatalog.input.UGroup;
+import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
+import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
+import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
+import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
+import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
 
 /**
  *
@@ -50,87 +59,115 @@ public class UploadHospitalDrugItem implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "UPLOADHOSPDRUG_ID")
     private UploadHospitalDrug uploadDrug;
-    @NotEmpty
+
+    @NotEmpty(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
+    @Size(max = 30, message = "HospDrugCode ต้องไม่เกิน 30 ตัวอักษร")
     @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
     private String hospDrugCode;
 
+    @Size(max = 1, message = "ProductCat ต้องไม่เกิน 1 ตัวอักษร")
+    @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"}, message = "ProductCat ต้องประกอบด้วย 1 หรือ 2 หรือ 3 หรือ 4 หรือ 5 หรือ 6 หรือ 7 เท่านั้น")
     @Column(name = "PRODUCTCAT", nullable = true, length = 3)
     private String productCat;
 
+    @Size(min = 6, max = 6, message = "tmtId size must be {max}.")
     @Column(name = "TMTID", nullable = true, length = 6)
     private String tmtId;
 
+    @Size(max = 2, message = "SpecRep ต้องไม่เกิน 2 ตัวอักษร")
+    @StartWith(values = {"F", "M", "R"}, message = "SpecRep ตัวอักษรตัวแรก ต้องประกอบด้วย F หรือ M หรือ R เท่านั้น")
     @Column(name = "SPECPREP", nullable = true, length = 2)
     private String specPrep;
 
-    @NotEmpty
+    @Size(max = 255, message = "GenericName ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด GenericName มาด้วยทุกครั้ง")
     @Column(name = "GENERICNAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String genericName;
 
-    @NotEmpty
+    @Size(max = 255, message = "TradeName ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด TradeName มาด้วยทุกครั้ง")
     @Column(name = "TRADENAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String tradeName;
 
+    @Size(max = 100, message = "DFSCode ต้องไม่เกิน 100 ตัวอักษร")
     @Column(name = "DFSCODE", nullable = true, length = 100, columnDefinition = "NVARCHAR2(100)")
     private String dfsCode;
 
-    @NotEmpty
+    @Size(max = 255, message = "DosageForm ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด DosageForm มาด้วยทุกครั้ง")
     @Column(name = "DOSAGEFORM", nullable = false, length = 255, columnDefinition = "NVARCHAR2(100)")
     private String dosageForm;
 
-    @NotEmpty
+    @Size(max = 255, message = "Strength ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด Strength มาด้วยทุกครั้ง")
     @Column(name = "STRENGTH", nullable = false, length = 255)
     private String strength;
 
-    @NotEmpty
+    @Size(max = 100, message = "Content ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด Content มาด้วยทุกครั้ง")
     @Column(name = "CONTENT", nullable = false, length = 100)
     private String content;
 
-    @NotEmpty
+    @Size(max = 11, message = "UnitPrice ต้องประกอบด้วยตัวเลขหรือจุดทศนิยม ไม่เกิน 11 ตัวอักษร (99999999.99)")
+    @NotEmpty(message = "ต้องกำหนด UnitPrice มาด้วยทุกครั้ง")
+    @DoubleValue(message = "UnitPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น")
     @Column(name = "UNITPRICE", nullable = false)
     private String unitPrice;
 
+    @Size(max = 255, message = "Distributer ต้องไม่เกิน 255 ตัวอักษร")
     @Column(name = "DISTRIBUTOR", nullable = true, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String distributor;
 
-    @NotEmpty
+    @Size(max = 255, message = "Manufacturer ต้องไม่เกิน 255 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด Manufacturer มาด้วยทุกครั้ง")
     @Column(name = "MANUFACTURER", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String manufacturer;
 
-    @NotEmpty
+    @Size(max = 2, message = "ISED ต้องไม่เกิน 2 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด ISED มาด้วยทุกครั้ง")
+    @ValueSet(values = {"E", "N", "E*"}, message = "ISED ต้องประกอบด้วย N หรือ E หรือ E* เท่านั้น")
     @Column(name = "ISED", nullable = false, length = 2)
     private String ised;
 
+    @NDC24(message = "NDC24 ต้องประกอบด้วยตัวเลข 24 หลัก เท่านั้น")
     @Column(name = "NDC24", nullable = true, length = 24)
     private String ndc24;
 
+    @Size(max = 100, message = "PackSize ต้องไม่เกิน 100 ตัวอักษร")
     @Column(name = "PACKSIZE", nullable = true, length = 100)
     private String packSize;
+
+    @Size(max = 11, message = "PackPrice ต้องประกอบด้วยตัวเลขหรือจุดทศนิยม ไม่เกิน 11 ตัวอักษร (99999999.99)")
+    @DoubleValue(message = "PackPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น")
     @Column(name = "PACKPRICE", nullable = true)
     private String packPrice;
 
-    @NotEmpty
+    @Size(max = 1, message = "UpdateFlag ต้องไม่เกิน 1 ตัวอักษร")
+    @NotEmpty(message = "ต้องกำหนด UpdateFlag มาด้วยทุกครั้ง")
+    @ValueSet(values = {"A", "D", "E", "U"}, message = "UpdateFlag ต้องประกอบด้วย A หรือ หรือ D หรือ E หรือ U เท่านั้น")
     @Column(name = "UPDATEFLAG", nullable = false, length = 1)
     private String updateFlag;
 
-    @NotEmpty
     @Column(name = "DATECHANGE", nullable = false)
     private String dateChange;
 
-    @NotEmpty
     @Column(name = "DATEUPDATE", nullable = true)
     private String dateUpdate;
 
-    @NotEmpty
     @Column(name = "DATEEFFECTIVE", nullable = false)
     private String dateEffective;
 
+    @NotNull(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ  E ", groups = AEDGroup.class)
     @Column(name = "DATECHANGEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateChangeDate;
+
+    @NotNull(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
     @Column(name = "DATEUPDATEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdateDate;
+
+    @NotNull(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
     @Column(name = "DATEEFFECTIVEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEffectiveDate;

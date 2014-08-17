@@ -42,7 +42,7 @@ public class SearchTmtDrug implements Serializable {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(SearchTmtDrug.class);
 
     private List<String> selectColumns = new ArrayList<>();
-    private Type[] selectTypes = {Type.GPU, Type.TPU, Type.TP};
+    private Type[] selectTypes = {Type.TPU};
     @Autowired
     private TMTDrugRepo tmtDrugRepo;
     private String keyword;
@@ -96,19 +96,22 @@ public class SearchTmtDrug implements Serializable {
             @Override
             public Page<TMTDrug> load(Pageable pageAble) {
                 List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-                Specifications<TMTDrug> spec1 = Specifications.where(TMTDrugSpecs.typeIn(Arrays.asList(selectTypes)));
-                Specifications<TMTDrug> spec2 = Specifications.where(null);
+                Specifications<TMTDrug> spec = Specifications.where(null);
+                if (selectTypes.length > 0) {
+                    spec = spec.and(Specifications.where(TMTDrugSpecs.typeIn(Arrays.asList(selectTypes))));
+                }
+
                 if (selectColumns.isEmpty()) {
                     selectColumns.add("FSN");
                     selectColumns.add("TMTID");
                 }
                 if (selectColumns.contains("FSN")) {
-                    spec2 = spec2.and(TMTDrugSpecs.fsnContains(keywords));
+                    spec = spec.and(TMTDrugSpecs.fsnContains(keywords));
                 }
                 if (selectColumns.contains("TMTID")) {
-                    spec2 = spec2.or(TMTDrugSpecs.tmtIdContains(keywords));
+                    spec = spec.or(TMTDrugSpecs.tmtIdContains(keywords));
                 }
-                return tmtDrugRepo.findAll(spec1.and(spec2), pageAble);
+                return tmtDrugRepo.findAll(spec, pageAble);
             }
         };
 
@@ -126,6 +129,10 @@ public class SearchTmtDrug implements Serializable {
         tmtIds.add(tmtId);
         params.put("tmtId", tmtIds);
         RequestContext.getCurrentInstance().openDialog("/private/common/drug/selectDrugGroupDialog", options, params);
+    }
+
+    public void selectDrug(TMTDrug tmtDrug) {
+        RequestContext.getCurrentInstance().closeDialog(tmtDrug);
     }
 
     public void onSaveGroup(SelectEvent event) {

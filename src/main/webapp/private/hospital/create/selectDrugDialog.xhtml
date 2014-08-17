@@ -5,12 +5,13 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
-    <ui:composition template="/template/main-template2.xhtml">
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/template/main-template_noleft.xhtml">
         <ui:define name="content">
-            <h:form>
-                <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
-            </h:form>
+            <ui:include src="/private/common/drug/body.xhtml">
+                <ui:param name="selectable" value="true"/>
+            </ui:include>
         </ui:define>
     </ui:composition>
 </html>

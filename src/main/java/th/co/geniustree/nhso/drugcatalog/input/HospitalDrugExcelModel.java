@@ -127,8 +127,8 @@ public class HospitalDrugExcelModel implements Serializable {
     private String updateFlag;
 
     @XlsColumn
-    @NotEmpty(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ หรือ D หรือ E ")
-    @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataChange ไม่ถูกต้อง (dd/mm/yyyy hh:mm)", groups = AEDGroup.class)
+    @NotEmpty(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ หรือ D หรือ E ", groups = AEDGroup.class)
+    @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataChange ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     private String dateChange;
     @XlsColumn
     @NotEmpty(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
@@ -337,7 +337,6 @@ public class HospitalDrugExcelModel implements Serializable {
     public void setOriginalDateEffective(String originalDateEffective) {
         this.originalDateEffective = originalDateEffective;
     }
-    
 
     public Map<String, List<String>> getErrorMap() {
         return errorMap;
