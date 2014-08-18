@@ -32,7 +32,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
         } else if ("A".equalsIgnoreCase(uploadDrugModel.getUpdateFlag())) {
             checkDuplicateForUpdateFlagA(uploadDrugModel);
         } else {
-            checkDuplicateForUpdateFlagAED(uploadDrugModel);
+            checkDuplicateForUpdateFlagED(uploadDrugModel);
         }
     }
 
@@ -43,7 +43,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
         }
     }
 
-    private void checkDuplicateForUpdateFlagAED(HospitalDrugExcelModel uploadDrugModel) {
+    private void checkDuplicateForUpdateFlagED(HospitalDrugExcelModel uploadDrugModel) {
         long countByHospDrugCodeAndUploadDrugHcodeAndDateChange = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateChange(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateChange());
         if (countByHospDrugCodeAndUploadDrugHcodeAndDateChange > 0) {
             uploadDrugModel.addError("dateChange", "พบ DataChange + UpdateFlag = \"E\" หรือ \"D\"  ซ้ำในฐานข้อมูล");
