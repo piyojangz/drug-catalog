@@ -13,7 +13,7 @@
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
-                        แก้ไขรายการยา (ONLINE)
+                        ปรับปรุงรายการยา (ONLINE)
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="table" fileName="all_drug" pageOnly="false"/>
@@ -23,7 +23,10 @@
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
                     <p:column   headerText="" width="40" exportable="false">
-                        <span style="color:blue">แก้ไข</span>
+                        <h:link outcome="/private/hospital/create/index" value="แก้ไข" style="color:blue">
+                            <f:param name="editMode" value="true"/>
+                            <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
+                        </h:link>
                     </p:column>
                     <p:column   headerText="HOSPDRUGCODE" width="110">
                         <h:outputText value="#{model.hospDrugCode}"/>

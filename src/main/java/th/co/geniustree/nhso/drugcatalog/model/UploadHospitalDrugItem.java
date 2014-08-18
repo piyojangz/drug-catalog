@@ -24,10 +24,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
+import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.input.AEDGroup;
 import th.co.geniustree.nhso.drugcatalog.input.UGroup;
-import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
@@ -375,6 +375,27 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public Date getDateEffectiveDate() {
         return dateEffectiveDate;
+    }
+
+    public void setDateChangeDate(Date dateChangeDate) {
+        this.dateChangeDate = dateChangeDate;
+        if (dateChangeDate != null) {
+            dateChange = DateUtils.format(Constants.TMT_DATETIME_FORMAT, dateChangeDate);
+        }
+    }
+
+    public void setDateUpdateDate(Date dateUpdateDate) {
+        this.dateUpdateDate = dateUpdateDate;
+        if (dateUpdateDate != null) {
+            dateUpdate = DateUtils.format(Constants.TMT_DATETIME_FORMAT, dateUpdateDate);
+        }
+    }
+
+    public void setDateEffectiveDate(Date dateEffectiveDate) {
+        this.dateEffectiveDate = dateEffectiveDate;
+        if (dateEffectiveDate != null) {
+            dateEffective = DateUtils.format(Constants.TMT_DATETIME_FORMAT, dateEffectiveDate);
+        }
     }
 
     @Override

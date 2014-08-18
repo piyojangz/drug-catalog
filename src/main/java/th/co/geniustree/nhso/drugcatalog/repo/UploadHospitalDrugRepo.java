@@ -22,5 +22,7 @@ public interface UploadHospitalDrugRepo extends JpaRepository<UploadHospitalDrug
 
     public Page<UploadHospitalDrug> findByHcode(String hcode, Pageable pageReQuest);
     public Long countByShaHex(String shaHex);
+
+    public UploadHospitalDrug findByHcodeAndShaHex(String hcode, String SPECIAL_SHAHEX_VALUE);
     
 }

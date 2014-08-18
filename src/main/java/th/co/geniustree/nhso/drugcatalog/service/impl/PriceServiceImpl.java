@@ -37,14 +37,13 @@ public class PriceServiceImpl implements PriceService {
      * @param hospitalDrug
      * @param unitprice
      */
-
     @Override
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
         HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hospitalDrug.getHcode(), hospitalDrug.getHospDrugCode(), hospitalDrug.getDateEffective()));
         if (findOne == null) {
             createFirstPrice(hospitalDrug);
         } else {
-            findOne.setPrice(unitprice);
+            throw new IllegalStateException("Opp! new price is not realy new. it already exist.");
         }
 
     }

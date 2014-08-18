@@ -29,4 +29,6 @@ public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDr
     public Page<HospitalDrug> findByHcodeAndTmtIdIsNull(String hcode, Pageable page);
 
     public Page<HospitalDrug> findByHcodeAndApprovedAndTmtIdIsNotNull(String hcode, boolean b, Pageable page);
+
+    public Long countByHcodeAndTmtId(String hcode,String tmtId);
 }

@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
+import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
@@ -423,7 +424,7 @@ public class HospitalDrugExcelModel implements Serializable {
                 calendar.setTime(parsed);
                 if (calendar.get(Calendar.YEAR) > 2500) {
                     calendar.roll(Calendar.YEAR, -543);
-                    return DateUtils.format("dd/MM/yyyy HH:mm", calendar.getTime());
+                    return DateUtils.format(Constants.TMT_DATETIME_FORMAT, calendar.getTime());
                 }
             } catch (Exception illegalArgumentException) {
                 //Ignored

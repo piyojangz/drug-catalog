@@ -8,6 +8,9 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="/template/main-template_noleft.xhtml">
+        <ui:define name="title">
+            เลือกยา TMT
+        </ui:define>
         <ui:define name="content">
             <ui:include src="/private/common/drug/body.xhtml">
                 <ui:param name="selectable" value="true"/>

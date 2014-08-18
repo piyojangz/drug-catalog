@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import th.co.geniustree.nhso.drugcatalog.Constants;
 
 /**
  *
@@ -18,12 +19,12 @@ public class DateUtils {
 
     public static Date parseDateWithOptionalTimeAndNoneLeneint(String dateString) throws IllegalArgumentException {
         Date date = null;
-        SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+        SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat(Constants.TMT_DATETIME_FORMAT, Locale.US);
         try {
             dateAndTimeFormat.setLenient(false);
             date = dateAndTimeFormat.parse(dateString);
         } catch (ParseException ex) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.TMT_DATE_FORMAT, Locale.US);
             dateFormat.setLenient(false);
             try {
                 date = dateFormat.parse(dateString);

@@ -17,8 +17,8 @@
                     <p:menuitem value="รายการยาที่อนุมัติ" outcome="/private/hospital/listdrug/approved" icon="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/approved'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="การจัดการข้อมูลรายการยาของโรงพยาบาล" rendered="#{request.isUserInRole('HOSPITAL')}">
-                    <p:menuitem value="บันทึกรายการยา (ONLINE)" outcome="/private/hospital/create/index" icon="temIconSize24 temIconBackgroundSave temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/create/index'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem value="แก้ไขรายการยา (ONLINE)" outcome="/private/hospital/listdrug/index" icon="temIconSize24 temIconBackgroundApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="เพิ่มรายการใหม่ (ONLINE)" outcome="/private/hospital/create/index" icon="temIconSize24 temIconBackgroundSave temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/create/index'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="ปรับปรุงรายการยา (ONLINE)" outcome="/private/hospital/listdrug/index" icon="temIconSize24 temIconBackgroundApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem value="Inbox" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #FFF2DB':''}"/>

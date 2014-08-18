@@ -9,14 +9,34 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="editMode" value="#{createHospitalDrug.editMode}"/>
+                <f:viewParam name="hospDrugCode" value="#{createHospitalDrug.hospDrugCode}"/>
+                <f:viewAction action="#{createHospitalDrug.loadHospitalDrug}"/>
+            </f:metadata>
             <h:form>
                 <p:panelGrid>
+                    <p:row rendered="#{createHospitalDrug.editMode}">
+                        <p:column style="text-align: right">
+
+                        </p:column>
+                        <p:column>
+                            <p:selectOneButton id="UPDATEFLAG" value="#{createHospitalDrug.updateFlag}" rendered="#{createHospitalDrug.editMode}"  required="true" requiredMessage="กรุณาระบุสิ่งที่ต้องการแก้ไข">
+                                <p:ajax process="UPDATEFLAG" update="@form"/>
+                                <f:selectItem itemLabel="แก้ไขราคายา" itemValue="U" />
+                                <f:selectItem itemLabel="แก้ไข ED และอื่นๆ" itemValue="E" />
+                            </p:selectOneButton>
+                        </p:column>
+                        <p:column>
+                            <p:message for="UPDATEFLAG"/>
+                        </p:column>
+                    </p:row>
                     <p:row>
                         <p:column style="text-align: right">
                             <span style="color:red">*</span>HOSPDRUGCODE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="HOSPDRUGCODE" value="#{createHospitalDrug.item.hospDrugCode}"/>
+                            <p:inputText id="HOSPDRUGCODE" value="#{createHospitalDrug.item.hospDrugCode}" validator="#{createHospitalDrug.checkHospDrugCodeExist}" disabled="#{createHospitalDrug.editMode}"/>
                         </p:column>
                         <p:column>
                             <p:message for="HOSPDRUGCODE"/>
@@ -27,7 +47,7 @@
                             PRODUCTCAT:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PRODUCTCAT" value="#{createHospitalDrug.item.productCat}" />
+                            <p:inputText id="PRODUCTCAT" value="#{createHospitalDrug.item.productCat}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="PRODUCTCAT"/>
@@ -38,9 +58,9 @@
                             TMTID:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" disabled="true"/>
+                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" validator="#{createHospitalDrug.checkTmtExist}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
                             <p:commandButton value="Find" action="#{createHospitalDrug.findTmt}" process="@this">
-                                <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="@form" />
+                                <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
                         </p:column>
                         <p:column>
@@ -52,7 +72,7 @@
                             SPECPREP:
                         </p:column>
                         <p:column>
-                            <p:inputText id="SPECPREP" value="#{createHospitalDrug.item.specPrep}" />
+                            <p:inputText id="SPECPREP" value="#{createHospitalDrug.item.specPrep}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="SPECPREP"/>
@@ -63,7 +83,7 @@
                             <span style="color:red">*</span>GENERICNAME:
                         </p:column>
                         <p:column>
-                            <p:inputText id="GENERICNAME" value="#{createHospitalDrug.item.genericName}" />
+                            <p:inputText id="GENERICNAME" value="#{createHospitalDrug.item.genericName}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="100"/>
                         </p:column>
                         <p:column>
                             <p:message for="GENERICNAME"/>
@@ -74,7 +94,7 @@
                             <span style="color:red">*</span>TRADENAME:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TRADENAME" value="#{createHospitalDrug.item.tradeName}" />
+                            <p:inputText id="TRADENAME" value="#{createHospitalDrug.item.tradeName}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="100"/>
                         </p:column>
                         <p:column>
                             <p:message for="TRADENAME"/>
@@ -85,7 +105,7 @@
                             DFSCODE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DFSCODE" value="#{createHospitalDrug.item.dfsCode}" />
+                            <p:inputText id="DFSCODE" value="#{createHospitalDrug.item.dfsCode}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="DFSCODE"/>
@@ -96,7 +116,7 @@
                             <span style="color:red">*</span>DOSAGEFORM:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DOSAGEFORM" value="#{createHospitalDrug.item.dosageForm}" />
+                            <p:inputText id="DOSAGEFORM" value="#{createHospitalDrug.item.dosageForm}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="DOSAGEFORM"/>
@@ -107,7 +127,7 @@
                             <span style="color:red">*</span>STRENGTH:
                         </p:column>
                         <p:column>
-                            <p:inputText id="STRENGTH" value="#{createHospitalDrug.item.strength}" />
+                            <p:inputText id="STRENGTH" value="#{createHospitalDrug.item.strength}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="STRENGTH"/>
@@ -118,7 +138,7 @@
                             <span style="color:red">*</span>CONTENT:
                         </p:column>
                         <p:column>
-                            <p:inputText id="CONTENT" value="#{createHospitalDrug.item.content}" />
+                            <p:inputText id="CONTENT" value="#{createHospitalDrug.item.content}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="CONTENT"/>
@@ -129,8 +149,7 @@
                             <span style="color:red">*</span>UNITPRICE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="UNITPRICE" value="#{createHospitalDrug.item.content}">
-                                <f:convertNumber maxFractionDigits="2" minIntegerDigits="8"/>
+                            <p:inputText id="UNITPRICE" value="#{createHospitalDrug.item.unitPrice}" disabled="#{createHospitalDrug.updateFlag eq 'E'}">
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -142,7 +161,7 @@
                             DISTRIBUTOR:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DISTRIBUTOR" value="#{createHospitalDrug.item.distributor}" />
+                            <p:inputText id="DISTRIBUTOR" value="#{createHospitalDrug.item.distributor}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="100"/>
                         </p:column>
                         <p:column>
                             <p:message for="DISTRIBUTOR"/>
@@ -153,7 +172,7 @@
                             <span style="color:red">*</span>MANUFACTURER:
                         </p:column>
                         <p:column>
-                            <p:inputText id="MANUFACTURER" value="#{createHospitalDrug.item.manufacturer}" />
+                            <p:inputText id="MANUFACTURER" value="#{createHospitalDrug.item.manufacturer}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="100"/>
                         </p:column>
                         <p:column>
                             <p:message for="MANUFACTURER"/>
@@ -164,7 +183,7 @@
                             <span style="color:red">*</span>ISED:
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="ISED" value="#{createHospitalDrug.item.ised}">
+                            <p:selectOneMenu id="ISED" value="#{createHospitalDrug.item.ised}" disabled="#{createHospitalDrug.updateFlag eq 'U'}">
                                 <f:selectItem itemValue="" itemLabel=""/>
                                 <f:selectItem itemValue="E" itemLabel="E"/>
                                 <f:selectItem itemValue="E*" itemLabel="E*"/>
@@ -180,7 +199,7 @@
                             NDC24:
                         </p:column>
                         <p:column>
-                            <p:inputText id="NDC24" value="#{createHospitalDrug.item.ndc24}" />
+                            <p:inputText id="NDC24" value="#{createHospitalDrug.item.ndc24}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="NDC24"/>
@@ -191,7 +210,7 @@
                             PACKSIZE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PACKSIZE" value="#{createHospitalDrug.item.packSize}" />
+                            <p:inputText id="PACKSIZE" value="#{createHospitalDrug.item.packSize}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="PACKSIZE"/>
@@ -202,8 +221,7 @@
                             PACKPRICE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PACKPRICE" value="#{createHospitalDrug.item.packPrice}">
-                                <f:convertNumber maxFractionDigits="2" minIntegerDigits="8"/>
+                            <p:inputText id="PACKPRICE" value="#{createHospitalDrug.item.packPrice}" disabled="#{createHospitalDrug.updateFlag eq 'U'}">
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -215,7 +233,9 @@
                             <span style="color:red">*</span>DATECHANGE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATECHANGE" value="#{createHospitalDrug.item.dateChangeDate}" />
+                            <p:calendar id="DATECHANGE" value="#{createHospitalDrug.item.dateChangeDate}" validator="#{createHospitalDrug.checkEdNedExist}">
+                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E'?'th.co.geniustree.nhso.drugcatalog.input.AEDGroup':'th.co.geniustree.nhso.drugcatalog.input.UGroup'}"/>
+                            </p:calendar>
                         </p:column>
                         <p:column>
                             <p:message for="DATECHANGE"/>
@@ -226,7 +246,9 @@
                             DATEUPDATE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATEUPDATE"  value="#{createHospitalDrug.item.dateUpdateDate}"/>
+                            <p:calendar id="DATEUPDATE"  value="#{createHospitalDrug.item.dateUpdateDate}" >
+                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E'?'th.co.geniustree.nhso.drugcatalog.input.AEDGroup':'th.co.geniustree.nhso.drugcatalog.input.UGroup'}"/>
+                            </p:calendar>
                         </p:column>
                         <p:column>
                             <p:message for="DATEUPDATE"/>
@@ -237,7 +259,9 @@
                             DATEEFFECTIVE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATEEFFECTIVE"  value="#{createHospitalDrug.item.dateEffectiveDate}"/>
+                            <p:calendar id="DATEEFFECTIVE"  value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceExist}">
+                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E'?'th.co.geniustree.nhso.drugcatalog.input.AEDGroup':'th.co.geniustree.nhso.drugcatalog.input.UGroup'}"/>
+                            </p:calendar>
                         </p:column>
                         <p:column>
                             <p:message for="DATEEFFECTIVE"/>
@@ -247,14 +271,17 @@
                     <p:row>
                         <p:column/>
                         <p:column>
-                            <p:commandButton action="#{createHospitalDrug.save()}" ajax="true" update="@form" value="Save"/>
-                            <p:commandButton action="#{createHospitalDrug.clear()}" ajax="true" update="@form" value="Cancel" process="@this"/>
+                            <p:commandButton action="#{createHospitalDrug.save()}" ajax="#{not createHospitalDrug.editMode}" update="@form :secondForm:table" value="Save"/>
+                            <p:commandButton action="#{createHospitalDrug.clear(createHospitalDrug.editMode)}" ajax="#{not createHospitalDrug.editMode}" immediate="#{createHospitalDrug.editMode}" update="@form" value="Cancel" process="@this"/>
                         </p:column>  
                         <p:column/>
                     </p:row>
                 </p:panelGrid>
+            </h:form>
+            <h:form id="secondForm">
                 <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
             </h:form>
+
         </ui:define>
     </ui:composition>
 </html>

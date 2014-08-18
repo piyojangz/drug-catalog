@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +53,7 @@ public class UploadHospitalDrug implements Serializable {
 
     @OneToMany(mappedBy = "uploadDrug", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UploadHospitalDrugErrorItem> errorItems;
-    
+
     @Column(name = "ORIGINALFILENAME", length = 255, nullable = false)
     private String originalFilename;
 
@@ -93,6 +94,9 @@ public class UploadHospitalDrug implements Serializable {
     }
 
     public List<UploadHospitalDrugItem> getPassItems() {
+        if (passItems == null) {
+            passItems = new ArrayList<>();
+        }
         return passItems;
     }
 
@@ -149,13 +153,15 @@ public class UploadHospitalDrug implements Serializable {
     }
 
     public List<UploadHospitalDrugErrorItem> getErrorItems() {
+        if (errorItems == null) {
+            errorItems = new ArrayList<>();
+        }
         return errorItems;
     }
 
     public void setErrorItems(List<UploadHospitalDrugErrorItem> errorItems) {
         this.errorItems = errorItems;
     }
-    
 
     @Override
     public int hashCode() {
