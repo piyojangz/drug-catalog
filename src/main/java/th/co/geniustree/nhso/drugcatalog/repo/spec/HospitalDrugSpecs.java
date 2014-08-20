@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo.spec;
 
+import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -25,6 +26,101 @@ public class HospitalDrugSpecs {
             @Override
             public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.equal(root.get(HospitalDrug_.hcode), hcode);
+            }
+
+        };
+    }
+
+    public static Specification<HospitalDrug> hospDrugCodeLike(final List<String> keywords) {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate and = null;
+                for (String keyword : keywords) {
+                    if (and == null) {
+                        and = cb.like(cb.lower(root.get(HospitalDrug_.hospDrugCode)), "%" + keyword.toLowerCase() + "%");
+                    } else {
+                        cb.and(and, cb.like(cb.lower(root.get(HospitalDrug_.hospDrugCode)), "%" + keyword.toLowerCase() + "%"));
+                    }
+                }
+                return and;
+            }
+
+        };
+    }
+
+    public static Specification<HospitalDrug> tmtIdLike(final List<String> keywords) {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate and = null;
+                for (String keyword : keywords) {
+                    if (and == null) {
+                        and = cb.like(cb.lower(root.get(HospitalDrug_.tmtId)), "%" + keyword.toLowerCase() + "%");
+                    } else {
+                        cb.and(and, cb.like(cb.lower(root.get(HospitalDrug_.tmtId)), "%" + keyword.toLowerCase() + "%"));
+                    }
+                }
+                return and;
+            }
+
+        };
+    }
+
+    public static Specification<HospitalDrug> tradeNameLike(final List<String> keywords) {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate and = null;
+                for (String keyword : keywords) {
+                    if (and == null) {
+                        and = cb.like(cb.lower(root.get(HospitalDrug_.tradeName)), "%" + keyword.toLowerCase() + "%");
+                    } else {
+                        cb.and(and, cb.like(cb.lower(root.get(HospitalDrug_.tradeName)), "%" + keyword.toLowerCase() + "%"));
+                    }
+                }
+                return and;
+            }
+
+        };
+    }
+
+    public static Specification<HospitalDrug> genericNameLike(final List<String> keywords) {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate and = null;
+                for (String keyword : keywords) {
+                    if (and == null) {
+                        and = cb.like(cb.lower(root.get(HospitalDrug_.genericName)), "%" + keyword.toLowerCase() + "%");
+                    } else {
+                        cb.and(and, cb.like(cb.lower(root.get(HospitalDrug_.genericName)), "%" + keyword.toLowerCase() + "%"));
+                    }
+                }
+                return and;
+            }
+
+        };
+    }
+
+    public static Specification<HospitalDrug> dosageFormLike(final List<String> keywords) {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate and = null;
+                for (String keyword : keywords) {
+                    if (and == null) {
+                        and = cb.like(cb.lower(root.get(HospitalDrug_.dosageForm)), "%" + keyword.toLowerCase() + "%");
+                    } else {
+                        cb.and(and, cb.like(cb.lower(root.get(HospitalDrug_.dosageForm)), "%" + keyword.toLowerCase() + "%"));
+                    }
+                }
+                return and;
             }
 
         };
