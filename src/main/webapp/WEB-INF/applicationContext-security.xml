@@ -25,7 +25,7 @@
         <intercept-url pattern="/private/**" access="isAuthenticated()" />
         <form-login  default-target-url="/private/index.xhtml" login-page="/index.xhtml" />
         <logout logout-url="/logout" invalidate-session="true"
-                logout-success-url="/private/index.xhtml" />
+                logout-success-url="/index.xhtml" />
     </http>
     <authentication-manager alias="authenManager">
         <authentication-provider ref="wsAuthenticationProvider"></authentication-provider>
