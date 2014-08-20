@@ -131,6 +131,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @NotEmpty(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ หรือ D หรือ E ", groups = AEDGroup.class)
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataChange ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     private String dateChange;
+    
     @XlsColumn
     @NotEmpty(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataUpdate ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
