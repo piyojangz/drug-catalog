@@ -182,9 +182,11 @@ public class CreateHospitalDrug implements Serializable {
         if (!editMode) {
             uploadHospitalDrugService.addNewDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
             clear(false);
+            FacesMessageUtils.info("บันทึกเสร็จสิ้น");
             return null;
         } else {
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
+            FacesMessageUtils.info("แก้ไขเสร็จสิ้น");
             return "/private/hospital/listdrug/index?faces-redirect=true";
         }
 
