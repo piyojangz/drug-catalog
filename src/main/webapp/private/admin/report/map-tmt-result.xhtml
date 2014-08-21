@@ -24,9 +24,9 @@
 
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="region" value="#{importDrug.selectZone}" >
+                            <p:selectOneMenu id="region" value="#{mappedTmtResult.selectZone}" >
                                 <f:selectItem noSelectionOption="true" itemLabel="ทั้งหมด"/>
-                                <f:selectItems value="#{importDrug.zones}" var="zone" itemLabel="#{zone.zoneName}" itemValue="#{zone.nhsoZone}"/>
+                                <f:selectItems value="#{mappedTmtResult.zones}" var="zone" itemLabel="#{zone.zoneName}" itemValue="#{zone.nhsoZone}"/>
                                 <p:ajax event="change" process="@this" update="msg province hospital"/>
                             </p:selectOneMenu>
                         </p:column>
@@ -39,9 +39,9 @@
 
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="province" value="#{importDrug.selectProvince}">
+                            <p:selectOneMenu id="province" value="#{mappedTmtResult.selectProvince}">
                                 <f:selectItem noSelectionOption="true" itemLabel="ทั้งหมด" />
-                                <f:selectItems value="#{importDrug.provinces}" var="province" itemLabel="#{province.name}" itemValue="#{province.id}"/>
+                                <f:selectItems value="#{mappedTmtResult.provinces}" var="province" itemLabel="#{province.name}" itemValue="#{province.id}"/>
                                 <p:ajax event="change" process="@this" update="msg hospital"/>
                             </p:selectOneMenu>
                         </p:column>
@@ -54,9 +54,9 @@
 
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="hospital" value="#{importDrug.selectHospital}">
+                            <p:selectOneMenu id="hospital" value="#{mappedTmtResult.selectHospital}">
                                 <f:selectItem noSelectionOption="true" itemLabel="ทั้งหมด" />
-                                <f:selectItems value="#{importDrug.hospitals}" var="hospital" itemLabel="#{hospital.fullName}" itemValue="#{hospital.hcode}"/>
+                                <f:selectItems value="#{mappedTmtResult.hospitals}" var="hospital" itemLabel="#{hospital.fullName}" itemValue="#{hospital.hcode}"/>
                             </p:selectOneMenu>
                         </p:column>
                         <p:column>
@@ -66,18 +66,19 @@
                         <p:column style="text-align: right">
                         </p:column>
                         <p:column>
-                            <p:commandButton value="view" action="#{importDrug.view()}" update="table"/>
-                            <p:commandButton value="Reset" action="#{importDrug.reset()}" process="@this" update="region province hospital" />
+                            <p:commandButton value="view" action="#{mappedTmtResult.view()}" update="table"/>
+                            <p:commandButton value="Reset" action="#{mappedTmtResult.reset()}" process="@this" update="region province hospital" />
                         </p:column>
                         <p:column>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:dataTable id="table" resizableColumns="true"  value="#{importDrug.model}" var="model"  paginator="true" rows="100">
+                <p:dataTable id="table" resizableColumns="true"  value="#{mappedTmtResult.model}" var="model"  paginator="true" rows="100">
                     <f:facet name="header">
+                        
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="table" fileName="import_hospdrug_report" pageOnly="false"/>
+                            <p:dataExporter type="xls" target="table" fileName="hospdrug_report" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />
@@ -95,14 +96,17 @@
                     <p:column   headerText="HNAME" width="40">
                         <h:outputText value="#{model[5]}"/>
                     </p:column>
-                    <p:column   headerText="ERROR" width="40">
+                    <p:column   headerText="APPROVED" width="40">
                         <h:outputText value="#{model[6]}"/>
                     </p:column>
-                    <p:column   headerText="PASS" width="40">
+                    <p:column   headerText="WAIT APPROVE" width="40">
                         <h:outputText value="#{model[7]}"/>
                     </p:column>
-                    <p:column   headerText="TOTAL" width="40">
+                    <p:column   headerText="NO TMT" width="40">
                         <h:outputText value="#{model[8]}"/>
+                    </p:column>
+                    <p:column   headerText="TOTAL" width="40">
+                        <h:outputText value="#{model[9]}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>

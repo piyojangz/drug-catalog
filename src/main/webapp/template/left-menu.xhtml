@@ -37,6 +37,9 @@
                     <p:menuitem value="รายงานการนำเข้าข้อมูล" outcome="/private/admin/report/import-report" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/report/import-report'), 0)?'background-color: #FFF2DB':''}">
                         <f:param name="title" value="รายงานการนำเข้าข้อมูล"/>
                     </p:menuitem>
+                    <p:menuitem value="รายงานจำนวนยาที่จับคู่ TMT" outcome="/private/admin/report/map-tmt-result" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/report/map-tmt-result'), 0)?'background-color: #FFF2DB':''}">
+                        <f:param name="title" value="รายงานจำนวนยาที่จับคู่ TMT"/>
+                    </p:menuitem>
                 </p:submenu>
                 <p:menuitem value="Logout" url="#{request.contextPath}/logout" icon="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
             </p:menu>

@@ -25,6 +25,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import org.hibernate.validator.constraints.NotEmpty;
+import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 
 /**
  *
@@ -138,6 +139,9 @@ public class HospitalDrug implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
     private TMTDrug tmtDrug;
+    @ManyToOne
+    @JoinColumn(name = "HCODE", insertable = false, updatable = false)
+    private Hospital hospital;
 
     @Version
     private Integer version;
@@ -363,6 +367,15 @@ public class HospitalDrug implements Serializable {
     public void setTmtDrug(TMTDrug tmtDrug) {
         this.tmtDrug = tmtDrug;
     }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+    
 
     @Override
     public int hashCode() {

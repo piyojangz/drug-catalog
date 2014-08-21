@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
+import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.NhsoZoneService;
 
@@ -24,10 +25,10 @@ import th.co.geniustree.nhso.drugcatalog.service.NhsoZoneService;
  */
 @Component
 @Scope("view")
-public class ImportDrug extends ReportConditionBase {
+public class MappedTmtResult extends ReportConditionBase {
 
     @Autowired
-    private UploadHospitalDrugRepo uploadHospitalDrugRepo;
+    private HospitalDrugRepo hospitalDrugRepo;
     private Object[] model;
 
     public Object[] getModel() {
@@ -39,6 +40,6 @@ public class ImportDrug extends ReportConditionBase {
     }
 
     public void view() {
-        model = uploadHospitalDrugRepo.sumUploadItemGroupByHcode(getSelectZone(), getSelectProvince(),getSelectHospital());
+        model = hospitalDrugRepo.countTmtGroupByHcode(getSelectZone(), getSelectProvince(),getSelectHospital());
     }
 }
