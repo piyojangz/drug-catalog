@@ -17,11 +17,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
+import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 
 /**
  *
@@ -72,6 +75,10 @@ public class UploadHospitalDrug implements Serializable {
     @Column(name = "SHAHEX", nullable = false, length = 100)
     private String shaHex;
 
+    @ManyToOne
+    @JoinColumn(name = "HCODE", insertable = false, updatable = false)
+    private Hospital hospital;
+
     @PrePersist
     public void prePersist() {
         createDate = new Date();
@@ -92,6 +99,15 @@ public class UploadHospitalDrug implements Serializable {
     public void setHcode(String hcode) {
         this.hcode = hcode;
     }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+    
 
     public List<UploadHospitalDrugItem> getPassItems() {
         if (passItems == null) {

@@ -33,6 +33,11 @@
                     <p:menuitem value="นำเข้าฐาน TMT" outcome="/private/admin/drug/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/index'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="ฐานข้อมูลรหัสยา TMT" outcome="/private/common/drug/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/common/drug/index'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
+                <p:submenu label="รายงาน" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="รายงานการนำเข้าข้อมูล" outcome="/private/admin/report/import-report" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/report/import-report'), 0)?'background-color: #FFF2DB':''}">
+                        <f:param name="title" value="รายงานการนำเข้าข้อมูล"/>
+                    </p:menuitem>
+                </p:submenu>
                 <p:menuitem value="Logout" url="#{request.contextPath}/logout" icon="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
             </p:menu>
         </h:form>

@@ -6,6 +6,9 @@
 
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.util.List;
+import org.springframework.data.domain.Sort;
+import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
 
 /**
@@ -14,4 +17,6 @@ import th.co.geniustree.nhso.basicmodel.readonly.Zone;
  */
 public interface NhsoZoneService {
     public Zone findZoneByOrgId(String orgId);
+    public List<Zone> findAll();
+    public List<Province> findByNhsoZone(String zone,Sort sort);
 }
