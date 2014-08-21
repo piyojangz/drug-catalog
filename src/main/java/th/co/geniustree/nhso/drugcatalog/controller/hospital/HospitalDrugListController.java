@@ -42,7 +42,7 @@ public class HospitalDrugListController implements Serializable {
     private SpringDataLazyDataModelSupport<HospitalDrug> waitModels;
     private WSUserDetails user;
     private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
-    private String keyword;
+    private String keyword = "";
 
     @PostConstruct
     public void postConstruct() {
