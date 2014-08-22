@@ -206,12 +206,12 @@ public class UploadMappedDrug implements Serializable {
         }
         String nameWithoutExtension = Files.getNameWithoutExtension(file.getFileName());
         if (nameWithoutExtension.length() < 5) {
-            FacesMessageUtils.info("File name must have HCODE 5 Digit.");
+            FacesMessageUtils.info("ชื่อไฟล์จะต้องขึ้นต้นด้วย HCODE 5 ตัวอักษร");
             return null;
         }
         String hcode = file.getFileName().substring(0, 5);
         if (!hcode.equalsIgnoreCase(user.getOrgId())) {
-            FacesMessageUtils.error("Upload HCODE must match with login HCODE");
+            FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
             return null;
         }
 
