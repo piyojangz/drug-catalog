@@ -19,6 +19,17 @@ public class TMTDrugGroupItemPK implements Serializable{
     private String drugGroup;
     private Date datein;
 
+    public TMTDrugGroupItemPK() {
+    }
+
+    
+    public TMTDrugGroupItemPK(String tmtDrug, String drugGroup, Date datein) {
+        this.tmtDrug = tmtDrug;
+        this.drugGroup = drugGroup;
+        this.datein = datein;
+    }
+    
+
     public String getTmtDrug() {
         return tmtDrug;
     }

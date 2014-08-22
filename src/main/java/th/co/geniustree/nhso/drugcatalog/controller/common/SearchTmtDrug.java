@@ -30,6 +30,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
 /**
  *
@@ -44,9 +45,10 @@ public class SearchTmtDrug implements Serializable {
     private List<String> selectColumns = new ArrayList<>();
     private Type[] selectTypes = {Type.TPU};
     @Autowired
-    private TMTDrugRepo tmtDrugRepo;
+    private TMTDrugService tmtDrugService;
     private String keyword;
     private LazyDataModel<TMTDrug> models;
+    private String drugGroupFilter = "ALL";
 
     @PostConstruct
     public void postConstruct() {
@@ -90,6 +92,14 @@ public class SearchTmtDrug implements Serializable {
         return Type.values();
     }
 
+    public String getDrugGroupFilter() {
+        return drugGroupFilter;
+    }
+
+    public void setDrugGroupFilter(String drugGroupFilter) {
+        this.drugGroupFilter = drugGroupFilter;
+    }
+
     public void search() {
         models = new SpringDataLazyDataModelSupport<TMTDrug>() {
 
@@ -111,7 +121,12 @@ public class SearchTmtDrug implements Serializable {
                 if (selectColumns.contains("TMTID")) {
                     spec = spec.or(TMTDrugSpecs.tmtIdContains(keywords));
                 }
-                return tmtDrugRepo.findAll(spec, pageAble);
+                if ("YES".equals(drugGroupFilter)) {
+                    spec = spec.and(TMTDrugSpecs.hasDrugGroup());
+                } else if ("NO".equals(drugGroupFilter)) {
+                    spec = spec.and(TMTDrugSpecs.dontHaveDrugGroup());
+                }
+                return tmtDrugService.findAllAndEagerGroup(spec, pageAble);
             }
         };
 
@@ -124,11 +139,12 @@ public class SearchTmtDrug implements Serializable {
         options.put("draggable", true);
         options.put("resizable", true);
         options.put("contentHeight", 500);
+        options.put("contentWidth", 800);
         Map<String, List<String>> params = new HashMap<String, List<String>>();
         List<String> tmtIds = new ArrayList<>();
         tmtIds.add(tmtId);
         params.put("tmtId", tmtIds);
-        RequestContext.getCurrentInstance().openDialog("/private/common/drug/selectDrugGroupDialog", options, params);
+        RequestContext.getCurrentInstance().openDialog("/private/common/drug/displayDrugGroupDialog", options, params);
     }
 
     public void selectDrug(TMTDrug tmtDrug) {

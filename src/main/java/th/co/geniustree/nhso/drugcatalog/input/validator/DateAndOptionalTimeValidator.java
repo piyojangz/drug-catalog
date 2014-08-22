@@ -26,7 +26,7 @@ public class DateAndOptionalTimeValidator implements ConstraintValidator<DateAnd
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) {
+        if (value == null || value.trim().isEmpty()) {
             return true;
         }
         try {

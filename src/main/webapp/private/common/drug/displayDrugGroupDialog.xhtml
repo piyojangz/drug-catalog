@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Drug group</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+    <f:metadata>
+        <f:viewParam name="tmtId" value="#{displayDrugGroupdialog.tmtId}"/>
+        <f:viewAction action="#{displayDrugGroupdialog.load()}"/>
+    </f:metadata>
+    <h:body>
+        <h:form>
+            <p:dataTable var="model" value="#{displayDrugGroupdialog.tmtDrugGroupItems}">
+                <p:column headerText="Name" width="50">
+                    <h:outputText value="#{model.drugGroup.id}" />
+                </p:column>
+                <p:column headerText="Description" >
+                    <h:outputText value="#{model.drugGroup.description}" />
+                </p:column>
+                <p:column headerText="datein" width="100">
+                    <h:outputText value="#{model.datein}">
+                        <f:convertDateTime locale="en" pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="dateout" width="100">
+                    <h:outputText value="#{model.dateOut}">
+                        <f:convertDateTime locale="en" pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body> 
+</html>

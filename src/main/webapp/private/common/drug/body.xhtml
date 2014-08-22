@@ -26,6 +26,14 @@
                     <f:selectItems value="#{searchTmtDrug.types}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
                 </p:selectManyCheckbox>
                 <h:outputLabel value=""/>
+
+                <h:outputLabel value="Drug group"/>
+                <p:selectOneRadio id="dg" value="#{searchTmtDrug.drugGroupFilter}">
+                    <f:selectItem itemLabel="ทั้งหมด" itemValue="ALL" />
+                    <f:selectItem itemLabel="มี" itemValue="YES" />
+                    <f:selectItem itemLabel="ไม่มี" itemValue="NO" />
+                </p:selectOneRadio>
+                <h:outputLabel value=""/>
             </h:panelGrid>
             <p:dataTable id="table" resizableColumns="true"  value="#{searchTmtDrug.models}" var="model"  rowIndexVar="rowIndex"
                          paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
@@ -78,13 +86,11 @@
                 <p:column headerText="TYPE" width="30">
                     <h:outputText value="#{model.type}"/>
                 </p:column>
-                <ui:remove>
-                    <p:column headerText="Group" width="100" rendered="#{request.isUserInRole('ADMIN')}">
-                        <p:commandLink actionListener="#{searchTmtDrug.prepareAssigngroup(model.tmtId)}"  value="#{empty model.drugGroupItems ? 'Add': model.drugGroupItems}" >
-                            <p:ajax event="dialogReturn" listener="#{searchTmtDrug.onSaveGroup}"  />
-                        </p:commandLink>
-                    </p:column>
-                </ui:remove>
+                <p:column headerText="Group" width="100" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:commandLink actionListener="#{searchTmtDrug.prepareAssigngroup(model.tmtId)}"  value="view" style="color: blue">
+                        <p:ajax event="dialogReturn" listener="#{searchTmtDrug.onSaveGroup}"  />
+                    </p:commandLink>
+                </p:column>
             </p:dataTable>
         </h:form>
     </ui:composition>

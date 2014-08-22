@@ -33,6 +33,7 @@ public class TMTDrugGroupItem implements Serializable {
 
     public TMTDrugGroupItem(TMTDrug tmtDrug, DrugGroup drugGroup, Date datein) {
         this.tmtDrug = tmtDrug;
+        this.tmtDrug.getDrugGroupItems().add(this);
         this.drugGroup = drugGroup;
         this.datein = datein;
     }

@@ -66,4 +66,22 @@ public class TMTDrugSpecs {
             }
         };
     }
+    public static Specification<TMTDrug> hasDrugGroup() {
+        return new Specification<TMTDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.isNotEmpty(root.get(TMTDrug_.drugGroupItems));
+            }
+        };
+    }
+    public static Specification<TMTDrug> dontHaveDrugGroup() {
+        return new Specification<TMTDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.isEmpty(root.get(TMTDrug_.drugGroupItems));
+            }
+        };
+    }
 }

@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.model;
 
-import com.google.common.base.Joiner;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +13,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -33,6 +34,18 @@ import th.co.geniustree.xls.beans.XlsColumn;
 @Table(name = "TMT_DRUG", indexes = {
     @Index(name = "TMT_DRUG_TYPE_IDX", columnList = "TYPE")
 })
+@NamedEntityGraph(name = "TMTDrug.druggroup", includeAllAttributes = true,
+        attributeNodes = {
+            @NamedAttributeNode(value = "drugGroupItems", subgraph = "drugGroupItem")
+        },
+        subgraphs = {
+            @NamedSubgraph(name = "drugGroupItem", attributeNodes = {
+                @NamedAttributeNode(value = "tmtDrug"),
+                @NamedAttributeNode(value = "drugGroup"),
+                @NamedAttributeNode(value = "datein"),
+                @NamedAttributeNode(value = "dateOut")
+            })
+        })
 public class TMTDrug implements Serializable, TMT {
 
     public enum Type {
@@ -246,7 +259,6 @@ public class TMTDrug implements Serializable, TMT {
     public void setDrugGroupItems(List<TMTDrugGroupItem> drugGroupItems) {
         this.drugGroupItems = drugGroupItems;
     }
-
 
     @Override
     public int hashCode() {
