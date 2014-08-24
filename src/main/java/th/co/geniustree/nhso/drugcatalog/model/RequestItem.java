@@ -42,7 +42,7 @@ public class RequestItem implements Serializable {
             pkColumnValue = "TMT_REQUEST_ITEM")
     @GeneratedValue(generator = "TMT_REQUEST_ITEM_GEN", strategy = GenerationType.TABLE)
     private Integer id;
-    @Column(name = "HCODE", insertable = false, updatable = false, length = 5)
+    @Column(name = "HCODE", insertable = false, updatable = false, length = 5,nullable = false)
     private String hcode;
 
     @Column(name = "REQUESTUSER", nullable = false, length = 60)
@@ -52,7 +52,7 @@ public class RequestItem implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date requestDate;
 
-    @Column(name = "STATUS", length = 10)
+    @Column(name = "STATUS", length = 10,nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
