@@ -248,7 +248,7 @@
                     </f:facet>
                 </p:dataTable>
                 <br/>
-                <p:commandButton value="Save" id="saveBtn" action="#{approveByTmt.save}" ajax="false" disabled="#{(empty approveByTmt.notApproveRequests) and (empty approveByTmt.approveRequests)}">
+                <p:commandButton value="Save" id="saveBtn" onclick="return confirm('ยืนยันการอนุมัติ');" action="#{approveByTmt.save}" ajax="false" disabled="#{(empty approveByTmt.notApproveRequests) and (empty approveByTmt.approveRequests)}">
                 </p:commandButton>
                 &nbsp;
                 <p:commandButton value="Cancel" immediate="true" ajax="false" action="inbox-groupby-tmt"/>
