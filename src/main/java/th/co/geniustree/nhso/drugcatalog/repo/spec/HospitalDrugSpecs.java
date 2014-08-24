@@ -125,4 +125,37 @@ public class HospitalDrugSpecs {
 
         };
     }
+
+    public static Specification<HospitalDrug> noTmt() {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return root.get(HospitalDrug_.tmtId).isNull();
+            }
+
+        };
+    }
+
+    public static Specification<HospitalDrug> approved() {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get(HospitalDrug_.approved), true);
+            }
+
+        };
+    }
+
+    public static Specification<HospitalDrug> waitApprove() {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.and(root.get(HospitalDrug_.tmtId).isNotNull(), cb.equal(root.get(HospitalDrug_.approved), false));
+            }
+
+        };
+    }
 }

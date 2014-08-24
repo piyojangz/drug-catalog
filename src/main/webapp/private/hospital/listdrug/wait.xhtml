@@ -8,6 +8,9 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="wait" value="#{hospitalDrugListController.wait}"/>
+            </f:metadata>
             <h:form>
                 <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
             </h:form>

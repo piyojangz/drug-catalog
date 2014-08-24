@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import org.apache.commons.lang.text.StrMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.spec.HospitalDrugSpecs;
  *
  * @author moth
  */
-@Scope("session")
+@Scope("view")
 @Component
 public class HospitalDrugListController implements Serializable {
 
@@ -37,63 +38,41 @@ public class HospitalDrugListController implements Serializable {
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
     private SpringDataLazyDataModelSupport<HospitalDrug> all;
-    private SpringDataLazyDataModelSupport<HospitalDrug> models;
-    private SpringDataLazyDataModelSupport<HospitalDrug> noTmtModels;
-    private SpringDataLazyDataModelSupport<HospitalDrug> waitModels;
     private WSUserDetails user;
     private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
     private String keyword = "";
+    private boolean wait;
+    private boolean noTmt;
+    private boolean approved;
 
     @PostConstruct
     public void postConstruct() {
         user = SecurityUtil.getUserDetails();
-        models = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
-            @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalDrugRepo.findByHcodeAndApproved(user.getOrgId(), true, pageAble);
-            }
-        };
-        noTmtModels = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
-            @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalDrugRepo.findByHcodeAndTmtIdIsNull(user.getOrgId(), pageAble);
-            }
-        };
-        waitModels = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
-            @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalDrugRepo.findByHcodeAndApprovedAndTmtIdIsNotNull(user.getOrgId(), false, pageAble);
-            }
-
-        };
         search();
     }
 
-    public SpringDataLazyDataModelSupport<HospitalDrug> getModels() {
-        return models;
+    public boolean isWait() {
+        return wait;
     }
 
-    public void setModels(SpringDataLazyDataModelSupport<HospitalDrug> models) {
-        this.models = models;
+    public void setWait(boolean wait) {
+        this.wait = wait;
     }
 
-    public SpringDataLazyDataModelSupport<HospitalDrug> getNoTmtModels() {
-        return noTmtModels;
+    public boolean isNoTmt() {
+        return noTmt;
     }
 
-    public void setNoTmtModels(SpringDataLazyDataModelSupport<HospitalDrug> noTmtModels) {
-        this.noTmtModels = noTmtModels;
+    public void setNoTmt(boolean noTmt) {
+        this.noTmt = noTmt;
     }
 
-    public SpringDataLazyDataModelSupport<HospitalDrug> getWaitModels() {
-        return waitModels;
+    public boolean isApproved() {
+        return approved;
     }
 
-    public void setWaitModels(SpringDataLazyDataModelSupport<HospitalDrug> waitModels) {
-        this.waitModels = waitModels;
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public SpringDataLazyDataModelSupport<HospitalDrug> getAll() {
@@ -145,6 +124,18 @@ public class HospitalDrugListController implements Serializable {
                     if (selectColumns.contains("DOSAGEFORM")) {
                         spec = spec.or(HospitalDrugSpecs.dosageFormLike(keywords));
                     }
+                }
+                if (wait) {
+                    spec = spec.and(HospitalDrugSpecs.waitApprove());
+                    System.out.println("------------------------------wait");
+                }
+                if (noTmt) {
+                    spec = spec.and(HospitalDrugSpecs.noTmt());
+                    System.out.println("------------------------------noTmt");
+                }
+                if (approved) {
+                    spec = spec.and(HospitalDrugSpecs.approved());
+                    System.out.println("------------------------------approve");
                 }
                 return hospitalDrugRepo.findAll(hcodeEq.and(spec), pageAble);
             }
