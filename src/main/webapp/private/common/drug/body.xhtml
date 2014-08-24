@@ -9,32 +9,67 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
         <h:form id="form">
-            <h:panelGrid columns="3" >
-                <h:outputLabel value="Keyword:"/>
-                <h:inputText id="x" value="#{searchTmtDrug.keyword}" size="60"/>
-                <p:commandButton action="#{searchTmtDrug.search()}" update="table selectColumns selectTypes" value="Search" />
-
-                <h:outputLabel value="Columns:"/>
-                <p:selectManyCheckbox id="selectColumns" value="#{searchTmtDrug.selectColumns}">
-                    <f:selectItem  itemValue="FSN" itemLabel="FSN"/>
-                    <f:selectItem  itemValue="TMTID" itemLabel="TMTID"/>
-                </p:selectManyCheckbox>
-                <h:outputLabel value=""/>
-
-                <h:outputLabel value="Type:"/>
-                <p:selectManyCheckbox id="selectTypes" value="#{searchTmtDrug.selectTypes}">
-                    <f:selectItems value="#{searchTmtDrug.types}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
-                </p:selectManyCheckbox>
-                <h:outputLabel value=""/>
-
-                <h:outputLabel value="Drug group"/>
-                <p:selectOneRadio id="dg" value="#{searchTmtDrug.drugGroupFilter}">
-                    <f:selectItem itemLabel="ทั้งหมด" itemValue="ALL" />
-                    <f:selectItem itemLabel="มี" itemValue="YES" />
-                    <f:selectItem itemLabel="ไม่มี" itemValue="NO" />
-                </p:selectOneRadio>
-                <h:outputLabel value=""/>
-            </h:panelGrid>
+            <style type="text/css">
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 2px;
+                    border: none;
+                }
+            </style>
+            <p:panelGrid >
+                <p:row>
+                    <p:column style="text-align: right">
+                        <h:outputLabel value="Keyword:"/>
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="x" value="#{searchTmtDrug.keyword}" size="60"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton action="#{searchTmtDrug.search()}" update="table selectColumns selectTypes" value="Search" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: right">
+                        <h:outputLabel value="Columns:"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectManyCheckbox id="selectColumns" value="#{searchTmtDrug.selectColumns}">
+                            <f:selectItem  itemValue="FSN" itemLabel="FSN"/>
+                            <f:selectItem  itemValue="TMTID" itemLabel="TMTID"/>
+                        </p:selectManyCheckbox>
+                    </p:column>
+                    <p:column>
+                        <h:outputLabel value=""/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: right">
+                        <h:outputLabel value="Type:"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectManyCheckbox id="selectTypes" value="#{searchTmtDrug.selectTypes}">
+                            <f:selectItems value="#{searchTmtDrug.types}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
+                        </p:selectManyCheckbox>
+                    </p:column>
+                    <p:column>
+                        <h:outputLabel value=""/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: right">
+                        <h:outputLabel value="Drug group:"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneRadio id="dg" value="#{searchTmtDrug.drugGroupFilter}">
+                            <f:selectItem itemLabel="ทั้งหมด" itemValue="ALL" />
+                            <f:selectItem itemLabel="มี" itemValue="YES" />
+                            <f:selectItem itemLabel="ไม่มี" itemValue="NO" />
+                        </p:selectOneRadio>
+                    </p:column>
+                    <p:column>
+                        <h:outputLabel value=""/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
             <p:dataTable id="table" resizableColumns="true"  value="#{searchTmtDrug.models}" var="model"  rowIndexVar="rowIndex"
                          paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
