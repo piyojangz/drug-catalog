@@ -171,6 +171,9 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "DATEEFFECTIVEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEffectiveDate;
+    @ManyToOne
+    @JoinColumn(name = "TMTID", insertable = false, updatable = false)
+    private TMTDrug tmtDrug;
 
     public Integer getId() {
         return id;
@@ -397,6 +400,15 @@ public class UploadHospitalDrugItem implements Serializable {
             dateEffective = DateUtils.format(Constants.TMT_DATETIME_FORMAT, dateEffectiveDate);
         }
     }
+
+    public TMTDrug getTmtDrug() {
+        return tmtDrug;
+    }
+
+    public void setTmtDrug(TMTDrug tmtDrug) {
+        this.tmtDrug = tmtDrug;
+    }
+    
 
     @Override
     public int hashCode() {
