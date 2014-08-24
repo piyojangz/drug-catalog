@@ -80,7 +80,7 @@
                     </h:commandLink>
                 </f:facet>
                 <p:column   headerText="#" width="20" rendered="#{empty selectable}">
-                    <h:outputText value="#{rowIndex}"/>
+                    <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
                 <p:column   headerText="" width="30" rendered="#{not empty selectable}">
                     <p:commandLink value="เลือก" style="color:blue" actionListener="#{searchTmtDrug.selectDrug(model)}"/>
@@ -121,7 +121,7 @@
                 <p:column headerText="TYPE" width="30">
                     <h:outputText value="#{model.type}"/>
                 </p:column>
-                <p:column headerText="Group" width="100">
+                <p:column headerText="Group" width="100" exportable="false">
                     <p:commandLink actionListener="#{searchTmtDrug.prepareAssigngroup(model.tmtId)}"  value="view" style="color: blue">
                         <p:ajax event="dialogReturn" listener="#{searchTmtDrug.onSaveGroup}"  />
                     </p:commandLink>
