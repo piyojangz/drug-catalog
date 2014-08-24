@@ -21,7 +21,10 @@
                     <p:menuitem value="#{msg.menu_listdrug_edit_label}" outcome="/private/hospital/listdrug/index" icon="temIconSize24 temIconBackgroundApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN')}">
-                    <p:menuitem value="Inbox" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #FFF2DB':''}"/>
+                    <ui:remove>
+                        <p:menuitem value="Inbox" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #FFF2DB':''}"/>
+                    </ui:remove>
+                    <p:menuitem value="Inbox (Group by TMTID)" outcome="/private/admin/drug/tmt/inbox-groupby-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/inbox-groupby-tmt'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="Drug group" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem value="Add druggroup" outcome="/private/admin/druggroup/addgroup" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/addgroup'), 0)?'background-color: #FFF2DB':''}"/>

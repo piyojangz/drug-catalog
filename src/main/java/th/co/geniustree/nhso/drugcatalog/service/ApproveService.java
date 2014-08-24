@@ -6,6 +6,7 @@
 
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.util.List;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 
 /**
@@ -16,4 +17,6 @@ public interface ApproveService {
     public void approve(RequestItem item);
 
     public void reject(RequestItem requestItem);
+    
+    public void approveOrReject(List<RequestItem> items);
 }

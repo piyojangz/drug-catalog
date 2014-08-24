@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style type="text/css">
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 2px;
+                    border: none;
+                }
+            </style>
+            <h:form >
+                <p:panelGrid >
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <h:outputLabel value="TMTID:"/>
+                        </p:column>
+                        <p:column>
+                            <h:inputText id="x" value="#{inboxByTmt.keyword}" size="20"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton action="#{inboxByTmt.search()}" update="table" value="Search" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dataTable id="table" resizableColumns="true"  value="#{inboxByTmt.tmtDrug}" var="model"  rowIndexVar="rowIndex"
+                             paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <f:facet name="header">
+                        <h:commandLink style="float:left">
+                            <p:graphicImage name="images/excel24.png" />
+                            <p:dataExporter type="xls" target="table" fileName="inbox" pageOnly="false"/>
+                        </h:commandLink>
+                        <p:commandButton id="toggler" type="button" value="Columns"
+                                         style="float:right" icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="table" trigger="toggler" />
+                    </f:facet>
+                    <p:column   headerText="" style="width:50px;text-align:center">
+                        <h:link outcome="approve-by-tmt" value="Approve" style="color:blue">
+                            <f:param name="tmtId" value="#{model.tmtId}"/>
+                        </h:link>
+                    </p:column>
+                    <p:column headerText="TMTID" width="100">
+                        <h:outputText value="#{model.tmtId}" />
+                    </p:column>
+                    <p:column headerText="FSN" width="200">
+                        <h:outputText value="#{model.fsn}"/>
+                    </p:column>
+                    <p:column headerText="TradeName" width="200">
+                        <h:outputText value="#{model.tradeName}"/>
+                    </p:column>
+                    <p:column headerText="MANUFACTURER" width="200">
+                        <h:outputText value="#{model.manufacturer}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
