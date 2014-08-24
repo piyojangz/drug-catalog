@@ -86,7 +86,7 @@
                 <p:column headerText="TYPE" width="30">
                     <h:outputText value="#{model.type}"/>
                 </p:column>
-                <p:column headerText="Group" width="100" rendered="#{request.isUserInRole('ADMIN')}">
+                <p:column headerText="Group" width="100">
                     <p:commandLink actionListener="#{searchTmtDrug.prepareAssigngroup(model.tmtId)}"  value="view" style="color: blue">
                         <p:ajax event="dialogReturn" listener="#{searchTmtDrug.onSaveGroup}"  />
                     </p:commandLink>
