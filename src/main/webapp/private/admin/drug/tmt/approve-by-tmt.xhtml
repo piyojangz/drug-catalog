@@ -51,22 +51,11 @@
                         </p:selectOneButton>
 
                     </p:column>
-                    <p:column   headerText="Request date" width="100">
-                        <h:outputText value="#{model.requestDate}">
-                            <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column   headerText="Request user" width="100">
-                        <h:outputText value="#{model.requestUser}"/>
-                    </p:column>
-                    <p:column   headerText="HOSPDRUGCODE" width="100">
-                        <h:outputText value="#{model.requestItem.hospDrugCode}"/>
+                    <p:column   headerText="HCODE" width="100">
+                        <h:outputText value="#{model.hcode}"/>
                     </p:column>
                     <p:column headerText="PRODUCTCAT" width="100">
                         <h:outputText value="#{model.requestItem.productCat}"/>
-                    </p:column>
-                    <p:column headerText="TMTID" width="100">
-                        <h:outputText value="#{model.requestItem.tmtId}" />
                     </p:column>
                     <p:column headerText="SPECPREP" width="100">
                         <h:outputText value="#{model.requestItem.specPrep}"/>
@@ -127,22 +116,11 @@
                     <p:column headerText=""  style="width:80px;text-align:center">
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
                     </p:column>
-                    <p:column   headerText="Request date" width="100">
-                        <h:outputText value="#{model.requestDate}">
-                            <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column   headerText="Request user" width="100">
-                        <h:outputText value="#{model.requestUser}"/>
-                    </p:column>
-                    <p:column   headerText="HOSPDRUGCODE" width="100">
-                        <h:outputText value="#{model.requestItem.hospDrugCode}"/>
+                    <p:column   headerText="HCODE" width="100">
+                        <h:outputText value="#{model.hcode}"/>
                     </p:column>
                     <p:column headerText="PRODUCTCAT" width="100">
                         <h:outputText value="#{model.requestItem.productCat}"/>
-                    </p:column>
-                    <p:column headerText="TMTID" width="100">
-                        <h:outputText value="#{model.requestItem.tmtId}" />
                     </p:column>
                     <p:column headerText="SPECPREP" width="100">
                         <h:outputText value="#{model.requestItem.specPrep}"/>
@@ -203,22 +181,11 @@
                     <p:column headerText=""  style="width:80px;text-align:center">
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
                     </p:column>
-                    <p:column   headerText="Request date" width="100">
-                        <h:outputText value="#{model.requestDate}">
-                            <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column   headerText="Request user" width="100">
-                        <h:outputText value="#{model.requestUser}"/>
-                    </p:column>
-                    <p:column   headerText="HOSPDRUGCODE" width="100">
-                        <h:outputText value="#{model.requestItem.hospDrugCode}"/>
+                    <p:column   headerText="HCODE" width="100">
+                        <h:outputText value="#{model.hcode}"/>
                     </p:column>
                     <p:column headerText="PRODUCTCAT" width="100">
                         <h:outputText value="#{model.requestItem.productCat}"/>
-                    </p:column>
-                    <p:column headerText="TMTID" width="100">
-                        <h:outputText value="#{model.requestItem.tmtId}" />
                     </p:column>
                     <p:column headerText="SPECPREP" width="100">
                         <h:outputText value="#{model.requestItem.specPrep}"/>
