@@ -149,6 +149,16 @@ public class HospitalDrugSpecs {
 
         };
     }
+    public static Specification<HospitalDrug> notApproved() {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get(HospitalDrug_.requestItem).get(RequestItem_.status),RequestItem.Status.REJECT);
+            }
+
+        };
+    }
 
     public static Specification<HospitalDrug> waitApprove() {
         return new Specification<HospitalDrug>() {

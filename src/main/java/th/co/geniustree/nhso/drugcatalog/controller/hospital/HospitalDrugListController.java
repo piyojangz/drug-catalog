@@ -44,6 +44,7 @@ public class HospitalDrugListController implements Serializable {
     private boolean wait;
     private boolean noTmt;
     private boolean approved;
+    private boolean notApproved;
 
     @PostConstruct
     public void postConstruct() {
@@ -99,6 +100,15 @@ public class HospitalDrugListController implements Serializable {
         this.selectColumns = selectColumns;
     }
 
+    public boolean isNotApproved() {
+        return notApproved;
+    }
+
+    public void setNotApproved(boolean notApproved) {
+        this.notApproved = notApproved;
+    }
+    
+
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
         all = new SpringDataLazyDataModelSupport<HospitalDrug>() {
@@ -127,15 +137,15 @@ public class HospitalDrugListController implements Serializable {
                 }
                 if (wait) {
                     spec = spec.and(HospitalDrugSpecs.waitApprove());
-                    System.out.println("------------------------------wait");
                 }
                 if (noTmt) {
                     spec = spec.and(HospitalDrugSpecs.noTmt());
-                    System.out.println("------------------------------noTmt");
                 }
                 if (approved) {
                     spec = spec.and(HospitalDrugSpecs.approved());
-                    System.out.println("------------------------------approve");
+                }
+                if (notApproved) {
+                    spec = spec.and(HospitalDrugSpecs.notApproved());
                 }
                 return hospitalDrugRepo.findAll(hcodeEq.and(spec), pageAble);
             }
