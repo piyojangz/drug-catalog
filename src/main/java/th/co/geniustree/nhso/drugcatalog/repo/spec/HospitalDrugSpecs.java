@@ -13,6 +13,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug_;
+import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
+import th.co.geniustree.nhso.drugcatalog.model.RequestItem_;
 
 /**
  *
@@ -153,9 +155,8 @@ public class HospitalDrugSpecs {
 
             @Override
             public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.and(root.get(HospitalDrug_.tmtId).isNotNull(), cb.equal(root.get(HospitalDrug_.approved), false));
+                return cb.equal(root.get(HospitalDrug_.requestItem).get(RequestItem_.status),RequestItem.Status.REQUEST);
             }
-
         };
     }
 }

@@ -299,7 +299,7 @@ public class UploadMappedDrug implements Serializable {
             bean.addError("tmtId", "ไม่พบ TMTID ตามรหัสยามาตรฐาน TMT");
             return;
         }
-        if (hospitalDrugRepo.countByHcodeAndTmtIdAndApprovedIsTrue(bean.getHcode(), bean.getTmtId()) > 0) {
+        if ("A".equals(bean.getUpdateFlag()) && hospitalDrugRepo.countByHcodeAndTmtIdAndApprovedIsTrue(bean.getHcode(), bean.getTmtId()) > 0) {
             bean.addError("tmtId", "รหัส  TMT นี้ ได้รับการ approve ไปแล้ว");
         }
     }

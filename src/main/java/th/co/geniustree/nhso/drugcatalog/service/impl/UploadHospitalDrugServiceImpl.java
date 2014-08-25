@@ -93,10 +93,14 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     }
 
     private void processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
-        if (Strings.isNullOrEmpty(alreadyDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId())) {//not have tmt id before.
-            createRequestItem(alreadyDrug.getHcode(), uploadItem, alreadyDrug);
+        if (alreadyDrug.isApproved()) {
+            BeanUtils.copyProperties(uploadItem, alreadyDrug, "tmtId");
+        } else {
+            if (Strings.isNullOrEmpty(alreadyDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId()) || tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId())) {//not have tmt id before.
+                createRequestItem(alreadyDrug.getHcode(), uploadItem, alreadyDrug);
+            }
+            BeanUtils.copyProperties(uploadItem, alreadyDrug);
         }
-        BeanUtils.copyProperties(uploadItem, alreadyDrug);
         copyAndConvertAttribute(uploadItem, alreadyDrug);
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             priceService.addNewPrice(alreadyDrug, new BigDecimal(uploadItem.getUnitPrice()));
@@ -164,6 +168,10 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
             throw new IllegalStateException("Can't edit HospitalDrug that not already exist.");
         }
         processUpdate(hospitalDrug, uploadItem);
+    }
+
+    private boolean tmtIdChange(String alreadyTmtId, String newTmtId) {
+        return !Strings.nullToEmpty(alreadyTmtId).equals(newTmtId);
     }
 
 }
