@@ -8,7 +8,20 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            <h:form id="form">
+            <style>
+                .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
+                    background-color : rgb(247, 79, 79);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+                
+                .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
+                    background-color : rgb(0, 194, 0);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+            </style>
+            <h:form id="form" styleClass="button-form">
                 <f:metadata>
                     <f:viewParam name="tmtId" value="#{approveByTmt.selectTmtId}"/>
                     <f:viewAction action="#{approveByTmt.load()}"/>
@@ -43,7 +56,7 @@
                         <p:columnToggler datasource="table" trigger="toggler"/>
                     </f:facet>
                     <p:column headerText="Approve"  style="width:130px;text-align:center">
-                        <p:selectOneButton value="#{model.status}" valueChangeListener="#{approveByTmt.approve}" immediate="true">
+                        <p:selectOneButton value="#{model.status}" valueChangeListener="#{approveByTmt.approve}" immediate="true" styleClass="approved-button">
                             <p:ajax event="change" partialSubmit="true" process="@this" update=":form:saveBtn :form:approvetable :form:notApprovetable"/>
                             <f:selectItem itemLabel="อนุมัติ" itemValue="ACCEPT" />
                             <f:selectItem itemLabel="ไม่อนุมัติ" itemValue="REJECT" />
