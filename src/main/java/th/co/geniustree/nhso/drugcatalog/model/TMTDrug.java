@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -103,6 +104,10 @@ public class TMTDrug implements Serializable, TMT {
     private Type type;
     @OneToMany(mappedBy = "tmtDrug")
     private List<TMTDrugGroupItem> drugGroupItems;
+
+    @OneToMany(mappedBy = "tmtDrug")
+    private List<TMTEdNed> edNeds;
+
     @Version
     private Integer version;
 
@@ -258,6 +263,17 @@ public class TMTDrug implements Serializable, TMT {
 
     public void setDrugGroupItems(List<TMTDrugGroupItem> drugGroupItems) {
         this.drugGroupItems = drugGroupItems;
+    }
+
+    public List<TMTEdNed> getEdNeds() {
+        if (edNeds == null) {
+            edNeds = new ArrayList<>();
+        }
+        return edNeds;
+    }
+
+    public void setEdNeds(List<TMTEdNed> edNeds) {
+        this.edNeds = edNeds;
     }
 
     @Override
