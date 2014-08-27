@@ -65,7 +65,7 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" validator="#{createHospitalDrug.checkTmtExist}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
-                            <p:commandButton value="Find" action="#{createHospitalDrug.findTmt}" process="@this">
+                            <p:commandButton rendered="#{not createHospitalDrug.editHospitalDrug.isApproved()}" value="Find" action="#{createHospitalDrug.findTmt}" process="@this">
                                 <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
                         </p:column>
@@ -236,7 +236,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right">
-                            <span style="color:red">*</span>DATECHANGE:
+                            <h:outputLabel rendered="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E' or createHospitalDrug.updateFlag eq 'D'}" style="color:red">*</h:outputLabel>DATECHANGE:
                         </p:column>
                         <p:column>
                             <p:calendar id="DATECHANGE" value="#{createHospitalDrug.item.dateChangeDate}" validator="#{createHospitalDrug.checkEdNedExist}">
@@ -249,7 +249,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right">
-                            DATEUPDATE:
+                            <h:outputLabel rendered="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'U'}" style="color:red">*</h:outputLabel>DATEUPDATE:
                         </p:column>
                         <p:column>
                             <p:calendar id="DATEUPDATE"  value="#{createHospitalDrug.item.dateUpdateDate}" >
@@ -262,7 +262,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right">
-                            DATEEFFECTIVE:
+                            <h:outputLabel rendered="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'U'}" style="color:red">*</h:outputLabel>DATEEFFECTIVE:
                         </p:column>
                         <p:column>
                             <p:calendar id="DATEEFFECTIVE"  value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceExist}">

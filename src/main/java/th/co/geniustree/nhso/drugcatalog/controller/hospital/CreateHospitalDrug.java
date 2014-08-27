@@ -55,6 +55,7 @@ public class CreateHospitalDrug implements Serializable {
     private PriceService priceService;
     @Autowired
     private EdNEdService edNEdService;
+    private HospitalDrug editHospitalDrug;
 
     @PostConstruct
     public void postConstruct() {
@@ -92,6 +93,14 @@ public class CreateHospitalDrug implements Serializable {
 
     public void setHospDrugCode(String hospDrugCode) {
         this.hospDrugCode = hospDrugCode;
+    }
+
+    public HospitalDrug getEditHospitalDrug() {
+        return editHospitalDrug;
+    }
+
+    public void setEditHospitalDrug(HospitalDrug editHospitalDrug) {
+        this.editHospitalDrug = editHospitalDrug;
     }
 
     public void checkHospDrugCodeExist(FacesContext context, UIComponent component, Object value) {
@@ -157,24 +166,24 @@ public class CreateHospitalDrug implements Serializable {
         if (!editMode) {
             return;
         }
-        HospitalDrug findOne = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode()));
-        if (findOne == null) {
+        editHospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode()));
+        if (editHospitalDrug == null) {
             FacesMessageUtils.error("ไม่พบข้อมูล hospDrugCode = " + hospDrugCode);
             return;
         }
-        BeanUtils.copyProperties(findOne, item);
-        if (findOne.getDateChange() != null) {
-            item.setDateChange(DateUtils.format(Constants.TMT_DATETIME_FORMAT, findOne.getDateChange()));
+        BeanUtils.copyProperties(editHospitalDrug, item);
+        if (editHospitalDrug.getDateChange() != null) {
+            item.setDateChange(DateUtils.format(Constants.TMT_DATETIME_FORMAT, editHospitalDrug.getDateChange()));
         }
-        if (findOne.getDateUpdate() != null) {
-            item.setDateUpdate(DateUtils.format(Constants.TMT_DATETIME_FORMAT, findOne.getDateUpdate()));
+        if (editHospitalDrug.getDateUpdate() != null) {
+            item.setDateUpdate(DateUtils.format(Constants.TMT_DATETIME_FORMAT, editHospitalDrug.getDateUpdate()));
         }
-        if (findOne.getDateEffective() != null) {
-            item.setDateEffective(DateUtils.format(Constants.TMT_DATETIME_FORMAT, findOne.getDateEffective()));
+        if (editHospitalDrug.getDateEffective() != null) {
+            item.setDateEffective(DateUtils.format(Constants.TMT_DATETIME_FORMAT, editHospitalDrug.getDateEffective()));
         }
-        item.setUnitPrice(findOne.getUnitPrice().toPlainString());
-        if (findOne.getPackPrice() != null) {
-            item.setPackPrice(findOne.getPackPrice().toPlainString());
+        item.setUnitPrice(editHospitalDrug.getUnitPrice().toPlainString());
+        if (editHospitalDrug.getPackPrice() != null) {
+            item.setPackPrice(editHospitalDrug.getPackPrice().toPlainString());
         }
     }
 
@@ -198,9 +207,9 @@ public class CreateHospitalDrug implements Serializable {
         updateFlag = item.getUpdateFlag();
         editMode = false;
         hospDrugCode = null;
-        if(navigate){
+        if (navigate) {
             return "/private/hospital/listdrug/index?faces-redirect=true";
-        }else{
+        } else {
             return null;
         }
     }

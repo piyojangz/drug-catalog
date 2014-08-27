@@ -120,7 +120,7 @@ public class HospitalDrug implements Serializable {
     private Date dateEffective;
 
     @Column(name = "APPROVED", nullable = false)
-    private Boolean approved = Boolean.FALSE;
+    private Boolean approved=  Boolean.FALSE;
 
     @Column(name = "DELETED", nullable = false)
     private Boolean deleted = Boolean.FALSE;
