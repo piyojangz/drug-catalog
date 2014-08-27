@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.apache.commons.lang.text.StrMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -107,7 +106,6 @@ public class HospitalDrugListController implements Serializable {
     public void setNotApproved(boolean notApproved) {
         this.notApproved = notApproved;
     }
-    
 
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);

@@ -8,66 +8,22 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="hospDrugCode" value="#{displayHistory.hospDrugCode}"/>
+                <f:viewAction action="#{displayHistory.load()}"/>
+            </f:metadata>
             <h:form>
-                <style type="text/css">
-                    .ui-panelgrid .ui-panelgrid-cell{
-                        padding: 4px 5px;
-                        border: none;
-                    }
-                </style>
-                <p:panelGrid>
-                    <p:row>
-                        <p:column style="text-align: right">
-                            <p:outputLabel value="keyword:" for="keyword"/>
-
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="keyword" value="#{hospitalDrugListController.keyword}" size="60"/>
-                            <p:commandButton value="Search" action="#{hospitalDrugListController.search()}" update="table"/>
-                        </p:column>
-                        <p:column>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right">
-                            <p:outputLabel value="Columns:"/>
-
-                        </p:column>
-                        <p:column colspan="2">
-                            <p:selectManyCheckbox value="#{hospitalDrugListController.selectColumns}">
-                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
-                                <f:selectItem itemLabel="TMTID" itemValue="TMTID"/>
-                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
-                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
-                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
-                            </p:selectManyCheckbox>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.all}" var="model"  
-                             paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                <p:dataTable id="table" var="model" value="#{displayHistory.hospitalDrugs}">
                     <f:facet name="header">
-                        ปรับปรุงรายการยา (ONLINE)
+                        ประวัติการแก้ไข
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="table" fileName="all_drug" pageOnly="false"/>
+                            <p:dataExporter type="xls" target="table" fileName="history_#{displayHistory.hospDrugCode}" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
-                    <p:column   headerText="" width="40" exportable="false">
-                        <h:link rendered="true" outcome="/private/hospital/create/index" value="แก้ไข" style="color:blue">
-                            <f:param name="editMode" value="true"/>
-                            <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
-                        </h:link>
-                    </p:column>
-                    <p:column   headerText="" width="40" exportable="false">
-                        <h:link rendered="true" outcome="/private/hospital/listdrug/displayHistory" value="ประวัติ" style="color:blue">
-                            <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
-                        </h:link>
-                    </p:column>
                     <p:column   headerText="HOSPDRUGCODE" width="110">
                         <h:outputText value="#{model.hospDrugCode}"/>
                     </p:column>
@@ -133,6 +89,8 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
+            <br/>
+            <p:link value="&lt; Back" outcome="index" style="color:blue"/>
         </ui:define>
     </ui:composition>
 </html>
