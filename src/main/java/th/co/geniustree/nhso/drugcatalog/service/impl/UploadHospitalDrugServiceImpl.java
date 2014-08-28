@@ -88,7 +88,7 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         requestItem.setRequestItem(uploadItem);
         requestItem.setTargetItem(hospitalDrug);
         requestItem.setStatus(RequestItem.Status.REQUEST);
-        requestItem.setRequestUser(SecurityUtil.getUserDetails().getStaffName());
+        requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
         requestItem = requestItemRepo.save(requestItem);
     }
 
@@ -162,7 +162,7 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     public void editDrugByHand(String hcode, UploadHospitalDrugItem uploadItem) {
         uploadItem = uploadHospitalDrugItemRepo.save(uploadItem);
         UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
-        uploadHospitalDrug = makeSpecialUploadDrug(uploadHospitalDrug, hcode, uploadItem);
+        makeSpecialUploadDrug(uploadHospitalDrug, hcode, uploadItem);
         HospitalDrug hospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(uploadItem.getHospDrugCode(), hcode));
         if (hospitalDrug == null) {
             throw new IllegalStateException("Can't edit HospitalDrug that not already exist.");
