@@ -8,9 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.input;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import java.io.Serializable;
-import java.io.StringWriter;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,8 +17,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -124,21 +120,21 @@ public class HospitalDrugExcelModel implements Serializable {
     @XlsColumn
     @Size(max = 1, message = "UpdateFlag ต้องไม่เกิน 1 ตัวอักษร")
     @NotEmpty(message = "ต้องกำหนด UpdateFlag มาด้วยทุกครั้ง")
-    @ValueSet(values = {"A", "D", "E", "U"}, message = "UpdateFlag ต้องประกอบด้วย A หรือ หรือ D หรือ E หรือ U เท่านั้น")
+    @ValueSet(values = {"A", "D", "E", "U"}, message = "UpdateFlag ต้องประกอบด้วย A  หรือ E หรือ D หรือ U เท่านั้น")
     private String updateFlag;
 
     @XlsColumn
-    @NotEmpty(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ หรือ D หรือ E ", groups = AEDGroup.class)
+    @NotEmpty(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ E หรือ D ", groups = {AGroup.class, EDGroup.class})
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataChange ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     private String dateChange;
-    
+
     @XlsColumn
-    @NotEmpty(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
+    @NotEmpty(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ U", groups = {AGroup.class, UGroup.class})
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataUpdate ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     private String dateUpdate;
 
     @XlsColumn
-    @NotEmpty(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
+    @NotEmpty(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง")
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataEffective ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     private String dateEffective;
     private int rowNum;

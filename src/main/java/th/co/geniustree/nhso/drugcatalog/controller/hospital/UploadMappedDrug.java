@@ -33,7 +33,8 @@ import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.UploadItemOrderHelper;
-import th.co.geniustree.nhso.drugcatalog.input.AEDGroup;
+import th.co.geniustree.nhso.drugcatalog.input.AGroup;
+import th.co.geniustree.nhso.drugcatalog.input.EDGroup;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
@@ -231,15 +232,17 @@ public class UploadMappedDrug implements Serializable {
 
                 @Override
                 public void ok(int rowNum, HospitalDrugExcelModel bean) {
-                    bean.setRowNum(rowNum+1);
+                    bean.setRowNum(rowNum + 1);
                     bean.setHcode(user.getOrgId());
                     bean.cutFractionMorethan2();
                     bean.subtractYearIsWrongYear();
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
                         violations.addAll(beanValidator.validate(bean, UGroup.class));
-                    } else {
-                        violations.addAll(beanValidator.validate(bean, AEDGroup.class));
+                    } else if ("E".equalsIgnoreCase(bean.getUpdateFlag()) || "D".equalsIgnoreCase(bean.getUpdateFlag())) {
+                        violations.addAll(beanValidator.validate(bean, EDGroup.class));
+                    } else if ("A".equalsIgnoreCase(bean.getUpdateFlag())) {
+                        violations.addAll(beanValidator.validate(bean, AGroup.class));
                     }
 
                     if (violations.isEmpty()) {

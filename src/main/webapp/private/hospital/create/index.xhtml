@@ -240,7 +240,7 @@
                         </p:column>
                         <p:column>
                             <p:calendar id="DATECHANGE" value="#{createHospitalDrug.item.dateChangeDate}" validator="#{createHospitalDrug.checkEdNedExist}">
-                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E'?'th.co.geniustree.nhso.drugcatalog.input.AEDGroup':'th.co.geniustree.nhso.drugcatalog.input.UGroup'}"/>
+                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E' or createHospitalDrug.updateFlag eq 'D'?'th.co.geniustree.nhso.drugcatalog.input.AGroup,th.co.geniustree.nhso.drugcatalog.input.EDGroup':null}"/>
                             </p:calendar>
                         </p:column>
                         <p:column>
@@ -249,11 +249,11 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right">
-                            <h:outputLabel rendered="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'U'}" style="color:red">*</h:outputLabel>DATEUPDATE:
+                            <h:outputLabel rendered="#{createHospitalDrug.updateFlag eq 'U'}" style="color:red">*</h:outputLabel>DATEUPDATE:
                         </p:column>
                         <p:column>
                             <p:calendar id="DATEUPDATE"  value="#{createHospitalDrug.item.dateUpdateDate}" >
-                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E'?'th.co.geniustree.nhso.drugcatalog.input.AEDGroup':'th.co.geniustree.nhso.drugcatalog.input.UGroup'}"/>
+                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'U'?'th.co.geniustree.nhso.drugcatalog.input.UGroup':null}"/>
                             </p:calendar>
                         </p:column>
                         <p:column>
@@ -262,11 +262,10 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right">
-                            <h:outputLabel rendered="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'U'}" style="color:red">*</h:outputLabel>DATEEFFECTIVE:
+                            <h:outputLabel  style="color:red">*</h:outputLabel>DATEEFFECTIVE:
                         </p:column>
                         <p:column>
                             <p:calendar id="DATEEFFECTIVE"  value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceExist}">
-                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E'?'th.co.geniustree.nhso.drugcatalog.input.AEDGroup':'th.co.geniustree.nhso.drugcatalog.input.UGroup'}"/>
                             </p:calendar>
                         </p:column>
                         <p:column>

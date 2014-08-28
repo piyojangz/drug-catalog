@@ -10,6 +10,6 @@ package th.co.geniustree.nhso.drugcatalog.input;
  *
  * @author moth
  */
-public interface AEDGroup {
+public interface AGroup {
     
 }

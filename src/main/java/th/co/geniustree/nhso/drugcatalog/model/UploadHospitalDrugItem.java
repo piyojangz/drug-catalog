@@ -26,8 +26,10 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
-import th.co.geniustree.nhso.drugcatalog.input.AEDGroup;
+import th.co.geniustree.nhso.drugcatalog.input.AGroup;
+import th.co.geniustree.nhso.drugcatalog.input.EDGroup;
 import th.co.geniustree.nhso.drugcatalog.input.UGroup;
+import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
@@ -148,7 +150,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "UPDATEFLAG", nullable = false, length = 1)
     private String updateFlag;
 
-    @Column(name = "DATECHANGE", nullable = false)
+    @Column(name = "DATECHANGE", nullable = true)
     private String dateChange;
 
     @Column(name = "DATEUPDATE", nullable = true)
@@ -157,18 +159,18 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "DATEEFFECTIVE", nullable = false)
     private String dateEffective;
 
-    @NotNull(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ  E ", groups = AEDGroup.class)
-    @Column(name = "DATECHANGEDATE")
+    @NotNull(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ E หรือ D ", groups = {AGroup.class, EDGroup.class})
+    @Column(name = "DATECHANGEDATE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateChangeDate;
 
-    @NotNull(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
-    @Column(name = "DATEUPDATEDATE")
+    @NotNull(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ U", groups = {AGroup.class, UGroup.class})
+    @Column(name = "DATEUPDATEDATE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdateDate;
 
-    @NotNull(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ U", groups = UGroup.class)
-    @Column(name = "DATEEFFECTIVEDATE")
+    @NotNull(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง")
+    @Column(name = "DATEEFFECTIVEDATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEffectiveDate;
     @ManyToOne
@@ -408,7 +410,6 @@ public class UploadHospitalDrugItem implements Serializable {
     public void setTmtDrug(TMTDrug tmtDrug) {
         this.tmtDrug = tmtDrug;
     }
-    
 
     @Override
     public int hashCode() {

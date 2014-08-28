@@ -105,7 +105,7 @@ public class HospitalDrug implements Serializable {
     private String updateFlag;
 
     @NotEmpty
-    @Column(name = "DATECHANGE", nullable = false)
+    @Column(name = "DATECHANGE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateChange;
 
@@ -120,7 +120,7 @@ public class HospitalDrug implements Serializable {
     private Date dateEffective;
 
     @Column(name = "APPROVED", nullable = false)
-    private Boolean approved=  Boolean.FALSE;
+    private Boolean approved = Boolean.FALSE;
 
     @Column(name = "DELETED", nullable = false)
     private Boolean deleted = Boolean.FALSE;
@@ -386,7 +386,6 @@ public class HospitalDrug implements Serializable {
     public void setRequestItem(RequestItem requestItem) {
         this.requestItem = requestItem;
     }
-    
 
     @Override
     public int hashCode() {
