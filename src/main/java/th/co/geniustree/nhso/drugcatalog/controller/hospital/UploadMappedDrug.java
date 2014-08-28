@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.DigestUtils;
+import th.co.geniustree.nhso.drugcatalog.authen.Role;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
@@ -72,7 +73,6 @@ public class UploadMappedDrug implements Serializable {
     private DuplicateCheckFacade duplicateCheckFacade;
     private String saveFileName;
     private String originalFileName;
-    private WSUserDetails user;
     private String shaHex;
     @Autowired
     private UploadHospitalDrugRepo uploadHospitalDrugRepo;
@@ -83,6 +83,7 @@ public class UploadMappedDrug implements Serializable {
     private File targetFile;
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
+    private String hcodeFromFile;
 
     @PostConstruct
     public void postConstruct() {
@@ -93,7 +94,6 @@ public class UploadMappedDrug implements Serializable {
             uploadtempFileDir.mkdirs();
         }
         uploadDir.mkdir();
-        user = SecurityUtil.getUserDetails();
     }
 
     public List<HospitalDrugExcelModel> getModels() {
@@ -139,7 +139,7 @@ public class UploadMappedDrug implements Serializable {
         }
         UploadHospitalDrug uploadDrug = new UploadHospitalDrug();
         uploadDrug.setShaHex(shaHex);
-        uploadDrug.setHcode(user.getOrgId());
+        uploadDrug.setHcode(hcodeFromFile);
         List<UploadHospitalDrugItem> items = createPassItem(uploadDrug);
         List<UploadHospitalDrugErrorItem> errorItems = createErrorItem(uploadDrug);
         UploadItemOrderHelper.reorderByUpdateFlageAFirstDeleteLast(items);
@@ -209,8 +209,8 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.info("ชื่อไฟล์จะต้องขึ้นต้นด้วย HCODE 5 ตัวอักษร");
             return null;
         }
-        String hcode = file.getFileName().substring(0, 5);
-        if (!hcode.equalsIgnoreCase(user.getOrgId())) {
+        hcodeFromFile = file.getFileName().substring(0, 5);
+        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
             FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
             return null;
         }
@@ -231,8 +231,8 @@ public class UploadMappedDrug implements Serializable {
 
                 @Override
                 public void ok(int rowNum, HospitalDrugExcelModel bean) {
-                    bean.setRowNum(rowNum+1);
-                    bean.setHcode(user.getOrgId());
+                    bean.setRowNum(rowNum + 1);
+                    bean.setHcode(hcodeFromFile);
                     bean.cutFractionMorethan2();
                     bean.subtractYearIsWrongYear();
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
