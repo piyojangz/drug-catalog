@@ -37,16 +37,16 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     }
 
     private void checkDuplicateForUpdateFlageU(HospitalDrugExcelModel uploadDrugModel) {
-        long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateUpdate());
+        long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateEffective());
         if (countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate > 0) {
-            uploadDrugModel.addError("dateUpdate", "พบ DataUpdate + UpdateFlag = \"U\"  ซ้ำในฐานข้อมูล");
+            uploadDrugModel.addError("dateEffective", "พบ dateEffective + UpdateFlag = \"U\"  ซ้ำในฐานข้อมูล");
         }
     }
 
     private void checkDuplicateForUpdateFlagED(HospitalDrugExcelModel uploadDrugModel) {
-        long countByHospDrugCodeAndUploadDrugHcodeAndDateChange = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateChange(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateChange());
+        long countByHospDrugCodeAndUploadDrugHcodeAndDateChange = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateChange(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateEffective());
         if (countByHospDrugCodeAndUploadDrugHcodeAndDateChange > 0) {
-            uploadDrugModel.addError("dateChange", "พบ DataChange + UpdateFlag = \"E\" หรือ \"D\"  ซ้ำในฐานข้อมูล");
+            uploadDrugModel.addError("dateEffective", "พบ dateEffective + UpdateFlag = \"E\" หรือ \"D\"  ซ้ำในฐานข้อมูล");
         }
     }
 
