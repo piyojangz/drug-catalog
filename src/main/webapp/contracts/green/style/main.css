@@ -127,6 +127,10 @@ a{
     background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -240px !important;
 }
+.temIconBackgroundPassApproveCodeNot{
+    background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
+    background-position: 0px -720px !important
+}
 .temIconBackgroundNotApproveCode{
     background: url('#{request.contextPath}/contracts/green/images/template/iconspy24.png') no-repeat !important;
     background-position: 0px -288px !important;

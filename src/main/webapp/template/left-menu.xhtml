@@ -21,7 +21,7 @@
                     <p:menuitem value="#{msg.menu_listdrug_approved_label}" rendered="#{request.isUserInRole('HOSPITAL')}" outcome="/private/hospital/listdrug/approved" icon="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/approved'), 0)?'background-color: #FFF2DB':''}">
                         <f:param name="approved" value="true"/>
                     </p:menuitem>
-                    <p:menuitem value="#{msg.menu_listdrug_notapproved_label}" rendered="#{request.isUserInRole('HOSPITAL')}" outcome="/private/hospital/listdrug/not-approved" icon="temIconSize24 temIconBackgroundPassApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/not-approved'), 0)?'background-color: #FFF2DB':''}">
+                    <p:menuitem value="#{msg.menu_listdrug_notapproved_label}" rendered="#{request.isUserInRole('HOSPITAL')}" outcome="/private/hospital/listdrug/not-approved" icon="temIconSize24 temIconBackgroundPassApproveCodeNot temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/not-approved'), 0)?'background-color: #FFF2DB':''}">
                         <f:param name="notApproved" value="true"/>
                     </p:menuitem>
 
