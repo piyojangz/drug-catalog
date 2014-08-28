@@ -123,21 +123,18 @@ public class CreateHospitalDrug implements Serializable {
         }
     }
 
-    public void checkPriceExist(FacesContext context, UIComponent component, Object value) {
-        if (value == null || !editMode || !updateFlag.equals("U")) {
+    public void checkPriceOrEdExist(FacesContext context, UIComponent component, Object value) {
+        if (value == null || !editMode) {
             return;
         }
-        if (priceService.isPriceDuplicate(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุราคายา ณ วันที่ effectiveDate แล้ว"));
-        }
-    }
-
-    public void checkEdNedExist(FacesContext context, UIComponent component, Object value) {
-        if (value == null || !editMode || !updateFlag.equals("E")) {
-            return;
-        }
-        if (edNEdService.isDuplicateEdNed(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุ ISED ณ วันที่ dateChange แล้ว"));
+        if (updateFlag.equals("U")) {
+            if (priceService.isPriceDuplicate(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุราคายา ณ วันที่ effectiveDate แล้ว"));
+            }
+        } else if (updateFlag.equals("E")) {
+            if (edNEdService.isDuplicateEdNed(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุ ISED ณ วันที่ effectiveDate แล้ว"));
+            }
         }
     }
 
