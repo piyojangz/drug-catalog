@@ -68,7 +68,6 @@ public class HospitalDrug implements Serializable {
     @Column(name = "DOSAGEFORM", nullable = false, length = 255, columnDefinition = "NVARCHAR2(100)")
     private String dosageForm;
 
-    @NotEmpty
     @Column(name = "STRENGTH", nullable = false, length = 255)
     private String strength;
 

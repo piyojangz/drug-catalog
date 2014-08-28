@@ -75,7 +75,6 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
     @Size(max = 255, message = "Strength ต้องไม่เกิน 255 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด Strength มาด้วยทุกครั้ง")
     private String strength;
 
     @XlsColumn
