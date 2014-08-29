@@ -18,35 +18,7 @@
                         border: none;
                     }
                 </style>
-                <p:panelGrid>
-                    <p:row>
-                        <p:column style="text-align: right">
-                            <p:outputLabel value="keyword:" for="keyword"/>
-
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="keyword" value="#{hospitalDrugListController.keyword}" size="60"/>
-                            <p:commandButton value="Search" action="#{hospitalDrugListController.search()}" update="table"/>
-                        </p:column>
-                        <p:column>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right">
-                            <p:outputLabel value="Columns:"/>
-
-                        </p:column>
-                        <p:column colspan="2">
-                            <p:selectManyCheckbox value="#{hospitalDrugListController.selectColumns}">
-                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
-                                <f:selectItem itemLabel="TMTID" itemValue="TMTID"/>
-                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
-                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
-                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
-                            </p:selectManyCheckbox>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
+                <ui:include src="searchPanel.xhtml"/>
                 <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.all}" var="model"  
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">

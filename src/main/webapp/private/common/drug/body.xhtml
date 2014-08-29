@@ -15,7 +15,7 @@
                     border: none;
                 }
             </style>
-            <p:panelGrid >
+            <p:panelGrid>
                 <p:row>
                     <p:column style="text-align: right">
                         <h:outputLabel value="Keyword:"/>
@@ -25,8 +25,12 @@
                     </p:column>
                     <p:column>
                         <p:commandButton action="#{searchTmtDrug.search()}" update="table selectColumns selectTypes" value="Search" />
+                        &nbsp;
+                        <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
                     </p:column>
                 </p:row>
+            </p:panelGrid>
+            <p:panelGrid styleClass="advancePanel" style="display: none">
                 <p:row>
                     <p:column style="text-align: right">
                         <h:outputLabel value="Columns:"/>
