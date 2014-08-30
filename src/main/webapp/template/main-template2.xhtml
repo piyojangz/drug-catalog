@@ -12,14 +12,22 @@
             <h:outputStylesheet  name="style/login.css"/>
             <h:outputStylesheet  name="style/main.css"/>
             <h:outputScript name="script/temdesign.js"/>
+            <style>
+                /** fix columntoggler bug **/
+                .ui-columntoggler {
+                    padding: 0;
+                    position: absolute;
+                    display: none;
+                }
+            </style>
         </h:head>
         <p:layout fullPage="true" id="root">
             <p:layoutUnit position="north" size="60" resizable="false" closable="false" collapsible="false">
                 <div id="temHead">
                     <div id="temLogo"></div>
                     <div class="temStatus">ผู้ใช้งาน: #{request.userPrincipal.principal} #{request.userPrincipal.principal.hospital.hname}</div>
-                    
-                   
+
+
                     <div class="buttoncolor">
                         <h:form>
                             <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">
