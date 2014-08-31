@@ -102,7 +102,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     @Size(max = 255, message = "Strength ต้องไม่เกิน 255 ตัวอักษร")
     @NotEmpty(message = "ต้องกำหนด Strength มาด้วยทุกครั้ง")
-    @Column(name = "STRENGTH", nullable = false, length = 255)
+    @Column(name = "STRENGTH", nullable = true, length = 255)
     private String strength;
 
     @Size(max = 100, message = "Content ต้องไม่เกิน 255 ตัวอักษร")
