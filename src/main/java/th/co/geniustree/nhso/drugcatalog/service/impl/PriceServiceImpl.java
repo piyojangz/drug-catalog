@@ -43,7 +43,7 @@ public class PriceServiceImpl implements PriceService {
         if (findOne == null) {
             createFirstPrice(hospitalDrug);
         } else {
-            throw new IllegalStateException("Opp! new price is not realy new. it already exist.");
+            findOne.setPrice(unitprice);
         }
 
     }

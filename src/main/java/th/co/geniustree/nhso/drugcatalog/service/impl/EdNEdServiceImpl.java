@@ -43,7 +43,7 @@ public class EdNEdServiceImpl implements EdNEdService {
         if (findOne == null) {
             createFirstEdNed(drug);
         } else {
-            throw new IllegalStateException("Opp! ISED is not realy new. it already exist.");
+            findOne.setStatusEd(ised);
         }
     }
 
