@@ -37,6 +37,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.UploadItemOrderHelper;
 import th.co.geniustree.nhso.drugcatalog.input.AGroup;
 import th.co.geniustree.nhso.drugcatalog.input.EDGroup;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
+import th.co.geniustree.nhso.drugcatalog.input.Lastgroup;
 import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugErrorItem;
@@ -244,6 +245,7 @@ public class UploadMappedDrug implements Serializable {
                     } else if ("A".equalsIgnoreCase(bean.getUpdateFlag())) {
                         violations.addAll(beanValidator.validate(bean, AGroup.class));
                     }
+                    violations.addAll(beanValidator.validate(bean, Lastgroup.class));
 
                     if (violations.isEmpty()) {
                         checkDuplicateInCurrentFile(bean);

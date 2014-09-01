@@ -23,6 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
+import th.co.geniustree.nhso.drugcatalog.input.validator.DateRange;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
@@ -125,16 +126,19 @@ public class HospitalDrugExcelModel implements Serializable {
     @XlsColumn
     @NotEmpty(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ E หรือ D ", groups = {AGroup.class, EDGroup.class})
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataChange ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
+    @DateRange(message = "ปี จะต้องไม่น้อยกว่า {min} และไม่มากกว่าปีปัจจุบัน + {futureOffset}", futureOffset = 5, groups = Lastgroup.class)
     private String dateChange;
 
     @XlsColumn
     @NotEmpty(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ U", groups = {AGroup.class, UGroup.class})
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataUpdate ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
+    @DateRange(message = "ปี จะต้องไม่น้อยกว่า {min} และไม่มากกว่าปีปัจจุบัน + {futureOffset}", futureOffset = 5, groups = Lastgroup.class)
     private String dateUpdate;
 
     @XlsColumn
     @NotEmpty(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง")
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataEffective ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
+    @DateRange(message = "ปี จะต้องไม่น้อยกว่า {min} และไม่มากกว่าปีปัจจุบัน + {futureOffset}", futureOffset = 5, groups = Lastgroup.class)
     private String dateEffective;
     private int rowNum;
     private String hcode;
