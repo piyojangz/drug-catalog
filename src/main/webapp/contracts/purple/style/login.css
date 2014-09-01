@@ -106,3 +106,30 @@ input.buttonc:hover{
     color: #555;
     background: url('#{request.contextPath}/contracts/purple/images/bgbuttonhover.png');
 }
+.status{
+    padding: 7px 20px;
+    background: #FFFBE0;
+    border: 1px solid #FFF086;
+    border-right: 0;
+    border-left: 0;
+    font-size: 14px;
+    font-family: tahoma;
+    font-weight: normal;
+    color: #555;
+    line-height: 35px;
+}
+.icongooglechome{
+    float: left;
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: url('#{request.contextPath}/contracts/purple/images/template/icongooglechome.png');
+    margin-right: 10px;
+}
+.boxstatuslogin{
+    display: block;
+    background: transparent;
+    height: 32px;
+    width: 280px;
+    margin: auto;
+}
