@@ -18,8 +18,7 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
  * @author moth
  */
 public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospitalDrugItem, Integer>{
-    public long countByHospDrugCodeAndUploadDrugHcodeAndDateChange(String hospDrugCode,String hcode,String dateChange);
-    public long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate(String hospDrugCode,String hcode,String dateChange);
+    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffective(String hospDrugCode,String hcode,String dateEffective);
     public Page<UploadHospitalDrugItem> findByUploadDrugId(Integer uploadDrugId,Pageable pageable);
     public List<UploadHospitalDrugItem> findByHospDrugCodeAndUploadDrugHcode(String hospDrugcode, String hcode, Sort sort);
 }
