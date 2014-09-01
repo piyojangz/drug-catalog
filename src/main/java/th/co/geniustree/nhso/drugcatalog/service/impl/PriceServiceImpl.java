@@ -60,6 +60,7 @@ public class PriceServiceImpl implements PriceService {
         price.setHospDrugCode(hospitalDrug.getHospDrugCode());
         price.setDateEffectInclusive(hospitalDrug.getDateEffective());
         price.setPrice(hospitalDrug.getUnitPrice());
+        price.setCreateDate(new Date());
         hospitalDrug.getPrices().add(priceRepo.save(price));
     }
 

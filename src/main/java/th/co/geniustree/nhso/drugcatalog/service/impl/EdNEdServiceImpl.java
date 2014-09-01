@@ -59,6 +59,7 @@ public class EdNEdServiceImpl implements EdNEdService {
         edNed.setHospDrugCode(drug.getHospDrugCode());
         edNed.setDateIn(drug.getDateEffective());
         edNed.setStatusEd(drug.getIsed());
+        edNed.setCreateDate(new Date());
         drug.getEdNeds().add(hospitalEdNedRepo.save(edNed));
     }
 
