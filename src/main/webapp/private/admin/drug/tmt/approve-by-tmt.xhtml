@@ -14,7 +14,7 @@
                     color : #fff;
                     text-shadow: none; 
                 }
-                
+
                 .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
                     background-color : rgb(247, 79, 79);
                     color : #fff;
@@ -29,22 +29,34 @@
                 <p:dataTable resizableColumns="true"  value="#{approveByTmt.tmtDrug}" var="model" >
                     <f:facet name="header">
                     </f:facet>
-                    <p:column headerText="TMTID" width="100">
-                        <h:outputText value="#{model.tmtId}" />
+                    <p:column headerText="" width="220">
+
                     </p:column>
-                    <p:column headerText="FSN" width="200">
-                        <h:outputText value="#{model.fsn}"/>
+                    <p:column headerText="TMTID" width="80">
+                        <h:outputText value="#{model.tmtId}" />
                     </p:column>
                     <p:column headerText="TradeName" width="200">
                         <h:outputText value="#{model.tradeName}"/>
                     </p:column>
-                    <p:column headerText="MANUFACTURER" width="200">
+                    <p:column headerText="ActiveIngredient" width="200">
+                        <h:outputText value="#{model.activeIngredient}"/>
+                    </p:column>
+                    <p:column headerText="Strength" width="100">
+                        <h:outputText value="#{model.strength}"/>
+                    </p:column>
+                    <p:column headerText="Dosageform" width="100">
+                        <h:outputText value="#{model.dosageform}"/>
+                    </p:column>
+                    <p:column headerText="DispUnit" width="80">
+                        <h:outputText value="#{model.dispUnit}"/>
+                    </p:column>
+                    <p:column headerText="Manufacturer" width="200">
                         <h:outputText value="#{model.manufacturer}"/>
                     </p:column>
                 </p:dataTable>
                 <br/>
                 <p:dataTable id="table" resizableColumns="true"  value="#{approveByTmt.request}" var="model"  rowIndexVar="rowIndex" 
-                             paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50"
+                             paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         Request ทั้งหมด
@@ -64,58 +76,58 @@
                         </p:selectOneButton>
 
                     </p:column>
-                    <p:column   headerText="HCODE" width="100">
-                        <h:outputText value="#{model.hcode}"/>
-                    </p:column>
-                    <p:column headerText="PRODUCTCAT" width="100">
+                    <p:column headerText="ProductCat" width="80">
                         <h:outputText value="#{model.requestItem.productCat}"/>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="100">
-                        <h:outputText value="#{model.requestItem.specPrep}"/>
+                    <p:column headerText="TMTID" width="80">
+                        <h:outputText value="#{model.requestItem.tmtId}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME" width="200">
-                        <h:outputText value="#{model.requestItem.genericName}"/>
-                    </p:column>
-                    <p:column headerText="TRADENAME" width="200">
+                    <p:column headerText="TradeName" width="200">
                         <h:outputText value="#{model.requestItem.tradeName}"/>
                     </p:column>
-                    <p:column headerText="DFSCODE" width="100">
-                        <h:outputText value="#{model.requestItem.dfsCode}"/>
+                    <p:column headerText="GenericName" width="200">
+                        <h:outputText value="#{model.requestItem.genericName}"/>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM" width="100">
-                        <h:outputText value="#{model.requestItem.dosageForm}"/>
-                    </p:column>
-                    <p:column headerText="STRENGTH" width="100">
+                    <p:column headerText="Strength" width="100">
                         <h:outputText value="#{model.requestItem.strength}"/>
                     </p:column>
-                    <p:column headerText="CONTENT" width="100">
+                    <p:column headerText="dosageform" width="100">
+                        <h:outputText value="#{model.requestItem.dosageForm}"/>
+                    </p:column>
+                    <p:column headerText="CONTENT" width="80">
                         <h:outputText value="#{model.requestItem.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="100">
-                        <h:outputText value="#{model.requestItem.unitPrice}"/>
-                    </p:column>
-                    <p:column headerText="DISTRIBUTOR" width="200">
-                        <h:outputText value="#{model.requestItem.distributor}"/>
-                    </p:column>
-                    <p:column headerText="MANUFACTURER" width="200">
+                    <p:column headerText="Manufacturer" width="200">
                         <h:outputText value="#{model.requestItem.manufacturer}"/>
                     </p:column>
-                    <p:column headerText="ISED" width="60">
-                        <h:outputText value="#{model.requestItem.ised}"/>
+                    <p:column headerText="UnitPrice" width="100">
+                        <h:outputText value="#{model.requestItem.unitPrice}"/>
                     </p:column>
-                    <p:column headerText="NDC24" width="180">
-                        <h:outputText value="#{model.requestItem.ndc24}"/>
-                    </p:column>
-                    <p:column headerText="PACKSIZE" width="80">
-                        <h:outputText value="#{model.requestItem.packSize}"/>
-                    </p:column>
-                    <p:column headerText="PACKPRICE" width="100">
-                        <h:outputText value="#{model.requestItem.packPrice}"/>
+                    <ui:remove>
+                        <p:column headerText="DISTRIBUTOR" width="200">
+                            <h:outputText value="#{model.requestItem.distributor}"/>
+                        </p:column>
+
+                        <p:column headerText="ISED" width="60">
+                            <h:outputText value="#{model.requestItem.ised}"/>
+                        </p:column>
+                        <p:column headerText="NDC24" width="180">
+                            <h:outputText value="#{model.requestItem.ndc24}"/>
+                        </p:column>
+                        <p:column headerText="PACKSIZE" width="80">
+                            <h:outputText value="#{model.requestItem.packSize}"/>
+                        </p:column>
+                        <p:column headerText="PACKPRICE" width="100">
+                            <h:outputText value="#{model.requestItem.packPrice}"/>
+                        </p:column>
+                    </ui:remove>
+                    <p:column   headerText="HCODE" width="100">
+                        <h:outputText value="#{model.hcode}"/>
                     </p:column>
                 </p:dataTable>
                 <br/>
                 <p:dataTable id="approvetable" resizableColumns="true"  value="#{approveByTmt.approveRequests}" var="model"  rowIndexVar="rowIndex"  
-                             paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50"
+                             paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         <span style="color:green">อนุมัติ</span>
@@ -126,61 +138,61 @@
                         <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="approvetable" trigger="toggler" />
                     </f:facet>
-                    <p:column headerText=""  style="width:80px;text-align:center">
+                    <p:column headerText=""  style="width:130px;text-align:center">
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
                     </p:column>
-                    <p:column   headerText="HCODE" width="100">
-                        <h:outputText value="#{model.hcode}"/>
-                    </p:column>
-                    <p:column headerText="PRODUCTCAT" width="100">
+                    <p:column headerText="ProductCat" width="80">
                         <h:outputText value="#{model.requestItem.productCat}"/>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="100">
-                        <h:outputText value="#{model.requestItem.specPrep}"/>
+                    <p:column headerText="TMTID" width="80">
+                        <h:outputText value="#{model.requestItem.tmtId}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME" width="200">
-                        <h:outputText value="#{model.requestItem.genericName}"/>
-                    </p:column>
-                    <p:column headerText="TRADENAME" width="200">
+                    <p:column headerText="TradeName" width="200">
                         <h:outputText value="#{model.requestItem.tradeName}"/>
                     </p:column>
-                    <p:column headerText="DFSCODE" width="100">
-                        <h:outputText value="#{model.requestItem.dfsCode}"/>
+                    <p:column headerText="GenericName" width="200">
+                        <h:outputText value="#{model.requestItem.genericName}"/>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM" width="100">
-                        <h:outputText value="#{model.requestItem.dosageForm}"/>
-                    </p:column>
-                    <p:column headerText="STRENGTH" width="100">
+                    <p:column headerText="Strength" width="100">
                         <h:outputText value="#{model.requestItem.strength}"/>
                     </p:column>
-                    <p:column headerText="CONTENT" width="100">
+                    <p:column headerText="Dosageform" width="100">
+                        <h:outputText value="#{model.requestItem.dosageForm}"/>
+                    </p:column>
+                    <p:column headerText="CONTENT" width="80">
                         <h:outputText value="#{model.requestItem.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="100">
-                        <h:outputText value="#{model.requestItem.unitPrice}"/>
-                    </p:column>
-                    <p:column headerText="DISTRIBUTOR" width="200">
-                        <h:outputText value="#{model.requestItem.distributor}"/>
-                    </p:column>
-                    <p:column headerText="MANUFACTURER" width="200">
+                    <p:column headerText="Manufacturer" width="200">
                         <h:outputText value="#{model.requestItem.manufacturer}"/>
                     </p:column>
-                    <p:column headerText="ISED" width="60">
-                        <h:outputText value="#{model.requestItem.ised}"/>
+                    <p:column headerText="UnitPrice" width="100">
+                        <h:outputText value="#{model.requestItem.unitPrice}"/>
                     </p:column>
-                    <p:column headerText="NDC24" width="180">
-                        <h:outputText value="#{model.requestItem.ndc24}"/>
-                    </p:column>
-                    <p:column headerText="PACKSIZE" width="80">
-                        <h:outputText value="#{model.requestItem.packSize}"/>
-                    </p:column>
-                    <p:column headerText="PACKPRICE" width="100">
-                        <h:outputText value="#{model.requestItem.packPrice}"/>
+                    <ui:remove>
+                        <p:column headerText="DISTRIBUTOR" width="200">
+                            <h:outputText value="#{model.requestItem.distributor}"/>
+                        </p:column>
+
+                        <p:column headerText="ISED" width="60">
+                            <h:outputText value="#{model.requestItem.ised}"/>
+                        </p:column>
+                        <p:column headerText="NDC24" width="180">
+                            <h:outputText value="#{model.requestItem.ndc24}"/>
+                        </p:column>
+                        <p:column headerText="PACKSIZE" width="80">
+                            <h:outputText value="#{model.requestItem.packSize}"/>
+                        </p:column>
+                        <p:column headerText="PACKPRICE" width="100">
+                            <h:outputText value="#{model.requestItem.packPrice}"/>
+                        </p:column>
+                    </ui:remove>
+                    <p:column   headerText="HCODE" width="100">
+                        <h:outputText value="#{model.hcode}"/>
                     </p:column>
                 </p:dataTable>
                 <br/>
                 <p:dataTable id="notApprovetable" resizableColumns="true"  value="#{approveByTmt.notApproveRequests}" var="model"  rowIndexVar="rowIndex"
-                             paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50"
+                             paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         <span style="color:red">ไม่อนุมัติ</span>
@@ -191,56 +203,56 @@
                         <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="notApprovetable" trigger="toggler" />
                     </f:facet>
-                    <p:column headerText=""  style="width:80px;text-align:center">
+                    <p:column headerText=""  style="width:130px;text-align:center">
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
                     </p:column>
-                    <p:column   headerText="HCODE" width="100">
-                        <h:outputText value="#{model.hcode}"/>
-                    </p:column>
-                    <p:column headerText="PRODUCTCAT" width="100">
+                    <p:column headerText="ProductCat" width="80">
                         <h:outputText value="#{model.requestItem.productCat}"/>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="100">
-                        <h:outputText value="#{model.requestItem.specPrep}"/>
+                    <p:column headerText="TMTID" width="80">
+                        <h:outputText value="#{model.requestItem.tmtId}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME" width="200">
-                        <h:outputText value="#{model.requestItem.genericName}"/>
-                    </p:column>
-                    <p:column headerText="TRADENAME" width="200">
+                    <p:column headerText="TradeName" width="200">
                         <h:outputText value="#{model.requestItem.tradeName}"/>
                     </p:column>
-                    <p:column headerText="DFSCODE" width="100">
-                        <h:outputText value="#{model.requestItem.dfsCode}"/>
+                    <p:column headerText="GenericName" width="200">
+                        <h:outputText value="#{model.requestItem.genericName}"/>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM" width="100">
-                        <h:outputText value="#{model.requestItem.dosageForm}"/>
-                    </p:column>
-                    <p:column headerText="STRENGTH" width="100">
+                    <p:column headerText="Strength" width="100">
                         <h:outputText value="#{model.requestItem.strength}"/>
                     </p:column>
-                    <p:column headerText="CONTENT" width="100">
+                    <p:column headerText="Dosageform" width="100">
+                        <h:outputText value="#{model.requestItem.dosageForm}"/>
+                    </p:column>
+                    <p:column headerText="CONTENT" width="80">
                         <h:outputText value="#{model.requestItem.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="100">
-                        <h:outputText value="#{model.requestItem.unitPrice}"/>
-                    </p:column>
-                    <p:column headerText="DISTRIBUTOR" width="200">
-                        <h:outputText value="#{model.requestItem.distributor}"/>
-                    </p:column>
-                    <p:column headerText="MANUFACTURER" width="200">
+                    <p:column headerText="Manufacturer" width="200">
                         <h:outputText value="#{model.requestItem.manufacturer}"/>
                     </p:column>
-                    <p:column headerText="ISED" width="60">
-                        <h:outputText value="#{model.requestItem.ised}"/>
+                    <p:column headerText="UnitPrice" width="100">
+                        <h:outputText value="#{model.requestItem.unitPrice}"/>
                     </p:column>
-                    <p:column headerText="NDC24" width="180">
-                        <h:outputText value="#{model.requestItem.ndc24}"/>
-                    </p:column>
-                    <p:column headerText="PACKSIZE" width="80">
-                        <h:outputText value="#{model.requestItem.packSize}"/>
-                    </p:column>
-                    <p:column headerText="PACKPRICE" width="100">
-                        <h:outputText value="#{model.requestItem.packPrice}"/>
+                    <ui:remove>
+                        <p:column headerText="DISTRIBUTOR" width="200">
+                            <h:outputText value="#{model.requestItem.distributor}"/>
+                        </p:column>
+
+                        <p:column headerText="ISED" width="60">
+                            <h:outputText value="#{model.requestItem.ised}"/>
+                        </p:column>
+                        <p:column headerText="NDC24" width="180">
+                            <h:outputText value="#{model.requestItem.ndc24}"/>
+                        </p:column>
+                        <p:column headerText="PACKSIZE" width="80">
+                            <h:outputText value="#{model.requestItem.packSize}"/>
+                        </p:column>
+                        <p:column headerText="PACKPRICE" width="100">
+                            <h:outputText value="#{model.requestItem.packPrice}"/>
+                        </p:column>
+                    </ui:remove>
+                    <p:column   headerText="HCODE" width="100">
+                        <h:outputText value="#{model.hcode}"/>
                     </p:column>
                     <p:column headerText="เหตุผล" width="200">
                         <p:inputText value="#{model.message}" style="width: 100%"/>
