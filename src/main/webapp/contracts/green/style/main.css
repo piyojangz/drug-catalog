@@ -281,3 +281,16 @@ a{
 .reSizeContent{
     padding:  10px !important;
 }
+.ui-datatable-header{
+    text-align: left !important;
+}
+tr>th.ui-resizable-column{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.headtext{
+    margin-left: 10px;
+}
+.headtextnoticon{
+    margin-left: 34px;
+}

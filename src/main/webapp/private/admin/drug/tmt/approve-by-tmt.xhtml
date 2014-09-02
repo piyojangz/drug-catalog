@@ -28,8 +28,9 @@
                 </f:metadata>
                 <p:dataTable resizableColumns="true"  value="#{approveByTmt.tmtDrug}" var="model" >
                     <f:facet name="header">
+                        <span class="headtextnoticon">TMT Master</span>
                     </f:facet>
-                    <p:column headerText="" width="220">
+                    <p:column headerText="" width="230">
 
                     </p:column>
                     <p:column headerText="TMTID" width="80">
@@ -59,13 +60,11 @@
                              paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
-                        Request ทั้งหมด
-                        <h:commandLink style="float:left">
+                        <h:commandLink style="float:left; margin-top: -5px;">
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="table" fileName="inbox" pageOnly="false"/>
                         </h:commandLink>
-                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator"/>
-                        <p:columnToggler datasource="table" trigger="toggler"/>
+                        <span class="headtext">Request ทั้งหมด</span>
                     </f:facet>
                     <p:column headerText="Approve"  style="width:130px;text-align:center">
                         <p:selectOneButton value="#{model.status}" valueChangeListener="#{approveByTmt.approve}" immediate="true" styleClass="approved-button">
@@ -130,13 +129,11 @@
                              paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
-                        <span style="color:green">อนุมัติ</span>
-                        <h:commandLink style="float:left">
+                        <h:commandLink style="float:left; margin-top: -5px;">
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="approvetable" fileName="approvetable" pageOnly="false"/>
                         </h:commandLink>
-                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
-                        <p:columnToggler datasource="approvetable" trigger="toggler" />
+                        <span class="headtext"><span style="color:green">อนุมัติ</span></span>
                     </f:facet>
                     <p:column headerText=""  style="width:130px;text-align:center">
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
@@ -195,13 +192,11 @@
                              paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
-                        <span style="color:red">ไม่อนุมัติ</span>
-                        <h:commandLink style="float:left">
+                        <h:commandLink style="float:left; margin-top: -5px;">
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="notApprovetable" fileName="notApprovetable" pageOnly="false"/>
                         </h:commandLink>
-                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
-                        <p:columnToggler datasource="notApprovetable" trigger="toggler" />
+                        <span class="headtext"><span style="color:red">ไม่อนุมัติ</span></span>
                     </f:facet>
                     <p:column headerText=""  style="width:130px;text-align:center">
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
