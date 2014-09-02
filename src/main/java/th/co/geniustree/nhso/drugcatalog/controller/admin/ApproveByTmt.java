@@ -7,12 +7,12 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import com.google.common.base.Strings;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.event.ValueChangeEvent;
-import org.apache.avro.generic.GenericData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -20,6 +20,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSuppo
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
@@ -46,6 +47,10 @@ public class ApproveByTmt implements Serializable {
     private List<RequestItem> approveRequests = new ArrayList<>();
     private List<RequestItem> notApproveRequests = new ArrayList<>();
     private String notApproveMessage;
+    @Autowired
+    private HospitalDrugRepo hospitalDrugRepo;
+    private BigDecimal avg;
+    private BigDecimal stdev;
 
     @PostConstruct
     public void postConstruct() {
@@ -96,6 +101,22 @@ public class ApproveByTmt implements Serializable {
         this.notApproveMessage = notApproveMessage;
     }
 
+    public BigDecimal getAvg() {
+        return avg;
+    }
+
+    public void setAvg(BigDecimal avg) {
+        this.avg = avg;
+    }
+
+    public BigDecimal getStdev() {
+        return stdev;
+    }
+
+    public void setStdev(BigDecimal stdev) {
+        this.stdev = stdev;
+    }
+
     public void approve(ValueChangeEvent event) {
         UIComponent component = event.getComponent();
         RequestItem item = (RequestItem) component.getAttributes().get("selectedItem");
@@ -131,6 +152,8 @@ public class ApproveByTmt implements Serializable {
     }
 
     public void load() {
+        avg =  hospitalDrugRepo.avg(selectTmtId);
+        stdev =  hospitalDrugRepo.stddev(selectTmtId);
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
         request = requestItemRepo.findByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
     }
