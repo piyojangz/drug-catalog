@@ -305,7 +305,7 @@ tr>th.ui-resizable-column{
     -webkit-border-top-right-radius: 4px;
     border-top-right-radius: 4px;
 }
-.ui-datatable-header {
-    border-left: 0 !important;
-    border-right: 0 !important;
+.ui-widget-header {
+    border: 0 !important;
+    background: transparent !important;
 }
