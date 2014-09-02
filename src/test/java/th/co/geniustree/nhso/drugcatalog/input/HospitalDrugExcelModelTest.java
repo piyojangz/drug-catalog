@@ -39,24 +39,23 @@ public class HospitalDrugExcelModelTest {
 
     @Test
     public void givenFlagIsUThenUserDateEffective() {
-        HospitalDrugExcelModel a = createModel("a","U","01/01/2014","01/02/2014");
-        HospitalDrugExcelModel b = createModel("a","U","11/11/2014","01/02/2014");
+        HospitalDrugExcelModel a = createModel("a","U","01/02/2014");
+        HospitalDrugExcelModel b = createModel("a","U","01/02/2014");
         assertTrue(a.isEqual(b));
     }
 
     @Test
     public void givenFlagIsNotUThenUserDateChange() {
-        HospitalDrugExcelModel a = createModel("a","E","01/01/2014","01/02/2014");
-        HospitalDrugExcelModel b = createModel("a","E","01/01/2014","11/12/2014");
+        HospitalDrugExcelModel a = createModel("a","E","01/01/2014");
+        HospitalDrugExcelModel b = createModel("a","E","01/01/2014");
         assertTrue(a.isEqual(b));
     }
 
-    public static HospitalDrugExcelModel createModel(String drugCode, String flag, String dateChange, String dateUpdate) {
+    public static HospitalDrugExcelModel createModel(String drugCode, String flag,String dateUpdate) {
         HospitalDrugExcelModel a = new HospitalDrugExcelModel();
         a.setHospDrugCode(drugCode);
         a.setUpdateFlag(flag);
-        a.setDateChange(dateChange);
-        a.setDateUpdate(dateUpdate);
+        a.setDateEffective(dateUpdate);
         return a;
     }
 }
