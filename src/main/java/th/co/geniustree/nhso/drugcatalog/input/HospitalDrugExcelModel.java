@@ -382,11 +382,7 @@ public class HospitalDrugExcelModel implements Serializable {
 
     public boolean isEqual(HospitalDrugExcelModel other) {
         boolean equal = this.hospDrugCode.equals(other.hospDrugCode) && this.updateFlag.equalsIgnoreCase(other.updateFlag);
-        if (this.updateFlag.equalsIgnoreCase("U")) {
-            equal = equal && this.dateUpdate.equals(other.dateUpdate);
-        } else {
-            equal = equal && this.dateChange.equals(other.dateChange);
-        }
+        equal = equal && this.dateEffective.equals(other.dateEffective);
         return equal;
     }
 
