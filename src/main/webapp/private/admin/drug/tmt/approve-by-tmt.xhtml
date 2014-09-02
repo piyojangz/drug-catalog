@@ -53,6 +53,12 @@
                     <p:column headerText="Manufacturer" width="200">
                         <h:outputText value="#{model.manufacturer}"/>
                     </p:column>
+                    <p:column headerText="X-bar" width="50">
+                        <h:outputText value="#{approveByTmt.avg}"/>
+                    </p:column>
+                    <p:column headerText="SD" width="50">
+                        <h:outputText value="#{approveByTmt.stdev}"/>
+                    </p:column>
                 </p:dataTable>
                 <br/>
                 <p:dataTable id="table" resizableColumns="true"  value="#{approveByTmt.request}" var="model"  rowIndexVar="rowIndex" 
