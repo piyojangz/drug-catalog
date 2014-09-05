@@ -85,7 +85,7 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         //create Request is new
         RequestItem requestItem = new RequestItem();
         requestItem.setHcode(hcode);
-        requestItem.setRequestItem(uploadItem);
+        requestItem.setUploadDrugItem(uploadItem);
         requestItem.setTargetItem(hospitalDrug);
         requestItem.setStatus(RequestItem.Status.REQUEST);
         requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());

@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.repo;
 
 import java.math.BigDecimal;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -28,6 +29,7 @@ public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDr
     public Integer countByHcodeAndTmtIdAndApprovedIsTrue(String hospDrugCode, String hcode);
 
     public Page<HospitalDrug> findByHcodeAndApproved(String hcode, boolean b, Pageable page);
+    public Long countByHcodeAndApproved(String hcode, boolean b);
 
     public Page<HospitalDrug> findByHcodeAndTmtIdIsNull(String hcode, Pageable page);
 
@@ -57,4 +59,6 @@ public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDr
 
     @Query("select function('STDDEV',h.unitPrice) from HospitalDrug h where h.tmtId = ?1")
     public BigDecimal stddev(String tmtId);
+
+    public Page<HospitalDrug> findByHcode(String hcode, Pageable page);
 }

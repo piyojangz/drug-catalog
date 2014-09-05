@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.service.DeleteUploadDrugService;
 
 /**
  *
@@ -31,6 +32,6 @@ public class ImportDrug extends ReportConditionBase {
     }
 
     public void view() {
-        model = uploadHospitalDrugRepo.sumUploadItemGroupByHcode(getSelectZone(), getSelectProvince(),getSelectHospital());
+        model = uploadHospitalDrugRepo.sumUploadItemGroupByHcode(getSelectZone(), getSelectProvince(), getSelectHospital());
     }
 }

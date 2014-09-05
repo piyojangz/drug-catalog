@@ -124,13 +124,13 @@ public class HospitalDrug implements Serializable {
     @Column(name = "DELETED", nullable = false)
     private Boolean deleted = Boolean.FALSE;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
     })
     private List<HospitalPrice> prices;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)

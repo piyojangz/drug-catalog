@@ -21,16 +21,16 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer> {
 
     public Page<RequestItem> findByStatus(RequestItem.Status status, Pageable pageable);
 
-    @Query("select distinct t from RequestItem r join r.requestItem u join u.tmtDrug t where r.status = ?1")
+    @Query("select distinct t from RequestItem r join r.uploadDrugItem u join u.tmtDrug t where r.status = ?1")
     public Page<TMTDrug> findTMTDrugByStatus(RequestItem.Status status, Pageable pageable);
 
-    @Query("select distinct t from RequestItem r join r.requestItem u join u.tmtDrug t where r.status = ?1 and t.tmtId like ?2%")
+    @Query("select distinct t from RequestItem r join r.uploadDrugItem u join u.tmtDrug t where r.status = ?1 and t.tmtId like ?2%")
     public Page<TMTDrug> findTMTDrugByStatusAndTmtIdLike(RequestItem.Status status, String tmtid, Pageable pageable);
 
-    @Query("select distinct r from RequestItem r join r.requestItem u join u.tmtDrug t where r.status = ?1 and t.tmtId = ?2")
+    @Query("select distinct r from RequestItem r join r.uploadDrugItem u join u.tmtDrug t where r.status = ?1 and t.tmtId = ?2")
     public Page<RequestItem> findByStatusAndTmtId(RequestItem.Status status, String tmtId, Pageable pageable);
 
-    @Query("select distinct r from RequestItem r join r.requestItem u join u.tmtDrug t where r.status = ?1 and t.tmtId = ?2")
+    @Query("select distinct r from RequestItem r join r.uploadDrugItem u join u.tmtDrug t where r.status = ?1 and t.tmtId = ?2")
     public List<RequestItem> findByStatusAndTmtId(RequestItem.Status status, String tmtId);
 
 }

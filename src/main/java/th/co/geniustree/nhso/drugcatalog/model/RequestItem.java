@@ -68,7 +68,7 @@ public class RequestItem implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "UPLOADHOSPDRUG_ITEM_ID", referencedColumnName = "ID", nullable = false)
-    private UploadHospitalDrugItem requestItem;
+    private UploadHospitalDrugItem uploadDrugItem;
 
     @OneToOne
     @JoinColumns({
@@ -146,12 +146,12 @@ public class RequestItem implements Serializable {
         this.message = message;
     }
 
-    public UploadHospitalDrugItem getRequestItem() {
-        return requestItem;
+    public UploadHospitalDrugItem getUploadDrugItem() {
+        return uploadDrugItem;
     }
 
-    public void setRequestItem(UploadHospitalDrugItem requestItem) {
-        this.requestItem = requestItem;
+    public void setUploadDrugItem(UploadHospitalDrugItem uploadDrugItem) {
+        this.uploadDrugItem = uploadDrugItem;
     }
 
     public HospitalDrug getTargetItem() {

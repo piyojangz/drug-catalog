@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -176,6 +178,8 @@ public class UploadHospitalDrugItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
+    @OneToOne(mappedBy = "uploadDrugItem", cascade = CascadeType.ALL)
+    private RequestItem requestItem;
 
     public Integer getId() {
         return id;
@@ -409,6 +413,14 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setTmtDrug(TMTDrug tmtDrug) {
         this.tmtDrug = tmtDrug;
+    }
+
+    public RequestItem getRequestItem() {
+        return requestItem;
+    }
+
+    public void setRequestItem(RequestItem requestItem) {
+        this.requestItem = requestItem;
     }
 
     @Override
