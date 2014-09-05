@@ -4,7 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html" 
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Drug Catalog</title>
+        <title>Drug Catalog - ${project.version}</title>
         <h:outputStylesheet name="style/login.css"/>
         <h:outputStylesheet name="style/main.css"/>
     </h:head>
@@ -33,6 +33,7 @@
                 </span>
             </div>
         </form>
+        <div style="position: fixed; right: 10px; bottom: 10px; color: #fff; font-size: 13px;">Version: ${project.version}</div>
     </h:body>
 </html>
 

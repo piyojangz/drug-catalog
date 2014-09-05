@@ -332,7 +332,7 @@
                             <filtering>true</filtering>
                             <directory>src/main/webapp</directory>
                             <includes>
-                                <include>index.zul</include>
+                                <include>index.xhtml</include>
                                 <include>**/applicationContext.xml</include>
                                 <include>**/applicationContext-security.xml</include>
                             </includes>
@@ -341,7 +341,7 @@
                             <directory>src/main/webapp</directory>
                             <filtering>false</filtering>
                             <excludes>
-                                <exclude>index.zul</exclude>
+                                <exclude>index.xhtml</exclude>
                                 <exclude>**/applicationContext.xml</exclude>
                                 <exclude>**/applicationContext-security.xml</exclude>
                             </excludes>
@@ -384,6 +384,8 @@
             </activation>
             <id>local</id>
             <properties>
+                <eclipselink.ddl-generation>create-tables</eclipselink.ddl-generation>
+                <eclipselink.logging.level>FINEST</eclipselink.logging.level>
                 <log.spring.level>DEBUG</log.spring.level>
                 <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
@@ -401,6 +403,8 @@
         <profile>
             <id>local2</id>
             <properties>
+                <eclipselink.ddl-generation>create-tables</eclipselink.ddl-generation>
+                <eclipselink.logging.level>FINEST</eclipselink.logging.level>
                 <log.spring.level>DEBUG</log.spring.level>
                 <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
@@ -418,6 +422,8 @@
         <profile>
             <id>local_real_login</id>
             <properties>
+                <eclipselink.ddl-generation>create-tables</eclipselink.ddl-generation>
+                <eclipselink.logging.level>FINEST</eclipselink.logging.level>
                 <log.spring.level>DEBUG</log.spring.level>
                 <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
@@ -438,6 +444,8 @@
             </activation>
             <id>geniustree-dev</id>
             <properties>
+                <eclipselink.ddl-generation>create-tables</eclipselink.ddl-generation>
+                <eclipselink.logging.level>FINEST</eclipselink.logging.level>
                 <log.spring.level>DEBUG</log.spring.level>
                 <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
@@ -455,6 +463,8 @@
         <profile>
             <id>test_fake_login</id>
             <properties>
+                <eclipselink.ddl-generation>none</eclipselink.ddl-generation>
+                <eclipselink.logging.level>info</eclipselink.logging.level>
                 <log.spring.level>TRACE</log.spring.level>
                 <log.geniustree.level>TRACE</log.geniustree.level>
                 <log.appender>FILE</log.appender>
@@ -472,6 +482,8 @@
         <profile>
             <id>test</id>
             <properties>
+                <eclipselink.ddl-generation>none</eclipselink.ddl-generation>
+                <eclipselink.logging.level>info</eclipselink.logging.level>
                 <log.spring.level>TRACE</log.spring.level>
                 <log.geniustree.level>TRACE</log.geniustree.level>
                 <log.appender>FILE</log.appender>
@@ -489,6 +501,8 @@
         <profile>
             <id>production</id>
             <properties>
+                <eclipselink.ddl-generation>none</eclipselink.ddl-generation>
+                <eclipselink.logging.level>info</eclipselink.logging.level>
                 <log.spring.level>INFO</log.spring.level>
                 <log.geniustree.level>TRACE</log.geniustree.level>
                 <log.appender>FILE</log.appender>

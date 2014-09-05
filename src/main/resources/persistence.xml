@@ -27,9 +27,9 @@
       <property name="eclipselink.weaving" value="static"/>
       <property name="eclipselink.target-server" value="SunAS9"/>
       <property name="eclipselink.logging.logger" value="th.co.geniustree.eclipselinkslf4j.Slf4jSessionLogger"/>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation" value="${eclipselink.ddl-generation}"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
-      <property name="eclipselink.logging.level" value="FINEST"/>
+      <property name="eclipselink.logging.level" value="${eclipselink.logging.level}"/>
       <property name="eclipselink.logging.parameters" value="true"/>
       <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
       <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
