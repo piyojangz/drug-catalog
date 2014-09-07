@@ -60,7 +60,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
             } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1149", "GC2")) {
                 wsUserDetails.getAuthorities().add(Role.HOSPITAL);
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-            } 
+            }
             wsUserDetails.setPid(userDto.getPid());
             return wsUserDetails;
         } else {
@@ -71,21 +71,31 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
     private boolean categoryContains(AuthenResultDto authenResultDto, String checkCategory) {
         Set<String> categorys = new HashSet<String>();
         List<MenuDto> menus = authenResultDto.getMenus();
+        addSubMenu(menus, categorys);
+        return categorys.contains(checkCategory);
+    }
+
+    private void addSubMenu(List<MenuDto> menus, Set<String> categorys) {
         for (MenuDto menu : menus) {
+            addSubMenu(menu.getSubMenus(), categorys);
             categorys.add(menu.getCategory());
         }
-        return categorys.contains(checkCategory);
     }
 
     private boolean hasFunction(AuthenResultDto authenResultDto, String functionGroupId, String functionGroupType) {
         Set<String> functionGroupIds = new HashSet<String>();
         Set<String> functionGroupTypes = new HashSet<String>();
         List<MenuDto> menus = authenResultDto.getMenus();
+        addFunctionGroup(menus, functionGroupIds, functionGroupTypes);
+        return functionGroupIds.contains(functionGroupId) && functionGroupTypes.contains(functionGroupType);
+    }
+
+    private void addFunctionGroup(List<MenuDto> menus, Set<String> functionGroupIds, Set<String> functionGroupTypes) {
         for (MenuDto menu : menus) {
+            addFunctionGroup(menu.getSubMenus(), functionGroupIds, functionGroupTypes);
             functionGroupIds.add(menu.getFunctGroupId().toString());
             functionGroupTypes.add(menu.getFunctGroupType());
         }
-        return functionGroupIds.contains(functionGroupId) && functionGroupTypes.contains(functionGroupType);
     }
 
 }
