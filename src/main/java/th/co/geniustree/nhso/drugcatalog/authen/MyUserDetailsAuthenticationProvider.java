@@ -47,26 +47,20 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
         log.info("Login DC {}", ToStringBuilder.reflectionToString(authenResultDto));
         if (authenResultDto.getUserDto() != null) {
             UserDto userDto = authenResultDto.getUserDto();
-            WSUserDetails wsUserDetails = null;
-            if ("O".equalsIgnoreCase(userDto.getFromType())) {
-                wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
+            WSUserDetails wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
+            if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1150", "GC2")) {
                 wsUserDetails.getAuthorities().add(Role.ADMIN);
-
-            } else if ("Z".equalsIgnoreCase(userDto.getFromType())) {
-                wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
+            }
+            if ("Z".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
                 wsUserDetails.getAuthorities().add(Role.ZONE);
                 wsUserDetails.setZone(nhsoZoneService.findZoneByOrgId(userDto.getOrgId()));
-            } else if ("P".equalsIgnoreCase(userDto.getFromType())) {
-                wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
+            } else if ("P".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
                 wsUserDetails.getAuthorities().add(Role.PROVINCE);
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-            } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
-                wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
+            } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1149", "GC2")) {
                 wsUserDetails.getAuthorities().add(Role.HOSPITAL);
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-            } else {
-                throw new AuthenticationCredentialsNotFoundException("Not found user. " + username);
-            }
+            } 
             wsUserDetails.setPid(userDto.getPid());
             return wsUserDetails;
         } else {
@@ -81,6 +75,17 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
             categorys.add(menu.getCategory());
         }
         return categorys.contains(checkCategory);
+    }
+
+    private boolean hasFunction(AuthenResultDto authenResultDto, String functionGroupId, String functionGroupType) {
+        Set<String> functionGroupIds = new HashSet<String>();
+        Set<String> functionGroupTypes = new HashSet<String>();
+        List<MenuDto> menus = authenResultDto.getMenus();
+        for (MenuDto menu : menus) {
+            functionGroupIds.add(menu.getFunctGroupId().toString());
+            functionGroupTypes.add(menu.getFunctGroupType());
+        }
+        return functionGroupIds.contains(functionGroupId) && functionGroupTypes.contains(functionGroupType);
     }
 
 }
