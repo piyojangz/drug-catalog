@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.model;
 
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -347,7 +348,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateChange(String dateChange) {
         this.dateChange = dateChange;
-        if (dateChange != null) {
+        if (dateChange != null && !Strings.isNullOrEmpty(dateChange)) {
             this.dateChangeDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateChange);
         }
     }
@@ -358,7 +359,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
-        if (dateUpdate != null) {
+        if (dateUpdate != null && !Strings.isNullOrEmpty(dateUpdate)) {
             this.dateUpdateDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateUpdate);
         }
     }

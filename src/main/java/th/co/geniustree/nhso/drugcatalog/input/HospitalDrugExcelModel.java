@@ -36,6 +36,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
  */
 public class HospitalDrugExcelModel implements Serializable {
 
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugExcelModel.class);
     private final DecimalFormat formatter = new DecimalFormat("########.##");
     @XlsColumn
     @NotEmpty(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
@@ -399,7 +400,7 @@ public class HospitalDrugExcelModel implements Serializable {
                 return formatter.format(parsed);
             }
         } catch (Exception ex) {
-            //Logger.getLogger(HospitalDrugExcelModel.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.info(null, ex);
         }
         return toCut;
     }
@@ -423,8 +424,8 @@ public class HospitalDrugExcelModel implements Serializable {
                     calendar.roll(Calendar.YEAR, -543);
                     return DateUtils.format(Constants.TMT_DATETIME_FORMAT, calendar.getTime());
                 }
-            } catch (Exception illegalArgumentException) {
-                //Ignored
+            } catch (Exception ex) {
+                LOG.info(null, ex);
             }
         }
         return dateToParse;

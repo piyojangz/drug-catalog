@@ -20,6 +20,8 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.BeanUtils;
@@ -237,6 +239,9 @@ public class UploadMappedDrug implements Serializable {
                     bean.setHcode(hcodeFromFile);
                     bean.cutFractionMorethan2();
                     bean.subtractYearIsWrongYear();
+                    if(bean.getHospDrugCode().equals("1470952")){
+                        System.out.println("==>"+ToStringBuilder.reflectionToString(bean,ToStringStyle.MULTI_LINE_STYLE));
+                    }
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
                         violations.addAll(beanValidator.validate(bean, UGroup.class));
