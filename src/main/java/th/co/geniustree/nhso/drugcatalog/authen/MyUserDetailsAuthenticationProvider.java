@@ -93,8 +93,12 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
     private void addFunctionGroup(List<MenuDto> menus, Set<String> functionGroupIds, Set<String> functionGroupTypes) {
         for (MenuDto menu : menus) {
             addFunctionGroup(menu.getSubMenus(), functionGroupIds, functionGroupTypes);
-            functionGroupIds.add(menu.getFunctGroupId().toString());
-            functionGroupTypes.add(menu.getFunctGroupType());
+            if (menu.getFunctGroupId() != null) {
+                functionGroupIds.add(menu.getFunctGroupId().toString());
+            }
+            if (menu.getFunctGroupType() != null) {
+                functionGroupTypes.add(menu.getFunctGroupType());
+            }
         }
     }
 
