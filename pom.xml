@@ -4,7 +4,7 @@
 
     <groupId>th.co.geniustree.nhso</groupId>
     <artifactId>drug-catalog</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7</version>
     <packaging>war</packaging>
 
     <name>drug-catalog</name>
@@ -18,7 +18,7 @@
         <connection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</connection>
         <developerConnection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</developerConnection>
         <url>http://192.168.1.126/git/drug-catalog.git</url>
-        <tag>HEAD</tag>
+        <tag>drug-catalog-1.0.7</tag>
     </scm>
     <distributionManagement>
         <repository>
@@ -191,7 +191,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>5.1-SNAPSHOT</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <groupId>net.sf.barcode4j</groupId>
