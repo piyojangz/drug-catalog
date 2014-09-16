@@ -287,5 +287,5 @@ tr>th.ui-resizable-column{
 }
 .ui-widget-header {
     border: 0 !important;
-    background: transparent !important;
+    background: transparent;
 }
