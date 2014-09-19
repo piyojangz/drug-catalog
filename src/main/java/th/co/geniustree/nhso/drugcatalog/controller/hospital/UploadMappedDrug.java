@@ -33,7 +33,6 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.DigestUtils;
 import th.co.geniustree.nhso.drugcatalog.authen.Role;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
-import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.UploadItemOrderHelper;
 import th.co.geniustree.nhso.drugcatalog.input.AGroup;
@@ -290,7 +289,7 @@ public class UploadMappedDrug implements Serializable {
     public void handleFileUpload(FileUploadEvent event) {
         file = event.getFile();
         upload();
-    }
+        }
 
     private void checkDuplicateInCurrentFile(HospitalDrugExcelModel bean) {
         for (HospitalDrugExcelModel model : models) {
