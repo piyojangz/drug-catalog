@@ -7,7 +7,12 @@ package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -35,14 +41,14 @@ public class RequestItem implements Serializable {
         REQUEST, REJECT, ACCEPT
     }
     @Id
-        @TableGenerator(name = "TMT_REQUEST_ITEM_GEN",
+    @TableGenerator(name = "TMT_REQUEST_ITEM_GEN",
             table = "TMT_SEQUENCE",
             pkColumnName = "name",
             valueColumnName = "value",
             pkColumnValue = "TMT_REQUEST_ITEM")
     @GeneratedValue(generator = "TMT_REQUEST_ITEM_GEN", strategy = GenerationType.TABLE)
     private Integer id;
-    @Column(name = "HCODE", insertable = false, updatable = false, length = 5,nullable = false)
+    @Column(name = "HCODE", insertable = false, updatable = false, length = 5, nullable = false)
     private String hcode;
 
     @Column(name = "REQUESTUSER", nullable = false, length = 60)
@@ -52,7 +58,7 @@ public class RequestItem implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date requestDate;
 
-    @Column(name = "STATUS", length = 10,nullable = false)
+    @Column(name = "STATUS", length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -70,12 +76,16 @@ public class RequestItem implements Serializable {
     @JoinColumn(name = "UPLOADHOSPDRUG_ITEM_ID", referencedColumnName = "ID", nullable = false)
     private UploadHospitalDrugItem uploadDrugItem;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
     })
     private HospitalDrug targetItem;
+
+    @ElementCollection
+    @CollectionTable(name = "TMT_ERRORCOLUMNS")
+    private Set<String> errorColumns;
 
     @PrePersist
     public void prePersist() {
@@ -161,5 +171,44 @@ public class RequestItem implements Serializable {
     public void setTargetItem(HospitalDrug targetItem) {
         this.targetItem = targetItem;
     }
+
+    public Set<String> getErrorColumns() {
+        if (errorColumns == null) {
+            errorColumns = new LinkedHashSet<>();
+        }
+        return errorColumns;
+    }
+
+    public void setErrorColumns(Set<String> errorColumns) {
+        this.errorColumns = errorColumns;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RequestItem other = (RequestItem) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "RequestItem{" + "id=" + id + ", hcode=" + hcode + ", status=" + status + '}';
+    }
+    
 
 }
