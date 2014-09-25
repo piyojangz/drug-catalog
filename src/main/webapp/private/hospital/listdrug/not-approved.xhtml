@@ -23,16 +23,16 @@
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
-                        #{msg.menu_listdrug_approved_label}
+                        #{hospitalDrugListController.notApproved ? msg.menu_listdrug_notapproved_label : msg.menu_listdrug_approved_label}
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="table" fileName="approved" pageOnly="false"/>
+                            <p:dataExporter type="xls" target="table" fileName="#{hospitalDrugListController.notApproved ? 'not_approved': 'approved'}" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
-                    <p:column   headerText="" width="100" exportable="false">
+                    <p:column  rendered="false" headerText="" width="100" exportable="false">
                         <h:link rendered="false" outcome="/private/hospital/create/index" value="แก้ไข/ขออนุมัติใหม่" style="color:blue">
                             <f:param name="editMode" value="true"/>
                             <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
