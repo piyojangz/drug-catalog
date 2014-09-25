@@ -35,6 +35,7 @@
                         <p:menuitem value="Inbox" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #FFF2DB':''}"/>
                     </ui:remove>
                     <p:menuitem value="Inbox (Group by TMTID)" outcome="/private/admin/drug/tmt/inbox-groupby-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/inbox-groupby-tmt'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Upload approved file." outcome="/private/admin/drug/tmt/upload-approved-file" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/upload-approved-file'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="Drug group" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem value="Add druggroup" outcome="/private/admin/druggroup/addgroup" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/addgroup'), 0)?'background-color: #FFF2DB':''}"/>
@@ -44,7 +45,7 @@
                     </ui:remove>
                 </p:submenu>
                 <p:submenu label="ED/NED" rendered="#{request.isUserInRole('ADMIN')}">
-                    <p:menuitem value="Upload NE/NED" outcome="/private/admin/edned/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/upload'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Upload ED/NED" outcome="/private/admin/edned/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/upload'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="ฐานข้อมูลยา TMT Master">
                     <p:menuitem value="นำเข้าฐาน TMT" outcome="/private/admin/drug/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/index'), 0)?'background-color: #FFF2DB':''}"/>
