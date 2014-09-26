@@ -94,7 +94,7 @@ public class AdminDiff implements Serializable {
 
     public void loadData() {
         LOG.debug("param tmtCode={},requestId={}", tmtCode, requestId);
-        requestItem = requestItemRepo.findOne(requestId);
+        //requestItem = requestItemRepo.findOne(requestId);
         masterDrug = tmtDrugRepo.findOne(tmtCode);
     }
 }

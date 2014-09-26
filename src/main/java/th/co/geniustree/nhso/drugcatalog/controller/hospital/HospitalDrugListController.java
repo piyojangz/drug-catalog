@@ -143,6 +143,7 @@ public class HospitalDrugListController implements Serializable {
                     spec = spec.and(HospitalDrugSpecs.approved());
                 }
                 if (notApproved) {
+                    LOG.debug("view not approve drug.");
                     spec = spec.and(HospitalDrugSpecs.notApproved());
                 }
                 return hospitalDrugRepo.findAll(hcodeEq.and(spec), pageAble);

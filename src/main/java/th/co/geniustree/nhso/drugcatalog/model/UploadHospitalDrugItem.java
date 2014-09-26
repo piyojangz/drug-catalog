@@ -179,8 +179,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
-    @OneToOne(mappedBy = "uploadDrugItem", cascade = CascadeType.ALL)
-    private RequestItem requestItem;
+
 
     public Integer getId() {
         return id;
@@ -414,14 +413,6 @@ public class UploadHospitalDrugItem implements Serializable {
 
     public void setTmtDrug(TMTDrug tmtDrug) {
         this.tmtDrug = tmtDrug;
-    }
-
-    public RequestItem getRequestItem() {
-        return requestItem;
-    }
-
-    public void setRequestItem(RequestItem requestItem) {
-        this.requestItem = requestItem;
     }
 
     @Override

@@ -152,8 +152,8 @@ public class ApproveByTmt implements Serializable {
     }
 
     public void load() {
-        avg =  hospitalDrugRepo.avg(selectTmtId);
-        stdev =  hospitalDrugRepo.stddev(selectTmtId);
+        avg = hospitalDrugRepo.avg(selectTmtId);
+        stdev = hospitalDrugRepo.stddev(selectTmtId);
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
         request = requestItemRepo.findByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
     }
@@ -171,14 +171,14 @@ public class ApproveByTmt implements Serializable {
         @Override
         public Object getRowKey(Object object) {
             RequestItem requestItem = (RequestItem) object;
-            return requestItem.getId().toString();
+            return requestItem.getHcode() + requestItem.getHospDrugCode();
         }
 
         @Override
         public RequestItem getRowData(String rowKey) {
             List<RequestItem> wrappedData = (List<RequestItem>) getWrappedData();
             for (RequestItem item : wrappedData) {
-                if (item.getId().toString().equals(rowKey)) {
+                if ((item.getHcode() + item.getHospDrugCode()).equals(rowKey)) {
                     return item;
                 }
             }

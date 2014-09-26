@@ -82,13 +82,17 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     }
 
     private void createRequestItem(String hcode, UploadHospitalDrugItem uploadItem, HospitalDrug hospitalDrug) {
-        //create Request is new
-        RequestItem requestItem = new RequestItem();
-        requestItem.setHcode(hcode);
-        requestItem.setUploadDrugItem(uploadItem);
-        requestItem.setTargetItem(hospitalDrug);
-        requestItem.setStatus(RequestItem.Status.REQUEST);
-        requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
+        RequestItem requestItem = requestItemRepo.findOne(new HospitalDrugPK(uploadItem.getHospDrugCode(), hcode));
+        if (requestItem == null) {
+            requestItem = new RequestItem();
+            requestItem.setHcode(hcode);
+            requestItem.setHospDrugCode(uploadItem.getHospDrugCode());
+            requestItem.setTargetItem(hospitalDrug);
+        }
+        if (requestItem.getStatus() != RequestItem.Status.ACCEPT) {
+            requestItem.setStatus(RequestItem.Status.REQUEST);
+            requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
+        }
         requestItem = requestItemRepo.save(requestItem);
     }
 
@@ -96,7 +100,7 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         if (alreadyDrug.isApproved()) {
             BeanUtils.copyProperties(uploadItem, alreadyDrug, "tmtId");
         } else {
-            if (Strings.isNullOrEmpty(alreadyDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId()) || tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId())) {//not have tmt id before.
+            if (Strings.isNullOrEmpty(alreadyDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId()) || tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId()) || alreadyDrug.getRequestItem().getStatus() == RequestItem.Status.REJECT) {//not have tmt id before.
                 createRequestItem(alreadyDrug.getHcode(), uploadItem, alreadyDrug);
             }
             BeanUtils.copyProperties(uploadItem, alreadyDrug);
