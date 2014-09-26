@@ -1,0 +1,54 @@
+ ----------------------------------------------------------
+delete from TMT_REQUEST_ITEM
+where id in (
+select id
+from(
+select item.*,
+row_number() over (partition by HCODE, HOSPDRUGCODE order by id desc) duplicate_sqnc
+
+from TMT_REQUEST_ITEM item
+)
+
+where duplicate_sqnc > 1
+);
+-----------------------------------------------------------
+
+drop table "DRUGCODEOWNER"."TMT_ERRORCOLUMNS" cascade constraints PURGE;
+
+ALTER TABLE TMT_REQUEST_ITEM 
+DROP CONSTRAINT TMTRQUESTITEMPLDHOSPDRUGITEMID;
+
+ALTER TABLE TMT_REQUEST_ITEM 
+DROP CONSTRAINT SYS_C00314332;
+
+ALTER TABLE TMT_REQUEST_ITEM 
+DROP COLUMN ID;
+
+ALTER TABLE TMT_REQUEST_ITEM 
+DROP COLUMN UPLOADHOSPDRUG_ITEM_ID;
+----------------------------------------------------------------------
+ALTER TABLE TMT_REQUEST_ITEM
+ADD CONSTRAINT TMT_REQUEST_ITEM_PK PRIMARY KEY 
+(
+  HCODE 
+, HOSPDRUGCODE 
+)
+ENABLE;
+------------------------------------------------------------------------------------------------------------------------------
+--  DDL for Table TMT_ERRORCOLUMNS
+--------------------------------------------------------
+
+  CREATE TABLE "DRUGCODEOWNER"."TMT_ERRORCOLUMNS" 
+   (	"HOSPDRUGCODE" VARCHAR2(30 BYTE), 
+	"HCODE" VARCHAR2(5 BYTE), 
+	"ERRORCOLUMNS" VARCHAR2(255 BYTE)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  Ref Constraints for Table TMT_ERRORCOLUMNS
+--------------------------------------------------------
+
+  ALTER TABLE "DRUGCODEOWNER"."TMT_ERRORCOLUMNS" ADD CONSTRAINT "TMT_ERRORCOLUMNS_HOSPDRUGCODE" FOREIGN KEY ("HOSPDRUGCODE", "HCODE")
+	  REFERENCES "DRUGCODEOWNER"."TMT_REQUEST_ITEM2" ("HOSPDRUGCODE", "HCODE") ENABLE;
+
