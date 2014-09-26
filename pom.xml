@@ -253,6 +253,11 @@
             <artifactId>truevfs-profile-base</artifactId>
             <version>0.10.6</version>
         </dependency>
+        <dependency>
+            <groupId>net.java.truevfs</groupId>
+            <artifactId>truevfs-driver-zip</artifactId>
+            <version>0.10.6</version>
+        </dependency>
     </dependencies>
 
     <build>
