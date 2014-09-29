@@ -238,9 +238,6 @@ public class UploadMappedDrug implements Serializable {
                     bean.setHcode(hcodeFromFile);
                     bean.cutFractionMorethan2();
                     bean.subtractYearIsWrongYear();
-                    if(bean.getHospDrugCode().equals("1470952")){
-                        System.out.println("==>"+ToStringBuilder.reflectionToString(bean,ToStringStyle.MULTI_LINE_STYLE));
-                    }
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
                         violations.addAll(beanValidator.validate(bean, UGroup.class));
