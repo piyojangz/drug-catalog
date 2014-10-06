@@ -11,12 +11,15 @@ import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -45,10 +48,16 @@ import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
             @Index(name = "UPLOAD_ITEM_HOSPDRUGCODE", columnList = "HOSPDRUGCODE"),
             @Index(name = "UPLOAD_ITEM_DATECHANGE", columnList = "DATECHANGE"),
             @Index(name = "UPLOAD_ITEM_DATEUPDATE", columnList = "DATEUPDATE"),
-            @Index(name = "UPLOAD_ITEM_UPDATEFLAG", columnList = "UPDATEFLAG")
+            @Index(name = "UPLOAD_ITEM_UPDATEFLAG", columnList = "UPDATEFLAG"),
+            @Index(name = "UPLOADITEM_STATUS_IDX", columnList = "REQUEST_STATUS"),
+            @Index(name = "UPLOADITEM_EFFECTDATE_IDX", columnList = "DATEEFFECTIVEDATE")
         })
 public class UploadHospitalDrugItem implements Serializable {
 
+    public static enum Status {
+
+        REQUEST, REJECT, ACCEPT
+    }
     @Id
     @TableGenerator(name = "TMT_UPLOADHOSPDRUG_ITEM_GEN",
             table = "TMT_SEQUENCE",
@@ -173,10 +182,31 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "DATEEFFECTIVEDATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEffectiveDate;
+
     @ManyToOne
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
+    @Column(name = "REQUEST_STATUS")
+    @Enumerated(EnumType.STRING)
+    private Status requestStatus;
+
+    @Column(name = "APPROVEUSER", nullable = true, length = 60)
+    private String approveUser;
+
+    @Column(name = "APPROVEDATE", nullable = true)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date approveDate;
+
+    @Column(name = "MESSAGE", length = 255, nullable = true, columnDefinition = "NVARCHAR2(255)")
+    private String message;
+
+    @ManyToOne(optional = false)
+    @JoinColumns({
+        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
+    })
+    private HospitalDrug hospitalDrug;
 
     public Integer getId() {
         return id;
@@ -411,6 +441,47 @@ public class UploadHospitalDrugItem implements Serializable {
     public void setTmtDrug(TMTDrug tmtDrug) {
         this.tmtDrug = tmtDrug;
     }
+
+    public Status getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(Status requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public String getApproveUser() {
+        return approveUser;
+    }
+
+    public void setApproveUser(String approveUser) {
+        this.approveUser = approveUser;
+    }
+
+    public Date getApproveDate() {
+        return approveDate;
+    }
+
+    public void setApproveDate(Date approveDate) {
+        this.approveDate = approveDate;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public HospitalDrug getHospitalDrug() {
+        return hospitalDrug;
+    }
+
+    public void setHospitalDrug(HospitalDrug hospitalDrug) {
+        this.hospitalDrug = hospitalDrug;
+    }
+    
 
     @Override
     public int hashCode() {

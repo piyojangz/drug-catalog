@@ -130,24 +130,24 @@ public class HospitalDrug implements Serializable {
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
     })
     private List<HospitalPrice> prices;
-    
+
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
     })
     private List<HospitalEdNed> edNeds;
-    
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
     private TMTDrug tmtDrug;
-    
+
     @ManyToOne
     @JoinColumn(name = "HCODE", insertable = false, updatable = false)
     private Hospital hospital;
-    
-    @OneToOne(mappedBy = "targetItem")
-    private RequestItem requestItem;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "hospitalDrug")
+    private List<TMTDrugTx> tmtDrugTx;
 
     @Version
     private Integer version;
@@ -382,12 +382,15 @@ public class HospitalDrug implements Serializable {
         this.hospital = hospital;
     }
 
-    public RequestItem getRequestItem() {
-        return requestItem;
+    public List<TMTDrugTx> getTmtDrugTx() {
+        if (tmtDrugTx == null) {
+            tmtDrugTx = new ArrayList<>();
+        }
+        return tmtDrugTx;
     }
 
-    public void setRequestItem(RequestItem requestItem) {
-        this.requestItem = requestItem;
+    public void setTmtDrugTx(List<TMTDrugTx> tmtDrugTx) {
+        this.tmtDrugTx = tmtDrugTx;
     }
 
     @Override
