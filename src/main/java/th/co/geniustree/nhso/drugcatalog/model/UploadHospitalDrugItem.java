@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +19,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -73,7 +72,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     @NotEmpty(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
     @Size(max = 30, message = "HospDrugCode ต้องไม่เกิน 30 ตัวอักษร")
-    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
+    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30, insertable = false, updatable = false)
     private String hospDrugCode;
 
     @Size(max = 1, message = "ProductCat ต้องไม่เกิน 1 ตัวอักษร")
@@ -187,26 +186,9 @@ public class UploadHospitalDrugItem implements Serializable {
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
-    @Column(name = "REQUEST_STATUS")
-    @Enumerated(EnumType.STRING)
-    private Status requestStatus;
-
-    @Column(name = "APPROVEUSER", nullable = true, length = 60)
-    private String approveUser;
-
-    @Column(name = "APPROVEDATE", nullable = true)
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date approveDate;
-
-    @Column(name = "MESSAGE", length = 255, nullable = true, columnDefinition = "NVARCHAR2(255)")
-    private String message;
-
-    @ManyToOne(optional = false)
-    @JoinColumns({
-        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
-        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
-    })
-    private HospitalDrug hospitalDrug;
+    @OneToOne
+    @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    private RequestItem requestItem;
 
     public Integer getId() {
         return id;
@@ -442,44 +424,12 @@ public class UploadHospitalDrugItem implements Serializable {
         this.tmtDrug = tmtDrug;
     }
 
-    public Status getRequestStatus() {
-        return requestStatus;
+    public RequestItem getRequestItem() {
+        return requestItem;
     }
 
-    public void setRequestStatus(Status requestStatus) {
-        this.requestStatus = requestStatus;
-    }
-
-    public String getApproveUser() {
-        return approveUser;
-    }
-
-    public void setApproveUser(String approveUser) {
-        this.approveUser = approveUser;
-    }
-
-    public Date getApproveDate() {
-        return approveDate;
-    }
-
-    public void setApproveDate(Date approveDate) {
-        this.approveDate = approveDate;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public HospitalDrug getHospitalDrug() {
-        return hospitalDrug;
-    }
-
-    public void setHospitalDrug(HospitalDrug hospitalDrug) {
-        this.hospitalDrug = hospitalDrug;
+    public void setRequestItem(RequestItem requestItem) {
+        this.requestItem = requestItem;
     }
     
 

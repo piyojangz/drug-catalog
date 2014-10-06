@@ -17,9 +17,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -31,7 +32,6 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "TMT_REQUEST_ITEM")
-@IdClass(HospitalDrugPK.class)
 public class RequestItem implements Serializable {
 
     public enum Status {
@@ -39,12 +39,8 @@ public class RequestItem implements Serializable {
         REQUEST, REJECT, ACCEPT
     }
     @Id
-    @Column(name = "HCODE", nullable = false, length = 5)
-    private String hcode;
-    
-    @Id
-    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
-    private String hospDrugCode;
+    @Column(name = "ID")
+    private Integer id;
 
     @Column(name = "REQUESTUSER", nullable = false, length = 60)
     private String requestUser;
@@ -66,13 +62,17 @@ public class RequestItem implements Serializable {
 
     @Column(name = "MESSAGE", length = 256, nullable = true)
     private String message;
-    
-    @OneToOne
+
+    @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false, insertable = false, updatable = false)
+        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE"),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE")
     })
     private HospitalDrug targetItem;
+
+    @MapsId
+    @OneToOne(mappedBy = "requestItem")
+    private UploadHospitalDrugItem uploadDrugItem;
 
     @ElementCollection
     @CollectionTable(name = "TMT_ERRORCOLUMNS")
@@ -83,20 +83,12 @@ public class RequestItem implements Serializable {
         requestDate = new Date();
     }
 
-    public String getHospDrugCode() {
-        return hospDrugCode;
+    public Integer getId() {
+        return id;
     }
 
-    public void setHospDrugCode(String hospDrugCode) {
-        this.hospDrugCode = hospDrugCode;
-    }
-
-    public String getHcode() {
-        return hcode;
-    }
-
-    public void setHcode(String hcode) {
-        this.hcode = hcode;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getRequestUser() {
@@ -166,11 +158,18 @@ public class RequestItem implements Serializable {
         this.errorColumns = errorColumns;
     }
 
+    public UploadHospitalDrugItem getUploadDrugItem() {
+        return uploadDrugItem;
+    }
+
+    public void setUploadDrugItem(UploadHospitalDrugItem uploadDrugItem) {
+        this.uploadDrugItem = uploadDrugItem;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.hcode);
-        hash = 59 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 83 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -183,10 +182,7 @@ public class RequestItem implements Serializable {
             return false;
         }
         final RequestItem other = (RequestItem) obj;
-        if (!Objects.equals(this.hcode, other.hcode)) {
-            return false;
-        }
-        if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;

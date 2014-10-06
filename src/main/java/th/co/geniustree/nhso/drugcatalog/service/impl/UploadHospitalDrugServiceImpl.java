@@ -28,6 +28,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.EdNEdService;
 import th.co.geniustree.nhso.drugcatalog.service.PriceService;
+import th.co.geniustree.nhso.drugcatalog.service.TmtDrugTxService;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 
 /**
@@ -51,6 +52,8 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     private EdNEdService edNedService;
     @Autowired
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    @Autowired
+    private TmtDrugTxService tmtDrugTxService;
 
     @Override
     public void saveUploadHospitalDrugAndRequest(UploadHospitalDrug uploadHospitalDrug) {
@@ -77,16 +80,15 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         createFirstPrice(hospitalDrug);
         createFirstEdNed(hospitalDrug);
         if (!Strings.isNullOrEmpty(uploadItem.getTmtId())) {
-            createRequestItem(uploadHospitalDrug.getHcode(), uploadItem, hospitalDrug);
+            createRequestItem(uploadItem, hospitalDrug);
+            tmtDrugTxService.addNewTmtDrugTx(hospitalDrug, hospitalDrug.getTmtDrug());
         }
     }
 
-    private void createRequestItem(String hcode, UploadHospitalDrugItem uploadItem, HospitalDrug hospitalDrug) {
-        RequestItem requestItem = requestItemRepo.findOne(new HospitalDrugPK(uploadItem.getHospDrugCode(), hcode));
+    private void createRequestItem(UploadHospitalDrugItem uploadItem, HospitalDrug hospitalDrug) {
+        RequestItem requestItem = requestItemRepo.findOne(uploadItem.getId());
         if (requestItem == null) {
             requestItem = new RequestItem();
-            requestItem.setHcode(hcode);
-            requestItem.setHospDrugCode(uploadItem.getHospDrugCode());
             requestItem.setTargetItem(hospitalDrug);
         }
         if (requestItem.getStatus() != RequestItem.Status.ACCEPT) {
@@ -94,33 +96,35 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
             requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
         }
         requestItem = requestItemRepo.save(requestItem);
+        uploadItem.setRequestItem(requestItem);
     }
 
     private void processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
-        if (alreadyDrug.isApproved()) {
-            BeanUtils.copyProperties(uploadItem, alreadyDrug, "tmtId");
-        } else {
-            if (Strings.isNullOrEmpty(alreadyDrug.getTmtId()) && !Strings.isNullOrEmpty(uploadItem.getTmtId()) || tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId()) || alreadyDrug.getRequestItem().getStatus() == RequestItem.Status.REJECT) {//not have tmt id before.
-                createRequestItem(alreadyDrug.getHcode(), uploadItem, alreadyDrug);
-            }
-            BeanUtils.copyProperties(uploadItem, alreadyDrug);
+        boolean isTmtIdChange = tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId());
+        if (!Strings.isNullOrEmpty(uploadItem.getTmtId())) {
+            createRequestItem(uploadItem, alreadyDrug);
         }
-        copyAndConvertAttribute(uploadItem, alreadyDrug);
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            priceService.addNewPrice(alreadyDrug, new BigDecimal(uploadItem.getUnitPrice()));
+            BigDecimal newPrice = new BigDecimal(uploadItem.getUnitPrice());
+            priceService.addNewPrice(alreadyDrug, newPrice);
         } else if ("E".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
+            BeanUtils.copyProperties(uploadItem, alreadyDrug);
+            copyAndConvertAttribute(uploadItem, alreadyDrug);
             edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
+            if (isTmtIdChange) {
+                tmtDrugTxService.addNewTmtDrugTx(alreadyDrug, alreadyDrug.getTmtDrug());
+            }
         } else if ("D".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             alreadyDrug.setDeleted(Boolean.TRUE);
         }
     }
 
     private void createFirstPrice(HospitalDrug drug) {
-        priceService.createFirstPrice(drug);
+        priceService.createFirstPrice(drug, drug.getUnitPrice());
     }
 
     private void createFirstEdNed(HospitalDrug drug) {
-        edNedService.createFirstEdNed(drug);
+        edNedService.createFirstEdNed(drug, drug.getIsed());
     }
 
     private void copyAndConvertAttribute(UploadHospitalDrugItem uploadItem, HospitalDrug drug) {

@@ -5,18 +5,15 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
-import java.util.Date;
+import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 
 /**
  *
  * @author moth
  */
-public interface EdNEdService {
 
-    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn);
-
-    public void addNewEdNed(HospitalDrug alreadyDrug, String ised);
-
-    public void createFirstEdNed(HospitalDrug drug, String ised);
+public interface TmtDrugTxService {
+    public void addNewTmtDrugTx(HospitalDrug hospitalDrug,TMTDrug tmtDrug);
 }

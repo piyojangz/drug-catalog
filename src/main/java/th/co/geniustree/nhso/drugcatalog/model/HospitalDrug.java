@@ -20,7 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -148,6 +147,9 @@ public class HospitalDrug implements Serializable {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "hospitalDrug")
     private List<TMTDrugTx> tmtDrugTx;
+    
+    @OneToMany(mappedBy = "targetItem")
+    private List<RequestItem> requestItems;
 
     @Version
     private Integer version;
@@ -392,6 +394,15 @@ public class HospitalDrug implements Serializable {
     public void setTmtDrugTx(List<TMTDrugTx> tmtDrugTx) {
         this.tmtDrugTx = tmtDrugTx;
     }
+
+    public List<RequestItem> getRequestItems() {
+        return requestItems;
+    }
+
+    public void setRequestItems(List<RequestItem> requestItems) {
+        this.requestItems = requestItems;
+    }
+    
 
     @Override
     public int hashCode() {

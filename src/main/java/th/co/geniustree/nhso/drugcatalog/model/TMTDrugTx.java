@@ -7,8 +7,8 @@ package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @Table(name = "TMT_DRUG_TX")
 public class TMTDrugTx implements Serializable {
 
-    @Id
+    @EmbeddedId
     private TMTDrugTxPK id;
 
     @ManyToOne(optional = false)
@@ -31,8 +31,8 @@ public class TMTDrugTx implements Serializable {
 
     @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
-        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
+        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false, insertable = false, updatable = false),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false, insertable = false, updatable = false)
     })
     private HospitalDrug hospitalDrug;
 
@@ -42,10 +42,8 @@ public class TMTDrugTx implements Serializable {
     public TMTDrugTx(TMTDrug tmtDrug, HospitalDrug hospitalDrug) {
         this.tmtDrug = tmtDrug;
         this.hospitalDrug = hospitalDrug;
-        this.hospitalDrug.getTmtDrugTx().add(this);
         id = new TMTDrugTxPK(hospitalDrug);
     }
-    
 
     public TMTDrugTxPK getId() {
         return id;

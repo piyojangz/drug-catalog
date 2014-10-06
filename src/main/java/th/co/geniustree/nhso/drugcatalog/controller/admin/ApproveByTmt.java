@@ -171,14 +171,14 @@ public class ApproveByTmt implements Serializable {
         @Override
         public Object getRowKey(Object object) {
             RequestItem requestItem = (RequestItem) object;
-            return requestItem.getHcode() + requestItem.getHospDrugCode();
+            return requestItem.getId();
         }
 
         @Override
         public RequestItem getRowData(String rowKey) {
             List<RequestItem> wrappedData = (List<RequestItem>) getWrappedData();
             for (RequestItem item : wrappedData) {
-                if ((item.getHcode() + item.getHospDrugCode()).equals(rowKey)) {
+                if (item.getId().toString().equals(rowKey)) {
                     return item;
                 }
             }

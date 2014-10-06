@@ -20,5 +20,5 @@ public interface PriceService {
 
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal price);
 
-    public void createFirstPrice(HospitalDrug drug);
+    public void createFirstPrice(HospitalDrug hospitalDrug, BigDecimal unitprice);
 }

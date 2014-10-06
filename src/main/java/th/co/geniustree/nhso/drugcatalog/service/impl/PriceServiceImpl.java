@@ -41,9 +41,10 @@ public class PriceServiceImpl implements PriceService {
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
         HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hospitalDrug.getHcode(), hospitalDrug.getHospDrugCode(), hospitalDrug.getDateEffective()));
         if (findOne == null) {
-            createFirstPrice(hospitalDrug);
+            createFirstPrice(hospitalDrug,unitprice);
         } else {
             findOne.setPrice(unitprice);
+            hospitalDrug.setUnitPrice(unitprice);
         }
 
     }
@@ -54,14 +55,15 @@ public class PriceServiceImpl implements PriceService {
      * @param hospitalDrug
      */
     @Override
-    public void createFirstPrice(HospitalDrug hospitalDrug) {
+    public void createFirstPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
         HospitalPrice price = new HospitalPrice();
         price.setHcode(hospitalDrug.getHcode());
         price.setHospDrugCode(hospitalDrug.getHospDrugCode());
         price.setDateEffectInclusive(hospitalDrug.getDateEffective());
-        price.setPrice(hospitalDrug.getUnitPrice());
+        price.setPrice(unitprice);
         price.setCreateDate(new Date());
         hospitalDrug.getPrices().add(priceRepo.save(price));
+        hospitalDrug.setUnitPrice(unitprice);
     }
 
 }

@@ -41,7 +41,7 @@ public class EdNEdServiceImpl implements EdNEdService {
     public void addNewEdNed(HospitalDrug drug, String ised) {
         HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange()));
         if (findOne == null) {
-            createFirstEdNed(drug);
+            createFirstEdNed(drug, ised);
         } else {
             findOne.setStatusEd(ised);
         }
@@ -53,14 +53,15 @@ public class EdNEdServiceImpl implements EdNEdService {
      * @param drug
      */
     @Override
-    public void createFirstEdNed(HospitalDrug drug) {
+    public void createFirstEdNed(HospitalDrug drug, String ised) {
         HospitalEdNed edNed = new HospitalEdNed();
         edNed.setHcode(drug.getHcode());
         edNed.setHospDrugCode(drug.getHospDrugCode());
         edNed.setDateIn(drug.getDateEffective());
-        edNed.setStatusEd(drug.getIsed());
+        edNed.setStatusEd(ised);
         edNed.setCreateDate(new Date());
         drug.getEdNeds().add(hospitalEdNedRepo.save(edNed));
+        drug.setIsed(ised);
     }
 
 }

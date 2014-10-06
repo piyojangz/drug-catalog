@@ -11,6 +11,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalEdNed</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.RequestItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugTx</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.GenericTMTDrug</class>

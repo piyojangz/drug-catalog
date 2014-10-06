@@ -18,7 +18,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
  *
  * @author moth
  */
-public interface RequestItemRepo extends JpaRepository<RequestItem, HospitalDrugPK> {
+public interface RequestItemRepo extends JpaRepository<RequestItem, Integer> {
 
     public Page<RequestItem> findByStatus(RequestItem.Status status, Pageable pageable);
 
