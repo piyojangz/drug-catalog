@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 
 /**
  *

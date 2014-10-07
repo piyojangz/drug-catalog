@@ -7,6 +7,8 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrugTx;
@@ -19,6 +21,7 @@ import th.co.geniustree.nhso.drugcatalog.service.TmtDrugTxService;
  * @author moth
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class TmtDrugTxServiceImpl implements TmtDrugTxService {
 
     @Autowired

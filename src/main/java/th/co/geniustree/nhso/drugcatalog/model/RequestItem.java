@@ -23,6 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -70,8 +71,8 @@ public class RequestItem implements Serializable {
     })
     private HospitalDrug targetItem;
 
-    @MapsId
-    @OneToOne(mappedBy = "requestItem")
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "ID", referencedColumnName = "ID")
     private UploadHospitalDrugItem uploadDrugItem;
 
     @ElementCollection
@@ -164,6 +165,7 @@ public class RequestItem implements Serializable {
 
     public void setUploadDrugItem(UploadHospitalDrugItem uploadDrugItem) {
         this.uploadDrugItem = uploadDrugItem;
+        this.id = uploadDrugItem.getId();
     }
 
     @Override

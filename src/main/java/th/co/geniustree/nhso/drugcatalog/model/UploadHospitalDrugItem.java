@@ -19,6 +19,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -72,7 +73,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     @NotEmpty(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
     @Size(max = 30, message = "HospDrugCode ต้องไม่เกิน 30 ตัวอักษร")
-    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30, insertable = false, updatable = false)
+    @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
     private String hospDrugCode;
 
     @Size(max = 1, message = "ProductCat ต้องไม่เกิน 1 ตัวอักษร")
@@ -186,8 +187,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
-    @OneToOne
-    @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "uploadDrugItem")
     private RequestItem requestItem;
 
     public Integer getId() {
@@ -431,7 +431,6 @@ public class UploadHospitalDrugItem implements Serializable {
     public void setRequestItem(RequestItem requestItem) {
         this.requestItem = requestItem;
     }
-    
 
     @Override
     public int hashCode() {
