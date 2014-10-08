@@ -227,11 +227,9 @@ public class UploadApprovedTmtFile implements Serializable {
             if (!approve) {
                 errorColumns = extractColumns(result);
             }
-            //approveService.approveOrReject(hcode, hospDrug, tmt, approve, errorColumns,approveUserPid);
+            approveService.approveOrReject(hcode, hospDrug, tmt, approve, errorColumns,approveUserPid);
         }
-
         LOG.info("processed file: {} ,notNullRowCount : {}", new Object[]{file, notNullRowCount});
-        throw new UnsupportedOperationException("Not yet completed.");
     }
 
     private String getCellValue(Cell cell) {

@@ -147,7 +147,7 @@ public class HospitalDrug implements Serializable {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "hospitalDrug")
     private List<TMTDrugTx> tmtDrugTx;
-    
+
     @OneToMany(mappedBy = "targetItem")
     private List<RequestItem> requestItems;
 
@@ -396,13 +396,15 @@ public class HospitalDrug implements Serializable {
     }
 
     public List<RequestItem> getRequestItems() {
+        if (requestItems == null) {
+            requestItems = new ArrayList<>();
+        }
         return requestItems;
     }
 
     public void setRequestItems(List<RequestItem> requestItems) {
         this.requestItems = requestItems;
     }
-    
 
     @Override
     public int hashCode() {

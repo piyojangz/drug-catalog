@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.spec.HospitalDrugSpecs;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.UploadHospitalDrugItemSpecs;
 
 /**
  *
@@ -35,8 +35,8 @@ public class HospitalDrugListController implements Serializable {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugListController.class);
 
     @Autowired
-    private HospitalDrugRepo hospitalDrugRepo;
-    private SpringDataLazyDataModelSupport<HospitalDrug> all;
+    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    private SpringDataLazyDataModelSupport<UploadHospitalDrugItem> all;
     private WSUserDetails user;
     private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
     private String keyword = "";
@@ -75,11 +75,11 @@ public class HospitalDrugListController implements Serializable {
         this.approved = approved;
     }
 
-    public SpringDataLazyDataModelSupport<HospitalDrug> getAll() {
+    public SpringDataLazyDataModelSupport<UploadHospitalDrugItem> getAll() {
         return all;
     }
 
-    public void setAll(SpringDataLazyDataModelSupport<HospitalDrug> all) {
+    public void setAll(SpringDataLazyDataModelSupport<UploadHospitalDrugItem> all) {
         this.all = all;
     }
 
@@ -109,44 +109,44 @@ public class HospitalDrugListController implements Serializable {
 
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-        all = new SpringDataLazyDataModelSupport<HospitalDrug>() {
+        all = new SpringDataLazyDataModelSupport<UploadHospitalDrugItem>() {
 
             @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                Specifications<HospitalDrug> hcodeEq = Specifications.where(HospitalDrugSpecs.hcodeEq(user.getOrgId()));
-                Specifications<HospitalDrug> spec = Specifications.where(null);
+            public Page<UploadHospitalDrugItem> load(Pageable pageAble) {
+                Specifications<UploadHospitalDrugItem> hcodeEq = Specifications.where(UploadHospitalDrugItemSpecs.hcodeEq(user.getOrgId()));
+                Specifications<UploadHospitalDrugItem> spec = Specifications.where(null);
                 if (keywords != null) {
 
                     if (selectColumns.contains("HOSPDRUGCODE")) {
-                        spec = spec.or(HospitalDrugSpecs.hospDrugCodeLike(keywords));
+                        spec = spec.or(UploadHospitalDrugItemSpecs.hospDrugCodeLike(keywords));
                     }
                     if (selectColumns.contains("TMTID")) {
-                        spec = spec.or(HospitalDrugSpecs.tmtIdLike(keywords));
+                        spec = spec.or(UploadHospitalDrugItemSpecs.tmtIdLike(keywords));
                     }
                     if (selectColumns.contains("GENERICNAME")) {
-                        spec = spec.or(HospitalDrugSpecs.genericNameLike(keywords));
+                        spec = spec.or(UploadHospitalDrugItemSpecs.genericNameLike(keywords));
                     }
                     if (selectColumns.contains("TRADENAME")) {
-                        spec = spec.or(HospitalDrugSpecs.tradeNameLike(keywords));
+                        spec = spec.or(UploadHospitalDrugItemSpecs.tradeNameLike(keywords));
                     }
                     if (selectColumns.contains("DOSAGEFORM")) {
-                        spec = spec.or(HospitalDrugSpecs.dosageFormLike(keywords));
+                        spec = spec.or(UploadHospitalDrugItemSpecs.dosageFormLike(keywords));
                     }
                 }
                 if (wait) {
-                    spec = spec.and(HospitalDrugSpecs.waitApprove());
+                    spec = spec.and(UploadHospitalDrugItemSpecs.waitApprove());
                 }
-                if (noTmt) {
-                    spec = spec.and(HospitalDrugSpecs.noTmt());
-                }
+//                if (noTmt) {
+//                    spec = spec.and(UploadHospitalDrugItemSpecs.noTmt());
+//                }
                 if (approved) {
-                    spec = spec.and(HospitalDrugSpecs.approved());
+                    spec = spec.and(UploadHospitalDrugItemSpecs.approved());
                 }
                 if (notApproved) {
                     LOG.debug("view not approve drug.");
-                    spec = spec.and(HospitalDrugSpecs.notApproved());
+                    spec = spec.and(UploadHospitalDrugItemSpecs.notApproved());
                 }
-                return hospitalDrugRepo.findAll(hcodeEq.and(spec), pageAble);
+                return uploadHospitalDrugItemRepo.findAll(hcodeEq.and(spec), pageAble);
             }
 
         };

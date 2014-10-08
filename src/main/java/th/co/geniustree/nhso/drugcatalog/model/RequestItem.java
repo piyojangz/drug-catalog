@@ -12,10 +12,12 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -72,7 +74,7 @@ public class RequestItem implements Serializable {
     private HospitalDrug targetItem;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "ID", referencedColumnName = "ID")
+    @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private UploadHospitalDrugItem uploadDrugItem;
 
     @ElementCollection

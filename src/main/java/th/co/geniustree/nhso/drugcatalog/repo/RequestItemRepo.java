@@ -10,10 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 
 /**
  *
@@ -35,6 +33,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer> {
     @Query("select distinct r from RequestItem r join r.targetItem u join u.tmtDrug t where r.status = ?1 and t.tmtId = ?2")
     public List<RequestItem> findByStatusAndTmtId(RequestItem.Status status, String tmtId);
 
-    public RequestItem findByTargetItemHcodeAndTargetItemHospDrugCodeAndTargetItemTmtId(String hcode, String hospDrug, String tmt);
+    @Query("select distinct r from RequestItem r where r.uploadDrugItem.uploadDrug.hcode = ?1 and r.uploadDrugItem.hospDrugCode = ?2 and r.uploadDrugItem.tmtId = ?3 order by r.requestDate asc")
+    public List<RequestItem> findByStatusAndHospDrugCodeAndTmtId(String hcode, String hospDrug, String tmt);
 
 }

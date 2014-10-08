@@ -6,12 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import com.google.common.base.Strings;
-import java.math.BigDecimal;
 import java.util.List;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,102 +35,37 @@ import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadHospitalDrugServiceImpl.class);
+
     @Autowired
     private UploadHospitalDrugRepo uploadHospitalDrugRepo;
+
     @Autowired
     private RequestItemRepo requestItemRepo;
+
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
-    @Autowired
-    private PriceService priceService;
-    @Autowired
-    private EdNEdService edNedService;
+
     @Autowired
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
-    @Autowired
-    private TmtDrugTxService tmtDrugTxService;
 
     @Override
     public void saveUploadHospitalDrugAndRequest(UploadHospitalDrug uploadHospitalDrug) {
         uploadHospitalDrug = uploadHospitalDrugRepo.save(uploadHospitalDrug);
         List<UploadHospitalDrugItem> passItems = uploadHospitalDrug.getPassItems();
         for (UploadHospitalDrugItem uploadItem : passItems) {
-            HospitalDrugPK key = new HospitalDrugPK(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode());
-            HospitalDrug hospitalDrug = hospitalDrugRepo.findOne(key);
-            LOG.debug("{}", ToStringBuilder.reflectionToString(hospitalDrug, ToStringStyle.MULTI_LINE_STYLE));
-            if (hospitalDrug == null) {
-                addNewHospitalDrug(uploadHospitalDrug, uploadItem);
-            } else {
-                processUpdate(hospitalDrug, uploadItem);
+            if (!Strings.isNullOrEmpty(uploadItem.getTmtId())) {
+                createRequestItem(uploadItem);
             }
         }
     }
 
-    private void addNewHospitalDrug(UploadHospitalDrug uploadHospitalDrug, UploadHospitalDrugItem uploadItem) throws BeansException {
-        HospitalDrug hospitalDrug = new HospitalDrug();
-        hospitalDrug.setHcode(uploadHospitalDrug.getHcode());
-        BeanUtils.copyProperties(uploadItem, hospitalDrug);
-        copyAndConvertAttribute(uploadItem, hospitalDrug);
-        hospitalDrug = hospitalDrugRepo.save(hospitalDrug);
-        createFirstPrice(hospitalDrug);
-        createFirstEdNed(hospitalDrug);
-        if (!Strings.isNullOrEmpty(uploadItem.getTmtId())) {
-            createRequestItem(uploadItem, hospitalDrug);
-            tmtDrugTxService.addNewTmtDrugTx(hospitalDrug, hospitalDrug.getTmtDrug());
-        }
-    }
-
-    private void createRequestItem(UploadHospitalDrugItem uploadItem, HospitalDrug hospitalDrug) {
-        RequestItem requestItem = requestItemRepo.findOne(uploadItem.getId());
-        if (requestItem == null) {
-            requestItem = new RequestItem();
-            requestItem.setTargetItem(hospitalDrug);
-        }
-        if (requestItem.getStatus() != RequestItem.Status.ACCEPT) {
-            requestItem.setStatus(RequestItem.Status.REQUEST);
-            requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
-        }
+    private void createRequestItem(UploadHospitalDrugItem uploadItem) {
+        RequestItem requestItem = new RequestItem();
+        requestItem.setStatus(RequestItem.Status.REQUEST);
+        requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
         requestItem.setUploadDrugItem(uploadItem);
         requestItem = requestItemRepo.save(requestItem);
         uploadItem.setRequestItem(requestItem);
-    }
-
-    private void processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
-        boolean isTmtIdChange = tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId());
-        if (!Strings.isNullOrEmpty(uploadItem.getTmtId())) {
-            createRequestItem(uploadItem, alreadyDrug);
-        }
-        if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            BigDecimal newPrice = new BigDecimal(uploadItem.getUnitPrice());
-            priceService.addNewPrice(alreadyDrug, newPrice);
-        } else if ("E".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            BeanUtils.copyProperties(uploadItem, alreadyDrug);
-            copyAndConvertAttribute(uploadItem, alreadyDrug);
-            edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
-            if (isTmtIdChange) {
-                tmtDrugTxService.addNewTmtDrugTx(alreadyDrug, alreadyDrug.getTmtDrug());
-            }
-        } else if ("D".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            alreadyDrug.setDeleted(Boolean.TRUE);
-        }
-    }
-
-    private void createFirstPrice(HospitalDrug drug) {
-        priceService.createFirstPrice(drug, drug.getUnitPrice());
-    }
-
-    private void createFirstEdNed(HospitalDrug drug) {
-        edNedService.createFirstEdNed(drug, drug.getIsed());
-    }
-
-    private void copyAndConvertAttribute(UploadHospitalDrugItem uploadItem, HospitalDrug drug) {
-        drug.setDateChange(uploadItem.getDateChangeDate());
-        drug.setDateUpdate(uploadItem.getDateUpdateDate());
-        drug.setDateEffective(uploadItem.getDateEffectiveDate());
-        drug.setUnitPrice(new BigDecimal(uploadItem.getUnitPrice()));
-        if (uploadItem.getPackPrice() != null && !uploadItem.getPackPrice().isEmpty()) {
-            drug.setPackPrice(new BigDecimal(uploadItem.getPackPrice()));
-        }
     }
 
     @Override
@@ -143,7 +73,8 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         item = uploadHospitalDrugItemRepo.save(item);
         UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
         uploadHospitalDrug = makeSpecialUploadDrug(uploadHospitalDrug, hcode, item);
-        addNewHospitalDrug(uploadHospitalDrug, item);
+        throw new UnsupportedOperationException("TODO");
+        //addNewHospitalDrug(uploadHospitalDrug, item);
     }
 
     private UploadHospitalDrug makeSpecialUploadDrug(UploadHospitalDrug uploadHospitalDrug, String hcode, UploadHospitalDrugItem item) {
@@ -176,11 +107,8 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         if (hospitalDrug == null) {
             throw new IllegalStateException("Can't edit HospitalDrug that not already exist.");
         }
-        processUpdate(hospitalDrug, uploadItem);
-    }
-
-    private boolean tmtIdChange(String alreadyTmtId, String newTmtId) {
-        return !Strings.nullToEmpty(alreadyTmtId).equals(newTmtId);
+        throw new UnsupportedOperationException("TODO");
+        //processUpdate(hospitalDrug, uploadItem);
     }
 
 }

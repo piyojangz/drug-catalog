@@ -9,14 +9,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
+import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
 
 /**
  *
@@ -28,8 +27,9 @@ public class ApproveServiceImpl implements ApproveService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ApproveServiceImpl.class);
     @Autowired
     private RequestItemRepo requestItemRepo;
+
     @Autowired
-    private HospitalDrugRepo hospitalTMTDrugRepo;
+    private HospitalDrugService hospitalDrugService;
 
     @Override
     public void approve(RequestItem requestItem) {
@@ -42,13 +42,15 @@ public class ApproveServiceImpl implements ApproveService {
     }
 
     private void approve(RequestItem requestItem, String pid) {
+        HospitalDrug hospitalDrug = hospitalDrugService.addOrUpdateHospitalDrug(requestItem);
+        hospitalDrug.setApproved(Boolean.TRUE);
         requestItem.setStatus(RequestItem.Status.ACCEPT);
         requestItem.setApproveDate(new Date());
         requestItem.setApproveUser(pid);
-        HospitalDrug targetItem = requestItem.getTargetItem();
-        targetItem.setApproved(Boolean.TRUE);
-        hospitalTMTDrugRepo.save(targetItem);
+        requestItem.setTargetItem(hospitalDrug);
+        hospitalDrug.getRequestItems().add(requestItem);
         requestItemRepo.save(requestItem);
+
     }
 
     private void reject(RequestItem requestItem, String pid) {
@@ -71,16 +73,18 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Override
     public void approveOrReject(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String userPid) {
-        RequestItem requestItem = requestItemRepo.findByTargetItemHcodeAndTargetItemHospDrugCodeAndTargetItemTmtId(hcode, hospDrug, tmt);
-        LOG.info("Approve or reject request {}", requestItem);
-        if (requestItem != null) {
-            if (approve) {
-                approve(requestItem, userPid);
+        List<RequestItem> requestItems = requestItemRepo.findByStatusAndHospDrugCodeAndTmtId(hcode, hospDrug, tmt);
+        LOG.info("Approve or reject request {}", requestItems);
+        for (RequestItem requestItem : requestItems) {
+            if (requestItem != null) {
+                if (approve) {
+                    approve(requestItem, userPid);
+                } else {
+                    reject(requestItem, userPid);
+                }
             } else {
-                reject(requestItem, userPid);
+                //TODO log to somewhere else.
             }
-        }else{
-            //TODO log to somewhere else.
         }
     }
 
