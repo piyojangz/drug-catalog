@@ -80,6 +80,7 @@ public class ApproveServiceImpl implements ApproveService {
                 if (approve) {
                     approve(requestItem, userPid);
                 } else {
+                    requestItem.setErrorColumns(errorColumns);
                     reject(requestItem, userPid);
                 }
             } else {
