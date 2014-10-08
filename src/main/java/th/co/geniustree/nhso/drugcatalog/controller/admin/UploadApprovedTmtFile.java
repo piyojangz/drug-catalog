@@ -18,7 +18,6 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,6 +32,9 @@ import net.java.truevfs.access.TConfig;
 import net.java.truevfs.access.TFile;
 import net.java.truevfs.comp.zipdriver.ZipDriver;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -43,10 +45,7 @@ import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
-import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 
 /**
@@ -166,7 +165,7 @@ public class UploadApprovedTmtFile implements Serializable {
 
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                File  pidFile = new File(dir.toFile(),"pid.txt");
+                File pidFile = new File(dir.toFile(), "pid.txt");
                 if (pidFile.exists()) {
                     LOG.info("Found pid.text on directory {}", dir);
                     approveUserPid = Files.toString(pidFile, Charset.defaultCharset());
@@ -185,7 +184,7 @@ public class UploadApprovedTmtFile implements Serializable {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (file.toFile().getName().endsWith("xls") || file.toFile().getName().endsWith("xlsx")) {
                     try {
-                        processFile(file,approveUserPid);
+                        processFile(file, approveUserPid);
                     } catch (InvalidFormatException ex) {
                         throw new IOException(ex);
                     }
@@ -201,33 +200,56 @@ public class UploadApprovedTmtFile implements Serializable {
         });
     }
 
-    private void processFile(Path file,String approveUserPid) throws IOException, InvalidFormatException {
-        Workbook wb = WorkbookFactory.create(file.toFile());
-        Sheet sheet = wb.getSheetAt(0);
-        Iterator<Row> rowIterator = sheet.rowIterator();
-        rowIterator.next();//skip first 2 row
-        rowIterator.next();
+    private void processFile(Path file, String approveUserPid) throws IOException, InvalidFormatException {
+        // The bad method body Must refactoring TODO
+        Workbook wb = null;
+        NPOIFSFileSystem npoifs = null;
+        OPCPackage pkg = null;
         int notNullRowCount = 0;
-        for (; rowIterator.hasNext();) {
-            Row row = rowIterator.next();
-            notNullRowCount++;
-            Cell hcodeCell = row.getCell(0, Row.RETURN_BLANK_AS_NULL);
-            Cell hospDrugCell = row.getCell(1, Row.RETURN_BLANK_AS_NULL);
-            Cell tmtCell = row.getCell(2, Row.RETURN_BLANK_AS_NULL);
-            Cell resultCell = row.getCell(13, Row.RETURN_BLANK_AS_NULL);
-            String hcode = getCellValue(hcodeCell);
-            String hospDrug = getCellValue(hospDrugCell);
-            String tmt = getCellValue(tmtCell);
-            String result = getCellValue(resultCell);
-            if (Strings.isNullOrEmpty(hcode) || Strings.isNullOrEmpty(hospDrug) || Strings.isNullOrEmpty(tmt) || Strings.isNullOrEmpty(result)) {
-                continue;
+        try {
+            npoifs = new NPOIFSFileSystem(file.toFile());
+            wb = WorkbookFactory.create(npoifs);
+        } catch (OfficeXmlFileException ofe) {
+            pkg = OPCPackage.open(file.toFile());
+            wb = WorkbookFactory.create(pkg);
+        } finally {
+            try {
+                if (wb == null) {
+                    return;
+                }
+                Sheet sheet = wb.getSheetAt(0);
+                Iterator<Row> rowIterator = sheet.rowIterator();
+                rowIterator.next();//skip first 2 row
+                rowIterator.next();
+                for (; rowIterator.hasNext();) {
+                    Row row = rowIterator.next();
+                    notNullRowCount++;
+                    Cell hcodeCell = row.getCell(0, Row.RETURN_BLANK_AS_NULL);
+                    Cell hospDrugCell = row.getCell(1, Row.RETURN_BLANK_AS_NULL);
+                    Cell tmtCell = row.getCell(2, Row.RETURN_BLANK_AS_NULL);
+                    Cell resultCell = row.getCell(13, Row.RETURN_BLANK_AS_NULL);
+                    String hcode = getCellValue(hcodeCell);
+                    String hospDrug = getCellValue(hospDrugCell);
+                    String tmt = getCellValue(tmtCell);
+                    String result = getCellValue(resultCell);
+                    if (Strings.isNullOrEmpty(hcode) || Strings.isNullOrEmpty(hospDrug) || Strings.isNullOrEmpty(tmt) || Strings.isNullOrEmpty(result)) {
+                        continue;
+                    }
+                    boolean approve = "1".equals(result.trim());
+                    Set<String> errorColumns = null;
+                    if (!approve) {
+                        errorColumns = extractColumns(result);
+                    }
+                    approveService.approveOrReject(hcode, hospDrug, tmt, approve, errorColumns, approveUserPid);
+                }
+            } finally {
+                if (npoifs != null) {
+                    npoifs.close();
+                }
+                if (pkg != null) {
+                    pkg.close();
+                }
             }
-            boolean approve = "1".equals(result.trim());
-            Set<String> errorColumns = null;
-            if (!approve) {
-                errorColumns = extractColumns(result);
-            }
-            approveService.approveOrReject(hcode, hospDrug, tmt, approve, errorColumns,approveUserPid);
         }
         LOG.info("processed file: {} ,notNullRowCount : {}", new Object[]{file, notNullRowCount});
     }
