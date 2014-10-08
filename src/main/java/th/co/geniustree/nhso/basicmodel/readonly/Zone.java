@@ -6,6 +6,7 @@ package th.co.geniustree.nhso.basicmodel.readonly;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "ZONE")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Cacheable
 public class Zone implements Serializable {
 
     @Id

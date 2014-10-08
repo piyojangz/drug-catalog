@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = Province.FIND_ALL, query = "SELECT p FROM Province p order by p.name asc")})
 @XmlAccessorType(XmlAccessType.FIELD)
+@Cacheable
 public class Province implements Serializable {
 
     private static final long serialVersionUID = 1L;
