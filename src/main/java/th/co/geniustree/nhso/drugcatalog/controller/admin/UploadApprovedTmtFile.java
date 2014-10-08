@@ -256,6 +256,7 @@ public class UploadApprovedTmtFile implements Serializable {
 
     private String getCellValue(Cell cell) {
         if (cell != null) {
+            cell.setCellType(Cell.CELL_TYPE_STRING);
             if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
                 return "" + (int) cell.getNumericCellValue();
             } else {
