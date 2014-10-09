@@ -16,7 +16,7 @@
                     }
                 </style>
                 <ui:include src="searchPanel.xhtml"/>
-                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListController.all}" var="model"  
+                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListControllerX.all}" var="model"  
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
