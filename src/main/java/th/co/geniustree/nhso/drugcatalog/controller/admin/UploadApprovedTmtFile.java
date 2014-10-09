@@ -241,7 +241,7 @@ public class UploadApprovedTmtFile implements Serializable {
                     String tmt = getCellValue(tmtCell);
                     String result = getCellValue(resultCell);
                     if (Strings.isNullOrEmpty(hcode) || Strings.isNullOrEmpty(hospDrug) || Strings.isNullOrEmpty(tmt) || Strings.isNullOrEmpty(result)) {
-                        LOG.debug("No process XLS for row hcode={} ,hospDrug={}, tmt={}, result={}", hcode, hospDrug, tmt, result);
+                        LOG.info("No process XLS for row hcode={} ,hospDrug={}, tmt={}, result={}", hcode, hospDrug, tmt, result);
                         continue;
                     }
                     boolean approve = "1".equals(result.trim());
