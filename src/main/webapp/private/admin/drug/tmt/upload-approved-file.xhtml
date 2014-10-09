@@ -9,6 +9,7 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <h:form id="form" styleClass="button-form">
+                <p:messages id="messages" globalOnly="true" showDetail="true"/>
                 <p:fileUpload fileUploadListener="#{uploadApprovedTmtFile.handleFileUpload}" mode="advanced"
                               update="form" auto="true" sizeLimit="100000000" allowTypes="/(\.|\/)(zip)$/" label="#{not empty uploadApprovedTmtFile.file?'File : '.concat(uploadApprovedTmtFile.file.fileName):'เลือกไฟล์ .zip'}"/>
                 <p:blockUI block="form" widgetVar="allblock" >

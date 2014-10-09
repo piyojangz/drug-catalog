@@ -43,7 +43,6 @@ public class ApproveServiceImpl implements ApproveService {
 
     private void approve(RequestItem requestItem, String pid) {
         HospitalDrug hospitalDrug = hospitalDrugService.addOrUpdateHospitalDrug(requestItem);
-        hospitalDrug.setApproved(Boolean.TRUE);
         requestItem.setStatus(RequestItem.Status.ACCEPT);
         requestItem.setApproveDate(new Date());
         requestItem.setApproveUser(pid);

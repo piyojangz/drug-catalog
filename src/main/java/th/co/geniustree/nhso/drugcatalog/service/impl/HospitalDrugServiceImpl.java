@@ -11,13 +11,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.EdNEdService;
 import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.PriceService;
@@ -28,6 +28,7 @@ import th.co.geniustree.nhso.drugcatalog.service.TmtDrugTxService;
  * @author moth
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class HospitalDrugServiceImpl implements HospitalDrugService {
 
     @Autowired
@@ -46,6 +47,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         if (findOne == null) {
             return addNewHospitalDrug(requestItem);
         } else {
+            findOne.setApproved(Boolean.TRUE);
             return processUpdate(findOne, requestItem.getUploadDrugItem());
         }
     }
@@ -55,6 +57,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         hospitalDrug.setHcode(requestItem.getUploadDrugItem().getUploadDrug().getHcode());
         BeanUtils.copyProperties(requestItem.getUploadDrugItem(), hospitalDrug);
         copyAndConvertAttribute(requestItem.getUploadDrugItem(), hospitalDrug);
+        hospitalDrug.setApproved(Boolean.TRUE);
         hospitalDrug = hospitalDrugRepo.save(hospitalDrug);
         createFirstPrice(hospitalDrug);
         createFirstEdNed(hospitalDrug);
