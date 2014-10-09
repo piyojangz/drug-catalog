@@ -507,9 +507,9 @@
             <id>production</id>
             <properties>
                 <eclipselink.ddl-generation>none</eclipselink.ddl-generation>
-                <eclipselink.logging.level>FINEST</eclipselink.logging.level>
-                <log.spring.level>DEBUG</log.spring.level>
-                <log.geniustree.level>DEBUG</log.geniustree.level>
+                <eclipselink.logging.level>INFO</eclipselink.logging.level>
+                <log.spring.level>INFO</log.spring.level>
+                <log.geniustree.level>INFO</log.geniustree.level>
                 <log.appender>FILE</log.appender>
                 <log.file.location>/${project.artifactId}/log/</log.file.location>
                 <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
