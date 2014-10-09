@@ -31,6 +31,7 @@ import net.java.truevfs.access.TArchiveDetector;
 import net.java.truevfs.access.TConfig;
 import net.java.truevfs.access.TFile;
 import net.java.truevfs.comp.zipdriver.ZipDriver;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
@@ -46,6 +47,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 
 /**
@@ -55,11 +57,11 @@ import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 @Component
 @Scope("view")
 public class UploadApprovedTmtFile implements Serializable {
-
+    
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadApprovedTmtFile.class);
-
+    
     private static final Map<String, String> HEADERS;
-
+    
     static {
         Map<String, String> headers = new HashMap<>();
         headers.put("A", "HCODE");
@@ -78,7 +80,7 @@ public class UploadApprovedTmtFile implements Serializable {
         headers.put("N", "RESULT");
         HEADERS = Collections.unmodifiableMap(headers);
     }
-
+    
     private UploadedFile file;
     @Autowired
     @Qualifier("app")
@@ -86,11 +88,11 @@ public class UploadApprovedTmtFile implements Serializable {
     private File uploadtempFileDir;
     @Autowired
     private ApproveService approveService;
-
+    
     @PostConstruct
     public void postConstruct() {
         ZipDriver zipDriver = new ZipDriver() {
-
+            
             @Override
             public Charset getCharset() {
                 return Charset.forName("TIS-620");
@@ -103,19 +105,19 @@ public class UploadApprovedTmtFile implements Serializable {
             uploadtempFileDir.mkdirs();
         }
     }
-
+    
     public UploadedFile getFile() {
         return file;
     }
-
+    
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-
+    
     public void handleFileUpload(FileUploadEvent event) {
         file = event.getFile();
     }
-
+    
     public void save() {
         try {
             File rootDirectory = extractZip();
@@ -124,28 +126,31 @@ public class UploadApprovedTmtFile implements Serializable {
             LOG.error(null, ex);
             throw new RuntimeException(ex);
         }
-
+        
     }
-
+    
     public void reset() {
-
+        
     }
-
+    
     private File extractZip() throws IOException {
         try (InputStream inputFileStream = file.getInputstream()) {
             File tempFile = new File(uploadtempFileDir, file.getFileName());
+            if (tempFile.exists()) {
+                FileUtils.deleteDirectory(tempFile);
+            }
             LOG.debug("save target file to = {}", tempFile.getAbsolutePath());
-
+            
             Files.asByteSink(tempFile).writeFrom(inputFileStream);
             File targetExtractDir = new File(uploadtempFileDir, Files.getNameWithoutExtension(file.getFileName()));
             TFile.cp_r(new TFile(tempFile), targetExtractDir, TArchiveDetector.NULL);
             java.nio.file.Files.walkFileTree(targetExtractDir.toPath(), new SimpleFileVisitor<Path>() {
-
+                
                 @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
                     return FileVisitResult.CONTINUE;
                 }
-
+                
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (file.toFile().getName().endsWith("zip")) {
@@ -153,33 +158,31 @@ public class UploadApprovedTmtFile implements Serializable {
                     }
                     return FileVisitResult.CONTINUE;
                 }
-
+                
             });
             return targetExtractDir;
         }
     }
-
+    
     private void processAll(File rootDirectory) throws IOException {
         java.nio.file.Files.walkFileTree(rootDirectory.toPath(), new SimpleFileVisitor<Path>() {
             String approveUserPid;
-
+            
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 File pidFile = new File(dir.toFile(), "pid.txt");
                 if (pidFile.exists()) {
                     LOG.info("Found pid.text on directory {}", dir);
                     approveUserPid = Files.toString(pidFile, Charset.defaultCharset());
-                } else {
-                    approveUserPid = null;
                 }
                 return FileVisitResult.CONTINUE;
             }
-
+            
             @Override
             public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
                 return FileVisitResult.CONTINUE;
             }
-
+            
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (file.toFile().getName().endsWith("xls") || file.toFile().getName().endsWith("xlsx")) {
@@ -191,7 +194,7 @@ public class UploadApprovedTmtFile implements Serializable {
                 }
                 return FileVisitResult.CONTINUE;
             }
-
+            
             @Override
             public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
                 LOG.error(null, exc);
@@ -199,7 +202,7 @@ public class UploadApprovedTmtFile implements Serializable {
             }
         });
     }
-
+    
     private void processFile(Path file, String approveUserPid) throws IOException, InvalidFormatException {
         // The bad method body Must refactoring TODO
         Workbook wb = null;
@@ -252,8 +255,9 @@ public class UploadApprovedTmtFile implements Serializable {
             }
         }
         LOG.info("processed file: {} ,notNullRowCount : {}", new Object[]{file, notNullRowCount});
+        FacesMessageUtils.info("Process completed.");
     }
-
+    
     private String getCellValue(Cell cell) {
         if (cell != null) {
             cell.setCellType(Cell.CELL_TYPE_STRING);
@@ -265,7 +269,7 @@ public class UploadApprovedTmtFile implements Serializable {
         }
         return null;
     }
-
+    
     private Set<String> extractColumns(String result) {
         List<String> splitToList = Splitter.on(CharMatcher.anyOf("=,")).trimResults().omitEmptyStrings().splitToList(result);
         Set<String> resultColumns = new HashSet<>();
