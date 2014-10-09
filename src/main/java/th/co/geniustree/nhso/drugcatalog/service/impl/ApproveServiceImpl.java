@@ -11,6 +11,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
+import th.co.geniustree.nhso.drugcatalog.controller.admin.ApproveData;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
@@ -85,6 +86,13 @@ public class ApproveServiceImpl implements ApproveService {
             } else {
                 //TODO log to somewhere else.
             }
+        }
+    }
+
+    @Override
+    public void approveOrRejects(List<ApproveData> datas) {
+        for (ApproveData data : datas) {
+            approveOrReject(data.getHcode(), data.getHospDrug(), data.getTmt(), data.isApprove(), data.getErrorColumns(), data.getApproveUserPid());
         }
     }
 

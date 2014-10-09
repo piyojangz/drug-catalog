@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.List;
 import java.util.Set;
+import th.co.geniustree.nhso.drugcatalog.controller.admin.ApproveData;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 
 /**
@@ -22,4 +23,6 @@ public interface ApproveService {
     public void approveOrReject(List<RequestItem> items);
 
     public void approveOrReject(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String userPid);
+
+    public void approveOrRejects(List<ApproveData> datas);
 }

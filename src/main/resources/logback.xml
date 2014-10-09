@@ -22,16 +22,16 @@
             </Pattern>
         </layout>
     </appender>
-    <logger name="org.springframework" level="DEBUG">
-        <appender-ref ref="STDOUT" />
+    <logger name="org.springframework" level="${log.spring.level}">
+        <appender-ref ref="${log.appender}" />
     </logger>
-    <logger name="org.springframework.security" level="WARN">
-        <appender-ref ref="STDOUT" />
+    <logger name="org.springframework.security" level="${log.spring.level}">
+        <appender-ref ref="${log.appender}" />
     </logger>
-    <logger name="th.co.geniustree" level="DEBUG">
-        <appender-ref ref="STDOUT" />
+    <logger name="th.co.geniustree" level="${log.geniustree.level}">
+        <appender-ref ref="${log.appender}" />
     </logger>
-    <logger name="org.eclipse" level="TRACE">
-        <appender-ref ref="STDOUT" />
+    <logger name="org.eclipse" level="${eclipselink.logging.level}">
+        <appender-ref ref="${log.appender}" />
     </logger>
 </configuration>

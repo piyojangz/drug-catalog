@@ -18,6 +18,7 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -122,6 +123,7 @@ public class UploadApprovedTmtFile implements Serializable {
         try {
             File rootDirectory = extractZip();
             processAll(rootDirectory);
+            FacesMessageUtils.info("Process completed.");
         } catch (IOException ex) {
             LOG.error(null, ex);
             throw new RuntimeException(ex);
@@ -213,17 +215,20 @@ public class UploadApprovedTmtFile implements Serializable {
             npoifs = new NPOIFSFileSystem(file.toFile());
             wb = WorkbookFactory.create(npoifs);
         } catch (OfficeXmlFileException ofe) {
+            LOG.warn(null, ofe);
             pkg = OPCPackage.open(file.toFile());
             wb = WorkbookFactory.create(pkg);
         } finally {
             try {
                 if (wb == null) {
+                    LOG.info("Can't load workbook for file {}.", file.toFile());
                     return;
                 }
                 Sheet sheet = wb.getSheetAt(0);
                 Iterator<Row> rowIterator = sheet.rowIterator();
                 rowIterator.next();//skip first 2 row
                 rowIterator.next();
+                List<ApproveData> datas = new ArrayList<>();
                 for (; rowIterator.hasNext();) {
                     Row row = rowIterator.next();
                     notNullRowCount++;
@@ -236,6 +241,7 @@ public class UploadApprovedTmtFile implements Serializable {
                     String tmt = getCellValue(tmtCell);
                     String result = getCellValue(resultCell);
                     if (Strings.isNullOrEmpty(hcode) || Strings.isNullOrEmpty(hospDrug) || Strings.isNullOrEmpty(tmt) || Strings.isNullOrEmpty(result)) {
+                        LOG.debug("No process XLS for row hcode={} ,hospDrug={}, tmt={}, result={}", hcode, hospDrug, tmt, result);
                         continue;
                     }
                     boolean approve = "1".equals(result.trim());
@@ -243,8 +249,9 @@ public class UploadApprovedTmtFile implements Serializable {
                     if (!approve) {
                         errorColumns = extractColumns(result);
                     }
-                    approveService.approveOrReject(hcode, hospDrug, tmt, approve, errorColumns, approveUserPid);
+                    datas.add(new ApproveData(hcode, hospDrug, tmt, approve, errorColumns, approveUserPid));
                 }
+                approveService.approveOrRejects(datas);
             } finally {
                 if (npoifs != null) {
                     npoifs.close();
@@ -255,7 +262,6 @@ public class UploadApprovedTmtFile implements Serializable {
             }
         }
         LOG.info("processed file: {} ,notNullRowCount : {}", new Object[]{file, notNullRowCount});
-        FacesMessageUtils.info("Process completed.");
     }
 
     private String getCellValue(Cell cell) {
