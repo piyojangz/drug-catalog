@@ -17,6 +17,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -77,7 +78,7 @@ public class RequestItem implements Serializable {
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private UploadHospitalDrugItem uploadDrugItem;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "TMT_ERRORCOLUMNS")
     private Set<String> errorColumns;
 

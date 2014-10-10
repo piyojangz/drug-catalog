@@ -39,69 +39,69 @@
                         </h:link>
                     </p:column>
                     <p:column   headerText="สาเหตุ" width="110">
-                        <h:outputText value="#{model.requestItem.message}"/>
+                        <h:outputText value="#{empty model.requestItem.message? model.requestItem.errorColumns : model.requestItem.message}"/>
                     </p:column>
-                    <p:column   headerText="HOSPDRUGCODE" width="110">
+                    <p:column   headerText="HOSPDRUGCODE" width="110" styleClass="#{model.requestItem.errorColumns.contains('HOSPDRUGCODE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.hospDrugCode}"/>
                     </p:column>
-                    <p:column headerText="PRODUCTCAT" width="80">
+                    <p:column headerText="PRODUCTCAT" width="80" styleClass="#{model.requestItem.errorColumns.contains('PRODUCTCAT')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.productCat}"/>
                     </p:column>
-                    <p:column headerText="TMTID" width="60">
+                    <p:column headerText="TMTID" width="60" styleClass="#{model.requestItem.errorColumns.contains('TMTID')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.tmtId}"/>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="60">
+                    <p:column headerText="SPECPREP" width="60" styleClass="#{model.requestItem.errorColumns.contains('SPECPREP')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.specPrep}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME" width="200">
+                    <p:column headerText="GENERICNAME" width="200" styleClass="#{model.requestItem.errorColumns.contains('GENERICNAME')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.genericName}"/>
                     </p:column>
-                    <p:column headerText="TRADENAME" width="200">
+                    <p:column headerText="TRADENAME" width="200" styleClass="#{model.requestItem.errorColumns.contains('TRADENAME')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.tradeName}"/>
                     </p:column>
-                    <p:column headerText="DSFCODE" width="60">
+                    <p:column headerText="DSFCODE" width="60" styleClass="#{model.requestItem.errorColumns.contains('DSFCODE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.dfsCode}"/>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM" width="100">
+                    <p:column headerText="DOSAGEFORM" width="100" styleClass="#{model.requestItem.errorColumns.contains('DOSAGEFORM')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.dosageForm}"/>
                     </p:column>
-                    <p:column headerText="STRENGTH" width="100">
+                    <p:column headerText="STRENGTH" width="100" styleClass="#{model.requestItem.errorColumns.contains('STRENGTH')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.strength}"/>
                     </p:column>
-                    <p:column headerText="CONTENT" width="80">
+                    <p:column headerText="CONTENT" width="80" styleClass="#{model.requestItem.errorColumns.contains('CONTENT')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="60">
+                    <p:column headerText="UNITPRICE" width="60" styleClass="#{model.requestItem.errorColumns.contains('UNITPRICE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.unitPrice}"/>
                     </p:column>
-                    <p:column headerText="DISTRIBUTOR" width="260">
+                    <p:column headerText="DISTRIBUTOR" width="260" styleClass="#{model.requestItem.errorColumns.contains('DISTRIBUTOR')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.distributor}"/>
                     </p:column>
-                    <p:column headerText="MANUFACTURER" width="260">
+                    <p:column headerText="MANUFACTURER" width="260" styleClass="#{model.requestItem.errorColumns.contains('MANUFACTURER')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.manufacturer}"/>
                     </p:column>
-                    <p:column headerText="ISED" width="40">
+                    <p:column headerText="ISED" width="40" styleClass="#{model.requestItem.errorColumns.contains('ISED')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.ised}"/>
                     </p:column>
-                    <p:column headerText="NDC24" width="100">
+                    <p:column headerText="NDC24" width="100" styleClass="#{model.requestItem.errorColumns.contains('NDC24')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.ndc24}"/>
                     </p:column>
-                    <p:column headerText="PACKSIZE" width="100">
+                    <p:column headerText="PACKSIZE" width="100" styleClass="#{model.requestItem.errorColumns.contains('PACKSIZE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.packSize}"/>
                     </p:column>
-                    <p:column headerText="PACKPRICE" width="100">
+                    <p:column headerText="PACKPRICE" width="100" styleClass="#{model.requestItem.errorColumns.contains('PACKPRICE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.packPrice}"/>
                     </p:column>
-                    <p:column headerText="UPDATEFLAG" width="100">
+                    <p:column headerText="UPDATEFLAG" width="100" styleClass="#{model.requestItem.errorColumns.contains('UPDATEFLAG')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.updateFlag}"/>
                     </p:column>
-                    <p:column headerText="DATECHANGE" width="120">
+                    <p:column headerText="DATECHANGE" width="120" styleClass="#{model.requestItem.errorColumns.contains('DATECHANGE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.dateChange}"/>
                     </p:column>
-                    <p:column headerText="DATEUPDATE" width="120">
+                    <p:column headerText="DATEUPDATE" width="120" styleClass="#{model.requestItem.errorColumns.contains('DATEUPDATE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.dateUpdate}"/>
                     </p:column>
-                    <p:column headerText="DATEEFFECTIVE" width="120"> 
+                    <p:column headerText="DATEEFFECTIVE" width="120" styleClass="#{model.requestItem.errorColumns.contains('DATEEFFECTIVE')?'errorBackground':'color:black'}"> 
                         <h:outputText value="#{model.dateEffective}"/>
                     </p:column>
                 </p:dataTable>
