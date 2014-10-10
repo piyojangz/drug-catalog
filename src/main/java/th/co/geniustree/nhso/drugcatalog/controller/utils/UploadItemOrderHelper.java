@@ -33,24 +33,11 @@ public class UploadItemOrderHelper {
                 listIterator.remove();
             }
         }
-        //TODO makeit testable.
         Collections.sort(items, new Comparator<UploadHospitalDrugItem>() {
 
             @Override
             public int compare(UploadHospitalDrugItem o1, UploadHospitalDrugItem o2) {
-                Date date1;
-                Date date2;
-                if ("U".equalsIgnoreCase(o1.getUpdateFlag())) {
-                    date1 = o1.getDateUpdateDate();
-                } else {
-                    date1 = o1.getDateChangeDate();
-                }
-                if ("U".equalsIgnoreCase(o2.getUpdateFlag())) {
-                    date2 = o2.getDateUpdateDate();
-                } else {
-                    date2 = o2.getDateChangeDate();
-                }
-                return date1.compareTo(date2);
+                return o1.getDateEffectiveDate().compareTo(o2.getDateEffectiveDate());
             }
         });
         items.addAll(0, flagA);
