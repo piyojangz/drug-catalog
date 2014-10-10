@@ -155,7 +155,7 @@ public class ApproveByTmt implements Serializable {
         avg = hospitalDrugRepo.avg(selectTmtId);
         stdev = hospitalDrugRepo.stddev(selectTmtId);
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
-        request = requestItemRepo.findByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
+        request = requestItemRepo.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
     }
 
     private void assignNotApproveMassage() {
