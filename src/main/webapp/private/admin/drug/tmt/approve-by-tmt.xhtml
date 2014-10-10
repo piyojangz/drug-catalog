@@ -82,52 +82,52 @@
 
                     </p:column>
                     <p:column headerText="ProductCat" width="80">
-                        <h:outputText value="#{model.targetItem.productCat}"/>
+                        <h:outputText value="#{model.uploadDrugItem.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="80">
-                        <h:outputText value="#{model.targetItem.tmtId}"/>
+                        <h:outputText value="#{model.uploadDrugItem.tmtId}"/>
                     </p:column>
                     <p:column headerText="TradeName" width="200">
-                        <h:outputText value="#{model.targetItem.tradeName}"/>
+                        <h:outputText value="#{model.uploadDrugItem.tradeName}"/>
                     </p:column>
                     <p:column headerText="GenericName" width="200">
-                        <h:outputText value="#{model.targetItem.genericName}"/>
+                        <h:outputText value="#{model.uploadDrugItem.genericName}"/>
                     </p:column>
                     <p:column headerText="Strength" width="100">
-                        <h:outputText value="#{model.targetItem.strength}"/>
+                        <h:outputText value="#{model.uploadDrugItem.strength}"/>
                     </p:column>
                     <p:column headerText="dosageform" width="100">
-                        <h:outputText value="#{model.targetItem.dosageForm}"/>
+                        <h:outputText value="#{model.uploadDrugItem.dosageForm}"/>
                     </p:column>
                     <p:column headerText="CONTENT" width="80">
-                        <h:outputText value="#{model.targetItem.content}"/>
+                        <h:outputText value="#{model.uploadDrugItem.content}"/>
                     </p:column>
                     <p:column headerText="Manufacturer" width="200">
-                        <h:outputText value="#{model.targetItem.manufacturer}"/>
+                        <h:outputText value="#{model.uploadDrugItem.manufacturer}"/>
                     </p:column>
                     <p:column headerText="UnitPrice" width="100">
-                        <h:outputText value="#{model.targetItem.unitPrice}"/>
+                        <h:outputText value="#{model.uploadDrugItem.unitPrice}"/>
                     </p:column>
                     <ui:remove>
                         <p:column headerText="DISTRIBUTOR" width="200">
-                            <h:outputText value="#{model.targetItem.distributor}"/>
+                            <h:outputText value="#{model.uploadDrugItem.distributor}"/>
                         </p:column>
 
                         <p:column headerText="ISED" width="60">
-                            <h:outputText value="#{model.targetItem.ised}"/>
+                            <h:outputText value="#{model.uploadDrugItem.ised}"/>
                         </p:column>
                         <p:column headerText="NDC24" width="180">
-                            <h:outputText value="#{model.targetItem.ndc24}"/>
+                            <h:outputText value="#{model.uploadDrugItem.ndc24}"/>
                         </p:column>
                         <p:column headerText="PACKSIZE" width="80">
-                            <h:outputText value="#{model.targetItem.packSize}"/>
+                            <h:outputText value="#{model.uploadDrugItem.packSize}"/>
                         </p:column>
                         <p:column headerText="PACKPRICE" width="100">
-                            <h:outputText value="#{model.targetItem.packPrice}"/>
+                            <h:outputText value="#{model.uploadDrugItem.packPrice}"/>
                         </p:column>
                     </ui:remove>
                     <p:column   headerText="HCODE" width="100">
-                        <h:outputText value="#{model.hcode}"/>
+                        <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
                     </p:column>
                 </p:dataTable>
                 <br/>
@@ -145,48 +145,48 @@
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
                     </p:column>
                     <p:column headerText="ProductCat" width="80">
-                        <h:outputText value="#{model.targetItem.productCat}"/>
+                        <h:outputText value="#{model.uploadDrugItem.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="80">
-                        <h:outputText value="#{model.targetItem.tmtId}"/>
+                        <h:outputText value="#{model.uploadDrugItem.tmtId}"/>
                     </p:column>
                     <p:column headerText="TradeName" width="200">
-                        <h:outputText value="#{model.targetItem.tradeName}"/>
+                        <h:outputText value="#{model.uploadDrugItem.tradeName}"/>
                     </p:column>
                     <p:column headerText="GenericName" width="200">
-                        <h:outputText value="#{model.targetItem.genericName}"/>
+                        <h:outputText value="#{model.uploadDrugItem.genericName}"/>
                     </p:column>
                     <p:column headerText="Strength" width="100">
-                        <h:outputText value="#{model.targetItem.strength}"/>
+                        <h:outputText value="#{model.uploadDrugItem.strength}"/>
                     </p:column>
                     <p:column headerText="Dosageform" width="100">
-                        <h:outputText value="#{model.targetItem.dosageForm}"/>
+                        <h:outputText value="#{model.uploadDrugItem.dosageForm}"/>
                     </p:column>
                     <p:column headerText="CONTENT" width="80">
-                        <h:outputText value="#{model.targetItem.content}"/>
+                        <h:outputText value="#{model.uploadDrugItem.content}"/>
                     </p:column>
                     <p:column headerText="Manufacturer" width="200">
-                        <h:outputText value="#{model.targetItem.manufacturer}"/>
+                        <h:outputText value="#{model.uploadDrugItem.manufacturer}"/>
                     </p:column>
                     <p:column headerText="UnitPrice" width="100">
-                        <h:outputText value="#{model.targetItem.unitPrice}"/>
+                        <h:outputText value="#{model.uploadDrugItem.unitPrice}"/>
                     </p:column>
                     <ui:remove>
                         <p:column headerText="DISTRIBUTOR" width="200">
-                            <h:outputText value="#{model.targetItem.distributor}"/>
+                            <h:outputText value="#{model.uploadDrugItem.distributor}"/>
                         </p:column>
 
                         <p:column headerText="ISED" width="60">
-                            <h:outputText value="#{model.targetItem.ised}"/>
+                            <h:outputText value="#{model.uploadDrugItem.ised}"/>
                         </p:column>
                         <p:column headerText="NDC24" width="180">
-                            <h:outputText value="#{model.targetItem.ndc24}"/>
+                            <h:outputText value="#{model.uploadDrugItem.ndc24}"/>
                         </p:column>
                         <p:column headerText="PACKSIZE" width="80">
-                            <h:outputText value="#{model.targetItem.packSize}"/>
+                            <h:outputText value="#{model.uploadDrugItem.packSize}"/>
                         </p:column>
                         <p:column headerText="PACKPRICE" width="100">
-                            <h:outputText value="#{model.targetItem.packPrice}"/>
+                            <h:outputText value="#{model.uploadDrugItem.packPrice}"/>
                         </p:column>
                     </ui:remove>
                     <p:column   headerText="HCODE" width="100">
@@ -208,48 +208,48 @@
                         <p:commandButton value="remove" action="#{approveByTmt.remove(model)}" process="@this" update=":form:saveBtn :form:table :form:approvetable :form:notApprovetable"/>
                     </p:column>
                     <p:column headerText="ProductCat" width="80">
-                        <h:outputText value="#{model.targetItem.productCat}"/>
+                        <h:outputText value="#{model.uploadDrugItem.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="80">
-                        <h:outputText value="#{model.targetItem.tmtId}"/>
+                        <h:outputText value="#{model.uploadDrugItem.tmtId}"/>
                     </p:column>
                     <p:column headerText="TradeName" width="200">
-                        <h:outputText value="#{model.targetItem.tradeName}"/>
+                        <h:outputText value="#{model.uploadDrugItem.tradeName}"/>
                     </p:column>
                     <p:column headerText="GenericName" width="200">
-                        <h:outputText value="#{model.targetItem.genericName}"/>
+                        <h:outputText value="#{model.uploadDrugItem.genericName}"/>
                     </p:column>
                     <p:column headerText="Strength" width="100">
-                        <h:outputText value="#{model.targetItem.strength}"/>
+                        <h:outputText value="#{model.uploadDrugItem.strength}"/>
                     </p:column>
                     <p:column headerText="Dosageform" width="100">
-                        <h:outputText value="#{model.targetItem.dosageForm}"/>
+                        <h:outputText value="#{model.uploadDrugItem.dosageForm}"/>
                     </p:column>
                     <p:column headerText="CONTENT" width="80">
-                        <h:outputText value="#{model.targetItem.content}"/>
+                        <h:outputText value="#{model.uploadDrugItem.content}"/>
                     </p:column>
                     <p:column headerText="Manufacturer" width="200">
-                        <h:outputText value="#{model.targetItem.manufacturer}"/>
+                        <h:outputText value="#{model.uploadDrugItem.manufacturer}"/>
                     </p:column>
                     <p:column headerText="UnitPrice" width="100">
-                        <h:outputText value="#{model.targetItem.unitPrice}"/>
+                        <h:outputText value="#{model.uploadDrugItem.unitPrice}"/>
                     </p:column>
                     <ui:remove>
                         <p:column headerText="DISTRIBUTOR" width="200">
-                            <h:outputText value="#{model.targetItem.distributor}"/>
+                            <h:outputText value="#{model.uploadDrugItem.distributor}"/>
                         </p:column>
 
                         <p:column headerText="ISED" width="60">
-                            <h:outputText value="#{model.targetItem.ised}"/>
+                            <h:outputText value="#{model.uploadDrugItem.ised}"/>
                         </p:column>
                         <p:column headerText="NDC24" width="180">
-                            <h:outputText value="#{model.targetItem.ndc24}"/>
+                            <h:outputText value="#{model.uploadDrugItem.ndc24}"/>
                         </p:column>
                         <p:column headerText="PACKSIZE" width="80">
-                            <h:outputText value="#{model.targetItem.packSize}"/>
+                            <h:outputText value="#{model.uploadDrugItem.packSize}"/>
                         </p:column>
                         <p:column headerText="PACKPRICE" width="100">
-                            <h:outputText value="#{model.targetItem.packPrice}"/>
+                            <h:outputText value="#{model.uploadDrugItem.packPrice}"/>
                         </p:column>
                     </ui:remove>
                     <p:column   headerText="HCODE" width="100">
