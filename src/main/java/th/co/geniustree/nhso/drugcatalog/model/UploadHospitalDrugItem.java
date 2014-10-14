@@ -9,6 +9,7 @@ import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -185,7 +186,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
-    @OneToOne(mappedBy = "uploadDrugItem")
+    @OneToOne(mappedBy = "uploadDrugItem", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private RequestItem requestItem;
 
     public Integer getId() {

@@ -32,16 +32,9 @@
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
-                    <p:column  rendered="false" headerText="" width="100" exportable="false">
-                        <h:link rendered="false" outcome="/private/hospital/create/index" value="แก้ไข/ขออนุมัติใหม่" style="color:blue">
-                            <f:param name="editMode" value="true"/>
-                            <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
-                        </h:link>
-                    </p:column>
-                    <p:column   headerText="" width="60">
-                        <h:link rendered="true" outcome="/private/hospital/create/index" value="แก้ไข" style="color:blue">
-                            <f:param name="editMode" value="true"/>
-                            <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
+                    <p:column headerText="" width="120" exportable="false">
+                        <h:link outcome="/private/hospital/listdrug/request/index" value="แก้ไข/ขออนุมัติใหม่" style="color:blue">
+                            <f:param name="requestItemId" value="#{model.id}"/>
                         </h:link>
                     </p:column>
                     <p:column   headerText="สาเหตุ" width="110">

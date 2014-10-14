@@ -151,6 +151,7 @@ public class CreateHospitalDrug implements Serializable {
 
     public void selectTmt(SelectEvent event) {
         TMTDrug tmtDrug = (TMTDrug) event.getObject();
+        item.setGenericName(tmtDrug.getActiveIngredient());
         item.setTmtId(tmtDrug.getTmtId());
         item.setTradeName(tmtDrug.getTradeName());
         item.setManufacturer(tmtDrug.getManufacturer());
