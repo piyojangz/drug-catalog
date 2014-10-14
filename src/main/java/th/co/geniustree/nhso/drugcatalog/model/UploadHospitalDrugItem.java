@@ -168,12 +168,10 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "DATEEFFECTIVE", nullable = false)
     private String dateEffective;
 
-    @NotNull(message = "ต้องกำหนด DateChange มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ E หรือ D ", groups = {AGroup.class, EDGroup.class})
     @Column(name = "DATECHANGEDATE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateChangeDate;
 
-    @NotNull(message = "ต้องกำหนด DateUpdate มาด้วยทุกครั้ง ถ้า UpdateFlag เท่ากับ A หรือ U", groups = {AGroup.class, UGroup.class})
     @Column(name = "DATEUPDATEDATE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdateDate;
