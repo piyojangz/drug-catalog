@@ -86,7 +86,7 @@
                 <p:column   headerText="#" width="20" rendered="#{empty selectable}">
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
-                <p:column   headerText="" width="30" rendered="#{not empty selectable}">
+                <p:column   headerText="" width="50" rendered="#{not empty selectable}">
                     <p:commandLink value="เลือก" style="color:blue" actionListener="#{searchTmtDrug.selectDrug(model)}"/>
                 </p:column>
                 <p:column headerText="TPUCODE/TMTID" width="60">
