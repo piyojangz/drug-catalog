@@ -192,7 +192,7 @@ public class CreateHospitalDrug implements Serializable {
             return null;
         } else {
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
-            FacesMessageUtils.info("แก้ไขเสร็จสิ้น");
+            FacesMessageUtils.info("แก้ไขเสร็จสิ้น ข้อมูลถูกส่งไปอนุมัติแล้ว ");
             return "/private/hospital/listdrug/index?faces-redirect=true";
         }
 

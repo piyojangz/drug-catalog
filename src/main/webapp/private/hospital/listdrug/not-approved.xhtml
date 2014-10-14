@@ -38,6 +38,12 @@
                             <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
                         </h:link>
                     </p:column>
+                    <p:column   headerText="" width="60">
+                        <h:link rendered="true" outcome="/private/hospital/create/index" value="แก้ไข" style="color:blue">
+                            <f:param name="editMode" value="true"/>
+                            <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
+                        </h:link>
+                    </p:column>
                     <p:column   headerText="สาเหตุ" width="110">
                         <h:outputText value="#{empty model.requestItem.message? model.requestItem.errorColumns : model.requestItem.message}"/>
                     </p:column>

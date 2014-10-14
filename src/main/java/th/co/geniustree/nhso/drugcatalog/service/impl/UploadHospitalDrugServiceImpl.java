@@ -73,8 +73,7 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         item = uploadHospitalDrugItemRepo.save(item);
         UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
         uploadHospitalDrug = makeSpecialUploadDrug(uploadHospitalDrug, hcode, item);
-        throw new UnsupportedOperationException("TODO");
-        //addNewHospitalDrug(uploadHospitalDrug, item);
+        createRequestItem(item);
     }
 
     private UploadHospitalDrug makeSpecialUploadDrug(UploadHospitalDrug uploadHospitalDrug, String hcode, UploadHospitalDrugItem item) {
@@ -90,7 +89,8 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
             item.setUploadDrug(uploadHospitalDrug);
             uploadHospitalDrug = uploadHospitalDrugRepo.save(uploadHospitalDrug);
         } else {
-            uploadHospitalDrug.setPassItemCount(uploadHospitalDrug.getPassItemCount() + 1);
+            uploadHospitalDrug.setItemCount(uploadHospitalDrug.getPassItems().size() + 1);
+            uploadHospitalDrug.setPassItemCount(uploadHospitalDrug.getPassItems().size() + 1);
             uploadHospitalDrug.getPassItems().add(item);
             item.setUploadDrug(uploadHospitalDrug);
             uploadHospitalDrug = uploadHospitalDrugRepo.save(uploadHospitalDrug);
@@ -100,15 +100,14 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
 
     @Override
     public void editDrugByHand(String hcode, UploadHospitalDrugItem uploadItem) {
-        uploadItem = uploadHospitalDrugItemRepo.save(uploadItem);
-        UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
-        makeSpecialUploadDrug(uploadHospitalDrug, hcode, uploadItem);
         HospitalDrug hospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(uploadItem.getHospDrugCode(), hcode));
         if (hospitalDrug == null) {
             throw new IllegalStateException("Can't edit HospitalDrug that not already exist.");
         }
-        throw new UnsupportedOperationException("TODO");
-        //processUpdate(hospitalDrug, uploadItem);
+        uploadItem = uploadHospitalDrugItemRepo.save(uploadItem);
+        UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
+        makeSpecialUploadDrug(uploadHospitalDrug, hcode, uploadItem);
+        createRequestItem(uploadItem);
     }
 
 }

@@ -29,13 +29,13 @@
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
-                    <p:column   headerText="" width="40" exportable="false" rendered="false">
+                    <p:column   headerText="" width="60" exportable="false">
                         <h:link rendered="true" outcome="/private/hospital/create/index" value="แก้ไข" style="color:blue">
                             <f:param name="editMode" value="true"/>
                             <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
                         </h:link>
                     </p:column>
-                    <p:column   headerText="" width="40" exportable="false">
+                    <p:column   headerText="" width="60" exportable="false">
                         <h:link rendered="true" outcome="/private/hospital/listdrug/displayHistory" value="ประวัติ" style="color:blue">
                             <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
                         </h:link>
