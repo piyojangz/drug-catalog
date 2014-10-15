@@ -23,18 +23,23 @@
                 <p:panelGrid>
                     <p:row>
                         <p:column style="text-align: right">
-                            UPDATEFLAG
+                            UPDATEFLAG:
                         </p:column>
                         <p:column>
-                            <p:selectOneButton id="UPDATEFLAG" value="#{editNotPassRequest.updateFlag}" required="true" requiredMessage="กรุณาระบุสิ่งที่ต้องการแก้ไข">
-                                <p:ajax process="UPDATEFLAG" update="@form"/>
-                                <f:selectItem itemLabel="A - เพิ่มยาใหม่" itemValue="A" />
-                                <f:selectItem itemLabel="U -แก้ไขราคายา" itemValue="U" />
-                                <f:selectItem itemLabel="E -แก้ไข ED และอื่นๆ" itemValue="E" />
-                            </p:selectOneButton>
+                            <ui:remove>
+                                <p:selectOneButton id="UPDATEFLAG" value="#{editNotPassRequest.updateFlag}" required="true" requiredMessage="กรุณาระบุสิ่งที่ต้องการแก้ไข">
+                                    <p:ajax process="UPDATEFLAG" update="@form"/>
+                                    <f:selectItem itemLabel="A - เพิ่มยาใหม่" itemValue="A" />
+                                    <f:selectItem itemLabel="U -แก้ไขราคายา" itemValue="U" />
+                                    <f:selectItem itemLabel="E -แก้ไข ED และอื่นๆ" itemValue="E" />
+                                </p:selectOneButton>
+                            </ui:remove>
+                            <h:outputText value="#{editNotPassRequest.item.updateFlag}"/>
                         </p:column>
                         <p:column>
-                            <p:message for="UPDATEFLAG"/>
+                            <ui:remove>
+                                <p:message for="UPDATEFLAG"/>
+                            </ui:remove>
                         </p:column>
                     </p:row>
                     <p:row>
