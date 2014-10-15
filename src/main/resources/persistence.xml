@@ -22,6 +22,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTEdNed</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.DeleteLog</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TmtNDC24</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
