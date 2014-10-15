@@ -18,9 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -31,9 +29,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
-import th.co.geniustree.nhso.drugcatalog.input.AGroup;
-import th.co.geniustree.nhso.drugcatalog.input.EDGroup;
-import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
@@ -186,7 +181,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
-    @OneToOne(mappedBy = "uploadDrugItem", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(mappedBy = "uploadDrugItem", cascade = {CascadeType.PERSIST, CascadeType.MERGE},orphanRemoval = true)
     private RequestItem requestItem;
 
     public Integer getId() {

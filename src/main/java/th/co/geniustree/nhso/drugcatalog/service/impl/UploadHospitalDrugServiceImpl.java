@@ -21,9 +21,6 @@ import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.service.EdNEdService;
-import th.co.geniustree.nhso.drugcatalog.service.PriceService;
-import th.co.geniustree.nhso.drugcatalog.service.TmtDrugTxService;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 
 /**
@@ -60,7 +57,11 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     }
 
     private void createRequestItem(UploadHospitalDrugItem uploadItem) {
-        RequestItem requestItem = new RequestItem();
+        RequestItem requestItem = uploadHospitalDrugItemRepo.findRejectItem(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode(), uploadItem.getDateEffective(), uploadItem.getUpdateFlag());
+        if (requestItem != null) {
+            requestItemRepo.delete(requestItem);
+        }
+        requestItem = new RequestItem();
         requestItem.setStatus(RequestItem.Status.REQUEST);
         requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
         requestItem.setUploadDrugItem(uploadItem);

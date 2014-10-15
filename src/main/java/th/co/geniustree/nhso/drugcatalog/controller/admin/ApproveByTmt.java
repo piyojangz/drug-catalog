@@ -120,6 +120,7 @@ public class ApproveByTmt implements Serializable {
     public void approve(ValueChangeEvent event) {
         UIComponent component = event.getComponent();
         RequestItem item = (RequestItem) component.getAttributes().get("selectedItem");
+        LOG.debug("selectItem = {}",item.getId());
         if (event.getNewValue() != null) {
             item.setStatus(RequestItem.Status.valueOf(event.getNewValue().toString()));
             if (item.getStatus() == RequestItem.Status.ACCEPT) {
@@ -171,7 +172,7 @@ public class ApproveByTmt implements Serializable {
         @Override
         public Object getRowKey(Object object) {
             RequestItem requestItem = (RequestItem) object;
-            return requestItem.getId();
+            return requestItem.getId().toString();
         }
 
         @Override

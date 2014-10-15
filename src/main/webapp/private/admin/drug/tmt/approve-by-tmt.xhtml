@@ -190,7 +190,7 @@
                         </p:column>
                     </ui:remove>
                     <p:column   headerText="HCODE" width="100">
-                        <h:outputText value="#{model.hcode}"/>
+                        <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
                     </p:column>
                 </p:dataTable>
                 <br/>
@@ -253,7 +253,7 @@
                         </p:column>
                     </ui:remove>
                     <p:column   headerText="HCODE" width="100">
-                        <h:outputText value="#{model.hcode}"/>
+                        <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
                     </p:column>
                     <p:column headerText="เหตุผล" width="200">
                         <p:inputText value="#{model.message}" style="width: 100%"/>
