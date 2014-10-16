@@ -64,7 +64,7 @@
                             TMTID:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" validator="#{createHospitalDrug.checkTmtExist}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
+                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
                             <p:commandButton rendered="#{not createHospitalDrug.editHospitalDrug.isApproved()}" value="Find" action="#{createHospitalDrug.findTmt}" process="@this">
                                 <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
@@ -130,7 +130,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right">
-                            <span style="color:red">*</span>STRENGTH:
+                            STRENGTH:
                         </p:column>
                         <p:column>
                             <p:inputText id="STRENGTH" value="#{createHospitalDrug.item.strength}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
