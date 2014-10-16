@@ -19,35 +19,85 @@
                     position: absolute;
                     display: none;
                 }
+
+                .ajax-start{
+                    position : fixed;
+                    padding : 5px;
+                    width : 176px;
+                    height : 30px;
+                    background-color : #FFF6B0;
+                    z-index : 10000;
+                    top : 50%;
+                    margin-top : -35px;
+                    left : 50%;
+                    margin-left : -95px;
+                    border : solid 1px #F5E573;
+                    box-shadow : 0 0 5px rgba(0, 0, 0, 0.11);
+                    -moz-box-shadow : 0 0 5px rgba(0, 0, 0, 0.11);
+                    -webkit-box-shadow : 0 0 5px rgba(0, 0, 0, 0.11);
+                }
+
+                .ajax-start .ui-panel-content{
+                    font-weight : bold;
+                    color : rgb(116, 116, 116);
+                }
+
+                .image-loader{
+                    position : relative;
+                    margin-top : -7px;
+                    margin-left : -15px;
+                }
+
+                .text-loader{
+                    position : relative;
+                    bottom : 11px;
+                    left : 10px;
+                }
+
             </style>
         </h:head>
-        <p:layout fullPage="true" id="root">
-            <p:layoutUnit position="north" size="60" resizable="false" closable="false" collapsible="false">
-                <div id="temHead">
-                    <div id="temLogo"></div>
-                    <div class="temStatus">ผู้ใช้งาน: #{request.userPrincipal.principal} #{request.userPrincipal.principal.hospital.hname}</div>
+        <h:body>
+            <p:ajaxStatus id="ajax" widgetVar="ajaxWidget">
+                <f:facet name="start">
+                    <p:panel styleClass="ajax-start">
+                        <h:graphicImage value="/resources/images/ajax-loader.gif" styleClass="image-loader"/>
+                        <h:outputText value="กำลังโหลด..." styleClass="text-loader"/>
+                    </p:panel>
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>
+            </p:ajaxStatus>
 
 
-                    <div class="buttoncolor">
-                        <h:form>
-                            <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">
-                                <f:selectItem itemLabel="Green"  itemValue="green" />
-                                <f:selectItem itemLabel="Purple"  itemValue="purple" />
-                            </p:selectOneButton>
-                        </h:form>
+            <p:layout fullPage="true" id="root">
+                <p:layoutUnit position="north" size="60" resizable="false" closable="false" collapsible="false">
+                    <div id="temHead">
+                        <div id="temLogo"></div>
+                        <div class="temStatus">ผู้ใช้งาน: #{request.userPrincipal.principal} #{request.userPrincipal.principal.hospital.hname}</div>
+
+
+                        <div class="buttoncolor">
+                            <h:form>
+                                <p:selectOneButton value="#{themeSwitching.selectedTheme}" onchange="this.form.submit()" styleClass="IconSub">
+                                    <f:selectItem itemLabel="Green"  itemValue="green" />
+                                    <f:selectItem itemLabel="Purple"  itemValue="purple" />
+                                </p:selectOneButton>
+                            </h:form>
+                        </div>
                     </div>
-                </div>
-            </p:layoutUnit>
-            <p:layoutUnit position="west" size="280" header="&nbsp;" resizable="true" closable="false" collapsible="true">
-                <p:growl id="messages" showDetail="true" showSummary="true"/>
-                <ui:insert name="leftMenu">
-                    <ui:include src="left-menu.xhtml" />
-                </ui:insert>
-            </p:layoutUnit>
-            <p:layoutUnit position="center"  class="reSizeContent">
-                <ui:insert name="content">
-                </ui:insert>
-            </p:layoutUnit>
-        </p:layout>
+                </p:layoutUnit>
+                <p:layoutUnit position="west" size="280" header="&nbsp;" resizable="true" closable="false" collapsible="true">
+                    <p:growl id="messages" showDetail="true" showSummary="true"/>
+                    <ui:insert name="leftMenu">
+                        <ui:include src="left-menu.xhtml" />
+                    </ui:insert>
+                </p:layoutUnit>
+                <p:layoutUnit position="center"  class="reSizeContent">
+                    <ui:insert name="content">
+                    </ui:insert>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
     </f:view>
 </html>
