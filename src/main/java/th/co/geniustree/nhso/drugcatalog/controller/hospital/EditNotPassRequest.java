@@ -134,18 +134,6 @@ public class EditNotPassRequest implements Serializable {
         }
     }
 
-    public void checkTmtExist(FacesContext context, UIComponent component, Object value) {
-        if (value == null) {
-            return;
-        }
-        if (updateFlag.equals("A")) {
-            Long count = hospitalDrugRepo.countByHcodeAndTmtId(SecurityUtil.getUserDetails().getHospital().getHcode(), value.toString());
-            if (count > 0) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "มีการขอเพิ่ม TMTID นี้แล้ว"));
-            }
-        }
-    }
-
     public void checkPriceOrEdExist(FacesContext context, UIComponent component, Object value) {
         if (value == null) {
             return;

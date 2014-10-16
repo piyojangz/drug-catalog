@@ -69,7 +69,7 @@
                             TMTID:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TMTID" value="#{editNotPassRequest.item.tmtId}" readonly="#{facesContext.renderResponse}" validator="#{createHospitalDrug.checkTmtExist}"/>
+                            <p:inputText id="TMTID" value="#{editNotPassRequest.item.tmtId}" readonly="#{facesContext.renderResponse}"/>
                             <p:commandButton  value="Find" action="#{editNotPassRequest.findTmt}" process="@this">
                                 <p:ajax event="dialogReturn" listener="#{editNotPassRequest.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
