@@ -33,7 +33,7 @@ import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 @Entity
 @Table(name = "TMT_UPLOADHOSPDRUG", indexes = {
     @Index(name = "UPLOADHOSPDRUG_HCODE_IDX", columnList = "HCODE"),
-    @Index(name = "UPLOADHOSPDRUG_SHAHEX_IDX", columnList = "SHAHEX", unique = true)
+    @Index(name = "UPLOADHOSPDRUG_SHAHEX_IDX", columnList = "SHAHEX")
 })
 public class UploadHospitalDrug implements Serializable {
 
