@@ -111,7 +111,6 @@ public class ReportConditionBase implements Serializable {
         this.selectHospital = selectHospital;
     }
 
-
     public void reset() {
         selectZone = null;
         selectProvince = null;

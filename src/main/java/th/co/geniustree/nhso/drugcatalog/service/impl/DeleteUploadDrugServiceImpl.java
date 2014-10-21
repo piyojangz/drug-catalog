@@ -46,10 +46,6 @@ public class DeleteUploadDrugServiceImpl implements DeleteUploadDrugService {
 
     @Override
     public void delete(String hcode) {
-        Long countByHcodeAndApproved = hospitalDrugRepo.countByHcodeAndApproved(hcode, true);
-        if(countByHcodeAndApproved > 0){
-            throw new RuntimeException("มีการ approve ยาของ รพ. นี้แล้ว จะไม่สามารถลบข้อมูลได้ ต้องทำการแก้ไขข้อมูลเท่านั้น");
-        }
         File uploadDir = createOrFindDir("UPLOAD");
         File deleteDir = createOrFindDir("DELETED");
         Page<UploadHospitalDrug> uploadHospitaDrugs = uploadHospitalDrugRepo.findByHcode(hcode, new PageRequest(0, 100_000));
@@ -61,7 +57,7 @@ public class DeleteUploadDrugServiceImpl implements DeleteUploadDrugService {
                 File deleteFileLocation = new File(deleteDir, uploadHospitalDrug.getSavedFileName());
                 Files.move(savedFile, deleteFileLocation);
             } catch (IOException ex) {
-                LOG.warn(null,ex);
+                LOG.warn(ex.getMessage());
             }
         }
         uploadHospitalDrugRepo.delete(uploadHospitaDrugs.getContent());

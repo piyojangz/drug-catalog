@@ -146,7 +146,7 @@ public class HospitalDrug implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "hospitalDrug")
     private List<TMTDrugTx> tmtDrugTx;
 
-    @OneToMany(mappedBy = "targetItem")
+    @OneToMany(mappedBy = "targetItem", cascade = {CascadeType.ALL})
     private List<RequestItem> requestItems;
 
     @Version

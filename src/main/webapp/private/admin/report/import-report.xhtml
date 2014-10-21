@@ -11,7 +11,7 @@
             <f:metadata>
                 <f:viewAction action="#{importDrug.view()}"/>
             </f:metadata>
-            <h:form >
+            <h:form id="form">
                 <style type="text/css">
                     .ui-panelgrid .ui-panelgrid-cell{
                         padding: 4px 5px;
@@ -108,11 +108,16 @@
                         <h:outputText value="#{model[8]}"/>
                     </p:column>
                     <p:column   headerText="Delete" width="40">
-                        <h:commandLink value="Delete" action="#{deleteAllDrugOfHcode.delete(model[4])}" onclick="return confirm('การลบจะลบข้อมูลทั้งหมดของ รพ. จะต้องแจ้ง รพ. ให้นำเข้า drug ที่ถูกต้องใหม่ทั้งหมด')">
+                        <p:commandLink  value="Delete" action="#{deleteAllDrugOfHcode.delete(model[4])}">
                             <f:param name="hcode" value="#{model[4]}"/>
-                        </h:commandLink>
+                            <p:confirm header="Confirmation" message="การลบจะลบข้อมูลทั้งหมดของ รพ. จะต้องแจ้ง รพ. ให้นำเข้า drug ที่ถูกต้องใหม่ทั้งหมด" icon="ui-icon-alert" />
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="ยืนยัน" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="ยกเลิก" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>
