@@ -31,6 +31,9 @@ public interface UploadHospitalDrugRepo extends JpaRepository<UploadHospitalDrug
     @Query("select distinct h from UploadHospitalDrug u JOIN u.hospital h JOIN h.province p where p.id = ?1")
     public List<Hospital> findAllHospitalInProvince(String provinceId);
     
+    @Query("select distinct u.hospital from UploadHospitalDrug u  where u.hospital.hname like  ?1 or u.hospital.hcode like  ?2")
+    public Page<Hospital> findHospitalInTmt(String hcode,String hname,Pageable pageable);
+    
     @Transactional(readOnly = true,propagation = Propagation.NOT_SUPPORTED)
     @Query("select u.hospital.province.nhsoZone.nhsoZone,u.hospital.province.nhsoZone.zoneName,u.hospital.province.id,u.hospital.province.name,u.hospital.hcode,u.hospital.hname,sum(u.itemCount-u.passItemCount),sum(u.passItemCount),sum(u.itemCount) "
             + "from UploadHospitalDrug u "

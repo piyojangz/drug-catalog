@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Select drug group</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>
+            รหัส หรือ ชื่อหน่วยบริการ : <p:inputText id="keyword" value="#{searchHospitalDialog.keyword}"/> <p:commandButton action="#{searchHospitalDialog.search}" value="ค้นหา"  update="table"/>
+            <p:dataTable id="table" var="model" value="#{searchHospitalDialog.hospitals}"   rowIndexVar="rowIndex" rowKey="#{model.hcode}"
+                         paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                <p:column headerText="#" width="50">#{rowIndex+1}</p:column>
+                <p:column headerText="หน่วยบริการ" >
+                    <p:commandLink actionListener="#{searchHospitalDialog.setSelectedHospital(model)}"  value="#{model.fullName}" style="color: blue">
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body> 
+</html>

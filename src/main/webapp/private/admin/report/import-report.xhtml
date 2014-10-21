@@ -20,13 +20,13 @@
                 </style>
                 <p:messages id="msg"/>
                 <h3>#{msg.menu_report_upload_label}</h3>
-                <p:panelGrid>
+                <p:panelGrid style="width: 100%">
                     <p:row>
-                        <p:column style="text-align: right">
+                        <p:column style="text-align: right;width: 100px">
                             <p:outputLabel value="เขต:" for="region"/>
 
                         </p:column>
-                        <p:column>
+                        <p:column style="width:550px">
                             <p:selectOneMenu id="region" value="#{importDrug.selectZone}" >
                                 <f:selectItem noSelectionOption="true" itemLabel="ทั้งหมด"/>
                                 <f:selectItems value="#{importDrug.zones}" var="zone" itemLabel="#{zone.zoneName}" itemValue="#{zone.nhsoZone}"/>
@@ -39,7 +39,6 @@
                     <p:row>
                         <p:column style="text-align: right">
                             <p:outputLabel value="จังหวัด:" for="province"/>
-
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="province" value="#{importDrug.selectProvince}">
@@ -54,13 +53,18 @@
                     <p:row>
                         <p:column style="text-align: right">
                             <p:outputLabel value="หน่วยบริการ:" for="hospital"/>
-
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="hospital" value="#{importDrug.selectHospital}">
-                                <f:selectItem noSelectionOption="true" itemLabel="ทั้งหมด" />
-                                <f:selectItems value="#{importDrug.hospitals}" var="hospital" itemLabel="#{hospital.fullName}" itemValue="#{hospital.hcode}"/>
-                            </p:selectOneMenu>
+                            <div>
+                                <p:selectOneMenu id="hospital" value="#{importDrug.selectHospital}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="ทั้งหมด" />
+                                    <f:selectItems value="#{importDrug.hospitals}" var="hospital" itemLabel="#{hospital.fullName}" itemValue="#{hospital.hcode}"/>
+                                </p:selectOneMenu>
+                                &nbsp;
+                                <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{importDrug.showSearchHospitalDialog()}">
+                                    <p:ajax event="dialogReturn" listener="#{importDrug.searchHospitalDialogReturn}" update="region province hospital" />
+                                </p:commandButton>
+                            </div>
                         </p:column>
                         <p:column>
                         </p:column>

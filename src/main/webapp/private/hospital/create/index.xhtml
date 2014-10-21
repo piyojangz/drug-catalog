@@ -65,7 +65,7 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
-                            <p:commandButton rendered="#{not createHospitalDrug.editHospitalDrug.isApproved()}" value="Find" action="#{createHospitalDrug.findTmt}" process="@this">
+                            <p:commandButton rendered="#{not createHospitalDrug.editHospitalDrug.isApproved()}" value="ค้นหา" action="#{createHospitalDrug.findTmt}" process="@this">
                                 <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
                         </p:column>
