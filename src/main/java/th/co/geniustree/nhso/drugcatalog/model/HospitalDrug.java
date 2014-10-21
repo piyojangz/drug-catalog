@@ -102,12 +102,10 @@ public class HospitalDrug implements Serializable {
     @Column(name = "UPDATEFLAG", nullable = false, length = 1)
     private String updateFlag;
 
-    @NotEmpty
     @Column(name = "DATECHANGE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateChange;
 
-    @NotEmpty
     @Column(name = "DATEUPDATE", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateUpdate;
