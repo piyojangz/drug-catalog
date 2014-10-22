@@ -27,6 +27,8 @@
                         <p:commandButton action="#{searchTmtDrug.search()}" update="table selectColumns selectTypes" value="Search" />
                         &nbsp;
                         <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
+                        &nbsp;
+                        Version: <b>#{searchTmtDrug.latestFile}</b>
                     </p:column>
                 </p:row>
             </p:panelGrid>

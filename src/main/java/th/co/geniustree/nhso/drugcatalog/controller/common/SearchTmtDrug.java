@@ -26,9 +26,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
+import th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.TMTReleaseFileUploadRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
@@ -49,11 +52,16 @@ public class SearchTmtDrug implements Serializable {
     private String keyword;
     private LazyDataModel<TMTDrug> models;
     private String drugGroupFilter = "ALL";
+    private String latestFile;
+    @Autowired
+    private TMTReleaseFileUploadRepo tmtReleaseFileUploadRepo;
 
     @PostConstruct
     public void postConstruct() {
         selectColumns.add("FSN");
         selectColumns.add("TMTID");
+        TMTReleaseFileUpload findLastestReleaseDate = tmtReleaseFileUploadRepo.findLastestReleaseDate();
+        latestFile = "TMTRF" + DateUtils.format("yyyyMMdd", findLastestReleaseDate.getReleaseDate());
     }
 
     public String getKeyword() {
@@ -98,6 +106,14 @@ public class SearchTmtDrug implements Serializable {
 
     public void setDrugGroupFilter(String drugGroupFilter) {
         this.drugGroupFilter = drugGroupFilter;
+    }
+
+    public String getLatestFile() {
+        return latestFile;
+    }
+
+    public void setLatestFile(String latestFile) {
+        this.latestFile = latestFile;
     }
 
     public void search() {
