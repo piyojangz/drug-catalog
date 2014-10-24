@@ -60,6 +60,7 @@ public class SearchTmtDrug implements Serializable {
     public void postConstruct() {
         selectColumns.add("FSN");
         selectColumns.add("TMTID");
+        selectColumns.add("NDC24");
         TMTReleaseFileUpload findLastestReleaseDate = tmtReleaseFileUploadRepo.findLastestReleaseDate();
         latestFile = "TMTRF" + DateUtils.format("yyyyMMdd", findLastestReleaseDate.getReleaseDate());
     }
@@ -130,12 +131,16 @@ public class SearchTmtDrug implements Serializable {
                 if (selectColumns.isEmpty()) {
                     selectColumns.add("FSN");
                     selectColumns.add("TMTID");
+                    selectColumns.add("NDC24");
                 }
                 if (selectColumns.contains("FSN")) {
                     spec = spec.and(TMTDrugSpecs.fsnContains(keywords));
                 }
                 if (selectColumns.contains("TMTID")) {
                     spec = spec.or(TMTDrugSpecs.tmtIdContains(keywords));
+                }
+                if (selectColumns.contains("NDC24")) {
+                    spec = spec.or(TMTDrugSpecs.ndcContains(keywords));
                 }
                 if ("YES".equals(drugGroupFilter)) {
                     spec = spec.and(TMTDrugSpecs.hasDrugGroup());

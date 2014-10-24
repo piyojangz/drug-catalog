@@ -66,6 +66,7 @@ public class TMTDrugSpecs {
             }
         };
     }
+
     public static Specification<TMTDrug> hasDrugGroup() {
         return new Specification<TMTDrug>() {
 
@@ -75,12 +76,31 @@ public class TMTDrugSpecs {
             }
         };
     }
+
     public static Specification<TMTDrug> dontHaveDrugGroup() {
         return new Specification<TMTDrug>() {
 
             @Override
             public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.isEmpty(root.get(TMTDrug_.drugGroupItems));
+            }
+        };
+    }
+
+    public static Specification<TMTDrug> ndcContains(final List<String> keywords) {
+        return new Specification<TMTDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate and = null;
+                for (String key : keywords) {
+                    if (and == null) {
+                        and = cb.like(root.get(TMTDrug_.ndc24), "%" + key.toLowerCase() + "%");
+                    } else {
+                        and = cb.and(and, cb.like(root.get(TMTDrug_.ndc24), "%" + key.toLowerCase() + "%"));
+                    }
+                }
+                return and;
             }
         };
     }

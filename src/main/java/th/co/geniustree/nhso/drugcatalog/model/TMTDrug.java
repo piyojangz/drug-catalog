@@ -108,6 +108,9 @@ public class TMTDrug implements Serializable, TMT {
     @OneToMany(mappedBy = "tmtDrug")
     private List<TMTEdNed> edNeds;
 
+    @Column(name = "NDC24", nullable = true, length = 24)
+    private String ndc24;
+
     @Version
     private Integer version;
 
@@ -275,6 +278,15 @@ public class TMTDrug implements Serializable, TMT {
     public void setEdNeds(List<TMTEdNed> edNeds) {
         this.edNeds = edNeds;
     }
+
+    public String getNdc24() {
+        return ndc24;
+    }
+
+    public void setNdc24(String ndc24) {
+        this.ndc24 = ndc24;
+    }
+    
 
     @Override
     public int hashCode() {
