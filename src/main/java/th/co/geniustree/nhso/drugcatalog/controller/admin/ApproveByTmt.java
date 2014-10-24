@@ -117,13 +117,25 @@ public class ApproveByTmt implements Serializable {
         this.stdev = stdev;
     }
 
+    public void error(RequestItem requestItem, String columnName) {
+        requestItem.getErrorColumns().add(columnName);
+        requestItem.setStatus(RequestItem.Status.REJECT);
+        LOG.info("add error to RequestId = {}",requestItem.getId());
+    }
+
+    public void clearErrorColumns(RequestItem requestItem) {
+        requestItem.getErrorColumns().clear();
+        requestItem.setStatus(RequestItem.Status.REQUEST);
+    }
+
     public void approve(ValueChangeEvent event) {
         UIComponent component = event.getComponent();
         RequestItem item = (RequestItem) component.getAttributes().get("selectedItem");
-        LOG.debug("selectItem = {}",item.getId());
+        LOG.debug("selectItem = {}", item.getId());
         if (event.getNewValue() != null) {
             item.setStatus(RequestItem.Status.valueOf(event.getNewValue().toString()));
             if (item.getStatus() == RequestItem.Status.ACCEPT) {
+                item.getErrorColumns().clear();
                 approveRequests.add(item);
                 notApproveRequests.remove(item);
             } else {
@@ -157,6 +169,7 @@ public class ApproveByTmt implements Serializable {
         stdev = hospitalDrugRepo.stddev(selectTmtId);
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
         request = requestItemRepo.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
+        request.add(0, new RequestItem(tmtDrug));
     }
 
     private void assignNotApproveMassage() {

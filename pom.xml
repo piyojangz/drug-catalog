@@ -191,7 +191,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>5.1-GT1</version>
+            <version>5.1</version>
         </dependency>
         <dependency>
             <groupId>net.sf.barcode4j</groupId>

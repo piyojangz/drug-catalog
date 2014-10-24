@@ -34,6 +34,26 @@ import javax.persistence.Temporal;
 @Table(name = "TMT_REQUEST_ITEM")
 public class RequestItem implements Serializable {
 
+    public RequestItem() {
+    }
+
+    
+    public RequestItem(TMTDrug tmtDrug) {
+        this.id=-1;
+        this.uploadDrugItem = new UploadHospitalDrugItem();
+        uploadDrugItem.setId(-1);
+        UploadHospitalDrug uploadHospDrug = new UploadHospitalDrug();
+        uploadHospDrug.setId(-1);
+        this.uploadDrugItem.setUploadDrug(uploadHospDrug);
+        this.uploadDrugItem.setTmtId(tmtDrug.getTmtId());
+        this.uploadDrugItem.setTradeName(tmtDrug.getTradeName());
+        this.uploadDrugItem.setGenericName(tmtDrug.getActiveIngredient());
+        this.uploadDrugItem.setStrength(tmtDrug.getStrength());
+        this.uploadDrugItem.setDosageForm(tmtDrug.getDosageform());
+        this.uploadDrugItem.setContent(tmtDrug.getDispUnit());
+        this.uploadDrugItem.setManufacturer(tmtDrug.getManufacturer());
+    }
+
     public enum Status {
 
         REQUEST, REJECT, ACCEPT
