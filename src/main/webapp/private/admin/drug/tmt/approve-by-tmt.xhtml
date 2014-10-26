@@ -36,8 +36,6 @@
                 </h:commandLink>
                 <span class="headtext">Request ทั้งหมด</span>
                 <p:dataTable id="table" resizableColumns="true"  value="#{approveByTmt.request}" var="model"  rowIndexVar="rowIndex" 
-                             paginator="true" rows="10"  rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom"
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              scrollable="true" scrollHeight="400" frozenRows="1">
                     <p:column headerText="Approve"  width="150" style="text-align:center" >
                         <p:selectOneButton rendered="#{rowIndex ne 0}" value="#{model.status}" valueChangeListener="#{approveByTmt.approve}" styleClass="approved-button updateBtn-#{model.id}">
@@ -58,6 +56,7 @@
                     </p:column>
                     <p:column headerText="TradeName" width="200" >
                         <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink value="#{rowIndex}" action="#{approveByTmt.save()}"/>
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})" disabled="#{rowIndex eq 0}" value="#{model.uploadDrugItem.tradeName}" style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" action="#{approveByTmt.error(model, 'TRADENAME')}"/>
                         </p:outputPanel>
                     </p:column>
