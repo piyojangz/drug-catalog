@@ -26,6 +26,7 @@
         <form-login  default-target-url="/private/index.xhtml" login-page="/index.xhtml" />
         <logout logout-url="/logout" invalidate-session="true"
                 logout-success-url="/index.xhtml" />
+        <custom-filter ref="sessionManagementFilter" before="SESSION_MANAGEMENT_FILTER"/>
     </http>
     <authentication-manager alias="authenManager">
         <authentication-provider ref="wsAuthenticationProvider"></authentication-provider>
@@ -44,4 +45,12 @@
         <beans:property name="endpointAddress" value="${endpointAddress}"/>
         <beans:property name="lookupServiceOnStartup" value="false"/>
     </beans:bean>
+    <beans:bean id="sessionManagementFilter" class="org.springframework.security.web.session.SessionManagementFilter">
+        <beans:constructor-arg name="securityContextRepository" ref="httpSessionSecurityContextRepository" />
+        <beans:property name="invalidSessionStrategy" ref="redirectStrategy"/>
+    </beans:bean>
+    <beans:bean id="redirectStrategy" class="th.co.geniustree.nhso.drugcatalog.jsf.JsfRedirectStrategy">
+        <beans:constructor-arg name="invalidSessionUrl" value="/index.xhtml" />
+    </beans:bean>
+    <beans:bean id="httpSessionSecurityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository"/>
 </beans:beans> 
