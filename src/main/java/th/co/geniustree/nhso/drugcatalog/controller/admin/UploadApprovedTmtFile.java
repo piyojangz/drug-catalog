@@ -215,7 +215,10 @@ public class UploadApprovedTmtFile implements Serializable {
             npoifs = new NPOIFSFileSystem(file.toFile());
             wb = WorkbookFactory.create(npoifs);
         } catch (OfficeXmlFileException ofe) {
-            LOG.warn(null, ofe);
+            if (npoifs != null) {
+                npoifs.close();
+            }
+            LOG.warn("Use new Office API (XLSX)");
             pkg = OPCPackage.open(file.toFile());
             wb = WorkbookFactory.create(pkg);
         } finally {
@@ -248,6 +251,11 @@ public class UploadApprovedTmtFile implements Serializable {
                     Set<String> errorColumns = null;
                     if (!approve) {
                         errorColumns = extractColumns(result);
+                        //new requirement not to check SPECPREP
+                        if (errorColumns.size() == 1 && errorColumns.contains("SPECPREP")) {
+                            approve = true;
+                            errorColumns.clear();
+                        }
                     }
                     datas.add(new ApproveData(hcode, hospDrug, tmt, approve, errorColumns, approveUserPid));
                 }

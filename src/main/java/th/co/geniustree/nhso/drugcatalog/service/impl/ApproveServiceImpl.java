@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.ApproveData;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
@@ -73,7 +74,7 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Override
     public void approveOrReject(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String userPid) {
-        List<RequestItem> requestItems = requestItemRepo.findByStatusAndHospDrugCodeAndTmtId(hcode, hospDrug, tmt);
+        List<RequestItem> requestItems = requestItemRepo.findByStatusAndHospDrugCodeAndTmtId(hcode, hospDrug, tmt,DateUtils.parseUSDate("dd/MM/yyyy", "17/09/2014"));
         LOG.info("Approve or reject request {}", requestItems);
         for (RequestItem requestItem : requestItems) {
             if (requestItem != null) {

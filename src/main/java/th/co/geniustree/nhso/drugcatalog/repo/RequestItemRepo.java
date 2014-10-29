@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer> {
     @Query("select r from RequestItem r where r.status = ?1 and r.uploadDrugItem.tmtId = ?2")
     public List<RequestItem> findAllByStatusAndTmtId(RequestItem.Status status, String tmtId);
 
-    @Query("select distinct r from RequestItem r where r.uploadDrugItem.uploadDrug.hcode = ?1 and r.uploadDrugItem.hospDrugCode = ?2 and r.uploadDrugItem.tmtId = ?3 order by r.requestDate asc")
-    public List<RequestItem> findByStatusAndHospDrugCodeAndTmtId(String hcode, String hospDrug, String tmt);
+    @Query("select distinct r from RequestItem r where r.uploadDrugItem.uploadDrug.hcode = ?1 and r.uploadDrugItem.hospDrugCode = ?2 and r.uploadDrugItem.tmtId = ?3 and r.requestDate <= ?4 order by r.requestDate asc")
+    public List<RequestItem> findByStatusAndHospDrugCodeAndTmtId(String hcode, String hospDrug, String tmt,Date toDate);
 
 }
