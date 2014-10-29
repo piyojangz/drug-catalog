@@ -11,16 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 
 /**
@@ -37,36 +35,24 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     private UploadHospitalDrugRepo uploadHospitalDrugRepo;
 
     @Autowired
-    private RequestItemRepo requestItemRepo;
-
-    @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
 
     @Autowired
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    @Autowired
+    private RequestItemService requestItemService;
 
     @Override
     public void saveUploadHospitalDrugAndRequest(UploadHospitalDrug uploadHospitalDrug) {
         uploadHospitalDrug = uploadHospitalDrugRepo.save(uploadHospitalDrug);
         List<UploadHospitalDrugItem> passItems = uploadHospitalDrug.getPassItems();
         for (UploadHospitalDrugItem uploadItem : passItems) {
-            if (!Strings.isNullOrEmpty(uploadItem.getTmtId())) {
-                createRequestItem(uploadItem);
-            }
+            createRequestItem(uploadItem);
         }
     }
 
     private void createRequestItem(UploadHospitalDrugItem uploadItem) {
-        RequestItem requestItem = uploadHospitalDrugItemRepo.findRejectItem(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode(), uploadItem.getDateEffective(), uploadItem.getUpdateFlag());
-        if (requestItem != null) {
-            requestItemRepo.delete(requestItem);
-        }
-        requestItem = new RequestItem();
-        requestItem.setStatus(RequestItem.Status.REQUEST);
-        requestItem.setRequestUser(SecurityUtil.getUserDetails().getPid());
-        requestItem.setUploadDrugItem(uploadItem);
-        requestItem = requestItemRepo.save(requestItem);
-        uploadItem.setRequestItem(requestItem);
+        requestItemService.generateRequest(uploadItem);
     }
 
     @Override
