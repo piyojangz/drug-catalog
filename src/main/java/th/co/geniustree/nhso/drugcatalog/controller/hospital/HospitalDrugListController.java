@@ -152,4 +152,13 @@ public class HospitalDrugListController implements Serializable {
         };
     }
 
+    public WSUserDetails getUser() {
+        return user;
+    }
+
+    public void setUser(WSUserDetails user) {
+        this.user = user;
+    }
+    
+
 }
