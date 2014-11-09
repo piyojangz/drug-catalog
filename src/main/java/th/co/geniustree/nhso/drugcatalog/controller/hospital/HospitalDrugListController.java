@@ -9,6 +9,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.UploadHospitalDrugItemSpecs;
@@ -159,6 +161,8 @@ public class HospitalDrugListController implements Serializable {
     public void setUser(WSUserDetails user) {
         this.user = user;
     }
-    
+    public String formattedDate(){
+        return DateUtils.format("yyyyMMDD", new Date());
+    }
 
 }
