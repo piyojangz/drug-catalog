@@ -37,9 +37,8 @@ public class RequestItem implements Serializable {
     public RequestItem() {
     }
 
-    
     public RequestItem(TMTDrug tmtDrug) {
-        this.id=-1;
+        this.id = -1;
         this.uploadDrugItem = new UploadHospitalDrugItem();
         uploadDrugItem.setId(-1);
         UploadHospitalDrug uploadHospDrug = new UploadHospitalDrug();
@@ -97,6 +96,8 @@ public class RequestItem implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "TMT_ERRORCOLUMNS")
     private Set<String> errorColumns;
+    @Column(name = "EDIT_COUNT", nullable = false)
+    private Integer editCount = 0;
 
     @PrePersist
     public void prePersist() {
@@ -186,6 +187,15 @@ public class RequestItem implements Serializable {
         this.uploadDrugItem = uploadDrugItem;
         this.id = uploadDrugItem.getId();
     }
+
+    public Integer getEditCount() {
+        return editCount;
+    }
+
+    public void setEditCount(Integer editCount) {
+        this.editCount = editCount;
+    }
+    
 
     @Override
     public int hashCode() {
