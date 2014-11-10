@@ -151,6 +151,7 @@ public class EditNotPassRequest implements Serializable {
 
     public String save() {
         item.setUpdateFlag(updateFlag);
+        item.getRequestItem().setEditCount(item.getRequestItem().getEditCount() + 1);
         item.getRequestItem().setApproveDate(null);
         item.getRequestItem().setApproveUser(null);
         item.getRequestItem().setStatus(RequestItem.Status.REQUEST);
