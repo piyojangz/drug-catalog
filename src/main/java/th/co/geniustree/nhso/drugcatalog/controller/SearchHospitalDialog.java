@@ -86,7 +86,7 @@ public class SearchHospitalDialog implements Serializable {
         log.info("selected hospital => {}", selectedHospital);
         RequestContext.getCurrentInstance().closeDialog(selectedHospital);
     }
-    @PostConstruct
+
     public void search() {
         log.info("find hospital with keyword => {}", keyword);
         hospitals = new SpringDataLazyDataModelSupport<Hospital>() {

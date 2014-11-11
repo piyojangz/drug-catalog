@@ -8,12 +8,16 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>Select drug group</title>
+        <title>ค้นหาหน่วยบริการ</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
             }
         </style>
+        <f:metadata>
+            <f:viewParam name="keyword" value="#{searchHospitalDialog.keyword}"/>
+            <f:viewAction action="#{searchHospitalDialog.search()}"/>
+        </f:metadata>
     </h:head>
     <h:body>
         <h:form>
