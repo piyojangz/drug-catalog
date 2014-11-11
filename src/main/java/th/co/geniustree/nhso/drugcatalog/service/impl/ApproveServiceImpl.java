@@ -74,7 +74,7 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Override
     public void approveOrReject(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String userPid) {
-        List<RequestItem> requestItems = requestItemRepo.findByStatusAndHospDrugCodeAndTmtId(hcode, hospDrug, tmt,DateUtils.parseUSDate("dd/MM/yyyy", "17/09/2014"));
+        List<RequestItem> requestItems = requestItemRepo.findByStatusAndHospDrugCodeAndTmtId(hcode, hospDrug, tmt, DateUtils.parseUSDate("dd/MM/yyyy", "17/09/2014"));
         LOG.info("Approve or reject request {}", requestItems);
         for (RequestItem requestItem : requestItems) {
             if (requestItem != null) {
@@ -93,7 +93,15 @@ public class ApproveServiceImpl implements ApproveService {
     @Override
     public void approveOrRejects(List<ApproveData> datas) {
         for (ApproveData data : datas) {
-            approveOrReject(data.getHcode(), data.getHospDrug(), data.getTmt(), data.isApprove(), data.getErrorColumns(), data.getApproveUserPid());
+            RequestItem requestItem = requestItemRepo.findOne(data.getUploadItemId());
+            if (requestItem != null && requestItem.getStatus() != RequestItem.Status.ACCEPT) {
+                if (data.isApprove()) {
+                    approve(requestItem);
+                } else {
+                    requestItem.setErrorColumns(data.getErrorColumns());
+                    reject(requestItem);
+                }
+            }
         }
     }
 

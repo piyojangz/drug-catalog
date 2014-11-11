@@ -409,9 +409,9 @@
             <id>local2</id>
             <properties>
                 <eclipselink.ddl-generation>create-tables</eclipselink.ddl-generation>
-                <eclipselink.logging.level>INFO</eclipselink.logging.level>
+                <eclipselink.logging.level>ALL</eclipselink.logging.level>
                 <log.spring.level>INFO</log.spring.level>
-                <log.geniustree.level>INFO</log.geniustree.level>
+                <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
                 <log.file.location>c:\\${project.artifactId}\log</log.file.location>
                 <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderMock</authentication.provider>

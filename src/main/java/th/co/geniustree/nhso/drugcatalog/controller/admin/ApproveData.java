@@ -19,14 +19,16 @@ public class ApproveData {
     private boolean approve;
     private Set<String> errorColumns;
     private String approveUserPid;
+    private Integer uploadItemId;
 
-    public ApproveData(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String approveUserPid) {
+    public ApproveData(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String approveUserPid,Integer uploadItemId) {
         this.hcode = hcode;
         this.hospDrug = hospDrug;
         this.tmt = tmt;
         this.approve = approve;
         this.errorColumns = errorColumns;
         this.approveUserPid = approveUserPid;
+        this.uploadItemId = uploadItemId;
     }
     
 
@@ -77,5 +79,19 @@ public class ApproveData {
     public void setApproveUserPid(String approveUserPid) {
         this.approveUserPid = approveUserPid;
     }
+
+    public Integer getUploadItemId() {
+        return uploadItemId;
+    }
+
+    public void setUploadItemId(Integer uploadItemId) {
+        this.uploadItemId = uploadItemId;
+    }
+
+    @Override
+    public String toString() {
+        return "ApproveData{" + "hcode=" + hcode + ", hospDrug=" + hospDrug + ", tmt=" + tmt + ", approve=" + approve + ", errorColumns=" + errorColumns + ", approveUserPid=" + approveUserPid + ", uploadItemId=" + uploadItemId + '}';
+    }
+    
     
 }

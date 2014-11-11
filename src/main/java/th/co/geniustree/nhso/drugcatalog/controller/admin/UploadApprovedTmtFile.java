@@ -48,6 +48,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 
@@ -123,6 +124,7 @@ public class UploadApprovedTmtFile implements Serializable {
         try {
             File rootDirectory = extractZip();
             processAll(rootDirectory);
+            file = null;
             FacesMessageUtils.info("Process completed.");
         } catch (IOException ex) {
             LOG.error(null, ex);
@@ -168,15 +170,9 @@ public class UploadApprovedTmtFile implements Serializable {
 
     private void processAll(File rootDirectory) throws IOException {
         java.nio.file.Files.walkFileTree(rootDirectory.toPath(), new SimpleFileVisitor<Path>() {
-            String approveUserPid;
 
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                File pidFile = new File(dir.toFile(), "pid.txt");
-                if (pidFile.exists()) {
-                    LOG.info("Found pid.text on directory {}", dir);
-                    approveUserPid = Files.toString(pidFile, Charset.defaultCharset());
-                }
                 return FileVisitResult.CONTINUE;
             }
 
@@ -189,7 +185,7 @@ public class UploadApprovedTmtFile implements Serializable {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (file.toFile().getName().endsWith("xls") || file.toFile().getName().endsWith("xlsx")) {
                     try {
-                        processFile(file, approveUserPid);
+                        processFile(file);
                     } catch (InvalidFormatException ex) {
                         throw new IOException(ex);
                     }
@@ -205,7 +201,7 @@ public class UploadApprovedTmtFile implements Serializable {
         });
     }
 
-    private void processFile(Path file, String approveUserPid) throws IOException, InvalidFormatException {
+    private void processFile(Path file) throws IOException, InvalidFormatException {
         // The bad method body Must refactoring TODO
         Workbook wb = null;
         NPOIFSFileSystem npoifs = null;
@@ -229,8 +225,7 @@ public class UploadApprovedTmtFile implements Serializable {
                 }
                 Sheet sheet = wb.getSheetAt(0);
                 Iterator<Row> rowIterator = sheet.rowIterator();
-                rowIterator.next();//skip first 2 row
-                rowIterator.next();
+                rowIterator.next();//skip first  row
                 List<ApproveData> datas = new ArrayList<>();
                 for (; rowIterator.hasNext();) {
                     Row row = rowIterator.next();
@@ -239,10 +234,17 @@ public class UploadApprovedTmtFile implements Serializable {
                     Cell hospDrugCell = row.getCell(1, Row.RETURN_BLANK_AS_NULL);
                     Cell tmtCell = row.getCell(2, Row.RETURN_BLANK_AS_NULL);
                     Cell resultCell = row.getCell(13, Row.RETURN_BLANK_AS_NULL);
+                    Cell uploadItemCell = row.getCell(15, Row.RETURN_BLANK_AS_NULL);
                     String hcode = getCellValue(hcodeCell);
                     String hospDrug = getCellValue(hospDrugCell);
                     String tmt = getCellValue(tmtCell);
                     String result = getCellValue(resultCell);
+                    Integer uploadItemId = null;
+                    try {
+                        uploadItemId = Integer.parseInt(getCellValue(uploadItemCell));
+                    } catch (NumberFormatException numberFormatException) {
+                        new InvalidFormatException("cannot parse 'ItemID'");
+                    }
                     if (Strings.isNullOrEmpty(hcode) || Strings.isNullOrEmpty(hospDrug) || Strings.isNullOrEmpty(tmt) || Strings.isNullOrEmpty(result)) {
                         LOG.info("No process XLS for row hcode={} ,hospDrug={}, tmt={}, result={}", hcode, hospDrug, tmt, result);
                         continue;
@@ -256,8 +258,14 @@ public class UploadApprovedTmtFile implements Serializable {
                             approve = true;
                             errorColumns.clear();
                         }
+                        if (errorColumns.size() == 1 && errorColumns.contains("UNITPRICE")) {
+                            approve = true;
+                            errorColumns.clear();
+                        }
                     }
-                    datas.add(new ApproveData(hcode, hospDrug, tmt, approve, errorColumns, approveUserPid));
+                    ApproveData approveData = new ApproveData(hcode, hospDrug, tmt, approve, errorColumns, SecurityUtil.getUserDetails().getPid(), uploadItemId);
+                    datas.add(approveData);
+                    LOG.debug("approve data => {}",approveData);
                 }
                 approveService.approveOrRejects(datas);
             } finally {
