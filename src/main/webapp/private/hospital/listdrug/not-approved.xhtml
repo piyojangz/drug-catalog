@@ -70,7 +70,7 @@
                     <p:column headerText="CONTENT" width="80" styleClass="#{model.requestItem.errorColumns.contains('CONTENT')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="60" styleClass="#{model.requestItem.errorColumns.contains('UNITPRICE')?'errorBackground':'color:black'}">
+                    <p:column headerText="UNITPRICE" width="60" styleClass="#{model.requestItem.errorColumns.contains('UNITPRICE')?'warnBackground':'color:black'}">
                         <h:outputText value="#{model.unitPrice}"/>
                     </p:column>
                     <p:column headerText="DISTRIBUTOR" width="260" styleClass="#{model.requestItem.errorColumns.contains('DISTRIBUTOR')?'errorBackground':'color:black'}">
