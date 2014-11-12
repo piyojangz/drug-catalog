@@ -213,15 +213,17 @@ public class AdminInbox implements Serializable {
     }
 
     public String save() {
-        List<RequestItem> merge = new ArrayList<>(approveRequests);
-        merge.addAll(notApproveRequests);
-        approveService.approveOrReject(merge);
-        requestItemHolders.clear();
-        notApproveRequests.clear();
-        approveRequests.clear();
-        //TODO send mail to each HCODE
-        search();
-        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        if (notApproveHaveErrorColumn()) {
+            List<RequestItem> merge = new ArrayList<>(approveRequests);
+            merge.addAll(notApproveRequests);
+            approveService.approveOrReject(merge);
+            requestItemHolders.clear();
+            notApproveRequests.clear();
+            approveRequests.clear();
+            //TODO send mail to each HCODE
+            search();
+            FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        }
         return null;
     }
 
@@ -244,6 +246,16 @@ public class AdminInbox implements Serializable {
         } else {
             return false;
         }
+    }
+
+    private boolean notApproveHaveErrorColumn() {
+        for (RequestItem notApprove : notApproveRequests) {
+            if (notApprove.getErrorColumns().isEmpty()) {
+                FacesMessageUtils.error("จะต้องระบุ column ที่ไม่ให้ผ่านด้วย");
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -156,15 +156,20 @@ public class ApproveByTmt implements Serializable {
     }
 
     public String save() {
-        List<RequestItem> merge = new ArrayList<>(approveRequests);
-        merge.addAll(notApproveRequests);
-        approveService.approveOrReject(merge);
-        notApproveRequests.clear();
-        approveRequests.clear();
-        //TODO send mail to each HCODE
-        load();
-        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
-        return "inbox-groupby-tmt";
+        if (notApproveHaveErrorColumn()) {
+            List<RequestItem> merge = new ArrayList<>(approveRequests);
+            merge.addAll(notApproveRequests);
+            approveService.approveOrReject(merge);
+            notApproveRequests.clear();
+            approveRequests.clear();
+            //TODO send mail to each HCODE
+            load();
+            FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+            return "inbox-groupby-tmt";
+        } else {
+            return null;
+        }
+
     }
 
     public void load() {
@@ -173,6 +178,16 @@ public class ApproveByTmt implements Serializable {
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
         request = requestItemRepo.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
         request.add(0, new RequestItem(tmtDrug));
+    }
+
+    private boolean notApproveHaveErrorColumn() {
+        for(RequestItem notApprove : notApproveRequests){
+            if(notApprove.getErrorColumns().isEmpty()){
+                FacesMessageUtils.error("จะต้องระบุ column ที่ไม่ให้ผ่านด้วย");
+                return false;
+            }
+        }
+        return true;
     }
 
     public static class SelectableRequestItemModel extends SpringDataLazyDataModelSupport<RequestItem> {
