@@ -120,12 +120,16 @@ public class ApproveByTmt implements Serializable {
     public void error(RequestItem requestItem, String columnName) {
         requestItem.getErrorColumns().add(columnName);
         requestItem.setStatus(RequestItem.Status.REJECT);
-        LOG.info("add error to RequestId = {}",requestItem.getId());
+        if (!notApproveRequests.contains(requestItem)) {
+            notApproveRequests.add(requestItem);
+        }
+        LOG.info("add error to RequestId = {}", requestItem.getId());
     }
 
     public void clearErrorColumns(RequestItem requestItem) {
         requestItem.getErrorColumns().clear();
         requestItem.setStatus(RequestItem.Status.REQUEST);
+        notApproveRequests.remove(requestItem);
     }
 
     public void approve(ValueChangeEvent event) {
@@ -152,7 +156,6 @@ public class ApproveByTmt implements Serializable {
     }
 
     public String save() {
-        assignNotApproveMassage();
         List<RequestItem> merge = new ArrayList<>(approveRequests);
         merge.addAll(notApproveRequests);
         approveService.approveOrReject(merge);
@@ -170,14 +173,6 @@ public class ApproveByTmt implements Serializable {
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
         request = requestItemRepo.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
         request.add(0, new RequestItem(tmtDrug));
-    }
-
-    private void assignNotApproveMassage() {
-        for (RequestItem item : notApproveRequests) {
-            if (Strings.isNullOrEmpty(item.getMessage())) {
-                item.setMessage(notApproveMessage);
-            }
-        }
     }
 
     public static class SelectableRequestItemModel extends SpringDataLazyDataModelSupport<RequestItem> {

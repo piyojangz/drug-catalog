@@ -96,27 +96,6 @@
                             <h:outputText value="#{model.uploadDrugItem.unitPrice}" rendered="#{rowIndex eq 0}"/>
                         </p:outputPanel>
                     </p:column>
-                    <ui:remove>
-                        <p:column headerText="DISTRIBUTOR" width="200">
-                            <h:outputText value="#{model.uploadDrugItem.distributor}"/>
-                        </p:column>
-
-                        <p:column headerText="ISED" width="60">
-                            <p:outputPanel styleClass="updateset-#{model.id}">
-                                <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.ised}" style="#{model.errorColumns.contains('ISED')?'color:red':'color:blue'}" action="#{approveByTmt.error(model, 'ISED')}"/>
-                                <h:outputText value="#{model.uploadDrugItem.ised}" rendered="#{rowIndex eq 0}"/>
-                            </p:outputPanel>
-                        </p:column>
-                        <p:column headerText="NDC24" width="180">
-                            <h:outputText value="#{model.uploadDrugItem.ndc24}"/>
-                        </p:column>
-                        <p:column headerText="PACKSIZE" width="80">
-                            <h:outputText value="#{model.uploadDrugItem.packSize}"/>
-                        </p:column>
-                        <p:column headerText="PACKPRICE" width="100">
-                            <h:outputText value="#{model.uploadDrugItem.packPrice}"/>
-                        </p:column>
-                    </ui:remove>
                     <p:column   headerText="HCODE" width="100">
                         <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
                     </p:column>

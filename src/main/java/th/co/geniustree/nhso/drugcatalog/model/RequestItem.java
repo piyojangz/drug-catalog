@@ -23,6 +23,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -99,9 +100,19 @@ public class RequestItem implements Serializable {
     @Column(name = "EDIT_COUNT", nullable = false)
     private Integer editCount = 0;
 
+    @Column(name = "LASTUPDATE", nullable = false)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date lastUpdate;
+
     @PrePersist
     public void prePersist() {
         requestDate = new Date();
+        lastUpdate = requestDate;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        lastUpdate = new Date();
     }
 
     public Integer getId() {
@@ -194,6 +205,14 @@ public class RequestItem implements Serializable {
 
     public void setEditCount(Integer editCount) {
         this.editCount = editCount;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
     
 

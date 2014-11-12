@@ -5,28 +5,32 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.faces.component.UIComponent;
+import javax.faces.event.ValueChangeEvent;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 
 /**
  *
@@ -40,15 +44,23 @@ public class AdminInbox implements Serializable {
     @Autowired
     private RequestItemRepo requestItemRepo;
     private SpringDataLazyDataModelSupport<RequestItem> requestItems;
-    private List<List<RequestItem>> requestItemHolders;
+    private List<List<RequestItem>> requestItemHolders = new ArrayList<>();
     private Hospital selectedHospital;
     private String keyword;
     @Autowired
     private TMTDrugRepo tmtDrugRepo;
+    @Autowired
+    private UploadHospitalDrugRepo uploadHospitalDrugRepo;
+    @Autowired
+    private ApproveService approveService;
+    private List<RequestItem> approveRequests = new ArrayList<>();
+    private List<RequestItem> notApproveRequests = new ArrayList<>();
+    private long totalElements;
+    private long displayElement;
 
     @PostConstruct
     public void postConstruct() {
-        requestItemHolders = new ArrayList<>();
+
     }
 
     public SpringDataLazyDataModelSupport<RequestItem> getRequestItems() {
@@ -79,7 +91,47 @@ public class AdminInbox implements Serializable {
         this.keyword = keyword;
     }
 
+    public List<RequestItem> getApproveRequests() {
+        return approveRequests;
+    }
+
+    public void setApproveRequests(List<RequestItem> approveRequests) {
+        this.approveRequests = approveRequests;
+    }
+
+    public List<RequestItem> getNotApproveRequests() {
+        return notApproveRequests;
+    }
+
+    public void setNotApproveRequests(List<RequestItem> notApproveRequests) {
+        this.notApproveRequests = notApproveRequests;
+    }
+
+    public long getTotalElements() {
+        return totalElements;
+    }
+
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
+    }
+
+    public long getDisplayElement() {
+        return displayElement;
+    }
+
+    public void setDisplayElement(long displayElement) {
+        this.displayElement = displayElement;
+    }
+
     public void showSearchHospitalDialog() {
+        requestItemHolders.clear();
+        notApproveRequests.clear();
+        approveRequests.clear();
+        if (checkHospitalReturnOneElement()) {
+            keyword = selectedHospital.getFullName();
+            search();
+            return;
+        }
         Map<String, Object> options = new HashMap<String, Object>();
         options.put("modal", true);
         options.put("draggable", true);
@@ -103,9 +155,14 @@ public class AdminInbox implements Serializable {
     }
 
     public void search() {
+        requestItemHolders.clear();
+        notApproveRequests.clear();
+        approveRequests.clear();
         if (selectedHospital != null) {
             Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcode(RequestItem.Status.REQUEST,
-                    selectedHospital.getHcode(), new PageRequest(0, 3000, Sort.Direction.ASC, "requestDate"));
+                    selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
+            totalElements = pageResult.getTotalElements();
+            displayElement = pageResult.getSize();
             for (RequestItem item : pageResult.getContent()) {
                 List<RequestItem> requestItems = new ArrayList<>();
                 requestItems.add(createRequestFormTmt(item));
@@ -121,6 +178,72 @@ public class AdminInbox implements Serializable {
             return new RequestItem(tmtDrug);
         }
         return new RequestItem();
+    }
+
+    public void error(RequestItem requestItem, String columnName) {
+        requestItem.getErrorColumns().add(columnName);
+        requestItem.setStatus(RequestItem.Status.REJECT);
+        if (!notApproveRequests.contains(requestItem)) {
+            notApproveRequests.add(requestItem);
+        }
+        log.info("add error to RequestId = {}", requestItem.getId());
+    }
+
+    public void clearErrorColumns(RequestItem requestItem) {
+        requestItem.getErrorColumns().clear();
+        requestItem.setStatus(RequestItem.Status.REQUEST);
+        notApproveRequests.remove(requestItem);
+    }
+
+    public void approve(ValueChangeEvent event) {
+        UIComponent component = event.getComponent();
+        RequestItem item = (RequestItem) component.getAttributes().get("selectedItem");
+        log.debug("selectItem = {}", item.getId());
+        if (event.getNewValue() != null) {
+            item.setStatus(RequestItem.Status.valueOf(event.getNewValue().toString()));
+            if (item.getStatus() == RequestItem.Status.ACCEPT) {
+                item.getErrorColumns().clear();
+                approveRequests.add(item);
+                notApproveRequests.remove(item);
+            } else {
+                notApproveRequests.add(item);
+                approveRequests.remove(item);
+            }
+        }
+    }
+
+    public String save() {
+        List<RequestItem> merge = new ArrayList<>(approveRequests);
+        merge.addAll(notApproveRequests);
+        approveService.approveOrReject(merge);
+        requestItemHolders.clear();
+        notApproveRequests.clear();
+        approveRequests.clear();
+        //TODO send mail to each HCODE
+        search();
+        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        return null;
+    }
+
+    public String clear() {
+        requestItemHolders.clear();
+        notApproveRequests.clear();
+        approveRequests.clear();
+        keyword = "";
+        return "/private/admin/drug/inbox.xhtml?faces-redirect=true";
+    }
+
+    private boolean checkHospitalReturnOneElement() {
+        String _keyword = "%" + Strings.nullToEmpty(this.keyword).trim() + "%";
+        PageRequest pageRequest = new PageRequest(0, 3);
+        Page<Hospital> findHospitalInTmt = uploadHospitalDrugRepo.findHospitalInTmt(_keyword, _keyword, pageRequest);
+        if (findHospitalInTmt.getTotalElements() == 1) {
+            selectedHospital = findHospitalInTmt.getContent().get(0);
+            log.info("selected hospital from search dialog is => {}", selectedHospital);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

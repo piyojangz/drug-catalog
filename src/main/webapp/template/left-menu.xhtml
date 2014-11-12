@@ -33,7 +33,7 @@
                     <p:menuitem value="#{msg.menu_listdrug_edit_label}" outcome="/private/hospital/listdrug/index" icon="temIconSize24 temIconBackgroundApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN')}">
-                    <p:menuitem value="Inbox (Group by HCODE)" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Inbox (Group by HCODE กรณีมี TMT)" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Inbox (Group by TMTID)" outcome="/private/admin/drug/tmt/inbox-groupby-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/inbox-groupby-tmt'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Upload approved file." outcome="/private/admin/drug/tmt/upload-approved-file" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/upload-approved-file'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
