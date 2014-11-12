@@ -289,3 +289,9 @@ tr>th.ui-resizable-column{
     border: 0 !important;
     background: transparent;
 }
+.errorBackground{
+    background: #ff6666 !important;
+}
+.warnBackground{
+    background: #ffcc00 !important;
+}
