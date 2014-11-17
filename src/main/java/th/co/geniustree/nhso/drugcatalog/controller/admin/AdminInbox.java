@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +42,14 @@ import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 public class AdminInbox implements Serializable {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminInbox.class);
+    private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
+    private String keyword;
     @Autowired
     private RequestItemRepo requestItemRepo;
     private SpringDataLazyDataModelSupport<RequestItem> requestItems;
     private List<List<RequestItem>> requestItemHolders = new ArrayList<>();
     private Hospital selectedHospital;
-    private String keyword;
+    private String hcode;
     @Autowired
     private TMTDrugRepo tmtDrugRepo;
     @Autowired
@@ -83,12 +86,12 @@ public class AdminInbox implements Serializable {
         this.selectedHospital = selectedHospital;
     }
 
-    public String getKeyword() {
-        return keyword;
+    public String getHcode() {
+        return hcode;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
     }
 
     public List<RequestItem> getApproveRequests() {
@@ -123,12 +126,29 @@ public class AdminInbox implements Serializable {
         this.displayElement = displayElement;
     }
 
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public List<String> getSelectColumns() {
+        return selectColumns;
+    }
+
+    public void setSelectColumns(List<String> selectColumns) {
+        this.selectColumns = selectColumns;
+    }
+    
+
     public void showSearchHospitalDialog() {
         requestItemHolders.clear();
         notApproveRequests.clear();
         approveRequests.clear();
         if (checkHospitalReturnOneElement()) {
-            keyword = selectedHospital.getFullName();
+            hcode = selectedHospital.getFullName();
             search();
             return;
         }
@@ -140,7 +160,7 @@ public class AdminInbox implements Serializable {
         options.put("contentWidth", 800);
         Map<String, List<String>> params = new HashMap<String, List<String>>();
         List<String> keywords = new ArrayList<>();
-        keywords.add(keyword);
+        keywords.add(hcode);
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/common/searchHospitalDialog", options, params);
     }
@@ -148,7 +168,7 @@ public class AdminInbox implements Serializable {
     public void searchHospitalDialogReturn(SelectEvent event) {
         selectedHospital = (Hospital) event.getObject();
         if (selectedHospital != null) {
-            keyword = selectedHospital.getFullName();
+            hcode = selectedHospital.getFullName();
             search();
         }
         log.info("selected hospital from search dialog is => {}", selectedHospital);
@@ -231,12 +251,12 @@ public class AdminInbox implements Serializable {
         requestItemHolders.clear();
         notApproveRequests.clear();
         approveRequests.clear();
-        keyword = "";
+        hcode = "";
         return "/private/admin/drug/inbox.xhtml?faces-redirect=true";
     }
 
     private boolean checkHospitalReturnOneElement() {
-        String _keyword = "%" + Strings.nullToEmpty(this.keyword).trim() + "%";
+        String _keyword = "%" + Strings.nullToEmpty(this.hcode).trim() + "%";
         PageRequest pageRequest = new PageRequest(0, 3);
         Page<Hospital> findHospitalInTmt = uploadHospitalDrugRepo.findHospitalInTmt(_keyword, _keyword, pageRequest);
         if (findHospitalInTmt.getTotalElements() == 1) {

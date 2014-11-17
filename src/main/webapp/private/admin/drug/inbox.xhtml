@@ -9,6 +9,10 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
                 .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
                     background-color : rgb(0, 194, 0);
                     color : #fff;
@@ -24,20 +28,92 @@
                 .ui-datatable-scrollable-header td{
                     background-color: rgb(255, 250, 179);
                 }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+
             </style>
             <h:form id="form">
-                หน่วยบริการ :
-                <p:inputText value="#{adminInbox.keyword}" size="50" autocomplete="false"/>
-                <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{adminInbox.showSearchHospitalDialog()}" update="@form">
-                    <p:ajax event="dialogReturn" listener="#{adminInbox.searchHospitalDialogReturn}" update="@form" />
-                </p:commandButton>
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            หน่วยบริการ :
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{adminInbox.hcode}" size="50" autocomplete="false"/>
+                            <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{adminInbox.showSearchHospitalDialog()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{adminInbox.searchHospitalDialogReturn}" update="@form" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{not empty adminInbox.requestItemHolders}">
+                        <p:column style="text-align: right">
+                            <p:outputLabel value="keyword:" for="keyword"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
+                            <p:commandButton value="Search" action="#{adminInbox.search()}" update="table"/>
+                            &nbsp;
+                            <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
+                        </p:column>
+                        <p:column>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:panelGrid styleClass="advancePanel" style="display: none" rendered="#{not empty adminInbox.requestItemHolders}">
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <p:outputLabel value="Columns:"/>
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
+                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
+                                <f:selectItem itemLabel="TMTID" itemValue="TMTID"/>
+                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
+                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
+                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
+                            </p:selectManyCheckbox>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
                 <br/>
-                จำนวนข้อมูล #{adminInbox.totalElements} เรคคอร์ด แสดงข้อมูล #{adminInbox.displayElement} เรคคอร์ด
-                <br/>
-                หมายเหตุ เมื่อบันทึกแล้ว ข้อมูลจะโหลดหน้าถัดไปโดยอัตโนมัติ
-                <br/>
-                <ui:repeat  var="holders" value="#{adminInbox.requestItemHolders}"  varStatus="repeatStatus">
-                    <p:dataTable id="table" resizableColumns="true"  value="#{holders}" var="model"  rowIndexVar="rowIndex">
+                <h:panelGroup rendered="#{not empty adminInbox.requestItemHolders}">
+                    จำนวนข้อมูล #{adminInbox.totalElements} เรคคอร์ด แสดงข้อมูล #{adminInbox.displayElement} เรคคอร์ด
+                    <br/>
+                    หมายเหตุ เมื่อบันทึกแล้ว ข้อมูลจะโหลดหน้าถัดไปโดยอัตโนมัติ
+                    <br/>
+                </h:panelGroup>
+                <ui:repeat id="table"  var="holders" value="#{adminInbox.requestItemHolders}"  varStatus="repeatStatus">
+                    <p:dataTable id="table" styleClass="clean-table" resizableColumns="true"  value="#{holders}" var="model"  rowIndexVar="rowIndex">
                         <p:column headerText="#{repeatStatus.first?'Approve':''}"  width="150" style="text-align:center" >
                             <p:selectOneButton rendered="#{rowIndex ne 0}" value="#{model.status}" valueChangeListener="#{adminInbox.approve}" styleClass="approved-button updateBtn-#{model.id}">
                                 <p:ajax event="change" process="@this" update="@(.updateset-#{model.id}) :form:saveBtn"/>
