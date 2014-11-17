@@ -42,13 +42,6 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
         }
     }
 
-    private void checkDuplicateForUpdateFlagED(HospitalDrugExcelModel uploadDrugModel) {
-        long countByHospDrugCodeAndUploadDrugHcodeAndDateChange = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateEffective(), uploadDrugModel.getUpdateFlag());
-        if (countByHospDrugCodeAndUploadDrugHcodeAndDateChange > 0) {
-            uploadDrugModel.addError("dateEffective", "พบ hospDrugCode ,dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
-        }
-    }
-
     private void checkDuplicateForUpdateFlagA(HospitalDrugExcelModel uploadDrugModel) {
         boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode()));
         if (exists) {

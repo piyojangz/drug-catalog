@@ -27,9 +27,6 @@ public class TMTDrugTxPK implements Serializable {
     @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
     private String hospDrugCode;
 
-    @Column(name = "TMTID", nullable = true, length = 6)
-    private String tmtId;
-
     @Temporal(TemporalType.DATE)
     @Column(name = "DATE_EFFECTIVE", nullable = false)
     private Date dateEffective;
@@ -37,16 +34,14 @@ public class TMTDrugTxPK implements Serializable {
     public TMTDrugTxPK() {
     }
 
-    public TMTDrugTxPK(String hospDrugCode, String hcode, String tmtId, Date dateEffective) {
+    public TMTDrugTxPK(String hospDrugCode, String hcode, Date dateEffective) {
         this.hospDrugCode = hospDrugCode;
         this.hcode = hcode;
-        this.tmtId = tmtId;
         this.dateEffective = dateEffective;
     }
     public TMTDrugTxPK(HospitalDrug hospitalDrug) {
         this.hospDrugCode = hospitalDrug.getHospDrugCode();
         this.hcode = hospitalDrug.getHcode();
-        this.tmtId = hospitalDrug.getTmtId();
         this.dateEffective = hospitalDrug.getDateEffective();
     }
 
@@ -66,14 +61,6 @@ public class TMTDrugTxPK implements Serializable {
         this.hcode = hcode;
     }
 
-    public String getTmtId() {
-        return tmtId;
-    }
-
-    public void setTmtId(String tmtId) {
-        this.tmtId = tmtId;
-    }
-
     public Date getDateEffective() {
         return dateEffective;
     }
@@ -84,11 +71,10 @@ public class TMTDrugTxPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.hospDrugCode);
-        hash = 37 * hash + Objects.hashCode(this.hcode);
-        hash = 37 * hash + Objects.hashCode(this.tmtId);
-        hash = 37 * hash + Objects.hashCode(this.dateEffective);
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.hcode);
+        hash = 29 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 29 * hash + Objects.hashCode(this.dateEffective);
         return hash;
     }
 
@@ -101,13 +87,10 @@ public class TMTDrugTxPK implements Serializable {
             return false;
         }
         final TMTDrugTxPK other = (TMTDrugTxPK) obj;
-        if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
-            return false;
-        }
         if (!Objects.equals(this.hcode, other.hcode)) {
             return false;
         }
-        if (!Objects.equals(this.tmtId, other.tmtId)) {
+        if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
             return false;
         }
         if (!Objects.equals(this.dateEffective, other.dateEffective)) {

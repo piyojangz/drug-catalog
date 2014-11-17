@@ -26,7 +26,7 @@ public class TMTDrugTx implements Serializable {
     private TMTDrugTxPK id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)
     private TMTDrug tmtDrug;
 
     @ManyToOne
