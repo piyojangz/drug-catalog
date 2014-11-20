@@ -102,12 +102,12 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ISED_APPROVED" width="120"> 
-                        <h:outputText value="#{model.tmtDrug.ndc24}">
+                        <h:outputText value="#{hospitalDrugListController.uploadItemEx.get(model).isedApproved}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="NDC24_APPROVED" width="120"> 
-                        <h:outputText value="#{model.tmtDrug.ndc24}">
+                        <h:outputText value="#{hospitalDrugListController.uploadItemEx.get(model).ndc24}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
@@ -117,7 +117,7 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ISED_STATUS" width="120"> 
-                        <h:outputText value="#{model.dateEffectiveDate}">
+                        <h:outputText value="#{hospitalDrugListController.uploadItemEx.get(model).isedStatus}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>

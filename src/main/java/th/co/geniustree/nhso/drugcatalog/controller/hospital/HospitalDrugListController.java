@@ -10,7 +10,9 @@ import com.google.common.base.Splitter;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -23,6 +25,7 @@ import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.UploadHospitalDrugItemSpecs;
 
@@ -46,6 +49,9 @@ public class HospitalDrugListController implements Serializable {
     private boolean noTmt;
     private boolean approved;
     private boolean notApproved;
+    private Map<UploadHospitalDrugItem, UploadHospitalDrugItemEx> uploadItemEx;
+    @Autowired
+    private TMTEdNedRepo tmtEdNedRepo;
 
     @PostConstruct
     public void postConstruct() {
@@ -148,10 +154,30 @@ public class HospitalDrugListController implements Serializable {
                     LOG.debug("view not approve drug.");
                     spec = spec.and(UploadHospitalDrugItemSpecs.notApproved());
                 }
-                return uploadHospitalDrugItemRepo.findAll(hcodeEq.and(spec), pageAble);
+                Page<UploadHospitalDrugItem> findAll = uploadHospitalDrugItemRepo.findAll(hcodeEq.and(spec), pageAble);
+                if (approved) {
+                    makeUploadEx(findAll);
+                }
+                return findAll;
             }
-
         };
+    }
+
+    private void makeUploadEx(Page<UploadHospitalDrugItem> findAll) {
+        uploadItemEx = new HashMap<>();
+        for (UploadHospitalDrugItem item : findAll) {
+            String findLastestEdByTmtId = tmtEdNedRepo.findLastestEdByTmtId(item.getTmtId(), item.getDateEffectiveDate());
+            if (findLastestEdByTmtId != null) {
+                uploadItemEx.put(item, new UploadHospitalDrugItemEx((String) findLastestEdByTmtId, "01"));
+            } else {
+                uploadItemEx.put(item, new UploadHospitalDrugItemEx(item.getIsed(), "99"));
+            }
+            String ndc24 = item.getTmtDrug().getNdc24();
+            if (ndc24 == null) {
+                ndc24 = item.getNdc24();
+            }
+            uploadItemEx.get(item).setNdc24(ndc24);
+        }
     }
 
     public WSUserDetails getUser() {
@@ -161,8 +187,54 @@ public class HospitalDrugListController implements Serializable {
     public void setUser(WSUserDetails user) {
         this.user = user;
     }
-    public String formattedDate(){
+
+    public String formattedDate() {
         return DateUtils.format("yyyyMMDD", new Date());
     }
 
+    public Map<UploadHospitalDrugItem, UploadHospitalDrugItemEx> getUploadItemEx() {
+        return uploadItemEx;
+    }
+
+    public void setUploadItemEx(Map<UploadHospitalDrugItem, UploadHospitalDrugItemEx> uploadItemEx) {
+        this.uploadItemEx = uploadItemEx;
+    }
+
+    public static class UploadHospitalDrugItemEx {
+
+        private String isedApproved;
+        private String isedStatus;
+        private String ndc24;
+
+        public UploadHospitalDrugItemEx(String isedApproved, String isedStatus) {
+            this.isedApproved = isedApproved;
+            this.isedStatus = isedStatus;
+            this.ndc24 = ndc24;
+        }
+
+        public String getIsedApproved() {
+            return isedApproved;
+        }
+
+        public void setIsedApproved(String isedApproved) {
+            this.isedApproved = isedApproved;
+        }
+
+        public String getIsedStatus() {
+            return isedStatus;
+        }
+
+        public void setIsedStatus(String isedStatus) {
+            this.isedStatus = isedStatus;
+        }
+
+        public String getNdc24() {
+            return ndc24;
+        }
+
+        public void setNdc24(String ndc24) {
+            this.ndc24 = ndc24;
+        }
+
+    }
 }
