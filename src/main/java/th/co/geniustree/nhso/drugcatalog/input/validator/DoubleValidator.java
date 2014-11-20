@@ -8,13 +8,14 @@ package th.co.geniustree.nhso.drugcatalog.input.validator;
 import java.text.DecimalFormat;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import th.co.geniustree.nhso.drugcatalog.Constants;
 
 /**
  *
  * @author moth
  */
 public class DoubleValidator implements ConstraintValidator<DoubleValue, String> {
-    private final DecimalFormat formatter = new DecimalFormat("########.##");
+    private final DecimalFormat formatter = new DecimalFormat(Constants.DEFAULT_DECIMAL_FORMAT);
 
     @Override
     public void initialize(DoubleValue constraintAnnotation) {
@@ -27,7 +28,7 @@ public class DoubleValidator implements ConstraintValidator<DoubleValue, String>
             return true;
         }
         try {
-            formatter.parse(value.trim());
+            Double.parseDouble(value.replaceAll(",", ""));
             return true;
         } catch (Exception ex) {
             return false;

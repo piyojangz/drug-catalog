@@ -79,16 +79,16 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         drug.setDateChange(uploadItem.getDateChangeDate());
         drug.setDateUpdate(uploadItem.getDateUpdateDate());
         drug.setDateEffective(uploadItem.getDateEffectiveDate());
-        drug.setUnitPrice(new BigDecimal(uploadItem.getUnitPrice()));
+        drug.setUnitPrice(new BigDecimal(uploadItem.getUnitPrice().replaceAll(",", "")));
         if (uploadItem.getPackPrice() != null && !uploadItem.getPackPrice().isEmpty()) {
-            drug.setPackPrice(new BigDecimal(uploadItem.getPackPrice()));
+            drug.setPackPrice(new BigDecimal(uploadItem.getPackPrice().replaceAll(",", "")));
         }
     }
 
     private HospitalDrug processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
         boolean isTmtIdChange = tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId());
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            BigDecimal newPrice = new BigDecimal(uploadItem.getUnitPrice());
+            BigDecimal newPrice = new BigDecimal(uploadItem.getUnitPrice().replaceAll(",", ""));
             priceService.addNewPrice(alreadyDrug, newPrice);
         } else if ("E".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             BeanUtils.copyProperties(uploadItem, alreadyDrug);

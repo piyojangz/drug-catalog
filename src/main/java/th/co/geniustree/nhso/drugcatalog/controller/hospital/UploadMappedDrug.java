@@ -234,8 +234,7 @@ public class UploadMappedDrug implements Serializable {
                 public void ok(int rowNum, HospitalDrugExcelModel bean) {
                     bean.setRowNum(rowNum + 1);
                     bean.setHcode(hcodeFromFile);
-                    bean.cutFractionMorethan2();
-                    bean.subtractYearIsWrongYear();
+                    bean.postProcessing();
                     Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
                     if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
                         violations.addAll(beanValidator.validate(bean, UGroup.class));

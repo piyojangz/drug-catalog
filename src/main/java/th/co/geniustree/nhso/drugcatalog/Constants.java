@@ -13,4 +13,5 @@ public interface Constants {
 
     public static final String TMT_DATETIME_FORMAT = "dd/MM/yyyy HH:mm";
     public static final String TMT_DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DEFAULT_DECIMAL_FORMAT = "###,###,###.##";
 }

@@ -386,7 +386,7 @@ public class HospitalDrugExcelModel implements Serializable {
         return equal;
     }
 
-    public void cutFractionMorethan2() {
+    private void cutFractionMorethan2() {
         unitPrice = cutFraction(unitPrice);
         packPrice = cutFraction(packPrice);
     }
@@ -403,7 +403,7 @@ public class HospitalDrugExcelModel implements Serializable {
         return toCut;
     }
 
-    public void subtractYearIsWrongYear() {
+    private void subtractYearIsWrongYear() {
         originalDateChange = dateChange;
         originaleDateUpdate = dateUpdate;
         originalDateEffective = dateEffective;
@@ -427,6 +427,21 @@ public class HospitalDrugExcelModel implements Serializable {
             }
         }
         return dateToParse;
+    }
+
+    public void postProcessing() {
+        cutFractionMorethan2();
+        subtractYearIsWrongYear();
+        removeCommaFromUnitPrice();
+    }
+
+    private void removeCommaFromUnitPrice() {
+        if (this.unitPrice != null) {
+            this.unitPrice = this.unitPrice.replaceAll(",", "");
+        }
+        if (this.packPrice != null) {
+            this.packPrice = this.packPrice.replaceAll(",", "");
+        }
     }
 
 }
