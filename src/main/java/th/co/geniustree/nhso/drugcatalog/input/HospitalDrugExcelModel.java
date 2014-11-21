@@ -37,7 +37,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
 public class HospitalDrugExcelModel implements Serializable {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugExcelModel.class);
-    private final DecimalFormat formatter = new DecimalFormat("########.##");
+    private final DecimalFormat formatter = new DecimalFormat(Constants.DEFAULT_DECIMAL_FORMAT);
     @XlsColumn
     @NotEmpty(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
     @Size(max = 30, message = "HospDrugCode ต้องไม่เกิน 30 ตัวอักษร")
@@ -393,7 +393,7 @@ public class HospitalDrugExcelModel implements Serializable {
 
     private String cutFraction(String toCut) {
         try {
-            if (toCut != null) {
+            if (!Strings.isNullOrEmpty(packPrice)) {
                 Number parsed = formatter.parse(toCut);
                 return formatter.format(parsed);
             }
@@ -433,6 +433,7 @@ public class HospitalDrugExcelModel implements Serializable {
         cutFractionMorethan2();
         subtractYearIsWrongYear();
         removeCommaFromUnitPrice();
+        tmtIdEmptyToNull();
     }
 
     private void removeCommaFromUnitPrice() {
@@ -441,6 +442,12 @@ public class HospitalDrugExcelModel implements Serializable {
         }
         if (this.packPrice != null) {
             this.packPrice = this.packPrice.replaceAll(",", "");
+        }
+    }
+
+    private void tmtIdEmptyToNull() {
+        if (Strings.isNullOrEmpty(tmtId)) {
+            tmtId = null;
         }
     }
 

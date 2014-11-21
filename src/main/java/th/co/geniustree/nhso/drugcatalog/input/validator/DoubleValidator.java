@@ -15,7 +15,6 @@ import th.co.geniustree.nhso.drugcatalog.Constants;
  * @author moth
  */
 public class DoubleValidator implements ConstraintValidator<DoubleValue, String> {
-    private final DecimalFormat formatter = new DecimalFormat(Constants.DEFAULT_DECIMAL_FORMAT);
 
     @Override
     public void initialize(DoubleValue constraintAnnotation) {
