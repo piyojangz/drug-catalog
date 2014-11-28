@@ -16,6 +16,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedSubgraph;
@@ -107,9 +110,13 @@ public class TMTDrug implements Serializable, TMT {
 
     @OneToMany(mappedBy = "tmtDrug")
     private List<TMTEdNed> edNeds;
-
-    @Column(name = "NDC24", nullable = true, length = 24)
-    private String ndc24;
+    @ManyToMany
+    @JoinTable(
+            name = "TMT_TMTDRUG_NDC24",
+            joinColumns = {@JoinColumn(name = "TMTID",referencedColumnName = "TMTID",nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "NDC24",referencedColumnName = "NDC24",nullable = false)}
+    )
+    private List<NDC24> ndc24s;
 
     @Version
     private Integer version;
@@ -279,14 +286,14 @@ public class TMTDrug implements Serializable, TMT {
         this.edNeds = edNeds;
     }
 
-    public String getNdc24() {
-        return ndc24;
+    public List<NDC24> getNdc24s() {
+        return ndc24s;
     }
 
-    public void setNdc24(String ndc24) {
-        this.ndc24 = ndc24;
+    public void setNdc24s(List<NDC24> ndc24s) {
+        this.ndc24s = ndc24s;
     }
-    
+
 
     @Override
     public int hashCode() {

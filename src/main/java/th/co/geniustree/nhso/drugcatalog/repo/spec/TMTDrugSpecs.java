@@ -93,13 +93,13 @@ public class TMTDrugSpecs {
             @Override
             public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Predicate and = null;
-                for (String key : keywords) {
-                    if (and == null) {
-                        and = cb.like(root.get(TMTDrug_.ndc24), "%" + key.toLowerCase() + "%");
-                    } else {
-                        and = cb.and(and, cb.like(root.get(TMTDrug_.ndc24), "%" + key.toLowerCase() + "%"));
-                    }
-                }
+//                for (String key : keywords) {
+//                    if (and == null) {
+//                        and = cb.like(root.get(TMTDrug_.ndc24s), "%" + key.toLowerCase() + "%");
+//                    } else {
+//                        and = cb.and(and, cb.like(root.get(TMTDrug_.ndc24s), "%" + key.toLowerCase() + "%"));
+//                    }
+//                }
                 return and;
             }
         };

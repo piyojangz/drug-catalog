@@ -23,6 +23,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTEdNed</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.DeleteLog</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TmtNDC24</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.NDC24</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
@@ -36,6 +37,7 @@
       <property name="eclipselink.logging.parameters" value="true"/>
       <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
       <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

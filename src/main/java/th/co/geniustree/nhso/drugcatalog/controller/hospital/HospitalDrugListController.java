@@ -24,6 +24,7 @@ import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.model.NDC24;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
@@ -172,9 +173,10 @@ public class HospitalDrugListController implements Serializable {
             } else {
                 uploadItemEx.put(item, new UploadHospitalDrugItemEx(item.getIsed(), "99"));
             }
-            String ndc24 = item.getTmtDrug().getNdc24();
-            if (ndc24 == null) {
-                ndc24 = item.getNdc24();
+            List<NDC24> ndc24s = item.getTmtDrug().getNdc24s();
+            String ndc24 = "";
+            if (ndc24s.size() == 1) {
+                ndc24 = ndc24s.get(1).getNdc24();
             }
             uploadItemEx.get(item).setNdc24(ndc24);
         }

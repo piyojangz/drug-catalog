@@ -253,14 +253,11 @@ public class UploadApprovedTmtFile implements Serializable {
                     Set<String> errorColumns = null;
                     if (!approve) {
                         errorColumns = extractColumns(result);
-                        //new requirement not to check SPECPREP
-                        if (errorColumns.size() == 1 && errorColumns.contains("SPECPREP")) {
+                        errorColumns.remove("SPECPREP");
+                        errorColumns.remove("UNITPRICE");
+                        errorColumns.remove("CONTENT");
+                        if (errorColumns.isEmpty()) {
                             approve = true;
-                            errorColumns.clear();
-                        }
-                        if (errorColumns.size() == 1 && errorColumns.contains("UNITPRICE")) {
-                            approve = true;
-                            errorColumns.clear();
                         }
                     }
                     ApproveData approveData = new ApproveData(hcode, hospDrug, tmt, approve, errorColumns, SecurityUtil.getUserDetails().getPid(), uploadItemId);
