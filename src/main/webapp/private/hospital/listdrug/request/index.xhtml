@@ -47,7 +47,7 @@
                             <span style="color:red">*</span>HOSPDRUGCODE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="HOSPDRUGCODE" value="#{editNotPassRequest.item.hospDrugCode}" validator="#{editNotPassRequest.checkHospDrugCodeExist}"/>
+                            <p:inputText id="HOSPDRUGCODE" value="#{editNotPassRequest.item.hospDrugCode}"/>
                         </p:column>
                         <p:column>
                             <p:message for="HOSPDRUGCODE"/>
@@ -239,43 +239,6 @@
                             <p:message for="PACKPRICE"/>
                         </p:column>
                     </p:row>
-                    <p:row>
-                        <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('DATECHANGE')?'errorBackground':''}">
-                            DATECHANGE:
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="DATECHANGE" value="#{editNotPassRequest.item.dateChangeDate}" disabled="true">
-                            </p:calendar>
-                        </p:column>
-                        <p:column>
-                            <p:message for="DATECHANGE"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('DATEUPDATE')?'errorBackground':''}">
-                            DATEUPDATE:
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="DATEUPDATE"  value="#{editNotPassRequest.item.dateUpdateDate}" disabled="true" >
-                            </p:calendar>
-                        </p:column>
-                        <p:column>
-                            <p:message for="DATEUPDATE"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('DATEEFFECTIVE')?'errorBackground':''}">
-                            <h:outputLabel  style="color:red">*</h:outputLabel>DATEEFFECTIVE:
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="DATEEFFECTIVE"  value="#{editNotPassRequest.item.dateEffectiveDate}" disabled="true" validator="#{editNotPassRequest.checkPriceOrEdExist}">
-                            </p:calendar>
-                        </p:column>
-                        <p:column>
-                            <p:message for="DATEEFFECTIVE"/>
-                        </p:column>
-                    </p:row>
-
                     <p:row>
                         <p:column/>
                         <p:column>

@@ -90,9 +90,11 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             BigDecimal newPrice = new BigDecimal(uploadItem.getUnitPrice().replaceAll(",", ""));
             priceService.addNewPrice(alreadyDrug, newPrice);
-        } else if ("E".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
-            BeanUtils.copyProperties(uploadItem, alreadyDrug);
-            copyAndConvertAttribute(uploadItem, alreadyDrug);
+        } else if ("E".equalsIgnoreCase(uploadItem.getUpdateFlag()) || "A".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
+            if (alreadyDrug.getDateEffective().before(uploadItem.getDateEffectiveDate())) {
+                BeanUtils.copyProperties(uploadItem, alreadyDrug);
+                copyAndConvertAttribute(uploadItem, alreadyDrug);
+            }
             edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
             if (isTmtIdChange) {
                 tmtDrugTxService.addNewTmtDrugTx(alreadyDrug, alreadyDrug.getTmtDrug());
