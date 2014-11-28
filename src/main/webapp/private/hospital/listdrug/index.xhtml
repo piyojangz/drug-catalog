@@ -126,13 +126,19 @@
                         <h:outputText value="#{model.updateFlag}"/>
                     </p:column>
                     <p:column headerText="DATECHANGE" width="120">
-                        <h:outputText value="#{model.dateChange}"/>
+                        <h:outputText value="#{model.dateChange}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
                     </p:column>
                     <p:column headerText="DATEUPDATE" width="120">
-                        <h:outputText value="#{model.dateUpdate}"/>
+                        <h:outputText value="#{model.dateUpdate}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
                     </p:column>
                     <p:column headerText="DATEEFFECTIVE" width="120"> 
-                        <h:outputText value="#{model.dateEffective}"/>
+                        <h:outputText value="#{model.dateEffective}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
                     </p:column>
                 </p:dataTable>
             </h:form>
