@@ -176,7 +176,7 @@ public class HospitalDrugListController implements Serializable {
             List<NDC24> ndc24s = item.getTmtDrug().getNdc24s();
             String ndc24 = "";
             if (ndc24s.size() == 1) {
-                ndc24 = ndc24s.get(1).getNdc24();
+                ndc24 = ndc24s.get(0).getNdc24();
             }
             uploadItemEx.get(item).setNdc24(ndc24);
         }
