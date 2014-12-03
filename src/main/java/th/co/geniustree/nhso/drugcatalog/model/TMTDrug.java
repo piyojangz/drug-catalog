@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
@@ -113,10 +114,18 @@ public class TMTDrug implements Serializable, TMT {
     @ManyToMany
     @JoinTable(
             name = "TMT_TMTDRUG_NDC24",
-            joinColumns = {@JoinColumn(name = "TMTID",referencedColumnName = "TMTID",nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "NDC24",referencedColumnName = "NDC24",nullable = false)}
+            joinColumns = {
+                @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)},
+            inverseJoinColumns = {
+                @JoinColumn(name = "NDC24", referencedColumnName = "NDC24", nullable = false)}
     )
     private List<NDC24> ndc24s;
+
+    @Column(name = "DOSAGEFORM_GROUP", length = 100)
+    private String dosageformGroup;
+
+    @OneToMany(mappedBy = "tmtDrug", fetch = FetchType.LAZY)
+    private List<ReimbursePrice> reimbursePrices;
 
     @Version
     private Integer version;
@@ -294,6 +303,22 @@ public class TMTDrug implements Serializable, TMT {
         this.ndc24s = ndc24s;
     }
 
+    public String getDosageformGroup() {
+        return dosageformGroup;
+    }
+
+    public void setDosageformGroup(String dosageformGroup) {
+        this.dosageformGroup = dosageformGroup;
+    }
+
+    public List<ReimbursePrice> getReimbursePrices() {
+        return reimbursePrices;
+    }
+
+    public void setReimbursePrices(List<ReimbursePrice> reimbursePrices) {
+        this.reimbursePrices = reimbursePrices;
+    }
+    
 
     @Override
     public int hashCode() {
