@@ -66,7 +66,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('TMTID')?'errorBackground':''}">
-                            TMTID:
+                            <span style="color:blue">TMTID:</span>
                         </p:column>
                         <p:column>
                             <p:inputText id="TMTID" value="#{editNotPassRequest.item.tmtId}" readonly="#{facesContext.renderResponse}"/>
@@ -91,7 +91,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('GENERICNAME')?'errorBackground':''}">
-                            <span style="color:red">*</span>GENERICNAME:
+                            <span style="color:red">*</span><span style="color:blue">GENERICNAME:</span>
                         </p:column>
                         <p:column>
                             <p:inputText id="GENERICNAME" value="#{editNotPassRequest.item.genericName}"  size="80"/>
@@ -102,7 +102,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('TRADENAME')?'errorBackground':''}">
-                            <span style="color:red">*</span>TRADENAME:
+                            <span style="color:red">*</span><span style="color:blue">TRADENAME:</span>
                         </p:column>
                         <p:column>
                             <p:inputText id="TRADENAME" value="#{editNotPassRequest.item.tradeName}"  size="80"/>
@@ -124,7 +124,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('DOSAGEFORM')?'errorBackground':''}">
-                            <span style="color:red">*</span>DOSAGEFORM:
+                            <span style="color:red">*</span><span style="color:blue">DOSAGEFORM:</span>
                         </p:column>
                         <p:column>
                             <p:inputText id="DOSAGEFORM" value="#{editNotPassRequest.item.dosageForm}"  size="50"/>
@@ -135,7 +135,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('STRENGTH')?'errorBackground':''}">
-                            <span style="color:red">*</span>STRENGTH:
+                            <span style="color:red">*</span><span style="color:blue">STRENGTH:</span>
                         </p:column>
                         <p:column>
                             <p:inputText id="STRENGTH" value="#{editNotPassRequest.item.strength}"  size="50"/>
@@ -180,7 +180,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('MANUFACTURER')?'errorBackground':''}">
-                            <span style="color:red">*</span>MANUFACTURER:
+                            <span style="color:red">*</span><span style="color:blue">MANUFACTURER:</span>
                         </p:column>
                         <p:column>
                             <p:inputText id="MANUFACTURER" value="#{editNotPassRequest.item.manufacturer}"  size="80"/>
