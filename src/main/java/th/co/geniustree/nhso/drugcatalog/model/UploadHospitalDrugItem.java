@@ -72,9 +72,10 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "HOSPDRUGCODE", nullable = false, length = 30)
     private String hospDrugCode;
 
+    @NotEmpty(message = "ต้องกำหนด ProductCat มาด้วยทุกครั้ง")
     @Size(max = 1, message = "ProductCat ต้องไม่เกิน 1 ตัวอักษร")
     @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"}, message = "ProductCat ต้องประกอบด้วย 1 หรือ 2 หรือ 3 หรือ 4 หรือ 5 หรือ 6 หรือ 7 เท่านั้น")
-    @Column(name = "PRODUCTCAT", nullable = true, length = 3)
+    @Column(name = "PRODUCTCAT", nullable = false, length = 3)
     private String productCat;
 
     @Size(min = 6, max = 6, message = "tmtId size must be {max}.")
@@ -180,7 +181,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
-    @OneToOne(mappedBy = "uploadDrugItem", cascade = {CascadeType.PERSIST, CascadeType.MERGE},orphanRemoval = true)
+    @OneToOne(mappedBy = "uploadDrugItem", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private RequestItem requestItem;
 
     public Integer getId() {
