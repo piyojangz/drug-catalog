@@ -231,7 +231,16 @@ public class UploadApprovedTmtFile implements Serializable {
                     Row row = rowIterator.next();
                     notNullRowCount++;
                     String hcode = getCellValue(row.getCell(0, Row.RETURN_BLANK_AS_NULL));
+                    
                     String producCat = getCellValue(row.getCell(3, Row.RETURN_BLANK_AS_NULL));
+                    
+                    String tradeName = getCellValue(row.getCell(5, Row.RETURN_BLANK_AS_NULL));
+                    String genericName = getCellValue(row.getCell(6, Row.RETURN_BLANK_AS_NULL));
+                    String strength = getCellValue(row.getCell(7, Row.RETURN_BLANK_AS_NULL));
+                    String dosageForm = getCellValue(row.getCell(8, Row.RETURN_BLANK_AS_NULL));
+                    String content = getCellValue(row.getCell(9, Row.RETURN_BLANK_AS_NULL));
+                    String manufacturer = getCellValue(row.getCell(10, Row.RETURN_BLANK_AS_NULL));
+                    
                     String hospDrug = getCellValue(row.getCell(1, Row.RETURN_BLANK_AS_NULL));
                     String tmt = getCellValue(row.getCell(2, Row.RETURN_BLANK_AS_NULL));
                     String result = getCellValue(row.getCell(13, Row.RETURN_BLANK_AS_NULL));
@@ -258,6 +267,12 @@ public class UploadApprovedTmtFile implements Serializable {
                     }
                     ApproveData approveData = new ApproveData(hcode, hospDrug, tmt, approve, errorColumns, SecurityUtil.getUserDetails().getPid(), uploadItemId);
                     approveData.setProductCat(producCat);
+                    approveData.setTradeName(tradeName);
+                    approveData.setGenericName(genericName);
+                    approveData.setStrength(strength);
+                    approveData.setDosageForm(dosageForm);
+                    approveData.setContent(content);
+                    approveData.setManufacturer(manufacturer);
                     datas.add(approveData);
                     LOG.debug("approve data => {}", approveData);
                 }

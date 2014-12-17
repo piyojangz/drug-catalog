@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.util.Set;
+import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
@@ -21,8 +22,14 @@ public class ApproveData {
     private String approveUserPid;
     private Integer uploadItemId;
     private String productCat;
+    private String tradeName;
+    private String genericName;
+    private String strength;
+    private String dosageForm;
+    private String content;
+    private String manufacturer;
 
-    public ApproveData(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String approveUserPid,Integer uploadItemId) {
+    public ApproveData(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String approveUserPid, Integer uploadItemId) {
         this.hcode = hcode;
         this.hospDrug = hospDrug;
         this.tmt = tmt;
@@ -31,7 +38,6 @@ public class ApproveData {
         this.approveUserPid = approveUserPid;
         this.uploadItemId = uploadItemId;
     }
-    
 
     public String getHcode() {
         return hcode;
@@ -96,12 +102,59 @@ public class ApproveData {
     public void setProductCat(String productCat) {
         this.productCat = productCat;
     }
+
+    public String getTradeName() {
+        return tradeName;
+    }
+
+    public void setTradeName(String tradeName) {
+        this.tradeName = tradeName;
+    }
+
+    public String getGenericName() {
+        return genericName;
+    }
+
+    public void setGenericName(String genericName) {
+        this.genericName = genericName;
+    }
+
+    public String getStrength() {
+        return strength;
+    }
+
+    public void setStrength(String strength) {
+        this.strength = strength;
+    }
+
+    public String getDosageForm() {
+        return dosageForm;
+    }
+
+    public void setDosageForm(String dosageForm) {
+        this.dosageForm = dosageForm;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
     
 
     @Override
     public String toString() {
         return "ApproveData{" + "hcode=" + hcode + ", hospDrug=" + hospDrug + ", tmt=" + tmt + ", approve=" + approve + ", errorColumns=" + errorColumns + ", approveUserPid=" + approveUserPid + ", uploadItemId=" + uploadItemId + '}';
     }
-    
-    
+
 }
