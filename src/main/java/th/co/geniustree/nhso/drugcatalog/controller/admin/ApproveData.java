@@ -20,6 +20,7 @@ public class ApproveData {
     private Set<String> errorColumns;
     private String approveUserPid;
     private Integer uploadItemId;
+    private String productCat;
 
     public ApproveData(String hcode, String hospDrug, String tmt, boolean approve, Set<String> errorColumns, String approveUserPid,Integer uploadItemId) {
         this.hcode = hcode;
@@ -87,6 +88,15 @@ public class ApproveData {
     public void setUploadItemId(Integer uploadItemId) {
         this.uploadItemId = uploadItemId;
     }
+
+    public String getProductCat() {
+        return productCat;
+    }
+
+    public void setProductCat(String productCat) {
+        this.productCat = productCat;
+    }
+    
 
     @Override
     public String toString() {

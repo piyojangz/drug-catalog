@@ -230,18 +230,14 @@ public class UploadApprovedTmtFile implements Serializable {
                 for (; rowIterator.hasNext();) {
                     Row row = rowIterator.next();
                     notNullRowCount++;
-                    Cell hcodeCell = row.getCell(0, Row.RETURN_BLANK_AS_NULL);
-                    Cell hospDrugCell = row.getCell(1, Row.RETURN_BLANK_AS_NULL);
-                    Cell tmtCell = row.getCell(2, Row.RETURN_BLANK_AS_NULL);
-                    Cell resultCell = row.getCell(13, Row.RETURN_BLANK_AS_NULL);
-                    Cell uploadItemCell = row.getCell(15, Row.RETURN_BLANK_AS_NULL);
-                    String hcode = getCellValue(hcodeCell);
-                    String hospDrug = getCellValue(hospDrugCell);
-                    String tmt = getCellValue(tmtCell);
-                    String result = getCellValue(resultCell);
+                    String hcode = getCellValue(row.getCell(0, Row.RETURN_BLANK_AS_NULL));
+                    String producCat = getCellValue(row.getCell(3, Row.RETURN_BLANK_AS_NULL));
+                    String hospDrug = getCellValue(row.getCell(1, Row.RETURN_BLANK_AS_NULL));
+                    String tmt = getCellValue(row.getCell(2, Row.RETURN_BLANK_AS_NULL));
+                    String result = getCellValue(row.getCell(13, Row.RETURN_BLANK_AS_NULL));
                     Integer uploadItemId = null;
                     try {
-                        uploadItemId = Integer.parseInt(getCellValue(uploadItemCell));
+                        uploadItemId = Integer.parseInt(getCellValue(row.getCell(15, Row.RETURN_BLANK_AS_NULL)));
                     } catch (NumberFormatException numberFormatException) {
                         new InvalidFormatException("cannot parse 'ItemID'");
                     }
@@ -261,8 +257,9 @@ public class UploadApprovedTmtFile implements Serializable {
                         }
                     }
                     ApproveData approveData = new ApproveData(hcode, hospDrug, tmt, approve, errorColumns, SecurityUtil.getUserDetails().getPid(), uploadItemId);
+                    approveData.setProductCat(producCat);
                     datas.add(approveData);
-                    LOG.debug("approve data => {}",approveData);
+                    LOG.debug("approve data => {}", approveData);
                 }
                 approveService.approveOrRejects(datas);
             } finally {
