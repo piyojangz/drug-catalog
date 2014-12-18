@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.ApproveData;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.model.ApproveFile;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
+import th.co.geniustree.nhso.drugcatalog.repo.ApproveFileRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
@@ -32,6 +34,9 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Autowired
     private HospitalDrugService hospitalDrugService;
+
+    @Autowired
+    private ApproveFileRepo approveFileRepo;
 
     @Override
     public void approve(RequestItem requestItem) {
@@ -95,14 +100,14 @@ public class ApproveServiceImpl implements ApproveService {
         for (ApproveData data : datas) {
             RequestItem requestItem = requestItemRepo.findOne(data.getUploadItemId());
             if (requestItem != null) {
-                requestItem.getUploadDrugItem().setProductCat(data.getProductCat());
-                requestItem.getUploadDrugItem().setTradeName(data.getTradeName());
-                requestItem.getUploadDrugItem().setGenericName(data.getGenericName());
-                requestItem.getUploadDrugItem().setStrength(data.getStrength());
-                requestItem.getUploadDrugItem().setDosageForm(data.getDosageForm());
-                requestItem.getUploadDrugItem().setContent(data.getContent());
-                requestItem.getUploadDrugItem().setManufacturer(data.getManufacturer());
                 if (data.isApprove()) {
+                    requestItem.getUploadDrugItem().setProductCat(data.getProductCat());
+                    requestItem.getUploadDrugItem().setTradeName(data.getTradeName());
+                    requestItem.getUploadDrugItem().setGenericName(data.getGenericName());
+                    requestItem.getUploadDrugItem().setStrength(data.getStrength());
+                    requestItem.getUploadDrugItem().setDosageForm(data.getDosageForm());
+                    requestItem.getUploadDrugItem().setContent(data.getContent());
+                    requestItem.getUploadDrugItem().setManufacturer(data.getManufacturer());
                     approve(requestItem);
                 } else {
                     requestItem.setErrorColumns(data.getErrorColumns());
@@ -110,6 +115,14 @@ public class ApproveServiceImpl implements ApproveService {
                 }
             }
         }
+    }
+
+    @Override
+    public void approveOrRejects(List<ApproveData> datas, ApproveFile approveFile) {
+        approveFile.setUploadDate(new Date());
+        approveFile.setUploadUser(SecurityUtil.getUserDetails().getPid());
+        approveFileRepo.save(approveFile);
+        approveOrRejects(datas);
     }
 
 }

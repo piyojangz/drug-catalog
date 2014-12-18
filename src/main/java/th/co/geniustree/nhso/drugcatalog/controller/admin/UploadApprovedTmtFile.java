@@ -50,6 +50,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
+import th.co.geniustree.nhso.drugcatalog.model.ApproveFile;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 
 /**
@@ -203,11 +204,13 @@ public class UploadApprovedTmtFile implements Serializable {
 
     private void processFile(Path file) throws IOException, InvalidFormatException {
         // The bad method body Must refactoring TODO
+        ApproveFile approveFile = new ApproveFile();
         Workbook wb = null;
         NPOIFSFileSystem npoifs = null;
         OPCPackage pkg = null;
         int notNullRowCount = 0;
         try {
+            approveFile.setFileName(file.toFile().getName());
             npoifs = new NPOIFSFileSystem(file.toFile());
             wb = WorkbookFactory.create(npoifs);
         } catch (OfficeXmlFileException ofe) {
@@ -276,7 +279,7 @@ public class UploadApprovedTmtFile implements Serializable {
                     datas.add(approveData);
                     LOG.debug("approve data => {}", approveData);
                 }
-                approveService.approveOrRejects(datas);
+                approveService.approveOrRejects(datas,approveFile);
             } finally {
                 if (npoifs != null) {
                     npoifs.close();
