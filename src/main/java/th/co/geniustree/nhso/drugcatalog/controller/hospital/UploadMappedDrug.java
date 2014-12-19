@@ -283,7 +283,7 @@ public class UploadMappedDrug implements Serializable {
     public void handleFileUpload(FileUploadEvent event) {
         file = event.getFile();
         upload();
-        }
+    }
 
     private void checkDuplicateInCurrentFile(HospitalDrugExcelModel bean) {
         for (HospitalDrugExcelModel model : models) {
@@ -301,9 +301,6 @@ public class UploadMappedDrug implements Serializable {
         if (count == 0) {
             bean.addError("tmtId", "ไม่พบ TMTID ตามรหัสยามาตรฐาน TMT");
             return;
-        }
-        if ("A".equals(bean.getUpdateFlag()) && hospitalDrugRepo.countByHcodeAndTmtIdAndApprovedIsTrue(bean.getHcode(), bean.getTmtId()) > 0) {
-            bean.addError("tmtId", "รหัส  TMT นี้ ได้รับการ approve ไปแล้ว");
         }
     }
 
