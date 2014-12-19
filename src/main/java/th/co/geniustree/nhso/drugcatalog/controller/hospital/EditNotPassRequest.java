@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -115,12 +116,24 @@ public class EditNotPassRequest implements Serializable {
 
     public void selectTmt(SelectEvent event) {
         TMTDrug tmtDrug = (TMTDrug) event.getObject();
-        item.setGenericName(tmtDrug.getActiveIngredient());
-        item.setTmtId(tmtDrug.getTmtId());
-        item.setTradeName(tmtDrug.getTradeName());
-        item.setManufacturer(tmtDrug.getManufacturer());
-        item.setStrength(tmtDrug.getStrength());
-        item.setDosageForm(tmtDrug.getDosageform());
+        if (!Strings.isNullOrEmpty(tmtDrug.getActiveIngredient())) {
+            item.setGenericName(tmtDrug.getActiveIngredient());
+        }
+        if (!Strings.isNullOrEmpty(tmtDrug.getTmtId())) {
+            item.setTmtId(tmtDrug.getTmtId());
+        }
+        if (!Strings.isNullOrEmpty(tmtDrug.getTradeName())) {
+            item.setTradeName(tmtDrug.getTradeName());
+        }
+        if (!Strings.isNullOrEmpty(tmtDrug.getManufacturer())) {
+            item.setManufacturer(tmtDrug.getManufacturer());
+        }
+        if (!Strings.isNullOrEmpty(tmtDrug.getStrength())) {
+            item.setStrength(tmtDrug.getStrength());
+        }
+        if (!Strings.isNullOrEmpty(tmtDrug.getDosageform())) {
+            item.setDosageForm(tmtDrug.getDosageform());
+        }
         log.info("selected tmt drug => {}", tmtDrug);
     }
 
