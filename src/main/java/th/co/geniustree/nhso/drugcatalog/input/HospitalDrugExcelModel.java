@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
@@ -39,12 +40,12 @@ public class HospitalDrugExcelModel implements Serializable {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugExcelModel.class);
     private final DecimalFormat formatter = new DecimalFormat(Constants.DEFAULT_DECIMAL_FORMAT);
     @XlsColumn
-    @NotEmpty(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด HospDrugCode มาด้วยทุกครั้ง")
     @Size(max = 30, message = "HospDrugCode ต้องไม่เกิน 30 ตัวอักษร")
     private String hospDrugCode;
 
     @XlsColumn
-    @NotEmpty(message = "ต้องกำหนด ProductCat มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด ProductCat มาด้วยทุกครั้ง")
     @Size(max = 1, message = "ProductCat ต้องไม่เกิน 1 ตัวอักษร")
     @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"}, message = "ProductCat ต้องประกอบด้วย 1 หรือ 2 หรือ 3 หรือ 4 หรือ 5 หรือ 6 หรือ 7 เท่านั้น")
     private String productCat;
@@ -60,11 +61,11 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
     @Size(max = 255, message = "GenericName ต้องไม่เกิน 255 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด GenericName มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด GenericName มาด้วยทุกครั้ง")
     private String genericName;
     @XlsColumn
     @Size(max = 255, message = "TradeName ต้องไม่เกิน 255 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด TradeName มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด TradeName มาด้วยทุกครั้ง")
     private String tradeName;
 
     @XlsColumn(columnNames = {"dfsCode", "dsfCode"})
@@ -73,7 +74,7 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
     @Size(max = 255, message = "DosageForm ต้องไม่เกิน 255 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด DosageForm มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด DosageForm มาด้วยทุกครั้ง")
     private String dosageForm;
 
     @XlsColumn
@@ -82,12 +83,12 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
     @Size(max = 100, message = "Content ต้องไม่เกิน 255 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด Content มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด Content มาด้วยทุกครั้ง")
     private String content;
 
     @XlsColumn
     @Size(max = 11, message = "UnitPrice ต้องประกอบด้วยตัวเลขหรือจุดทศนิยม ไม่เกิน 11 ตัวอักษร (99999999.99)")
-    @NotEmpty(message = "ต้องกำหนด UnitPrice มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด UnitPrice มาด้วยทุกครั้ง")
     @DoubleValue(message = "UnitPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น")
     private String unitPrice;
 
@@ -97,12 +98,12 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn(columnNames = {"manufacturer", "manufacture"})
     @Size(max = 255, message = "Manufacturer ต้องไม่เกิน 255 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด Manufacturer มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด Manufacturer มาด้วยทุกครั้ง")
     private String manufacturer;
 
     @XlsColumn
     @Size(max = 2, message = "ISED ต้องไม่เกิน 2 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด ISED มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด ISED มาด้วยทุกครั้ง")
     @ValueSet(values = {"E", "N", "E*"}, message = "ISED ต้องประกอบด้วย N หรือ E หรือ E* เท่านั้น")
     private String ised;
 
@@ -121,7 +122,7 @@ public class HospitalDrugExcelModel implements Serializable {
 
     @XlsColumn
     @Size(max = 1, message = "UpdateFlag ต้องไม่เกิน 1 ตัวอักษร")
-    @NotEmpty(message = "ต้องกำหนด UpdateFlag มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด UpdateFlag มาด้วยทุกครั้ง")
     @ValueSet(values = {"A", "D", "E", "U"}, message = "UpdateFlag ต้องประกอบด้วย A  หรือ E หรือ D หรือ U เท่านั้น")
     private String updateFlag;
 
@@ -136,7 +137,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String dateUpdate;
 
     @XlsColumn
-    @NotEmpty(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง")
+    @NotBlank(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง")
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ DataEffective ไม่ถูกต้อง (dd/mm/yyyy hh:mm)")
     @DateRange(message = "ปี จะต้องไม่น้อยกว่า {min} และไม่มากกว่าปีปัจจุบัน + {futureOffset}", futureOffset = 5, groups = Lastgroup.class)
     private String dateEffective;
