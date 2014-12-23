@@ -29,7 +29,7 @@
                     <h:outputText value="#{model.drugGroup.id}" />
                 </p:column>
                 <p:column headerText="Effective date">
-                    <p:calendar value="#{model.datein}" validator="#{selectDrugGroupDialog.validdateDateIn(model)}"/>
+                    <p:calendar value="#{model.datein}" locale="en_US" pattern="dd/MM/yyyy" validator="#{selectDrugGroupDialog.validdateDateIn(model)}"/>
                 </p:column>
                 <p:column headerText="Description">
                     <h:outputText value="#{model.drugGroup.description}" />

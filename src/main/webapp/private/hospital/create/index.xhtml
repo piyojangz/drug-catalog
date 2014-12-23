@@ -239,7 +239,7 @@
                             DATECHANGE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATECHANGE" value="#{createHospitalDrug.item.dateChangeDate}">
+                            <p:calendar id="DATECHANGE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateChangeDate}">
                                 <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E' or createHospitalDrug.updateFlag eq 'D'?'th.co.geniustree.nhso.drugcatalog.input.AGroup,th.co.geniustree.nhso.drugcatalog.input.EDGroup':null}"/>
                             </p:calendar>
                         </p:column>
@@ -252,7 +252,7 @@
                             DATEUPDATE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATEUPDATE"  value="#{createHospitalDrug.item.dateUpdateDate}" >
+                            <p:calendar id="DATEUPDATE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateUpdateDate}" >
                                 <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'U'?'th.co.geniustree.nhso.drugcatalog.input.UGroup':null}"/>
                             </p:calendar>
                         </p:column>
@@ -265,7 +265,7 @@
                             <h:outputLabel  style="color:red">*</h:outputLabel>DATEEFFECTIVE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATEEFFECTIVE"  value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceOrEdExist}">
+                            <p:calendar id="DATEEFFECTIVE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceOrEdExist}">
                             </p:calendar>
                         </p:column>
                         <p:column>
