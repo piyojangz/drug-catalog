@@ -59,6 +59,9 @@ public class ApproveServiceImpl implements ApproveService {
     }
 
     private void approve(RequestItem requestItem, String pid) {
+        if (requestItem.isDeleted()) {
+            return;
+        }
         HospitalDrug hospitalDrug = hospitalDrugService.addOrUpdateHospitalDrug(requestItem);
         requestItem.setStatus(RequestItem.Status.ACCEPT);
         requestItem.setApproveDate(new Date());
@@ -70,6 +73,9 @@ public class ApproveServiceImpl implements ApproveService {
     }
 
     private void reject(RequestItem requestItem, String pid) {
+        if (requestItem.isDeleted()) {
+            return;
+        }
         requestItem.setStatus(RequestItem.Status.REJECT);
         requestItem.setApproveDate(new Date());
         requestItem.setApproveUser(pid);
