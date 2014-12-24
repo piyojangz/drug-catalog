@@ -41,4 +41,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     @Query("select distinct r from RequestItem r where r.status= ?1 and r.uploadDrugItem.uploadDrug.hcode = ?2 and r.uploadDrugItem.tmtId is not null")
     public Page<RequestItem> findByStatusAndHcode(RequestItem.Status status, String hcode, Pageable pageable);
 
+    public List<RequestItem> findByStatusAndEditCountGreaterThan(RequestItem.Status status, Integer editCount);
+
+    @Query(value = "select count(t.UPLOADHOSPDRUG_ITEM_ID) from TMT_TEXT_TO_APPROVED t where t.UPLOADHOSPDRUG_ITEM_ID = ?1", nativeQuery = true)
+    public long countTmtApproveFile(Integer uploadItemId);
 }

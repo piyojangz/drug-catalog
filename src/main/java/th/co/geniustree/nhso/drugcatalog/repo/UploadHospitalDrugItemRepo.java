@@ -30,4 +30,6 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
     public RequestItem findRejectItem(String hospDrugCode,String hcode,String dateEffective,String updateFlag);
     public Page<UploadHospitalDrugItem> findByUploadDrugId(Integer uploadDrugId,Pageable pageable);
     public List<UploadHospitalDrugItem> findByHospDrugCodeAndUploadDrugHcode(String hospDrugcode, String hcode, Sort sort);
+    //@Query("select count")
+    //public List<UploadHospitalDrugItem> findByRequestItemStatusAndRequestItemEditCountGreaterThan(RequestItem.Status status,Integer editCount);
 }
