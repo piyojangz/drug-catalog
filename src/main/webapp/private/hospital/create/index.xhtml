@@ -258,10 +258,11 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
-            <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
-                <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
-            </h:form>
-
+            <ui:remove>
+                <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
+                    <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
+                </h:form>
+            </ui:remove>
         </ui:define>
     </ui:composition>
 </html>

@@ -5,10 +5,8 @@
  */
 package th.co.geniustree.nhso.drugcatalog.input.validator;
 
-import java.text.DecimalFormat;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import th.co.geniustree.nhso.drugcatalog.Constants;
 
 /**
  *
@@ -23,7 +21,7 @@ public class DoubleValidator implements ConstraintValidator<DoubleValue, String>
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null || value.trim().isEmpty()) {
+        if (value == null || value.isEmpty()) {
             return true;
         }
         try {

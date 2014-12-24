@@ -168,6 +168,7 @@ public class EditNotPassRequest implements Serializable {
         item.getRequestItem().setApproveDate(null);
         item.getRequestItem().setApproveUser(null);
         item.getRequestItem().setStatus(RequestItem.Status.REQUEST);
+        item.timString();
         item = uploadHospitalDrugItemRepo.save(item);
         FacesMessageUtils.info("แก้ไขเสร็จสิ้น ข้อมูลถูกส่งไปอนุมัติแล้ว");
         return cancel();

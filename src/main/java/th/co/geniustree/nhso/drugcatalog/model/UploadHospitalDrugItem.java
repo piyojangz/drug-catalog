@@ -448,4 +448,13 @@ public class UploadHospitalDrugItem implements Serializable {
         return true;
     }
 
+    public void timString() {
+        if (this.unitPrice != null) {
+            this.unitPrice = this.unitPrice.trim();
+        }
+        if (this.packPrice != null) {
+            this.packPrice = this.packPrice.trim();
+        }
+    }
+
 }

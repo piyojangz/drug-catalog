@@ -113,7 +113,6 @@ public class CreateHospitalDrug implements Serializable {
         }
     }
 
-
     public void checkPriceOrEdExist(FacesContext context, UIComponent component, Object value) {
         if (value == null || !editMode) {
             return;
@@ -177,6 +176,7 @@ public class CreateHospitalDrug implements Serializable {
     }
 
     public String save() {
+        item.timString();
         if (!editMode) {
             uploadHospitalDrugService.addNewDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
             clear(false);
