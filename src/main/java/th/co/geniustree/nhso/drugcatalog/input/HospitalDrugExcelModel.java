@@ -55,7 +55,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String tmtId;
 
     @XlsColumn
-    @Size(max = 2, message = "SpecRep ต้องไม่เกิน 2 ตัวอักษร")
+    @Size(max = 3, message = "SpecRep ต้องไม่เกิน {max} ตัวอักษร")
     @StartWith(values = {"F", "M", "R"}, message = "SpecRep ตัวอักษรตัวแรก ต้องประกอบด้วย F หรือ M หรือ R เท่านั้น")
     private String specPrep;
 

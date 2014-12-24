@@ -49,7 +49,7 @@ public class HospitalDrug implements Serializable {
     @Column(name = "TMTID", nullable = true, length = 6)
     private String tmtId;
 
-    @Column(name = "SPECPREP", nullable = true, length = 2)
+    @Column(name = "SPECPREP", nullable = true, length = 3)
     private String specPrep;
 
     @NotEmpty
