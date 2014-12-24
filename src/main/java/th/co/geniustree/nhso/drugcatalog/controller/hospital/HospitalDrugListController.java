@@ -122,7 +122,8 @@ public class HospitalDrugListController implements Serializable {
 
             @Override
             public Page<UploadHospitalDrugItem> load(Pageable pageAble) {
-                Specifications<UploadHospitalDrugItem> hcodeEq = Specifications.where(UploadHospitalDrugItemSpecs.hcodeEq(user.getOrgId()));
+                Specifications<UploadHospitalDrugItem> hcodeEq = Specifications.where(UploadHospitalDrugItemSpecs.hcodeEq(user.getOrgId()))
+                        .and(UploadHospitalDrugItemSpecs.notDelete());
                 Specifications<UploadHospitalDrugItem> spec = Specifications.where(null);
                 if (keywords != null) {
 
@@ -200,6 +201,11 @@ public class HospitalDrugListController implements Serializable {
 
     public void setUploadItemEx(Map<UploadHospitalDrugItem, UploadHospitalDrugItemEx> uploadItemEx) {
         this.uploadItemEx = uploadItemEx;
+    }
+
+    public void delete(UploadHospitalDrugItem item) {
+        item.getRequestItem().setDeleted(Boolean.TRUE);
+        uploadHospitalDrugItemRepo.save(item);
     }
 
     public static class UploadHospitalDrugItemEx {

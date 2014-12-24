@@ -37,6 +37,11 @@
                             <f:param name="requestItemId" value="#{model.id}"/>
                         </h:link>
                     </p:column>
+                    <p:column    width="40"  exportable="false">
+                        <p:commandLink value="ลบ" style="color:blue" action="#{hospitalDrugListController.delete(model)}" process="@this" update="table">
+                            
+                        </p:commandLink>
+                    </p:column>
                     <p:column   headerText="สาเหตุ" width="110">
                         <h:outputText value="#{empty model.requestItem.message? model.requestItem.errorColumns : model.requestItem.message}"/>
                     </p:column>
@@ -104,6 +109,10 @@
                         <h:outputText value="#{model.dateEffective}"/>
                     </p:column>
                 </p:dataTable>
+                <p:confirmDialog global="true" >
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
         </ui:define>
     </ui:composition>

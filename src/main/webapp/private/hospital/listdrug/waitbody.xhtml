@@ -27,6 +27,11 @@
                                  style="float:right" icon="ui-icon-calculator" />
                 <p:columnToggler datasource="table" trigger="toggler" />
             </f:facet>
+            <p:column    width="40" exportable="false">
+                <p:commandLink value="ลบ"  global="true" style="color:blue" action="#{hospitalDrugListController.delete(model)}" process="@this" update="table">
+                    <p:confirm header="Confirmation" message="ยืนยันการลบ" icon="ui-icon-alert" />
+                </p:commandLink>
+            </p:column>
             <p:column   headerText="HOSPDRUGCODE" width="110">
                 <h:outputText value="#{model.hospDrugCode}"/>
             </p:column>
@@ -91,5 +96,9 @@
                 <h:outputText value="#{model.dateEffective}"/>
             </p:column>
         </p:dataTable>
+        <p:confirmDialog global="true" >
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
     </ui:composition>
 </html>

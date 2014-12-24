@@ -161,4 +161,14 @@ public class UploadHospitalDrugItemSpecs {
         };
     }
 
+    public static Specification<UploadHospitalDrugItem> notDelete() {
+        return new Specification<UploadHospitalDrugItem>() {
+
+            @Override
+            public Predicate toPredicate(Root<UploadHospitalDrugItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get(UploadHospitalDrugItem_.requestItem).get(RequestItem_.deleted), Boolean.FALSE);
+            }
+        };
+    }
+
 }

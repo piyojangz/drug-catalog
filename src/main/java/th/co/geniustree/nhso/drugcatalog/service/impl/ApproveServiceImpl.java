@@ -109,7 +109,7 @@ public class ApproveServiceImpl implements ApproveService {
     public void approveOrRejects(List<ApproveData> datas) {
         for (ApproveData data : datas) {
             RequestItem requestItem = requestItemRepo.findOne(data.getUploadItemId());
-            if (requestItem != null && requestItem.getStatus() != RequestItem.Status.ACCEPT) {
+            if (requestItem != null && requestItem.getStatus() != RequestItem.Status.ACCEPT && !requestItem.isDeleted()) {
                 if (data.isApprove()) {
                     requestItem.getUploadDrugItem().setProductCat(data.getProductCat());
                     requestItem.getUploadDrugItem().setTradeName(data.getTradeName());
