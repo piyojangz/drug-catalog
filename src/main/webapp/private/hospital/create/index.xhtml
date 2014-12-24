@@ -12,6 +12,7 @@
             <f:metadata>
                 <f:viewParam name="editMode" value="#{createHospitalDrug.editMode}"/>
                 <f:viewParam name="hospDrugCode" value="#{createHospitalDrug.hospDrugCode}"/>
+                <f:viewAction action="#{hospitalDrugListController.setWait(true)}"/>
                 <f:viewAction action="#{createHospitalDrug.loadHospitalDrug}"/>
             </f:metadata>
             <h:form>
@@ -258,11 +259,9 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
-            <ui:remove>
-                <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
-                    <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
-                </h:form>
-            </ui:remove>
+            <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
+                <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 </html>
