@@ -24,6 +24,8 @@ import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.Worker;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.Workers;
 import th.co.geniustree.nhso.drugcatalog.model.NDC24;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
@@ -203,9 +205,17 @@ public class HospitalDrugListController implements Serializable {
         this.uploadItemEx = uploadItemEx;
     }
 
-    public void delete(UploadHospitalDrugItem item) {
-        item.getRequestItem().setDeleted(Boolean.TRUE);
-        uploadHospitalDrugItemRepo.save(item);
+    public void delete(final UploadHospitalDrugItem item) {
+        Workers.execute(new Worker() {
+
+            @Override
+            public Object run() throws Exception {
+                item.getRequestItem().setDeleted(Boolean.TRUE);
+                uploadHospitalDrugItemRepo.save(item);
+                return "ลบเสร็จแล้ว";
+            }
+
+        });
     }
 
     public static class UploadHospitalDrugItemEx {

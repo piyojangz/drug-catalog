@@ -5,8 +5,10 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.utils;
 
+import java.util.Collection;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.ConstraintViolation;
 
 /**
  *
@@ -21,13 +23,23 @@ public class FacesMessageUtils {
     }
 
     public static void error(Exception e) {
-        error(e.getMessage());
+        error(null, e.getMessage());
     }
 
-    public static void error(String msg) {
+    public static void error(String message) {
+        error(null, message);
+    }
+
+    public static void error(String clientId, Collection<? extends ConstraintViolation<?>> violation) {
+        for (ConstraintViolation v : violation) {
+            error(clientId, v.getMessage());
+        }
+    }
+
+    public static void error(String clientId, String msg) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesContext.getCurrentInstance().addMessage(clientId, message);
     }
 
     public static void warn(Exception e) {

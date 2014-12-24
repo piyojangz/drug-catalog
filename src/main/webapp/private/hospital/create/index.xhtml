@@ -31,6 +31,7 @@
                                 <p:ajax process="UPDATEFLAG" update="@form"/>
                                 <f:selectItem itemLabel="แก้ไขราคายา" itemValue="U" />
                                 <f:selectItem itemLabel="แก้ไข ED และอื่นๆ" itemValue="E" />
+                                <f:selectItem itemLabel="ลบ (UPDATEFLAG 'D')" itemValue="D" />
                             </p:selectOneButton>
                         </p:column>
                         <p:column>
@@ -42,7 +43,7 @@
                             <span style="color:red">*</span>HOSPDRUGCODE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="HOSPDRUGCODE" value="#{createHospitalDrug.item.hospDrugCode}" validator="#{createHospitalDrug.checkHospDrugCodeExist}" disabled="#{createHospitalDrug.editMode}"/>
+                            <p:inputText id="HOSPDRUGCODE" value="#{createHospitalDrug.item.hospDrugCode}" validator="#{createHospitalDrug.checkHospDrugCodeExist}" disabled="#{createHospitalDrug.editMode or createHospitalDrug.updateFlag eq 'D'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="HOSPDRUGCODE"/>
@@ -53,7 +54,7 @@
                             PRODUCTCAT:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PRODUCTCAT" value="#{createHospitalDrug.item.productCat}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
+                            <p:inputText id="PRODUCTCAT" value="#{createHospitalDrug.item.productCat}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="PRODUCTCAT"/>
@@ -64,8 +65,8 @@
                             TMTID:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
-                            <p:commandButton rendered="#{not createHospitalDrug.editHospitalDrug.isApproved()}" value="ค้นหา" action="#{createHospitalDrug.findTmt}" process="@this">
+                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
+                            <p:commandButton rendered="#{createHospitalDrug.updateFlag ne 'U' and createHospitalDrug.updateFlag ne 'D'}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
                                 <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
                         </p:column>
@@ -78,7 +79,7 @@
                             SPECPREP:
                         </p:column>
                         <p:column>
-                            <p:inputText id="SPECPREP" value="#{createHospitalDrug.item.specPrep}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
+                            <p:inputText id="SPECPREP" value="#{createHospitalDrug.item.specPrep}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="SPECPREP"/>
@@ -89,7 +90,7 @@
                             <span style="color:red">*</span>GENERICNAME:
                         </p:column>
                         <p:column>
-                            <p:inputText id="GENERICNAME" value="#{createHospitalDrug.item.genericName}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="80"/>
+                            <p:inputText id="GENERICNAME" value="#{createHospitalDrug.item.genericName}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="GENERICNAME"/>
@@ -100,7 +101,7 @@
                             <span style="color:red">*</span>TRADENAME:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TRADENAME" value="#{createHospitalDrug.item.tradeName}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="80"/>
+                            <p:inputText id="TRADENAME" value="#{createHospitalDrug.item.tradeName}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="TRADENAME"/>
@@ -111,7 +112,7 @@
                             DFSCODE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DFSCODE" value="#{createHospitalDrug.item.dfsCode}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
+                            <p:inputText id="DFSCODE" value="#{createHospitalDrug.item.dfsCode}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="DFSCODE"/>
@@ -122,7 +123,7 @@
                             <span style="color:red">*</span>DOSAGEFORM:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DOSAGEFORM" value="#{createHospitalDrug.item.dosageForm}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
+                            <p:inputText id="DOSAGEFORM" value="#{createHospitalDrug.item.dosageForm}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="DOSAGEFORM"/>
@@ -133,7 +134,7 @@
                             STRENGTH:
                         </p:column>
                         <p:column>
-                            <p:inputText id="STRENGTH" value="#{createHospitalDrug.item.strength}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
+                            <p:inputText id="STRENGTH" value="#{createHospitalDrug.item.strength}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="STRENGTH"/>
@@ -144,7 +145,7 @@
                             <span style="color:red">*</span>CONTENT:
                         </p:column>
                         <p:column>
-                            <p:inputText id="CONTENT" value="#{createHospitalDrug.item.content}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="50"/>
+                            <p:inputText id="CONTENT" value="#{createHospitalDrug.item.content}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="CONTENT"/>
@@ -155,7 +156,7 @@
                             <span style="color:red">*</span>UNITPRICE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="UNITPRICE" value="#{createHospitalDrug.item.unitPrice}" disabled="#{createHospitalDrug.updateFlag eq 'E'}">
+                            <p:inputText id="UNITPRICE" value="#{createHospitalDrug.item.unitPrice}" disabled="#{createHospitalDrug.updateFlag eq 'E' or createHospitalDrug.updateFlag eq 'D'}">
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -167,7 +168,7 @@
                             DISTRIBUTOR:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DISTRIBUTOR" value="#{createHospitalDrug.item.distributor}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="80"/>
+                            <p:inputText id="DISTRIBUTOR" value="#{createHospitalDrug.item.distributor}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="DISTRIBUTOR"/>
@@ -178,7 +179,7 @@
                             <span style="color:red">*</span>MANUFACTURER:
                         </p:column>
                         <p:column>
-                            <p:inputText id="MANUFACTURER" value="#{createHospitalDrug.item.manufacturer}" disabled="#{createHospitalDrug.updateFlag eq 'U'}" size="80"/>
+                            <p:inputText id="MANUFACTURER" value="#{createHospitalDrug.item.manufacturer}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="MANUFACTURER"/>
@@ -189,7 +190,7 @@
                             <span style="color:red">*</span>ISED:
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="ISED" value="#{createHospitalDrug.item.ised}" disabled="#{createHospitalDrug.updateFlag eq 'U'}">
+                            <p:selectOneMenu id="ISED" value="#{createHospitalDrug.item.ised}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}">
                                 <f:selectItem itemValue="" itemLabel=""/>
                                 <f:selectItem itemValue="E" itemLabel="E"/>
                                 <f:selectItem itemValue="E*" itemLabel="E*"/>
@@ -205,7 +206,7 @@
                             NDC24:
                         </p:column>
                         <p:column>
-                            <p:inputText id="NDC24" value="#{createHospitalDrug.item.ndc24}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
+                            <p:inputText id="NDC24" value="#{createHospitalDrug.item.ndc24}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="NDC24"/>
@@ -216,7 +217,7 @@
                             PACKSIZE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PACKSIZE" value="#{createHospitalDrug.item.packSize}" disabled="#{createHospitalDrug.updateFlag eq 'U'}"/>
+                            <p:inputText id="PACKSIZE" value="#{createHospitalDrug.item.packSize}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="PACKSIZE"/>
@@ -227,37 +228,11 @@
                             PACKPRICE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PACKPRICE" value="#{createHospitalDrug.item.packPrice}" disabled="#{createHospitalDrug.updateFlag eq 'U'}">
+                            <p:inputText id="PACKPRICE" value="#{createHospitalDrug.item.packPrice}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}">
                             </p:inputText>
                         </p:column>
                         <p:column>
                             <p:message for="PACKPRICE"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right">
-                            DATECHANGE:
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="DATECHANGE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateChangeDate}">
-                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'A' or createHospitalDrug.updateFlag eq 'E' or createHospitalDrug.updateFlag eq 'D'?'th.co.geniustree.nhso.drugcatalog.input.AGroup,th.co.geniustree.nhso.drugcatalog.input.EDGroup':null}"/>
-                            </p:calendar>
-                        </p:column>
-                        <p:column>
-                            <p:message for="DATECHANGE"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right">
-                            DATEUPDATE:
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="DATEUPDATE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateUpdateDate}" >
-                                <f:validateBean validationGroups="#{createHospitalDrug.updateFlag eq 'U'?'th.co.geniustree.nhso.drugcatalog.input.UGroup':null}"/>
-                            </p:calendar>
-                        </p:column>
-                        <p:column>
-                            <p:message for="DATEUPDATE"/>
                         </p:column>
                     </p:row>
                     <p:row>
