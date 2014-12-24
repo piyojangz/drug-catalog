@@ -96,7 +96,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
                 copyAndConvertAttribute(uploadItem, alreadyDrug);
             }
             edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
-            if (isTmtIdChange) {
+            if (isTmtIdChange && !Strings.isNullOrEmpty(uploadItem.getTmtId())) {
                 tmtDrugTxService.addNewTmtDrugTx(alreadyDrug, alreadyDrug.getTmtDrug());
             }
         } else if ("D".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
@@ -106,7 +106,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
     }
 
     private boolean tmtIdChange(String alreadyTmtId, String newTmtId) {
-        return !Strings.nullToEmpty(alreadyTmtId).equals(newTmtId);
+        return !Strings.nullToEmpty(alreadyTmtId).equals(Strings.nullToEmpty(newTmtId));
     }
 
 }

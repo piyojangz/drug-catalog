@@ -12,4 +12,6 @@ package th.co.geniustree.nhso.drugcatalog.service;
 public interface AutoApproveService {
 
     public void approveRejectAndEditCountGreaterThanZero();
+
+    public void approveRequestWhichTMTisNull();
 }

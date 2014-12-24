@@ -45,4 +45,6 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
 
     @Query(value = "select count(t.UPLOADHOSPDRUG_ITEM_ID) from TMT_TEXT_TO_APPROVED t where t.UPLOADHOSPDRUG_ITEM_ID = ?1", nativeQuery = true)
     public long countTmtApproveFile(Integer uploadItemId);
+
+    public List<RequestItem> findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status status);
 }

@@ -30,4 +30,8 @@ public class AutoApprove implements Serializable {
     public void approveRejectAndEditCountGreaterThanZero() {
         autoApproveService.approveRejectAndEditCountGreaterThanZero();
     }
+
+    public void approveRequestWhichTMTisNull() {
+        autoApproveService.approveRequestWhichTMTisNull();
+    }
 }

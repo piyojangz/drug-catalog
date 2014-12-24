@@ -39,9 +39,16 @@ public class AutoApproveServiceImpl implements AutoApproveService {
             if (countTmtApproveFile > 0) {
                 itemsThatExports.add(item);
             }
-            log.info("auto approve for request and editCount>0 ==>{}", itemsThatExports.size());
+            log.info("auto approve for request and editCount=0 ==>{}", itemsThatExports.size());
             approveService.approve(itemsThatExports);
         }
+    }
+
+    @Override
+    public void approveRequestWhichTMTisNull() {
+        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status.REQUEST);
+        log.info("auto approve for request and tmt is null ==>{}", items.size());
+        approveService.approve(items);
     }
 
 }

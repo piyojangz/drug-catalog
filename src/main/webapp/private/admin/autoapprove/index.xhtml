@@ -11,6 +11,7 @@
             <h:form id="form">
                 <p:panelGrid columns="1">
                     <p:commandButton value="Approve Item.status=REQUEST and editCount >0" action="#{autoApprove.approveRejectAndEditCountGreaterThanZero()}" />
+                    <p:commandButton value="Approve Item.status=REQUEST and TMT IS NULL" action="#{autoApprove.approveRequestWhichTMTisNull()}" />
                 </p:panelGrid>
             </h:form>
         </ui:define>
