@@ -14,4 +14,6 @@ public interface AutoApproveService {
     public void approveRejectAndEditCountGreaterThanZero();
 
     public void approveRequestWhichTMTisNull();
+
+    public void approveRequestWhichCreateOneline();
 }

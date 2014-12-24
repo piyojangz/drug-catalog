@@ -34,4 +34,7 @@ public class AutoApprove implements Serializable {
     public void approveRequestWhichTMTisNull() {
         autoApproveService.approveRequestWhichTMTisNull();
     }
+    public void approveRequestWhichCreateOneline(){
+        autoApproveService.approveRequestWhichCreateOneline();
+    }
 }

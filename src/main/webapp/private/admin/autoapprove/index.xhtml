@@ -18,6 +18,7 @@
                 <p:panelGrid columns="1">
                     <p:commandButton value="Approve Item.status=REQUEST and editCount >0" action="#{autoApprove.approveRejectAndEditCountGreaterThanZero()}" />
                     <p:commandButton value="Approve Item.status=REQUEST and TMT IS NULL" action="#{autoApprove.approveRequestWhichTMTisNull()}" />
+                    <p:commandButton value="Approve Item that create ONLINE" action="#{autoApprove.approveRequestWhichCreateOneline()}" />
                 </p:panelGrid>
             </h:form>
         </ui:define>

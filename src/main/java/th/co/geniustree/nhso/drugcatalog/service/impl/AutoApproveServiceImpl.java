@@ -15,6 +15,7 @@ import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
+import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 
 /**
  *
@@ -49,6 +50,14 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status.REQUEST);
         log.info("auto approve for request and tmt is null ==>{}", items.size());
         approveService.approve(items);
+        log.info("auto approve for request and tmt is null ==>{} completed", items.size());
     }
 
+    @Override
+    public void approveRequestWhichCreateOneline() {
+        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugShaHex(RequestItem.Status.REQUEST, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
+        log.info("auto approve for request and that creat ONLINE ==>{}", items.size());
+        approveService.approve(items);
+        log.info("auto approve for request and that creat ONLINE ==>{} completed", items.size());
+    }
 }
