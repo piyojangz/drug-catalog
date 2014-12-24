@@ -103,6 +103,8 @@ public class RequestItem implements Serializable {
     @Column(name = "LASTUPDATE", nullable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastUpdate;
+    @Column(name = "DELETED", nullable = false)
+    private boolean deleted;
 
     @PrePersist
     public void prePersist() {
@@ -213,6 +215,14 @@ public class RequestItem implements Serializable {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
     
 
