@@ -82,9 +82,9 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "TMTID", nullable = true, length = 6)
     private String tmtId;
 
-    @Size(max = 2, message = "SpecRep ต้องไม่เกิน 2 ตัวอักษร")
+    @Size(max = 3, message = "SpecRep ต้องไม่เกิน {max} ตัวอักษร")
     @StartWith(values = {"F", "M", "R"}, message = "SpecRep ตัวอักษรตัวแรก ต้องประกอบด้วย F หรือ M หรือ R เท่านั้น")
-    @Column(name = "SPECPREP", nullable = true, length = 2)
+    @Column(name = "SPECPREP", nullable = true, length = 3)
     private String specPrep;
 
     @Size(max = 255, message = "GenericName ต้องไม่เกิน 255 ตัวอักษร")
