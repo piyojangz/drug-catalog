@@ -440,9 +440,11 @@ public class HospitalDrugExcelModel implements Serializable {
     private void removeCommaFromUnitPrice() {
         if (this.unitPrice != null) {
             this.unitPrice = this.unitPrice.replaceAll(",", "");
+            this.unitPrice = this.unitPrice.trim();
         }
         if (this.packPrice != null) {
             this.packPrice = this.packPrice.replaceAll(",", "");
+            this.packPrice = this.packPrice.trim();
         }
     }
 
