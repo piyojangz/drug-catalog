@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <h:form id="form">
+                <f:metadata>
+                    <f:viewParam name="approved" value="#{hospitalDrugListControllerTemp.approved}"/>
+                </f:metadata>
+                <style type="text/css">
+                    .ui-panelgrid .ui-panelgrid-cell{
+                        padding: 4px 5px;
+                        border: none;
+                    }
+                </style>
+                <ui:include src="searchPanel.xhtml"/>
+                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListControllerTemp.all}" var="model"  
+                             paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <f:facet name="header">
+                        #{msg.menu_listdrug_approved_label}
+                        <p:commandLink style="float:left" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()">
+                            <p:graphicImage name="images/excel24.png" />
+                            <p:dataExporter type="xls" target="table" fileName="APPROVED_#{hospitalDrugListControllerTemp.user.hospital.hcode}_#{hospitalDrugListControllerTemp.formattedDate()}" pageOnly="false"/>
+                        </p:commandLink>
+                        <p:commandButton id="toggler" type="button" value="Columns"
+                                         style="float:right" icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="table" trigger="toggler" />
+                    </f:facet>
+                    <p:column   headerText="HOSPDRUGCODE" width="110">
+                        <h:outputText value="#{model.hospDrugCode}"/>
+                    </p:column>
+                    <p:column headerText="PRODUCTCAT" width="80">
+                        <h:outputText value="#{model.productCat}"/>
+                    </p:column>
+                    <p:column headerText="TMTID" width="60">
+                        <h:outputText value="#{model.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="SPECPREP" width="60">
+                        <h:outputText value="#{model.specPrep}"/>
+                    </p:column>
+                    <p:column headerText="GENERICNAME" width="200">
+                        <h:outputText value="#{model.genericName}"/>
+                    </p:column>
+                    <p:column headerText="TRADENAME" width="200">
+                        <h:outputText value="#{model.tradeName}"/>
+                    </p:column>
+                    <p:column headerText="DFSCODE" width="60">
+                        <h:outputText value="#{model.dfsCode}"/>
+                    </p:column>
+                    <p:column headerText="DOSAGEFORM" width="100">
+                        <h:outputText value="#{model.dosageForm}"/>
+                    </p:column>
+                    <p:column headerText="STRENGTH" width="100">
+                        <h:outputText value="#{model.strength}"/>
+                    </p:column>
+                    <p:column headerText="CONTENT" width="80">
+                        <h:outputText value="#{model.content}"/>
+                    </p:column>
+                    <p:column headerText="UNITPRICE" width="60">
+                        <h:outputText value="#{model.unitPrice}"/>
+                    </p:column>
+                    <p:column headerText="DISTRIBUTOR" width="260">
+                        <h:outputText value="#{model.distributor}"/>
+                    </p:column>
+                    <p:column headerText="MANUFACTURER" width="260">
+                        <h:outputText value="#{model.manufacturer}"/>
+                    </p:column>
+                    <p:column headerText="ISED" width="40">
+                        <h:outputText value="#{model.ised}"/>
+                    </p:column>
+                    <p:column headerText="NDC24" width="100">
+                        <h:outputText value="#{model.ndc24}"/>
+                    </p:column>
+                    <p:column headerText="PACKSIZE" width="100">
+                        <h:outputText value="#{model.packSize}"/>
+                    </p:column>
+                    <p:column headerText="PACKPRICE" width="100">
+                        <h:outputText value="#{model.packPrice}"/>
+                    </p:column>
+                    <p:column headerText="UPDATEFLAG" width="100">
+                        <h:outputText value="#{model.updateFlag}"/>
+                    </p:column>
+                    <p:column headerText="DATECHANGE" width="120">
+                        <h:outputText value="#{model.dateChangeDate}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="DATEUPDATE" width="120">
+                        <h:outputText value="#{model.dateUpdateDate}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="DATEEFFECTIVE" width="120"> 
+                        <h:outputText value="#{model.dateEffectiveDate}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="ISED_APPROVED" width="120"> 
+                        <h:outputText value="#{model.isedApprove}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="NDC24_APPROVED" width="120"> 
+                        <h:outputText value="#{model.ndc24Approve}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="DATE_APPROVED" width="120"> 
+                        <h:outputText value="#{model.requestItem.approveDate}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="ISED_STATUS" width="120"> 
+                        <h:outputText value="#{model.isedStatus}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+                <p:blockUI block="form" widgetVar="allblock" >
+                    กรุณารอสักครู่...
+                </p:blockUI>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
