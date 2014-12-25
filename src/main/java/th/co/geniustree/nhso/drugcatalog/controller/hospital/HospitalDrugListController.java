@@ -27,6 +27,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.Worker;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.Workers;
 import th.co.geniustree.nhso.drugcatalog.model.NDC24;
+import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
@@ -210,6 +211,9 @@ public class HospitalDrugListController implements Serializable {
 
             @Override
             public Object run() throws Exception {
+                if (item.getRequestItem().getStatus() == RequestItem.Status.ACCEPT) {
+                    return "ไม่สามารถลบรายการที่อนุมัติแล้ว";
+                }
                 item.getRequestItem().setDeleted(Boolean.TRUE);
                 uploadHospitalDrugItemRepo.save(item);
                 return "ลบเสร็จแล้ว";
