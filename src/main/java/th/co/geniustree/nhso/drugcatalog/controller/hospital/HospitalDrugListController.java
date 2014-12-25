@@ -175,7 +175,7 @@ public class HospitalDrugListController implements Serializable {
                 uploadItemEx.put(item, new UploadHospitalDrugItemEx((String) findLastestEdByTmtId, "01"));
             } else {
                 uploadItemEx.put(item, new UploadHospitalDrugItemEx(item.getIsed(), "99"));
-            }
+            }//TODO FIX NPE
             List<NDC24> ndc24s = item.getTmtDrug().getNdc24s();
             String ndc24 = "";
             if (ndc24s.size() == 1) {
