@@ -12,18 +12,13 @@
         <form action="#{request.contextPath}/j_spring_security_check" method="POST">
             <div class="loglogin">
                 <div class="logo"></div>
-                <!--                <div class="bgtextbox">
-                                    <input class="textbox" type="text" name="j_username"/>
-                                    <input class="textbox textboxpass" type="password" name="j_password"/>
-                                </div>
-                                <div class="bgbutton">
-                                    <input type="submit" class="buttons" value="เข้าสู่ระบบ"  />
-                                    <input type="reset" class="buttonc" value="ยกเลิก"/>
-                                </div>-->
-                <h2 style="color:whitesmoke">ขออภัยในความไม่สะดวก</h2>
-                <div style="color:whitesmoke">
-                    ปิดระบบชั่วคราว  เพื่อ ปรับปรุงข้อมูลรายการยาของโรงพยาบาล เพื่อใช้สำหรับชดเชยค่าบริการ
-                    จะเปิดใช้งานอีกครั้ง วันที่ 25 ธันวามคม 2557 เวลา 16:30 น.
+                <div class="bgtextbox">
+                    <input class="textbox" type="text" name="j_username"/>
+                    <input class="textbox textboxpass" type="password" name="j_password"/>
+                </div>
+                <div class="bgbutton">
+                    <input type="submit" class="buttons" value="เข้าสู่ระบบ"  />
+                    <input type="reset" class="buttonc" value="ยกเลิก"/>
                 </div>
                 <div id="gtLoginError" style="color:red">
                     ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}

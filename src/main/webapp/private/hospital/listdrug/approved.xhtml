@@ -23,10 +23,13 @@
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
-                        #{msg.menu_listdrug_approved_label}
+                        ขออภัยในความไม่สะดวก<br/>
+                        ขณะนี้กำลังปรับปรุงข้อมูลรายการยาของทางโรงพยาบาลของท่าน ที่ต้องนำไปใช้กับโปรแกรม E-Claim เพื่อให้รองรับธุรกรรมเบิกจ่ายค่ารักษาพยาบาล
                         <h:commandLink style="float:left">
-                            <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="table" fileName="APPROVED_#{hospitalDrugListController.user.hospital.hcode}_#{hospitalDrugListController.formattedDate()}" pageOnly="false"/>
+                            <ui:remove>
+                                <p:graphicImage name="images/excel24.png" />
+                                <p:dataExporter type="xls" target="table" fileName="APPROVED_#{hospitalDrugListController.user.hospital.hcode}_#{hospitalDrugListController.formattedDate()}" pageOnly="false"/>
+                            </ui:remove>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />
