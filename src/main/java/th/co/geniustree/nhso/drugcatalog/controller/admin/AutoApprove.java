@@ -6,14 +6,9 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.io.Serializable;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
-import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
 
 /**
@@ -33,7 +28,7 @@ public class AutoApprove implements Serializable {
 
     public void approveRequestWhichTMTisNull() {
         autoApproveService.approveRequestWhichTMTisNull();
-    }
+    }    
     public void approveRequestWhichCreateOneline(){
         autoApproveService.approveRequestWhichCreateOneline();
     }
