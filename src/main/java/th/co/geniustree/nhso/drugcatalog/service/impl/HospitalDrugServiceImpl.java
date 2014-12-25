@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import com.google.common.base.Strings;
 import java.math.BigDecimal;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import th.co.geniustree.nhso.drugcatalog.service.TmtDrugTxService;
 @Transactional(propagation = Propagation.REQUIRED)
 public class HospitalDrugServiceImpl implements HospitalDrugService {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HospitalDrugServiceImpl.class);
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
     @Autowired
@@ -61,7 +63,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         hospitalDrug = hospitalDrugRepo.save(hospitalDrug);
         createFirstPrice(hospitalDrug);
         createFirstEdNed(hospitalDrug);
-        if (!Strings.isNullOrEmpty(requestItem.getUploadDrugItem().getTmtId())) {
+        if (hospitalDrug.getTmtDrug() != null) {
             tmtDrugTxService.addNewTmtDrugTx(hospitalDrug, hospitalDrug.getTmtDrug());
         }
         return hospitalDrug;
@@ -86,7 +88,6 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
     }
 
     private HospitalDrug processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
-        boolean isTmtIdChange = tmtIdChange(alreadyDrug.getTmtId(), uploadItem.getTmtId());
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             BigDecimal newPrice = new BigDecimal(uploadItem.getUnitPrice().replaceAll(",", ""));
             priceService.addNewPrice(alreadyDrug, newPrice);
@@ -96,17 +97,13 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
                 copyAndConvertAttribute(uploadItem, alreadyDrug);
             }
             edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
-            if (isTmtIdChange && !Strings.isNullOrEmpty(uploadItem.getTmtId())) {
-                tmtDrugTxService.addNewTmtDrugTx(alreadyDrug, alreadyDrug.getTmtDrug());
+            if (uploadItem.getTmtDrug() != null) {
+                tmtDrugTxService.addNewTmtDrugTx(alreadyDrug, uploadItem.getTmtDrug());
             }
         } else if ("D".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             alreadyDrug.setDeleted(Boolean.TRUE);
         }
         return alreadyDrug;
-    }
-
-    private boolean tmtIdChange(String alreadyTmtId, String newTmtId) {
-        return !Strings.nullToEmpty(alreadyTmtId).equals(Strings.nullToEmpty(newTmtId));
     }
 
 }
