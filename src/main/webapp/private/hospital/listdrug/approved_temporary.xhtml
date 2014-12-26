@@ -24,7 +24,7 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         #{msg.menu_listdrug_approved_label}
-                        <p:commandLink style="float:left" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()">
+                        <p:commandLink style="float:left" >
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="table" fileName="APPROVED_#{hospitalDrugListControllerTemp.user.hospital.hcode}_#{hospitalDrugListControllerTemp.formattedDate()}" pageOnly="false"/>
                         </p:commandLink>
