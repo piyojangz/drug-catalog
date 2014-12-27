@@ -89,7 +89,7 @@ public class HospitalDrugExcelModel implements Serializable {
     @XlsColumn
     @Size(max = 11, message = "UnitPrice ต้องประกอบด้วยตัวเลขหรือจุดทศนิยม ไม่เกิน 11 ตัวอักษร (99999999.99)")
     @NotBlank(message = "ต้องกำหนด UnitPrice มาด้วยทุกครั้ง")
-    @DoubleValue(message = "UnitPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น")
+    @DoubleValue(message = "UnitPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น", removeSeperator = true)
     private String unitPrice;
 
     @XlsColumn

@@ -26,6 +26,7 @@ public @interface DoubleValue {
     String message() default "{th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue}";
 
     Class<?>[] groups() default {};
+    boolean removeSeperator() default false;
 
     Class<? extends Payload>[] payload() default {};
 }

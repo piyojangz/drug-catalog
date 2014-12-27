@@ -14,9 +14,11 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class DoubleValidator implements ConstraintValidator<DoubleValue, String> {
 
+    private DoubleValue constraintAnnotation;
+
     @Override
     public void initialize(DoubleValue constraintAnnotation) {
-        
+        this.constraintAnnotation = constraintAnnotation;
     }
 
     @Override
@@ -25,7 +27,11 @@ public class DoubleValidator implements ConstraintValidator<DoubleValue, String>
             return true;
         }
         try {
-            Double.parseDouble(value.replaceAll(",", ""));
+            if (constraintAnnotation.removeSeperator()) {
+                Double.parseDouble(value.replaceAll(",", ""));
+            } else {
+                Double.parseDouble(value);
+            }
             return true;
         } catch (Exception ex) {
             return false;
