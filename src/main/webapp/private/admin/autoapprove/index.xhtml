@@ -20,6 +20,10 @@
                     <p:commandButton value="Approve Item.status=REQUEST and TMT IS NULL" action="#{autoApprove.approveRequestWhichTMTisNull()}" />
                     <p:commandButton value="Approve Item that create ONLINE" action="#{autoApprove.approveRequestWhichCreateOneline()}" />
                 </p:panelGrid>
+                <p:panelGrid columns="2">
+                    <p:inputText value="#{autoApprove.hcode}"/>
+                    <p:commandButton value="Approve By Hcode" action="#{autoApprove.approveByHcode()}" />
+                </p:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

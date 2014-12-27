@@ -21,6 +21,19 @@ public class AutoApprove implements Serializable {
 
     @Autowired
     private AutoApproveService autoApproveService;
+    private String hcode;
+
+    public String getHcode() {
+        return hcode;
+    }
+
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
+    }
+
+    public void approveByHcode() {
+        autoApproveService.approveByHcode(hcode);
+    }
 
     public void approveRejectAndEditCountGreaterThanZero() {
         autoApproveService.approveRejectAndEditCountGreaterThanZero();
@@ -28,8 +41,9 @@ public class AutoApprove implements Serializable {
 
     public void approveRequestWhichTMTisNull() {
         autoApproveService.approveRequestWhichTMTisNull();
-    }    
-    public void approveRequestWhichCreateOneline(){
+    }
+
+    public void approveRequestWhichCreateOneline() {
         autoApproveService.approveRequestWhichCreateOneline();
     }
 }

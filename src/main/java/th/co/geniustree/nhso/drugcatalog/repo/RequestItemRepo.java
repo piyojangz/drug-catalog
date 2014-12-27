@@ -49,4 +49,6 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     public List<RequestItem> findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status status);
 
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugShaHex(RequestItem.Status status, String SPECIAL_SHAHEX_VALUE);
+
+    public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status status, String hcode);
 }

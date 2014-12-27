@@ -60,4 +60,12 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         approveService.approve(items);
         log.info("auto approve for request and that creat ONLINE ==>{} completed", items.size());
     }
+
+    @Override
+    public void approveByHcode(String hcode) {
+        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status.REQUEST,hcode);
+        log.info("auto approve for request and that creat ONLINE ==>{}", items.size());
+        approveService.approve(items);
+        log.info("auto approve for request and that creat ONLINE ==>{} completed", items.size());
+    }
 }

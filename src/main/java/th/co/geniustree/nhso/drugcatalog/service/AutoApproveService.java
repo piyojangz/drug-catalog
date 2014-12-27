@@ -16,4 +16,6 @@ public interface AutoApproveService {
     public void approveRequestWhichTMTisNull();
 
     public void approveRequestWhichCreateOneline();
+
+    public void approveByHcode(String hcode);
 }
