@@ -29,6 +29,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.input.Lastgroup;
+import th.co.geniustree.nhso.drugcatalog.input.validator.DateRange;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
@@ -174,6 +176,7 @@ public class UploadHospitalDrugItem implements Serializable {
 
     @NotNull(message = "ต้องกำหนด DateEffective มาด้วยทุกครั้ง")
     @Column(name = "DATEEFFECTIVEDATE", nullable = false)
+    @DateRange(message = "ปี จะต้องไม่น้อยกว่า {min} และไม่มากกว่าปีปัจจุบัน + {futureOffset}", futureOffset = 5)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEffectiveDate;
 

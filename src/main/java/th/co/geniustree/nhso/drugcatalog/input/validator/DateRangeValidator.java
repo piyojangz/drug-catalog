@@ -16,8 +16,9 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
  *
  * @author moth
  */
-public class DateRangeValidator implements ConstraintValidator<DateRange, String> {
+public class DateRangeValidator implements ConstraintValidator<DateRange, Object> {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DateRangeValidator.class);
     private DateRange constraintAnnotation;
 
     @Override
@@ -26,22 +27,29 @@ public class DateRangeValidator implements ConstraintValidator<DateRange, String
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null || value.trim().isEmpty()) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
+        Date parseDateWithOptionalTimeAndNoneLeneint = null;
+        if (value == null) {
             return true;
         }
         try {
-            Date parseDateWithOptionalTimeAndNoneLeneint = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(value);
+            if (value instanceof String) {
+                if (value.toString().isEmpty()) {
+                    return true;
+                }
+                parseDateWithOptionalTimeAndNoneLeneint = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(value.toString());
+            }
             Calendar inputCalendar = Calendar.getInstance(Locale.US);
             int currentyear = inputCalendar.get(Calendar.YEAR);
             inputCalendar.setTime(parseDateWithOptionalTimeAndNoneLeneint);
             if (inputCalendar.get(Calendar.YEAR) < constraintAnnotation.min() || inputCalendar.get(Calendar.YEAR) > currentyear + constraintAnnotation.futureOffset()) {
                 return false;
             }
-            return true;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            log.warn(null, e);
             return false;
         }
+        return true;
     }
 
 }
