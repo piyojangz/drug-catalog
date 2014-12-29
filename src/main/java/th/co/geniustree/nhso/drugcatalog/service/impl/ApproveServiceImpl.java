@@ -141,4 +141,16 @@ public class ApproveServiceImpl implements ApproveService {
         approveOrRejects(datas);
     }
 
+    @Override
+    public void reApproveAndNotChangeRequestItemState(List<RequestItem> requestItems) {
+        for (RequestItem requestItem : requestItems) {
+            if (requestItem.isDeleted()) {
+                return;
+            }
+            HospitalDrug hospitalDrug = hospitalDrugService.addOrUpdateHospitalDrug(requestItem);
+            hospitalDrug.getRequestItems().add(requestItem);
+            requestItemRepo.save(requestItem);
+        }
+    }
+
 }

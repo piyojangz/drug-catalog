@@ -18,4 +18,6 @@ public interface AutoApproveService {
     public void approveRequestWhichCreateOneline();
 
     public void approveByHcode(String hcode);
+
+    public boolean approvePartial(int page,int pageSize);
 }

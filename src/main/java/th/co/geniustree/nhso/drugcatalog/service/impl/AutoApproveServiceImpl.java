@@ -8,6 +8,9 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,9 +66,17 @@ public class AutoApproveServiceImpl implements AutoApproveService {
 
     @Override
     public void approveByHcode(String hcode) {
-        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status.REQUEST,hcode);
-        log.info("auto approve for request and that creat ONLINE ==>{}", items.size());
+        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status.REQUEST, hcode);
+        log.info("auto approve request for HCODE size ==>{}", items.size());
         approveService.approve(items);
-        log.info("auto approve for request and that creat ONLINE ==>{} completed", items.size());
+        log.info("auto approve request for HCODE size ==>{} completed", items.size());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public boolean approvePartial(int page, int pageSize) {
+        Page<RequestItem> items = requestItemRepo.findByStatusAndDeletedIsFalse(RequestItem.Status.REQUEST, new PageRequest(page, pageSize, Sort.Direction.ASC, "id"));
+        approveService.reApproveAndNotChangeRequestItemState(items.getContent());
+        return items.hasNext();
     }
 }

@@ -23,6 +23,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
 
     public Page<RequestItem> findByStatus(RequestItem.Status status, Pageable pageable);
 
+    public Page<RequestItem> findByStatusAndDeletedIsFalse(RequestItem.Status status, Pageable pageable);
+
     @Query("select  r.uploadDrugItem.tmtDrug from RequestItem r  where r.status = ?1 ")
     public Page<TMTDrug> findTMTDrugByStatus(RequestItem.Status status, Pageable pageable);
 

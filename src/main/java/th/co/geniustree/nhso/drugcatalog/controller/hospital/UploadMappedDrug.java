@@ -223,7 +223,7 @@ public class UploadMappedDrug implements Serializable {
             LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
             shaHex = DigestUtils.shaHex(targetFile);
-            duplicateFile = uploadHospitalDrugRepo.countByShaHex(shaHex) > 0;
+            duplicateFile = uploadHospitalDrugRepo.countByShaHexAndHcode(shaHex,hcodeFromFile) > 0;
             ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
                 @Override
                 public void header(List<String> headers) {

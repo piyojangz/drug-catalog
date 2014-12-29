@@ -46,4 +46,11 @@ public class AutoApprove implements Serializable {
     public void approveRequestWhichCreateOneline() {
         autoApproveService.approveRequestWhichCreateOneline();
     }
+
+    public void reapproveAll() {
+        int page=0;
+        while (autoApproveService.approvePartial(page,10000)) {
+            page++;
+        }
+    }
 }
