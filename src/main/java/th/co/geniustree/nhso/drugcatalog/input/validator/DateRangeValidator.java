@@ -38,6 +38,8 @@ public class DateRangeValidator implements ConstraintValidator<DateRange, Object
                     return true;
                 }
                 parseDateWithOptionalTimeAndNoneLeneint = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(value.toString());
+            }else{
+                parseDateWithOptionalTimeAndNoneLeneint = (Date) value;
             }
             Calendar inputCalendar = Calendar.getInstance(Locale.US);
             int currentyear = inputCalendar.get(Calendar.YEAR);
