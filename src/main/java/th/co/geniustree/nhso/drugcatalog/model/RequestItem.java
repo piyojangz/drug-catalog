@@ -56,7 +56,7 @@ public class RequestItem implements Serializable {
 
     public enum Status {
 
-        REQUEST, REJECT, ACCEPT
+        REQUEST, REJECT, ACCEPT, IGNORED
     }
     @Id
     @Column(name = "ID")
@@ -224,7 +224,6 @@ public class RequestItem implements Serializable {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-    
 
     @Override
     public int hashCode() {

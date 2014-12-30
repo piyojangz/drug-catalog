@@ -13,6 +13,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.component.UINamingContainer;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import org.primefaces.context.RequestContext;
@@ -30,6 +32,7 @@ import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.EdNEdService;
 import th.co.geniustree.nhso.drugcatalog.service.PriceService;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
@@ -51,6 +54,8 @@ public class CreateHospitalDrug implements Serializable {
     private HospitalDrugRepo hospitalDrugRepo;
     @Autowired
     private UploadHospitalDrugService uploadHospitalDrugService;
+    @Autowired
+    private UploadHospitalDrugItemRepo uploadItemRepo;
     @Autowired
     private PriceService priceService;
     @Autowired
@@ -107,23 +112,29 @@ public class CreateHospitalDrug implements Serializable {
         if (value == null) {
             return;
         }
-        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(value.toString(), SecurityUtil.getUserDetails().getHospital().getHcode()));
-        if (exists) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "มี HOSPDRUGCODE นี้แล้ว"));
+        if (updateFlag.equals("A")) {
+            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept((String) value, SecurityUtil.getUserDetails().getHospital().getHcode()) > 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการเพิ่มยานี้แล้ว"));
+            }
         }
     }
 
     public void checkPriceOrEdExist(FacesContext context, UIComponent component, Object value) {
-        if (value == null || !editMode) {
+        if (value == null) {
             return;
         }
         if (updateFlag.equals("U")) {
-            if (priceService.isPriceDuplicate(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
+            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "U") > 0) {
                 throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุราคายา ณ วันที่ effectiveDate แล้ว"));
             }
         } else if (updateFlag.equals("E")) {
-            if (edNEdService.isDuplicateEdNed(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุ ISED ณ วันที่ effectiveDate แล้ว"));
+            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "E") > 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการแก้ไขยา ณ วันที่ effectiveDate แล้ว"));
+            }
+        }
+        if (updateFlag.equals("D")) {
+            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "D") > 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการลบยา ณ วันที่ effectiveDate แล้ว"));
             }
         }
     }
