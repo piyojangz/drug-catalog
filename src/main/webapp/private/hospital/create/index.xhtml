@@ -252,12 +252,15 @@
                     <p:row>
                         <p:column/>
                         <p:column>
-                            <p:commandButton action="#{createHospitalDrug.save()}" ajax="#{not createHospitalDrug.editMode}" update="@form :secondForm:table" value="Save"/>
+                            <p:commandButton action="#{createHospitalDrug.save()}" ajax="#{not createHospitalDrug.editMode}" update="@form :secondForm:table" value="Save" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                             <p:commandButton action="#{createHospitalDrug.clear(createHospitalDrug.editMode)}" ajax="#{not createHospitalDrug.editMode}" immediate="#{createHospitalDrug.editMode}" update="@form" value="Cancel" process="@this"/>
                         </p:column>  
                         <p:column/>
                     </p:row>
                 </p:panelGrid>
+                <p:blockUI block="form" widgetVar="allblock" >
+ 
+                </p:blockUI>
             </h:form>
             <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
                 <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
