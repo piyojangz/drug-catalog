@@ -75,7 +75,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean approvePartial(int page, int pageSize) {
-        Page<RequestItem> items = requestItemRepo.findByStatusAndDeletedIsFalse(RequestItem.Status.REQUEST, new PageRequest(page, pageSize, Sort.Direction.ASC, "id"));
+        Page<RequestItem> items = requestItemRepo.findByStatusAndDeletedIsFalse(RequestItem.Status.ACCEPT, new PageRequest(page, pageSize, Sort.Direction.ASC, "id"));
         approveService.reApproveAndNotChangeRequestItemState(items.getContent());
         return items.hasNext();
     }
