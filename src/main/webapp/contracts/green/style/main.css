@@ -310,3 +310,44 @@ tr>th.ui-resizable-column{
     border: 0 !important;
     background: transparent;
 }
+
+.iconsize24{
+    display: block;
+    width: 24px;
+    height: 24px;
+    float:left;
+}
+.headertitle{
+    float: left;
+    line-height: 24px;
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 1em;
+}
+.headermain{
+    padding: 6px 0px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ECECEE;
+}
+.textinfo{
+    width: 100%;
+}
+.textinfo>tbody>tr>td{
+  border-width: 0px !important;  
+}
+.textinfo>tbody>tr:nth-of-type(2n + 2){
+	background: #fafafa!important;
+}
+.leftAlgin{
+    width: 25px;
+}
+.rightAlgin{
+    font-size: 14px;
+    color: #444;
+}
+.pgiconnumber{
+    padding: 5px 10px;
+    background: #FF8A00;
+    border-radius: 50px;
+    color: #fff;
+}
