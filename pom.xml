@@ -4,7 +4,7 @@
 
     <groupId>th.co.geniustree.nhso</groupId>
     <artifactId>drug-catalog</artifactId>
-    <version>1.1.25-SNAPSHOT</version>
+    <version>1.1.25</version>
     <packaging>war</packaging>
 
     <name>drug-catalog</name>
@@ -18,7 +18,7 @@
         <connection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</connection>
         <developerConnection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</developerConnection>
         <url>http://192.168.1.126/git/drug-catalog.git</url>
-        <tag>HEAD</tag>
+        <tag>drug-catalog-1.1.25</tag>
     </scm>
     <distributionManagement>
         <repository>
