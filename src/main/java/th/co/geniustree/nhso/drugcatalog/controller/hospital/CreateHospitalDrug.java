@@ -64,7 +64,7 @@ public class CreateHospitalDrug implements Serializable {
 
     @PostConstruct
     public void postConstruct() {
-        clear(false);
+        clear();
     }
 
     public UploadHospitalDrugItem getItem() {
@@ -190,27 +190,23 @@ public class CreateHospitalDrug implements Serializable {
         item.timString();
         if (!editMode) {
             uploadHospitalDrugService.addNewDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
-            clear(false);
             FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+            clear();
             return null;
         } else {
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
             FacesMessageUtils.info("แก้ไขเสร็จสิ้น ข้อมูลถูกส่งไปอนุมัติแล้ว ");
+            clear();
             return "/private/hospital/listdrug/index?faces-redirect=true";
         }
 
     }
 
-    public String clear(boolean navigate) {
+    public void clear() {
         item = new UploadHospitalDrugItem();
         item.setUpdateFlag("A");
         updateFlag = item.getUpdateFlag();
         editMode = false;
         hospDrugCode = null;
-        if (navigate) {
-            return "/private/hospital/listdrug/index?faces-redirect=true";
-        } else {
-            return null;
-        }
     }
 }

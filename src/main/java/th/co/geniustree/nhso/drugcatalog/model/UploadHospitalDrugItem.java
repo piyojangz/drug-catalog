@@ -61,6 +61,7 @@ public class UploadHospitalDrugItem implements Serializable {
             table = "TMT_SEQUENCE",
             pkColumnName = "name",
             valueColumnName = "value",
+            allocationSize = 1,
             pkColumnValue = "TMT_UPLOADHOSPDRUG_ITEM")
     @GeneratedValue(generator = "TMT_UPLOADHOSPDRUG_ITEM_GEN", strategy = GenerationType.TABLE)
     private Integer id;
