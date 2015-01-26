@@ -8,17 +8,23 @@ package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
+import th.co.geniustree.nhso.drugcatalog.authen.Role;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.authen.WSUserDetails;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
@@ -51,11 +57,56 @@ public class HospitalDrugListControllerTemp implements Serializable {
     private Map<UploadHospitalDrugItemTemp, UploadHospitalDrugItemTemp> uploadItemEx;
     @Autowired
     private TMTEdNedRepo tmtEdNedRepo;
+    private String hcode;
+    private String selectedHcode;
 
     @PostConstruct
     public void postConstruct() {
         user = SecurityUtil.getUserDetails();
+        if (user.getAuthorities().contains(Role.HOSPITAL)) {
+            selectedHcode = user.getOrgId();
+        }
         search();
+    }
+
+    public void showSearchHospitalDialog() {
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 500);
+        options.put("contentWidth", 800);
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> keywords = new ArrayList<>();
+        keywords.add(hcode);
+        params.put("keyword", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/common/searchHospitalDialog", options, params);
+    }
+
+    public void searchHospitalDialogReturn(SelectEvent event) {
+        Hospital hospital = (Hospital) event.getObject();
+        if (hospital != null) {
+            hcode = hospital.getFullName();
+            selectedHcode = hospital.getHcode();
+            search();
+        }
+        LOG.info("selected hospital from search dialog is => {}", selectedHcode);
+    }
+
+    public String getHcode() {
+        return hcode;
+    }
+
+    public void setHcode(String hcode) {
+        this.hcode = hcode;
+    }
+
+    public String getSelectedHcode() {
+        return selectedHcode;
+    }
+
+    public void setSelectedHcode(String selectedHcode) {
+        this.selectedHcode = selectedHcode;
     }
 
     public boolean isWait() {
@@ -120,7 +171,7 @@ public class HospitalDrugListControllerTemp implements Serializable {
 
             @Override
             public Page<UploadHospitalDrugItemTemp> load(Pageable pageAble) {
-                Specifications<UploadHospitalDrugItemTemp> hcodeEq = Specifications.where(UploadHospitalDrugItemTempSpecs.hcodeEq(user.getOrgId()))
+                Specifications<UploadHospitalDrugItemTemp> hcodeEq = Specifications.where(UploadHospitalDrugItemTempSpecs.hcodeEq(selectedHcode))
                         .and(UploadHospitalDrugItemTempSpecs.notDelete());
                 Specifications<UploadHospitalDrugItemTemp> spec = Specifications.where(null);
                 if (keywords != null) {
@@ -159,7 +210,6 @@ public class HospitalDrugListControllerTemp implements Serializable {
             }
         };
     }
-
 
     public WSUserDetails getUser() {
         return user;

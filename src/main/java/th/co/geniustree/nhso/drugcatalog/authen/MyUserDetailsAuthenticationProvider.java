@@ -60,8 +60,12 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
             } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1149", "GC2")) {
                 wsUserDetails.getAuthorities().add(Role.HOSPITAL);
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
+            } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1245", "GC2")) {
+                wsUserDetails.getAuthorities().add(Role.ECLAIM);
+                wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
             }
             wsUserDetails.setPid(userDto.getPid());
+            log.debug(ToStringBuilder.reflectionToString(wsUserDetails));
             return wsUserDetails;
         } else {
             throw new AuthenticationCredentialsNotFoundException("Not found user. " + username);

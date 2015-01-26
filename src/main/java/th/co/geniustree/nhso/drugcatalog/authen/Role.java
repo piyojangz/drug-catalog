@@ -18,4 +18,5 @@ public interface Role {
     public static final GrantedAuthority ZONE = new SimpleGrantedAuthority("ZONE");
     public static final GrantedAuthority PROVINCE = new SimpleGrantedAuthority("PROVINCE");
     public static final GrantedAuthority HOSPITAL = new SimpleGrantedAuthority("HOSPITAL");
+    public static final GrantedAuthority ECLAIM = new SimpleGrantedAuthority("ECLAIM");
 }
