@@ -23,6 +23,7 @@ import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.DeleteLogRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemTempRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DeleteUploadDrugService;
 
@@ -36,6 +37,8 @@ public class DeleteUploadDrugServiceImpl implements DeleteUploadDrugService {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(DeleteUploadDrugServiceImpl.class);
     @Autowired
     private UploadHospitalDrugRepo uploadHospitalDrugRepo;
+    @Autowired
+    private UploadHospitalDrugItemTempRepo uploadHospitalDrugItemTempRepo;
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
     @Autowired
@@ -64,6 +67,7 @@ public class DeleteUploadDrugServiceImpl implements DeleteUploadDrugService {
         Page<HospitalDrug> hospitalDrugs = hospitalDrugRepo.findByHcode(hcode, new PageRequest(0, 100_000));
         hospitalDrugRepo.delete(hospitalDrugs.getContent());
         deleteLogRepo.save(deleteLog);
+        uploadHospitalDrugItemTempRepo.deleteByHcode(hcode);
     }
 
     private File createOrFindDir(String dir) {

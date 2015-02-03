@@ -12,9 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
 
 /**
@@ -33,4 +34,8 @@ public interface UploadHospitalDrugItemTempRepo extends JpaRepository<UploadHosp
     public List<UploadHospitalDrugItemTemp> findByHospDrugCodeAndUploadDrugHcode(String hospDrugcode, String hcode, Sort sort);
     //@Query("select count")
     //public List<UploadHospitalDrugItem> findByRequestItemStatusAndRequestItemEditCountGreaterThan(RequestItem.Status status,Integer editCount);
+    @Modifying
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Query(value = "delete from TMT_HOSPDRUG_TRANS where hcode = ?1",nativeQuery = true)
+    public int deleteByHcode(String hcode);
 }
