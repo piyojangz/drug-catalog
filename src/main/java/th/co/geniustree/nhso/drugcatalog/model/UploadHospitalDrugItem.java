@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -50,6 +51,7 @@ import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
             @Index(name = "UPLOADITEM_STATUS_IDX", columnList = "REQUEST_STATUS"),
             @Index(name = "UPLOADITEM_EFFECTDATE_IDX", columnList = "DATEEFFECTIVEDATE")
         })
+@NamedStoredProcedureQuery(name = "UploadHospitalDrugItem.INITIAL_HOSPITAL_DRUG",procedureName = "INITIAL_HOSPITAL_DRUG")
 public class UploadHospitalDrugItem implements Serializable {
 
     public static enum Status {
@@ -61,7 +63,7 @@ public class UploadHospitalDrugItem implements Serializable {
             table = "TMT_SEQUENCE",
             pkColumnName = "name",
             valueColumnName = "value",
-            allocationSize = 1,
+            allocationSize = 100,
             pkColumnValue = "TMT_UPLOADHOSPDRUG_ITEM")
     @GeneratedValue(generator = "TMT_UPLOADHOSPDRUG_ITEM_GEN", strategy = GenerationType.TABLE)
     private Integer id;

@@ -20,6 +20,7 @@ import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.ApproveFileRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
 
@@ -40,6 +41,8 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Autowired
     private ApproveFileRepo approveFileRepo;
+    @Autowired
+    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
 
     @Override
     public void approve(RequestItem requestItem) {
@@ -51,6 +54,7 @@ public class ApproveServiceImpl implements ApproveService {
         for (RequestItem requestItem : requestItems) {
             approve(requestItem, SecurityUtil.getUserDetails().getPid());
         }
+        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
     @Override
@@ -69,7 +73,6 @@ public class ApproveServiceImpl implements ApproveService {
         requestItem.setTargetItem(hospitalDrug);
         hospitalDrug.getRequestItems().add(requestItem);
         requestItemRepo.save(requestItem);
-
     }
 
     private void reject(RequestItem requestItem, String pid) {
@@ -91,6 +94,7 @@ public class ApproveServiceImpl implements ApproveService {
                 reject(item);
             }
         }
+        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
     @Override
@@ -131,6 +135,7 @@ public class ApproveServiceImpl implements ApproveService {
                 }
             }
         }
+        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
     @Override
@@ -151,6 +156,7 @@ public class ApproveServiceImpl implements ApproveService {
             hospitalDrug.getRequestItems().add(requestItem);
             requestItemRepo.save(requestItem);
         }
+        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
 }

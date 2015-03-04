@@ -15,6 +15,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Temporal;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 
@@ -51,6 +54,9 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + " and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + " and u.requestItem.deleted=0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept(String hospDrugCode, String hcode);
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Procedure(name = "UploadHospitalDrugItem.INITIAL_HOSPITAL_DRUG")
+    public void copyDataProcedure();
 
     //@Query("select count")
     //public List<UploadHospitalDrugItem> findByRequestItemStatusAndRequestItemEditCountGreaterThan(RequestItem.Status status,Integer editCount);
