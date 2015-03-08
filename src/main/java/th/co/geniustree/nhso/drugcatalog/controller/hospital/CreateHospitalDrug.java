@@ -124,17 +124,17 @@ public class CreateHospitalDrug implements Serializable {
             return;
         }
         if (updateFlag.equals("U")) {
-            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "A","U") > 0) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "ไม่อนุญาตให้แก้ไขราคาย้อนหลังได้"));
+            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "U") > 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุราคายา ณ วันที่ effectiveDate แล้ว"));
             }
         } else if (updateFlag.equals("E")) {
-            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "A","E") > 0) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "ไม่อนุญาตให้แก้ไขรายการยาย้อนหลังได้"));
+            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "E") > 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการแก้ไขยา ณ วันที่ effectiveDate แล้ว"));
             }
         }
         if (updateFlag.equals("D")) {
-            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "A","E","U","D") > 0) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "ไม่อนุญาตให้ลบรายการยาย้อนหลังได้"));
+            if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "D") > 0) {
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการลบยา ณ วันที่ effectiveDate แล้ว"));
             }
         }
     }
