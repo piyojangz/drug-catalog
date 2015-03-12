@@ -9,6 +9,7 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
 
 /**
@@ -22,6 +23,8 @@ public class AutoApprove implements Serializable {
     @Autowired
     private AutoApproveService autoApproveService;
     private String hcode;
+    @Autowired
+    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
 
     public String getHcode() {
         return hcode;
@@ -48,9 +51,13 @@ public class AutoApprove implements Serializable {
     }
 
     public void reapproveAll() {
-        int page=0;
-        while (autoApproveService.approvePartial(page,10000)) {
+        int page = 0;
+        while (autoApproveService.approvePartial(page, 10000)) {
             page++;
         }
+    }
+
+    public void copyDataToHospDrugtran() {
+        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 }

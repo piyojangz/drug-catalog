@@ -41,8 +41,6 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Autowired
     private ApproveFileRepo approveFileRepo;
-    @Autowired
-    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
 
     @Override
     public void approve(RequestItem requestItem) {
@@ -54,7 +52,6 @@ public class ApproveServiceImpl implements ApproveService {
         for (RequestItem requestItem : requestItems) {
             approve(requestItem, SecurityUtil.getUserDetails().getPid());
         }
-        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
     @Override
@@ -94,7 +91,6 @@ public class ApproveServiceImpl implements ApproveService {
                 reject(item);
             }
         }
-        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
     @Override
@@ -135,7 +131,6 @@ public class ApproveServiceImpl implements ApproveService {
                 }
             }
         }
-        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
     @Override
@@ -156,7 +151,6 @@ public class ApproveServiceImpl implements ApproveService {
             hospitalDrug.getRequestItems().add(requestItem);
             requestItemRepo.save(requestItem);
         }
-        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
 }

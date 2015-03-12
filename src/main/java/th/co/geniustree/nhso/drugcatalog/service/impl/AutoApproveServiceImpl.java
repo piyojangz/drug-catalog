@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
@@ -33,6 +34,8 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     private RequestItemRepo requestItemRepo;
     @Autowired
     private ApproveService approveService;
+    @Autowired
+    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
 
     @Override
     public void approveRejectAndEditCountGreaterThanZero() {
@@ -46,6 +49,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
             log.info("auto approve for request and editCount=0 ==>{}", itemsThatExports.size());
             approveService.approve(itemsThatExports);
         }
+        uploadHospitalDrugItemRepo.copyDataProcedure();
     }
 
     @Override
@@ -53,6 +57,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status.REQUEST);
         log.info("auto approve for request and tmt is null ==>{}", items.size());
         approveService.approve(items);
+        uploadHospitalDrugItemRepo.copyDataProcedure();
         log.info("auto approve for request and tmt is null ==>{} completed", items.size());
     }
 
@@ -61,6 +66,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugShaHex(RequestItem.Status.REQUEST, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
         log.info("auto approve for request and that creat ONLINE ==>{}", items.size());
         approveService.approve(items);
+        uploadHospitalDrugItemRepo.copyDataProcedure();
         log.info("auto approve for request and that creat ONLINE ==>{} completed", items.size());
     }
 
@@ -69,6 +75,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status.REQUEST, hcode);
         log.info("auto approve request for HCODE size ==>{}", items.size());
         approveService.approve(items);
+        uploadHospitalDrugItemRepo.copyDataProcedure();
         log.info("auto approve request for HCODE size ==>{} completed", items.size());
     }
 
