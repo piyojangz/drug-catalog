@@ -25,11 +25,11 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
 
     public Page<RequestItem> findByStatusAndDeletedIsFalse(RequestItem.Status status, Pageable pageable);
 
-    @Query("select  r.uploadDrugItem.tmtDrug from RequestItem r  where r.status = ?1 ")
-    public Page<TMTDrug> findTMTDrugByStatus(RequestItem.Status status, Pageable pageable);
+    @Query("select  r.uploadDrugItem.tmtDrug from RequestItem r  where r.status = ?1 and r.deleted=false")
+    public Page<TMTDrug> findTMTDrugByStatusNotDel(RequestItem.Status status, Pageable pageable);
 
-    @Query("select distinct r.uploadDrugItem.tmtDrug from RequestItem r where r.status = ?1 and r.uploadDrugItem.tmtId like ?2%")
-    public Page<TMTDrug> findTMTDrugByStatusAndTmtIdLike(RequestItem.Status status, String tmtid, Pageable pageable);
+    @Query("select distinct r.uploadDrugItem.tmtDrug from RequestItem r where r.status = ?1 and r.deleted=false and r.uploadDrugItem.tmtId like ?2%")
+    public Page<TMTDrug> findTMTDrugByStatusAndTmtIdLikeNotDel(RequestItem.Status status, String tmtid, Pageable pageable);
 
     @Query("select r from RequestItem r where r.status = ?1 and r.uploadDrugItem.tmtId = ?2")
     public Page<RequestItem> findByStatusAndTmtId(RequestItem.Status status, String tmtId, Pageable pageable);

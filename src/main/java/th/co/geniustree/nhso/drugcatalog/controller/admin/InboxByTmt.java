@@ -38,9 +38,9 @@ public class InboxByTmt implements Serializable {
             @Override
             public Page<TMTDrug> load(Pageable pageAble) {
                 if (Strings.isNullOrEmpty(keyword)) {
-                    return requestItemRepo.findTMTDrugByStatus(RequestItem.Status.REQUEST, pageAble);
+                    return requestItemRepo.findTMTDrugByStatusNotDel(RequestItem.Status.REQUEST, pageAble);
                 } else {
-                    return requestItemRepo.findTMTDrugByStatusAndTmtIdLike(RequestItem.Status.REQUEST,keyword, pageAble);
+                    return requestItemRepo.findTMTDrugByStatusAndTmtIdLikeNotDel(RequestItem.Status.REQUEST,keyword, pageAble);
                 }
             }
         };
