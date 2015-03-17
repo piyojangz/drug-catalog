@@ -40,8 +40,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     @Query("select distinct r from RequestItem r where r.uploadDrugItem.uploadDrug.hcode = ?1 and r.uploadDrugItem.hospDrugCode = ?2 and r.uploadDrugItem.tmtId = ?3 and r.requestDate <= ?4 order by r.requestDate asc")
     public List<RequestItem> findByStatusAndHospDrugCodeAndTmtId(String hcode, String hospDrug, String tmt, Date toDate);
 
-    @Query("select distinct r from RequestItem r where r.status= ?1 and r.uploadDrugItem.uploadDrug.hcode = ?2 and r.uploadDrugItem.tmtId is not null")
-    public Page<RequestItem> findByStatusAndHcode(RequestItem.Status status, String hcode, Pageable pageable);
+    @Query("select distinct r from RequestItem r where r.status= ?1 and r.uploadDrugItem.uploadDrug.hcode = ?2 and r.uploadDrugItem.tmtId is not null and r.deleted=false")
+    public Page<RequestItem> findByStatusAndHcodeAndNotDel(RequestItem.Status status, String hcode, Pageable pageable);
 
     public List<RequestItem> findByStatusAndEditCountGreaterThan(RequestItem.Status status, Integer editCount);
 

@@ -179,7 +179,7 @@ public class AdminInbox implements Serializable {
         notApproveRequests.clear();
         approveRequests.clear();
         if (selectedHospital != null) {
-            Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcode(RequestItem.Status.REQUEST,
+            Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcodeAndNotDel(RequestItem.Status.REQUEST,
                     selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
             totalElements = pageResult.getTotalElements();
             displayElement = pageResult.getSize();
