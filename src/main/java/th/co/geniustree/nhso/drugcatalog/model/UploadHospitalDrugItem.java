@@ -51,7 +51,7 @@ import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
             @Index(name = "UPLOADITEM_STATUS_IDX", columnList = "REQUEST_STATUS"),
             @Index(name = "UPLOADITEM_EFFECTDATE_IDX", columnList = "DATEEFFECTIVEDATE")
         })
-@NamedStoredProcedureQuery(name = "UploadHospitalDrugItem.INITIAL_HOSPITAL_DRUG",procedureName = "INITIAL_HOSPITAL_DRUG")
+@NamedStoredProcedureQuery(name = "UploadHospitalDrugItem.INITIAL_HOSPITAL_DRUG", procedureName = "INITIAL_HOSPITAL_DRUG")
 public class UploadHospitalDrugItem implements Serializable {
 
     public static enum Status {
@@ -460,6 +460,9 @@ public class UploadHospitalDrugItem implements Serializable {
         }
         if (this.packPrice != null) {
             this.packPrice = this.packPrice.trim();
+        }
+        if (this.hospDrugCode != null) {
+            this.hospDrugCode = this.hospDrugCode.trim();
         }
     }
 
