@@ -202,11 +202,15 @@ public class CreateHospitalDrug implements Serializable {
 
     }
 
-    public void clear() {
+    public String clear() {
         item = new UploadHospitalDrugItem();
         item.setUpdateFlag("A");
         updateFlag = item.getUpdateFlag();
         editMode = false;
         hospDrugCode = null;
+        return null;
+    }
+    public String reload(){
+        return "/private/hospital/create/index?faces-redirect=true&amp;includeViewParams=true";
     }
 }

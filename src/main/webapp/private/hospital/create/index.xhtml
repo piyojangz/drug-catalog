@@ -253,7 +253,8 @@
                         <p:column/>
                         <p:column>
                             <p:commandButton action="#{createHospitalDrug.save()}" ajax="#{not createHospitalDrug.editMode}" update="@form :secondForm:table" value="Save" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
-                            <p:commandButton action="#{createHospitalDrug.clear(createHospitalDrug.editMode)}" ajax="#{not createHospitalDrug.editMode}" immediate="#{createHospitalDrug.editMode}" update="@form" value="Cancel" process="@this"/>
+                            <p:commandButton action="#{edcreateHospitalDrug.clear()}" ajax="#{not createHospitalDrug.editMode}" rendered="#{not createHospitalDrug.editMode}" immediate="#{createHospitalDrug.editMode}" update="@form" value="Cancel" process="@this"/>
+                            <p:commandButton action="#{createHospitalDrug.reload()}" ajax="false" rendered="#{createHospitalDrug.editMode}" immediate="#{createHospitalDrug.editMode}" update="@form" value="Cancel" process="@this"/>
                         </p:column>  
                         <p:column/>
                     </p:row>
