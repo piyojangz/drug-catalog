@@ -32,6 +32,6 @@
     </converter>
     <converter>
         <converter-for-class>java.lang.String</converter-for-class>
-        <converter-class>th.co.geniustree.nhso.drugcatalog.controller.EmptyToNullConverter</converter-class>
+        <converter-class>th.co.geniustree.nhso.drugcatalog.controller.converter.EmptyToNullAndTrimConverter</converter-class>
     </converter>
 </faces-config>
