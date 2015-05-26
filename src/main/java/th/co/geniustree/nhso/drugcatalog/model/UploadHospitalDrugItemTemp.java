@@ -53,7 +53,7 @@ public class UploadHospitalDrugItemTemp implements Serializable {
 
     @NotBlank(message = "ต้องกำหนด ProductCat มาด้วยทุกครั้ง")
     @Size(max = 1, message = "ProductCat ต้องไม่เกิน 1 ตัวอักษร")
-    @ValueSet(values = {"1", "2", "3", "4", "5", "6", "7"}, message = "ProductCat ต้องประกอบด้วย 1 หรือ 2 หรือ 3 หรือ 4 หรือ 5 หรือ 6 หรือ 7 เท่านั้น")
+    @ValueSet(values = {"1", "2", "3", "4", "5"}, message = "ProductCat ต้องประกอบด้วย 1 หรือ 2 หรือ 3 หรือ 4 หรือ 5 เท่านั้น")
     @Column(name = "PRODUCTCAT", nullable = false, length = 3)
     private String productCat;
 
