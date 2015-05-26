@@ -425,6 +425,25 @@
             </properties>
         </profile>
         <profile>
+            <id>local2-mac</id>
+            <properties>
+                <eclipselink.ddl-generation>create-tables</eclipselink.ddl-generation>
+                <eclipselink.logging.level>ALL</eclipselink.logging.level>
+                <log.spring.level>INFO</log.spring.level>
+                <log.geniustree.level>DEBUG</log.geniustree.level>
+                <log.appender>STDOUT</log.appender>
+                <log.file.location>/tmp/${project.artifactId}/</log.file.location>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderMock</authentication.provider>
+                <report.temp.location>/tmp/${project.artifactId}/report</report.temp.location>
+                <upload.temp.location>/tmp/${project.artifactId}/upload_temp</upload.temp.location>   
+                <wsdlDocumentResource>http://gucws.nhso.go.th/nhso-wsauthen-wrapper/UCDCAuthenService?wsdl</wsdlDocumentResource>
+                <endpointAddress>http://gucws.nhso.go.th:80/nhso-wsauthen-wrapper/UCDCAuthenService</endpointAddress>  
+                <namespaceUri>http://wrapper.wsauthen.nhso.geniustree.co.th/</namespaceUri>
+                <serviceName>UCDCAuthenService</serviceName>
+                <portName>UCDCAuthenServicePort</portName>
+            </properties>
+        </profile>
+        <profile>
             <id>local_real_login</id>
             <properties>
                 <eclipselink.ddl-generation>create-tables</eclipselink.ddl-generation>
