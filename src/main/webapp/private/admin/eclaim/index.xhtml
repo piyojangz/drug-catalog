@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <h:form id="form" >
+                <style type="text/css">
+                    .ui-panelgrid .ui-panelgrid-cell{
+                        padding: 4px 5px;
+                        border: none;
+                    }
+                </style>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:commandButton value="Search" type="submit" actionListener="#{eclaimController.search()}" update="@form"/>
+                            <p:spacer width="10"/>
+                            <p:commandButton value="Clear" type="reset" update="@form"/>
+                        </p:column>
+                    </p:row>
+                    <ui:remove>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="HCODE : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" size="10" value="#{eclaimController.hcode}"/><p:spacer width="20"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="HospDrugCode : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText required="true" size="20" value="#{eclaimController.hospDrugCode}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="TMT id : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText size="10" value="#{eclaimController.tmtid}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Service Date : "/>
+                        </p:column>
+                        <p:column>
+                            <p:calendar value="#{eclaimController.dateEffective}"/>
+                        </p:column>
+                    </p:row>
+                    </ui:remove>
+                </p:panelGrid>
+                <p:dataTable id="table" 
+                             var="model"
+                             value="#{eclaimController.tmtDrug}">
+                                 
+                    <p:column headerText="Column" style="width: 50px;">
+                        
+                    </p:column>
+                    <p:column headerText="Value">
+                        
+                    </p:column>
+                </p:dataTable>
+                <p:spacer height="20"/>
+                <p:dataGrid rows="1" layout="grid" id="drugGroup" var="group" first="1" rowIndexVar="rowIndex">
+                    <p:panel header="Group #{rowIndex}">
+                        <h:panelGrid columns="1">
+                            <h:outputText value="#"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dataGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

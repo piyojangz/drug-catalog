@@ -64,6 +64,8 @@
                         <f:param name="title" value="#{msg.menu_tmt_database_label}"/>
                     </p:menuitem>
                 </p:submenu>
+                <p:separator/>
+                <p:menuitem value="E Claim" rendered="#{request.isUserInRole('ADMIN')}" outcome="/private/admin/eclaim/index" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/report/import-report'), 0)?'background-color: #FFF2DB':''}"/>
                 <p:menuitem value="Logout" url="#{request.contextPath}/logout" icon="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
             </p:menu>
         </h:form>
