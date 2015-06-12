@@ -5,8 +5,12 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugWithTMT;
+import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +28,7 @@ public class EclaimController implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(EclaimController.class);
 
-    private HospitalDrugWithTMT tmtDrug;
+    private List<HospitalDrugWithTMT> tmtDrugs;
     private String hcode;
     private String hospDrugCode;
     private String tmtid;
@@ -32,22 +36,22 @@ public class EclaimController implements Serializable {
 
     @PostConstruct
     public void postConstruct() {
-        tmtDrug = new HospitalDrugWithTMT();
+        tmtDrugs = new ArrayList<>();
     }
     
     @Autowired
     private EclaimDAO eclaimDAO;
 
     public void search() {
-        tmtDrug = eclaimDAO.loadDrugInfo("10741", "6666666","66565", new Date());
+        tmtDrugs = eclaimDAO.loadDrugInfo("10741", "6666666","66565", new Date());
     }
 
-    public HospitalDrugWithTMT getTmtDrug() {
-        return tmtDrug;
+    public List<HospitalDrugWithTMT> getTmtDrug() {
+        return tmtDrugs;
     }
 
-    public void setTmtDrug(HospitalDrugWithTMT tmtDrug) {
-        this.tmtDrug = tmtDrug;
+    public void setTmtDrug(List<HospitalDrugWithTMT> tmtDrug) {
+        this.tmtDrugs = tmtDrug;
     }
 
     public String getHcode() {

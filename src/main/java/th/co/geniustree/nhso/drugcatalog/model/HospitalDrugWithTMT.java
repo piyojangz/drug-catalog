@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.controller.admin;
+package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,14 +25,11 @@ import org.eclipse.persistence.platform.database.oracle.annotations.PLSQLRecord;
 @NamedPLSQLStoredFunctionQuery(
         name = "getHospitalDrugWithTMT",
         functionName = "HOSPITALDRUG_PACK.find_hospdrug_withtmt",
-        returnParameter = @PLSQLParameter(name = "RESULT", databaseType = "HOSPITALDRUG_PACK.hospitaldrug"))
+        returnParameter = @PLSQLParameter(name = "RESULT", databaseType = "HOSPITALDRUG_PACK.HOSPITALDRUG_REC"))
 @Embeddable
 @Struct(
         name = "DRUGCODEOWNER.HOSPITALDRUG",
         fields = {
-            "hcode",
-            "hospDrugCode",
-            "dateEffective",
             "tmtid",
             "tmt_type",
             "fsn",
@@ -51,31 +48,31 @@ import org.eclipse.persistence.platform.database.oracle.annotations.PLSQLRecord;
             "REIMB_UNIT_PRICE",
             "druggroup"})
 @PLSQLRecord(
-        name = "HOSPITALDRUG_PACK.hospitaldrug",
+        name = "HOSPITALDRUG_PACK.HOSPITALDRUG",
         compatibleType = "DRUGCODEOWNER.HOSPITALDRUG",
         javaType = HospitalDrugWithTMT.class,
         fields = {
-            @PLSQLParameter(name = "p_hospDrugCode"),
-            @PLSQLParameter(name = "p_hcode"),
-            @PLSQLParameter(name = "p_tmtid"),
-            @PLSQLParameter(name = "p_date")})
-//            @PLSQLParameter(name = "tmtid"),
-//            @PLSQLParameter(name = "tmt_type"),
-//            @PLSQLParameter(name = "fsn"),
-//            @PLSQLParameter(name = "manufacturer"),
-//            @PLSQLParameter(name = "hosp_genericName"),
-//            @PLSQLParameter(name = "hosp_tradeName"),
-//            @PLSQLParameter(name = "unit_price"),
-//            @PLSQLParameter(name = "SPECPREP"),
-//            @PLSQLParameter(name = "is_ed"),
-//            @PLSQLParameter(name = "ndc24"),
-//            @PLSQLParameter(name = "deleted"),
-//            @PLSQLParameter(name = "approved"),
-//            @PLSQLParameter(name = "productcat"),
-//            @PLSQLParameter(name = "TMT_DOSAGEFORM"),
-//            @PLSQLParameter(name = "DOSAGEFORM_GROUP"),
-//            @PLSQLParameter(name = "REIMB_UNIT_PRICE"),
-//            @PLSQLParameter(name = "druggroup")})
+//            @PLSQLParameter(name = "p_hospDrugCode"),
+//            @PLSQLParameter(name = "p_hcode"),
+//            @PLSQLParameter(name = "p_tmtid"),
+//            @PLSQLParameter(name = "p_date")})
+            @PLSQLParameter(name = "tmtid"),
+            @PLSQLParameter(name = "tmt_type"),
+            @PLSQLParameter(name = "fsn"),
+            @PLSQLParameter(name = "manufacturer"),
+            @PLSQLParameter(name = "hosp_genericName"),
+            @PLSQLParameter(name = "hosp_tradeName"),
+            @PLSQLParameter(name = "unit_price",databaseType = "NUMERIC_TYPE"),
+            @PLSQLParameter(name = "SPECPREP"),
+            @PLSQLParameter(name = "is_ed"),
+            @PLSQLParameter(name = "ndc24"),
+            @PLSQLParameter(name = "deleted"),
+            @PLSQLParameter(name = "approved"),
+            @PLSQLParameter(name = "productcat"),
+            @PLSQLParameter(name = "TMT_DOSAGEFORM"),
+            @PLSQLParameter(name = "DOSAGEFORM_GROUP"),
+            @PLSQLParameter(name = "REIMB_UNIT_PRICE",databaseType = "NUMERIC_TYPE"),
+            @PLSQLParameter(name = "druggroup")})
 public class HospitalDrugWithTMT implements Serializable {
 
     public static enum Status {

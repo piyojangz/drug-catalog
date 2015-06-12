@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.controller.admin;
+package th.co.geniustree.nhso.drugcatalog.dao;
 
 import java.util.Date;
+import java.util.List;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugWithTMT;
 
 /**
  *
@@ -13,6 +15,6 @@ import java.util.Date;
  */
 public interface EclaimDAO {
 
-    public HospitalDrugWithTMT loadDrugInfo(String hcode, String hospDrugCode, String tmtid, Date dateEffective);
+    public List<HospitalDrugWithTMT> loadDrugInfo(String hcode, String hospDrugCode, String tmtid, Date dateEffective);
     
 }

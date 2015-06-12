@@ -53,25 +53,7 @@ as table of varchar2(20);
 
 /
 create or replace PACKAGE "HOSPITALDRUG_PACK"
-AS TYPE HOSPITALDRUG IS RECORD ( 
-    tmtid varchar2(6),
-    tmt_type varchar2(6),
-    fsn nvarchar2(1000),
-    manufacturer nvarchar2(255),
-    hosp_genericName NVARCHAR2(255),
-    hosp_tradeName NVARCHAR2(255),
-    unit_price number(10,2),
-    SPECPREP varchar(2),
-    is_ed varchar2(2),
-    ndc24 varchar2(24),
-    deleted varchar2(1),
-    approved varchar2(1),
-    productcat varchar(3),
-    TMT_DOSAGEFORM varchar(255),
-    DOSAGEFORM_GROUP varchar(255),
-    REIMB_UNIT_PRICE number(10,2),
-    drggroup druggroup
-);
+AS
   FUNCTION find_unit_price(
       p_hospdrugcode VARCHAR2,
       p_hcode        VARCHAR2,
