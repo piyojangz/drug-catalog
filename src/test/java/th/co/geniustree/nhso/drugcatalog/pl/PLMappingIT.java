@@ -85,7 +85,7 @@ public class PLMappingIT {
         record.addField("TMT_DOSAGEFORM", JDBCTypes.VARCHAR_TYPE);
         record.addField("DOSAGEFORM_GROUP", JDBCTypes.VARCHAR_TYPE);
         record.addField("REIMB_UNIT_PRICE", JDBCTypes.NUMERIC_TYPE);
-        record.addField("druggroup", JDBCTypes.ARRAY_TYPE);
+        record.addField("drggroup", JDBCTypes.ARRAY_TYPE);
         //TODO Mapping ให้ครบ
 
         PLSQLStoredFunctionCall call = new PLSQLStoredFunctionCall(record);

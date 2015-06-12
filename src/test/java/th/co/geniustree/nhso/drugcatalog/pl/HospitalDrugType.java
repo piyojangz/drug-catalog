@@ -22,14 +22,14 @@ public class HospitalDrugType implements Serializable {
 
     /**
      * tmtid varchar2(6), tmt_type varchar2(6), fsn nvarchar2(1000),
-     * manufacturer nvarchar2(255), hosp_genericName NVARCHAR2(255),
-     * hosp_tradeName NVARCHAR2(255), unit_price number(10,2), unitprice
-     * number(10,2), SPECPREP varchar(4), is_ed varchar2(2), ndc24 varchar2(24),
-     * deleted varchar2(1),
-     *
-     * approved varchar2(1), productcat varchar(3), TMT_DOSAGEFORM varchar(255),
-     * DOSAGEFORM_GROUP varchar(255), REIMB_UNIT_PRICE number(10,2), content
-     * varchar(255), ISED_STATUS varchar(2), drggroup druggroup
+ manufacturer nvarchar2(255), hosp_genericName NVARCHAR2(255),
+ hosp_tradeName NVARCHAR2(255), unit_price number(10,2), unitprice
+ number(10,2), SPECPREP varchar(4), is_ed varchar2(2), ndc24 varchar2(24),
+ deleted varchar2(1),
+
+ approved varchar2(1), productcat varchar(3), TMT_DOSAGEFORM varchar(255),
+ DOSAGEFORM_GROUP varchar(255), REIMB_UNIT_PRICE number(10,2), content
+ varchar(255), ISED_STATUS varchar(2), drggroup drggroup
      */
     @Column(name = "tmtid")
     private String tmtid;
@@ -65,8 +65,8 @@ public class HospitalDrugType implements Serializable {
     private String DOSAGEFORM_GROUP;
     @Column(name = "REIMB_UNIT_PRICE")
     private BigDecimal REIMB_UNIT_PRICE;
-    @Column(name = "druggroup")
-    private Array druggroup;
+    @Column(name = "drggroup")
+    private Array drggroup;
 
     public String getTmtid() {
         return tmtid;
@@ -206,12 +206,12 @@ public class HospitalDrugType implements Serializable {
 
 
     
-    public Array getDruggroup() {
-        return druggroup;
+    public Array getDrggroup() {
+        return drggroup;
     }
 
-    public void setDruggroup(Array druggroup) {
-        this.druggroup = druggroup;
+    public void setDrggroup(Array drggroup) {
+        this.drggroup = drggroup;
     }
 
 }
