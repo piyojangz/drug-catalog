@@ -67,6 +67,10 @@ public class HospitalDrugType implements Serializable {
     private BigDecimal REIMB_UNIT_PRICE;
     @Column(name = "drggroup")
     private Array drggroup;
+    @Column(name = "content")
+    private String content;
+    @Column(name = "ISED_STATUS")
+    private String ISED_STATUS;
 
     public String getTmtid() {
         return tmtid;
