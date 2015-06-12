@@ -30,7 +30,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugWithTMT;
 
 /**
  *
@@ -76,16 +75,17 @@ public class PLMappingIT {
         record.addField("hosp_genericName", JDBCTypes.VARCHAR_TYPE);
         record.addField("hosp_tradeName", JDBCTypes.VARCHAR_TYPE);
         record.addField("unit_price", JDBCTypes.NUMERIC_TYPE);
+        record.addField("unitprice", JDBCTypes.NUMERIC_TYPE);
         record.addField("SPECPREP", JDBCTypes.VARCHAR_TYPE);
         record.addField("is_ed", JDBCTypes.VARCHAR_TYPE);
         record.addField("ndc24", JDBCTypes.VARCHAR_TYPE);
         record.addField("deleted", JDBCTypes.VARCHAR_TYPE);
-        record.addField("approved", JDBCTypes.VARCHAR_TYPE);
-        record.addField("productcat", JDBCTypes.VARCHAR_TYPE);
-        record.addField("TMT_DOSAGEFORM", JDBCTypes.VARCHAR_TYPE);
-        record.addField("DOSAGEFORM_GROUP", JDBCTypes.VARCHAR_TYPE);
-        record.addField("REIMB_UNIT_PRICE", JDBCTypes.NUMERIC_TYPE);
-        record.addField("druggroup", JDBCTypes.JAVA_OBJECT_TYPE);
+        record.addField("approve", JDBCTypes.VARCHAR_TYPE);
+        record.addField("product_cat", JDBCTypes.VARCHAR_TYPE);
+        record.addField("dosage_form", JDBCTypes.VARCHAR_TYPE);
+        record.addField("dosage_form_group", JDBCTypes.VARCHAR_TYPE);
+        record.addField("reimburse_unit_price", JDBCTypes.NUMERIC_TYPE);
+        record.addField("druggroup", JDBCTypes.ARRAY_TYPE);
         //TODO Mapping ให้ครบ
 
         PLSQLStoredFunctionCall call = new PLSQLStoredFunctionCall(record);
@@ -96,6 +96,6 @@ public class PLMappingIT {
         call.setProcedureName("HOSPITALDRUG_PACK.find_hospdrug_withtmt");
         DataReadQuery databaseQuery = new DataReadQuery(call);
         JpaEntityManager jem = (JpaEntityManager) em.getDelegate();
-        jem.createQuery(databaseQuery).setParameter("p_hospdrugcode", "1").setParameter("p_hcode", "1").setParameter("p_tmtid", "1").setParameter("p_date", new Date()).getResultList();
+        jem.createQuery(databaseQuery).setParameter("p_hospdrugcode", "1EXEL3").setParameter("p_hcode", "13756").setParameter("p_tmtid", "").setParameter("p_date", new Date()).getResultList();
     }
 }

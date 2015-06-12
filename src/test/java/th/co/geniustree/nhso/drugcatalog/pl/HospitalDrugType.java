@@ -6,13 +6,10 @@
 package th.co.geniustree.nhso.drugcatalog.pl;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Array;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
 
 /**
  *
@@ -58,6 +55,18 @@ public class HospitalDrugType implements Serializable {
     private String ndc24;
     @Column(name = "deleted")
     private String deleted;
+    @Column(name = "approve")
+    private String approve;
+    @Column(name = "product_cat")
+    private String product_cat;
+    @Column(name = "dosage_form")
+    private String dosage_form;
+    @Column(name = "dosage_form_group")
+    private String dosage_form_group;
+    @Column(name = "reimburse_unit_price")
+    private BigDecimal reimburse_unit_price;
+    @Column(name = "druggroup")
+    private Array druggroup;
 
     public String getTmtid() {
         return tmtid;
@@ -153,6 +162,54 @@ public class HospitalDrugType implements Serializable {
 
     public void setDeleted(String deleted) {
         this.deleted = deleted;
+    }
+
+    public String getApprove() {
+        return approve;
+    }
+
+    public void setApprove(String approve) {
+        this.approve = approve;
+    }
+
+    public String getProduct_cat() {
+        return product_cat;
+    }
+
+    public void setProduct_cat(String product_cat) {
+        this.product_cat = product_cat;
+    }
+
+    public String getDosage_form() {
+        return dosage_form;
+    }
+
+    public void setDosage_form(String dosage_form) {
+        this.dosage_form = dosage_form;
+    }
+
+    public String getDosage_form_group() {
+        return dosage_form_group;
+    }
+
+    public void setDosage_form_group(String dosage_form_group) {
+        this.dosage_form_group = dosage_form_group;
+    }
+
+    public BigDecimal getReimburse_unit_price() {
+        return reimburse_unit_price;
+    }
+
+    public void setReimburse_unit_price(BigDecimal reimburse_unit_price) {
+        this.reimburse_unit_price = reimburse_unit_price;
+    }
+
+    public Array getDruggroup() {
+        return druggroup;
+    }
+
+    public void setDruggroup(Array druggroup) {
+        this.druggroup = druggroup;
     }
 
 }
