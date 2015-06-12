@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.eclipse.persistence.internal.helper.DatabaseType;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.platform.database.jdbc.JDBCTypes;
@@ -33,6 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType;
 /**
  *
  * @author pramoth
@@ -58,7 +60,7 @@ public class PLMappingIT {
     public void tearDown() {
     }
 
-    @Test
+    @Test 
     public void testCallPl() {
         th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType drug = eclaimDAO.loadDrugInfo("1480055", "10919", "", new Date());
         assertNotNull(drug);
@@ -71,7 +73,7 @@ public class PLMappingIT {
 
         record.setTypeName("HOSPITALDRUG");
         record.setCompatibleType("HOSPITALDRUG");
-        record.setJavaType(th.co.geniustree.nhso.drugcatalog.pl.HospitalDrugType.class);
+        record.setJavaType(HospitalDrugType.class);
         record.addField("tmtid", JDBCTypes.VARCHAR_TYPE);
         record.addField("tmt_type", JDBCTypes.VARCHAR_TYPE);
         record.addField("fsn", JDBCTypes.VARCHAR_TYPE);
@@ -106,8 +108,9 @@ public class PLMappingIT {
                 .setParameter("p_hcode", "10919")
                 .setParameter("p_tmtid", "")
                 .setParameter("p_date", new Date()).getSingleResult();
-        HospitalDrugType drug = (HospitalDrugType) result.get("RESULT");
-
+        System.out.println("--------->"+ToStringBuilder.reflectionToString(result));
+        oracle.sql.STRUCT drug = (oracle.sql.STRUCT) result.get("RESULT");
+        System.out.println("--------->"+drug.debugString());
         assertNotNull(drug);
         
     }
