@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Array;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -25,10 +26,10 @@ import org.eclipse.persistence.platform.database.oracle.annotations.PLSQLRecord;
 @NamedPLSQLStoredFunctionQuery(
         name = "getHospitalDrugWithTMT",
         functionName = "HOSPITALDRUG_PACK.find_hospdrug_withtmt",
-        returnParameter = @PLSQLParameter(name = "RESULT", databaseType = "HOSPITALDRUG_PACK.HOSPITALDRUG_REC"))
+        returnParameter = @PLSQLParameter(name = "RESULT", databaseType = "HOSPITALDRUG"))
 @Embeddable
 @Struct(
-        name = "DRUGCODEOWNER.HOSPITALDRUG",
+        name = "HOSPITALDRUG",
         fields = {
             "tmtid",
             "tmt_type",
@@ -37,6 +38,7 @@ import org.eclipse.persistence.platform.database.oracle.annotations.PLSQLRecord;
             "hosp_genericName",
             "hosp_tradeName",
             "unit_price",
+            "unitprice",
             "SPECPREP",
             "is_ed",
             "ndc24",
@@ -46,23 +48,26 @@ import org.eclipse.persistence.platform.database.oracle.annotations.PLSQLRecord;
             "TMT_DOSAGEFORM",
             "DOSAGEFORM_GROUP",
             "REIMB_UNIT_PRICE",
-            "druggroup"})
+            "drggroup",
+            "content",
+            "ISED_STATUS"})
 @PLSQLRecord(
-        name = "HOSPITALDRUG_PACK.HOSPITALDRUG",
-        compatibleType = "DRUGCODEOWNER.HOSPITALDRUG",
+        name = "HOSPITALDRUG",
+        compatibleType = "HOSPITALDRUG",
         javaType = HospitalDrugWithTMT.class,
         fields = {
-//            @PLSQLParameter(name = "p_hospDrugCode"),
-//            @PLSQLParameter(name = "p_hcode"),
-//            @PLSQLParameter(name = "p_tmtid"),
-//            @PLSQLParameter(name = "p_date")})
+            //            @PLSQLParameter(name = "p_hospDrugCode"),
+            //            @PLSQLParameter(name = "p_hcode"),
+            //            @PLSQLParameter(name = "p_tmtid"),
+            //            @PLSQLParameter(name = "p_date")})
             @PLSQLParameter(name = "tmtid"),
             @PLSQLParameter(name = "tmt_type"),
             @PLSQLParameter(name = "fsn"),
             @PLSQLParameter(name = "manufacturer"),
             @PLSQLParameter(name = "hosp_genericName"),
             @PLSQLParameter(name = "hosp_tradeName"),
-            @PLSQLParameter(name = "unit_price",databaseType = "NUMERIC_TYPE"),
+            @PLSQLParameter(name = "unit_price", databaseType = "NUMERIC_TYPE"),
+            @PLSQLParameter(name = "unitprice", databaseType = "NUMERIC_TYPE"),
             @PLSQLParameter(name = "SPECPREP"),
             @PLSQLParameter(name = "is_ed"),
             @PLSQLParameter(name = "ndc24"),
@@ -71,110 +76,71 @@ import org.eclipse.persistence.platform.database.oracle.annotations.PLSQLRecord;
             @PLSQLParameter(name = "productcat"),
             @PLSQLParameter(name = "TMT_DOSAGEFORM"),
             @PLSQLParameter(name = "DOSAGEFORM_GROUP"),
-            @PLSQLParameter(name = "REIMB_UNIT_PRICE",databaseType = "NUMERIC_TYPE"),
-            @PLSQLParameter(name = "druggroup")})
+            @PLSQLParameter(name = "REIMB_UNIT_PRICE", databaseType = "NUMERIC_TYPE"),
+            @PLSQLParameter(name = "drggroup"),
+            @PLSQLParameter(name = "content"),
+            @PLSQLParameter(name = "ISED_STATUS")})
 public class HospitalDrugWithTMT implements Serializable {
 
     public static enum Status {
+
         REQUEST, REJECT, ACCEPT
     }
-    
-    @Column(name = "HCODE")
-    private String hcode;
-    
-    @Column(name = "HOSPDRUGCODE")
-    private String hospDrugCode;
-    
-    @Column(name = "DATE_EFFECTIVE")
-    @Temporal(TemporalType.DATE)
-    private Date dateEffective;
-    
-    @Column(name = "TMT_ID", nullable = true, length = 6)
-    private String tmtId;
-
-    @Column(name = "TMT_TYPE")
-    private String tmtType;
-
-    @Column(name = "FSN")
+    @Column(name = "tmtid")
+    private String tmtid;
+    @Column(name = "tmt_type")
+    private String tmt_type;
+    @Column(name = "fsn")
     private String fsn;
-
-    @Column(name = "MANUFACTURER")
+    @Column(name = "manufacturer")
     private String manufacturer;
-
-    @Column(name = "GENERICNAME")
-    private String genericName;
-
-    @Column(name = "TRADENAME")
-    private String tradeName;
-
-    @Column(name = "UNITPRICE", nullable = false)
-    private String unitPrice;
-
-    @Column(name = "SPECPREP", length = 3)
-    private String specPrep;
-
-    @Column(name = "ISED_STATUS")
-    private String isedStatus;
-
-    @Column(name = "NDC24", length = 24)
+    @Column(name = "hosp_genericName")
+    private String hosp_genericName;
+    @Column(name = "hosp_tradeName")
+    private String hosp_tradeName;
+    @Column(name = "unit_price")
+    private Double unit_price;
+    @Column(name = "unitprice")
+    private Double unitprice;
+    @Column(name = "SPECPREP")
+    private String SPECPREP;
+    @Column(name = "is_ed")
+    private String is_ed;
+    @Column(name = "ndc24")
     private String ndc24;
+    @Column(name = "deleted")
+    private String deleted;
+    @Column(name = "approved")
+    private String approved;
+    @Column(name = "productcat")
+    private String productcat;
+    @Column(name = "TMT_DOSAGEFORM")
+    private String TMT_DOSAGEFORM;
+    @Column(name = "DOSAGEFORM_GROUP")
+    private String DOSAGEFORM_GROUP;
+    @Column(name = "REIMB_UNIT_PRICE")
+    private BigDecimal REIMB_UNIT_PRICE;
+    @Column(name = "drggroup")
+    private Array drggroup;
+    @Column(name = "content")
+    private String content;
+    @Column(name = "ISED_STATUS")
+    private String ISED_STATUS;
 
-    @Column(name = "DELETED")
-    private Boolean deleted;
-
-    @Column(name = "APPROVED")
-    private String approve;
-
-    @Column(name = "PRODUCTCAT", length = 3)
-    private String productCat;
-
-    @Column(name = "DOSAGEFORM")
-    private String dosageForm;
-
-    @Column(name = "DOSAGEFORMGROUP")
-    private String dosageFormGroup;
-
-    @Column(name = "REIMBURSE_UNIT_PRICE")
-    private BigDecimal reimburseUnitPrice;
-
-    public String getHcode() {
-        return hcode;
+    public String getTmtid() {
+        return tmtid;
     }
 
-    public void setHcode(String hcode) {
-        this.hcode = hcode;
+    public void setTmtid(String tmtid) {
+        this.tmtid = tmtid;
     }
 
-    public String getHospDrugCode() {
-        return hospDrugCode;
+    public String getTmt_type() {
+        return tmt_type;
     }
 
-    public void setHospDrugCode(String hospDrugCode) {
-        this.hospDrugCode = hospDrugCode;
-    }
-
-    public Date getDateEffective() {
-        return dateEffective;
-    }
-
-    public void setDateEffective(Date dateEffective) {
-        this.dateEffective = dateEffective;
-    }
-
-    public String getTmtId() {
-        return tmtId;
-    }
-
-    public void setTmtId(String tmtId) {
-        this.tmtId = tmtId;
-    }
-
-    public String getTmtType() {
-        return tmtType;
-    }
-
-    public void setTmtType(String tmtType) {
-        this.tmtType = tmtType;
+    public void setTmt_type(String tmt_type) {
+        this.tmt_type = tmt_type;
     }
 
     public String getFsn() {
@@ -193,44 +159,52 @@ public class HospitalDrugWithTMT implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    public String getGenericName() {
-        return genericName;
+    public String getHosp_genericName() {
+        return hosp_genericName;
     }
 
-    public void setGenericName(String genericName) {
-        this.genericName = genericName;
+    public void setHosp_genericName(String hosp_genericName) {
+        this.hosp_genericName = hosp_genericName;
     }
 
-    public String getTradeName() {
-        return tradeName;
+    public String getHosp_tradeName() {
+        return hosp_tradeName;
     }
 
-    public void setTradeName(String tradeName) {
-        this.tradeName = tradeName;
+    public void setHosp_tradeName(String hosp_tradeName) {
+        this.hosp_tradeName = hosp_tradeName;
     }
 
-    public String getUnitPrice() {
-        return unitPrice;
+    public Double getUnit_price() {
+        return unit_price;
     }
 
-    public void setUnitPrice(String unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setUnit_price(Double unit_price) {
+        this.unit_price = unit_price;
     }
 
-    public String getSpecPrep() {
-        return specPrep;
+    public Double getUnitprice() {
+        return unitprice;
     }
 
-    public void setSpecPrep(String specPrep) {
-        this.specPrep = specPrep;
+    public void setUnitprice(Double unitprice) {
+        this.unitprice = unitprice;
     }
 
-    public String getIsedStatus() {
-        return isedStatus;
+    public String getSPECPREP() {
+        return SPECPREP;
     }
 
-    public void setIsedStatus(String isedStatus) {
-        this.isedStatus = isedStatus;
+    public void setSPECPREP(String SPECPREP) {
+        this.SPECPREP = SPECPREP;
+    }
+
+    public String getIs_ed() {
+        return is_ed;
+    }
+
+    public void setIs_ed(String is_ed) {
+        this.is_ed = is_ed;
     }
 
     public String getNdc24() {
@@ -241,58 +215,66 @@ public class HospitalDrugWithTMT implements Serializable {
         this.ndc24 = ndc24;
     }
 
-    public Boolean getDeleted() {
+    public String getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(String deleted) {
         this.deleted = deleted;
     }
 
-    public String getApprove() {
-        return approve;
+    public String getApproved() {
+        return approved;
     }
 
-    public void setApprove(String approve) {
-        this.approve = approve;
+    public void setApproved(String approved) {
+        this.approved = approved;
     }
 
-    public String getProductCat() {
-        return productCat;
+    public String getProductcat() {
+        return productcat;
     }
 
-    public void setProductCat(String productCat) {
-        this.productCat = productCat;
+    public void setProductcat(String productcat) {
+        this.productcat = productcat;
     }
 
-    public String getDosageForm() {
-        return dosageForm;
+    public String getTMT_DOSAGEFORM() {
+        return TMT_DOSAGEFORM;
     }
 
-    public void setDosageForm(String dosageForm) {
-        this.dosageForm = dosageForm;
+    public void setTMT_DOSAGEFORM(String TMT_DOSAGEFORM) {
+        this.TMT_DOSAGEFORM = TMT_DOSAGEFORM;
     }
 
-    public String getDosageFormGroup() {
-        return dosageFormGroup;
+    public String getDOSAGEFORM_GROUP() {
+        return DOSAGEFORM_GROUP;
     }
 
-    public void setDosageFormGroup(String dosageFormGroup) {
-        this.dosageFormGroup = dosageFormGroup;
+    public void setDOSAGEFORM_GROUP(String DOSAGEFORM_GROUP) {
+        this.DOSAGEFORM_GROUP = DOSAGEFORM_GROUP;
     }
 
-    public BigDecimal getReimburseUnitPrice() {
-        return reimburseUnitPrice;
+    public BigDecimal getREIMB_UNIT_PRICE() {
+        return REIMB_UNIT_PRICE;
     }
 
-    public void setReimburseUnitPrice(BigDecimal reimburseUnitPrice) {
-        this.reimburseUnitPrice = reimburseUnitPrice;
+    public void setREIMB_UNIT_PRICE(BigDecimal REIMB_UNIT_PRICE) {
+        this.REIMB_UNIT_PRICE = REIMB_UNIT_PRICE;
+    }
+
+    public Array getDrggroup() {
+        return drggroup;
+    }
+
+    public void setDrggroup(Array drggroup) {
+        this.drggroup = drggroup;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.tmtId);
+        int hash = 5;
+        hash = 61 * hash + Objects.hashCode(this.tmtid);
         return hash;
     }
 
@@ -305,7 +287,7 @@ public class HospitalDrugWithTMT implements Serializable {
             return false;
         }
         final HospitalDrugWithTMT other = (HospitalDrugWithTMT) obj;
-        if (!Objects.equals(this.tmtId, other.tmtId)) {
+        if (!Objects.equals(this.tmtid, other.tmtid)) {
             return false;
         }
         return true;

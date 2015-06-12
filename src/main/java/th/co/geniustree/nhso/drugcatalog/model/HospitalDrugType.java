@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.pl;
+package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -224,5 +224,4 @@ public class HospitalDrugType implements Serializable {
     public void setISED_STATUS(String ISED_STATUS) {
         this.ISED_STATUS = ISED_STATUS;
     }
-
 }

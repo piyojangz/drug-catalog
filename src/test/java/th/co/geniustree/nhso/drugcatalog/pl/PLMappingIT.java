@@ -27,11 +27,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
+import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
 /**
  *
  * @author pramoth
@@ -44,6 +45,8 @@ public class PLMappingIT {
     @PersistenceContext
     private EntityManager em;
 
+    @Autowired
+    private EclaimDAO eclaimDAO;
     public PLMappingIT() {
     }
 
@@ -56,9 +59,9 @@ public class PLMappingIT {
     }
 
     @Test
-    @Ignore
     public void testCallPl() {
-
+        th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType drug = eclaimDAO.loadDrugInfo("1480055", "10919", "", new Date());
+        assertNotNull(drug);
     }
 
     @Test
@@ -68,7 +71,7 @@ public class PLMappingIT {
 
         record.setTypeName("HOSPITALDRUG");
         record.setCompatibleType("HOSPITALDRUG");
-        record.setJavaType(HospitalDrugType.class);
+        record.setJavaType(th.co.geniustree.nhso.drugcatalog.pl.HospitalDrugType.class);
         record.addField("tmtid", JDBCTypes.VARCHAR_TYPE);
         record.addField("tmt_type", JDBCTypes.VARCHAR_TYPE);
         record.addField("fsn", JDBCTypes.VARCHAR_TYPE);
@@ -89,7 +92,6 @@ public class PLMappingIT {
         record.addField("drggroup", JDBCTypes.ARRAY_TYPE);
         record.addField("content", JDBCTypes.VARCHAR_TYPE);
         record.addField("ISED_STATUS", JDBCTypes.VARCHAR_TYPE);
-        //TODO Mapping ให้ครบ
 
         PLSQLStoredFunctionCall call = new PLSQLStoredFunctionCall(record);
         call.addNamedArgument("p_hospdrugcode", JDBCTypes.VARCHAR_TYPE);
@@ -100,11 +102,12 @@ public class PLMappingIT {
         DataReadQuery databaseQuery = new DataReadQuery(call);
         JpaEntityManager jem = (JpaEntityManager) em.getDelegate();
         DatabaseRecord result = (DatabaseRecord)jem.createQuery(databaseQuery)
-                .setParameter("p_hospdrugcode", "1EXEL3")
-                .setParameter("p_hcode", "13756")
+                .setParameter("p_hospdrugcode", "1480055")
+                .setParameter("p_hcode", "10919")
                 .setParameter("p_tmtid", "")
                 .setParameter("p_date", new Date()).getSingleResult();
         HospitalDrugType drug = (HospitalDrugType) result.get("RESULT");
+
         assertNotNull(drug);
         
     }

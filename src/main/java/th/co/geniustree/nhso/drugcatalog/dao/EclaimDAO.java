@@ -6,8 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.dao;
 
 import java.util.Date;
-import java.util.List;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugWithTMT;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType;
 
 /**
  *
@@ -15,6 +14,6 @@ import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugWithTMT;
  */
 public interface EclaimDAO {
 
-    public List<HospitalDrugWithTMT> loadDrugInfo(String hcode, String hospDrugCode, String tmtid, Date dateEffective);
+    public HospitalDrugType loadDrugInfo(String hcode, String hospDrugCode, String tmtid, Date dateEffective);
     
 }
