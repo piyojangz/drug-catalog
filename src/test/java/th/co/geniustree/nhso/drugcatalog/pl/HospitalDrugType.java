@@ -55,16 +55,16 @@ public class HospitalDrugType implements Serializable {
     private String ndc24;
     @Column(name = "deleted")
     private String deleted;
-    @Column(name = "approve")
-    private String approve;
-    @Column(name = "product_cat")
-    private String product_cat;
-    @Column(name = "dosage_form")
-    private String dosage_form;
-    @Column(name = "dosage_form_group")
-    private String dosage_form_group;
-    @Column(name = "reimburse_unit_price")
-    private BigDecimal reimburse_unit_price;
+    @Column(name = "approved")
+    private String approved;
+    @Column(name = "productcat")
+    private String productcat;
+    @Column(name = "TMT_DOSAGEFORM")
+    private String TMT_DOSAGEFORM;
+    @Column(name = "DOSAGEFORM_GROUP")
+    private String DOSAGEFORM_GROUP;
+    @Column(name = "REIMB_UNIT_PRICE")
+    private BigDecimal REIMB_UNIT_PRICE;
     @Column(name = "druggroup")
     private Array druggroup;
 
@@ -164,46 +164,48 @@ public class HospitalDrugType implements Serializable {
         this.deleted = deleted;
     }
 
-    public String getApprove() {
-        return approve;
+    public String getApproved() {
+        return approved;
     }
 
-    public void setApprove(String approve) {
-        this.approve = approve;
+    public void setApproved(String approved) {
+        this.approved = approved;
     }
 
-    public String getProduct_cat() {
-        return product_cat;
+    public String getProductcat() {
+        return productcat;
     }
 
-    public void setProduct_cat(String product_cat) {
-        this.product_cat = product_cat;
+    public void setProductcat(String productcat) {
+        this.productcat = productcat;
     }
 
-    public String getDosage_form() {
-        return dosage_form;
+    public String getTMT_DOSAGEFORM() {
+        return TMT_DOSAGEFORM;
     }
 
-    public void setDosage_form(String dosage_form) {
-        this.dosage_form = dosage_form;
+    public void setTMT_DOSAGEFORM(String TMT_DOSAGEFORM) {
+        this.TMT_DOSAGEFORM = TMT_DOSAGEFORM;
     }
 
-    public String getDosage_form_group() {
-        return dosage_form_group;
+    public String getDOSAGEFORM_GROUP() {
+        return DOSAGEFORM_GROUP;
     }
 
-    public void setDosage_form_group(String dosage_form_group) {
-        this.dosage_form_group = dosage_form_group;
+    public void setDOSAGEFORM_GROUP(String DOSAGEFORM_GROUP) {
+        this.DOSAGEFORM_GROUP = DOSAGEFORM_GROUP;
     }
 
-    public BigDecimal getReimburse_unit_price() {
-        return reimburse_unit_price;
+    public BigDecimal getREIMB_UNIT_PRICE() {
+        return REIMB_UNIT_PRICE;
     }
 
-    public void setReimburse_unit_price(BigDecimal reimburse_unit_price) {
-        this.reimburse_unit_price = reimburse_unit_price;
+    public void setREIMB_UNIT_PRICE(BigDecimal REIMB_UNIT_PRICE) {
+        this.REIMB_UNIT_PRICE = REIMB_UNIT_PRICE;
     }
 
+
+    
     public Array getDruggroup() {
         return druggroup;
     }

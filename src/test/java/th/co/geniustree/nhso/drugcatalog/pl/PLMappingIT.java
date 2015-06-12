@@ -80,11 +80,11 @@ public class PLMappingIT {
         record.addField("is_ed", JDBCTypes.VARCHAR_TYPE);
         record.addField("ndc24", JDBCTypes.VARCHAR_TYPE);
         record.addField("deleted", JDBCTypes.VARCHAR_TYPE);
-        record.addField("approve", JDBCTypes.VARCHAR_TYPE);
-        record.addField("product_cat", JDBCTypes.VARCHAR_TYPE);
-        record.addField("dosage_form", JDBCTypes.VARCHAR_TYPE);
-        record.addField("dosage_form_group", JDBCTypes.VARCHAR_TYPE);
-        record.addField("reimburse_unit_price", JDBCTypes.NUMERIC_TYPE);
+        record.addField("approved", JDBCTypes.VARCHAR_TYPE);
+        record.addField("productcat", JDBCTypes.VARCHAR_TYPE);
+        record.addField("TMT_DOSAGEFORM", JDBCTypes.VARCHAR_TYPE);
+        record.addField("DOSAGEFORM_GROUP", JDBCTypes.VARCHAR_TYPE);
+        record.addField("REIMB_UNIT_PRICE", JDBCTypes.NUMERIC_TYPE);
         record.addField("druggroup", JDBCTypes.ARRAY_TYPE);
         //TODO Mapping ให้ครบ
 
