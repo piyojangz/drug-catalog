@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.Array;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import org.eclipse.persistence.annotations.Struct;
 
 /**
  *
@@ -17,20 +18,11 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 
-
+@Struct(name = "HOSPITALDRUG",fields = {
+    "tmtid","tmt_type","fsn","manufacturer","hosp_genericName","hosp_tradeName","unit_price","unitprice",
+    "SPECPREP","is_ed","deleted","productcat","TMT_DOSAGEFORM","DOSAGEFORM_GROUP","REIMB_UNIT_PRICE","content","ISED_STATUS","drggroup"
+})
 public class HospitalDrugType implements Serializable {
-
-    /**
-     * tmtid varchar2(6), tmt_type varchar2(6), fsn nvarchar2(1000),
- manufacturer nvarchar2(255), hosp_genericName NVARCHAR2(255),
- hosp_tradeName NVARCHAR2(255), unit_price number(10,2), unitprice
- number(10,2), SPECPREP varchar(4), is_ed varchar2(2), ndc24 varchar2(24),
- deleted varchar2(1),
-
- approved varchar2(1), productcat varchar(3), TMT_DOSAGEFORM varchar(255),
- DOSAGEFORM_GROUP varchar(255), REIMB_UNIT_PRICE number(10,2), content
- varchar(255), ISED_STATUS varchar(2), drggroup drggroup
-     */
     @Column(name = "tmtid")
     private String tmtid;
     @Column(name = "tmt_type")
@@ -44,9 +36,9 @@ public class HospitalDrugType implements Serializable {
     @Column(name = "hosp_tradeName")
     private String hosp_tradeName;
     @Column(name = "unit_price")
-    private Double unit_price;
+    private BigDecimal unit_price;
     @Column(name = "unitprice")
-    private Double unitprice;
+    private BigDecimal unitprice;
     @Column(name = "SPECPREP")
     private String SPECPREP;
     @Column(name = "is_ed")
@@ -120,19 +112,19 @@ public class HospitalDrugType implements Serializable {
         this.hosp_tradeName = hosp_tradeName;
     }
 
-    public Double getUnit_price() {
+    public BigDecimal getUnit_price() {
         return unit_price;
     }
 
-    public void setUnit_price(Double unit_price) {
+    public void setUnit_price(BigDecimal unit_price) {
         this.unit_price = unit_price;
     }
 
-    public Double getUnitprice() {
+    public BigDecimal getUnitprice() {
         return unitprice;
     }
 
-    public void setUnitprice(Double unitprice) {
+    public void setUnitprice(BigDecimal unitprice) {
         this.unitprice = unitprice;
     }
 

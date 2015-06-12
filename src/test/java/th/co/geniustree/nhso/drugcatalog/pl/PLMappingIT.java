@@ -104,7 +104,8 @@ public class PLMappingIT {
                 .setParameter("p_hcode", "13756")
                 .setParameter("p_tmtid", "")
                 .setParameter("p_date", new Date()).getSingleResult();
-        System.out.println(result.get("tmtid"));
+        HospitalDrugType drug = (HospitalDrugType) result.get("RESULT");
+        assertNotNull(drug);
         
     }
 }
