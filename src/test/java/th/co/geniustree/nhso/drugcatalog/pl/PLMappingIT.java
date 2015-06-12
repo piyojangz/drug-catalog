@@ -20,6 +20,7 @@ import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLStoredProcedu
 import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLrecord;
 import org.eclipse.persistence.queries.DataReadQuery;
 import org.eclipse.persistence.queries.DatabaseQuery;
+import org.eclipse.persistence.sessions.DatabaseRecord;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,6 +99,12 @@ public class PLMappingIT {
         call.setProcedureName("HOSPITALDRUG_PACK.find_hospdrug_withtmt");
         DataReadQuery databaseQuery = new DataReadQuery(call);
         JpaEntityManager jem = (JpaEntityManager) em.getDelegate();
-        jem.createQuery(databaseQuery).setParameter("p_hospdrugcode", "1EXEL3").setParameter("p_hcode", "13756").setParameter("p_tmtid", "").setParameter("p_date", new Date()).getResultList();
+        DatabaseRecord result = (DatabaseRecord)jem.createQuery(databaseQuery)
+                .setParameter("p_hospdrugcode", "1EXEL3")
+                .setParameter("p_hcode", "13756")
+                .setParameter("p_tmtid", "")
+                .setParameter("p_date", new Date()).getSingleResult();
+        System.out.println(result.get("tmtid"));
+        
     }
 }
