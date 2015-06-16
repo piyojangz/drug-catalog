@@ -63,7 +63,7 @@ public class HospitalDrugType implements Serializable {
     @Column(name = "content")
     private String content;
     @Column(name = "ISED_STATUS")
-    private String ISED_STATUS;
+    private Array ISED_STATUS;
 
     public String getTmtid() {
         return tmtid;
@@ -217,11 +217,12 @@ public class HospitalDrugType implements Serializable {
         this.content = content;
     }
 
-    public String getISED_STATUS() {
+    public Array getISED_STATUS() {
         return ISED_STATUS;
     }
 
-    public void setISED_STATUS(String ISED_STATUS) {
+    public void setISED_STATUS(Array ISED_STATUS) {
         this.ISED_STATUS = ISED_STATUS;
     }
+
 }

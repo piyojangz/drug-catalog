@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.dao;
 
 import java.util.Date;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType;
+//import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType;
 
 /**
  *

@@ -245,6 +245,12 @@
             <version>2.2.2</version>
         </dependency>
         <dependency>
+            <groupId>com.oracle.jdbc</groupId>
+            <artifactId>com.springsource.oracle.jdbc</artifactId>
+            <version>10.2.0.2</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
@@ -267,8 +273,8 @@
         </dependency>
         <dependency>
             <groupId>com.oracle.jdbc</groupId>
-            <artifactId>ojdbc</artifactId>
-            <version>12.1.0.1.0</version>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

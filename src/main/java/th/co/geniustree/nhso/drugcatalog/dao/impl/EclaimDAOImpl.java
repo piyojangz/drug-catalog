@@ -5,11 +5,15 @@
  */
 package th.co.geniustree.nhso.drugcatalog.dao.impl;
 
+import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.SQLException;
 import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import oracle.sql.STRUCT;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.platform.database.jdbc.JDBCTypes;
 import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLStoredFunctionCall;
@@ -32,7 +36,7 @@ public class EclaimDAOImpl implements EclaimDAO {
     private static final String TYPE_NAME = "HOSPITALDRUG";
     private static final String COMPATIBLE_TYPE = "HOSPITALDRUG";
     private static final String PROCEDURE_NAME = "HOSPITALDRUG_PACK.find_hospdrug_withtmt";
-    
+
     @PersistenceContext
     private EntityManager em;
 
@@ -41,8 +45,8 @@ public class EclaimDAOImpl implements EclaimDAO {
 
         PLSQLrecord record = new PLSQLrecord();
 
-        record.setTypeName("HOSPITALDRUG");
-        record.setCompatibleType("HOSPITALDRUG");
+        record.setTypeName(TYPE_NAME);
+        record.setCompatibleType(COMPATIBLE_TYPE);
         record.setJavaType(HospitalDrugType.class);
         record.addField("tmtid", JDBCTypes.VARCHAR_TYPE);
         record.addField("tmt_type", JDBCTypes.VARCHAR_TYPE);
@@ -70,16 +74,48 @@ public class EclaimDAOImpl implements EclaimDAO {
         call.addNamedArgument("p_hcode", JDBCTypes.VARCHAR_TYPE);
         call.addNamedArgument("p_tmtid", JDBCTypes.VARCHAR_TYPE);
         call.addNamedArgument("p_date", JDBCTypes.DATE_TYPE);
-        call.setProcedureName("HOSPITALDRUG_PACK.find_hospdrug_withtmt");
+        call.setProcedureName(PROCEDURE_NAME);
         DataReadQuery databaseQuery = new DataReadQuery(call);
         JpaEntityManager jem = (JpaEntityManager) em.getDelegate();
-        DatabaseRecord result = (DatabaseRecord)jem.createQuery(databaseQuery)
-                .setParameter("p_hospdrugcode", "1480055")
-                .setParameter("p_hcode", "10919")
-                .setParameter("p_tmtid", "")
-                .setParameter("p_date", new Date()).getSingleResult();
-       return (HospitalDrugType) result.get("RESULT");
+        DatabaseRecord result = (DatabaseRecord) jem.createQuery(databaseQuery)
+                .setParameter("p_hospdrugcode", hospDrugCode)
+                .setParameter("p_hcode", hcode)
+                .setParameter("p_tmtid", tmtid)
+                .setParameter("p_date", dateEffective).getSingleResult();
+        STRUCT drug = (STRUCT) result.get("RESULT");
+        return mappedToModel(drug);
 
+    }
+
+    private HospitalDrugType mappedToModel(STRUCT struct) {
+        HospitalDrugType drug = new HospitalDrugType();
+        try {
+            Object[] objs = struct.getAttributes();
+            
+            drug.setTmtid((String) objs[0]);
+            drug.setTmt_type((String) objs[1]);
+            drug.setFsn((String) objs[2]);
+            drug.setManufacturer((String) objs[3]);
+            drug.setHosp_genericName((String) objs[4]);
+            drug.setHosp_tradeName((String) objs[5]);
+            drug.setUnit_price((BigDecimal) objs[6]);
+            drug.setUnitprice((BigDecimal) objs[7]);
+            drug.setSPECPREP((String) objs[8]);
+            drug.setIs_ed((String) objs[9]);
+            drug.setNdc24((String) objs[10]);
+            drug.setDeleted((String) objs[11]);
+            drug.setApproved((String) objs[12]);
+            drug.setProductcat((String) objs[13]);
+            drug.setTMT_DOSAGEFORM((String) objs[14]);
+            drug.setDOSAGEFORM_GROUP((String) objs[15]);
+            drug.setREIMB_UNIT_PRICE((BigDecimal) objs[16]);
+            drug.setDrggroup((Array) objs[17]);
+            drug.setContent((String) objs[18]);
+            drug.setISED_STATUS((Array) objs[19]);
+        } catch (SQLException sqlEx) {
+            return new HospitalDrugType();
+        }
+        return drug;
     }
 
 }
