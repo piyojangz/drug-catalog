@@ -38,4 +38,7 @@ public interface UploadHospitalDrugItemTempRepo extends JpaRepository<UploadHosp
     @Transactional(propagation = Propagation.REQUIRED)
     @Query(value = "delete from TMT_HOSPDRUG_TRANS where hcode = ?1",nativeQuery = true)
     public int deleteByHcode(String hcode);
+    
+    @Query(value = "select h from TMT_HOSPDRUG_TRANS h where UPLOADHOSPDRUG_ITEM_ID = ?1")
+    public UploadHospitalDrugItemTemp findByUploadHospDrugItemId(Integer id);
 }

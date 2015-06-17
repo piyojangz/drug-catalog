@@ -18,11 +18,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
+import th.co.geniustree.nhso.drugcatalog.model.ISEDApprove;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemTempRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 
 /**
@@ -51,10 +54,14 @@ public class ApproveByTmt implements Serializable {
     private HospitalDrugRepo hospitalDrugRepo;
     private BigDecimal avg;
     private BigDecimal stdev;
+    private List<ISEDApprove> isedApproveList;
+
+    @Autowired
+    private UploadHospitalDrugItemTempRepo drugItemTempRepo;
 
     @PostConstruct
     public void postConstruct() {
-
+        isedApproveList = new ArrayList<>();
     }
 
     public String getSelectTmtId() {
@@ -115,6 +122,14 @@ public class ApproveByTmt implements Serializable {
 
     public void setStdev(BigDecimal stdev) {
         this.stdev = stdev;
+    }
+
+    public List<ISEDApprove> getIsedApproveList() {
+        return isedApproveList;
+    }
+
+    public void setIsedApproveList(List<ISEDApprove> isedApproveList) {
+        this.isedApproveList = isedApproveList;
     }
 
     public void error(RequestItem requestItem, String columnName) {
@@ -178,11 +193,23 @@ public class ApproveByTmt implements Serializable {
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
         request = requestItemRepo.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
         request.add(0, new RequestItem(tmtDrug));
+        addISEDApprove(request);
+    }
+
+    private void addISEDApprove(List<RequestItem> reqList) {
+        for (RequestItem req : reqList) {
+            ISEDApprove ised = new ISEDApprove();
+            Integer id = req.getUploadDrugItem().getId();
+            UploadHospitalDrugItemTemp drugItemTemp = drugItemTempRepo.findByUploadHospDrugItemId(id);
+            ised.setId(id);
+            ised.setIsedApprove(drugItemTemp.getIsedApprove());
+            isedApproveList.add(ised);
+        }
     }
 
     private boolean notApproveHaveErrorColumn() {
-        for(RequestItem notApprove : notApproveRequests){
-            if(notApprove.getErrorColumns().isEmpty()){
+        for (RequestItem notApprove : notApproveRequests) {
+            if (notApprove.getErrorColumns().isEmpty()) {
                 FacesMessageUtils.error("จะต้องระบุ column ที่ไม่ให้ผ่านด้วย");
                 return false;
             }
