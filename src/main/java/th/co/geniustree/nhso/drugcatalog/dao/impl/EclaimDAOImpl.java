@@ -12,8 +12,7 @@ import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import oracle.sql.STRUCT;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import java.sql.Struct;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.platform.database.jdbc.JDBCTypes;
 import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLStoredFunctionCall;
@@ -65,9 +64,9 @@ public class EclaimDAOImpl implements EclaimDAO {
         record.addField("TMT_DOSAGEFORM", JDBCTypes.VARCHAR_TYPE);
         record.addField("DOSAGEFORM_GROUP", JDBCTypes.VARCHAR_TYPE);
         record.addField("REIMB_UNIT_PRICE", JDBCTypes.NUMERIC_TYPE);
-        record.addField("drggroup", JDBCTypes.ARRAY_TYPE);
         record.addField("content", JDBCTypes.VARCHAR_TYPE);
         record.addField("ISED_STATUS", JDBCTypes.VARCHAR_TYPE);
+        record.addField("drggroup", JDBCTypes.ARRAY_TYPE);
 
         PLSQLStoredFunctionCall call = new PLSQLStoredFunctionCall(record);
         call.addNamedArgument("p_hospdrugcode", JDBCTypes.VARCHAR_TYPE);
@@ -82,16 +81,16 @@ public class EclaimDAOImpl implements EclaimDAO {
                 .setParameter("p_hcode", hcode)
                 .setParameter("p_tmtid", tmtid)
                 .setParameter("p_date", dateEffective).getSingleResult();
-        STRUCT drug = (STRUCT) result.get("RESULT");
+        Struct drug = (Struct) result.get("RESULT");
         return mappedToModel(drug);
 
     }
 
-    private HospitalDrugType mappedToModel(STRUCT struct) {
+    private HospitalDrugType mappedToModel(Struct struct) {
         HospitalDrugType drug = new HospitalDrugType();
         try {
             Object[] objs = struct.getAttributes();
-            
+
             drug.setTmtid((String) objs[0]);
             drug.setTmt_type((String) objs[1]);
             drug.setFsn((String) objs[2]);
@@ -109,9 +108,9 @@ public class EclaimDAOImpl implements EclaimDAO {
             drug.setTMT_DOSAGEFORM((String) objs[14]);
             drug.setDOSAGEFORM_GROUP((String) objs[15]);
             drug.setREIMB_UNIT_PRICE((BigDecimal) objs[16]);
-            drug.setDrggroup((Array) objs[17]);
-            drug.setContent((String) objs[18]);
-            drug.setISED_STATUS((Array) objs[19]);
+            drug.setContent((String) objs[17]);
+            drug.setISED_STATUS((String) objs[18]);
+            drug.setDrggroup((Array) objs[19]);
         } catch (SQLException sqlEx) {
             return new HospitalDrugType();
         }

@@ -6,12 +6,15 @@
 package th.co.geniustree.nhso.drugcatalog.pl;
 
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.sql.Array;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import oracle.sql.STRUCT;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.platform.database.jdbc.JDBCTypes;
@@ -46,9 +49,9 @@ public class PLMappingIT {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(PLMappingIT.class);
-    
+
     private final String hospDrugCode;
     private final String hcode;
     private final String tmtid;
@@ -73,29 +76,14 @@ public class PLMappingIT {
     }
 
     @Test
+    @Ignore
     public void testCallPl() {
         HospitalDrugType drug = eclaimDAO.loadDrugInfo(hospDrugCode, hcode, tmtid, dateEffective);
-//        LOG.info("TMT id -> " + drug.getTmtid());
-//        LOG.info("TMT type -> " + drug.getTmt_type());
-//        LOG.info("FSN -> " + drug.getFsn());
-//        LOG.info("MANUFACTURER -> " + drug.getManufacturer());
-//        LOG.info("HOSP GENERIC NAME -> " + drug.getHosp_genericName());
-//        LOG.info("HOSP TRADE NAME -> " + drug.getHosp_tradeName());
-//        LOG.info("UNIT PRICE -> " + drug.getUnit_price());
-//        LOG.info("SPECREP -> " + drug.getSPECPREP());
-//        LOG.info("ED / NED -> " + drug.getIs_ed());
-//        LOG.info("NDC24 -> " + drug.getNdc24());
-//        LOG.info("DELETED -> " + drug.getDeleted());
-//        LOG.info("APPROVED -> " + drug.getApproved());
-//        LOG.info("PRODCTCAT -> " + drug.getProductcat());
-//        LOG.info("TMT DOSAGEFORM -> " + drug.getTMT_DOSAGEFORM());
-//        LOG.info("DOSAGEFORM GROUP-> " + drug.getDOSAGEFORM_GROUP());
-//        LOG.info("REIMB UNIT PRICE -> " + drug.getREIMB_UNIT_PRICE());
+        getDrugInfo(drug);
         assertNotNull(drug);
     }
 
     @Test
-    @Ignore
     public void testCallPl2() {
 
         PLSQLrecord record = new PLSQLrecord();
@@ -120,9 +108,10 @@ public class PLMappingIT {
         record.addField("TMT_DOSAGEFORM", JDBCTypes.VARCHAR_TYPE);
         record.addField("DOSAGEFORM_GROUP", JDBCTypes.VARCHAR_TYPE);
         record.addField("REIMB_UNIT_PRICE", JDBCTypes.NUMERIC_TYPE);
-        record.addField("drggroup", JDBCTypes.ARRAY_TYPE);
+
         record.addField("content", JDBCTypes.VARCHAR_TYPE);
         record.addField("ISED_STATUS", JDBCTypes.VARCHAR_TYPE);
+        record.addField("drggroup", JDBCTypes.ARRAY_TYPE);
 
         PLSQLStoredFunctionCall call = new PLSQLStoredFunctionCall(record);
         call.addNamedArgument("p_hospdrugcode", JDBCTypes.VARCHAR_TYPE);
@@ -138,19 +127,20 @@ public class PLMappingIT {
                 .setParameter("p_tmtid", tmtid)
                 .setParameter("p_date", dateEffective).getSingleResult();
         System.out.println("--------->" + ToStringBuilder.reflectionToString(result));
-        oracle.sql.STRUCT drug = (oracle.sql.STRUCT) result.get("RESULT");
-        System.out.println("--------->" + drug.debugString());
-//        System.out.println("rain : " + drug.get);
-        assertNotNull(mappedToModel(drug));
-        
+
+
+        oracle.sql.STRUCT struct = (oracle.sql.STRUCT) result.get(jem);
+        System.out.println("------> " + struct.debugString() );
+        HospitalDrugType drug = mappedToModel(struct);
+        getDrugInfo(drug);
+        assertNotNull(drug);
 
     }
 
-    private HospitalDrugType mappedToModel(STRUCT struct) {
+    private HospitalDrugType mappedToModel(java.sql.Struct struct) {
         HospitalDrugType drug = new HospitalDrugType();
-        try {
+        try {           
             Object[] objs = struct.getAttributes();
-            
             drug.setTmtid((String) objs[0]);
             drug.setTmt_type((String) objs[1]);
             drug.setFsn((String) objs[2]);
@@ -168,13 +158,46 @@ public class PLMappingIT {
             drug.setTMT_DOSAGEFORM((String) objs[14]);
             drug.setDOSAGEFORM_GROUP((String) objs[15]);
             drug.setREIMB_UNIT_PRICE((BigDecimal) objs[16]);
-            drug.setDrggroup((Array) objs[17]);
-            drug.setContent((String) objs[18]);
-            drug.setISED_STATUS((Array) objs[19]);
+            drug.setContent((String) objs[17]);
+            drug.setISED_STATUS((String) objs[18]);
+            drug.setDrggroup((Array) objs[19]);
+
         } catch (SQLException sqlEx) {
             System.out.println(sqlEx.getMessage());
             return null;
         }
         return drug;
+    }
+
+    private void getDrugInfo(HospitalDrugType drug) {
+        LOG.info("TMT id -> " + drug.getTmtid());
+        LOG.info("TMT type -> " + drug.getTmt_type());
+        LOG.info("FSN -> " + drug.getFsn());
+        LOG.info("MANUFACTURER -> " + drug.getManufacturer());
+        LOG.info("HOSP GENERIC NAME -> " + drug.getHosp_genericName());
+        LOG.info("HOSP TRADE NAME -> " + drug.getHosp_tradeName());
+        LOG.info("UNIT PRICE -> " + drug.getUnit_price());
+        LOG.info("Unitprice -> " + drug.getUnitprice());
+        LOG.info("SPECREP -> " + drug.getSPECPREP());
+        LOG.info("ED / NED -> " + drug.getIs_ed());
+        LOG.info("NDC24 -> " + drug.getNdc24());
+        LOG.info("DELETED -> " + drug.getDeleted());
+        LOG.info("APPROVED -> " + drug.getApproved());
+        LOG.info("PRODCTCAT -> " + drug.getProductcat());
+        LOG.info("TMT DOSAGEFORM -> " + drug.getTMT_DOSAGEFORM());
+        LOG.info("DOSAGEFORM GROUP-> " + drug.getDOSAGEFORM_GROUP());
+        LOG.info("REIMB UNIT PRICE -> " + drug.getREIMB_UNIT_PRICE());
+        LOG.info("content -> " + drug.getContent());
+        LOG.info("ISED_STATUS -> " + drug.getISED_STATUS());
+//        try {
+//            ResultSet rs = drug.getDrggroup().getResultSet();
+//            while (rs.next()) {
+//                String s = rs.getString(1);
+//                LOG.info("Druggroup -> " + s);
+//            }
+//
+//        } catch (SQLException ex) {
+//            java.util.logging.Logger.getLogger(PLMappingIT.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType;
 import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,14 +39,13 @@ public class EclaimController implements Serializable {
     private String tmtid;
     private Date dateEffective;
 
-    private List<String> druggroup;
+    private List<String> druggroups;
 
     @PostConstruct
     public void postConstruct() {
-        if (druggroup == null) {
-            druggroup = new ArrayList<>();
-        }
-
+        druggroups = new ArrayList<>();
+        druggroups.add("J2");
+        druggroups.add("CANCER");
     }
 
     @Autowired
@@ -81,11 +81,34 @@ public class EclaimController implements Serializable {
         LOG.info("TMT DOSAGEFORM -> " + this.drug.getTMT_DOSAGEFORM());
         LOG.info("DOSAGEFORM GROUP-> " + this.drug.getDOSAGEFORM_GROUP());
         LOG.info("REIMB UNIT PRICE -> " + this.drug.getREIMB_UNIT_PRICE());
+        LOG.info("Content -> " + this.drug.getContent());
+        LOG.info("ISED_STATUS -> " + this.drug.getISED_STATUS());
         try {
-            druggroup = (List<String>) this.drug.getDrggroup().getArray();
+            ResultSet rs = drug.getDrggroup().getResultSet();
+            while (rs.next()) {
+                String s = rs.getString(1);
+                LOG.info("Druggroup -> " + s);
+            }
         } catch (SQLException | NullPointerException ex) {
-            java.util.logging.Logger.getLogger(EclaimController.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(null, ex);
         }
+    }
+
+    public List<String> getDruggroups() {
+        druggroups.clear();
+        druggroups.add("J2");
+        druggroups.add("CANCER");
+        druggroups.add("J2");
+        druggroups.add("CANCER");
+        druggroups.add("J2");
+        druggroups.add("CANCER");
+        druggroups.add("J2");
+        druggroups.add("CANCER");
+        return druggroups;
+    }
+
+    public void setDruggroups(List<String> druggroups) {
+        this.druggroups = druggroups;
     }
 
     public HospitalDrugType getTmtDrug() {
