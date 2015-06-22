@@ -7,19 +7,39 @@ package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Thanthathon
  */
 @Entity
-public class ISEDApprove implements Serializable {
+@Table(name = "TMT_HOSPDRUG_TRANS")
+public class HospitalDrugTran implements Serializable {
 
     @Id
+    @Column(name = "UPLOADHOSPDRUG_ITEM_ID")
     private Integer id;
+
+    @Column(name = "ISED_APPROVED", insertable = false, updatable = false)
     private String isedApprove;
+
+    @OneToOne
+    @JoinColumn(name = "UPLOADHOSPDRUG_ITEM_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    private UploadHospitalDrugItem uploadHospDrug_Item;
+
+    public UploadHospitalDrugItem getUploadHospDrug_Item() {
+        return uploadHospDrug_Item;
+    }
+
+    public void setUploadHospDrug_Item(UploadHospitalDrugItem uploadHospDrug_Item) {
+        this.uploadHospDrug_Item = uploadHospDrug_Item;
+    }
 
     public Integer getId() {
         return id;
@@ -39,8 +59,8 @@ public class ISEDApprove implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.id);
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -52,7 +72,8 @@ public class ISEDApprove implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ISEDApprove other = (ISEDApprove) obj;
+        final HospitalDrugTran other = (HospitalDrugTran) obj;
         return Objects.equals(this.id, other.id);
     }
+
 }

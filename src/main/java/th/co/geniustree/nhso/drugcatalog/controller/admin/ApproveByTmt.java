@@ -18,15 +18,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.model.ISEDApprove;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugTran;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemTempRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
+import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 
 /**
  *
@@ -54,14 +55,11 @@ public class ApproveByTmt implements Serializable {
     private HospitalDrugRepo hospitalDrugRepo;
     private BigDecimal avg;
     private BigDecimal stdev;
-    private List<ISEDApprove> isedApproveList;
-
     @Autowired
-    private UploadHospitalDrugItemTempRepo drugItemTempRepo;
-
+    private RequestItemService requestItemService;
+    
     @PostConstruct
     public void postConstruct() {
-        isedApproveList = new ArrayList<>();
     }
 
     public String getSelectTmtId() {
@@ -124,14 +122,6 @@ public class ApproveByTmt implements Serializable {
         this.stdev = stdev;
     }
 
-    public List<ISEDApprove> getIsedApproveList() {
-        return isedApproveList;
-    }
-
-    public void setIsedApproveList(List<ISEDApprove> isedApproveList) {
-        this.isedApproveList = isedApproveList;
-    }
-
     public void error(RequestItem requestItem, String columnName) {
         requestItem.getErrorColumns().add(columnName);
         requestItem.setStatus(RequestItem.Status.REJECT);
@@ -191,20 +181,14 @@ public class ApproveByTmt implements Serializable {
         avg = hospitalDrugRepo.avg(selectTmtId);
         stdev = hospitalDrugRepo.stddev(selectTmtId);
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
-        request = requestItemRepo.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
-        request.add(0, new RequestItem(tmtDrug));
-        addISEDApprove(request);
-    }
-
-    private void addISEDApprove(List<RequestItem> reqList) {
-        for (RequestItem req : reqList) {
-            ISEDApprove ised = new ISEDApprove();
-            Integer id = req.getUploadDrugItem().getId();
-            UploadHospitalDrugItemTemp drugItemTemp = drugItemTempRepo.findByUploadHospDrugItemId(id);
-            ised.setId(id);
-            ised.setIsedApprove(drugItemTemp.getIsedApprove());
-            isedApproveList.add(ised);
+        request = requestItemService.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
+        request.add(0, new RequestItem(tmtDrug));        
+        System.out.println("**************************************************");
+        for(RequestItem r : request){
+            System.out.println("r.getUploadDrugItem().getId()" + r.getUploadDrugItem().getId());
+            System.out.println("r.getUploadDrugItem().getHospitalDrug().getId()" + r.getUploadDrugItem().getHospitalDrug().getId());
         }
+        System.out.println("**************************************************");
     }
 
     private boolean notApproveHaveErrorColumn() {

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -189,6 +191,17 @@ public class UploadHospitalDrugItem implements Serializable {
 
     @OneToOne(mappedBy = "uploadDrugItem", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private RequestItem requestItem;
+
+    @OneToOne(mappedBy = "uploadHospDrug_Item")
+    private HospitalDrugTran hospitalDrug;
+
+    public HospitalDrugTran getHospitalDrug() {
+        return hospitalDrug;
+    }
+
+    public void setHospitalDrug(HospitalDrugTran hospitalDrug) {
+        this.hospitalDrug = hospitalDrug;
+    }
 
     public Integer getId() {
         return id;
