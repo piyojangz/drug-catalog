@@ -31,14 +31,14 @@ public class HospitalDrugTran implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "UPLOADHOSPDRUG_ITEM_ID", referencedColumnName = "ID", insertable = false, updatable = false)
-    private UploadHospitalDrugItem uploadHospDrug_Item;
+    private UploadHospitalDrugItem uploadHospDrugItem;
 
-    public UploadHospitalDrugItem getUploadHospDrug_Item() {
-        return uploadHospDrug_Item;
+    public UploadHospitalDrugItem getUploadHospDrugItem() {
+        return uploadHospDrugItem;
     }
 
-    public void setUploadHospDrug_Item(UploadHospitalDrugItem uploadHospDrug_Item) {
-        this.uploadHospDrug_Item = uploadHospDrug_Item;
+    public void setUploadHospDrugItem(UploadHospitalDrugItem uploadHospDrugItem) {
+        this.uploadHospDrugItem = uploadHospDrugItem;
     }
 
     public Integer getId() {

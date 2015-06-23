@@ -57,7 +57,7 @@ public class ApproveByTmt implements Serializable {
     private BigDecimal stdev;
     @Autowired
     private RequestItemService requestItemService;
-    
+
     @PostConstruct
     public void postConstruct() {
     }
@@ -182,13 +182,7 @@ public class ApproveByTmt implements Serializable {
         stdev = hospitalDrugRepo.stddev(selectTmtId);
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
         request = requestItemService.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
-        request.add(0, new RequestItem(tmtDrug));        
-        System.out.println("**************************************************");
-        for(RequestItem r : request){
-            System.out.println("r.getUploadDrugItem().getId()" + r.getUploadDrugItem().getId());
-            System.out.println("r.getUploadDrugItem().getHospitalDrug().getId()" + r.getUploadDrugItem().getHospitalDrug().getId());
-        }
-        System.out.println("**************************************************");
+        request.add(0, new RequestItem(tmtDrug));
     }
 
     private boolean notApproveHaveErrorColumn() {

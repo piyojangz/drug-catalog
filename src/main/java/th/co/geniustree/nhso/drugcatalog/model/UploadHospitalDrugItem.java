@@ -192,7 +192,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @OneToOne(mappedBy = "uploadDrugItem", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private RequestItem requestItem;
 
-    @OneToOne(mappedBy = "uploadHospDrug_Item")
+    @OneToOne(mappedBy = "uploadHospDrugItem",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private HospitalDrugTran hospitalDrug;
 
     public HospitalDrugTran getHospitalDrug() {
