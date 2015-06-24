@@ -77,4 +77,9 @@ public class RequestItemServiceImpl implements RequestItemService {
         }
     }
 
+    @Override
+    public List<RequestItem> findAllByStatusAndTmtId(RequestItem.Status status, String tmtId) {
+        return requestItemRepo.findAllByStatusAndTmtId(status, tmtId);
+    }
+
 }

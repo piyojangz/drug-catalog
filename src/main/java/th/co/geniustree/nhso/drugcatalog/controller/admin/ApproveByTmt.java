@@ -18,12 +18,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugTran;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
+import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 
 /**
  *
@@ -51,10 +55,11 @@ public class ApproveByTmt implements Serializable {
     private HospitalDrugRepo hospitalDrugRepo;
     private BigDecimal avg;
     private BigDecimal stdev;
+    @Autowired
+    private RequestItemService requestItemService;
 
     @PostConstruct
     public void postConstruct() {
-
     }
 
     public String getSelectTmtId() {
@@ -176,13 +181,13 @@ public class ApproveByTmt implements Serializable {
         avg = hospitalDrugRepo.avg(selectTmtId);
         stdev = hospitalDrugRepo.stddev(selectTmtId);
         tmtDrug = tmtDrugRepo.findOne(selectTmtId);
-        request = requestItemRepo.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
+        request = requestItemService.findAllByStatusAndTmtId(RequestItem.Status.REQUEST, selectTmtId);
         request.add(0, new RequestItem(tmtDrug));
     }
 
     private boolean notApproveHaveErrorColumn() {
-        for(RequestItem notApprove : notApproveRequests){
-            if(notApprove.getErrorColumns().isEmpty()){
+        for (RequestItem notApprove : notApproveRequests) {
+            if (notApprove.getErrorColumns().isEmpty()) {
                 FacesMessageUtils.error("จะต้องระบุ column ที่ไม่ให้ผ่านด้วย");
                 return false;
             }

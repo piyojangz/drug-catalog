@@ -5,6 +5,8 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.util.List;
+import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 
 /**
@@ -14,4 +16,5 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 public interface RequestItemService {
     public void generateRequest(UploadHospitalDrugItem uploadItem);
     public void generateAll();
+    public List<RequestItem> findAllByStatusAndTmtId(RequestItem.Status status, String tmtId);
 }
