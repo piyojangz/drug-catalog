@@ -30,7 +30,7 @@ public class HospitalDrugTran implements Serializable {
     private String isedApprove;
 
     @OneToOne
-    @JoinColumn(name = "UPLOADHOSPDRUG_ITEM_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    @JoinColumn(name = "UPLOADHOSPDRUG_ITEM_ID",referencedColumnName = "ID", insertable = false, updatable = false)
     private UploadHospitalDrugItem uploadHospDrugItem;
 
     public UploadHospitalDrugItem getUploadHospDrugItem() {

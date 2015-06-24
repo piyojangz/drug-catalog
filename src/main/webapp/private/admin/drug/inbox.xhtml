@@ -182,6 +182,11 @@
                                 <h:outputText value="#{model.uploadDrugItem.ised}" rendered="#{rowIndex eq 0}"/>
                             </p:outputPanel>
                         </p:column>
+                        <p:column headerText="#{repeatStatus.first?'ISED_APPROVED':''}" width="60">
+                            <p:outputPanel styleClass="updateset-#{model.id}">
+                                <h:outputText value="#{model.uploadDrugItem.hospitalDrug.isedApprove}" rendered="#{rowIndex eq 0}"/>
+                            </p:outputPanel>
+                        </p:column>
                         <p:column headerText="#{repeatStatus.first?'SPECPREP':''}" width="90">
                             <p:outputPanel styleClass="updateset-#{model.id}">
                                 <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.specPrep}" style="#{model.errorColumns.contains('SPECPREP')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'SPECPREP')}"/>
