@@ -7,12 +7,16 @@ package th.co.geniustree.nhso.drugcatalog.dao.impl;
 
 import java.math.BigDecimal;
 import java.sql.Array;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Struct;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.platform.database.jdbc.JDBCTypes;
 import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLStoredFunctionCall;
@@ -117,4 +121,18 @@ public class EclaimDAOImpl implements EclaimDAO {
         return drug;
     }
 
+    @Override
+    public List<String> getDrugGroupsFrom(HospitalDrugType drug) {
+        List<String> groups = new ArrayList<>();
+        try {
+            ResultSet rs = drug.getDrggroup().getResultSet();
+            while (rs.next()) {
+                String group = rs.getString(2);
+                groups.add(group);
+            }
+
+        } catch (SQLException ex) {
+        }
+        return groups;
+    }
 }
