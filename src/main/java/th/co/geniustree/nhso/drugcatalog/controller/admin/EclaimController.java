@@ -9,7 +9,6 @@ import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugType;
 import th.co.geniustree.nhso.drugcatalog.dao.EclaimDAO;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
 
 /**
  *
@@ -33,6 +33,7 @@ public class EclaimController implements Serializable {
     private String hospDrugCode;
     private String tmtid;
     private Date dateEffective;
+    private UploadHospitalDrugItemTemp uploadItem;
 
     private List<String> druggroups;
 
@@ -50,6 +51,15 @@ public class EclaimController implements Serializable {
 //        dateEffective = new GregorianCalendar(2015, 2, 11).getTime();
         this.drug = eclaimDAO.loadDrugInfo(hospDrugCode, hcode, tmtid, dateEffective);
         this.druggroups = eclaimDAO.getDrugGroupsFrom(this.drug);
+    }
+    
+    public void reset() {
+        hospDrugCode = "";
+        hcode = "";
+        tmtid = "";
+        drug = null;
+        druggroups.clear();
+        dateEffective = null;
     }
 
     public List<String> getDruggroups() {

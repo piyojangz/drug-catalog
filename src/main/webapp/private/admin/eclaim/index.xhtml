@@ -47,217 +47,219 @@
                                         }
                     */
                 </style>
-                <p:panelGrid class="search" >
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="HCODE : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText required="true" size="10" value="#{eclaimController.hcode}" requiredMessage="กรุณากรอก hcode"/>
-                            <p:spacer width="20"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="HospDrugCode : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText required="true" size="20" value="#{eclaimController.hospDrugCode}" requiredMessage="กรุณากรอก HospDrugCode">
-                            </p:inputText>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="TMT id : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText size="10" value="#{eclaimController.tmtid}"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="Service Date : "/>
-                        </p:column>
-                        <p:column>
-                            <p:calendar value="#{eclaimController.dateEffective}" locale="en_US" pattern="dd/MM/yyyy" required="true" requiredMessage="กรุณาเลือก Service date"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="4" style="min-width: 600px">
-                            <p:commandButton value="Search" type="submit" actionListener="#{eclaimController.search}" update="@form"/>
-                            <p:spacer width="10"/>
-                            <p:commandButton value="Clear" type="reset" update="@form"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-                <p:spacer height="20"/>
-                <p:panelGrid class="drugTable">
-                    <p:row>
-                        <p:column style="background-color: #DDDDDD; width: 200px; min-width: 200px;">
-                            <h:outputText value="Column" style="font-family: sans-serif; font-weight: bold;font-size: large"/>
-                        </p:column>
-                        <p:column style="background-color: #DDDDDD; min-width: 400px;">
-                            <h:outputText value="Values" style="font-family: sans-serif; font-weight: bold;font-size: large"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="TMT id"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.tmtid}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="TMT type"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.tmt_type}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="FSN"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.fsn}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="MANUFACTURER"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.manufacturer}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="HOSP GENERIC NAME"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.hosp_genericName}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="HOSP TRADE NAME"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.hosp_tradeName}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="UNIT PRICE"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.unit_price}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="SPECREP"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.SPECPREP}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="ED / NED"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.is_ed}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="NDC24"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.ndc24}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="DELETED"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.deleted}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="APPROVED"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.approved}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="PRODCTCAT"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.productcat}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="TMT DOSAGEFORM"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.TMT_DOSAGEFORM}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="DOSAGEFORM GROUP"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.DOSAGEFORM_GROUP}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="REIMB UNIT PRICE"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{eclaimController.tmtDrug.REIMB_UNIT_PRICE}"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
+                <p:panel id="eclaim">
+                    <p:panelGrid class="search" id="input">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="HCODE : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" size="10" value="#{eclaimController.hcode}" requiredMessage="กรุณากรอก hcode"/>
+                                <p:spacer width="20"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="HospDrugCode : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText required="true" size="20" value="#{eclaimController.hospDrugCode}" requiredMessage="กรุณากรอก HospDrugCode">
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="TMT id : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText size="10" value="#{eclaimController.tmtid}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="Service Date : "/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{eclaimController.dateEffective}" locale="en_US" pattern="dd/MM/yyyy" required="true" requiredMessage="กรุณาเลือก Service date"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="min-width: 600px">
+                                <p:commandButton value="Search" type="submit" actionListener="#{eclaimController.search}" update="@form"/>
+                                <p:spacer width="10"/>
+                                <p:commandButton value="Clear" type="reset" onclick="window.location.reload();" actionListener="#{eclaimController.reset()}">
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:spacer height="20"/>
+                    <p:panelGrid class="drugTable">
+                        <p:row>
+                            <p:column style="background-color: #DDDDDD; width: 200px; min-width: 200px;">
+                                <h:outputText value="Column" style="font-family: sans-serif; font-weight: bold;font-size: large"/>
+                            </p:column>
+                            <p:column style="background-color: #DDDDDD; min-width: 400px;">
+                                <h:outputText value="Values" style="font-family: sans-serif; font-weight: bold;font-size: large"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="TMT id"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.tmtid}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="TMT type"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.tmt_type}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="FSN"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="MANUFACTURER"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.manufacturer}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="HOSP GENERIC NAME"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.hosp_genericName}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="HOSP TRADE NAME"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.hosp_tradeName}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="UNIT PRICE"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.unit_price} บาท"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="SPECREP"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.SPECPREP}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="ED / NED"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.is_ed}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="NDC24"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.ndc24}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="DELETED"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.deleted}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="APPROVED"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.approved}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="PRODCTCAT"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.productcat}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="TMT DOSAGEFORM"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.TMT_DOSAGEFORM}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="DOSAGEFORM GROUP"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.DOSAGEFORM_GROUP} บาท"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="REIMB UNIT PRICE"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{eclaimController.tmtDrug.REIMB_UNIT_PRICE}"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
 
-                <p:spacer height="20"/>
+                    <p:spacer height="20"/>
 
-                <ui:remove>
-                    <!--แสดงผลแบบแนวนอน (สำรองไว้)-->
-                    <p:dataGrid value="#{eclaimController.druggroups}"
-                                var="druggroup" rowIndexVar="rowIndex" columns="6" >
-                        <div id="druggroupElement">
-                            <div class="druggroupHeader">
-                                Group #{rowIndex + 1}
+                    <ui:remove>
+                        <!--แสดงผลแบบแนวนอน (สำรองไว้)-->
+                        <p:dataGrid value="#{eclaimController.druggroups}"
+                                    var="druggroup" rowIndexVar="rowIndex" columns="6" >
+                            <div id="druggroupElement">
+                                <div class="druggroupHeader">
+                                    Group #{rowIndex + 1}
+                                </div>
+                                <div class="druggroupContent">
+                                    <h:outputText value="#{druggroup}"/>
+                                </div>
                             </div>
-                            <div class="druggroupContent">
-                                <h:outputText value="#{druggroup}"/>
+                        </p:dataGrid>
+                    </ui:remove>
+
+                    <p:dataTable value="#{eclaimController.druggroups}" var="druggroup" rowIndexVar="rowIndex"
+                                 style="width: 300px;">
+                        <f:facet name="header">
+                            <div style="text-align: center">
+                                <h:outputText value="Druggroup" />
                             </div>
-                        </div>
-                    </p:dataGrid>
-                </ui:remove>
-
-                <p:dataTable value="#{eclaimController.druggroups}" var="druggroup" rowIndexVar="rowIndex"
-                             style="width: 300px;">
-                    <f:facet name="header">
-                        <div style="text-align: center">
-                            <h:outputText value="Druggroup" />
-                        </div>
-                    </f:facet>
-                    <p:column headerText="No." style="width: 50px;text-align: center">
-                        #{rowIndex + 1}
-                    </p:column>
-                    <p:column headerText="Group name" style="width: 200px;text-align: center">
-                        #{druggroup}
-                    </p:column>
-                </p:dataTable>
-
+                        </f:facet>
+                        <p:column headerText="No." style="width: 50px;text-align: center">
+                            #{rowIndex + 1}
+                        </p:column>
+                        <p:column headerText="Group name" style="width: 200px;text-align: center">
+                            #{druggroup}
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
             </h:form>
         </ui:define>
     </ui:composition>
