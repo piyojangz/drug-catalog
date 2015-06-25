@@ -82,4 +82,8 @@ public class RequestItemServiceImpl implements RequestItemService {
         return requestItemRepo.findAllByStatusAndTmtId(status, tmtId);
     }
 
+    @Override
+    public List<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode){
+        return requestItemRepo.findByStatusAndTargetItemHcodeAndUploadDrugItemTmtIdIsNull(status, hcode);
+    }
 }

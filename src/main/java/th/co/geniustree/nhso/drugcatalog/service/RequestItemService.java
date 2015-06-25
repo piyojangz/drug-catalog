@@ -6,6 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 
@@ -14,7 +16,13 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
  * @author moth
  */
 public interface RequestItemService {
+
     public void generateRequest(UploadHospitalDrugItem uploadItem);
+
     public void generateAll();
+
     public List<RequestItem> findAllByStatusAndTmtId(RequestItem.Status status, String tmtId);
+
+    public List<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode);
+
 }

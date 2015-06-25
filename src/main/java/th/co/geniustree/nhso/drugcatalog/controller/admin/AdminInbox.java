@@ -32,6 +32,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
+import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 
 /**
  *
@@ -57,9 +58,13 @@ public class AdminInbox implements Serializable {
     @Autowired
     private ApproveService approveService;
     private List<RequestItem> approveRequests = new ArrayList<>();
+    private List<RequestItem> requestItemsNonTmt = new ArrayList<>();
     private List<RequestItem> notApproveRequests = new ArrayList<>();
     private long totalElements;
     private long displayElement;
+
+    @Autowired
+    private RequestItemService requestItemService;
 
     @PostConstruct
     public void postConstruct() {
@@ -141,7 +146,14 @@ public class AdminInbox implements Serializable {
     public void setSelectColumns(List<String> selectColumns) {
         this.selectColumns = selectColumns;
     }
-    
+
+    public List<RequestItem> getRequestItemsNonTmt() {
+        return requestItemsNonTmt;
+    }
+
+    public void setRequestItemsNonTmt(List<RequestItem> requestItemsNonTmt) {
+        this.requestItemsNonTmt = requestItemsNonTmt;
+    }
 
     public void showSearchHospitalDialog() {
         requestItemHolders.clear();
@@ -152,13 +164,13 @@ public class AdminInbox implements Serializable {
             search();
             return;
         }
-        Map<String, Object> options = new HashMap<String, Object>();
+        Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("draggable", true);
         options.put("resizable", true);
         options.put("contentHeight", 500);
         options.put("contentWidth", 800);
-        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
         keywords.add(hcode);
         params.put("keyword", keywords);
@@ -170,6 +182,15 @@ public class AdminInbox implements Serializable {
         if (selectedHospital != null) {
             hcode = selectedHospital.getFullName();
             search();
+        }
+        log.info("selected hospital from search dialog is => {}", selectedHospital);
+    }
+
+    public void searchHospitalDialogReturnOfNullTmt(SelectEvent event) {
+        selectedHospital = (Hospital) event.getObject();
+        if (selectedHospital != null) {
+            hcode = selectedHospital.getFullName();
+            searchWithoutTmt();
         }
         log.info("selected hospital from search dialog is => {}", selectedHospital);
     }
@@ -188,6 +209,19 @@ public class AdminInbox implements Serializable {
                 requestItems.add(createRequestFormTmt(item));
                 requestItems.add(item);
                 requestItemHolders.add(requestItems);
+            }
+        }
+    }
+
+    public void searchWithoutTmt() {
+        if (selectedHospital != null) {
+            requestItemsNonTmt = requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode());
+        }
+        if (requestItemsNonTmt.isEmpty()) {
+            System.out.println("EMptY " + requestItemsNonTmt.size());
+        } else {
+            for (RequestItem r : requestItemsNonTmt) {
+                log.info(r.getTargetItem().getTmtId());
             }
         }
     }
