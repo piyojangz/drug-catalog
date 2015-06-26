@@ -171,6 +171,7 @@ public class AdminInbox implements Serializable {
 
     public void showSearchHospitalDialog() {
         requestItemHolders.clear();
+        requestItemHolders2.clear();
         notApproveRequests.clear();
         approveRequests.clear();
         if (checkHospitalReturnOneElement()) {
@@ -254,13 +255,16 @@ public class AdminInbox implements Serializable {
 
     private Specifications specify() {
         String hospitalCode = selectedHospital.getHcode();
+
         Specification hcodeSpec = RequestItemSpecs.hcodeEq(hospitalCode);
-        Specification statusSpec = RequestItemSpecs.statusEq(RequestItem.Status.REQUEST);
-        Specification tmtSpec = RequestItemSpecs.tmtIdIsNull();
+        Specification requestStatusSpec = RequestItemSpecs.statusEq(RequestItem.Status.REQUEST);
+        Specification deleteSpec = RequestItemSpecs.deleteIsFalse();
+
         if (tmtCase.equals(TmtCase.NULL)) {
-            return Specifications.where(hcodeSpec).and(statusSpec).and(tmtSpec);
+            Specification tmtSpec = RequestItemSpecs.tmtIdIsNull();
+            return Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec).and(tmtSpec);
         } else {
-            return Specifications.where(hcodeSpec).and(statusSpec);
+            return Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec);
         }
     }
 

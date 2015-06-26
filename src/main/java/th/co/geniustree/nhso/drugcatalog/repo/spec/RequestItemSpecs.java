@@ -92,6 +92,17 @@ public class RequestItemSpecs {
 
         };
     }
+    
+    public static Specification<RequestItem> deleteIsFalse() {
+        return new Specification<RequestItem>() {
+
+            @Override
+            public Predicate toPredicate(Root<RequestItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.isFalse(root.get(RequestItem_.deleted));
+            }
+
+        };
+    }
 
     public static Specification<RequestItem> tradeNameLike(final List<String> keywords) {
         return new Specification<RequestItem>() {
