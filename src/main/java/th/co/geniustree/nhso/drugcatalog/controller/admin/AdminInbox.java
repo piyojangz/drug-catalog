@@ -356,7 +356,7 @@ public class AdminInbox implements Serializable {
     }
 
     public String clear2() {
-        requestItemHolders.clear();
+        requestItemHolders2.clear();
         notApproveRequests.clear();
         approveRequests.clear();
         hcode = "";

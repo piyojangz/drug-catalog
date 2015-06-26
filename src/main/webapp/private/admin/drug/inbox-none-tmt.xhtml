@@ -122,22 +122,26 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
                     <p:column headerText="Approve"  width="150" style="text-align:center" >
-                        <p:selectOneButton value="#{model.status}" valueChangeListener="#{approveByTmt.approve}" styleClass="approved-button updateBtn-#{model.id}">
+                        <p:selectOneButton value="#{model.status}" valueChangeListener="#{adminInbox.approve}" styleClass="approved-button updateBtn-#{model.id}">
                             <p:ajax event="change" process="@this" update="@(.updateset-#{model.id}) :form:saveBtn"/>
                             <f:selectItem itemLabel="อนุมัติ" itemValue="ACCEPT" />
                             <f:selectItem itemLabel="ไม่อนุมัติ" itemValue="REJECT" />
                             <f:attribute name="selectedItem" value="#{model}"/>
                         </p:selectOneButton>
                         <p:outputPanel layout="inline" styleClass="updateset-#{model.id}">
-                            <p:commandLink update="@(.updateBtn-#{model.id}) @(.updateset-#{model.id}) :form:saveBtn @this" rendered="#{rowIndex ne 0 and model.status ne 'REQUEST'}" value="reset" style="color:blue" action="#{approveByTmt.clearErrorColumns(model)}"/>
+                            <p:commandLink update="@(.updateBtn-#{model.id}) @(.updateset-#{model.id}) :form:saveBtn @this" 
+                                           rendered="#{model.status ne 'REQUEST'}" 
+                                           value="reset" 
+                                           style="color:blue" 
+                                           action="#{adminInbox.clearErrorColumns(model)}"/>
                         </p:outputPanel>
                     </p:column>
 
                     <p:column headerText="ProductCat" width="80">
                         <h:outputText value="#{model.uploadDrugItem.productCat}"/>
                     </p:column>
-                    <p:column headerText="TMTID" width="80">
-                        <h:outputText value="#{model.uploadDrugItem.tmtId}"/>
+                    <p:column headerText="HospDrugCode" width="80">
+                        <h:outputText value="#{model.uploadDrugItem.hospDrugCode}"/>
                     </p:column>
                     <p:column headerText="TradeName" width="200" >
                         <p:outputPanel styleClass="updateset-#{model.id}">
