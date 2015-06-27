@@ -28,13 +28,13 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.GenericDrugExcelModel;
-import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload;
 import th.co.geniustree.nhso.drugcatalog.input.TradeDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.input.Typeable;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTReleaseFileUploadRepo;
-import th.co.geniustree.nhso.drugcatalog.service.TMTRFService;
+import th.co.geniustree.nhso.drugcatalog.service.TMTRFUploadService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
 import th.co.geniustree.xls.beans.ReaderUtils;
@@ -49,7 +49,7 @@ public class UploadMasterDrug implements Serializable {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadMasterDrug.class);
     private UploadedFile file;
-    private List<TMTDrug> tmtDrugs = new ArrayList<>();
+    private List<TMTDrugUpload> tmtDrugs = new ArrayList<>();
     private List<TradeDrugExcelModel> tp = new ArrayList<>();
     private List<GenericDrugExcelModel> subs = new ArrayList<>();
     private List<GenericDrugExcelModel> vtm = new ArrayList<>();
@@ -59,7 +59,7 @@ public class UploadMasterDrug implements Serializable {
     @Qualifier("app")
     private Properties app;
     @Autowired
-    private TMTRFService tmtrfService;
+    private TMTRFUploadService tmtrfService;
     private File uploadtempFileDir;
     private String saveFileName;
     private String originalFileName;
@@ -98,11 +98,11 @@ public class UploadMasterDrug implements Serializable {
         this.file = file;
     }
 
-    public List<TMTDrug> getTmtDrugs() {
+    public List<TMTDrugUpload> getTmtDrugs() {
         return tmtDrugs;
     }
 
-    public void setTmtDrugs(List<TMTDrug> tmtDrugs) {
+    public void setTmtDrugs(List<TMTDrugUpload> tmtDrugs) {
         this.tmtDrugs = tmtDrugs;
     }
 
@@ -156,7 +156,7 @@ public class UploadMasterDrug implements Serializable {
         root = Files.getNameWithoutExtension(file.getFileName());
         firstFileNamePart = root.substring(0, 5);
         secondFileNamePart = root.substring(5, root.length());
-        bonusFolder = firstFileNamePart + "_Bonus" + secondFileNamePart;
+        bonusFolder = firstFileNamePart + secondFileNamePart + "_Bonus";
         releaseDate = DateUtils.parseUSDate("yyyyMMdd", secondFileNamePart);
         TMTReleaseFileUpload lastestRelease = tmtReleaseFileUploadRepo.findLastestReleaseDate();
         if (lastestRelease != null) {
@@ -278,17 +278,17 @@ public class UploadMasterDrug implements Serializable {
         File tpu = new File(tmtRFFolder, bonusFolder + "/MasterTMT_" + secondFileNamePart + ".xls");
         LOG.debug("Master file: {}", tpu.getAbsolutePath());
         try {
-            ReaderUtils.read(tpu, TMTDrug.class, new ReadCallback<TMTDrug>() {
+            ReaderUtils.read(tpu, TMTDrugUpload.class, new ReadCallback<TMTDrugUpload>() {
                 @Override
                 public void header(List<String> headers) {
                     LOG.debug("HEADERS = {}", headers);
                 }
 
                 @Override
-                public void ok(int rowNum, TMTDrug bean) {
+                public void ok(int rowNum, TMTDrugUpload bean) {
                     String changeDate = tpuDrugs.get(bean.getTmtId()).getChangeDateString();
                     bean.setChageDate(DateUtils.parseUSDate("yyyyMMdd", changeDate));
-                    bean.setType(TMTDrug.Type.TPU);
+                    bean.setType(TMTDrugUpload.Type.TPU);
                     tmtDrugs.add(bean);
                 }
 
