@@ -73,6 +73,7 @@ public class AdminInbox implements Serializable {
     private long totalElements;
     private long displayElement;
     private String keyword;
+    private boolean nullTmt;
 
     private enum TmtCase {
 
@@ -83,6 +84,14 @@ public class AdminInbox implements Serializable {
     @PostConstruct
     public void postConstruct() {
 
+    }
+
+    public boolean isNullTmt() {
+        return nullTmt;
+    }
+
+    public void setNullTmt(boolean nullTmt) {
+        this.nullTmt = nullTmt;
     }
 
     public List<SpringDataLazyDataModelSupport<RequestItem>> getRequestItemHolders2() {
@@ -196,8 +205,9 @@ public class AdminInbox implements Serializable {
         selectedHospital = (Hospital) event.getObject();
         if (selectedHospital != null) {
             hcode = selectedHospital.getFullName();
+            setNullTmt(false);
             search();
-            tmtCase = TmtCase.NOTNULL;
+
         }
         log.info("selected hospital from search dialog is => {}", selectedHospital);
     }
@@ -206,8 +216,8 @@ public class AdminInbox implements Serializable {
         selectedHospital = (Hospital) event.getObject();
         if (selectedHospital != null) {
             hcode = selectedHospital.getFullName();
+            setNullTmt(true);
             searchWithoutTmt();
-            tmtCase = TmtCase.NULL;
         }
         log.info("selected hospital from search dialog is => {}", selectedHospital);
     }
@@ -232,14 +242,14 @@ public class AdminInbox implements Serializable {
 
     public void searchWithoutTmt() {
         requestItemHolders2.clear();
+        notApproveRequests.clear();
+        approveRequests.clear();
         if (selectedHospital != null) {
             requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
-
                 @Override
                 public Page<RequestItem> load(Pageable pageAble) {
                     return requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
                 }
-
             };
             requestItemHolders2.add(requestItems);
         }
@@ -260,11 +270,12 @@ public class AdminInbox implements Serializable {
         Specification requestStatusSpec = RequestItemSpecs.statusEq(RequestItem.Status.REQUEST);
         Specification deleteSpec = RequestItemSpecs.deleteIsFalse();
 
-        if (tmtCase.equals(TmtCase.NULL)) {
+        Specifications spec = Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec);
+        if (isNullTmt()) {
             Specification tmtSpec = RequestItemSpecs.tmtIdIsNull();
-            return Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec).and(tmtSpec);
+            return spec.and(tmtSpec);
         } else {
-            return Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec);
+            return spec;
         }
     }
 
@@ -342,6 +353,7 @@ public class AdminInbox implements Serializable {
             merge.addAll(notApproveRequests);
             approveService.approveOrReject(merge);
             requestItemHolders.clear();
+            requestItemHolders2.clear();
             notApproveRequests.clear();
             approveRequests.clear();
             //TODO send mail to each HCODE
