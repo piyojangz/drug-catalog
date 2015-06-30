@@ -10,7 +10,6 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -205,7 +204,6 @@ public class AdminInbox implements Serializable {
             hcode = selectedHospital.getFullName();
             nullTmt = false;
             search();
-
         }
         log.info("selected hospital from search dialog is => {}", selectedHospital);
     }
