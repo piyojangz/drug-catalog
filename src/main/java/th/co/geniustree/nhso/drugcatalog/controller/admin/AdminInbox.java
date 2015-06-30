@@ -49,8 +49,8 @@ import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 public class AdminInbox implements Serializable {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminInbox.class);
-    private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
-
+//    private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
+    private List<String> selectColumns = new ArrayList<>();
     @Autowired
     private RequestItemRepo requestItemRepo;
     @Autowired
@@ -75,15 +75,13 @@ public class AdminInbox implements Serializable {
     private String keyword;
     private boolean nullTmt;
 
-    private enum TmtCase {
-
-        NULL, NOTNULL
-    }
-    private TmtCase tmtCase;
-
     @PostConstruct
     public void postConstruct() {
-
+        selectColumns.add("HOSPDRUGCODE");
+        selectColumns.add("TMTID");
+        selectColumns.add("GENERICNAME");
+        selectColumns.add("TRADENAME");
+        selectColumns.add("DOSAGEFORM");
     }
 
     public boolean isNullTmt() {
@@ -224,8 +222,6 @@ public class AdminInbox implements Serializable {
 
     public void search() {
         requestItemHolders.clear();
-        notApproveRequests.clear();
-        approveRequests.clear();
         if (selectedHospital != null) {
             Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcodeAndNotDel(RequestItem.Status.REQUEST,
                     selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
@@ -242,16 +238,34 @@ public class AdminInbox implements Serializable {
 
     public void searchWithoutTmt() {
         requestItemHolders2.clear();
-        notApproveRequests.clear();
-        approveRequests.clear();
         if (selectedHospital != null) {
             requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
                 @Override
                 public Page<RequestItem> load(Pageable pageAble) {
-                    return requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
+                    Page<RequestItem> result = requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
+                    setApproveSelected(result);
+                    log.info("Page number -> {}", pageAble.getPageNumber());
+                    return result;
                 }
             };
             requestItemHolders2.add(requestItems);
+        }
+    }
+
+    private void setApproveSelected(Page<RequestItem> page) {
+        List<RequestItem> items = page.getContent();
+        for (RequestItem item : items) {
+            for (RequestItem approve : approveRequests) {
+                if (approve.equals(item)) {
+                    item.setStatus(RequestItem.Status.ACCEPT);
+                }
+            }
+            for (RequestItem notApprove : notApproveRequests) {
+                if (notApprove.equals(item)) {
+                    item.setStatus(RequestItem.Status.REJECT);
+                    item.setErrorColumns(notApprove.getErrorColumns());
+                }
+            }
         }
     }
 
@@ -307,6 +321,7 @@ public class AdminInbox implements Serializable {
                 }
                 spec = spec.and(keySpec);
                 Page<RequestItem> items = requestItemRepo.findAll(spec, pageAble);
+                setApproveSelected(items);
                 return items;
             }
 
