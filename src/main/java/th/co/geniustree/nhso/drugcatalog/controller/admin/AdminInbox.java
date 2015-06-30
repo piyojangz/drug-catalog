@@ -63,7 +63,7 @@ public class AdminInbox implements Serializable {
     private ApproveService approveService;
 
     private SpringDataLazyDataModelSupport<RequestItem> requestItems;
-    private List<SpringDataLazyDataModelSupport<RequestItem>> requestItemHolders2 = new ArrayList<>();
+    private List<SpringDataLazyDataModelSupport<RequestItem>> requestItemHoldersNullTMT = new ArrayList<>();
     private List<List<RequestItem>> requestItemHolders = new ArrayList<>();
     private List<RequestItem> approveRequests = new ArrayList<>();
     private List<RequestItem> notApproveRequests = new ArrayList<>();
@@ -92,12 +92,12 @@ public class AdminInbox implements Serializable {
         this.nullTmt = nullTmt;
     }
 
-    public List<SpringDataLazyDataModelSupport<RequestItem>> getRequestItemHolders2() {
-        return requestItemHolders2;
+    public List<SpringDataLazyDataModelSupport<RequestItem>> getRequestItemHoldersNullTMT() {
+        return requestItemHoldersNullTMT;
     }
 
-    public void setRequestItemHolders2(List<SpringDataLazyDataModelSupport<RequestItem>> requestItemHolders2) {
-        this.requestItemHolders2 = requestItemHolders2;
+    public void setRequestItemHoldersNullTMT(List<SpringDataLazyDataModelSupport<RequestItem>> requestItemHoldersNullTMT) {
+        this.requestItemHoldersNullTMT = requestItemHoldersNullTMT;
     }
 
     public SpringDataLazyDataModelSupport<RequestItem> getRequestItems() {
@@ -178,7 +178,7 @@ public class AdminInbox implements Serializable {
 
     public void showSearchHospitalDialog() {
         requestItemHolders.clear();
-        requestItemHolders2.clear();
+        requestItemHoldersNullTMT.clear();
         notApproveRequests.clear();
         approveRequests.clear();
         if (checkHospitalReturnOneElement()) {
@@ -203,7 +203,7 @@ public class AdminInbox implements Serializable {
         selectedHospital = (Hospital) event.getObject();
         if (selectedHospital != null) {
             hcode = selectedHospital.getFullName();
-            setNullTmt(false);
+            nullTmt = false;
             search();
 
         }
@@ -214,8 +214,8 @@ public class AdminInbox implements Serializable {
         selectedHospital = (Hospital) event.getObject();
         if (selectedHospital != null) {
             hcode = selectedHospital.getFullName();
-            setNullTmt(true);
-            searchWithoutTmt();
+            nullTmt = true;
+            searchNullTMT();
         }
         log.info("selected hospital from search dialog is => {}", selectedHospital);
     }
@@ -236,19 +236,18 @@ public class AdminInbox implements Serializable {
         }
     }
 
-    public void searchWithoutTmt() {
-        requestItemHolders2.clear();
+    public void searchNullTMT() {
+        requestItemHoldersNullTMT.clear();
         if (selectedHospital != null) {
             requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
                 @Override
                 public Page<RequestItem> load(Pageable pageAble) {
                     Page<RequestItem> result = requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
                     setApproveSelected(result);
-                    log.info("Page number -> {}", pageAble.getPageNumber());
                     return result;
                 }
             };
-            requestItemHolders2.add(requestItems);
+            requestItemHoldersNullTMT.add(requestItems);
         }
     }
 
@@ -326,8 +325,8 @@ public class AdminInbox implements Serializable {
             }
 
         };
-        requestItemHolders2.clear();
-        requestItemHolders2.add(requestItems);
+        requestItemHoldersNullTMT.clear();
+        requestItemHoldersNullTMT.add(requestItems);
     }
 
     public void error(RequestItem requestItem, String columnName) {
@@ -367,10 +366,7 @@ public class AdminInbox implements Serializable {
             List<RequestItem> merge = new ArrayList<>(approveRequests);
             merge.addAll(notApproveRequests);
             approveService.approveOrReject(merge);
-            requestItemHolders.clear();
-            requestItemHolders2.clear();
-            notApproveRequests.clear();
-            approveRequests.clear();
+            clearRequest();
             //TODO send mail to each HCODE
             search();
             FacesMessageUtils.info("บันทึกเสร็จสิ้น");
@@ -379,19 +375,20 @@ public class AdminInbox implements Serializable {
     }
 
     public String clear() {
-        requestItemHolders.clear();
-        notApproveRequests.clear();
-        approveRequests.clear();
+        clearRequest();
         hcode = "";
-        return "/private/admin/drug/inbox.xhtml?faces-redirect=true";
+        if (isNullTmt()) {
+            return "/private/admin/drug/inbox-none-tmt.xhtml?faces-redirect=true";
+        } else {
+            return "/private/admin/drug/inbox.xhtml?faces-redirect=true";
+        }
     }
 
-    public String clear2() {
-        requestItemHolders2.clear();
+    private void clearRequest() {
+        requestItemHolders.clear();
+        requestItemHoldersNullTMT.clear();
         notApproveRequests.clear();
         approveRequests.clear();
-        hcode = "";
-        return "/private/admin/drug/inbox-none-tmt.xhtml?faces-redirect=true";
     }
 
     private boolean checkHospitalReturnOneElement() {

@@ -76,7 +76,7 @@
                             </p:commandButton>
                         </p:column>
                     </p:row>
-                    <p:row rendered="#{not empty adminInbox.requestItemHolders2}">
+                    <p:row rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
                         <p:column style="text-align: right">
                             <p:outputLabel value="keyword:" for="keyword"/>
                         </p:column>
@@ -90,7 +90,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid styleClass="advancePanel" style="display: none" rendered="#{not empty adminInbox.requestItemHolders2}">
+                <p:panelGrid styleClass="advancePanel" style="display: none" rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
                     <p:row>
                         <p:column style="text-align: right">
                             <p:outputLabel value="Columns:"/>
@@ -113,8 +113,8 @@
                              rowIndexVar="rowIndex" 
                              scrollable="true" 
                              scrollHeight="400"
-                             value="#{adminInbox.requestItemHolders2.get(0)}"
-                             rendered="#{not empty adminInbox.requestItemHolders2}"
+                             value="#{adminInbox.requestItemHoldersNullTMT.get(0)}"
+                             rendered="#{not empty adminInbox.requestItemHoldersNullTMT}"
                              paginator="true" 
                              rows="20" 
                              lazy="true" 
@@ -201,7 +201,7 @@
                 <p:commandButton value="Save" id="saveBtn" onclick="return confirm('ยืนยันการอนุมัติ');" action="#{adminInbox.save}" ajax="false" 
                                  disabled="#{(empty adminInbox.notApproveRequests) and (empty adminInbox.approveRequests)}"/>
                 &nbsp;
-                <p:commandButton value="Cancel" immediate="true" ajax="false" action="#{adminInbox.clear2()}"/>
+                <p:commandButton value="Cancel" immediate="true" ajax="false" action="#{adminInbox.clear()}"/>
 
             </h:form>
 
