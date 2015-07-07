@@ -370,6 +370,7 @@ public class AdminInbox implements Serializable {
         requestItem.getErrorColumns().clear();
         requestItem.setStatus(RequestItem.Status.REQUEST);
         notApproveRequests.remove(requestItem);
+        approveRequests.remove(requestItem);
     }
 
     public void approve(ValueChangeEvent event) {
