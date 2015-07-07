@@ -10,6 +10,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +43,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.RequestItemSpecs;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 
@@ -75,7 +77,7 @@ public class AdminInbox implements Serializable {
 
     private List<TMTDrug> tmtDrugs = new ArrayList<>();
     private UploadHospitalDrugItem uploadDrugItem;
-    private String genericName;
+    private String searchName;
 
     private Hospital selectedHospital;
     private String hcode;
@@ -106,12 +108,12 @@ public class AdminInbox implements Serializable {
         errorColumnSet.add("SPECPREP");
     }
 
-    public String getGenericName() {
-        return genericName;
+    public String getSearchName() {
+        return searchName;
     }
 
-    public void setGenericName(String genericName) {
-        this.genericName = genericName;
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
     }
 
     public boolean isNullTmt() {
@@ -381,7 +383,8 @@ public class AdminInbox implements Serializable {
     }
 
     public void clearErrorColumns(RequestItem requestItem) {
-        requestItem.getErrorColumns().clear();
+        Set<String> emptyColumn = new HashSet<>();
+        requestItem.setErrorColumns(emptyColumn);
         requestItem.setStatus(RequestItem.Status.REQUEST);
         notApproveRequests.remove(requestItem);
         approveRequests.remove(requestItem);
@@ -460,13 +463,21 @@ public class AdminInbox implements Serializable {
     }
 
     public void compareWithTMTDrug() {
-        log.debug("generic name -> {}", genericName);
-        tmtDrugs = tmtDrugRepo.findByFsnIgnoreCaseContaining(genericName);
-        List<String> id = new LinkedList<>();
+        log.debug("search name -> {}", searchName);
+        String[] searchSplit = searchName.split("[+]");
+        List<String> searches = new ArrayList<>();
+        searches.addAll(Arrays.asList(searchSplit));
+        Specifications spec = setSpecification(searches);
+        tmtDrugs = tmtDrugRepo.findAll(spec);
     }
-
+    
+    private Specifications setSpecification(List<String> textSplit){
+        Specifications spec = Specifications.where(TMTDrugSpecs.fsnContains(textSplit));
+        return spec;
+    }
+    
     public void showCompareTmtDialog() {
-        genericName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("genericName");
+        searchName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("genericName");
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("draggable", true);
@@ -475,7 +486,7 @@ public class AdminInbox implements Serializable {
         options.put("contentWidth", 900);
         Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
-        keywords.add(genericName);
+        keywords.add(searchName);
         params.put("genericName", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/common/drug/findTMTDialog", options, params);
     }

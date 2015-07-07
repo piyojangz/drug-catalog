@@ -6,7 +6,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <h:head>
-        <title>ผลการค้นหาจากคำว่า "#{adminInbox.genericName}"</title>
+        <title>ผลการค้นหาจากคำว่า "#{adminInbox.searchName}"</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 90%;
@@ -14,7 +14,7 @@
         </style>
     </h:head>
     <f:metadata>
-        <f:viewParam name="genericName" value="#{adminInbox.genericName}"/>
+        <f:viewParam name="genericName" value="#{adminInbox.searchName}"/>
         <f:viewAction action="#{adminInbox.compareWithTMTDrug()}"/>
     </f:metadata>
     <h:body>

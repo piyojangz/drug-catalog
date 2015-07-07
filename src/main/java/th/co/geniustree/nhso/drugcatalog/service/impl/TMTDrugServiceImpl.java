@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,5 +48,9 @@ public class TMTDrugServiceImpl implements TMTDrugService {
         return tMTDrugRepo.findByFsnIgnoreCaseContaining(fsn);
     }
 
-    
+    @Override
+    public List<TMTDrug> findTMTDrugWithFsn(String fsn, Specifications specs) {
+        return tMTDrugRepo.findByFsn(fsn, specs);
+    }
+
 }
