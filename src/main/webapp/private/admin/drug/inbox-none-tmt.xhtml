@@ -146,11 +146,19 @@
                     </p:column>
                     <p:column headerText="TradeName" width="200" >
                         <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
+                                <f:param name="genericName" value="#{model.uploadDrugItem.tradeName}"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.tradeName}" style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'TRADENAME')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="GenericName" width="200">
+                    <p:column headerText="GenericName" width="250">
                         <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
+                                <f:param name="genericName" value="#{model.uploadDrugItem.genericName}"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.genericName}" style="#{model.errorColumns.contains('GENRICNAME')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'GENRICNAME')}"/>
                         </p:outputPanel>
                     </p:column>
@@ -203,8 +211,8 @@
                 &nbsp;
                 <p:commandButton value="Cancel" immediate="true" ajax="false" action="#{adminInbox.clear()}"/>
 
-            </h:form>
 
+            </h:form>
         </ui:define>
     </ui:composition>
 </html>

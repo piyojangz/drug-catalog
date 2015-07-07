@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,4 +42,10 @@ public class TMTDrugServiceImpl implements TMTDrugService {
         return findAll;
     }
 
+    @Override
+    public List<TMTDrug> findTMTDrugWithFsn(String fsn) {
+        return tMTDrugRepo.findByFsnIgnoreCaseContaining(fsn);
+    }
+
+    
 }

@@ -11,10 +11,12 @@ import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -32,6 +34,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSuppo
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
@@ -67,6 +70,10 @@ public class AdminInbox implements Serializable {
     private List<RequestItem> approveRequests = new ArrayList<>();
     private List<RequestItem> notApproveRequests = new ArrayList<>();
 
+    private List<TMTDrug> tmtDrugs = new ArrayList<>();
+    private UploadHospitalDrugItem uploadDrugItem;
+    private String genericName;
+    
     private Hospital selectedHospital;
     private String hcode;
     private long totalElements;
@@ -81,6 +88,14 @@ public class AdminInbox implements Serializable {
         selectColumns.add("GENERICNAME");
         selectColumns.add("TRADENAME");
         selectColumns.add("DOSAGEFORM");
+    }
+
+    public String getGenericName() {
+        return genericName;
+    }
+
+    public void setGenericName(String genericName) {
+        this.genericName = genericName;
     }
 
     public boolean isNullTmt() {
@@ -175,11 +190,26 @@ public class AdminInbox implements Serializable {
         this.selectColumns = selectColumns;
     }
 
+    public List<TMTDrug> getTmtDrugs() {
+        return tmtDrugs;
+    }
+
+    public void setTmtDrugs(List<TMTDrug> tmtDrugs) {
+        this.tmtDrugs = tmtDrugs;
+    }
+
+    public UploadHospitalDrugItem getUploadDrugItem() {
+        return uploadDrugItem;
+    }
+
+    public void setUploadDrugItem(UploadHospitalDrugItem uploadDrugItem) {
+        this.uploadDrugItem = uploadDrugItem;
+    }
+
+    
+    
     public void showSearchHospitalDialog() {
-        requestItemHolders.clear();
-        requestItemHoldersNullTMT.clear();
-        notApproveRequests.clear();
-        approveRequests.clear();
+        clearAll();
         if (checkHospitalReturnOneElement()) {
             hcode = selectedHospital.getFullName();
             search();
@@ -364,7 +394,7 @@ public class AdminInbox implements Serializable {
             List<RequestItem> merge = new ArrayList<>(approveRequests);
             merge.addAll(notApproveRequests);
             approveService.approveOrReject(merge);
-            clearRequest();
+            clearAll();
             //TODO send mail to each HCODE
             search();
             FacesMessageUtils.info("บันทึกเสร็จสิ้น");
@@ -373,7 +403,7 @@ public class AdminInbox implements Serializable {
     }
 
     public String clear() {
-        clearRequest();
+        clearAll();
         hcode = "";
         if (isNullTmt()) {
             return "/private/admin/drug/inbox-none-tmt.xhtml?faces-redirect=true";
@@ -382,7 +412,7 @@ public class AdminInbox implements Serializable {
         }
     }
 
-    private void clearRequest() {
+    private void clearAll() {
         requestItemHolders.clear();
         requestItemHoldersNullTMT.clear();
         notApproveRequests.clear();
@@ -412,4 +442,24 @@ public class AdminInbox implements Serializable {
         return true;
     }
 
+    public void compareWithTMTDrug() {
+        log.debug("generic name -> {}", genericName);
+        tmtDrugs = tmtDrugRepo.findByFsnIgnoreCaseContaining(genericName);
+        List<String> id = new LinkedList<>();
+    }
+
+    public void showCompareTmtDialog() {
+        genericName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("genericName");
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 700);
+        options.put("contentWidth", 900);
+        Map<String, List<String>> params = new HashMap<>();
+        List<String> keywords = new ArrayList<>();
+        keywords.add(genericName);
+        params.put("genericName", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/common/drug/findTMTDialog", options, params);
+    }
 }
