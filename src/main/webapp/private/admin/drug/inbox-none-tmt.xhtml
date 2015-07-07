@@ -139,7 +139,9 @@
                     </p:column>
 
                     <p:column headerText="ProductCat" width="80">
-                        <h:outputText value="#{model.uploadDrugItem.productCat}"/>
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
+                        </p:outputPanel>
                     </p:column>
                     <p:column headerText="HospDrugCode" width="80">
                         <h:outputText value="#{model.uploadDrugItem.hospDrugCode}"/>
