@@ -10,10 +10,13 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -73,13 +76,15 @@ public class AdminInbox implements Serializable {
     private List<TMTDrug> tmtDrugs = new ArrayList<>();
     private UploadHospitalDrugItem uploadDrugItem;
     private String genericName;
-    
+
     private Hospital selectedHospital;
     private String hcode;
     private long totalElements;
     private long displayElement;
     private String keyword;
     private boolean nullTmt;
+
+    private final Set<String> errorColumnSet = new HashSet<>();
 
     @PostConstruct
     public void postConstruct() {
@@ -88,6 +93,17 @@ public class AdminInbox implements Serializable {
         selectColumns.add("GENERICNAME");
         selectColumns.add("TRADENAME");
         selectColumns.add("DOSAGEFORM");
+
+        errorColumnSet.add("PRODUCTCAT");
+        errorColumnSet.add("TRADENAME");
+        errorColumnSet.add("GENRICNAME");
+        errorColumnSet.add("STRENGTH");
+        errorColumnSet.add("DOSAGEFORM");
+        errorColumnSet.add("CONTENT");
+        errorColumnSet.add("MANUFACTURER");
+        errorColumnSet.add("UNITPRICE");
+        errorColumnSet.add("ISED");
+        errorColumnSet.add("SPECPREP");
     }
 
     public String getGenericName() {
@@ -206,8 +222,6 @@ public class AdminInbox implements Serializable {
         this.uploadDrugItem = uploadDrugItem;
     }
 
-    
-    
     public void showSearchHospitalDialog() {
         clearAll();
         if (checkHospitalReturnOneElement()) {
@@ -380,10 +394,12 @@ public class AdminInbox implements Serializable {
         if (event.getNewValue() != null) {
             item.setStatus(RequestItem.Status.valueOf(event.getNewValue().toString()));
             if (item.getStatus() == RequestItem.Status.ACCEPT) {
-                item.getErrorColumns().clear();
+                Set<String> set = new HashSet<>();
+                item.setErrorColumns(set);
                 approveRequests.add(item);
                 notApproveRequests.remove(item);
             } else {
+                item.setErrorColumns(errorColumnSet);
                 notApproveRequests.add(item);
                 approveRequests.remove(item);
             }
