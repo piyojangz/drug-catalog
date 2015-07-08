@@ -106,6 +106,7 @@
                     </p:row>
                 </p:panelGrid>
                 <br/>
+
                 <p:dataTable id="table" 
                              resizableColumns="true" 
                              styleClass="clean-table" 
@@ -122,7 +123,7 @@
                              emptyMessage="ไม่มีข้อมูล"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                    <p:column headerText="Approve"  width="150" style="text-align:center" >
+                    <p:column headerText="Approve"  width="200" style="text-align:center" >
                         <p:selectOneButton value="#{model.status}" valueChangeListener="#{adminInbox.approve}" styleClass="approved-button updateBtn-#{model.id}">
                             <p:ajax event="change" process="@this" update="@(.updateset-#{model.id}) :form:saveBtn"/>
                             <f:selectItem itemLabel="อนุมัติ" itemValue="ACCEPT" />
@@ -138,15 +139,18 @@
                         </p:outputPanel>
                     </p:column>
 
-                    <p:column headerText="ProductCat" width="80">
+                    <p:column headerText="ProductCat" width="100">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="HospDrugCode" width="80">
+                    <p:column headerText="HCODE" width="100">
+                        <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
+                    </p:column>
+                    <p:column headerText="HospDrugCode" width="120">
                         <h:outputText value="#{model.uploadDrugItem.hospDrugCode}"/>
                     </p:column>
-                    <p:column headerText="TradeName" width="200" >
+                    <p:column headerText="TradeName" width="400" >
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
                                 <f:param name="genericName" value="#{model.uploadDrugItem.tradeName}"/>
@@ -155,7 +159,7 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.tradeName}" style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'TRADENAME')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="GenericName" width="250">
+                    <p:column headerText="GenericName" width="400">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
                                 <f:param name="genericName" value="#{model.uploadDrugItem.genericName}"/>
@@ -169,17 +173,17 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.strength}" style="#{model.errorColumns.contains('STRENGTH')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'STRENGTH')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="dosageform" width="100">
+                    <p:column headerText="dosageform" width="250">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'DOSAGEFORM')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="CONTENT" width="80">
+                    <p:column headerText="CONTENT" width="100">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'CONTENT')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="Manufacturer" width="200">
+                    <p:column headerText="Manufacturer" width="350">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.manufacturer}" style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'MANUFACTURER')}"/>
                         </p:outputPanel>
@@ -202,9 +206,7 @@
                     <p:column   headerText="ISED_APPROVE" width="120">
                         <h:outputText value="#{model.uploadDrugItem.hospitalDrug.isedApprove}"/>
                     </p:column>
-                    <p:column   headerText="HCODE" width="100">
-                        <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
-                    </p:column>
+
 
                 </p:dataTable>
 
