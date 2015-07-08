@@ -11,10 +11,8 @@ import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -465,15 +463,9 @@ public class AdminInbox implements Serializable {
     public void compareWithTMTDrug() {
         log.debug("search name -> {}", searchName);
         String[] searchSplit = searchName.split("[+]");
-        List<String> searches = new ArrayList<>();
-        searches.addAll(Arrays.asList(searchSplit));
-        Specifications spec = setSpecification(searches);
+        List<String> searches = Arrays.asList(searchSplit);
+        Specifications spec = Specifications.where(TMTDrugSpecs.fsnContains(searches));
         tmtDrugs = tmtDrugRepo.findAll(spec);
-    }
-    
-    private Specifications setSpecification(List<String> textSplit){
-        Specifications spec = Specifications.where(TMTDrugSpecs.fsnContains(textSplit));
-        return spec;
     }
     
     public void showCompareTmtDialog() {
