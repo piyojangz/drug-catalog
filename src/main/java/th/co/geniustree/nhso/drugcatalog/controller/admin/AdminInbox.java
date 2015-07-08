@@ -54,8 +54,10 @@ import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 public class AdminInbox implements Serializable {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminInbox.class);
-//    private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
+    
     private List<String> selectColumns = new ArrayList<>();
+    private final Set<String> errorColumnSet = new HashSet<>();
+    
     @Autowired
     private RequestItemRepo requestItemRepo;
     @Autowired
@@ -84,7 +86,8 @@ public class AdminInbox implements Serializable {
     private String keyword;
     private boolean nullTmt;
     private String haveTmt;
-    private final Set<String> errorColumnSet = new HashSet<>();
+    
+    
 
     @PostConstruct
     public void postConstruct() {
@@ -234,14 +237,7 @@ public class AdminInbox implements Serializable {
         clearAll();
         if (checkHospitalReturnOneElement()) {
             hcode = selectedHospital.getFullName();
-            switch (haveTmt) {
-                case "notnull":
-                    search();
-                    break;
-                case "null":
-                    searchNullTMT();
-                    break;
-            }
+            search();
             return;
         }
         Map<String, Object> options = new HashMap<>();
@@ -261,52 +257,40 @@ public class AdminInbox implements Serializable {
         selectedHospital = (Hospital) event.getObject();
         if (selectedHospital != null) {
             hcode = selectedHospital.getFullName();
-            nullTmt = false;
             search();
         }
         log.info("selected hospital from search dialog is => {}", selectedHospital);
     }
 
-    public void searchHospitalDialogReturnOfNullTmt(SelectEvent event) {
-        selectedHospital = (Hospital) event.getObject();
-        if (selectedHospital != null) {
-            hcode = selectedHospital.getFullName();
-            nullTmt = true;
-            searchNullTMT();
-        }
-        log.info("selected hospital from search dialog is => {}", selectedHospital);
-    }
-
     public void search() {
-        requestItemHolders.clear();
         if (selectedHospital != null) {
-            log.debug("selectedHospital hcode -> {}" , selectedHospital.getHcode());
-            Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcodeAndNotDel(RequestItem.Status.REQUEST,
-                    selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
-            totalElements = pageResult.getTotalElements();
-            displayElement = pageResult.getSize();
-            for (RequestItem item : pageResult.getContent()) {
-                log.debug("hospdrugcode -> {}" , item.getUploadDrugItem().getHospDrugCode());
-                List<RequestItem> requestItemList = new ArrayList<>();
-                requestItemList.add(createRequestFormTmt(item));
-                requestItemList.add(item);
-                requestItemHolders.add(requestItemList);
-            }
-        }
-    }
-
-    public void searchNullTMT() {
-        requestItemHoldersNullTMT.clear();
-        if (selectedHospital != null) {
-            requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
-                @Override
-                public Page<RequestItem> load(Pageable pageAble) {
-                    Page<RequestItem> result = requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
-                    setApproveSelected(result);
-                    return result;
+            if (nullTmt == true) {
+                requestItemHoldersNullTMT.clear();
+                requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
+                    @Override
+                    public Page<RequestItem> load(Pageable pageAble) {
+                        Page<RequestItem> result = requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
+                        setApproveSelected(result);
+                        return result;
+                    }
+                };
+                requestItemHoldersNullTMT.add(requestItems);
+            } else {
+                requestItemHolders.clear();
+                log.debug("selectedHospital hcode -> {}", selectedHospital.getHcode());
+                Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcodeAndNotDel(RequestItem.Status.REQUEST,
+                        selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
+                totalElements = pageResult.getTotalElements();
+                displayElement = pageResult.getSize();
+                for (RequestItem item : pageResult.getContent()) {
+                    log.debug("hospdrugcode -> {}", item.getUploadDrugItem().getHospDrugCode());
+                    List<RequestItem> requestItemList = new ArrayList<>();
+                    requestItemList.add(createRequestFormTmt(item));
+                    requestItemList.add(item);
+                    requestItemHolders.add(requestItemList);
                 }
-            };
-            requestItemHoldersNullTMT.add(requestItems);
+
+            }
         }
     }
 
@@ -353,9 +337,7 @@ public class AdminInbox implements Serializable {
 
     public void searchByKeyword() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-
         requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
-
             @Override
             public Page<RequestItem> load(Pageable pageAble) {
                 Specifications<RequestItem> spec = specify();
@@ -382,7 +364,6 @@ public class AdminInbox implements Serializable {
                 setApproveSelected(items);
                 return items;
             }
-
         };
         requestItemHoldersNullTMT.clear();
         requestItemHoldersNullTMT.add(requestItems);
@@ -484,7 +465,7 @@ public class AdminInbox implements Serializable {
         Specifications spec = Specifications.where(TMTDrugSpecs.fsnContains(searches));
         tmtDrugs = tmtDrugRepo.findAll(spec);
     }
-    
+
     public void showCompareTmtDialog() {
         searchName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("genericName");
         Map<String, Object> options = new HashMap<>();

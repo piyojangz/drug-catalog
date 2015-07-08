@@ -63,7 +63,7 @@
 
             </style>
             <f:metadata>
-                <f:viewParam name="tmt" value="#{adminInbox.haveTmt}"/>
+                <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
             </f:metadata>
             <h:form id="form">
 
@@ -75,7 +75,7 @@
                         <p:column>
                             <p:inputText value="#{adminInbox.hcode}" size="50" autocomplete="false"/>
                             <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{adminInbox.showSearchHospitalDialog()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{adminInbox.searchHospitalDialogReturnOfNullTmt}" update="@form" />
+                                <p:ajax event="dialogReturn" listener="#{adminInbox.searchHospitalDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -181,7 +181,7 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'DOSAGEFORM')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="CONTENT" width="100">
+                    <p:column headerText="CONTENT" width="150">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'CONTENT')}"/>
                         </p:outputPanel>
