@@ -96,7 +96,7 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
-                            <p:commandButton value="Search" action="#{adminInbox.search()}" update="table"/>
+                            <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="table" />
                             &nbsp;
                             <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
                         </p:column>
@@ -129,8 +129,8 @@
                     <br/>
                 </h:panelGroup>
                 <br/>
-
-                <ui:repeat id="table"  var="holders" value="#{adminInbox.requestItemHolders}"  varStatus="repeatStatus">
+                <h:panelGroup id="table">
+                <ui:repeat var="holders" value="#{adminInbox.requestItemHolders}"  varStatus="repeatStatus">
 
                     <p:dataTable id="table" 
                                  styleClass="clean-table" 
@@ -230,6 +230,7 @@
                     </p:dataTable>
                     <div class="tab-nocolor"></div>
                 </ui:repeat>
+                </h:panelGroup>
                 <br/>
                 <p:commandButton value="Save" id="saveBtn" onclick="return confirm('ยืนยันการอนุมัติ');" action="#{adminInbox.save}" ajax="false" disabled="#{(empty adminInbox.notApproveRequests) and (empty adminInbox.approveRequests)}">
                 </p:commandButton>

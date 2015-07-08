@@ -71,12 +71,16 @@ public class RequestItemSpecs {
         };
     }
 
-    public static Specification<RequestItem> tmtIdIsNull() {
+    public static Specification<RequestItem> tmtIdIsNull(final boolean nullTmt) {
         return new Specification<RequestItem>() {
 
             @Override
             public Predicate toPredicate(Root<RequestItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.isNull(root.get(RequestItem_.uploadDrugItem).get(UploadHospitalDrugItem_.tmtId));
+                if (nullTmt) {
+                    return cb.isNull(root.get(RequestItem_.uploadDrugItem).get(UploadHospitalDrugItem_.tmtId));
+                } else {
+                    return cb.isNotNull(root.get(RequestItem_.uploadDrugItem).get(UploadHospitalDrugItem_.tmtId));
+                }
             }
 
         };
@@ -92,7 +96,7 @@ public class RequestItemSpecs {
 
         };
     }
-    
+
     public static Specification<RequestItem> deleteIsFalse() {
         return new Specification<RequestItem>() {
 

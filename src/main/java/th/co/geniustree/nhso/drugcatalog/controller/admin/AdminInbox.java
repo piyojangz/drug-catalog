@@ -54,10 +54,10 @@ import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 public class AdminInbox implements Serializable {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminInbox.class);
-    
+
     private List<String> selectColumns = new ArrayList<>();
     private final Set<String> errorColumnSet = new HashSet<>();
-    
+
     @Autowired
     private RequestItemRepo requestItemRepo;
     @Autowired
@@ -86,8 +86,6 @@ public class AdminInbox implements Serializable {
     private String keyword;
     private boolean nullTmt;
     private String haveTmt;
-    
-    
 
     @PostConstruct
     public void postConstruct() {
@@ -259,7 +257,7 @@ public class AdminInbox implements Serializable {
             hcode = selectedHospital.getFullName();
             search();
         }
-        log.info("selected hospital from search dialog is => {}", selectedHospital);
+        log.info("selected hospital from search dialog is => {}", selectedHospital.getFullName());
     }
 
     public void search() {
@@ -319,54 +317,69 @@ public class AdminInbox implements Serializable {
         return new RequestItem();
     }
 
-    private Specifications specify() {
-        String hospitalCode = selectedHospital.getHcode();
-
-        Specification hcodeSpec = RequestItemSpecs.hcodeEq(hospitalCode);
+    private Specifications spec() {
+        Specification hcodeSpec = RequestItemSpecs.hcodeEq(selectedHospital.getHcode());
         Specification requestStatusSpec = RequestItemSpecs.statusEq(RequestItem.Status.REQUEST);
         Specification deleteSpec = RequestItemSpecs.deleteIsFalse();
+        Specification tmtSpec = RequestItemSpecs.tmtIdIsNull(nullTmt);
 
-        Specifications spec = Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec);
-        if (isNullTmt()) {
-            Specification tmtSpec = RequestItemSpecs.tmtIdIsNull();
-            return spec.and(tmtSpec);
-        } else {
-            return spec;
+        Specifications spec = Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec).and(tmtSpec);
+        return spec;
+    }
+
+    private Specifications advanceSearchSpec(List<String> keywords) {
+        Specifications<RequestItem> keySpec = Specifications.where(null);
+        if (keywords != null) {
+            if (selectColumns.contains("HOSPDRUGCODE")) {
+                keySpec = keySpec.or(RequestItemSpecs.hospDrugCodeLike(keywords));
+            }
+            if (selectColumns.contains("TMTID")) {
+                keySpec = keySpec.or(RequestItemSpecs.tmtIdLike(keywords));
+            }
+            if (selectColumns.contains("GENERICNAME")) {
+                keySpec = keySpec.or(RequestItemSpecs.genericNameLike(keywords));
+            }
+            if (selectColumns.contains("TRADENAME")) {
+                keySpec = keySpec.or(RequestItemSpecs.tradeNameLike(keywords));
+            }
+            if (selectColumns.contains("DOSAGEFORM")) {
+                keySpec = keySpec.or(RequestItemSpecs.dosageFormLike(keywords));
+            }
         }
+        return keySpec;
     }
 
     public void searchByKeyword() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-        requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
-            @Override
-            public Page<RequestItem> load(Pageable pageAble) {
-                Specifications<RequestItem> spec = specify();
-                Specifications<RequestItem> keySpec = Specifications.where(null);
-                if (keywords != null) {
-                    if (selectColumns.contains("HOSPDRUGCODE")) {
-                        keySpec = keySpec.or(RequestItemSpecs.hospDrugCodeLike(keywords));
-                    }
-                    if (selectColumns.contains("TMTID")) {
-                        keySpec = keySpec.or(RequestItemSpecs.tmtIdLike(keywords));
-                    }
-                    if (selectColumns.contains("GENERICNAME")) {
-                        keySpec = keySpec.or(RequestItemSpecs.genericNameLike(keywords));
-                    }
-                    if (selectColumns.contains("TRADENAME")) {
-                        keySpec = keySpec.or(RequestItemSpecs.tradeNameLike(keywords));
-                    }
-                    if (selectColumns.contains("DOSAGEFORM")) {
-                        keySpec = keySpec.or(RequestItemSpecs.dosageFormLike(keywords));
-                    }
+        final Specifications<RequestItem> spec = spec().and(advanceSearchSpec(keywords));
+
+        if (nullTmt == true) {
+            requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
+                @Override
+                public Page<RequestItem> load(Pageable pageAble) {
+
+                    Page<RequestItem> items = requestItemRepo.findAll(spec, pageAble);
+                    setApproveSelected(items);
+                    return items;
                 }
-                spec = spec.and(keySpec);
-                Page<RequestItem> items = requestItemRepo.findAll(spec, pageAble);
-                setApproveSelected(items);
-                return items;
+            };
+            requestItemHoldersNullTMT.clear();
+            requestItemHoldersNullTMT.add(requestItems);
+        } else {
+            requestItemHolders.clear();
+            Pageable pageRequest = new PageRequest(0, 10, Sort.Direction.ASC, "requestDate");
+            Page<RequestItem> pageResult = requestItemRepo.findAll(spec, pageRequest);
+
+            totalElements = pageResult.getTotalElements();
+            displayElement = pageResult.getSize();
+            for (RequestItem item : pageResult.getContent()) {
+                log.debug("tmtid -> {}" , item.getUploadDrugItem().getTmtId());
+                List<RequestItem> requestItemList = new ArrayList<>();
+                requestItemList.add(createRequestFormTmt(item));
+                requestItemList.add(item);
+                requestItemHolders.add(requestItemList);
             }
-        };
-        requestItemHoldersNullTMT.clear();
-        requestItemHoldersNullTMT.add(requestItems);
+        }
     }
 
     public void error(RequestItem requestItem, String columnName) {
