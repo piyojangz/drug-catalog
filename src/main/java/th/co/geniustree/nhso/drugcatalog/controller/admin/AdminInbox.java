@@ -83,7 +83,7 @@ public class AdminInbox implements Serializable {
     private long displayElement;
     private String keyword;
     private boolean nullTmt;
-
+    private String haveTmt;
     private final Set<String> errorColumnSet = new HashSet<>();
 
     @PostConstruct
@@ -104,6 +104,14 @@ public class AdminInbox implements Serializable {
         errorColumnSet.add("UNITPRICE");
         errorColumnSet.add("ISED");
         errorColumnSet.add("SPECPREP");
+    }
+
+    public String getHaveTmt() {
+        return haveTmt;
+    }
+
+    public void setHaveTmt(String haveTmt) {
+        this.haveTmt = haveTmt;
     }
 
     public String getSearchName() {
@@ -226,7 +234,14 @@ public class AdminInbox implements Serializable {
         clearAll();
         if (checkHospitalReturnOneElement()) {
             hcode = selectedHospital.getFullName();
-            search();
+            switch (haveTmt) {
+                case "notnull":
+                    search();
+                    break;
+                case "null":
+                    searchNullTMT();
+                    break;
+            }
             return;
         }
         Map<String, Object> options = new HashMap<>();
@@ -265,11 +280,13 @@ public class AdminInbox implements Serializable {
     public void search() {
         requestItemHolders.clear();
         if (selectedHospital != null) {
+            log.debug("selectedHospital hcode -> {}" , selectedHospital.getHcode());
             Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcodeAndNotDel(RequestItem.Status.REQUEST,
                     selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
             totalElements = pageResult.getTotalElements();
             displayElement = pageResult.getSize();
             for (RequestItem item : pageResult.getContent()) {
+                log.debug("hospdrugcode -> {}" , item.getUploadDrugItem().getHospDrugCode());
                 List<RequestItem> requestItemList = new ArrayList<>();
                 requestItemList.add(createRequestFormTmt(item));
                 requestItemList.add(item);
