@@ -60,7 +60,7 @@
                 .clean-table .ui-datatable-tablewrapper{
                     border-bottom: 2px solid #7F7E7E;
                 }
-
+                
             </style>
             <f:metadata>
                 <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
@@ -109,10 +109,18 @@
                     </p:row>
                 </p:panelGrid>
                 <br/>
-
-                <p:dataTable id="table" 
+                <script>
+//                    (function(event){
+//                        $('.ui-column-resizer.ui-draggable.ui-draggable-handle').resize(function(){
+//                        $('.ui-column-resizer.ui-draggable.ui-draggable-handle').css('color','red');
+//                            $('.ui-datatable.ui-widget.ui-datatable-scrollable.clean-table.config-table.ui-datatable-resizable').
+//                            alert("Hello");
+//                        });
+//                    });
+                </script>
+                <p:dataTable id="table"
                              resizableColumns="true" 
-                             styleClass="clean-table" 
+                             styleClass="clean-table config-table" 
                              var="model"  
                              rowIndexVar="rowIndex" 
                              scrollable="true" 
@@ -126,7 +134,7 @@
                              emptyMessage="ไม่มีข้อมูล"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                    <p:column headerText="Approve"  width="200" style="text-align:center" >
+                    <p:column headerText="Approve"  style="text-align: center; width: 200px;" >
                         <p:selectOneButton value="#{model.status}" valueChangeListener="#{adminInbox.approve}" styleClass="approved-button updateBtn-#{model.id}">
                             <p:ajax event="change" process="@this" update="@(.updateset-#{model.id}) :form:saveBtn"/>
                             <f:selectItem itemLabel="อนุมัติ" itemValue="ACCEPT" />
@@ -141,19 +149,18 @@
                                            action="#{adminInbox.clearErrorColumns(model)}"/>
                         </p:outputPanel>
                     </p:column>
-
-                    <p:column headerText="ProductCat" width="100">
+                    <p:column headerText="ProductCat" style="width: 120px;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="HCODE" width="100">
+                    <p:column headerText="HCODE" style="width: 120px;">
                         <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
                     </p:column>
-                    <p:column headerText="HospDrugCode" width="120">
+                    <p:column headerText="HospDrugCode" width="200">
                         <h:outputText value="#{model.uploadDrugItem.hospDrugCode}"/>
                     </p:column>
-                    <p:column headerText="TradeName" width="400" >
+                    <p:column headerText="TradeName" width="600" >
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
                                 <f:param name="genericName" value="#{model.uploadDrugItem.tradeName}"/>
@@ -162,7 +169,7 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.tradeName}" style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'TRADENAME')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="GenericName" width="400">
+                    <p:column headerText="GenericName" width="800">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
                                 <f:param name="genericName" value="#{model.uploadDrugItem.genericName}"/>
@@ -171,22 +178,22 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.genericName}" style="#{model.errorColumns.contains('GENRICNAME')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'GENRICNAME')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="Strength" width="100">
+                    <p:column headerText="Strength" width="250">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.strength}" style="#{model.errorColumns.contains('STRENGTH')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'STRENGTH')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="dosageform" width="250">
+                    <p:column headerText="dosageform" width="300">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'DOSAGEFORM')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="CONTENT" width="150">
+                    <p:column headerText="CONTENT" width="300">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'CONTENT')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="Manufacturer" width="350">
+                    <p:column headerText="Manufacturer" width="500">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.manufacturer}" style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'MANUFACTURER')}"/>
                         </p:outputPanel>
@@ -201,7 +208,7 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.ised}" style="#{model.errorColumns.contains('ISED')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'ISED')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="90">
+                    <p:column headerText="SPECPREP" width="150">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.specPrep}" style="#{model.errorColumns.contains('SPECPREP')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'SPECPREP')}"/>
                         </p:outputPanel>
