@@ -6,8 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.search;
 
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +21,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.controller.admin.SummaryRequest;
+import th.co.geniustree.nhso.drugcatalog.controller.admin.SummaryRequestMapper;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 
@@ -53,19 +53,21 @@ public class SummaryTest {
 
     @Test
     public void testQuery() {
-        Pageable pageRequest = new PageRequest(0, 20);
+        Pageable pageRequest = new PageRequest(0, 5);
         Page page = requestItemRepo.countSummaryRequest(RequestItem.Status.REQUEST,pageRequest);
         List list = page.getContent();
         Object[] startObject =  (Object[]) list.get(0);
-        LOG.info("date {} " , startObject[0]);
-        LOG.info("hcode {} " , startObject[1]);
-        LOG.info("TMT_NOT_NULL {} " , startObject[2]);
-        LOG.info("TMT_NULL {} " , startObject[3]);
-        LOG.info("FLAG_A {} " , startObject[4]);
-        LOG.info("FLAG_E {} " , startObject[5]);
-        LOG.info("FLAG_U {} " , startObject[6]);
-        LOG.info("FLAG_D {} " , startObject[7]);
-        LOG.info("ALL {} " , startObject[8]);
+        SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(startObject);
+        LOG.info("date {} " , summaryRequest.getRequestDate());
+        LOG.info("hcode {} " , summaryRequest.getHcode());
+        LOG.info("hname {} " , summaryRequest.getHname());
+        LOG.info("TMT_NOT_NULL {} " , summaryRequest.getCountTMTNotNull());
+        LOG.info("TMT_NULL {} " , summaryRequest.getCountTMTNull());
+        LOG.info("FLAG_A {} " , summaryRequest.getCountFlagA());
+        LOG.info("FLAG_E {} " , summaryRequest.getCountFlagE());
+        LOG.info("FLAG_U {} " , summaryRequest.getCountFlagU());
+        LOG.info("FLAG_D {} " , summaryRequest.getCountFlagD());
+        LOG.info("ALL {} " , summaryRequest.getCountAll());
         if(list.size() > 0){
             assertNotNull(startObject[1]);
         }

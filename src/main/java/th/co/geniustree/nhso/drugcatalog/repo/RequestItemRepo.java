@@ -60,6 +60,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     
     @Query(value = "select max(r.requestDate) , "
             + "u.hcode ,"
+            + "h.hname ,"
             + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
             + "sum( case when ui.tmtId is null then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'A' then 1 else 0 end) ,"
@@ -73,7 +74,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "join u.hospital h "
             + "where r.deleted = 0 "
             + "and r.status = ?1 "
-            + "group by u.hcode "
+            + "group by u.hcode , h.hname "
             + "order by u.hcode")
     public Page countSummaryRequest(RequestItem.Status status, Pageable pageable);
 }
