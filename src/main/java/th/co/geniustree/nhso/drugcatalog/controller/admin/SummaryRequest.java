@@ -6,7 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.util.Date;
-import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 
 /**
  *
