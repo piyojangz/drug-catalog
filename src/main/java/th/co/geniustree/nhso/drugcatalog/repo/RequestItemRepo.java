@@ -57,4 +57,23 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugShaHex(RequestItem.Status status, String SPECIAL_SHAHEX_VALUE);
 
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status status, String hcode);
+    
+    @Query(value = "select max(r.requestDate) , "
+            + "u.hcode ,"
+            + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is null then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'A' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'E' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'D' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'U' then 1 else 0 end) ,"
+            + "count(r) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "group by u.hcode "
+            + "order by u.hcode")
+    public Page countSummaryRequest(RequestItem.Status status, Pageable pageable);
 }

@@ -3,7 +3,7 @@
   <persistence-unit name="drugcatalog-pu" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <!--    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-    <jta-data-source/>
+    <non-jta-data-source>jdbc/drugcatalog</non-jta-data-source>
     <class>th.co.geniustree.nhso.basicmodel.readonly.Hospital</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.Province</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.Zone</class>
@@ -29,6 +29,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp</class>
     <class>th.co.geniustree.nhso.drugcatalog.pl.HospitalDrugType</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrugTran</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
