@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+                .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
+                    background-color : rgb(0, 194, 0);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
+                    background-color : rgb(247, 79, 79);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+
+            </style>
+            <h:form id="form">
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            กรุณาเลือกเขต : 
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="zone" value="#{summaryInbox.selectedZone}" style="width: 400px;" >
+                                <f:selectItem itemLabel="ยังไม่ได้ระบุ" noSelectionOption="true"/>
+                                <f:selectItems value="#{summaryInbox.zones}" var="zone"
+                                               itemLabel="#{zone.fullName}" 
+                                               itemValue="#{zone.nhsoZone}" >
+                                </f:selectItems>
+                                <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectZone()}" update="province"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            กรุณาเลือกจังหวัด : 
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="province" value="#{summaryInbox.selectedProvince}" style="width: 400px;">
+                                <f:selectItem itemLabel="ยังไม่ได้ระบุ" noSelectionOption="true"/>
+                                <f:selectItems value="#{summaryInbox.provinces}" var="province"
+                                               itemLabel="#{province.fullName}" 
+                                               itemValue="#{province.id}"
+                                               actionListener="#{summaryInbox.onSelectProvince()}">
+                                </f:selectItems>
+                                <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectProvince()}" update="table summary"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:spacer height="20"/>
+                <p:dataTable id="table"
+                             value="#{summaryInbox.hospitals}"
+                             var="hospital"
+                             resizableColumns="true" 
+                             styleClass="clean-table config-table" 
+                             rowIndexVar="rowIndex" 
+                             scrollable="true" 
+                             scrollHeight="275"
+                             paginator="true" 
+                             rows="10" 
+                             lazy="true" 
+                             rowsPerPageTemplate="10,20,30,40"
+                             emptyMessage="ไม่มีข้อมูล"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <f:facet name="header">
+                        <div align="center">
+                            <h:outputLabel value="รายการยาของโรงพยาบาลที่รออนุมัติ" style="font-size: 20px;color: #8B25B2"/>
+                        </div>
+                    </f:facet>
+                    <p:column headerText="วันที่ส่งข้อมูล Drug Catalogue" width="200">
+                        <h:outputText value="#{hospital.requestDate}">
+                            <f:convertDateTime pattern="dd / MMM / yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="โรงพยาบาล" width="500">
+                        <h:outputText value="'#{hospital.hcode}'   #{hospital.hname}"/>
+                    </p:column>
+                    <p:column headerText="จำนวนรายการ A" width="150">
+                        <h:outputText value="#{hospital.countFlagA}"/>
+                    </p:column>
+                    <p:column headerText="จำนวนรายการ E" width="150">
+                        <h:outputText value="#{hospital.countFlagE}"/>
+                    </p:column>
+                    <p:column headerText="จำนวนรายการ U" width="150">
+                        <h:outputText value="#{hospital.countFlagU}"/>
+                    </p:column>
+                    <p:column headerText="จำนวนรายการ D" width="150">
+                        <h:outputText value="#{hospital.countFlagD}"/>
+                    </p:column>
+                    <p:column headerText="จำนวนรายการที่มี TMT" width="200">
+                        <p:commandLink value="#{hospital.countTMTNotNull}" action="/tmt/inbox-groupby-tmt" >
+                            <f:param name="hcode" value="#{hospital.hcode}"/>
+                        </p:commandLink>
+                    </p:column>
+                    <p:column headerText="จำนวนรายการที่ไม่มี TMT" width="200">
+                        <p:commandLink value="#{hospital.countTMTNull}" action="/tmt/inbox-none-tmt">
+                            <f:param name="hcode" value="#{hospital.hcode}"/>
+                        </p:commandLink>
+                    </p:column>
+                    <p:column headerText="จำนวนรายการทั้งหมด" width="150">
+                        <h:outputText value="#{hospital.countAll}"/>
+                    </p:column>
+
+                </p:dataTable>
+                <br/><br/>
+                <p:panelGrid id="summary" 
+                             style="margin-left: 200px;font-size: 18px;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="จำนวนโรงพยาบาลที่รออนุมัติ ทั้งหมด"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{summaryInbox.totalHospitalRequest}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="โรงพยาบาล"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="จำนวนรายการยาที่รออนุมัติ ทั้งหมด"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{summaryInbox.totalRequestOfProvince}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="รายการ"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
