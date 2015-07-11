@@ -54,23 +54,22 @@ public class SummaryTest {
     @Test
     public void testQuery() {
         Pageable pageRequest = new PageRequest(0, 5);
-        Page page = requestItemRepo.countSummaryRequest(RequestItem.Status.REQUEST,pageRequest);
+        Page page = requestItemRepo.countSummaryRequestByProvince(RequestItem.Status.REQUEST, "1000", pageRequest);
         List list = page.getContent();
-        Object[] startObject =  (Object[]) list.get(0);
+        Object[] startObject = (Object[]) list.get(0);
         SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(startObject);
-        LOG.info("date {} " , summaryRequest.getRequestDate());
-        LOG.info("hcode {} " , summaryRequest.getHcode());
-        LOG.info("hname {} " , summaryRequest.getHname());
-        LOG.info("TMT_NOT_NULL {} " , summaryRequest.getCountTMTNotNull());
-        LOG.info("TMT_NULL {} " , summaryRequest.getCountTMTNull());
-        LOG.info("FLAG_A {} " , summaryRequest.getCountFlagA());
-        LOG.info("FLAG_E {} " , summaryRequest.getCountFlagE());
-        LOG.info("FLAG_U {} " , summaryRequest.getCountFlagU());
-        LOG.info("FLAG_D {} " , summaryRequest.getCountFlagD());
-        LOG.info("ALL {} " , summaryRequest.getCountAll());
-        if(list.size() > 0){
-            assertNotNull(startObject[1]);
-        }
+        LOG.info("All hospital Request = {}", page.getTotalElements());
+        LOG.info("date {} ", summaryRequest.getRequestDate());
+        LOG.info("hcode {} ", summaryRequest.getHcode());
+        LOG.info("hname {} ", summaryRequest.getHname());
+        LOG.info("TMT_NOT_NULL {} ", summaryRequest.getCountTMTNotNull());
+        LOG.info("TMT_NULL {} ", summaryRequest.getCountTMTNull());
+        LOG.info("FLAG_A {} ", summaryRequest.getCountFlagA());
+        LOG.info("FLAG_E {} ", summaryRequest.getCountFlagE());
+        LOG.info("FLAG_U {} ", summaryRequest.getCountFlagU());
+        LOG.info("FLAG_D {} ", summaryRequest.getCountFlagD());
+        LOG.info("ALL {} ", summaryRequest.getCountAll());
+        assertNotNull(startObject[1]);
     }
 
 }

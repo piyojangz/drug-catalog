@@ -51,7 +51,7 @@ public class SummaryInbox {
     private List<Zone> zones;
     private List<Province> provinces;
     private SpringDataLazyDataModelSupport<SummaryRequest> summary;
-    
+
     private String selectedZone;
     private String selectedProvince;
     private Hospital selectedHospital;
@@ -73,15 +73,20 @@ public class SummaryInbox {
         summary = new SpringDataLazyDataModelSupport() {
             @Override
             public Page<SummaryRequest> load(Pageable pageAble) {
-                Page<Object[]> page = requestItemRepo.countSummaryRequest(RequestItem.Status.REQUEST,pageAble);
-                List<Object[]> list = page.getContent();
                 List<SummaryRequest> summaryRequests = new ArrayList<>();
-                for (Object[] objArray : list) {
-                    SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(objArray);
-                    summaryRequests.add(summaryRequest);
+                long totalElement = 0;
+                Page<Object[]> page = null;
+                if (!selectedProvince.isEmpty()) {
+                    page = requestItemRepo.countSummaryRequestByProvince(RequestItem.Status.REQUEST, selectedProvince, pageAble);
+                    List<Object[]> list = page.getContent();
+                    for (Object[] objArray : list) {
+                        SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(objArray);
+                        summaryRequests.add(summaryRequest);
+                    }
+                    totalHospitalRequest = Long.toString(page.getTotalElements());
+                    totalElement =  page.getTotalElements();
                 }
-                totalHospitalRequest = Long.toString(page.getTotalElements());
-                Page<SummaryRequest> summary = new PageImpl<>(summaryRequests,pageAble,page.getTotalElements());
+                Page<SummaryRequest> summary = new PageImpl<>(summaryRequests, pageAble,totalElement);
                 return summary;
             }
         };
