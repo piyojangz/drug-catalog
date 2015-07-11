@@ -138,14 +138,16 @@
                         <h:outputText value="#{hospital.countFlagD}"/>
                     </p:column>
                     <p:column headerText="จำนวนรายการที่มี TMT" width="200">
-                        <p:commandLink value="#{hospital.countTMTNotNull}" action="/tmt/inbox-groupby-tmt" >
+                        <p:link value="#{hospital.countTMTNotNull}" outcome="inbox.xhtml">
+                            <f:param name="tmt" value="false"/>
                             <f:param name="hcode" value="#{hospital.hcode}"/>
-                        </p:commandLink>
+                        </p:link>
                     </p:column>
                     <p:column headerText="จำนวนรายการที่ไม่มี TMT" width="200">
-                        <p:commandLink value="#{hospital.countTMTNull}" action="/tmt/inbox-none-tmt">
+                        <p:link value="#{hospital.countTMTNull}" outcome="inbox-none-tmt.xhtml">
+                            <f:param name="tmt" value="true"/>
                             <f:param name="hcode" value="#{hospital.hcode}"/>
-                        </p:commandLink>
+                        </p:link>
                     </p:column>
                     <p:column headerText="จำนวนรายการทั้งหมด" width="150">
                         <h:outputText value="#{hospital.countAll}"/>

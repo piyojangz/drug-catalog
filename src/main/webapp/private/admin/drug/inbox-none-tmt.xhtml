@@ -64,6 +64,8 @@
             </style>
             <f:metadata>
                 <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
+                <f:viewParam name="hcode" value="#{adminInbox.hcode}"/>
+                <f:viewAction action="#{adminInbox.onActionAfterSelectHospitalFromInBoxZone()}"/>
             </f:metadata>
             <h:form id="form">
 

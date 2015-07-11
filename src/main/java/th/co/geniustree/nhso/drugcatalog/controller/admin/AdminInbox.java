@@ -493,4 +493,8 @@ public class AdminInbox implements Serializable {
         params.put("genericName", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/common/drug/findTMTDialog", options, params);
     }
+    
+    public void onActionAfterSelectHospitalFromInBoxZone(){
+        showSearchHospitalDialog();
+    }
 }
