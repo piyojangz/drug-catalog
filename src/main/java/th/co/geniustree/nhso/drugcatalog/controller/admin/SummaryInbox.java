@@ -90,6 +90,7 @@ public class SummaryInbox {
                 return summary;
             }
         };
+        totalRequestOfProvince = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, selectedProvince).toString();
 
     }
 

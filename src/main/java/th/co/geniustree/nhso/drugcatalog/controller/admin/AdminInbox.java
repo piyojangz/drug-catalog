@@ -373,7 +373,7 @@ public class AdminInbox implements Serializable {
             totalElements = pageResult.getTotalElements();
             displayElement = pageResult.getSize();
             for (RequestItem item : pageResult.getContent()) {
-                log.debug("tmtid -> {}" , item.getUploadDrugItem().getTmtId());
+                log.debug("tmtid -> {}", item.getUploadDrugItem().getTmtId());
                 List<RequestItem> requestItemList = new ArrayList<>();
                 requestItemList.add(createRequestFormTmt(item));
                 requestItemList.add(item);
@@ -493,8 +493,11 @@ public class AdminInbox implements Serializable {
         params.put("genericName", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/common/drug/findTMTDialog", options, params);
     }
-    
-    public void onActionAfterSelectHospitalFromInBoxZone(){
-        showSearchHospitalDialog();
+
+    public void onActionAfterSelectHospitalFromInBoxZone() {
+        if (hcode != null) {
+            if(!hcode.isEmpty())
+            showSearchHospitalDialog();
+        }
     }
 }

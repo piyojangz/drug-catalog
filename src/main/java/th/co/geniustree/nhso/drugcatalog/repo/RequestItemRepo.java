@@ -78,4 +78,15 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "group by u.hcode , h.hname "
             + "order by u.hcode")
     public Page countSummaryRequestByProvince(RequestItem.Status status, String provinceId, Pageable pageable);
+    
+    @Query(value = "select sum(count(r)) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "and h.province.id = ?2 "
+            + "group by h.province.id")
+    public Integer countTotalRequestByProvince(RequestItem.Status status, String provinceId);
 }

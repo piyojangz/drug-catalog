@@ -69,6 +69,8 @@ public class SummaryTest {
         LOG.info("FLAG_U {} ", summaryRequest.getCountFlagU());
         LOG.info("FLAG_D {} ", summaryRequest.getCountFlagD());
         LOG.info("ALL {} ", summaryRequest.getCountAll());
+        Integer totalRequest = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, "1400");
+        LOG.info("Total Request of Province -> {}",totalRequest);
         assertNotNull(startObject[1]);
     }
 
