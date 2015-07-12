@@ -62,7 +62,9 @@ public class SearchTmtDrug implements Serializable {
         selectColumns.add("TMTID");
         selectColumns.add("NDC24");
         TMTReleaseFileUpload findLastestReleaseDate = tmtReleaseFileUploadRepo.findLastestReleaseDate();
-        latestFile = "TMTRF" + DateUtils.format("yyyyMMdd", findLastestReleaseDate.getReleaseDate());
+        if (findLastestReleaseDate != null) {
+            latestFile = "TMTRF" + DateUtils.format("yyyyMMdd", findLastestReleaseDate.getReleaseDate());
+        }
     }
 
     public String getKeyword() {
