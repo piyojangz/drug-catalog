@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -33,8 +34,11 @@ public class Drug implements Serializable, TMT {
     @Version
     private Integer version;
     
-    @ManyToMany(mappedBy = "tmtDrugs")
-    private List<SpecialProject> specialProjects;
+    @ManyToMany(mappedBy = "drugs")
+    private List<ReimburseGroup> reimburseGroups;
+    
+    @OneToMany(mappedBy = "drug")
+    private List<EDNED> edNeds;
 
     public String getFsn() {
         return fsn;
@@ -54,12 +58,28 @@ public class Drug implements Serializable, TMT {
         this.id = tmtId;
     }
 
-    public List<SpecialProject> getSpecialProjects() {
-        return specialProjects;
+    public List<ReimburseGroup> getReimburseGroups() {
+        return reimburseGroups;
     }
 
-    public void setSpecialProjects(List<SpecialProject> specialProjects) {
-        this.specialProjects = specialProjects;
+    public void setReimburseGroups(List<ReimburseGroup> reimburseGroups) {
+        this.reimburseGroups = reimburseGroups;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<EDNED> getEdNeds() {
+        return edNeds;
+    }
+
+    public void setEdNeds(List<EDNED> edNeds) {
+        this.edNeds = edNeds;
     }
     
     @Override

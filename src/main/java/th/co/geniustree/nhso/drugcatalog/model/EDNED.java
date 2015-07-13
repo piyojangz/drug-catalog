@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 
 /**
@@ -22,28 +25,41 @@ import javax.persistence.Version;
  * @author Thanthathon
  */
 @Entity
-@Table(name = "TMT_ED")
+@Table(name = "TMT_ED_STATUS")
 public class EDNED implements Serializable {
-    
+
     @Id
-    @Column(name = "ED_NED")
-    private String id;
-    
-    @ManyToMany
-    @JoinColumn(name = "SPECIAL_PROJECT" ,referencedColumnName = "EDNEDS")
-    private List<SpecialProject> specialProjects;
-    
-    @OneToMany(mappedBy = "edNed")
+    @TableGenerator(name = "TMT_ED_STATUS_GEN",
+            table = "TMT_SEQUENCE",
+            pkColumnName = "name",
+            valueColumnName = "value",
+            allocationSize = 100,
+            pkColumnValue = "TMT_ED_STATUS")
+    @GeneratedValue(generator = "TMT_ED_STATUS_GEN", strategy = GenerationType.TABLE)
+    private Integer id;
+
+    @Column(name = "ED_STATUS")
+    private String status;
+
+    @ManyToMany(mappedBy = "edNeds")
     private List<ReimburseGroup> reimburseGroups;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)
+    private Drug drug;
+
+    @ManyToOne
+    @JoinColumn(name = "FUND_ID", referencedColumnName = "ID", nullable = false)
+    private Fund fund;
+
     @Version
     private Integer version;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -55,18 +71,26 @@ public class EDNED implements Serializable {
         this.reimburseGroups = reimburseGroups;
     }
 
-    public List<SpecialProject> getSpecialProjects() {
-        return specialProjects;
+    public Drug getDrug() {
+        return drug;
     }
 
-    public void setSpecialProjects(List<SpecialProject> specialProjects) {
-        this.specialProjects = specialProjects;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
+    }
+
+    public Fund getFund() {
+        return fund;
+    }
+
+    public void setFund(Fund fund) {
+        this.fund = fund;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 19 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -79,7 +103,10 @@ public class EDNED implements Serializable {
             return false;
         }
         final EDNED other = (EDNED) obj;
-        return Objects.equals(this.id, other.id);
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
-    
+
 }

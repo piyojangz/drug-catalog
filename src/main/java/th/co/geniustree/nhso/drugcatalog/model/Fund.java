@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -31,7 +32,10 @@ public class Fund implements Serializable {
     private String name;
     
     @ManyToMany(mappedBy = "funds")
-    private List<SpecialProject> specialProjects;
+    private List<ReimburseGroup> reimburseGroups;
+    
+    @OneToMany(mappedBy = "fund")
+    private List<EDNED> edNeds;
 
     @Version
     private Integer version;
@@ -52,12 +56,20 @@ public class Fund implements Serializable {
         this.name = name;
     }
 
-    public List<SpecialProject> getSpecialProjects() {
-        return specialProjects;
+    public List<ReimburseGroup> getReimburseGroups() {
+        return reimburseGroups;
     }
 
-    public void setSpecialProjects(List<SpecialProject> specialProjects) {
-        this.specialProjects = specialProjects;
+    public void setReimburseGroups(List<ReimburseGroup> reimburseGroups) {
+        this.reimburseGroups = reimburseGroups;
+    }
+
+    public List<EDNED> getEdNeds() {
+        return edNeds;
+    }
+
+    public void setEdNeds(List<EDNED> edNeds) {
+        this.edNeds = edNeds;
     }
 
     @Override

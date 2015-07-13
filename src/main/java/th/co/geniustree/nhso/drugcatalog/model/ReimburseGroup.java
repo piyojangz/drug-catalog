@@ -6,11 +6,12 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -21,23 +22,31 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "TMT_REIMBURSE_GROUP")
 public class ReimburseGroup implements Serializable {
-    
+
     @Id
     private String id;
-    
+
     private String name;
-    
-    @ManyToOne
-    @JoinColumn(name = "EDNED", referencedColumnName = "ED_NED")
-    private EDNED edNed;
-    
-    @ManyToOne
-    @JoinColumn(name = "ICD10", referencedColumnName = "ICD10")
-    private ICD10 icd10;
+
+    @ManyToMany
+    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID")
+    private List<Drug> drugs;
+
+    @ManyToMany
+    @JoinColumn(name = "FUND_ID", referencedColumnName = "ID")
+    private List<Fund> funds;
+
+    @ManyToMany
+    @JoinColumn(name = "ICD10_ID", referencedColumnName = "ICD10_ID")
+    private List<ICD10> icd10s;
+
+    @ManyToMany
+    @JoinColumn(name = "ED_STATUS" , referencedColumnName = "ID")
+    private List<EDNED> edNeds;
 
     @Version
     private Integer version;
-    
+
     public String getId() {
         return id;
     }
@@ -54,20 +63,36 @@ public class ReimburseGroup implements Serializable {
         this.name = name;
     }
 
-    public EDNED getEdNed() {
-        return edNed;
+    public List<Drug> getDrugs() {
+        return drugs;
     }
 
-    public void setEdNed(EDNED edNed) {
-        this.edNed = edNed;
+    public void setDrugs(List<Drug> drugs) {
+        this.drugs = drugs;
     }
 
-    public ICD10 getIcd10() {
-        return icd10;
+    public List<Fund> getFunds() {
+        return funds;
     }
 
-    public void setIcd10(ICD10 icd10) {
-        this.icd10 = icd10;
+    public void setFunds(List<Fund> funds) {
+        this.funds = funds;
+    }
+
+    public List<ICD10> getIcd10ss() {
+        return icd10s;
+    }
+
+    public void setIcd10ss(List<ICD10> icd10ss) {
+        this.icd10s = icd10ss;
+    }
+
+    public List<EDNED> getEdNeds() {
+        return edNeds;
+    }
+
+    public void setEdNeds(List<EDNED> edNeds) {
+        this.edNeds = edNeds;
     }
 
     @Override
@@ -88,6 +113,5 @@ public class ReimburseGroup implements Serializable {
         final ReimburseGroup other = (ReimburseGroup) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }

@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -25,16 +24,13 @@ import javax.persistence.Version;
 public class ICD10 implements Serializable {
     
     @Id
-    @Column(name = "ICD10")
+    @Column(name = "ICD10_ID")
     private String id;
     
     @Column(name = "ICD10_NAME")
     private String name;
     
     @ManyToMany(mappedBy = "icd10s")
-    private List<SpecialProject> specialProjects;
-    
-    @OneToMany(mappedBy = "icd10")
     private List<ReimburseGroup> reimBurseGroups;
     
     @Version
@@ -62,14 +58,6 @@ public class ICD10 implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public List<SpecialProject> getSpecialProjects() {
-        return specialProjects;
-    }
-
-    public void setSpecialProjects(List<SpecialProject> specialProjects) {
-        this.specialProjects = specialProjects;
     }
 
     public List<ReimburseGroup> getReimBurseGroups() {
