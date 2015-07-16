@@ -89,8 +89,7 @@
                                 <f:selectItem itemLabel="ยังไม่ได้ระบุ" noSelectionOption="true"/>
                                 <f:selectItems value="#{summaryInbox.provinces}" var="province"
                                                itemLabel="#{province.fullName}" 
-                                               itemValue="#{province.id}"
-                                               actionListener="#{summaryInbox.onSelectProvince()}">
+                                               itemValue="#{province.id}">
                                 </f:selectItems>
                                 <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectProvince()}" update="table summary"/>
                             </p:selectOneMenu>
@@ -99,7 +98,7 @@
                 </p:panelGrid>
                 <p:spacer height="20"/>
                 <p:dataTable id="table"
-                             value="#{summaryInbox.hospitals}"
+                             value="#{summaryInbox.summary}"
                              var="hospital"
                              resizableColumns="true" 
                              styleClass="clean-table config-table" 

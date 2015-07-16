@@ -81,9 +81,37 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
+                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}" style="position: fixed;">
+                    <p:row>
+                        <p:column style="text-align: left;width: 80px;" styleClass="advancePanel">
+                            <p:outputLabel value="filter by:"/>
+                        </p:column>
+                        <p:column styleClass="advancePanel">
+                            <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
+                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
+                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
+                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
+                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
+                            </p:selectManyCheckbox>
+                        </p:column>
+                        <p:column styleClass="advancePanel">
+                            <p:outputLabel value="(คลิกเลือกเพื่อค้นหาตามคอลัมน์ที่กำหนด)" style="color: rgb(59, 156, 157);"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: left;width: 80px;">
+                            <p:outputLabel value="keyword:" for="keyword"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
+                            <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="table"/>
+                            &nbsp;
+                            <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
 
-
-                <br/>
+                <p:spacer height="70"/>
                 <p:dataTable id="table"
                              resizableColumns="true" 
                              styleClass="clean-table config-table" 
@@ -192,39 +220,6 @@
                 <p:commandButton value="Cancel" immediate="true" ajax="false" action="#{adminInbox.clear()}"/>
 
 
-            </h:form>
-            <h:form>
-                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}" style="position: fixed;">
-                    <p:row>
-                        <p:column style="text-align: left;width: 80px;" styleClass="advancePanel">
-                            <p:outputLabel value="filter by:"/>
-                        </p:column>
-                        <p:column styleClass="advancePanel">
-                            <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
-                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
-                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
-                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
-                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
-                            </p:selectManyCheckbox>
-                        </p:column>
-                        <p:column styleClass="advancePanel">
-                            <p:outputLabel value="(คลิกเลือกเพื่อค้นหาตามคอลัมน์ที่กำหนด)" style="color: rgb(59, 156, 157);"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: left;width: 80px;">
-                            <p:outputLabel value="keyword:" for="keyword"/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
-                            <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="table"/>
-                            &nbsp;
-                            <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
-                        </p:column>
-                        <p:column>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,13 +21,11 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
-import th.co.geniustree.nhso.basicmodel.repository.HospitalRepository;
 import th.co.geniustree.nhso.basicmodel.repository.ProvinceRepository;
 import th.co.geniustree.nhso.basicmodel.repository.ZoneRepository;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
-import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 
 /**
  *
@@ -43,25 +42,29 @@ public class SummaryInbox {
     @Autowired
     private ProvinceRepository provinceRepo;
     @Autowired
-    private HospitalRepository hospitalRepo;
-    @Autowired
     private RequestItemRepo requestItemRepo;
-    private RequestItemService requestItemService;
 
     private List<Zone> zones;
     private List<Province> provinces;
-    private SpringDataLazyDataModelSupport<SummaryRequest> summary;
+    private SpringDataLazyDataModelSupport<SummaryRequest> summary = null;
 
     private String selectedZone;
     private String selectedProvince;
     private Hospital selectedHospital;
 
-    private String totalRequestOfProvince;
-    private String totalHospitalRequest;
+    private long totalRequestOfProvince;
+    private long totalHospitalRequest;
+
+    private boolean notEmptyRequest;
 
     @PostConstruct
     public void postConstruct() {
+        notEmptyRequest = false;
         zones = zoneRepo.findAll(new Sort("nhsoZone"));
+        LOG.info("selected zone -> {}", selectedZone);
+        if (selectedZone != null) {
+            provinces = provinceRepo.findByNhsoZone(selectedZone, new Sort("id"));
+        }
     }
 
     public void onSelectZone() {
@@ -83,35 +86,47 @@ public class SummaryInbox {
                         SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(objArray);
                         summaryRequests.add(summaryRequest);
                     }
-                    totalHospitalRequest = Long.toString(page.getTotalElements());
-                    totalElement =  page.getTotalElements();
+                    totalHospitalRequest = page.getTotalElements();
+                    if (totalHospitalRequest > 0) {
+                        notEmptyRequest = true;
+                    }
+                    totalElement = page.getTotalElements();
                 }
-                Page<SummaryRequest> summary = new PageImpl<>(summaryRequests, pageAble,totalElement);
+                Page<SummaryRequest> summary = new PageImpl<>(summaryRequests, pageAble, totalElement);
                 return summary;
             }
         };
-        totalRequestOfProvince = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, selectedProvince).toString();
-
+        if (selectedProvince != null) {
+            totalRequestOfProvince = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, selectedProvince);
+        }
     }
 
     public void onSelectHospital() {
 
     }
 
+    public boolean isNotEmptyRequest() {
+        return notEmptyRequest;
+    }
+
+    public void setNotEmptyRequest(boolean notEmptyRequest) {
+        this.notEmptyRequest = notEmptyRequest;
+    }
+
     //****************************** getter and setter methods ******************************
-    public String getTotalRequestOfProvince() {
+    public long getTotalRequestOfProvince() {
         return totalRequestOfProvince;
     }
 
-    public void setTotalRequestOfProvince(String totalRequestOfProvince) {
+    public void setTotalRequestOfProvince(long totalRequestOfProvince) {
         this.totalRequestOfProvince = totalRequestOfProvince;
     }
 
-    public String getTotalHospitalRequest() {
+    public long getTotalHospitalRequest() {
         return totalHospitalRequest;
     }
 
-    public void setTotalHospitalRequest(String totalHospitalRequest) {
+    public void setTotalHospitalRequest(long totalHospitalRequest) {
         this.totalHospitalRequest = totalHospitalRequest;
     }
 
@@ -131,11 +146,11 @@ public class SummaryInbox {
         this.provinces = provinces;
     }
 
-    public SpringDataLazyDataModelSupport getHospitals() {
+    public SpringDataLazyDataModelSupport getSummary() {
         return summary;
     }
 
-    public void setHospitals(SpringDataLazyDataModelSupport summary) {
+    public void setSummary(SpringDataLazyDataModelSupport summary) {
         this.summary = summary;
     }
 
