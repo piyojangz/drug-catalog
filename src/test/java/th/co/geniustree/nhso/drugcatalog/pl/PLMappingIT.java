@@ -67,8 +67,8 @@ public class PLMappingIT {
     public void testCallPl() {
         HospitalDrugType drug = eclaimDAO.loadDrugInfo(hospDrugCode, hcode, tmtid, dateEffective);
         List<String> druggroups = eclaimDAO.getDrugGroupsFrom(drug);
-        getDrugInfo(drug);
-        getDrugGroupsInfo(druggroups);
+//        getDrugInfo(drug);
+//        getDrugGroupsInfo(druggroups);
         assertNotNull(drug);
     }
 

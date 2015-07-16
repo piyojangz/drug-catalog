@@ -46,6 +46,10 @@
                                             margin: 0px -4.5px;
                                         }
                     */
+                    .ui-widget-content .ui-inputfield.ui-state-error{
+                        border: 1px solid #F42020;
+                          box-shadow: inset 1px 1px 2px #E58888;
+                    }
                 </style>
                 <p:panel id="eclaim">
                     <p:panelGrid class="search" id="input">
@@ -54,14 +58,14 @@
                                 <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="HCODE : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText required="true" size="10" value="#{eclaimController.hcode}" requiredMessage="กรุณากรอก hcode"/>
+                                <p:inputText required="true" size="10" value="#{eclaimController.hcode}" requiredMessage="กรุณากรอก hcode" styleClass="inputText"/>
                                 <p:spacer width="20"/>
                             </p:column>
                             <p:column>
                                 <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="HospDrugCode : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText required="true" size="20" value="#{eclaimController.hospDrugCode}" requiredMessage="กรุณากรอก HospDrugCode">
+                                <p:inputText required="true" size="20" value="#{eclaimController.hospDrugCode}" requiredMessage="กรุณากรอก HospDrugCode" styleClass="inputText">
                                 </p:inputText>
                             </p:column>
                         </p:row>
@@ -76,7 +80,7 @@
                                 <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="Service Date : "/>
                             </p:column>
                             <p:column>
-                                <p:calendar value="#{eclaimController.dateEffective}" locale="en_US" pattern="dd/MM/yyyy" required="true" requiredMessage="กรุณาเลือก Service date"/>
+                                <p:calendar value="#{eclaimController.dateEffective}" locale="en_US" pattern="dd/MM/yyyy" required="true" requiredMessage="กรุณาเลือก Service date" styleClass="inputText"/>
                             </p:column>
                         </p:row>
                         <p:row>
