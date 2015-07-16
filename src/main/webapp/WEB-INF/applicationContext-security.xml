@@ -22,6 +22,7 @@
     </global-method-security>
     <http use-expressions="true" auto-config="true" authentication-manager-ref="authenManager">
         <intercept-url pattern="/private/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/private/admin/**" access="hasRole('ZONE')"/>
         <intercept-url pattern="/private/**" access="isAuthenticated()" />
         <form-login  default-target-url="/private/index.xhtml" login-page="/index.xhtml" />
         <logout logout-url="/logout" invalidate-session="true"
