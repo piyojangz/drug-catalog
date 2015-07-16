@@ -60,7 +60,7 @@
                 .clean-table .ui-datatable-tablewrapper{
                     border-bottom: 2px solid #7F7E7E;
                 }
-                
+
             </style>
             <f:metadata>
                 <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
@@ -68,10 +68,9 @@
                 <f:viewAction action="#{adminInbox.onActionAfterSelectHospitalFromInBoxZone()}"/>
             </f:metadata>
             <h:form id="form">
-
                 <p:panelGrid>
                     <p:row>
-                        <p:column>
+                        <p:column style="width: 80px;">
                             หน่วยบริการ :
                         </p:column>
                         <p:column>
@@ -81,8 +80,26 @@
                             </p:commandButton>
                         </p:column>
                     </p:row>
-                    <p:row rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
-                        <p:column style="text-align: right">
+                </p:panelGrid>
+                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
+                    <p:row>
+                        <p:column style="text-align: left;width: 80px;" styleClass="advancePanel">
+                            <p:outputLabel value="filter by:"/>
+                        </p:column>
+                        <p:column styleClass="advancePanel">
+                            <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
+                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
+                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
+                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
+                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
+                            </p:selectManyCheckbox>
+                        </p:column>
+                        <p:column styleClass="advancePanel">
+                            <p:outputLabel value="(คลิกเลือกเพื่อค้นหาตามคอลัมน์ที่กำหนด)" style="color: rgb(59, 156, 157);"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: left;width: 80px;">
                             <p:outputLabel value="keyword:" for="keyword"/>
                         </p:column>
                         <p:column>
@@ -95,31 +112,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid styleClass="advancePanel" style="display: none" rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
-                    <p:row>
-                        <p:column style="text-align: right">
-                            <p:outputLabel value="Columns:"/>
-                        </p:column>
-                        <p:column colspan="2">
-                            <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
-                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
-                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
-                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
-                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
-                            </p:selectManyCheckbox>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
                 <br/>
-                <script>
-//                    (function(event){
-//                        $('.ui-column-resizer.ui-draggable.ui-draggable-handle').resize(function(){
-//                        $('.ui-column-resizer.ui-draggable.ui-draggable-handle').css('color','red');
-//                            $('.ui-datatable.ui-widget.ui-datatable-scrollable.clean-table.config-table.ui-datatable-resizable').
-//                            alert("Hello");
-//                        });
-//                    });
-                </script>
                 <p:dataTable id="table"
                              resizableColumns="true" 
                              styleClass="clean-table config-table" 
@@ -164,7 +157,7 @@
                     </p:column>
                     <p:column headerText="TradeName" width="600" >
                         <p:outputPanel styleClass="updateset-#{model.id}">
-                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
+                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; TradeName">
                                 <f:param name="genericName" value="#{model.uploadDrugItem.tradeName}"/>
                             </p:commandButton>
                             <p:spacer width="10"/>
@@ -173,7 +166,7 @@
                     </p:column>
                     <p:column headerText="GenericName" width="800">
                         <p:outputPanel styleClass="updateset-#{model.id}">
-                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}">
+                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; GenericName">
                                 <f:param name="genericName" value="#{model.uploadDrugItem.genericName}"/>
                             </p:commandButton>
                             <p:spacer width="10"/>
