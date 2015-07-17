@@ -45,11 +45,11 @@ public class EdNed implements Serializable {
     }
 
     public EdNed(Drug drug, Fund fund, Date dateIn) {
-        this.pk = new EdNedPK(status, status, dateIn);
+        this.pk = new EdNedPK(drug, fund, dateIn);
     }
-
-    public EdNed(Drug drug, Fund fund) {
-        this.pk = new EdNedPK(status, status);
+    
+    public EdNed(String drug, String fund, Date dateIn) {
+        this.pk = new EdNedPK(drug, fund, dateIn);
     }
 
     public EdNedPK getPk() {
