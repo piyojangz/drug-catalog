@@ -38,6 +38,24 @@ public class TMTDrugSpecs {
             }
         };
     }
+    
+    public static Specification<TMTDrug> fsnContainsOR(final List<String> keywords) {
+        return new Specification<TMTDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate or = null;
+                for (String key : keywords) {
+                    if (or == null) {
+                        or = cb.like(cb.lower(root.get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%");
+                    } else {
+                        or = cb.or(or, cb.like(cb.lower(root.get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%"));
+                    }
+                }
+                return or;
+            }
+        };
+    }
 
     public static Specification<TMTDrug> tmtIdContains(final List<String> keywords) {
         return new Specification<TMTDrug>() {

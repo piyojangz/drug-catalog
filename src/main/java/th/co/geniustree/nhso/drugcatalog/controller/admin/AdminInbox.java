@@ -485,8 +485,8 @@ public class AdminInbox implements Serializable {
         options.put("modal", true);
         options.put("draggable", true);
         options.put("resizable", true);
-        options.put("contentHeight", 700);
-        options.put("contentWidth", 900);
+        options.put("contentHeight", 500);
+        options.put("contentWidth", 1024);
         Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
         keywords.add(searchName);
@@ -496,8 +496,14 @@ public class AdminInbox implements Serializable {
 
     public void onActionAfterSelectHospitalFromInBoxZone() {
         if (hcode != null) {
-            if(!hcode.isEmpty())
-            showSearchHospitalDialog();
+            if (!hcode.isEmpty()) {
+                showSearchHospitalDialog();
+            }
         }
+    }
+
+    public void onSearchFSN() {
+        List<String> searchList = Arrays.asList(searchName.split(" "));
+        tmtDrugs = tmtDrugRepo.findAll(TMTDrugSpecs.fsnContainsOR(searchList));
     }
 }

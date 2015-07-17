@@ -18,8 +18,24 @@
         <f:viewAction action="#{adminInbox.compareWithTMTDrug()}"/>
     </f:metadata>
     <h:body>
-        <h:form>
-            <p:dataTable var="tmtDrug" value="#{adminInbox.tmtDrugs}">
+        <h:form id="form">
+            <div style="margin-bottom: 50px;position: relative;z-index: 1000;">
+                ค้นหาเพิ่มเติม : 
+                <p:inputText id="fsnSearch" value="#{adminInbox.searchName}"/>
+                <p:commandButton value="search" 
+                                 action="#{adminInbox.onSearchFSN()}" 
+                                 update="@form"
+                                 icon="ui-icon-search"/>
+                <br/>
+                <h:outputText value="จำนวนรายการที่ค้นหาได้ = #{adminInbox.tmtDrugs.size()}"/>
+            </div>
+            <p:dataTable id="table" 
+                         var="tmtDrug" 
+                         value="#{adminInbox.tmtDrugs}"
+                         rowIndexVar="rowIndex">
+                <p:column headerText="No." width="20">
+                    <h:outputText value="#{rowIndex + 1}" />
+                </p:column>
                 <p:column headerText="TMTID" width="50">
                     <h:outputText value="#{tmtDrug.tmtId}" />
                 </p:column>
