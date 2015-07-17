@@ -86,6 +86,9 @@ public class AdminInbox implements Serializable {
     private String keyword;
     private boolean nullTmt;
     private String haveTmt;
+    private String searchType;
+    private SpringDataLazyDataModelSupport<TMTDrug> searchTmt;
+    private long totalElementOfSearchTmt;
 
     @PostConstruct
     public void postConstruct() {
@@ -105,6 +108,14 @@ public class AdminInbox implements Serializable {
         errorColumnSet.add("UNITPRICE");
         errorColumnSet.add("ISED");
         errorColumnSet.add("SPECPREP");
+    }
+
+    public long getTotalElementOfSearchTmt() {
+        return totalElementOfSearchTmt;
+    }
+
+    public void setTotalElementOfSearchTmt(long totalElementOfSearchTmt) {
+        this.totalElementOfSearchTmt = totalElementOfSearchTmt;
     }
 
     public String getHaveTmt() {
@@ -229,6 +240,22 @@ public class AdminInbox implements Serializable {
 
     public void setUploadDrugItem(UploadHospitalDrugItem uploadDrugItem) {
         this.uploadDrugItem = uploadDrugItem;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    public SpringDataLazyDataModelSupport<TMTDrug> getSearchTmt() {
+        return searchTmt;
+    }
+
+    public void setSearchTmt(SpringDataLazyDataModelSupport<TMTDrug> searchTmt) {
+        this.searchTmt = searchTmt;
     }
 
     public void showSearchHospitalDialog() {
@@ -473,37 +500,64 @@ public class AdminInbox implements Serializable {
 
     public void compareWithTMTDrug() {
         log.debug("search name -> {}", searchName);
-        String[] searchSplit = searchName.split("[+]");
-        List<String> searches = Arrays.asList(searchSplit);
-        Specifications spec = Specifications.where(TMTDrugSpecs.fsnContains(searches));
-        tmtDrugs = tmtDrugRepo.findAll(spec);
+        searchTmt = new SpringDataLazyDataModelSupport<TMTDrug>() {
+
+            @Override
+            public Page<TMTDrug> load(Pageable pageAble) {
+                Page<TMTDrug> page;
+                String[] searchSplit = searchName.split("[+]");
+                List<String> searches = Arrays.asList(searchSplit);
+                Specifications spec = Specifications.where(TMTDrugSpecs.fsnContains(searches));
+                page = tmtDrugRepo.findAll(spec, pageAble);
+                totalElementOfSearchTmt = page.getTotalElements();
+                return page;
+            }
+        };
     }
 
     public void showCompareTmtDialog() {
-        searchName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("genericName");
+        Map<String, String> requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        searchName = requestParameters.get("search");
+        searchType = requestParameters.get("typeOfSearch");
+
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("draggable", true);
         options.put("resizable", true);
-        options.put("contentHeight", 500);
+        options.put("contentHeight", 600);
         options.put("contentWidth", 1024);
         Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
         keywords.add(searchName);
-        params.put("genericName", keywords);
+        params.put("search", keywords);
+        keywords = new ArrayList<>();
+        keywords.add(searchType);
+        params.put("typeOfSearch", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/common/drug/findTMTDialog", options, params);
     }
 
     public void onActionAfterSelectHospitalFromInBoxZone() {
-        if (hcode != null) {
-            if (!hcode.isEmpty()) {
-                showSearchHospitalDialog();
-            }
+        if (hcode != null && !hcode.isEmpty()) {
+            showSearchHospitalDialog();
         }
     }
 
     public void onSearchFSN() {
-        List<String> searchList = Arrays.asList(searchName.split(" "));
-        tmtDrugs = tmtDrugRepo.findAll(TMTDrugSpecs.fsnContainsOR(searchList));
+        searchTmt = new SpringDataLazyDataModelSupport<TMTDrug>() {
+            @Override
+            public Page<TMTDrug> load(Pageable pageAble) {
+                Page<TMTDrug> page;
+                List<String> searchSeperateBySpace = Arrays.asList(searchName.split(" "));
+                Specifications spec = Specifications.where(TMTDrugSpecs.fsnContainsOR(searchSeperateBySpace));
+                List<String> seperateByPlus = new ArrayList<>();
+                for (String text : searchSeperateBySpace) {
+                    seperateByPlus.addAll(Arrays.asList(text.split("[+]")));
+                    spec = spec.or(TMTDrugSpecs.fsnContains(seperateByPlus));
+                }
+                page = tmtDrugRepo.findAll(spec, pageAble);
+                totalElementOfSearchTmt = page.getTotalElements();
+                return page;
+            }
+        };
     }
 }
