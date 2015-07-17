@@ -6,47 +6,44 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import java.util.Objects;
 
 /**
  *
  * @author Thanthathon
  */
-@Embeddable
 public class ReimburseGroupItemPK implements Serializable {
 
-    private String tmtId;
-    private String fundId;
+    private String drug;
+    private String fund;
     private String icd10;
-    
-    @Embedded
-    private EdNedPK edNed;
+    private String edStatus;
 
     public ReimburseGroupItemPK() {
+        
     }
 
     public ReimburseGroupItemPK(String drug, String fund, String icd10, String edStatus) {
-        this.tmtId = drug;
-        this.fundId = fund;
+        this.drug = drug;
+        this.fund = fund;
         this.icd10 = icd10;
-//        this.edStatus = edStatus;
+        this.edStatus = edStatus;
     }
 
-    public String getTmtId() {
-        return tmtId;
+    public String getDrug() {
+        return drug;
     }
 
-    public void setTmtId(String tmtId) {
-        this.tmtId = tmtId;
+    public void setDrug(String drug) {
+        this.drug = drug;
     }
 
-    public String getFundId() {
-        return fundId;
+    public String getFund() {
+        return fund;
     }
 
-    public void setFundId(String fundId) {
-        this.fundId = fundId;
+    public void setFund(String fund) {
+        this.fund = fund;
     }
 
     public String getIcd10() {
@@ -57,5 +54,40 @@ public class ReimburseGroupItemPK implements Serializable {
         this.icd10 = icd10;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.drug);
+        hash = 41 * hash + Objects.hashCode(this.fund);
+        hash = 41 * hash + Objects.hashCode(this.icd10);
+        hash = 41 * hash + Objects.hashCode(this.edStatus);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ReimburseGroupItemPK other = (ReimburseGroupItemPK) obj;
+        if (!Objects.equals(this.drug, other.drug)) {
+            return false;
+        }
+        if (!Objects.equals(this.fund, other.fund)) {
+            return false;
+        }
+        if (!Objects.equals(this.icd10, other.icd10)) {
+            return false;
+        }
+        if (!Objects.equals(this.edStatus, other.edStatus)) {
+            return false;
+        }
+        return true;
+    }
+
+    
 
 }

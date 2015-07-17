@@ -7,12 +7,12 @@ package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -22,45 +22,53 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "TMT_REIMBURSE_GROUP_ITEM")
+@IdClass(ReimburseGroupItemPK.class)
 public class ReimburseGroupItem implements Serializable {
 
-    @EmbeddedId
-    private ReimburseGroupItemPK pk;
+    @Id
+    @Column(name = "ED_STATUS")
+    private String edStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", insertable = false, updatable = false)
+    @Id
+    @ManyToOne()
+    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)
     private Drug drug;
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "FUND_ID", referencedColumnName = "ID", insertable = false, updatable = false)
+    @JoinColumn(name = "FUND_ID", referencedColumnName = "ID", nullable = false)
     private Fund fund;
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "ICD10_ID", referencedColumnName = "ICD10_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "ICD10_ID", referencedColumnName = "ICD10_ID", nullable = false)
     private ICD10 icd10;
-
-    @MapsId("edNed")
-    @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "EDNED_TMTID", referencedColumnName = "TMTID"),
-        @JoinColumn(name = "EDNED_FUNDID", referencedColumnName = "FUND_ID"),
-        @JoinColumn(name = "EDNED_DATEIN", referencedColumnName = "DATE_IN")
-    })
-    private EdNed edNed;
 
     @ManyToOne
     @JoinColumn(name = "REIMBURSE_GROUP_ID", referencedColumnName = "REIMBURSE_GROUP_ID")
     private ReimburseGroup reimburseGroup;
 
+    public ReimburseGroupItem() {
+    }
+
+    public ReimburseGroupItem(String edStatus, Drug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup, Integer version) {
+        this.edStatus = edStatus;
+        this.drug = drug;
+        this.fund = fund;
+        this.icd10 = icd10;
+        this.reimburseGroup = reimburseGroup;
+        this.version = version;
+    }
+    
     @Version
     private Integer version;
 
-    public ReimburseGroupItemPK getPk() {
-        return pk;
+    public String getEdStatus() {
+        return edStatus;
     }
 
-    public void setPk(ReimburseGroupItemPK pk) {
-        this.pk = pk;
+    public void setEdStatus(String edStatus) {
+        this.edStatus = edStatus;
     }
 
     public ICD10 getIcd10() {
@@ -87,14 +95,6 @@ public class ReimburseGroupItem implements Serializable {
         this.fund = fund;
     }
 
-    public EdNed getEdNed() {
-        return edNed;
-    }
-
-    public void setEdNed(EdNed edNed) {
-        this.edNed = edNed;
-    }
-
     public ReimburseGroup getReimburseGroup() {
         return reimburseGroup;
     }
@@ -106,7 +106,10 @@ public class ReimburseGroupItem implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.pk);
+        hash = 83 * hash + Objects.hashCode(this.edStatus);
+        hash = 83 * hash + Objects.hashCode(this.drug);
+        hash = 83 * hash + Objects.hashCode(this.fund);
+        hash = 83 * hash + Objects.hashCode(this.icd10);
         return hash;
     }
 
@@ -119,10 +122,20 @@ public class ReimburseGroupItem implements Serializable {
             return false;
         }
         final ReimburseGroupItem other = (ReimburseGroupItem) obj;
-        if (!Objects.equals(this.pk, other.pk)) {
+        if (!Objects.equals(this.edStatus, other.edStatus)) {
+            return false;
+        }
+        if (!Objects.equals(this.drug, other.drug)) {
+            return false;
+        }
+        if (!Objects.equals(this.fund, other.fund)) {
+            return false;
+        }
+        if (!Objects.equals(this.icd10, other.icd10)) {
             return false;
         }
         return true;
     }
+    
 
 }

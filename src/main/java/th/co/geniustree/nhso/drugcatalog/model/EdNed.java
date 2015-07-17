@@ -7,14 +7,12 @@ package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -31,9 +29,6 @@ public class EdNed implements Serializable {
 
     @Column(name = "ED_STATUS")
     private String status;
-
-    @OneToMany(mappedBy = "edNed")
-    private List<ReimburseGroupItem> reimburseGroups;
 
     @ManyToOne
     @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
@@ -63,14 +58,6 @@ public class EdNed implements Serializable {
 
     public void setPk(EdNedPK pk) {
         this.pk = pk;
-    }
-
-    public List<ReimburseGroupItem> getReimburseGroups() {
-        return reimburseGroups;
-    }
-
-    public void setReimburseGroups(List<ReimburseGroupItem> reimburseGroups) {
-        this.reimburseGroups = reimburseGroups;
     }
 
     public Drug getTmtDrug() {
