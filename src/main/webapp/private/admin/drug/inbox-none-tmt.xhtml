@@ -81,7 +81,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}" style="position: fixed;">
+                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
                     <p:row>
                         <p:column style="text-align: left;width: 80px;" styleClass="advancePanel">
                             <p:outputLabel value="filter by:"/>
@@ -111,7 +111,7 @@
                     </p:row>
                 </p:panelGrid>
 
-                <p:spacer height="70"/>
+                <p:spacer height="30"/>
                 <p:dataTable id="table"
                              resizableColumns="true" 
                              styleClass="clean-table config-table" 
