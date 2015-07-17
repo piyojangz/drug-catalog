@@ -113,36 +113,36 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         <div align="center">
-                            <h:outputLabel value="รายการยาของโรงพยาบาลที่รออนุมัติ" style="font-size: 20px;color: #8B25B2"/>
+                            <h:outputLabel value="รายการยาที่รอตรวจสอบ" style="font-size: 20px;color: #8B25B2"/>
                         </div>
                     </f:facet>
                     <p:column headerText="วันที่ส่งข้อมูล Drug Catalogue" width="200">
                         <h:outputText value="#{hospital.requestDate}">
-                            <f:convertDateTime pattern="dd / MMM / yyyy"/>
+                            <f:convertDateTime pattern="dd / MMM / yyyy HH:mm:ss"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="โรงพยาบาล" width="500">
+                    <p:column headerText="โรงพยาบาล" width="300">
                         <h:outputText value="#{hospital.hcode} &rarr; #{hospital.hname}"/>
                     </p:column>
-                    <p:column headerText="จำนวนรายการ A" width="150">
+                    <p:column headerText="เพิ่มใหม่" width="75">
                         <h:outputText value="#{hospital.countFlagA}"/>
                     </p:column>
-                    <p:column headerText="จำนวนรายการ E" width="150">
+                    <p:column headerText="แก้ไข อื่นๆ" width="75">
                         <h:outputText value="#{hospital.countFlagE}"/>
                     </p:column>
-                    <p:column headerText="จำนวนรายการ U" width="150">
+                    <p:column headerText="แก้ไขราคา" width="75">
                         <h:outputText value="#{hospital.countFlagU}"/>
                     </p:column>
-                    <p:column headerText="จำนวนรายการ D" width="150">
+                    <p:column headerText="ลบ" width="75">
                         <h:outputText value="#{hospital.countFlagD}"/>
                     </p:column>
-                    <p:column headerText="จำนวนรายการที่มี TMT" width="200">
+                    <p:column headerText="มี TMT" width="75">
                         <p:link value="#{hospital.countTMTNotNull}" outcome="inbox.xhtml" style="color: blue;">
                             <f:param name="tmt" value="false"/>
                             <f:param name="hcode" value="#{hospital.hcode}"/>
                         </p:link>
                     </p:column>
-                    <p:column headerText="จำนวนรายการที่ไม่มี TMT" width="200">
+                    <p:column headerText="ไม่มี TMT" width="75">
                         <p:link value="#{hospital.countTMTNull}" outcome="inbox-none-tmt.xhtml" style="color: blue;">
                             <f:param name="tmt" value="true"/>
                             <f:param name="hcode" value="#{hospital.hcode}"/>

@@ -35,7 +35,7 @@
                     <p:menuitem value="#{msg.menu_listdrug_edit_label}" outcome="/private/hospital/listdrug/index" icon="temIconSize24 temIconBackgroundApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}">
-                    <p:menuitem value="Group by ZONE" outcome="/private/admin/drug/inbox-zone" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox-zone.xhtml'), 0)?'background-color: #FFF2DB':''}">
+                    <p:menuitem value="รายการยารอตรวจสอบ" outcome="/private/admin/drug/inbox-zone" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox-zone.xhtml'), 0)?'background-color: #FFF2DB':''}">
                     </p:menuitem>
                     <p:menuitem value="Group by HCODE กรณีมี TMT" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox.xhtml'), 0)?'background-color: #FFF2DB':''}">
                         <f:param name="tmt" value="false"/>
