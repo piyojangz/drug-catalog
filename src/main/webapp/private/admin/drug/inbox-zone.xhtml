@@ -76,7 +76,7 @@
                                                itemLabel="#{zone.fullName}" 
                                                itemValue="#{zone.nhsoZone}" >
                                 </f:selectItems>
-                                <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectZone()}" update="province"/>
+                                <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectZone()}" immediate="true" update="province"/>
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
@@ -91,7 +91,7 @@
                                                itemLabel="#{province.fullName}" 
                                                itemValue="#{province.id}">
                                 </f:selectItems>
-                                <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectProvince()}" update="table summary"/>
+                                <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectProvince()}" immediate="true" update="table summary"/>
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
