@@ -49,15 +49,15 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     public long countTmtApproveFile(Integer uploadItemId);
 
     public List<RequestItem> findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status status);
-    
+
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(RequestItem.Status status, String hcode);
-    
+
     public Page<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(RequestItem.Status status, String hcode, Pageable pageable);
 
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugShaHex(RequestItem.Status status, String SPECIAL_SHAHEX_VALUE);
 
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status status, String hcode);
-    
+
     @Query(value = "select max(r.requestDate) , "
             + "u.hcode ,"
             + "h.hname ,"
@@ -78,7 +78,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "group by u.hcode , h.hname "
             + "order by u.hcode")
     public Page countSummaryRequestByProvince(RequestItem.Status status, String provinceId, Pageable pageable);
-    
+
     @Query(value = "select sum(count(r)) "
             + "from RequestItem r "
             + "join r.uploadDrugItem ui "
@@ -88,5 +88,37 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.id = ?2 "
             + "group by h.province.id")
-    public Integer countTotalRequestByProvince(RequestItem.Status status, String provinceId);
+    public Integer countTotalRequestByZone(RequestItem.Status status, String provinceId);
+    
+    @Query(value = "select max(r.requestDate) , "
+            + "u.hcode ,"
+            + "h.hname ,"
+            + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is null then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'A' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'E' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'D' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'U' then 1 else 0 end) ,"
+            + "count(r) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "and h.province.nhsoZone.nhsoZone = ?2 "
+            + "group by u.hcode , h.hname "
+            + "order by u.hcode")
+    public Page countSummaryRequestByZone(RequestItem.Status status, String zone, Pageable pageable);
+
+    @Query(value = "select sum(count(r)) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "and h.province.nhsoZone.nhsoZone = ?2 "
+            + "group by h.province.id")
+    public Integer countTotalRequestByProvince(RequestItem.Status status, String zone);
 }
