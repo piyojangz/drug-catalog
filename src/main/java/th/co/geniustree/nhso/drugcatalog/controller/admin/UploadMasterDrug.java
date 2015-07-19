@@ -32,6 +32,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload;
 import th.co.geniustree.nhso.drugcatalog.input.TradeDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.input.Typeable;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTReleaseFileUploadRepo;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRFUploadService;
@@ -156,7 +157,7 @@ public class UploadMasterDrug implements Serializable {
         root = Files.getNameWithoutExtension(file.getFileName());
         firstFileNamePart = root.substring(0, 5);
         secondFileNamePart = root.substring(5, root.length());
-        bonusFolder = firstFileNamePart + secondFileNamePart + "_Bonus";
+        bonusFolder = firstFileNamePart + secondFileNamePart + "_BONUS";
         releaseDate = DateUtils.parseUSDate("yyyyMMdd", secondFileNamePart);
         TMTReleaseFileUpload lastestRelease = tmtReleaseFileUploadRepo.findLastestReleaseDate();
         if (lastestRelease != null) {
@@ -288,7 +289,7 @@ public class UploadMasterDrug implements Serializable {
                 public void ok(int rowNum, TMTDrugUpload bean) {
                     String changeDate = tpuDrugs.get(bean.getTmtId()).getChangeDateString();
                     bean.setChageDate(DateUtils.parseUSDate("yyyyMMdd", changeDate));
-                    bean.setType(TMTDrugUpload.Type.TPU);
+                    bean.setType(TMTDrug.Type.TPU);
                     tmtDrugs.add(bean);
                 }
 

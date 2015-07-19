@@ -30,6 +30,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.pl.HospitalDrugType</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrugTran</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugHistory</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

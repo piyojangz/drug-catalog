@@ -6,25 +6,25 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -32,15 +32,20 @@ import th.co.geniustree.xls.beans.XlsColumn;
  * @author Thanthathon
  */
 @Entity
-@Table(name = "TMT_DRUG")
-public class TMTDrugUpload implements Serializable, TMT {
+@Table(name = "TMT_DRUG_HISTORY")
+public class TMTDrugHistory implements Serializable, TMT {
 
-    public enum Type {
-        SUB, VTM, GP, GPU, TP, TPU
-    }
+    @Id
+    @TableGenerator(name = "TMT_DRUG_HISTORY_GEN",
+            table = "TMT_SEQUENCE",
+            pkColumnName = "name",
+            valueColumnName = "value",
+            allocationSize = 100,
+            pkColumnValue = "TMT_DRUG_HISTORY")
+    @GeneratedValue(generator = "TMT_DRUG_HISTORY_GEN", strategy = GenerationType.TABLE)
+    private BigInteger id;
     
     @XlsColumn(columnNames = {"TPUCODE"})
-    @Id
     @Column(name = "TMTID", length = 6, nullable = false)
     private String tmtId;
     @XlsColumn
@@ -85,37 +90,22 @@ public class TMTDrugUpload implements Serializable, TMT {
     @Column(name = "LASTMODIFIEDDATE", nullable = false)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastModifiedDate;
-    
+
     @Column(name = "TYPE", nullable = false, length = 3)
     @Enumerated(EnumType.STRING)
     private Type type;
-    
-    @OneToMany(mappedBy = "tmtDrug")
-    private List<TMTDrugGroupItem> drugGroupItems;
 
-    @OneToMany(mappedBy = "tmtDrug")
-    private List<TMTEdNed> edNeds;
-    
-    @ManyToMany
-    @JoinTable(
-            name = "TMT_TMTDRUG_NDC24",
-            joinColumns = {
-                @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)},
-            inverseJoinColumns = {
-                @JoinColumn(name = "NDC24", referencedColumnName = "NDC24", nullable = false)}
-    )
-    private List<NDC24> ndc24s;
-
-    @OneToMany(mappedBy = "tmtDrug", fetch = FetchType.LAZY)
-    private List<ReimbursePrice> reimbursePrices;
+    @ManyToOne
+    @JoinColumn(name = "RELEASEDATE")
+    private TMTReleaseFileUpload releaseFileUpload;
 
     @Version
     private Integer version;
 
-    public TMTDrugUpload() {
+    public TMTDrugHistory() {
     }
 
-    public TMTDrugUpload(String tmtId) {
+    public TMTDrugHistory(String tmtId) {
         this.tmtId = tmtId;
     }
 
@@ -128,6 +118,14 @@ public class TMTDrugUpload implements Serializable, TMT {
     @PreUpdate
     public void preUpdate() {
         lastModifiedDate = new Date();
+    }
+
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
     }
 
     @Override
@@ -260,39 +258,12 @@ public class TMTDrugUpload implements Serializable, TMT {
         this.changeDate = changeDate;
     }
 
-    public List<TMTDrugGroupItem> getDrugGroupItems() {
-        return drugGroupItems;
+    public TMTReleaseFileUpload getReleaseFileUpload() {
+        return releaseFileUpload;
     }
 
-    public void setDrugGroupItems(List<TMTDrugGroupItem> drugGroupItems) {
-        this.drugGroupItems = drugGroupItems;
-    }
-
-    public List<TMTEdNed> getEdNeds() {
-        if (edNeds == null) {
-            edNeds = new ArrayList<>();
-        }
-        return edNeds;
-    }
-
-    public void setEdNeds(List<TMTEdNed> edNeds) {
-        this.edNeds = edNeds;
-    }
-
-    public List<NDC24> getNdc24s() {
-        return ndc24s;
-    }
-
-    public void setNdc24s(List<NDC24> ndc24s) {
-        this.ndc24s = ndc24s;
-    }
-
-    public List<ReimbursePrice> getReimbursePrices() {
-        return reimbursePrices;
-    }
-
-    public void setReimbursePrices(List<ReimbursePrice> reimbursePrices) {
-        this.reimbursePrices = reimbursePrices;
+    public void setReleaseFileUpload(TMTReleaseFileUpload releaseFileUpload) {
+        this.releaseFileUpload = releaseFileUpload;
     }
 
     @Override
@@ -310,7 +281,7 @@ public class TMTDrugUpload implements Serializable, TMT {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TMTDrugUpload other = (TMTDrugUpload) obj;
+        final TMTDrugHistory other = (TMTDrugHistory) obj;
         if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }
