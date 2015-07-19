@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="drugcatalog-pu" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <!--    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+    <jta-data-source>jdbc/drugcatalog</jta-data-source>
+    <class>th.co.geniustree.nhso.basicmodel.readonly.Hospital</class>
+    <class>th.co.geniustree.nhso.basicmodel.readonly.Province</class>
+    <class>th.co.geniustree.nhso.basicmodel.readonly.Zone</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.HospitalEdNed</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.RequestItem</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugTx</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.GenericTMTDrug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.HospitalPrice</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugErrorItem</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.DrugGroup</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTEdNed</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.DeleteLog</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TmtNDC24</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.NDC24</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.ApproveFile</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.weaving" value="static"/>
+      <property name="eclipselink.target-server" value="SunAS9"/>
+      <property name="eclipselink.logging.logger" value="th.co.geniustree.eclipselinkslf4j.Slf4jSessionLogger"/>
+      <property name="eclipselink.ddl-generation" value="${eclipselink.ddl-generation}"/>
+      <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+      <property name="eclipselink.logging.level" value="${eclipselink.logging.level}"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+      <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
+      <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+</persistence>
