@@ -92,6 +92,7 @@ public class CrudNewModelT {
     public void testFindReimburseGroup() {
         findGroup("112336", "UCS", "A00", new GregorianCalendar(2013, 9, 1).getTime(), "E", "VMI (จ2)");
         findGroup("112577", "UCS", "A00", new GregorianCalendar(2013, 9, 1).getTime(), "N", "AA");
+        findGroup("118096", "UCS", "A01", new GregorianCalendar(2013, 9, 1).getTime(), "N", "ACEI");
     }
 
     private void findGroup(String tmtid, String fundId, String icd10Id, Date date, String expectedStatus, String expectedGroup) {
