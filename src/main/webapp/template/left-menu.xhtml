@@ -64,6 +64,8 @@
                         <f:param name="title" value="#{msg.menu_tmt_database_label}"/>
                     </p:menuitem>
                 </p:submenu>
+                <p:menuitem value="Reimburse Group" outcome="/private/admin/reimbursegroup/index" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/index'), 0)?'background-color: #FFF2DB':''}"/>
+
                 <p:menuitem value="Logout" url="#{request.contextPath}/logout" icon="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
             </p:menu>
         </h:form>
