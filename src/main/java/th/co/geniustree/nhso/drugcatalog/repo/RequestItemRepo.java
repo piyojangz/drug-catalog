@@ -88,7 +88,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.id = ?2 "
             + "group by h.province.id")
-    public Integer countTotalRequestByZone(RequestItem.Status status, String provinceId);
+    public Integer countTotalRequestByProvince(RequestItem.Status status, String provinceId);
     
     @Query(value = "select max(r.requestDate) , "
             + "u.hcode ,"
@@ -120,5 +120,5 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.nhsoZone.nhsoZone = ?2 "
             + "group by h.province.id")
-    public Integer countTotalRequestByProvince(RequestItem.Status status, String zone);
+    public Integer countTotalRequestByZone(RequestItem.Status status, String zone);
 }

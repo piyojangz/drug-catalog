@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -61,6 +60,11 @@ public class SummaryInbox {
     public void postConstruct() {
         notEmptyRequest = false;
         zones = zoneRepo.findAll(new Sort("nhsoZone"));
+        Zone deletedZone = new Zone();
+        deletedZone.setNhsoZone("14");
+        zones.remove(deletedZone);
+        deletedZone.setNhsoZone("15");
+        zones.remove(deletedZone);
         LOG.info("selected zone -> {}", selectedZone);
         if (selectedZone != null) {
             provinces = provinceRepo.findByNhsoZone(selectedZone, new Sort("id"));
