@@ -72,10 +72,10 @@ public class NewModelMock {
         EdNed edNed;
 //        edNed = edNedRepo.findOne(new EdNedPK(tmtId, fundId, dateIn));
 //        edNed = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
-        String edStatus = edNedRepo.findStatus(tmtId, fundId, dateIn);
+//        String edStatus = edNedRepo.findStatus(tmtId, fundId, dateIn);
 //        if (edNed != null) {
-            log.info("ED_STATUS -> {}",edStatus);
-            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId, icd10Id, edStatus));
+//            log.info("ED_STATUS -> {}",edStatus);
+//            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId, icd10Id, edStatus));
 //            log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
 //            log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
 //        } else {

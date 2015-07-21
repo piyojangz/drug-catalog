@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.repo;
 
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
@@ -17,19 +18,12 @@ import th.co.geniustree.nhso.drugcatalog.model.EdNedPK;
  */
 public interface EdNedRepo extends JpaRepository<EdNed, EdNedPK> {
 
-    @Query(value = "select new th.co.geniustree.nhso.drugcatalog.model.EdNed(e.pk.tmtId ,e.pk.fundId, min(e.pk.dateIn))"
+    @Query(value = "select e.pk.tmtId , e.pk.fundId , min(e.pk.dateIn) , e.status "
             + "from EdNed e "
             + "where e.pk.tmtId = ?1 "
             + "and e.pk.fundId = ?2 "
-            + "and e.pk.dateIn = ?3 "
-            + "group by e.pk.tmtId , e.pk.fundId")
-    public EdNed findByTmtDrugAndFund(String tmtId, String fundId, Date dateIn);
-    
-    @Query(value = "select e.status "
-            + "from EdNed e "
-            + "where e.pk.tmtId = ?1 "
-            + "and e.pk.fundId = ?2 "
-            + "and e.pk.dateIn = (select min(e1.pk.dateIn) from EdNed e1 having min(e1.pk.dateIn) > ?3)")
-    public String findStatus(String tmtId, String fundId, Date dateIn);
-    
+            + "group by e.pk.tmtId , e.pk.fundId , e.status "
+            + "having min(e.pk.dateIn) > ?3")
+    public List<Object[]> findByTmtDrugAndFund(String tmtId, String fundId, Date dateIn);
+
 }
