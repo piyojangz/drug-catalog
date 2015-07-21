@@ -34,4 +34,9 @@
         <converter-for-class>java.lang.String</converter-for-class>
         <converter-class>th.co.geniustree.nhso.drugcatalog.controller.converter.EmptyToNullAndTrimConverter</converter-class>
     </converter>
+    <converter>
+        <converter-id>fundConverter</converter-id>
+        <converter-for-class>java.lang.String</converter-for-class>
+        <converter-class>th.co.geniustree.nhso.drugcatalog.controller.converter.FundConverter</converter-class>
+    </converter>
 </faces-config>

@@ -5,16 +5,24 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
+import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
-import th.co.geniustree.nhso.drugcatalog.model.EdNedPK;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
@@ -23,7 +31,6 @@ import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 
 /**
  *
@@ -35,14 +42,14 @@ public class NewModelMock {
 
     private static final Logger log = LoggerFactory.getLogger(NewModelMock.class);
 
-//    @Autowired
-//    private DrugRepo drugRepo;
-//
-//    @Autowired
-//    private FundRepo fundRepo;
-//
-//    @Autowired
-//    private Icd10Repo icdRepo;
+    @Autowired
+    private DrugRepo drugRepo;
+
+    @Autowired
+    private FundRepo fundRepo;
+
+    @Autowired
+    private Icd10Repo icdRepo;
     @Autowired
     private EdNedRepo edNedRepo;
 
@@ -51,6 +58,7 @@ public class NewModelMock {
 
 //    @Autowired
 //    private ReimburseGroupRepo reimburseGroupRepo;
+    private SpringDataLazyDataModelSupport<Drug> drugs;
     private List<Fund> funds;
 
     private String fundId;
@@ -58,6 +66,8 @@ public class NewModelMock {
     private String icd10Id;
     private Date dateIn;
     private ReimburseGroupItem reimburseGroupItem;
+
+    private String searchTMT;
 
     @PostConstruct
     public void postConstruct() {
@@ -72,16 +82,78 @@ public class NewModelMock {
         EdNed edNed;
         List<Object[]> obj = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
         edNed = EdNedMapper.mapToModelAndGetFirst(obj);
-        
+
         if (edNed != null) {
-            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId, icd10Id, edNed.getStatus()));
+            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId.toUpperCase(), icd10Id.toUpperCase(), edNed.getStatus()));
             log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
             log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
-        } 
+        }
 
     }
 
+    public void onDialogReturn(SelectEvent event) {
+        String tmt = (String) event.getObject();
+        if (tmt != null) {
+            tmtId = tmt;
+        }
+        log.info("selected drug from search dialog is => {}", tmtId);
+    }
+
+    public List<Fund> completeFund(String query){
+        funds = fundRepo.findAll();
+        List<Fund> filterFunds = new ArrayList<>();
+        for (Fund fund : funds) {
+            if(fund.getId().toLowerCase().startsWith(query.toLowerCase())) {
+                filterFunds.add(fund);
+            }
+        }
+        return filterFunds;
+    }
+    
+    public void onSearchTMTDrug() {
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 500);
+        options.put("contentWidth", 800);
+        Map<String, List<String>> params = new HashMap<>();
+        List<String> keywords = new ArrayList<>();
+        keywords.add(tmtId);
+        params.put("keyword", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/tmtdialog", options, params);
+    }
+
+    public void search() {
+        drugs = new SpringDataLazyDataModelSupport<Drug>() {
+
+            @Override
+            public Page<Drug> load(Pageable pageAble) {
+                Page<Drug> page = drugRepo.findAll(pageAble);
+
+                return page;
+            }
+
+        };
+    }
+
     //****************** getter and setter method ******************
+    public SpringDataLazyDataModelSupport<Drug> getDrugs() {
+        return drugs;
+    }
+
+    public void setDrugs(SpringDataLazyDataModelSupport<Drug> drugs) {
+        this.drugs = drugs;
+    }
+
+    public String getSearchTMT() {
+        return searchTMT;
+    }
+
+    public void setSearchTMT(String searchTMT) {
+        this.searchTMT = searchTMT;
+    }
+
     public List<Fund> getFunds() {
         return funds;
     }

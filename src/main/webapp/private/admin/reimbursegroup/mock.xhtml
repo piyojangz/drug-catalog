@@ -73,12 +73,13 @@
                                         <h:outputText value="TMTID : "/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="tmtid" value="#{newModelMock.tmtId}" required="true" requiredMessage="จำเป็นต้องกรอก" styleClass="input">
-                                            <p:watermark for="tmtid" value="เบิกยาอะไร"/>
+                                        <p:inputText id="tmtid" value="#{newModelMock.tmtId}" styleClass="input">
                                         </p:inputText>
+                                        <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchTMTDrug()}" update="@form">
+                                            <p:ajax event="dialogReturn" listener="#{newModelMock.onDialogReturn}" update="@form" />
+                                        </p:commandButton>
                                     </p:column>
                                     <p:column>
-                                        <p:message for="tmtid"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -86,12 +87,16 @@
                                         <h:outputText value="FUND_ID : "/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="fundid" value="#{newModelMock.fundId}" required="true" requiredMessage="จำเป็นต้องกรอก" styleClass="input">
-                                            <p:watermark for="fundid" value="ใช้สิทธิ์อะไร"/>
-                                        </p:inputText>
+                                        <p:autoComplete id="fund" value="#{newModelMock.fundId}" completeMethod="#{newModelMock.completeFund}"
+                                                        var="fund" itemLabel="#{fund.id}" itemValue="#{fund}" forceSelection="true" >
+                                            <f:converter converterId="fundConverter"/>
+                                        </p:autoComplete>
+                                        <ui:remove>
+                                            <p:inputText id="fundid" value="#{newModelMock.fundId}" styleClass="input" >
+                                            </p:inputText>
+                                        </ui:remove>
                                     </p:column>
                                     <p:column>
-                                        <p:message for="fundid"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -99,12 +104,10 @@
                                         <h:outputText value="ICD10_CODE : "/>
                                     </p:column>
                                     <p:column>
-                                        <p:inputText id="icdId" value="#{newModelMock.icd10Id}" required="true" requiredMessage="จำเป็นต้องกรอก" styleClass="input">
-                                            <p:watermark for="icdId" value="ผู้ป่วยเป็นโรคอะไร"/>
+                                        <p:inputText id="icdId" value="#{newModelMock.icd10Id}"  styleClass="input">
                                         </p:inputText>
                                     </p:column>
                                     <p:column>
-                                        <p:message for="icdId"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -114,8 +117,6 @@
                                     <p:column>
                                         <p:calendar id="dateIn" 
                                                     value="#{newModelMock.dateIn}" 
-                                                    required="true" 
-                                                    requiredMessage="จำเป็นต้องกรอก"
                                                     styleClass="input" 
                                                     locale="en_US" 
                                                     pattern="dd/MM/yyyy"
@@ -124,12 +125,11 @@
                                         </p:calendar>
                                     </p:column>
                                     <p:column>
-                                        <p:message for="dateIn"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
                                     <p:column>
-                                        <p:commandButton value="ค้นหา" actionListener="#{newModelMock.findGroup()}" update="@all"/>
+                                        <p:commandButton value="ค้นหา" actionListener="#{newModelMock.findGroup()}" update="@form"/>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
