@@ -67,6 +67,8 @@ public class NewModelMock {
     private String tmtId;
     private String icd10Id;
     private Date dateIn;
+    private Fund selectedFund;
+
     private ReimburseGroupItem reimburseGroupItem;
 
     private String searchTMT;
@@ -82,6 +84,7 @@ public class NewModelMock {
         log.info("ICD0_CODE -> {}", icd10Id);
         log.info("DATE_IN   -> {}", dateIn);
         EdNed edNed;
+        fundId = selectedFund.getId();
         List<Object[]> obj = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
         edNed = EdNedMapper.mapToModelAndGetFirst(obj);
 
@@ -108,12 +111,12 @@ public class NewModelMock {
         log.info("selected drug from search dialog is => {}", tmtId);
     }
 
-    public List<String> completeFund(String query) {
+    public List<Fund> completeFund(String query) {
         funds = fundRepo.findAll();
-        List<String> filterFunds = new ArrayList<>();
+        List<Fund> filterFunds = new ArrayList<>();
         for (Fund fund : funds) {
             if (fund.getId().toLowerCase().startsWith(query.toLowerCase())) {
-                filterFunds.add(fund.getId());
+                filterFunds.add(fund);
             }
         }
         return filterFunds;
@@ -157,6 +160,14 @@ public class NewModelMock {
 
     public String getSearchTMT() {
         return searchTMT;
+    }
+
+    public Fund getSelectedFund() {
+        return selectedFund;
+    }
+
+    public void setSelectedFund(Fund selectedFund) {
+        this.selectedFund = selectedFund;
     }
 
     public void setSearchTMT(String searchTMT) {

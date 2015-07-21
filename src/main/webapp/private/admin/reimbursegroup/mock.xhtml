@@ -80,22 +80,21 @@
                                             <p:ajax event="dialogReturn" listener="#{newModelMock.onDialogReturn}" update="@form" />
                                         </p:commandButton>
                                     </p:column>
-                                    <p:column>
-                                    </p:column>
                                 </p:row>
                                 <p:row>
                                     <p:column>
                                         <h:outputText value="FUND_ID : "/>
                                     </p:column>
                                     <p:column>
-                                        <p:autoComplete id="fund" value="#{newModelMock.fundId}" completeMethod="#{newModelMock.completeFund}"
-                                                        var="fund" itemLabel="#{fund}" itemValue="#{fund}" forceSelection="true" converter="#{fundConverter}"/>
-                                        <ui:remove>
-                                            <p:inputText id="fundid" value="#{newModelMock.fundId}" styleClass="input" >
-                                            </p:inputText>
-                                        </ui:remove>
-                                    </p:column>
-                                    <p:column>
+                                        <p:autoComplete id="fund" 
+                                                        value="#{newModelMock.selectedFund}" 
+                                                        completeMethod="#{newModelMock.completeFund}"
+                                                        var="fund" 
+                                                        itemLabel="#{fund.name}" 
+                                                        itemValue="#{fund.id}" 
+                                                        forceSelection="true" 
+                                                        converter="fundConverter" 
+                                                        styleClass="input"/>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -105,8 +104,6 @@
                                     <p:column>
                                         <p:inputText id="icdId" value="#{newModelMock.icd10Id}"  styleClass="input">
                                         </p:inputText>
-                                    </p:column>
-                                    <p:column>
                                     </p:column>
                                 </p:row>
                                 <p:row>
@@ -122,8 +119,6 @@
                                                     navigator="true">
                                             <p:watermark for="dateIn" value="date แรกหลังจาก datein ที่กำหนด"/>
                                         </p:calendar>
-                                    </p:column>
-                                    <p:column>
                                     </p:column>
                                 </p:row>
                                 <p:row>
