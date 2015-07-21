@@ -70,17 +70,14 @@ public class NewModelMock {
         log.info("ICD0_CODE -> {}", icd10Id);
         log.info("DATE_IN   -> {}", dateIn);
         EdNed edNed;
-//        edNed = edNedRepo.findOne(new EdNedPK(tmtId, fundId, dateIn));
-//        edNed = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
-//        String edStatus = edNedRepo.findStatus(tmtId, fundId, dateIn);
-//        if (edNed != null) {
-//            log.info("ED_STATUS -> {}",edStatus);
-//            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId, icd10Id, edStatus));
-//            log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
-//            log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
-//        } else {
-//            log.info("ED_STATUS  no");
-//        }
+        List<Object[]> obj = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
+        edNed = EdNedMapper.mapToModelAndGetFirst(obj);
+        
+        if (edNed != null) {
+            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId, icd10Id, edNed.getStatus()));
+            log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
+            log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
+        } 
 
     }
 
