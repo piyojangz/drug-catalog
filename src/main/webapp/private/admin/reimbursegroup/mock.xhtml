@@ -64,6 +64,7 @@
                 }
             </style>
             <h:form id="form">
+                <p:growl id="growl" showDetail="true" />
                 <p:panelGrid>
                     <p:row>
                         <p:column>
@@ -88,9 +89,7 @@
                                     </p:column>
                                     <p:column>
                                         <p:autoComplete id="fund" value="#{newModelMock.fundId}" completeMethod="#{newModelMock.completeFund}"
-                                                        var="fund" itemLabel="#{fund.id}" itemValue="#{fund}" forceSelection="true" >
-                                            <f:converter converterId="fundConverter"/>
-                                        </p:autoComplete>
+                                                        var="fund" itemLabel="#{fund}" itemValue="#{fund}" forceSelection="true" converter="#{fundConverter}"/>
                                         <ui:remove>
                                             <p:inputText id="fundid" value="#{newModelMock.fundId}" styleClass="input" >
                                             </p:inputText>
@@ -129,7 +128,7 @@
                                 </p:row>
                                 <p:row>
                                     <p:column>
-                                        <p:commandButton value="ค้นหา" actionListener="#{newModelMock.findGroup()}" update="@form"/>
+                                        <p:commandButton value="ค้นหา" actionListener="#{newModelMock.findGroup()}" update="@form growl"/>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
@@ -85,8 +87,15 @@ public class NewModelMock {
 
         if (edNed != null) {
             reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId.toUpperCase(), icd10Id.toUpperCase(), edNed.getStatus()));
-            log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
-            log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
+            if (reimburseGroupItem != null) {
+                log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
+                log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
+            } else {
+                FacesMessageUtils.error("ไม่พบข้อมูลในตาราง ReimburseGroupItem");
+            }
+
+        } else {
+            FacesMessageUtils.error("ไม่พบข้อมูลในตาราง Ed_STATUS");
         }
 
     }
@@ -99,17 +108,17 @@ public class NewModelMock {
         log.info("selected drug from search dialog is => {}", tmtId);
     }
 
-    public List<Fund> completeFund(String query){
+    public List<String> completeFund(String query) {
         funds = fundRepo.findAll();
-        List<Fund> filterFunds = new ArrayList<>();
+        List<String> filterFunds = new ArrayList<>();
         for (Fund fund : funds) {
-            if(fund.getId().toLowerCase().startsWith(query.toLowerCase())) {
-                filterFunds.add(fund);
+            if (fund.getId().toLowerCase().startsWith(query.toLowerCase())) {
+                filterFunds.add(fund.getId());
             }
         }
         return filterFunds;
     }
-    
+
     public void onSearchTMTDrug() {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);

@@ -89,5 +89,12 @@ public class Fund implements Serializable {
         final Fund other = (Fund) obj;
         return Objects.equals(this.id, other.id);
     }
+
+    @Override
+    public String toString() {
+        return this.id;
+    }
+    
+    
     
 }
