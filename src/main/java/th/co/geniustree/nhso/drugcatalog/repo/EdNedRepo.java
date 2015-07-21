@@ -23,7 +23,7 @@ public interface EdNedRepo extends JpaRepository<EdNed, EdNedPK> {
             + "where e.pk.tmtId = ?1 "
             + "and e.pk.fundId = ?2 "
             + "group by e.pk.tmtId , e.pk.fundId , e.status "
-            + "having min(e.pk.dateIn) > ?3")
+            + "having min(e.pk.dateIn) >= ?3")
     public List<Object[]> findByTmtDrugAndFund(String tmtId, String fundId, Date dateIn);
 
 }
