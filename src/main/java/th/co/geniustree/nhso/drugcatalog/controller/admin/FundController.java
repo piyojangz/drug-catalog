@@ -55,7 +55,7 @@ public class FundController {
     }
 
     public void onSave() {
-        if (!fund.getId().isEmpty() && !fund.getName().isEmpty()) {
+        if (!fund.getFundCode().isEmpty() && !fund.getName().isEmpty()) {
             try {
                 fundService.save(fund);
                 FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
@@ -72,7 +72,7 @@ public class FundController {
             @Override
             public Page<Fund> load(Pageable pageAble) {
                 List<String> keyList = Arrays.asList(keyword.split(" "));
-                Specification<Fund> spec = Specifications.where(FundSpecs.fundIdLike(keyList)).or(FundSpecs.fundNameLike(keyList));
+                Specification<Fund> spec = Specifications.where(FundSpecs.fundCodeLike(keyList)).or(FundSpecs.fundNameLike(keyList));
                 
                 Page<Fund> page = fundService.findAllBySpecs(spec, pageAble);
                 log.info("search word : {}" , keyword);

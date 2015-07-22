@@ -40,8 +40,8 @@ public class EdNedPK implements Serializable {
     }
     
     public EdNedPK(Drug drug, Fund fund, Date dateIn) {
-        this.tmtId = drug.getId();
-        this.fundId = fund.getId();
+        this.tmtId = drug.getTmtId();
+        this.fundId = fund.getFundCode();
         this.dateIn = dateIn;
     }
 

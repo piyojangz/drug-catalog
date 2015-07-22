@@ -55,7 +55,7 @@ public class NewModelSearchDialog {
         
             @Override
             public Page<Drug> load(Pageable pageAble) {
-                Page<Drug> page = drugRepo.findByIdContains(searchTMT, pageAble);
+                Page<Drug> page = drugRepo.findByTmtIdContains(searchTMT, pageAble);
 
                 return page;
             }
@@ -65,8 +65,8 @@ public class NewModelSearchDialog {
     
     public void setSelectedDrug(Drug selectTMTDrug) {
         this.selectedDrug = selectTMTDrug;
-        log.info("selected drug => {}", selectTMTDrug.getId());
-        RequestContext.getCurrentInstance().closeDialog(selectTMTDrug.getId());
+        log.info("selected drug => {}", selectTMTDrug.getTmtId());
+        RequestContext.getCurrentInstance().closeDialog(selectTMTDrug.getTmtId());
     }
 
     //****************** getter and setter method ******************

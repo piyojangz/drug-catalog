@@ -20,7 +20,7 @@ import th.co.geniustree.nhso.drugcatalog.model.Fund_;
  */
 public class FundSpecs {
     
-    public static Specification<Fund> fundIdLike(final List<String> keywords) {
+    public static Specification<Fund> fundCodeLike(final List<String> keywords) {
         return new Specification<Fund>() {
 
             @Override
@@ -28,9 +28,9 @@ public class FundSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(cb.lower(root.get(Fund_.id)), "%" + keyword.toLowerCase() + "%");
+                        and = cb.like(cb.lower(root.get(Fund_.fundCode)), "%" + keyword.toLowerCase() + "%");
                     } else {
-                        cb.and(and, cb.like(cb.lower(root.get(Fund_.id)), "%" + keyword.toLowerCase() + "%"));
+                        cb.and(and, cb.like(cb.lower(root.get(Fund_.fundCode)), "%" + keyword.toLowerCase() + "%"));
                     }
                 }
                 return and;

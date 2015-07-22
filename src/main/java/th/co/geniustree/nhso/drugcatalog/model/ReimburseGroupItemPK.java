@@ -31,8 +31,8 @@ public class ReimburseGroupItemPK implements Serializable {
     }
     
      public ReimburseGroupItemPK(Drug drug, Fund fund, ICD10 icd10, EdNed edNed) {
-        this.drug = drug.getId();
-        this.fund = fund.getId();
+        this.drug = drug.getTmtId();
+        this.fund = fund.getFundCode();
         this.icd10 = icd10.getId();
         this.edStatus = edNed.getStatus();
     }

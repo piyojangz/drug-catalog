@@ -128,7 +128,7 @@ public class CrudNewModelT {
 
     private void printReimburseGroupItemDetails(ReimburseGroupItem obj) {
         System.out.println("ReimburseGroupItem -> tmtId : " + obj.getDrug().getTmtId());
-        System.out.println("ReimburseGroupItem -> fundId : " + obj.getFund().getId());
+        System.out.println("ReimburseGroupItem -> fundId : " + obj.getFund().getFundCode());
         System.out.println("ReimburseGroupItem -> icd10 : " + obj.getIcd10().getId());
         System.out.println("ReimburseGroupItem -> status : " + obj.getEdStatus());
         System.out.println("ReimburseGroupItem -> groupId : " + obj.getReimburseGroup().getId());

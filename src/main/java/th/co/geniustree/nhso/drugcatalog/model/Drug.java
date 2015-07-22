@@ -25,7 +25,7 @@ public class Drug implements Serializable, TMT {
 
     @Id
     @Column(name = "TMTID")
-    private String id;
+    private String tmtId;
 
     @Column(name = "FSN")
     private String fsn;
@@ -49,12 +49,12 @@ public class Drug implements Serializable, TMT {
 
     @Override
     public String getTmtId() {
-        return id;
+        return tmtId;
     }
 
     @Override
     public void setTmtId(String tmtId) {
-        this.id = tmtId;
+        this.tmtId = tmtId;
     }
 
     public List<ReimburseGroupItem> getReimburseGroups() {
@@ -63,14 +63,6 @@ public class Drug implements Serializable, TMT {
 
     public void setReimburseGroups(List<ReimburseGroupItem> reimburseGroups) {
         this.reimburseGroups = reimburseGroups;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public List<EdNed> getEdNeds() {
@@ -84,7 +76,7 @@ public class Drug implements Serializable, TMT {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + Objects.hashCode(this.id);
+        hash = 31 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -97,7 +89,7 @@ public class Drug implements Serializable, TMT {
             return false;
         }
         final Drug other = (Drug) obj;
-        return Objects.equals(this.id, other.id);
+        return Objects.equals(this.tmtId, other.tmtId);
     }
 
     

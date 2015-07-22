@@ -24,27 +24,27 @@ import javax.persistence.Version;
 public class Fund implements Serializable {
 
     @Id
-    @Column(name = "ID")
-    private String id;
+    @Column(name = "FUND_CODE")
+    private String fundCode;
 
     @Column(name = "DESCRIPTION")
     private String name;
-    
+
     @OneToMany(mappedBy = "fund")
     private List<ReimburseGroupItem> reimburseGroups;
-    
+
     @OneToMany(mappedBy = "fund")
     private List<EdNed> edNeds;
 
     @Version
     private Integer version;
 
-    public String getId() {
-        return id;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public String getName() {
@@ -74,7 +74,7 @@ public class Fund implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.fundCode);
         return hash;
     }
 
@@ -87,14 +87,12 @@ public class Fund implements Serializable {
             return false;
         }
         final Fund other = (Fund) obj;
-        return Objects.equals(this.id, other.id);
+        return Objects.equals(this.fundCode, other.fundCode);
     }
 
     @Override
     public String toString() {
-        return this.id;
+        return this.fundCode;
     }
-    
-    
-    
+
 }

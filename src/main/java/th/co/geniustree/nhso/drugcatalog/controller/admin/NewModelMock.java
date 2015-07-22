@@ -6,12 +6,12 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
@@ -33,6 +35,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
 
 /**
  *
@@ -60,22 +63,33 @@ public class NewModelMock {
 
 //    @Autowired
 //    private ReimburseGroupRepo reimburseGroupRepo;
-    private SpringDataLazyDataModelSupport<Drug> drugs;
+    private SpringDataLazyDataModelSupport<ReimburseGroupItem> reimburseGroupItems;
     private List<Fund> funds;
+    private List<Date> dateEffectiveList;
 
     private String fundId;
     private String tmtId;
     private String icd10Id;
+    private String edStatus;
     private Date dateIn;
     private Fund selectedFund;
 
     private ReimburseGroupItem reimburseGroupItem;
 
     private String searchTMT;
+    private String searchKeyword;
 
     @PostConstruct
     public void postConstruct() {
+        reimburseGroupItem = new ReimburseGroupItem();
+        reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
+            @Override
+            public Page<ReimburseGroupItem> load(Pageable pageAble) {
+                Page<ReimburseGroupItem> page = reimburseGroupItemRepo.findAll(pageAble);
 
+                return page;
+            }
+        };
     }
 
     public void findGroup() {
@@ -84,7 +98,7 @@ public class NewModelMock {
         log.info("ICD0_CODE -> {}", icd10Id);
         log.info("DATE_IN   -> {}", dateIn);
         EdNed edNed;
-        fundId = selectedFund.getId();
+        fundId = selectedFund.getFundCode();
         List<Object[]> obj = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
         edNed = EdNedMapper.mapToModelAndGetFirst(obj);
 
@@ -100,7 +114,6 @@ public class NewModelMock {
         } else {
             FacesMessageUtils.error("ไม่พบข้อมูลในตาราง Ed_STATUS");
         }
-
     }
 
     public void onDialogReturn(SelectEvent event) {
@@ -115,7 +128,7 @@ public class NewModelMock {
         funds = fundRepo.findAll();
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund fund : funds) {
-            if (fund.getId().toLowerCase().startsWith(query.toLowerCase())) {
+            if (fund.getFundCode().toLowerCase().startsWith(query.toLowerCase()) || (fund.getName().startsWith(query))) {
                 filterFunds.add(fund);
             }
         }
@@ -137,27 +150,41 @@ public class NewModelMock {
     }
 
     public void search() {
-        drugs = new SpringDataLazyDataModelSupport<Drug>() {
-
+        reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
             @Override
-            public Page<Drug> load(Pageable pageAble) {
-                Page<Drug> page = drugRepo.findAll(pageAble);
-
+            public Page<ReimburseGroupItem> load(Pageable pageAble) {
+                Specification spec = specify(searchKeyword);
+                Page<ReimburseGroupItem> page = reimburseGroupItemRepo.findAll(spec, pageAble);
                 return page;
             }
-
         };
     }
 
+    private Specification specify(String keyword) {
+        List<String> keyList = Arrays.asList(keyword.split(" "));
+        Specification<ReimburseGroupItem> spec = Specifications.where(ReimburseGroupItemSpecs.tmtIdLike(keyList))
+                .or(ReimburseGroupItemSpecs.fundIdLike(keyList))
+                .or(ReimburseGroupItemSpecs.fundNameLike(keyList))
+                .or(ReimburseGroupItemSpecs.icd10IdLike(keyList));
+        return spec;
+    }
+
+    public void onSave() {
+        if (!(reimburseGroupItem.getDrug().getTmtId().isEmpty()
+                || reimburseGroupItem.getFund().getFundCode().isEmpty()
+                || reimburseGroupItem.getIcd10().getId().isEmpty()
+                || reimburseGroupItem.getEdStatus().isEmpty())) {
+            try {
+                reimburseGroupItemRepo.save(reimburseGroupItem);
+                FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
+            } catch (Exception e) {
+                FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
+            }
+        }
+        reimburseGroupItem = new ReimburseGroupItem();
+    }
+
     //****************** getter and setter method ******************
-    public SpringDataLazyDataModelSupport<Drug> getDrugs() {
-        return drugs;
-    }
-
-    public void setDrugs(SpringDataLazyDataModelSupport<Drug> drugs) {
-        this.drugs = drugs;
-    }
-
     public String getSearchTMT() {
         return searchTMT;
     }
@@ -221,6 +248,37 @@ public class NewModelMock {
     public void setReimburseGroupItem(ReimburseGroupItem reimburseGroupItem) {
         this.reimburseGroupItem = reimburseGroupItem;
     }
-    //****************** getter and setter method ******************
+
+    public SpringDataLazyDataModelSupport<ReimburseGroupItem> getReimburseGroupItems() {
+        return reimburseGroupItems;
+    }
+
+    public void setReimburseGroupItems(SpringDataLazyDataModelSupport<ReimburseGroupItem> reimburseGroupItems) {
+        this.reimburseGroupItems = reimburseGroupItems;
+    }
+
+    public String getSearchKeyword() {
+        return searchKeyword;
+    }
+
+    public void setSearchKeyword(String searchKeyword) {
+        this.searchKeyword = searchKeyword;
+    }
+
+    public String getEdStatus() {
+        return edStatus;
+    }
+
+    public void setEdStatus(String edStatus) {
+        this.edStatus = edStatus;
+    }
+
+    public List<Date> getDateEffectiveList() {
+        return dateEffectiveList;
+    }
+
+    public void setDateEffectiveList(List<Date> dateEffectiveList) {
+        this.dateEffectiveList = dateEffectiveList;
+    }
 
 }

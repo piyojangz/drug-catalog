@@ -15,5 +15,4 @@ import th.co.geniustree.nhso.drugcatalog.model.Fund;
  */
 public interface FundRepo extends JpaRepository<Fund, String> , JpaSpecificationExecutor<Fund>{
        
-    
 }

@@ -36,7 +36,7 @@ public class ReimburseGroupItem implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "FUND_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "FUND_CODE", referencedColumnName = "FUND_CODE", nullable = false)
     private Fund fund;
 
     @Id
@@ -51,15 +51,14 @@ public class ReimburseGroupItem implements Serializable {
     public ReimburseGroupItem() {
     }
 
-    public ReimburseGroupItem(String edStatus, Drug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup, Integer version) {
+    public ReimburseGroupItem(String edStatus, Drug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup) {
         this.edStatus = edStatus;
         this.drug = drug;
         this.fund = fund;
         this.icd10 = icd10;
         this.reimburseGroup = reimburseGroup;
-        this.version = version;
     }
-    
+
     @Version
     private Integer version;
 
@@ -136,6 +135,5 @@ public class ReimburseGroupItem implements Serializable {
         }
         return true;
     }
-    
 
 }

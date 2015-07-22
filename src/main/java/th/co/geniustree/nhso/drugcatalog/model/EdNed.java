@@ -35,7 +35,7 @@ public class EdNed implements Serializable {
     private Drug tmtDrug;
 
     @ManyToOne
-    @JoinColumn(name = "FUND_ID", referencedColumnName = "ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "FUND_CODE", referencedColumnName = "FUND_CODE", nullable = false, insertable = false, updatable = false)
     private Fund fund;
 
     @Version
@@ -47,7 +47,7 @@ public class EdNed implements Serializable {
     public EdNed(Drug drug, Fund fund, Date dateIn) {
         this.pk = new EdNedPK(drug, fund, dateIn);
     }
-    
+
     public EdNed(String drug, String fund, Date dateIn) {
         this.pk = new EdNedPK(drug, fund, dateIn);
     }

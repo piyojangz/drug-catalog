@@ -31,7 +31,7 @@ public class FundConverter implements Converter, Serializable {
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         System.out.println("Value -> " + value);
         Fund fund = fundRepo.findOne(value);
-        System.out.println("fund.getId() -> " + fund.getId());
+        System.out.println("fund.getId() -> " + fund.getFundCode());
         return fund;
     }
 

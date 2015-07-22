@@ -16,6 +16,6 @@ import th.co.geniustree.nhso.drugcatalog.model.Drug;
  */
 public interface DrugRepo extends JpaRepository<Drug, String> {
 
-    public Page<Drug> findByIdContains(String tmtid, Pageable pageable);
+    public Page<Drug> findByTmtIdContains(String tmtid, Pageable pageable);
 
 }

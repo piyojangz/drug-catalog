@@ -64,7 +64,7 @@
                             <h:outputText value="ID กองทุน : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText styleClass="inputFund" value="#{fundController.fund.id}" style="width: 50px;"/>
+                            <p:inputText styleClass="inputFund" value="#{fundController.fund.fundCode}" style="width: 50px;"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -125,7 +125,7 @@
                     #{rowIndex + 1}
                 </p:column>
                 <p:column headerText="ID" style="width: 100px;text-align: center;">
-                    <h:outputText value="#{fund.id}"/>
+                    <h:outputText value="#{fund.fundCode}"/>
                 </p:column>
                 <p:column headerText="ชื่อ" style="width: 300px;">
                     <h:outputText value="#{fund.name}"/>
