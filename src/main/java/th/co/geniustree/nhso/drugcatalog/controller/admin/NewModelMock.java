@@ -128,7 +128,7 @@ public class NewModelMock {
         funds = fundRepo.findAll();
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund fund : funds) {
-            if (fund.getFundCode().toLowerCase().startsWith(query.toLowerCase()) || (fund.getName().startsWith(query))) {
+            if (fund.getFundCode().startsWith(query.toUpperCase()) || (fund.getName().contains(query))) {
                 filterFunds.add(fund);
             }
         }

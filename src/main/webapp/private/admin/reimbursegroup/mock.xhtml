@@ -64,109 +64,138 @@
                 }
             </style>
             <h:form id="form">
-                <p:growl id="growl" showDetail="true" />
+                <p:growl id="growl" showDetail="true"/>
+                <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
+                    <h:outputText value="Reimburse Group Item"/>
+                </div>
                 <p:panelGrid>
                     <p:row>
-                        <p:column style="width: 500px;min-width: 460px;">
-                            <p:panelGrid>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="TMTID : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="tmtid" value="#{newModelMock.tmtId}" styleClass="input">
-                                        </p:inputText>
-                                        <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchTMTDrug()}" update="@form">
-                                            <p:ajax event="dialogReturn" listener="#{newModelMock.onDialogReturn}" update="@form" />
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="FUND_ID : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:autoComplete id="fund" 
-                                                        value="#{newModelMock.selectedFund}" 
-                                                        completeMethod="#{newModelMock.completeFund}"
-                                                        var="fund" 
-                                                        itemLabel="#{fund.name}" 
-                                                        itemValue="#{fund.id}" 
-                                                        forceSelection="true" 
-                                                        converter="fundConverter" 
-                                                        styleClass="input"/>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="ICD10_CODE : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="icdId" value="#{newModelMock.icd10Id}"  styleClass="input">
-                                        </p:inputText>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="Date_Effective : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <p:calendar id="dateIn" 
-                                                    value="#{newModelMock.dateIn}" 
-                                                    styleClass="input" 
-                                                    locale="en_US" 
-                                                    pattern="dd/MM/yyyy"
-                                                    navigator="true">
-                                            <p:watermark for="dateIn" value="date แรกหลังจาก datein ที่กำหนด"/>
-                                        </p:calendar>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:commandButton value="ค้นหา" actionListener="#{newModelMock.findGroup()}" update="@form growl"/>
-                                    </p:column>
-                                </p:row>
-                            </p:panelGrid>
+                        <p:column style="font-size: 20px;background-color: #F0F0F0;text-align: center;border-radius: 5px;" colspan="2">
+                            <h:outputText value="เพิ่ม item"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="TMTID : "/>
                         </p:column>
                         <p:column>
-                            <p:panelGrid rendered="#{not empty newModelMock.reimburseGroupItem.reimburseGroup}" style="font-size: 22px;">
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="Is Special Project : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="#{newModelMock.reimburseGroupItem.reimburseGroup.specialProject}"/>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="ED Status : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="#{newModelMock.reimburseGroupItem.edStatus}"/>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="Reimburse Group : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="#{newModelMock.reimburseGroupItem.reimburseGroup.id}"/>
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="Reimburse Group Description : "/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="#{newModelMock.reimburseGroupItem.reimburseGroup.description}"/>
-                                    </p:column>
-                                </p:row>
-                            </p:panelGrid>
+                            <p:inputText id="tmtid" value="#{newModelMock.reimburseGroupItem.drug.tmtId}" styleClass="input">
+                            </p:inputText>
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchTMTDrug()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{newModelMock.onDialogReturn}" update="@form" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ID กองทุน : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete id="fund" 
+                                            value="#{newModelMock.reimburseGroupItem.fund}" 
+                                            completeMethod="#{newModelMock.completeFund}"
+                                            var="fund" 
+                                            itemLabel="#{fund.name}" 
+                                            itemValue="#{fund.id}" 
+                                            forceSelection="true" 
+                                            converter="fundConverter" 
+                                            styleClass="input"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ICD10_CODE : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="icdId" value="#{newModelMock.reimburseGroupItem.icd10.id}"  styleClass="input">
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ED_STAUTS : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="edstatus" value="#{newModelMock.reimburseGroupItem.edStatus}"  styleClass="input">
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="group : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="group" value="#{newModelMock.reimburseGroupItem.reimburseGroup.id}"  styleClass="input">
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center;">
+                            <p:commandButton value="เพิ่ม" update="@form" actionListener="#{newModelMock.onSave}">
+                                <f:ajax render=":table"/>
+                            </p:commandButton>
+                            <p:spacer width="20"/>
+                            <p:commandButton value="reset" update="@form" type="reset"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>           
+            <p:spacer height="20"/>
+            <h:form id="searchform">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="keyword : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{newModelMock.searchKeyword}" styleClass="searchFund" style="width: 100px;"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{newModelMock.search}">
+                                <f:ajax execute="@form" render=":reimburseGroupTable"/>
+                            </p:commandButton>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>
+            <p:spacer height="20"/>
+            <p:dataTable id="reimburseGroupTable"
+                         value="#{newModelMock.reimburseGroupItems}"
+                         var="item"
+                         rowIndexVar="rowIndex"
+                         paginator="true" 
+                         rows="20" 
+                         lazy="true" 
+                         rowsPerPageTemplate="20,30,40,50"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                <f:facet name="header">
+                    <div style="text-align: center;">
+                        <h:outputText value="รายชื่อกองทุนทั้งหมดในระบบ"/>
+                    </div>
+                </f:facet>
+                <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
+                    #{rowIndex + 1}
+                </p:column>
+                <p:column headerText="TMT" style="width: 100px;text-align: center;">
+                    <h:outputText value="#{item.drug.tmtId}"/>
+                </p:column>
+                <p:column headerText="FUND" style="width: 300px;">
+                    <h:outputText value="#{item.fund.fundCode} -> #{item.fund.name}"/>
+                </p:column>
+                <p:column headerText="ICD10" style="width: 300px;">
+                    <h:outputText value="#{item.icd10.id} -> #{item.icd10.name}"/>
+                </p:column>
+                <p:column headerText="ED_STATUS" style="width: 300px;">
+                    <h:outputText value="#{item.edStatus}"/>
+                </p:column>
+                <p:column headerText="REIMBURSE_GROUP" style="width: 300px;">
+                    <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>
+                </p:column>
+                <p:column headerText="SPECIAL_PROJECT" style="width: 300px;">
+                    <h:outputText value="#{item.reimburseGroup.specialProject}"/>
+                </p:column>
+            </p:dataTable>
         </ui:define>
     </ui:composition>
 </html>

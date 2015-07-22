@@ -27,7 +27,7 @@
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                 <p:column headerText="#" width="50">#{rowIndex+1}</p:column>
                 <p:column headerText="tmtid" >
-                    <p:commandLink actionListener="#{newModelSearchDialog.setSelectedDrug(model)}"  value="#{model.id}" style="color: blue">
+                    <p:commandLink actionListener="#{newModelSearchDialog.setSelectedDrug(model)}"  value="#{model.tmtId}" style="color: blue">
                     </p:commandLink>
                 </p:column>
                 <p:column headerText="fsn" width="500">
