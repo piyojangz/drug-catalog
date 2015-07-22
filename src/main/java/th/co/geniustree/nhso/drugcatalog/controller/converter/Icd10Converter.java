@@ -11,26 +11,26 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.SpringUtils;
-import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10;
+import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 
 /**
  *
  * @author Thanthathon
  */
-@FacesConverter("fundConverter")
-public class FundConverter implements Converter, Serializable {
+@FacesConverter("icd10Converter")
+public class Icd10Converter implements Converter, Serializable {
 
-    private final FundRepo fundRepo;
+    private final Icd10Repo icd10Repo;
 
-    public FundConverter() {
-        fundRepo = SpringUtils.getBean(FundRepo.class);
+    public Icd10Converter() {
+        icd10Repo = SpringUtils.getBean(Icd10Repo.class);
     }
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        Fund fund = fundRepo.findOne(value);
-        return fund;
+        ICD10 icd10 = icd10Repo.findOne(value);
+        return icd10;
     }
 
     @Override

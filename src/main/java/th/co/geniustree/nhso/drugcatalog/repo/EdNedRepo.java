@@ -27,7 +27,7 @@ public interface EdNedRepo extends JpaRepository<EdNed, EdNedPK> {
     public List<Object[]> findByTmtDrugAndFund(String tmtId, String fundCode, Date dateIn);
     
     @Query(value = "select e "
-            + "from EdNed e"
+            + "from EdNed e "
             + "where e.pk.tmtId = ?1 "
             + "and UPPER(e.pk.fundCode) = UPPER(?2) ")
     public List<EdNed> findByTmtAndFund(String tmtId ,String fundCode);

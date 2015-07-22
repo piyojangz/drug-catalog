@@ -5,13 +5,18 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.nhso.drugcatalog.model.ICD10;
 
 /**
  *
  * @author Thanthathon
  */
-public interface Icd10Repo extends JpaRepository<ICD10, String>{
+public interface Icd10Repo extends JpaRepository<ICD10, String> , JpaSpecificationExecutor<ICD10>{
+    
+    public Page<ICD10> findByIdContains(String search,Pageable pageable);
     
 }

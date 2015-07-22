@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 
 /**
  *
@@ -32,12 +30,6 @@ public class NewModelSearchDialog {
 
     @Autowired
     private DrugRepo drugRepo;
-
-    @Autowired
-    private FundRepo fundRepo;
-
-    @Autowired
-    private Icd10Repo icdRepo;
 
     private SpringDataLazyDataModelSupport<Drug> drugs;
     
@@ -85,6 +77,5 @@ public class NewModelSearchDialog {
     public void setSearchTMT(String searchTMT) {
         this.searchTMT = searchTMT;
     }
-    //****************** getter and setter method ******************
 
 }

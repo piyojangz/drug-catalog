@@ -35,6 +35,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
 
 /**
@@ -49,7 +50,7 @@ public class ReimburseGroupItemController {
 
     @Autowired
     private DrugRepo drugRepo;
-    
+
     @Autowired
     private FundRepo fundRepo;
 
@@ -62,6 +63,9 @@ public class ReimburseGroupItemController {
     @Autowired
     private ReimburseGroupItemRepo reimburseGroupItemRepo;
 
+    @Autowired
+    private ReimburseGroupRepo reimburseGroupRepo;
+
     private Drug drug;
     private Fund fund;
     private ICD10 icd10;
@@ -69,19 +73,26 @@ public class ReimburseGroupItemController {
     private ReimburseGroup reimburseGroup;
     private ReimburseGroupItem reimburseGroupItem;
 
-    private String tmtId;
-    private String fundCode;
-    private String icd10Id;
-    private String edStatus;
-    private String group;
-    private String searchKeyword;
+    private String tmtId = "";
+    private String fundCode = "";
+    private String icd10Id = "";
+    private String edStatus = "";
+    private String group = "";
+    private String searchKeyword = "";
 
     private List<Fund> funds;
+    private List<ICD10> icd10s;
+    private List<String> edStatusList;
+    private List<ReimburseGroup> reimburseGroups;
     private SpringDataLazyDataModelSupport<ReimburseGroupItem> reimburseGroupItems;
 
     @PostConstruct
     public void postConstruct() {
-        reimburseGroupItem = new ReimburseGroupItem();
+        edStatusList = new ArrayList<>();
+        edStatusList.add("E");
+        edStatusList.add("N");
+        edStatusList.add("E*");
+        resetData();
         reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
             @Override
             public Page<ReimburseGroupItem> load(Pageable pageAble) {
@@ -93,18 +104,40 @@ public class ReimburseGroupItemController {
     }
 
     public void onSave() {
-        if (!(tmtId.isEmpty() || fundCode.isEmpty() || icd10Id.isEmpty() || edStatus.isEmpty() || group.isEmpty())) {
-            drug = drugRepo.findOne(tmtId);
-            fund = fundRepo.findOne(fundCode);
-            icd10 = icdRepo.findOne(icd10Id);
-            reimburseGroupItem = new ReimburseGroupItem();
-            try {
-                reimburseGroupItemRepo.save(reimburseGroupItem);
-                FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
-            } catch (Exception e) {
-                FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
+        if (!(fund == null || reimburseGroup == null)) {
+            fundCode = fund.getFundCode();
+            group = reimburseGroup.getId();
+            if (!(tmtId.isEmpty() || fundCode.isEmpty() || icd10Id.isEmpty() || edStatus.isEmpty() || group.isEmpty())) {
+                Drug d = drugRepo.findOne(tmtId);
+                Fund f = fundRepo.findOne(fundCode);
+                ICD10 i = icdRepo.findOne(icd10Id);
+                ReimburseGroup g = reimburseGroupRepo.findOne(group);
+                reimburseGroupItem = new ReimburseGroupItem(edStatus, d, f, i, g);
+                try {
+                    reimburseGroupItemRepo.save(reimburseGroupItem);
+                    FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
+                } catch (Exception e) {
+                    FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
+                }
             }
+        } else {
+
+            FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้");
         }
+        resetData();
+    }
+
+    public void resetData() {
+        tmtId = "";
+        fundCode = "";
+        icd10Id = "";
+        edStatus = "";
+        group = "";
+        drug = new Drug();
+        fund = new Fund();
+        icd10 = new ICD10();
+        edNed = new EdNed();
+        reimburseGroup = new ReimburseGroup();
         reimburseGroupItem = new ReimburseGroupItem();
     }
 
@@ -128,7 +161,7 @@ public class ReimburseGroupItemController {
         return spec;
     }
 
-    public void onSearchTMTDrug() {
+    public void onSearchTMTDrugDialog() {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("draggable", true);
@@ -141,11 +174,33 @@ public class ReimburseGroupItemController {
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/tmtdialog", options, params);
     }
-    
-    public void onDialogReturn(SelectEvent event) {
+
+    public void onSearchIcd10Dialog() {
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 500);
+        options.put("contentWidth", 800);
+        Map<String, List<String>> params = new HashMap<>();
+        List<String> keywords = new ArrayList<>();
+        keywords.add(icd10Id);
+        params.put("keyword", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/icd10dialog", options, params);
+    }
+
+    public void onTmtDialogReturn(SelectEvent event) {
         String tmt = (String) event.getObject();
         if (tmt != null) {
             tmtId = tmt;
+        }
+        log.info("selected drug from search dialog is => {}", tmtId);
+    }
+
+    public void onIcdDialogReturn(SelectEvent event) {
+        String icd = (String) event.getObject();
+        if (icd != null) {
+            icd10Id = icd;
         }
         log.info("selected drug from search dialog is => {}", tmtId);
     }
@@ -154,11 +209,33 @@ public class ReimburseGroupItemController {
         funds = fundRepo.findAll();
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund f : funds) {
-            if (f.getFundCode().startsWith(query.toUpperCase()) || (f.getName().contains(query))) {
+            if (f.getFundCode().toUpperCase().contains(query.toUpperCase()) || (f.getName().toUpperCase().contains(query.toUpperCase()))) {
                 filterFunds.add(f);
             }
         }
         return filterFunds;
+    }
+
+    public List<ICD10> completeIcd10(String query) {
+        icd10s = icdRepo.findAll();
+        List<ICD10> filterIcd10 = new ArrayList<>();
+        for (ICD10 i : icd10s) {
+            if (i.getId().toUpperCase().contains(query.toUpperCase()) || (i.getName().toUpperCase().contains(query.toUpperCase()))) {
+                filterIcd10.add(i);
+            }
+        }
+        return filterIcd10;
+    }
+
+    public List<ReimburseGroup> completeReimburseGroup(String query) {
+        reimburseGroups = reimburseGroupRepo.findAll();
+        List<ReimburseGroup> filterGroup = new ArrayList<>();
+        for (ReimburseGroup g : reimburseGroups) {
+            if (g.getId().toUpperCase().contains(query.toUpperCase()) || (g.getDescription().toUpperCase().contains(query.toUpperCase()))) {
+                filterGroup.add(g);
+            }
+        }
+        return filterGroup;
     }
 
     //***************** getter and setter *****************
@@ -272,6 +349,30 @@ public class ReimburseGroupItemController {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public List<ICD10> getIcd10s() {
+        return icd10s;
+    }
+
+    public void setIcd10s(List<ICD10> icd10s) {
+        this.icd10s = icd10s;
+    }
+
+    public List<String> getEdStatusList() {
+        return edStatusList;
+    }
+
+    public void setEdStatusList(List<String> edStatusList) {
+        this.edStatusList = edStatusList;
+    }
+
+    public List<ReimburseGroup> getReimburseGroups() {
+        return reimburseGroups;
+    }
+
+    public void setReimburseGroups(List<ReimburseGroup> reimburseGroups) {
+        this.reimburseGroups = reimburseGroups;
     }
 
 }

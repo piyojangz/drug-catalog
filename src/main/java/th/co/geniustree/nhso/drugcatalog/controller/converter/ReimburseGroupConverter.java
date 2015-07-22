@@ -11,26 +11,26 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.SpringUtils;
-import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
+import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
+import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 
 /**
  *
  * @author Thanthathon
  */
-@FacesConverter("fundConverter")
-public class FundConverter implements Converter, Serializable {
+@FacesConverter("reimburseGroupConverter")
+public class ReimburseGroupConverter implements Converter, Serializable {
 
-    private final FundRepo fundRepo;
+    private final ReimburseGroupRepo reimburseGroupRepo;
 
-    public FundConverter() {
-        fundRepo = SpringUtils.getBean(FundRepo.class);
+    public ReimburseGroupConverter() {
+        reimburseGroupRepo = SpringUtils.getBean(ReimburseGroupRepo.class);
     }
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        Fund fund = fundRepo.findOne(value);
-        return fund;
+        ReimburseGroup reimburseGroup = reimburseGroupRepo.findOne(value);
+        return reimburseGroup;
     }
 
     @Override
