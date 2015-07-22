@@ -121,7 +121,7 @@ public class CrudNewModelT {
 
     private void printEdDetails(EdNed obj) {
         System.out.println("edned -> tmtId : " + obj.getPk().getTmtId());
-        System.out.println("edned -> fundId : " + obj.getPk().getFundId());
+        System.out.println("edned -> fundId : " + obj.getPk().getFundCode());
         System.out.println("edned -> dateIn : " + obj.getPk().getTmtId());
         System.out.println("edned -> status : " + obj.getStatus());
     }

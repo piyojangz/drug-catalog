@@ -23,8 +23,8 @@ public class EdNedPK implements Serializable {
     @Column(name = "TMTID")
     private String tmtId;
 
-    @Column(name = "FUND_ID")
-    private String fundId;
+    @Column(name = "FUND_CODE")
+    private String fundCode;
 
     @Column(name = "DATE_IN")
     @Temporal(TemporalType.DATE)
@@ -35,13 +35,13 @@ public class EdNedPK implements Serializable {
 
     public EdNedPK(String tmtDrug, String fund, Date dateIn) {
         this.tmtId = tmtDrug;
-        this.fundId = fund;
+        this.fundCode = fund;
         this.dateIn = dateIn;
     }
     
     public EdNedPK(Drug drug, Fund fund, Date dateIn) {
         this.tmtId = drug.getTmtId();
-        this.fundId = fund.getFundCode();
+        this.fundCode = fund.getFundCode();
         this.dateIn = dateIn;
     }
 
@@ -53,12 +53,12 @@ public class EdNedPK implements Serializable {
         this.tmtId = tmtId;
     }
 
-    public String getFundId() {
-        return fundId;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setFundId(String fundId) {
-        this.fundId = fundId;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public Date getDateIn() {
@@ -73,7 +73,7 @@ public class EdNedPK implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 71 * hash + Objects.hashCode(this.tmtId);
-        hash = 71 * hash + Objects.hashCode(this.fundId);
+        hash = 71 * hash + Objects.hashCode(this.fundCode);
         hash = 71 * hash + Objects.hashCode(this.dateIn);
         return hash;
     }
@@ -90,7 +90,7 @@ public class EdNedPK implements Serializable {
         if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }
-        if (!Objects.equals(this.fundId, other.fundId)) {
+        if (!Objects.equals(this.fundCode, other.fundCode)) {
             return false;
         }
         if (!Objects.equals(this.dateIn, other.dateIn)) {

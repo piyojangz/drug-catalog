@@ -18,12 +18,12 @@ import th.co.geniustree.nhso.drugcatalog.model.EdNedPK;
  */
 public interface EdNedRepo extends JpaRepository<EdNed, EdNedPK> {
 
-    @Query(value = "select e.pk.tmtId , e.pk.fundId , min(e.pk.dateIn) , e.status "
+    @Query(value = "select e.pk.tmtId , e.pk.fundCode , min(e.pk.dateIn) , e.status "
             + "from EdNed e "
             + "where e.pk.tmtId = ?1 "
-            + "and UPPER(e.pk.fundId) = UPPER(?2) "
-            + "group by e.pk.tmtId , e.pk.fundId , e.status "
+            + "and UPPER(e.pk.fundCode) = UPPER(?2) "
+            + "group by e.pk.tmtId , e.pk.fundCode , e.status "
             + "having min(e.pk.dateIn) >= ?3")
-    public List<Object[]> findByTmtDrugAndFund(String tmtId, String fundId, Date dateIn);
+    public List<Object[]> findByTmtDrugAndFund(String tmtId, String fundCode, Date dateIn);
 
 }
