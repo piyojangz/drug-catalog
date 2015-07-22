@@ -28,6 +28,8 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10;
+import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
 import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
@@ -48,13 +50,11 @@ public class NewModelMock {
     private static final Logger log = LoggerFactory.getLogger(NewModelMock.class);
 
     @Autowired
-    private DrugRepo drugRepo;
-
-    @Autowired
     private FundRepo fundRepo;
 
     @Autowired
     private Icd10Repo icdRepo;
+    
     @Autowired
     private EdNedRepo edNedRepo;
 
@@ -63,7 +63,7 @@ public class NewModelMock {
 
 //    @Autowired
 //    private ReimburseGroupRepo reimburseGroupRepo;
-    private SpringDataLazyDataModelSupport<ReimburseGroupItem> reimburseGroupItems;
+    
     private List<Fund> funds;
     private List<Date> dateEffectiveList;
 
@@ -81,15 +81,7 @@ public class NewModelMock {
 
     @PostConstruct
     public void postConstruct() {
-        reimburseGroupItem = new ReimburseGroupItem();
-        reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
-            @Override
-            public Page<ReimburseGroupItem> load(Pageable pageAble) {
-                Page<ReimburseGroupItem> page = reimburseGroupItemRepo.findAll(pageAble);
-
-                return page;
-            }
-        };
+        
     }
 
     public void findGroup() {
@@ -148,42 +140,7 @@ public class NewModelMock {
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/tmtdialog", options, params);
     }
-
-    public void search() {
-        reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
-            @Override
-            public Page<ReimburseGroupItem> load(Pageable pageAble) {
-                Specification spec = specify(searchKeyword);
-                Page<ReimburseGroupItem> page = reimburseGroupItemRepo.findAll(spec, pageAble);
-                return page;
-            }
-        };
-    }
-
-    private Specification specify(String keyword) {
-        List<String> keyList = Arrays.asList(keyword.split(" "));
-        Specification<ReimburseGroupItem> spec = Specifications.where(ReimburseGroupItemSpecs.tmtIdLike(keyList))
-                .or(ReimburseGroupItemSpecs.fundIdLike(keyList))
-                .or(ReimburseGroupItemSpecs.fundNameLike(keyList))
-                .or(ReimburseGroupItemSpecs.icd10IdLike(keyList));
-        return spec;
-    }
-
-    public void onSave() {
-        if (!(reimburseGroupItem.getDrug().getTmtId().isEmpty()
-                || reimburseGroupItem.getFund().getFundCode().isEmpty()
-                || reimburseGroupItem.getIcd10().getId().isEmpty()
-                || reimburseGroupItem.getEdStatus().isEmpty())) {
-            try {
-                reimburseGroupItemRepo.save(reimburseGroupItem);
-                FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
-            } catch (Exception e) {
-                FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
-            }
-        }
-        reimburseGroupItem = new ReimburseGroupItem();
-    }
-
+   
     //****************** getter and setter method ******************
     public String getSearchTMT() {
         return searchTMT;
@@ -247,14 +204,6 @@ public class NewModelMock {
 
     public void setReimburseGroupItem(ReimburseGroupItem reimburseGroupItem) {
         this.reimburseGroupItem = reimburseGroupItem;
-    }
-
-    public SpringDataLazyDataModelSupport<ReimburseGroupItem> getReimburseGroupItems() {
-        return reimburseGroupItems;
-    }
-
-    public void setReimburseGroupItems(SpringDataLazyDataModelSupport<ReimburseGroupItem> reimburseGroupItems) {
-        this.reimburseGroupItems = reimburseGroupItems;
     }
 
     public String getSearchKeyword() {

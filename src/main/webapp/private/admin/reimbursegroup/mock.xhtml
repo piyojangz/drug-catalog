@@ -79,10 +79,10 @@
                             <h:outputText value="TMTID : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="tmtid" value="#{newModelMock.reimburseGroupItem.drug.tmtId}" styleClass="input">
+                            <p:inputText id="tmtid" value="#{reimburseGroupItemController.tmtId}" styleClass="input">
                             </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchTMTDrug()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{newModelMock.onDialogReturn}" update="@form" />
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchTMTDrug()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -92,14 +92,22 @@
                         </p:column>
                         <p:column>
                             <p:autoComplete id="fund" 
-                                            value="#{newModelMock.reimburseGroupItem.fund}" 
-                                            completeMethod="#{newModelMock.completeFund}"
+                                            value="#{reimburseGroupItemController.fund}" 
+                                            completeMethod="#{reimburseGroupItemController.completeFund}"
                                             var="fund" 
                                             itemLabel="#{fund.name}" 
-                                            itemValue="#{fund.id}" 
+                                            itemValue="#{fund.fundCode}" 
                                             forceSelection="true" 
                                             converter="fundConverter" 
-                                            styleClass="input"/>
+                                            styleClass="input1"
+                                            dropdown="true">
+                                <p:column>
+                                    #{fund.fundCode}
+                                </p:column>
+                                <p:column>
+                                    #{fund.name}
+                                </p:column>
+                            </p:autoComplete>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -107,7 +115,7 @@
                             <h:outputText value="ICD10_CODE : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="icdId" value="#{newModelMock.reimburseGroupItem.icd10.id}"  styleClass="input">
+                            <p:inputText id="icdId" value="#{reimburseGroupItemController.icd10Id}"  styleClass="input">
                             </p:inputText>
                         </p:column>
                     </p:row>
@@ -116,7 +124,7 @@
                             <h:outputText value="ED_STAUTS : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="edstatus" value="#{newModelMock.reimburseGroupItem.edStatus}"  styleClass="input">
+                            <p:inputText id="edstatus" value="#{reimburseGroupItemController.edStatus}"  styleClass="input">
                             </p:inputText>
                         </p:column>
                     </p:row>
@@ -125,13 +133,13 @@
                             <h:outputText value="group : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="group" value="#{newModelMock.reimburseGroupItem.reimburseGroup.id}"  styleClass="input">
+                            <p:inputText id="group" value="#{reimburseGroupItemController.group}"  styleClass="input">
                             </p:inputText>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form" actionListener="#{newModelMock.onSave}">
+                            <p:commandButton value="เพิ่ม" update="@form" actionListener="#{reimburseGroupItemController.onSave}">
                                 <f:ajax render=":table"/>
                             </p:commandButton>
                             <p:spacer width="20"/>
@@ -148,10 +156,10 @@
                             <h:outputText value="keyword : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{newModelMock.searchKeyword}" styleClass="searchFund" style="width: 100px;"/>
+                            <p:inputText value="#{reimburseGroupItemController.searchKeyword}" styleClass="searchFund" style="width: 100px;"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{newModelMock.search}">
+                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.search}">
                                 <f:ajax execute="@form" render=":reimburseGroupTable"/>
                             </p:commandButton>
                         </p:column>
@@ -160,7 +168,7 @@
             </h:form>
             <p:spacer height="20"/>
             <p:dataTable id="reimburseGroupTable"
-                         value="#{newModelMock.reimburseGroupItems}"
+                         value="#{reimburseGroupItemController.reimburseGroupItems}"
                          var="item"
                          rowIndexVar="rowIndex"
                          paginator="true" 
