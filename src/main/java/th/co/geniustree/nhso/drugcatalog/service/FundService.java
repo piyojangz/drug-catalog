@@ -5,6 +5,9 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 
 /**
@@ -12,7 +15,13 @@ import th.co.geniustree.nhso.drugcatalog.model.Fund;
  * @author Thanthathon
  */
 public interface FundService {
-    
+
     public Fund findOne(String fundId);
-    
+
+    public Fund save(Fund fund);
+
+    public Page<Fund> findAllPaging(Pageable pageable);
+
+    public Page<Fund> findAllBySpecs(Specification<Fund> spec, Pageable pageable);
+
 }
