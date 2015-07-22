@@ -6,7 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,26 +17,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
-import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
-import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
-import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
 
 /**
  *
@@ -51,9 +39,6 @@ public class NewModelMock {
 
     @Autowired
     private FundRepo fundRepo;
-
-    @Autowired
-    private Icd10Repo icdRepo;
     
     @Autowired
     private EdNedRepo edNedRepo;
@@ -107,11 +92,31 @@ public class NewModelMock {
             FacesMessageUtils.error("ไม่พบข้อมูลในตาราง Ed_STATUS");
         }
     }
+    public void onSearchIcd10Dialog() {
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 500);
+        options.put("contentWidth", 800);
+        Map<String, List<String>> params = new HashMap<>();
+        List<String> keywords = new ArrayList<>();
+        keywords.add(icd10Id);
+        params.put("keyword", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/icd10dialog", options, params);
+    }
 
-    public void onDialogReturn(SelectEvent event) {
+    public void onTmtDialogReturn(SelectEvent event) {
         String tmt = (String) event.getObject();
         if (tmt != null) {
             tmtId = tmt;
+        }
+        log.info("selected drug from search dialog is => {}", tmtId);
+    }
+    public void onIcdDialogReturn(SelectEvent event) {
+        String icd = (String) event.getObject();
+        if (icd != null) {
+            icd10Id = icd;
         }
         log.info("selected drug from search dialog is => {}", tmtId);
     }

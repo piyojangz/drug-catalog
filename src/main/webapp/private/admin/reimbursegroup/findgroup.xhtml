@@ -85,7 +85,7 @@
 
                             </p:inputText>
                             <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchTMTDrug()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{newModelMock.onDialogReturn}" update="@form" />
+                                <p:ajax event="dialogReturn" listener="#{newModelMock.onTmtDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -118,8 +118,11 @@
                             <h:outputText value="ICD10_CODE : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="icdId" value="#{newModelMock.icd10Id}"  styleClass="input">
+                            <p:inputText id="icd10" value="#{newModelMock.icd10Id}" styleClass="input">
                             </p:inputText>
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchIcd10Dialog()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{newModelMock.onIcdDialogReturn}" update="@form" />
+                            </p:commandButton>
                         </p:column>
                     </p:row>
                     <p:row>
