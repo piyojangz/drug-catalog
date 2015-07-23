@@ -16,7 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 
 /**
  *
@@ -27,13 +29,21 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
 public class EclaimController implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(EclaimController.class);
-
+    
+    @Autowired
+    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    
+    @Autowired
+    private EclaimDAO eclaimDAO;
+    
     private HospitalDrugType drug;
     private String hcode;
     private String hospDrugCode;
     private String tmtid;
     private Date dateEffective;
     private UploadHospitalDrugItemTemp uploadItem;
+    
+    List<UploadHospitalDrugItem> uploadHospitalDrugItems;
 
     private List<String> druggroups;
 
@@ -41,8 +51,7 @@ public class EclaimController implements Serializable {
     public void postConstruct() {
     }
 
-    @Autowired
-    private EclaimDAO eclaimDAO;
+    
 
     public void search() {
 //        hospDrugCode = "5010000532";
@@ -51,6 +60,13 @@ public class EclaimController implements Serializable {
 //        dateEffective = new GregorianCalendar(2015, 2, 11).getTime();
         this.drug = eclaimDAO.loadDrugInfo(hospDrugCode, hcode, tmtid, dateEffective);
         this.druggroups = eclaimDAO.getDrugGroupsFrom(this.drug);
+        uploadHospitalDrugItems = uploadHospitalDrugItemRepo.findByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAfter(hospDrugCode, hcode, dateEffective);
+        LOG.info("output -> {} " , uploadHospitalDrugItems.size());
+        for(UploadHospitalDrugItem u : uploadHospitalDrugItems){
+            LOG.info("tmt  -> {}" , u.getTmtId());
+            LOG.info("flag -> {}" , u.getUpdateFlag());
+            LOG.info("dEff -> {}" , u.getDateEffective());
+        }
     }
     
     public void reset() {

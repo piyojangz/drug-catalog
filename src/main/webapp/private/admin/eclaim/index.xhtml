@@ -20,35 +20,36 @@
 
 
                     /* แสดงผลในแนวนอน (สำรองไว้)
-                                        .ui-datagrid{
-                                            border: 1px solid #cccccc !important;
-                                            width: 800px;
-                                        }
-                                        .druggroupHeader{
-                                            background-color: #cccccc; 
-                                            border: 1px solid black;
-                                            padding-top: 3px;
-                                            padding-bottom: 3px;
-                                            text-align: center;
-                                            font-weight: bold;
-                                            font-size: 16px;
-                                            margin: 0px 0px 0px 0px;
-                                        }
-                                        .druggroupContent{
-                                            border: 1px solid black; 
-                                            text-align: center;
-                                            padding-top: 3px;
-                                            padding-bottom: 3px;
-                                            margin: -1px 0px;
-                                        }
-                    
-                                        #druggroupElement{
-                                            margin: 0px -4.5px;
-                                        }
-                    */
+                    */                                        
+                    .ui-datagrid{
+                        border: 1px solid #cccccc !important;
+                        width: 800px;
+                    }
+                    .druggroupHeader{
+                        background-color: #cccccc; 
+                        border: 1px solid black;
+                        padding-top: 3px;
+                        padding-bottom: 3px;
+                        text-align: center;
+                        font-weight: bold;
+                        font-size: 16px;
+                        margin: 0px 0px 0px 0px;
+                    }
+                    .druggroupContent{
+                        border: 1px solid black; 
+                        text-align: center;
+                        padding-top: 3px;
+                        padding-bottom: 3px;
+                        margin: -1px 0px;
+                    }
+
+                    #druggroupElement{
+                        margin: 0px -4.5px;
+                    }
+
                     .ui-widget-content .ui-inputfield.ui-state-error{
                         border: 1px solid #F42020;
-                          box-shadow: inset 1px 1px 2px #E58888;
+                        box-shadow: inset 1px 1px 2px #E58888;
                     }
                 </style>
                 <p:panel id="eclaim">
@@ -80,7 +81,13 @@
                                 <h:outputText value="*" style="color: red;font-size: large"/><h:outputText value="Service Date : "/>
                             </p:column>
                             <p:column>
-                                <p:calendar value="#{eclaimController.dateEffective}" locale="en_US" pattern="dd/MM/yyyy" required="true" requiredMessage="กรุณาเลือก Service date" styleClass="inputText"/>
+                                <p:calendar value="#{eclaimController.dateEffective}" 
+                                            locale="en_US" 
+                                            pattern="dd/MM/yyyy" 
+                                            required="true" 
+                                            requiredMessage="กรุณาเลือก Service date" 
+                                            styleClass="inputText"
+                                            navigator="true"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -219,7 +226,7 @@
                                 <h:outputText value="DOSAGEFORM GROUP"/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{eclaimController.tmtDrug.DOSAGEFORM_GROUP} บาท"/>
+                                <h:outputText value="#{eclaimController.tmtDrug.DOSAGEFORM_GROUP}"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -227,14 +234,14 @@
                                 <h:outputText value="REIMB UNIT PRICE"/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{eclaimController.tmtDrug.REIMB_UNIT_PRICE}"/>
+                                <h:outputText value="#{eclaimController.tmtDrug.REIMB_UNIT_PRICE} บาท"/>
                             </p:column>
                         </p:row>
                     </p:panelGrid>
-
                     <p:spacer height="20"/>
 
                     <ui:remove>
+
                         <!--แสดงผลแบบแนวนอน (สำรองไว้)-->
                         <p:dataGrid value="#{eclaimController.druggroups}"
                                     var="druggroup" rowIndexVar="rowIndex" columns="6" >
@@ -248,6 +255,7 @@
                             </div>
                         </p:dataGrid>
                     </ui:remove>
+
 
                     <p:dataTable value="#{eclaimController.druggroups}" var="druggroup" rowIndexVar="rowIndex"
                                  style="width: 300px;">

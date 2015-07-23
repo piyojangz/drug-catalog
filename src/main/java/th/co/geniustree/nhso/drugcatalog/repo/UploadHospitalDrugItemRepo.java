@@ -48,16 +48,18 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
     @Query("select count(u) from UploadHospitalDrugItem u where u.hospDrugCode=?1 and u.uploadDrug.hcode = ?2 and u.dateEffectiveDate >= ?3 "
             + " and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + " and u.updateFlag in ?4 and u.requestItem.deleted=0")
-    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(String hospDrugCode, String hcode,@Temporal(TemporalType.DATE) Date dateEffective, String... updateFlag);
+    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(String hospDrugCode, String hcode, @Temporal(TemporalType.DATE) Date dateEffective, String... updateFlag);
 
     @Query("select count(u) from UploadHospitalDrugItem u where u.hospDrugCode=?1 and u.uploadDrug.hcode = ?2 "
             + " and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + " and u.requestItem.deleted=0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept(String hospDrugCode, String hcode);
+
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Procedure(name = "UploadHospitalDrugItem.INITIAL_HOSPITAL_DRUG")
     public void copyDataProcedure();
 
+    public List<UploadHospitalDrugItem> findByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAfter(String hospDrugcode, String hcode, Date dateEffective);
     //@Query("select count")
     //public List<UploadHospitalDrugItem> findByRequestItemStatusAndRequestItemEditCountGreaterThan(RequestItem.Status status,Integer editCount);
 }
