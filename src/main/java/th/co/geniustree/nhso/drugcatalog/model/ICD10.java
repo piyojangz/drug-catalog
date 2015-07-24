@@ -11,7 +11,6 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -29,9 +28,6 @@ public class ICD10 implements Serializable {
     
     @Column(name = "ICD10_NAME")
     private String name;
-    
-    @OneToMany(mappedBy = "icd10")
-    private List<ReimburseGroupItem> reimBurseGroups;
     
     @Version
     private Integer version;
@@ -58,14 +54,6 @@ public class ICD10 implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public List<ReimburseGroupItem> getReimBurseGroups() {
-        return reimBurseGroups;
-    }
-
-    public void setReimBurseGroups(List<ReimburseGroupItem> reimBurseGroups) {
-        this.reimBurseGroups = reimBurseGroups;
     }
 
     @Override

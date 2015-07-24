@@ -21,21 +21,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TMT_REIMBURSE_GROUP")
 public class ReimburseGroup implements Serializable {
-    
+
     @Id
     @Column(name = "REIMBURSE_GROUP_ID")
     private String id;
 
     @Column(name = "REIMBURSE_GROUP_DESCRIPTION")
     private String description;
-    
+
     @Column(name = "IS_SPECIAL_PROJECT")
     private boolean specialProject;
-    
+
     private Integer version;
-    
-    @OneToMany(mappedBy = "reimburseGroup")
-    private List<ReimburseGroupItem> reimburseGroupItems;
 
     public String getId() {
         return id;
@@ -69,14 +66,6 @@ public class ReimburseGroup implements Serializable {
         this.version = version;
     }
 
-    public List<ReimburseGroupItem> getReimburseGroupItems() {
-        return reimburseGroupItems;
-    }
-
-    public void setReimburseGroupItems(List<ReimburseGroupItem> reimburseGroupItems) {
-        this.reimburseGroupItems = reimburseGroupItems;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -95,6 +84,5 @@ public class ReimburseGroup implements Serializable {
         final ReimburseGroup other = (ReimburseGroup) obj;
         return Objects.equals(this.id, other.id);
     }
-    
-    
+
 }

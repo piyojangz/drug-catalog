@@ -36,6 +36,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Right</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.Icd10Group</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

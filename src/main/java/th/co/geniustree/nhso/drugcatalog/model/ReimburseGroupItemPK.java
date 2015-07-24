@@ -16,25 +16,18 @@ public class ReimburseGroupItemPK implements Serializable {
 
     private String drug;
     private String fund;
-    private String icd10;
     private String edStatus;
+    private Integer icd10Group;
 
     public ReimburseGroupItemPK() {
-        
+
     }
 
-    public ReimburseGroupItemPK(String drug, String fund, String icd10, String edStatus) {
-        this.drug = drug;
-        this.fund = fund;
-        this.icd10 = icd10;
-        this.edStatus = edStatus;
-    }
-    
-     public ReimburseGroupItemPK(Drug drug, Fund fund, ICD10 icd10, EdNed edNed) {
+    public ReimburseGroupItemPK(Drug drug, Fund fund, String status, Integer icd10Group) {
         this.drug = drug.getTmtId();
         this.fund = fund.getFundCode();
-        this.icd10 = icd10.getId();
-        this.edStatus = edNed.getStatus();
+        this.icd10Group = icd10Group;
+        this.edStatus = status;
     }
 
     public String getDrug() {
@@ -53,21 +46,29 @@ public class ReimburseGroupItemPK implements Serializable {
         this.fund = fund;
     }
 
-    public String getIcd10() {
-        return icd10;
+    public String getEdStatus() {
+        return edStatus;
     }
 
-    public void setIcd10(String icd10) {
-        this.icd10 = icd10;
+    public void setEdStatus(String edStatus) {
+        this.edStatus = edStatus;
+    }
+
+    public Integer getIcd10Group() {
+        return icd10Group;
+    }
+
+    public void setIcd10Group(Integer icd10Group) {
+        this.icd10Group = icd10Group;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 41 * hash + Objects.hashCode(this.drug);
-        hash = 41 * hash + Objects.hashCode(this.fund);
-        hash = 41 * hash + Objects.hashCode(this.icd10);
-        hash = 41 * hash + Objects.hashCode(this.edStatus);
+        hash = 89 * hash + Objects.hashCode(this.drug);
+        hash = 89 * hash + Objects.hashCode(this.fund);
+        hash = 89 * hash + Objects.hashCode(this.edStatus);
+        hash = 89 * hash + Objects.hashCode(this.icd10Group);
         return hash;
     }
 
@@ -86,15 +87,13 @@ public class ReimburseGroupItemPK implements Serializable {
         if (!Objects.equals(this.fund, other.fund)) {
             return false;
         }
-        if (!Objects.equals(this.icd10, other.icd10)) {
+        if (!Objects.equals(this.edStatus, other.edStatus)) {
             return false;
         }
-        if (!Objects.equals(this.edStatus, other.edStatus)) {
+        if (!Objects.equals(this.icd10Group, other.icd10Group)) {
             return false;
         }
         return true;
     }
-
-    
 
 }
