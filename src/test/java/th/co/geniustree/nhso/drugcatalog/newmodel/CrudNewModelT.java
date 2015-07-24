@@ -21,16 +21,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.EdNedMapper;
-import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
-import th.co.geniustree.nhso.drugcatalog.model.EdNedPK;
-import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
 import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.Icd10GroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
 
@@ -53,12 +49,11 @@ public class CrudNewModelT {
     private EdNedRepo edNedRepo;
     @Autowired
     private Icd10Repo icd10Repo;
+    
+    @Autowired
+    private Icd10GroupRepo icd10GroupRepo;
 
     private static final Logger LOG = LoggerFactory.getLogger(CrudNewModelT.class);
-
-    private Drug drug;
-    private Fund fund;
-    private ICD10 icd10;
 
     public CrudNewModelT() {
     }
@@ -72,52 +67,59 @@ public class CrudNewModelT {
     }
 
     @Test
-    public void testFindEdStatusWhereDateCondition() {
-        // In database I have 
-        // 101021 UCS 01/10/2012 E
-        // 101021 UCS 01/10/2013 N
-        findEd("101021", "UCS", new GregorianCalendar(2012, 9, 1).getTime(), "E");
-        findEd("101021", "UCS", new GregorianCalendar(2012, 9, 2).getTime(), "N");
+    public void testMappingToModel() {
+        EdNed edNed;
 
-        findEd("100005", "UCS", new GregorianCalendar(2012, 8, 30).getTime(), "N");
-    }
+        edNed = findEdNed("100005", "U", new GregorianCalendar(2013, 9, 1).getTime());
+        assertNull(edNed);
 
-    private void findEd(String tmtId, String fundId, Date date, String expectedStatus) {
-        List<Object[]> objList = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, date);
-        EdNed edNed = EdNedMapper.mapToModelAndGetFirst(objList);
-//        printEdDetails(edNed);
-        String status = "";
-        if (edNed != null) {
-            status = edNed.getStatus();
-        }
-        assertEquals(status, expectedStatus);
-    }
-
-    @Test
-    public void testFindReimburseGroup() {
-        findGroup("112336", "UCS", "A00", new GregorianCalendar(2013, 9, 1).getTime(), "E", "VMI (จ2)");
-        findGroup("112577", "UCS", "A00", new GregorianCalendar(2013, 9, 1).getTime(), "N", "AA");
-        findGroup("118096", "UCS", "A01", new GregorianCalendar(2012, 9, 1).getTime(), "E", "ARBS");
-    }
-
-    private void findGroup(String tmtid, String fundId, String icd10Id, Date date, String expectedStatus, String expectedGroup) {
-
-        List<Object[]> objList = edNedRepo.findByTmtDrugAndFund(tmtid, fundId, date);
-        EdNed edNed = EdNedMapper.mapToModelAndGetFirst(objList);
-        String edStatus = "";
-        if (edNed != null) {
-            edStatus = edNed.getStatus();
-//            printEdDetails(edNed);
+        edNed = findEdNed("100005", "UC", new GregorianCalendar(2011, 9, 1).getTime());
+        assertNotNull(edNed);
+        assertEquals("UC", edNed.getPk().getFundCode());
+        assertEquals("100005", edNed.getPk().getTmtId());
+        try {
+            assertTrue(isInDefindStatus(edNed));
+        } catch (Exception e) {
+            assertTrue(e.getMessage(), false);
         }
         
-        ReimburseGroupItemPK reimburseGroupItemPK = new ReimburseGroupItemPK(tmtid, fundId, icd10Id, edStatus);
-
-        if (edStatus.equals(expectedStatus)) {
-            ReimburseGroupItem reimburseGroupItem = reimburseGroupItemRepo.findOne(reimburseGroupItemPK);
-//            printReimburseGroupItemDetails(reimburseGroupItem);
-            assertEquals(reimburseGroupItem.getReimburseGroup().getId(), expectedGroup);
-        }
     }
+
+    /**
+     * check if EdNed Status in 'E', 'N', or 'E*'
+     *
+     * @param edNed
+     * @return true if EdNed Status is in defindStatus
+     */
+    private boolean isInDefindStatus(EdNed edNed) {
+        String edStatus = edNed.getStatus();
+        edStatus = edStatus.toUpperCase();
+        return edStatus.equals("E") || edStatus.equals("N") || edStatus.equals("E*");
+    }
+
+    private EdNed findEdNed(String tmtId, String fundCode, Date dateIn) {
+        List<Object[]> objList = edNedRepo.findByTmtDrugAndFund(tmtId, fundCode, dateIn);
+        return EdNedMapper.mapToModelAndGetFirst(objList);
+    }
+
+//    @Test
+//    public void testFindReimburseGroup() {
+//        ReimburseGroupItem reimburseGroupItem;
+//        reimburseGroupItem = findGroup("100005", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
+//        findGroup("100014", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
+//    }
+//
+//    private ReimburseGroupItem findGroup(String tmtid, String fundId, String icd10Id, Date dateIn) {
+//        ReimburseGroupItem reimburseGroupItem = null;
+//        
+//        EdNed edNed = findEdNed(tmtid, fundId, dateIn);
+//        
+//        Icd10Group icd10Group = icd10GroupRepo.findByIcd10Id(icd10Id, icd10Id)
+//        
+//        reimburseGroupItem = reimburseGroupItemRepo.
+//        
+//        return reimburseGroupItem;
+//    }
 
     private void printEdDetails(EdNed obj) {
         System.out.println("edned -> tmtId : " + obj.getPk().getTmtId());
@@ -129,11 +131,10 @@ public class CrudNewModelT {
     private void printReimburseGroupItemDetails(ReimburseGroupItem obj) {
         System.out.println("ReimburseGroupItem -> tmtId : " + obj.getDrug().getTmtId());
         System.out.println("ReimburseGroupItem -> fundId : " + obj.getFund().getFundCode());
-        System.out.println("ReimburseGroupItem -> icd10 : " + obj.getIcd10().getId());
+        System.out.println("ReimburseGroupItem -> icd10 : " + obj.getIcd10().getIcd10Id().getId());
         System.out.println("ReimburseGroupItem -> status : " + obj.getEdStatus());
-        System.out.println("ReimburseGroupItem -> groupId : " + obj.getReimburseGroup().getId());
-        System.out.println("ReimburseGroupItem -> groupDescription : " + obj.getReimburseGroup().getDescription());
-        System.out.println("ReimburseGroupItem -> is group sprcial project : " + obj.getReimburseGroup().isSpecialProject());
+        System.out.println("ReimburseGroupItem -> groupId : " + obj.getIcd10().getReimburseGroupId().getId());
+        System.out.println("ReimburseGroupItem -> groupDescription : " + obj.getIcd10().getReimburseGroupId().getDescription());
+        System.out.println("ReimburseGroupItem -> is group sprcial project : " + obj.getIcd10().getReimburseGroupId().isSpecialProject());
     }
-
 }
