@@ -80,41 +80,41 @@ public class ReimburseGroupItemSpecs {
         };
     }
 
-    public static Specification<ReimburseGroupItem> icd10IdLike(final List<String> keywords) {
-        return new Specification<ReimburseGroupItem>() {
-
-            @Override
-            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
-                for (String keyword : keywords) {
-                    if (and == null) {
-                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.id)), "%" + keyword.toLowerCase() + "%");
-                    } else {
-                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.id)), "%" + keyword.toLowerCase() + "%"));
-                    }
-                }
-                return and;
-            }
-        };
-    }
-    
-    public static Specification<ReimburseGroupItem> icd10NameLike(final List<String> keywords) {
-        return new Specification<ReimburseGroupItem>() {
-
-            @Override
-            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
-                for (String keyword : keywords) {
-                    if (and == null) {
-                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%");
-                    } else {
-                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%"));
-                    }
-                }
-                return and;
-            }
-        };
-    }
+//    public static Specification<ReimburseGroupItem> icd10IdLike(final List<String> keywords) {
+//        return new Specification<ReimburseGroupItem>() {
+//
+//            @Override
+//            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                Predicate and = null;
+//                for (String keyword : keywords) {
+//                    if (and == null) {
+//                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.id)), "%" + keyword.toLowerCase() + "%");
+//                    } else {
+//                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.id)), "%" + keyword.toLowerCase() + "%"));
+//                    }
+//                }
+//                return and;
+//            }
+//        };
+//    }
+//    
+//    public static Specification<ReimburseGroupItem> icd10NameLike(final List<String> keywords) {
+//        return new Specification<ReimburseGroupItem>() {
+//
+//            @Override
+//            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                Predicate and = null;
+//                for (String keyword : keywords) {
+//                    if (and == null) {
+//                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%");
+//                    } else {
+//                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%"));
+//                    }
+//                }
+//                return and;
+//            }
+//        };
+//    }
 
     public static Specification<ReimburseGroupItem> edStatusEq(final List<String> keywords) {
         return new Specification<ReimburseGroupItem>() {
@@ -134,32 +134,32 @@ public class ReimburseGroupItemSpecs {
         };
     }
 
-    public static Specification<ReimburseGroupItem> reimburseGroupIdLike(final List<String> keywords) {
-        return new Specification<ReimburseGroupItem>() {
-
-            @Override
-            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
-                for (String keyword : keywords) {
-                    if (and == null) {
-                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%");
-                    } else {
-                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%"));
-                    }
-                }
-                return and;
-            }
-        };
-    }
-
-    public static Specification<ReimburseGroupItem> specialProjectEq(final Boolean specialProject) {
-        return new Specification<ReimburseGroupItem>() {
-
-            @Override
-            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.specialProject), specialProject);
-            }
-        };
-    }
+//    public static Specification<ReimburseGroupItem> reimburseGroupIdLike(final List<String> keywords) {
+//        return new Specification<ReimburseGroupItem>() {
+//
+//            @Override
+//            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                Predicate and = null;
+//                for (String keyword : keywords) {
+//                    if (and == null) {
+//                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%");
+//                    } else {
+//                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%"));
+//                    }
+//                }
+//                return and;
+//            }
+//        };
+//    }
+//
+//    public static Specification<ReimburseGroupItem> specialProjectEq(final Boolean specialProject) {
+//        return new Specification<ReimburseGroupItem>() {
+//
+//            @Override
+//            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                return cb.equal(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.specialProject), specialProject);
+//            }
+//        };
+//    }
 
 }

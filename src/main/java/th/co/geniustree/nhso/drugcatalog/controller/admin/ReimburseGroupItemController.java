@@ -107,19 +107,19 @@ public class ReimburseGroupItemController {
         if (!(fund == null || reimburseGroup == null)) {
             fundCode = fund.getFundCode();
             group = reimburseGroup.getId();
-            if (!(tmtId.isEmpty() || fundCode.isEmpty() || icd10Id.isEmpty() || edStatus.isEmpty() || group.isEmpty())) {
-                Drug d = drugRepo.findOne(tmtId);
-                Fund f = fundRepo.findOne(fundCode);
-                ICD10 i = icdRepo.findOne(icd10Id);
-                ReimburseGroup g = reimburseGroupRepo.findOne(group);
-                reimburseGroupItem = new ReimburseGroupItem(edStatus, d, f, i, g);
-                try {
-                    reimburseGroupItemRepo.save(reimburseGroupItem);
-                    FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
-                } catch (Exception e) {
-                    FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
-                }
-            }
+//            if (!(tmtId.isEmpty() || fundCode.isEmpty() || icd10Id.isEmpty() || edStatus.isEmpty() || group.isEmpty())) {
+//                Drug d = drugRepo.findOne(tmtId);
+//                Fund f = fundRepo.findOne(fundCode);
+//                ICD10 i = icdRepo.findOne(icd10Id);
+//                ReimburseGroup g = reimburseGroupRepo.findOne(group);
+//                reimburseGroupItem = new ReimburseGroupItem(edStatus, d, f, i, g);
+//                try {
+//                    reimburseGroupItemRepo.save(reimburseGroupItem);
+//                    FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
+//                } catch (Exception e) {
+//                    FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
+//                }
+//            }
         } else {
 
             FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้");
@@ -156,8 +156,8 @@ public class ReimburseGroupItemController {
         List<String> keyList = Arrays.asList(keyword.split(" "));
         Specification<ReimburseGroupItem> spec = Specifications.where(ReimburseGroupItemSpecs.tmtIdLike(keyList))
                 .or(ReimburseGroupItemSpecs.fundIdLike(keyList))
-                .or(ReimburseGroupItemSpecs.fundNameLike(keyList))
-                .or(ReimburseGroupItemSpecs.icd10IdLike(keyList));
+                .or(ReimburseGroupItemSpecs.fundNameLike(keyList));
+//                .or(ReimburseGroupItemSpecs.icd10IdLike(keyList));
         return spec;
     }
 
