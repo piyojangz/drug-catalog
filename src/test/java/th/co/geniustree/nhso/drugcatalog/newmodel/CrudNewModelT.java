@@ -23,11 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.EdNedMapper;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10GroupRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 
 /**
@@ -41,17 +37,9 @@ public class CrudNewModelT {
 
     @Autowired
     private ReimburseGroupItemService reimburseGroupItemService;
-    @Autowired
-    private DrugRepo drugRepo;
-    @Autowired
-    private FundRepo fundRepo;
+    
     @Autowired
     private EdNedRepo edNedRepo;
-    @Autowired
-    private Icd10Repo icd10Repo;
-
-    @Autowired
-    private Icd10GroupRepo icd10GroupRepo;
 
     private static final Logger LOG = LoggerFactory.getLogger(CrudNewModelT.class);
 
@@ -121,12 +109,12 @@ public class CrudNewModelT {
         return reimburseGroupItemService.findReimburseGroup(tmtid, fundId, icd10Id, dateIn);
     }
 
-    private void printEdDetails(EdNed obj) {
-        System.out.println("edned -> tmtId : " + obj.getPk().getTmtId());
-        System.out.println("edned -> fundId : " + obj.getPk().getFundCode());
-        System.out.println("edned -> dateIn : " + obj.getPk().getTmtId());
-        System.out.println("edned -> status : " + obj.getStatus());
-    }
+//    private void printEdDetails(EdNed obj) {
+//        System.out.println("edned -> tmtId : " + obj.getPk().getTmtId());
+//        System.out.println("edned -> fundId : " + obj.getPk().getFundCode());
+//        System.out.println("edned -> dateIn : " + obj.getPk().getTmtId());
+//        System.out.println("edned -> status : " + obj.getStatus());
+//    }
 
 //    private void printReimburseGroupItemDetails(ReimburseGroupItem obj) {
 //        System.out.println("ReimburseGroupItem -> tmtId : " + obj.getDrug().getTmtId());

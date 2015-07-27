@@ -30,9 +30,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
      
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
-    <tx:annotation-driven transaction-manager="txManager" />
-     
+    </bean>    
      
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
  

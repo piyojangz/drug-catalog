@@ -91,8 +91,15 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
     @Override
     public ReimburseGroupItem findReimburseGroup(String tmtid, String fundCode, String icd10Id, Date  dateIn) {
         List<Object[]> objs = edNedRepo.findByTmtDrugAndFund(tmtid, fundCode, dateIn);
-        EdNed edNed = EdNedMapper.mapToModelAndGetFirst(objs);        
-        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtid, fundCode, edNed.getStatus(), icd10Id));
+        if(objs == null){
+            return null;
+        }
+        EdNed edNed = EdNedMapper.mapToModelAndGetFirst(objs);   
+        if( edNed == null ){
+            return null;
+        }
+        String edStatus = edNed.getStatus();
+        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtid, fundCode,edStatus , icd10Id));
     }
 
     
