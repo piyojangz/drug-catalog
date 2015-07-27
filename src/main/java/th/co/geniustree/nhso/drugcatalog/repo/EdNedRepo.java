@@ -32,4 +32,6 @@ public interface EdNedRepo extends JpaRepository<EdNed, EdNedPK> {
             + "and UPPER(e.pk.fundCode) = UPPER(?2) ")
     public List<EdNed> findByTmtAndFund(String tmtId ,String fundCode);
 
+    
+    public EdNed findByTmtDrugAndFundAndStatus(String tmtDrug, String fundCpde, String edStatus);
 }

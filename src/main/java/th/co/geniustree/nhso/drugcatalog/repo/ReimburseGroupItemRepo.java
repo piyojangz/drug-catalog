@@ -16,4 +16,7 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
  */
 public interface ReimburseGroupItemRepo extends JpaRepository<ReimburseGroupItem, ReimburseGroupItemPK>, JpaSpecificationExecutor<ReimburseGroupItem> {
 
+    public ReimburseGroupItem findByEdStatusAndDrugAndFundAndIcd10(String edStatus , String tmtid , String fundCode , String icd10);
+    
+    
 }

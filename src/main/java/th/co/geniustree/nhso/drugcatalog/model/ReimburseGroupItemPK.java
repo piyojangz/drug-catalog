@@ -23,6 +23,13 @@ public class ReimburseGroupItemPK implements Serializable {
 
     }
 
+    public ReimburseGroupItemPK(String tmtid, String fundCode, String edStatus, String icd10Id) {
+        this.drug = tmtid;
+        this.fund = fundCode;
+        this.edStatus = edStatus;
+        this.icd10 = icd10Id;
+    }
+
     public ReimburseGroupItemPK(Drug drug, Fund fund, String status, String icd10) {
         this.drug = drug.getTmtId();
         this.fund = fund.getFundCode();

@@ -28,7 +28,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10GroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
-import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
+import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 
 /**
  *
@@ -40,7 +40,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
 public class CrudNewModelT {
 
     @Autowired
-    private ReimburseGroupItemRepo reimburseGroupItemRepo;
+    private ReimburseGroupItemService reimburseGroupItemService;
     @Autowired
     private DrugRepo drugRepo;
     @Autowired
@@ -49,7 +49,7 @@ public class CrudNewModelT {
     private EdNedRepo edNedRepo;
     @Autowired
     private Icd10Repo icd10Repo;
-    
+
     @Autowired
     private Icd10GroupRepo icd10GroupRepo;
 
@@ -82,7 +82,7 @@ public class CrudNewModelT {
         } catch (Exception e) {
             assertTrue(e.getMessage(), false);
         }
-        
+
     }
 
     /**
@@ -102,24 +102,24 @@ public class CrudNewModelT {
         return EdNedMapper.mapToModelAndGetFirst(objList);
     }
 
-//    @Test
-//    public void testFindReimburseGroup() {
-//        ReimburseGroupItem reimburseGroupItem;
-//        reimburseGroupItem = findGroup("100005", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
-//        findGroup("100014", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
-//    }
-//
-//    private ReimburseGroupItem findGroup(String tmtid, String fundId, String icd10Id, Date dateIn) {
-//        ReimburseGroupItem reimburseGroupItem = null;
-//        
-//        EdNed edNed = findEdNed(tmtid, fundId, dateIn);
-//        
-//        Icd10Group icd10Group = icd10GroupRepo.findByIcd10Id(icd10Id, icd10Id)
-//        
-//        reimburseGroupItem = reimburseGroupItemRepo.
-//        
-//        return reimburseGroupItem;
-//    }
+    @Test
+    public void testFindReimburseGroup() {
+        ReimburseGroupItem reimburseGroupItem;
+        reimburseGroupItem = findGroup("100005", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
+        String group = reimburseGroupItem.getReimburseGroup().getId();
+        assertEquals("CAG", group);
+        
+        reimburseGroupItem = findGroup("100005", "C", "A00", new GregorianCalendar(2012, 9, 1).getTime());
+        group = reimburseGroupItem.getReimburseGroup().getId();
+        assertEquals("OCPA", group);
+        
+        reimburseGroupItem = findGroup("100005", "O", "A00", new GregorianCalendar(2012, 9, 1).getTime());
+        assertNull(reimburseGroupItem);
+    }
+
+    private ReimburseGroupItem findGroup(String tmtid, String fundId, String icd10Id, Date dateIn) {
+        return reimburseGroupItemService.findReimburseGroup(tmtid, fundId, icd10Id, dateIn);
+    }
 
     private void printEdDetails(EdNed obj) {
         System.out.println("edned -> tmtId : " + obj.getPk().getTmtId());
