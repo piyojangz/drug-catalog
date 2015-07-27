@@ -17,16 +17,16 @@ public class ReimburseGroupItemPK implements Serializable {
     private String drug;
     private String fund;
     private String edStatus;
-    private Integer icd10Group;
+    private String icd10;
 
     public ReimburseGroupItemPK() {
 
     }
 
-    public ReimburseGroupItemPK(Drug drug, Fund fund, String status, Integer icd10Group) {
+    public ReimburseGroupItemPK(Drug drug, Fund fund, String status, String icd10) {
         this.drug = drug.getTmtId();
         this.fund = fund.getFundCode();
-        this.icd10Group = icd10Group;
+        this.icd10 = icd10;
         this.edStatus = status;
     }
 
@@ -54,12 +54,12 @@ public class ReimburseGroupItemPK implements Serializable {
         this.edStatus = edStatus;
     }
 
-    public Integer getIcd10Group() {
-        return icd10Group;
+    public String getIcd10() {
+        return icd10;
     }
 
-    public void setIcd10Group(Integer icd10Group) {
-        this.icd10Group = icd10Group;
+    public void setIcd10(String icd10) {
+        this.icd10 = icd10;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ReimburseGroupItemPK implements Serializable {
         hash = 89 * hash + Objects.hashCode(this.drug);
         hash = 89 * hash + Objects.hashCode(this.fund);
         hash = 89 * hash + Objects.hashCode(this.edStatus);
-        hash = 89 * hash + Objects.hashCode(this.icd10Group);
+        hash = 89 * hash + Objects.hashCode(this.icd10);
         return hash;
     }
 
@@ -90,7 +90,7 @@ public class ReimburseGroupItemPK implements Serializable {
         if (!Objects.equals(this.edStatus, other.edStatus)) {
             return false;
         }
-        if (!Objects.equals(this.icd10Group, other.icd10Group)) {
+        if (!Objects.equals(this.icd10, other.icd10)) {
             return false;
         }
         return true;

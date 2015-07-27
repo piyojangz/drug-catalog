@@ -128,13 +128,13 @@ public class CrudNewModelT {
         System.out.println("edned -> status : " + obj.getStatus());
     }
 
-    private void printReimburseGroupItemDetails(ReimburseGroupItem obj) {
-        System.out.println("ReimburseGroupItem -> tmtId : " + obj.getDrug().getTmtId());
-        System.out.println("ReimburseGroupItem -> fundId : " + obj.getFund().getFundCode());
-        System.out.println("ReimburseGroupItem -> icd10 : " + obj.getIcd10().getIcd10Id().getId());
-        System.out.println("ReimburseGroupItem -> status : " + obj.getEdStatus());
-        System.out.println("ReimburseGroupItem -> groupId : " + obj.getIcd10().getReimburseGroupId().getId());
-        System.out.println("ReimburseGroupItem -> groupDescription : " + obj.getIcd10().getReimburseGroupId().getDescription());
-        System.out.println("ReimburseGroupItem -> is group sprcial project : " + obj.getIcd10().getReimburseGroupId().isSpecialProject());
-    }
+//    private void printReimburseGroupItemDetails(ReimburseGroupItem obj) {
+//        System.out.println("ReimburseGroupItem -> tmtId : " + obj.getDrug().getTmtId());
+//        System.out.println("ReimburseGroupItem -> fundId : " + obj.getFund().getFundCode());
+//        System.out.println("ReimburseGroupItem -> icd10 : " + obj.getIcd10().getIcd10Id().getId());
+//        System.out.println("ReimburseGroupItem -> status : " + obj.getEdStatus());
+//        System.out.println("ReimburseGroupItem -> groupId : " + obj.getIcd10().getReimburseGroupId().getId());
+//        System.out.println("ReimburseGroupItem -> groupDescription : " + obj.getIcd10().getReimburseGroupId().getDescription());
+//        System.out.println("ReimburseGroupItem -> is group sprcial project : " + obj.getIcd10().getReimburseGroupId().isSpecialProject());
+//    }
 }

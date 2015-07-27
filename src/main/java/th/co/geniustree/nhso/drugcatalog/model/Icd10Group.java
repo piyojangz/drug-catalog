@@ -7,16 +7,12 @@ package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 /**
@@ -24,57 +20,52 @@ import javax.persistence.Version;
  * @author Thanthathon
  */
 @Entity
-@Table(name = "ICD10_GROUP", uniqueConstraints = @UniqueConstraint(columnNames = {"icd10Id", "reimburseGroupId"}))
+@Table(name = "ICD10_GROUP")
+@IdClass(Icd10GroupPK.class)
 public class Icd10Group implements Serializable {
 
     @Id
-    @TableGenerator(name = "ICD10_GROUP_GEN",
-            table = "TMT_SEQUENCE",
-            pkColumnName = "name",
-            valueColumnName = "value",
-            pkColumnValue = "ICD10_GROUP", allocationSize = 1)
-    @GeneratedValue(generator = "ICD10_GROUP_GEN", strategy = GenerationType.TABLE)
-    private Integer id;
-
     @ManyToOne
-    @JoinColumn(name = "ICD10_ID", insertable = false, updatable = false, nullable = false)
-    private ICD10 icd10Id;
-
+    @JoinColumn(name = "ICD10_ID")
+    private ICD10 icd10;
+    
+    @Id
     @ManyToOne
-    @JoinColumn(name = "REIMBURSE_GROUP_ID", insertable = false, updatable = false, nullable = false)
-    private ReimburseGroup reimburseGroupId;
+    @JoinColumn(name = "REIMBURSE_GROUP_ID")
+    private ReimburseGroup reimburseGroup;
 
     @Version
     private Integer version;
 
-    public ICD10 getIcd10Id() {
-        return icd10Id;
+    public Icd10Group() {
     }
 
-    public void setIcd10Id(ICD10 icd10Id) {
-        this.icd10Id = icd10Id;
+    public Icd10Group(ICD10 icd10, ReimburseGroup reimburseGroup) {
+        this.icd10 = icd10;
+        this.reimburseGroup = reimburseGroup;
     }
 
-    public ReimburseGroup getReimburseGroupId() {
-        return reimburseGroupId;
+    public ICD10 getIcd10() {
+        return icd10;
     }
 
-    public void setReimburseGroupId(ReimburseGroup reimburseGroupId) {
-        this.reimburseGroupId = reimburseGroupId;
+    public void setIcd10(ICD10 icd10) {
+        this.icd10 = icd10;
     }
 
-    public Integer getId() {
-        return id;
+    public ReimburseGroup getReimburseGroup() {
+        return reimburseGroup;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setReimburseGroup(ReimburseGroup reimburseGroup) {
+        this.reimburseGroup = reimburseGroup;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.icd10);
+        hash = 79 * hash + Objects.hashCode(this.reimburseGroup);
         return hash;
     }
 
@@ -87,10 +78,10 @@ public class Icd10Group implements Serializable {
             return false;
         }
         final Icd10Group other = (Icd10Group) obj;
-        if (!Objects.equals(this.icd10Id, other.icd10Id)) {
+        if (!Objects.equals(this.icd10, other.icd10)) {
             return false;
         }
-        if (!Objects.equals(this.reimburseGroupId, other.reimburseGroupId)) {
+        if (!Objects.equals(this.reimburseGroup, other.reimburseGroup)) {
             return false;
         }
         return true;
