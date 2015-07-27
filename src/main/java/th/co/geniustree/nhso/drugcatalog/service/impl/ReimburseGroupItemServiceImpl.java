@@ -8,6 +8,9 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,5 +105,16 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         return reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtid, fundCode,edStatus , icd10Id));
     }
 
+    @Override
+    public Page<ReimburseGroupItem> findAllPaging(Pageable pageable) {
+        return reimburseGroupItemRepo.findAll(pageable);
+    }
+
+    @Override
+    public Page<ReimburseGroupItem> findPagingBySpec(Specification spec, Pageable pageable) {
+        return reimburseGroupItemRepo.findAll(spec, pageable);
+    }
+
+    
     
 }

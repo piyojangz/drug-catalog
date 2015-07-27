@@ -30,13 +30,11 @@ import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ICD10;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
-import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 
 /**
  *
@@ -49,19 +47,13 @@ public class ReimburseGroupItemController {
     private static final Logger log = LoggerFactory.getLogger(ReimburseGroupItemController.class);
 
     @Autowired
-    private DrugRepo drugRepo;
-
-    @Autowired
     private FundRepo fundRepo;
 
     @Autowired
     private Icd10Repo icdRepo;
 
     @Autowired
-    private EdNedRepo edNedRepo;
-
-    @Autowired
-    private ReimburseGroupItemRepo reimburseGroupItemRepo;
+    private ReimburseGroupItemService reimburseGroupItemService;
 
     @Autowired
     private ReimburseGroupRepo reimburseGroupRepo;
@@ -96,7 +88,7 @@ public class ReimburseGroupItemController {
         reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
             @Override
             public Page<ReimburseGroupItem> load(Pageable pageAble) {
-                Page<ReimburseGroupItem> page = reimburseGroupItemRepo.findAll(pageAble);
+                Page<ReimburseGroupItem> page = reimburseGroupItemService.findAllPaging(pageAble);
 
                 return page;
             }
@@ -104,24 +96,17 @@ public class ReimburseGroupItemController {
     }
 
     public void onSave() {
-        if (!(fund == null || reimburseGroup == null)) {
+        if ((fund != null && reimburseGroup != null)) {
             fundCode = fund.getFundCode();
             group = reimburseGroup.getId();
-//            if (!(tmtId.isEmpty() || fundCode.isEmpty() || icd10Id.isEmpty() || edStatus.isEmpty() || group.isEmpty())) {
-//                Drug d = drugRepo.findOne(tmtId);
-//                Fund f = fundRepo.findOne(fundCode);
-//                ICD10 i = icdRepo.findOne(icd10Id);
-//                ReimburseGroup g = reimburseGroupRepo.findOne(group);
-//                reimburseGroupItem = new ReimburseGroupItem(edStatus, d, f, i, g);
-//                try {
-//                    reimburseGroupItemRepo.save(reimburseGroupItem);
-//                    FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
-//                } catch (Exception e) {
-//                    FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
-//                }
-//            }
-        } else {
+            try {
+                reimburseGroupItemService.save(tmtId, fundCode, edStatus, icd10Id, group);
+                FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
+            } catch (Exception e) {
+                FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
+            }
 
+        } else {
             FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้");
         }
         resetData();
@@ -146,7 +131,7 @@ public class ReimburseGroupItemController {
             @Override
             public Page<ReimburseGroupItem> load(Pageable pageAble) {
                 Specification spec = specify(searchKeyword);
-                Page<ReimburseGroupItem> page = reimburseGroupItemRepo.findAll(spec, pageAble);
+                Page<ReimburseGroupItem> page = reimburseGroupItemService.findPagingBySpec(spec, pageAble);
                 return page;
             }
         };

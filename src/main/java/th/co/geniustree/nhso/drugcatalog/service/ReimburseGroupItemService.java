@@ -6,6 +6,9 @@
 package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.Date;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 
 /**
@@ -19,4 +22,8 @@ public interface ReimburseGroupItemService {
     public ReimburseGroupItem save(ReimburseGroupItem reimburseGroupItem);
     
     public ReimburseGroupItem findReimburseGroup(String tmtid , String fundCode , String icd10Id, Date dateIn);
+    
+    public Page<ReimburseGroupItem> findAllPaging(Pageable pageable);
+    
+    public Page<ReimburseGroupItem> findPagingBySpec(Specification spec , Pageable pageable);
 }

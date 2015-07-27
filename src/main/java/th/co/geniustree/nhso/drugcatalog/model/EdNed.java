@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -30,11 +31,11 @@ public class EdNed implements Serializable {
     @Column(name = "ED_STATUS")
     private String status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
     private Drug tmtDrug;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "FUND_CODE", referencedColumnName = "FUND_CODE", nullable = false, insertable = false, updatable = false)
     private Fund fund;
 

@@ -39,12 +39,31 @@ public class FundController {
     private SpringDataLazyDataModelSupport<Fund> funds;
 
     private Fund fund;
-    
+
     private String keyword;
 
     @PostConstruct
     public void postConstruct() {
         fund = new Fund();
+        findAll();
+    }
+
+    public void onSave() {
+        if (!fund.getFundCode().isEmpty()) {
+            try {
+                fundService.save(fund);
+                FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
+            } catch (Exception e) {
+                FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
+            }
+        } else {
+            FacesMessageUtils.warn("กรุณาใส่ข้อมูล");
+        }
+        findAll();
+        fund = new Fund();
+    }
+
+    public void findAll() {
         funds = new SpringDataLazyDataModelSupport<Fund>() {
 
             @Override
@@ -54,28 +73,16 @@ public class FundController {
         };
     }
 
-    public void onSave() {
-        if (!fund.getFundCode().isEmpty() && !fund.getName().isEmpty()) {
-            try {
-                fundService.save(fund);
-                FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
-            } catch (Exception e) {
-                FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
-            }
-        }
-        fund = new Fund();
-    }
-    
-    public void search(){
+    public void search() {
         funds = new SpringDataLazyDataModelSupport<Fund>() {
 
             @Override
             public Page<Fund> load(Pageable pageAble) {
                 List<String> keyList = Arrays.asList(keyword.split(" "));
                 Specification<Fund> spec = Specifications.where(FundSpecs.fundCodeLike(keyList)).or(FundSpecs.fundNameLike(keyList));
-                
+
                 Page<Fund> page = fundService.findAllBySpecs(spec, pageAble);
-                log.info("search word : {}" , keyword);
+                log.info("search word : {}", keyword);
                 return page;
             }
         };
@@ -97,8 +104,6 @@ public class FundController {
     public void setFund(Fund fund) {
         this.fund = fund;
     }
-    
-    
 
     public String getKeyword() {
         return keyword;

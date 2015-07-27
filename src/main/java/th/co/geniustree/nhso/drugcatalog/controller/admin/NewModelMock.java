@@ -39,7 +39,7 @@ public class NewModelMock {
 
     @Autowired
     private FundRepo fundRepo;
-    
+
     @Autowired
     private EdNedRepo edNedRepo;
 
@@ -48,7 +48,6 @@ public class NewModelMock {
 
 //    @Autowired
 //    private ReimburseGroupRepo reimburseGroupRepo;
-    
     private List<Fund> funds;
     private List<Date> dateEffectiveList;
 
@@ -66,7 +65,7 @@ public class NewModelMock {
 
     @PostConstruct
     public void postConstruct() {
-        
+
     }
 
     public void findGroup() {
@@ -78,22 +77,22 @@ public class NewModelMock {
         fundId = selectedFund.getFundCode();
         List<Object[]> obj = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
         edNed = EdNedMapper.mapToModelAndGetFirst(obj);
-        
-//        if (edNed != null) {
-//            log.info("edStatus -> {}" , edNed.getStatus());
-//            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId.toUpperCase(), icd10Id.toUpperCase(), edNed.getStatus()));
-//            if (reimburseGroupItem != null) {
-//                log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
-//                log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
-//            } else {
-//                FacesMessageUtils.error("ไม่พบข้อมูลในตาราง ReimburseGroupItem");
-//            }
-//
-//        } else {
-//            FacesMessageUtils.error("ไม่พบข้อมูลในตาราง Ed_STATUS");
-//        }
+
+        if (edNed != null) {
+            log.info("edStatus -> {}", edNed.getStatus());
+            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId.toUpperCase(), edNed.getStatus(), icd10Id.toUpperCase()));
+            if (reimburseGroupItem != null) {
+                log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
+                log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
+            } else {
+                FacesMessageUtils.error("ไม่พบข้อมูลในตาราง ReimburseGroupItem");
+            }
+
+        } else {
+            FacesMessageUtils.error("ไม่พบข้อมูลในตาราง Ed_STATUS");
+        }
     }
-    
+
     public void onSearchIcd10Dialog() {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
@@ -115,6 +114,7 @@ public class NewModelMock {
         }
         log.info("selected drug from search dialog is => {}", tmtId);
     }
+
     public void onIcdDialogReturn(SelectEvent event) {
         String icd = (String) event.getObject();
         if (icd != null) {
@@ -147,7 +147,7 @@ public class NewModelMock {
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/tmtdialog", options, params);
     }
-   
+
     //****************** getter and setter method ******************
     public String getSearchTMT() {
         return searchTMT;
