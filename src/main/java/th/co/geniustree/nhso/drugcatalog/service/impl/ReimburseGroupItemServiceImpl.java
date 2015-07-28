@@ -5,25 +5,27 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.EdNedMapper;
 import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 import th.co.geniustree.nhso.drugcatalog.model.ICD10Group;
 import th.co.geniustree.nhso.drugcatalog.model.ICD10GroupID;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemID;
 import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
@@ -31,6 +33,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.Icd10GroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 
 /**
@@ -62,20 +65,22 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
     @Autowired
     private FundRepo fundReopo;
 
-//    @Override
-//    public ReimburseGroupItem save(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
-//
-//        Drug drug = drugRepo.findOne(tmtid);
-//        Fund fund = fundReopo.findOne(fundCode);
-//        ICD10 icd10 = icd10Repo.findOne(icd10Id);
-//        ReimburseGroup reimburseGroup = reimburseGroupRepo.findOne(reimburseGroupId);
-//        if (hasData(tmtid, fundCode, edStatus, icd10Id, reimburseGroupId)) {
-//            ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(edStatus, drug, fund, icd10, reimburseGroup);
-//            return reimburseGroupItemRepo.save(reimburseGroupItem);
-//        } else {
-//            return null;
-//        }
-//    }
+    @Override
+    public ReimburseGroupItem save(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId, Date budgetYear) {
+
+        Drug drug = drugRepo.findOne(tmtid);
+        Fund fund = fundReopo.findOne(fundCode);
+        ICD10Group icd10Group = icd10GroupRepo.findOne(new ICD10GroupID(icd10Id, reimburseGroupId));
+        if (budgetYear == null) {
+            budgetYear = new GregorianCalendar(2015, 9, 1).getTime();
+        }
+        if (hasData(tmtid, fundCode, edStatus, icd10Id, reimburseGroupId)) {
+            ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(edStatus, drug, fund, icd10Group, budgetYear);
+            return reimburseGroupItemRepo.save(reimburseGroupItem);
+        } else {
+            return null;
+        }
+    }
 
     private boolean hasData(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
         EdNed edNed = edNedRepo.findByTmtDrugAndFundAndStatus(tmtid, fundCode, edStatus);
@@ -83,22 +88,22 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         return edNed != null && icd10Group != null;
     }
 
-//    @Override
-//    public ReimburseGroupItem save(ReimburseGroupItem item) {
-//        if (hasData(item.getDrug().getTmtId(),
-//                item.getFund().getFundCode(),
-//                item.getEdStatus(),
-//                item.getIcd10().getId(),
-//                item.getReimburseGroup().getId())) {
-//            return reimburseGroupItemRepo.save(item);
-//        } else {
-//            return null;
-//        }
-//    }
+    @Override
+    public ReimburseGroupItem save(ReimburseGroupItem item) {
+        if (hasData(item.getTmtDrug().getTmtId(),
+                item.getFund().getFundCode(),
+                item.getStatusEd(),
+                item.getIcd10Group().getIcd10().getCode(),
+                item.getIcd10Group().getReimburseGroup().getId())) {
+            return reimburseGroupItemRepo.save(item);
+        } else {
+            return null;
+        }
+    }
 
     @Override
-    public ReimburseGroupItem findReimburseGroup(String tmtid, String fundCode, String icd10Id, Date dateIn) {
-        List<Object[]> objs = edNedRepo.findByTmtDrugAndFund(tmtid, fundCode, dateIn);
+    public List<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Id, Date budgetYear) {
+        List<Object[]> objs = edNedRepo.findByTmtDrugAndFund(tmtid, fundCode, budgetYear);
         if (objs == null) {
             return null;
         }
@@ -107,7 +112,18 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
             return null;
         }
         String edStatus = edNed.getStatus();
-        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemID(tmtid, fundCode, edStatus, icd10Id));
+        Specification<ReimburseGroupItem> spec = Specifications.where(ReimburseGroupItemSpecs.tmtIdLike(createList(tmtid)))
+                .and(ReimburseGroupItemSpecs.edStatusEq(edStatus))
+                .and(ReimburseGroupItemSpecs.budgetYearEq(budgetYear));
+        return reimburseGroupItemRepo.findAll(spec);
+    }
+
+    private List<String> createList(String text) {
+        if (text == null) {
+            return null;
+        }
+        String[] sp = text.split(" ");
+        return Arrays.asList(sp);
     }
 
     @Override

@@ -23,7 +23,7 @@ import th.co.geniustree.nhso.drugcatalog.service.Icd10GroupService;
  */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-public class Icd10GroupServiceImpl implements Icd10GroupService{
+public class Icd10GroupServiceImpl implements Icd10GroupService {
 
     @Autowired
     private Icd10GroupRepo icd10GroupRepo;
@@ -41,7 +41,7 @@ public class Icd10GroupServiceImpl implements Icd10GroupService{
 
     @Override
     public ICD10Group findOne(String icd10Id, String reimburseGroupId) {
-        return  icd10GroupRepo.findOne(new ICD10GroupID(icd10Id, reimburseGroupId));
+        return icd10GroupRepo.findOne(new ICD10GroupID(icd10Id, reimburseGroupId));
     }
 
     @Override
@@ -52,16 +52,8 @@ public class Icd10GroupServiceImpl implements Icd10GroupService{
     }
 
     @Override
-    public List<ICD10Group> findByIcd10Code(String icd10Id) {
-        return icd10GroupRepo.findByIcd10Code(icd10Id);
-    }
-
-    @Override
     public List<ICD10Group> findByReimburseGroupId(String reimburseGroupId) {
         return icd10GroupRepo.findByReimburseGroupId(reimburseGroupId);
     }
 
-    
-    
-    
 }

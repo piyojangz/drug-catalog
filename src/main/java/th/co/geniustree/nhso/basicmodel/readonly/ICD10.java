@@ -28,9 +28,6 @@ public class ICD10 implements Serializable {
     @Column(name = "DESC_R")
     private String name;
     
-    @Version
-    private Integer version;
-
     public String getCode() {
         return code;
     }
@@ -45,14 +42,6 @@ public class ICD10 implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     @Override

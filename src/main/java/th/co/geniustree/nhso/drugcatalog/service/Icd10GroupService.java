@@ -23,8 +23,6 @@ public interface Icd10GroupService {
     public ICD10Group findOne(String icd10Id , String reimburseGroupId);
     
     public ICD10Group findOne(ICD10Group icd10Group);
-    
-    public List<ICD10Group> findByIcd10Code(String icd10Id);
-    
+        
     public List<ICD10Group> findByReimburseGroupId(String reimburseGroupId);
 }

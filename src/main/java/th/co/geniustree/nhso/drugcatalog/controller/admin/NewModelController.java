@@ -80,7 +80,6 @@ public class NewModelController {
 
         if (edNed != null) {
             log.info("edStatus -> {}", edNed.getStatus());
-            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemID(tmtId, fundId.toUpperCase(), edNed.getStatus(), icd10Id.toUpperCase()));
             if (reimburseGroupItem != null) {
             } else {
                 FacesMessageUtils.error("ไม่พบข้อมูลในตาราง ReimburseGroupItem");

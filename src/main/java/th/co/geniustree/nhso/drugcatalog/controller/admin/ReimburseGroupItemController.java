@@ -191,22 +191,22 @@ public class ReimburseGroupItemController {
         String icd = (String) event.getObject();
         if (icd != null) {
             icd10Id = icd;
-            reimburseGroups = findReimburseGroupOfSelectedIcd10(icd);
+//            reimburseGroups = findReimburseGroupOfSelectedIcd10(icd);
         }
         log.info("selected icd10 from search dialog is => {}", icd10Id);
     }
 
-    private List<ReimburseGroup> findReimburseGroupOfSelectedIcd10(String icd10Id) {
-        List<ICD10Group> icdGroupList = icd10GroupService.findByIcd10Code(icd10Id);
-        List<ReimburseGroup> reimburseGroupList = new ArrayList<>();
-        for (ICD10Group g : icdGroupList) {
-            ReimburseGroup gr = reimburseGroupRepo.findOne(g.getReimburseGroup().getId());
-            if (gr != null) {
-                reimburseGroupList.add(gr);
-            }
-        }
-        return reimburseGroupList;
-    }
+//    private List<ReimburseGroup> findReimburseGroupOfSelectedIcd10(String icd10Id) {
+//        List<ICD10Group> icdGroupList = icd10GroupService.findByIcd10Code(icd10Id);
+//        List<ReimburseGroup> reimburseGroupList = new ArrayList<>();
+//        for (ICD10Group g : icdGroupList) {
+//            ReimburseGroup gr = reimburseGroupRepo.findOne(g.getReimburseGroup().getId());
+//            if (gr != null) {
+//                reimburseGroupList.add(gr);
+//            }
+//        }
+//        return reimburseGroupList;
+//    }
 
     public List<Fund> completeFund(String query) {
         funds = fundRepo.findAll();

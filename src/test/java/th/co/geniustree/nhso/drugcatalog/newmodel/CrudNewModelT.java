@@ -37,7 +37,7 @@ public class CrudNewModelT {
 
     @Autowired
     private ReimburseGroupItemService reimburseGroupItemService;
-    
+
     @Autowired
     private EdNedRepo edNedRepo;
 
@@ -82,22 +82,22 @@ public class CrudNewModelT {
         return EdNedMapper.mapToModelAndGetFirst(objList);
     }
 
-//    @Test
-//    public void testFindReimburseGroup() {
-//        ReimburseGroupItem reimburseGroupItem;
-//        reimburseGroupItem = findGroup("100005", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
-//        String group = reimburseGroupItem.getReimburseGroup().getId();
-//        assertEquals("CAG", group);
-//        
-//        reimburseGroupItem = findGroup("100005", "C", "A00", new GregorianCalendar(2012, 9, 1).getTime());
-//        group = reimburseGroupItem.getReimburseGroup().getId();
-//        assertEquals("OCPA", group);
-//        
-//        reimburseGroupItem = findGroup("100005", "O", "A00", new GregorianCalendar(2012, 9, 1).getTime());
-//        assertNull(reimburseGroupItem);
-//    }
+    @Test
+    public void testFindReimburseGroup() {
+        List<ReimburseGroupItem> reimburseGroupItems;
+        reimburseGroupItems = findGroup("100005", "UC", "A00", new GregorianCalendar(2012, 9, 1).getTime());
+        String group = reimburseGroupItems.get(0).getIcd10Group().getReimburseGroup().getId();
+        assertEquals("CAG", group);
 
-    private ReimburseGroupItem findGroup(String tmtid, String fundId, String icd10Id, Date dateIn) {
-        return reimburseGroupItemService.findReimburseGroup(tmtid, fundId, icd10Id, dateIn);
+//        
+        reimburseGroupItems = findGroup("100005", "C", "A00", new GregorianCalendar(2012, 9, 1).getTime());
+        group = reimburseGroupItems.get(0).getIcd10Group().getReimburseGroup().getId();
+        assertEquals("OCPA", group);
+        reimburseGroupItems = findGroup("100005", "O", "A00", new GregorianCalendar(2012, 9, 1).getTime());
+        assertNull(reimburseGroupItems);
+    }
+
+    private List<ReimburseGroupItem> findGroup(String tmtid, String fundId, String icd10Id, Date budgetYear) {
+        return reimburseGroupItemService.findReimburseGroupItem(tmtid, fundId, icd10Id, budgetYear);
     }
 }
