@@ -16,8 +16,8 @@ import th.co.geniustree.nhso.drugcatalog.model.Icd10GroupPK;
  */
 public interface Icd10GroupRepo  extends JpaRepository<Icd10Group, Icd10GroupPK>{
     
-    public List<Icd10Group> findByIcd10(String icd10Id);
+    public List<Icd10Group> findByIcd10Id(String icd10Id);
     
-    public List<Icd10Group> findByReimburseGroup(String icd10Id);
+    public List<Icd10Group> findByReimburseGroupId(String icd10Id);
     
 }

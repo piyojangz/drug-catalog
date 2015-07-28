@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,5 @@ public interface Icd10Repo extends JpaRepository<ICD10, String> , JpaSpecificati
     
     public Page<ICD10> findByIdContains(String search,Pageable pageable);
     
+    public List<ICD10> findByIdContains(String searchId);
 }

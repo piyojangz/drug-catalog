@@ -64,45 +64,50 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
 
     @Override
     public ReimburseGroupItem save(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
-        EdNed edNed = edNedRepo.findByTmtDrugAndFundAndStatus(tmtid, fundCode, edStatus);
-        if (edNed == null) {
-            return null;
-        }
-        Icd10Group icd10Group = icd10GroupRepo.findOne(new Icd10GroupPK(icd10Id, reimburseGroupId));
-        if (icd10Group == null) {
-            return null;
-        }
+
         Drug drug = drugRepo.findOne(tmtid);
         Fund fund = fundReopo.findOne(fundCode);
         ICD10 icd10 = icd10Repo.findOne(icd10Id);
         ReimburseGroup reimburseGroup = reimburseGroupRepo.findOne(reimburseGroupId);
+        if (hasData(tmtid, fundCode, edStatus, icd10Id, reimburseGroupId)) {
+            ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(edStatus, drug, fund, icd10, reimburseGroup);
+            return reimburseGroupItemRepo.save(reimburseGroupItem);
+        } else {
+            return null;
+        }
+    }
 
-        ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(edStatus, drug, fund, icd10, reimburseGroup);
-
-        return reimburseGroupItemRepo.save(reimburseGroupItem);
+    private boolean hasData(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
+        EdNed edNed = edNedRepo.findByTmtDrugAndFundAndStatus(tmtid, fundCode, edStatus);
+        Icd10Group icd10Group = icd10GroupRepo.findOne(new Icd10GroupPK(icd10Id, reimburseGroupId));
+        return edNed != null && icd10Group != null;
     }
 
     @Override
     public ReimburseGroupItem save(ReimburseGroupItem item) {
-        return save(item.getDrug().getTmtId(),
+        if (hasData(item.getDrug().getTmtId(),
                 item.getFund().getFundCode(),
                 item.getEdStatus(),
                 item.getIcd10().getId(),
-                item.getReimburseGroup().getId());
+                item.getReimburseGroup().getId())) {
+            return reimburseGroupItemRepo.save(item);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public ReimburseGroupItem findReimburseGroup(String tmtid, String fundCode, String icd10Id, Date  dateIn) {
+    public ReimburseGroupItem findReimburseGroup(String tmtid, String fundCode, String icd10Id, Date dateIn) {
         List<Object[]> objs = edNedRepo.findByTmtDrugAndFund(tmtid, fundCode, dateIn);
-        if(objs == null){
+        if (objs == null) {
             return null;
         }
-        EdNed edNed = EdNedMapper.mapToModelAndGetFirst(objs);   
-        if( edNed == null ){
+        EdNed edNed = EdNedMapper.mapToModelAndGetFirst(objs);
+        if (edNed == null) {
             return null;
         }
         String edStatus = edNed.getStatus();
-        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtid, fundCode,edStatus , icd10Id));
+        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtid, fundCode, edStatus, icd10Id));
     }
 
     @Override
@@ -115,6 +120,4 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         return reimburseGroupItemRepo.findAll(spec, pageable);
     }
 
-    
-    
 }

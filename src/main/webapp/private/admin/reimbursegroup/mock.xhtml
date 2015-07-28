@@ -84,7 +84,7 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right; width: 100px;">
                             <h:outputText value="TMTID : "/>
                         </p:column>
                         <p:column>
@@ -96,7 +96,7 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             <h:outputText value="ID กองทุน : "/>
                         </p:column>
                         <p:column>
@@ -120,7 +120,7 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             <h:outputText value="ICD10_CODE : "/>
                         </p:column>
                         <p:column>
@@ -132,18 +132,7 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
-                            <h:outputText value="ED_STAUTS : "/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="edstatus" value="#{reimburseGroupItemController.edStatus}">
-                                <f:selectItems value="#{reimburseGroupItemController.edStatusList}" var="status"
-                                               itemLabel="#{status}" itemValue="#{status}"/>
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             <h:outputText value="group : "/>
                         </p:column>
                         <p:column>
@@ -167,6 +156,17 @@
                         </p:column>
                     </p:row>
                     <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="ED_STAUTS : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="edstatus" value="#{reimburseGroupItemController.edStatus}">
+                                <f:selectItems value="#{reimburseGroupItemController.edStatusList}" var="status"
+                                               itemLabel="#{status}" itemValue="#{status}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
                         <p:column colspan="2" style="text-align: center;">
                             <p:commandButton value="เพิ่ม" update="@form ,growl ,:reimburseGroupTable" actionListener="#{reimburseGroupItemController.onSave}"/>
                             <p:spacer width="20"/>
@@ -179,11 +179,11 @@
             <h:form id="searchform">
                 <p:panelGrid>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right; width: 100px;">
                             <h:outputText value="keyword : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{reimburseGroupItemController.searchKeyword}" styleClass="searchFund" style="width: 100px;"/>
+                            <p:inputText value="#{reimburseGroupItemController.searchKeyword}" styleClass="searchFund" style="width: 200px;"/>
                         </p:column>
                         <p:column>
                             <p:commandButton value="ค้นหา" update="@form , :reimburseGroupTable" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.search}"/>

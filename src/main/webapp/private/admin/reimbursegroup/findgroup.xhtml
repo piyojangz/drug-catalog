@@ -81,11 +81,11 @@
                             <h:outputText value="TMTID : "/>
                         </p:column>
                         <p:column style="width: 500px;min-width: 460px;">
-                            <p:inputText id="tmtid" value="#{newModelMock.tmtId}" styleClass="input1">
+                            <p:inputText id="tmtid" value="#{newModelController.tmtId}" styleClass="input1">
 
                             </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchTMTDrug()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{newModelMock.onTmtDialogReturn}" update="@form" />
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelController.onSearchTMTDrug()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{newModelController.onTmtDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -95,8 +95,8 @@
                         </p:column>
                         <p:column>
                             <p:autoComplete id="fund" 
-                                            value="#{newModelMock.selectedFund}" 
-                                            completeMethod="#{newModelMock.completeFund}"
+                                            value="#{newModelController.selectedFund}" 
+                                            completeMethod="#{newModelController.completeFund}"
                                             var="f" 
                                             itemLabel="#{f.name}" 
                                             itemValue="#{f.fundCode}" 
@@ -118,10 +118,10 @@
                             <h:outputText value="ICD10_CODE : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="icd10" value="#{newModelMock.icd10Id}" styleClass="input">
+                            <p:inputText id="icd10" value="#{newModelController.icd10Id}" styleClass="input">
                             </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelMock.onSearchIcd10Dialog()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{newModelMock.onIcdDialogReturn}" update="@form" />
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelController.onSearchIcd10Dialog()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{newModelController.onIcdDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -131,7 +131,7 @@
                         </p:column>
                         <p:column>
                             <p:calendar id="dateIn" 
-                                        value="#{newModelMock.dateIn}" 
+                                        value="#{newModelController.dateIn}" 
                                         styleClass="input" 
                                         locale="en_US" 
                                         pattern="dd/MM/yyyy"
@@ -142,18 +142,18 @@
                     </p:row>
                     <p:row>
                         <p:column>
-                            <p:commandButton value="ค้นหา" actionListener="#{newModelMock.findGroup()}" update="@form growl"/>
+                            <p:commandButton value="ค้นหา" actionListener="#{newModelController.findGroup()}" update="@form growl"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
 
-                <p:panelGrid rendered="#{not empty newModelMock.reimburseGroupItem.reimburseGroup}" style="font-size: 22px;">
+                <p:panelGrid rendered="#{not empty newModelController.reimburseGroupItem.reimburseGroup}" style="font-size: 22px;">
                     <p:row>
                         <p:column>
                             <h:outputText value="Is Special Project : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{newModelMock.reimburseGroupItem.reimburseGroup.specialProject}"/>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.specialProject}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -161,7 +161,7 @@
                             <h:outputText value="ED Status : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{newModelMock.reimburseGroupItem.edStatus}"/>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.edStatus}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -169,7 +169,7 @@
                             <h:outputText value="Reimburse Group : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{newModelMock.reimburseGroupItem.reimburseGroup.id}"/>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.id}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -177,7 +177,7 @@
                             <h:outputText value="Reimburse Group Description : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{newModelMock.reimburseGroupItem.reimburseGroup.description}"/>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.description}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>

@@ -33,9 +33,9 @@ import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
  */
 @Component
 @Scope("view")
-public class NewModelMock {
+public class NewModelController {
 
-    private static final Logger log = LoggerFactory.getLogger(NewModelMock.class);
+    private static final Logger log = LoggerFactory.getLogger(NewModelController.class);
 
     @Autowired
     private FundRepo fundRepo;

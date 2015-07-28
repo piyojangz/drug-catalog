@@ -28,12 +28,14 @@ import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ICD10;
+import th.co.geniustree.nhso.drugcatalog.model.Icd10Group;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.Icd10GroupService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 
 /**
@@ -51,6 +53,9 @@ public class ReimburseGroupItemController {
 
     @Autowired
     private Icd10Repo icdRepo;
+
+    @Autowired
+    private Icd10GroupService icd10GroupService;
 
     @Autowired
     private ReimburseGroupItemService reimburseGroupItemService;
@@ -186,8 +191,21 @@ public class ReimburseGroupItemController {
         String icd = (String) event.getObject();
         if (icd != null) {
             icd10Id = icd;
+            reimburseGroups = findReimburseGroupOfSelectedIcd10(icd);
         }
-        log.info("selected drug from search dialog is => {}", tmtId);
+        log.info("selected icd10 from search dialog is => {}", icd10Id);
+    }
+
+    private List<ReimburseGroup> findReimburseGroupOfSelectedIcd10(String icd10Id) {
+        List<Icd10Group> icdGroupList = icd10GroupService.findByIcd10Code(icd10Id);
+        List<ReimburseGroup> reimburseGroupList = new ArrayList<>();
+        for (Icd10Group g : icdGroupList) {
+            ReimburseGroup gr = reimburseGroupRepo.findOne(g.getReimburseGroup().getId());
+            if (gr != null) {
+                reimburseGroupList.add(gr);
+            }
+        }
+        return reimburseGroupList;
     }
 
     public List<Fund> completeFund(String query) {
@@ -201,19 +219,10 @@ public class ReimburseGroupItemController {
         return filterFunds;
     }
 
-    public List<ICD10> completeIcd10(String query) {
-        icd10s = icdRepo.findAll();
-        List<ICD10> filterIcd10 = new ArrayList<>();
-        for (ICD10 i : icd10s) {
-            if (i.getId().toUpperCase().contains(query.toUpperCase()) || (i.getName().toUpperCase().contains(query.toUpperCase()))) {
-                filterIcd10.add(i);
-            }
-        }
-        return filterIcd10;
-    }
-
     public List<ReimburseGroup> completeReimburseGroup(String query) {
-        reimburseGroups = reimburseGroupRepo.findAll();
+        if (reimburseGroups == null || reimburseGroups.isEmpty()) {
+            reimburseGroups = reimburseGroupRepo.findAll();
+        }
         List<ReimburseGroup> filterGroup = new ArrayList<>();
         for (ReimburseGroup g : reimburseGroups) {
             if (g.getId().toUpperCase().contains(query.toUpperCase()) || (g.getDescription().toUpperCase().contains(query.toUpperCase()))) {

@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -49,6 +50,17 @@ public class Icd10GroupServiceImpl implements Icd10GroupService{
         String reimburseGroupId = icd10Group.getReimburseGroup().getId();
         return findOne(icd10Id, reimburseGroupId);
     }
+
+    @Override
+    public List<Icd10Group> findByIcd10Code(String icd10Id) {
+        return icd10GroupRepo.findByIcd10Id(icd10Id);
+    }
+
+    @Override
+    public List<Icd10Group> findByReimburseGroupId(String reimburseGroupId) {
+        return icd10GroupRepo.findByReimburseGroupId(reimburseGroupId);
+    }
+
     
     
     
