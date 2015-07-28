@@ -72,6 +72,10 @@
                     min-width: 600px;
                 }
             </style>
+            
+            <f:metadata>
+                <f:viewAction action="#{reimburseGroupItemController.resetData()}"/>
+            </f:metadata>
             <h:form id="form">
                 <p:growl id="growl" showDetail="true"/>
                 <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
@@ -170,7 +174,7 @@
                         <p:column colspan="2" style="text-align: center;">
                             <p:commandButton value="เพิ่ม" update="@form ,growl ,:reimburseGroupTable" actionListener="#{reimburseGroupItemController.onSave}"/>
                             <p:spacer width="20"/>
-                            <p:commandButton value="reset" update="@form" type="reset"/>
+                            <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
