@@ -22,7 +22,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
+import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemID;
 import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
@@ -80,10 +80,8 @@ public class NewModelController {
 
         if (edNed != null) {
             log.info("edStatus -> {}", edNed.getStatus());
-            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtId, fundId.toUpperCase(), edNed.getStatus(), icd10Id.toUpperCase()));
+            reimburseGroupItem = reimburseGroupItemRepo.findOne(new ReimburseGroupItemID(tmtId, fundId.toUpperCase(), edNed.getStatus(), icd10Id.toUpperCase()));
             if (reimburseGroupItem != null) {
-                log.info("REIMBURSE_GROUP_ID  \t-> {}", reimburseGroupItem.getReimburseGroup().getId());
-                log.info("REIMBURSE_GROUP_DESC\t -> {}", reimburseGroupItem.getReimburseGroup().getDescription());
             } else {
                 FacesMessageUtils.error("ไม่พบข้อมูลในตาราง ReimburseGroupItem");
             }

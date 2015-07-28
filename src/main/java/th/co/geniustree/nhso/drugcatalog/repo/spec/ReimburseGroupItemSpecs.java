@@ -13,7 +13,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.Drug_;
 import th.co.geniustree.nhso.drugcatalog.model.Fund_;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10_;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem_;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup_;
@@ -32,9 +31,9 @@ public class ReimburseGroupItemSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(root.get(ReimburseGroupItem_.drug).get(Drug_.tmtId), "%" + keyword + "%");
+//                        and = cb.like(root.get(ReimburseGroupItem_.drug).get(Drug_.tmtId), "%" + keyword + "%");
                     } else {
-                        cb.and(and, cb.like(root.get(ReimburseGroupItem_.drug).get(Drug_.tmtId), "%" + keyword + "%"));
+//                        cb.and(and, cb.like(root.get(ReimburseGroupItem_.drug).get(Drug_.tmtId), "%" + keyword + "%"));
                     }
                 }
                 return and;
@@ -124,9 +123,9 @@ public class ReimburseGroupItemSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.equal(root.get(ReimburseGroupItem_.edStatus), "%" + keyword.toUpperCase() + "%");
+//                        and = cb.equal(root.get(ReimburseGroupItem_.edStatus), "%" + keyword.toUpperCase() + "%");
                     } else {
-                        cb.and(and, cb.equal(root.get(ReimburseGroupItem_.edStatus), "%" + keyword.toUpperCase() + "%"));
+//                        cb.and(and, cb.equal(root.get(ReimburseGroupItem_.edStatus), "%" + keyword.toUpperCase() + "%"));
                     }
                 }
                 return and;

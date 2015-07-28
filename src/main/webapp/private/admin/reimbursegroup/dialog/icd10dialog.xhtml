@@ -34,7 +34,7 @@
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                 <p:column headerText="#" width="50">#{rowIndex+1}</p:column>
                 <p:column headerText="group id" >
-                    <p:commandLink actionListener="#{icd10SelectorDialog.setSelectedDrug(model)}"  value="#{model.id}" style="color: blue">
+                    <p:commandLink actionListener="#{icd10SelectorDialog.setSelectedDrug(model)}"  value="#{model.code}" style="color: blue">
                     </p:commandLink>
                 </p:column>
                 <p:column headerText="name" width="500">

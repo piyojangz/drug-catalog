@@ -8,15 +8,15 @@ package th.co.geniustree.nhso.drugcatalog.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
+import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemID;
 
 /**
  *
  * @author Thanthathon
  */
-public interface ReimburseGroupItemRepo extends JpaRepository<ReimburseGroupItem, ReimburseGroupItemPK>, JpaSpecificationExecutor<ReimburseGroupItem> {
+public interface ReimburseGroupItemRepo extends JpaRepository<ReimburseGroupItem, ReimburseGroupItemID>, JpaSpecificationExecutor<ReimburseGroupItem> {
 
-    public ReimburseGroupItem findByEdStatusAndDrugAndFundAndIcd10(String edStatus , String tmtid , String fundCode , String icd10);
+    public ReimburseGroupItem findByStatusEdAndTmtDrugAndFund(String edStatus , String tmtid , String fundCode);
     
     
 }

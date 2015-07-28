@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.model.Drug;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 
 /**
@@ -42,7 +42,7 @@ public class Icd10SelectorDialog {
 
             @Override
             public Page<ICD10> load(Pageable pageAble) {
-                Page<ICD10> page = icdRepo.findByIdContains(searchIcd10, pageAble);
+                Page<ICD10> page = icdRepo.findByCodeContains(searchIcd10, pageAble);
                 return page;
             }
 
@@ -51,8 +51,8 @@ public class Icd10SelectorDialog {
 
     public void setSelectedDrug(ICD10 selectedIcd10) {
         this.selectedIcd10 = selectedIcd10;
-        log.info("selected drug => {}", selectedIcd10.getId());
-        RequestContext.getCurrentInstance().closeDialog(selectedIcd10.getId());
+        log.info("selected drug => {}", selectedIcd10.getCode());
+        RequestContext.getCurrentInstance().closeDialog(selectedIcd10.getCode());
     }
     public String getSearchIcd10() {
         return searchIcd10;

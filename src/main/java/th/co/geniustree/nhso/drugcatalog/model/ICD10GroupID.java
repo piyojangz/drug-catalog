@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Thanthathon
  */
-public class Icd10GroupPK implements Serializable{
+public class ICD10GroupID implements Serializable{
     private String icd10;
     private String reimburseGroup;
 
@@ -32,15 +32,13 @@ public class Icd10GroupPK implements Serializable{
         this.reimburseGroup = reimburseGroup;
     }
 
-    public Icd10GroupPK() {
+    public ICD10GroupID() {
     }
 
-    public Icd10GroupPK(String icd10, String reimburseGroup) {
+    public ICD10GroupID(String icd10, String reimburseGroup) {
         this.icd10 = icd10;
         this.reimburseGroup = reimburseGroup;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -58,7 +56,7 @@ public class Icd10GroupPK implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Icd10GroupPK other = (Icd10GroupPK) obj;
+        final ICD10GroupID other = (ICD10GroupID) obj;
         if (!Objects.equals(this.icd10, other.icd10)) {
             return false;
         }

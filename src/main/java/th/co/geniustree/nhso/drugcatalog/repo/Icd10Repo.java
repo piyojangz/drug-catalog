@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 
 /**
  *
@@ -18,7 +18,7 @@ import th.co.geniustree.nhso.drugcatalog.model.ICD10;
  */
 public interface Icd10Repo extends JpaRepository<ICD10, String> , JpaSpecificationExecutor<ICD10>{
     
-    public Page<ICD10> findByIdContains(String search,Pageable pageable);
+    public Page<ICD10> findByCodeContains(String search,Pageable pageable);
     
-    public List<ICD10> findByIdContains(String searchId);
+    public List<ICD10> findByCodeContains(String searchId);
 }

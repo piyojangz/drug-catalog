@@ -33,7 +33,7 @@ public class Drug implements Serializable, TMT {
     @Version
     private Integer version;
     
-    @OneToMany(mappedBy = "drug")
+    @OneToMany(mappedBy = "tmtDrug")
     private List<ReimburseGroupItem> reimburseGroups;
     
     @OneToMany(mappedBy = "tmtDrug")

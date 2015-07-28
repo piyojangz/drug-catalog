@@ -46,14 +46,6 @@ public class CrudNewModelT {
     public CrudNewModelT() {
     }
 
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     @Test
     public void testMappingToModel() {
         EdNed edNed;
@@ -90,20 +82,20 @@ public class CrudNewModelT {
         return EdNedMapper.mapToModelAndGetFirst(objList);
     }
 
-    @Test
-    public void testFindReimburseGroup() {
-        ReimburseGroupItem reimburseGroupItem;
-        reimburseGroupItem = findGroup("100005", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
-        String group = reimburseGroupItem.getReimburseGroup().getId();
-        assertEquals("CAG", group);
-        
-        reimburseGroupItem = findGroup("100005", "C", "A00", new GregorianCalendar(2012, 9, 1).getTime());
-        group = reimburseGroupItem.getReimburseGroup().getId();
-        assertEquals("OCPA", group);
-        
-        reimburseGroupItem = findGroup("100005", "O", "A00", new GregorianCalendar(2012, 9, 1).getTime());
-        assertNull(reimburseGroupItem);
-    }
+//    @Test
+//    public void testFindReimburseGroup() {
+//        ReimburseGroupItem reimburseGroupItem;
+//        reimburseGroupItem = findGroup("100005", "UC", "A00", new GregorianCalendar(2013, 9, 1).getTime());
+//        String group = reimburseGroupItem.getReimburseGroup().getId();
+//        assertEquals("CAG", group);
+//        
+//        reimburseGroupItem = findGroup("100005", "C", "A00", new GregorianCalendar(2012, 9, 1).getTime());
+//        group = reimburseGroupItem.getReimburseGroup().getId();
+//        assertEquals("OCPA", group);
+//        
+//        reimburseGroupItem = findGroup("100005", "O", "A00", new GregorianCalendar(2012, 9, 1).getTime());
+//        assertNull(reimburseGroupItem);
+//    }
 
     private ReimburseGroupItem findGroup(String tmtid, String fundId, String icd10Id, Date dateIn) {
         return reimburseGroupItemService.findReimburseGroup(tmtid, fundId, icd10Id, dateIn);

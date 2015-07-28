@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.model;
 
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -21,12 +22,12 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "ICD10_GROUP")
-@IdClass(Icd10GroupPK.class)
-public class Icd10Group implements Serializable {
+@IdClass(ICD10GroupID.class)
+public class ICD10Group implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "ICD10_ID")
+    @JoinColumn(name = "ICD10_CODE")
     private ICD10 icd10;
     
     @Id
@@ -37,10 +38,10 @@ public class Icd10Group implements Serializable {
     @Version
     private Integer version;
 
-    public Icd10Group() {
+    public ICD10Group() {
     }
 
-    public Icd10Group(ICD10 icd10, ReimburseGroup reimburseGroup) {
+    public ICD10Group(ICD10 icd10, ReimburseGroup reimburseGroup) {
         this.icd10 = icd10;
         this.reimburseGroup = reimburseGroup;
     }
@@ -77,7 +78,7 @@ public class Icd10Group implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Icd10Group other = (Icd10Group) obj;
+        final ICD10Group other = (ICD10Group) obj;
         if (!Objects.equals(this.icd10, other.icd10)) {
             return false;
         }

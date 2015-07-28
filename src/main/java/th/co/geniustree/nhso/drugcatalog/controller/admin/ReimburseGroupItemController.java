@@ -27,8 +27,8 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10Group;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10Group;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
@@ -105,7 +105,7 @@ public class ReimburseGroupItemController {
             fundCode = fund.getFundCode();
             group = reimburseGroup.getId();
             try {
-                reimburseGroupItemService.save(tmtId, fundCode, edStatus, icd10Id, group);
+//                reimburseGroupItemService.save(tmtId, fundCode, edStatus, icd10Id, group);
                 FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
             } catch (Exception e) {
                 FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
@@ -197,9 +197,9 @@ public class ReimburseGroupItemController {
     }
 
     private List<ReimburseGroup> findReimburseGroupOfSelectedIcd10(String icd10Id) {
-        List<Icd10Group> icdGroupList = icd10GroupService.findByIcd10Code(icd10Id);
+        List<ICD10Group> icdGroupList = icd10GroupService.findByIcd10Code(icd10Id);
         List<ReimburseGroup> reimburseGroupList = new ArrayList<>();
-        for (Icd10Group g : icdGroupList) {
+        for (ICD10Group g : icdGroupList) {
             ReimburseGroup gr = reimburseGroupRepo.findOne(g.getReimburseGroup().getId());
             if (gr != null) {
                 reimburseGroupList.add(gr);

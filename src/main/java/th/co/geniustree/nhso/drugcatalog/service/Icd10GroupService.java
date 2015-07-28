@@ -6,8 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.List;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10Group;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10Group;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 
 /**
@@ -16,15 +16,15 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
  */
 public interface Icd10GroupService {
 
-    public Icd10Group save(ICD10 icd10, ReimburseGroup reimburseGroup);
+    public ICD10Group save(ICD10 icd10, ReimburseGroup reimburseGroup);
 
-    public Icd10Group save(Icd10Group icd10Group);
+    public ICD10Group save(ICD10Group icd10Group);
     
-    public Icd10Group findOne(String icd10Id , String reimburseGroupId);
+    public ICD10Group findOne(String icd10Id , String reimburseGroupId);
     
-    public Icd10Group findOne(Icd10Group icd10Group);
+    public ICD10Group findOne(ICD10Group icd10Group);
     
-    public List<Icd10Group> findByIcd10Code(String icd10Id);
+    public List<ICD10Group> findByIcd10Code(String icd10Id);
     
-    public List<Icd10Group> findByReimburseGroupId(String reimburseGroupId);
+    public List<ICD10Group> findByReimburseGroupId(String reimburseGroupId);
 }

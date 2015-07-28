@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.SpringUtils;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 
 /**

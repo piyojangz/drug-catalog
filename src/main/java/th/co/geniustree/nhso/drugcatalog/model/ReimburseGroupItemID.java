@@ -12,25 +12,25 @@ import java.util.Objects;
  *
  * @author Thanthathon
  */
-public class ReimburseGroupItemPK implements Serializable {
+public class ReimburseGroupItemID implements Serializable {
 
     private String drug;
     private String fund;
     private String edStatus;
     private String icd10;
 
-    public ReimburseGroupItemPK() {
+    public ReimburseGroupItemID() {
 
     }
 
-    public ReimburseGroupItemPK(String tmtid, String fundCode, String edStatus, String icd10Id) {
+    public ReimburseGroupItemID(String tmtid, String fundCode, String edStatus, String icd10Id) {
         this.drug = tmtid;
         this.fund = fundCode;
         this.edStatus = edStatus;
         this.icd10 = icd10Id;
     }
 
-    public ReimburseGroupItemPK(Drug drug, Fund fund, String status, String icd10) {
+    public ReimburseGroupItemID(Drug drug, Fund fund, String status, String icd10) {
         this.drug = drug.getTmtId();
         this.fund = fund.getFundCode();
         this.icd10 = icd10;
@@ -87,7 +87,7 @@ public class ReimburseGroupItemPK implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ReimburseGroupItemPK other = (ReimburseGroupItemPK) obj;
+        final ReimburseGroupItemID other = (ReimburseGroupItemID) obj;
         if (!Objects.equals(this.drug, other.drug)) {
             return false;
         }

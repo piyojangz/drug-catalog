@@ -7,17 +7,17 @@ package th.co.geniustree.nhso.drugcatalog.repo;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10Group;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10GroupPK;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10Group;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10GroupID;
 
 /**
  *
  * @author Thanthathon
  */
-public interface Icd10GroupRepo  extends JpaRepository<Icd10Group, Icd10GroupPK>{
+public interface Icd10GroupRepo  extends JpaRepository<ICD10Group, ICD10GroupID>{
     
-    public List<Icd10Group> findByIcd10Id(String icd10Id);
+    public List<ICD10Group> findByIcd10Code(String icd10Id);
     
-    public List<Icd10Group> findByReimburseGroupId(String icd10Id);
+    public List<ICD10Group> findByReimburseGroupId(String icd10Id);
     
 }

@@ -17,9 +17,9 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
  */
 public interface ReimburseGroupItemService {
     
-    public ReimburseGroupItem save(String tmtid , String fundCode, String edStatus, String icd10Id , String reimburseGroupId);
-    
-    public ReimburseGroupItem save(ReimburseGroupItem reimburseGroupItem);
+//    public ReimburseGroupItem save(String tmtid , String fundCode, String edStatus, String icd10Id , String reimburseGroupId);
+//    
+//    public ReimburseGroupItem save(ReimburseGroupItem reimburseGroupItem);
     
     public ReimburseGroupItem findReimburseGroup(String tmtid , String fundCode , String icd10Id, Date dateIn);
     

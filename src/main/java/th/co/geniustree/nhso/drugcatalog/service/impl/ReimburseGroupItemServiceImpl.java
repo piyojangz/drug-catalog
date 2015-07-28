@@ -18,12 +18,12 @@ import th.co.geniustree.nhso.drugcatalog.controller.admin.EdNedMapper;
 import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10Group;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10GroupPK;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10Group;
+import th.co.geniustree.nhso.drugcatalog.model.ICD10GroupID;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
+import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemID;
 import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
@@ -62,39 +62,39 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
     @Autowired
     private FundRepo fundReopo;
 
-    @Override
-    public ReimburseGroupItem save(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
-
-        Drug drug = drugRepo.findOne(tmtid);
-        Fund fund = fundReopo.findOne(fundCode);
-        ICD10 icd10 = icd10Repo.findOne(icd10Id);
-        ReimburseGroup reimburseGroup = reimburseGroupRepo.findOne(reimburseGroupId);
-        if (hasData(tmtid, fundCode, edStatus, icd10Id, reimburseGroupId)) {
-            ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(edStatus, drug, fund, icd10, reimburseGroup);
-            return reimburseGroupItemRepo.save(reimburseGroupItem);
-        } else {
-            return null;
-        }
-    }
+//    @Override
+//    public ReimburseGroupItem save(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
+//
+//        Drug drug = drugRepo.findOne(tmtid);
+//        Fund fund = fundReopo.findOne(fundCode);
+//        ICD10 icd10 = icd10Repo.findOne(icd10Id);
+//        ReimburseGroup reimburseGroup = reimburseGroupRepo.findOne(reimburseGroupId);
+//        if (hasData(tmtid, fundCode, edStatus, icd10Id, reimburseGroupId)) {
+//            ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(edStatus, drug, fund, icd10, reimburseGroup);
+//            return reimburseGroupItemRepo.save(reimburseGroupItem);
+//        } else {
+//            return null;
+//        }
+//    }
 
     private boolean hasData(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
         EdNed edNed = edNedRepo.findByTmtDrugAndFundAndStatus(tmtid, fundCode, edStatus);
-        Icd10Group icd10Group = icd10GroupRepo.findOne(new Icd10GroupPK(icd10Id, reimburseGroupId));
+        ICD10Group icd10Group = icd10GroupRepo.findOne(new ICD10GroupID(icd10Id, reimburseGroupId));
         return edNed != null && icd10Group != null;
     }
 
-    @Override
-    public ReimburseGroupItem save(ReimburseGroupItem item) {
-        if (hasData(item.getDrug().getTmtId(),
-                item.getFund().getFundCode(),
-                item.getEdStatus(),
-                item.getIcd10().getId(),
-                item.getReimburseGroup().getId())) {
-            return reimburseGroupItemRepo.save(item);
-        } else {
-            return null;
-        }
-    }
+//    @Override
+//    public ReimburseGroupItem save(ReimburseGroupItem item) {
+//        if (hasData(item.getDrug().getTmtId(),
+//                item.getFund().getFundCode(),
+//                item.getEdStatus(),
+//                item.getIcd10().getId(),
+//                item.getReimburseGroup().getId())) {
+//            return reimburseGroupItemRepo.save(item);
+//        } else {
+//            return null;
+//        }
+//    }
 
     @Override
     public ReimburseGroupItem findReimburseGroup(String tmtid, String fundCode, String icd10Id, Date dateIn) {
@@ -107,7 +107,7 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
             return null;
         }
         String edStatus = edNed.getStatus();
-        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtid, fundCode, edStatus, icd10Id));
+        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemID(tmtid, fundCode, edStatus, icd10Id));
     }
 
     @Override

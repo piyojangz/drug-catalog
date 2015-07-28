@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model;
+package th.co.geniustree.nhso.basicmodel.readonly;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,21 +22,21 @@ import javax.persistence.Version;
 public class ICD10 implements Serializable {
     
     @Id
-    @Column(name = "ICD10_ID")
-    private String id;
+    @Column(name = "CODE")
+    private String code;
     
-    @Column(name = "ICD10_NAME")
+    @Column(name = "DESC_R")
     private String name;
     
     @Version
     private Integer version;
 
-    public String getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -58,7 +58,7 @@ public class ICD10 implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.code);
         return hash;
     }
 
@@ -71,7 +71,7 @@ public class ICD10 implements Serializable {
             return false;
         }
         final ICD10 other = (ICD10) obj;
-        return Objects.equals(this.id, other.id);
+        return Objects.equals(this.code, other.code);
     }
     
 }
