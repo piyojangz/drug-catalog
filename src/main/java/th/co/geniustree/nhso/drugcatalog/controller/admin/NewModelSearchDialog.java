@@ -15,8 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.model.Drug;
-import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 
 /**
  *
@@ -28,14 +27,14 @@ public class NewModelSearchDialog {
 
     private static final Logger log = LoggerFactory.getLogger(NewModelSearchDialog.class);
 
-    @Autowired
-    private DrugRepo drugRepo;
+//    @Autowired
+//    private TMTD drugRepo;
 
-    private SpringDataLazyDataModelSupport<Drug> drugs;
+    private SpringDataLazyDataModelSupport<TMTDrug> drugs;
     
     private String searchTMT;
 
-    private Drug selectedDrug;
+    private TMTDrug selectedDrug;
     
     @PostConstruct
     public void postConstruct() {
@@ -43,30 +42,30 @@ public class NewModelSearchDialog {
     }
 
     public void search() {
-        drugs = new SpringDataLazyDataModelSupport<Drug>() {
-        
-            @Override
-            public Page<Drug> load(Pageable pageAble) {
-                Page<Drug> page = drugRepo.findByTmtIdContains(searchTMT, pageAble);
-
-                return page;
-            }
-
-        };
+//        drugs = new SpringDataLazyDataModelSupport<TMTDrug>() {
+//        
+//            @Override
+//            public Page<Drug> load(Pageable pageAble) {
+//                Page<Drug> page = drugRepo.findByTmtIdContains(searchTMT, pageAble);
+//
+//                return page;
+//            }
+//
+//        };
     }
     
-    public void setSelectedDrug(Drug selectTMTDrug) {
-        this.selectedDrug = selectTMTDrug;
-        log.info("selected drug => {}", selectTMTDrug.getTmtId());
-        RequestContext.getCurrentInstance().closeDialog(selectTMTDrug.getTmtId());
+    public void setSelectedDrug(TMTDrug selectTMTDrug) {
+//        this.selectedDrug = selectTMTDrug;
+//        log.info("selected drug => {}", selectTMTDrug.getTmtId());
+//        RequestContext.getCurrentInstance().closeDialog(selectTMTDrug.getTmtId());
     }
 
     //****************** getter and setter method ******************
-    public SpringDataLazyDataModelSupport<Drug> getDrugs() {
+    public SpringDataLazyDataModelSupport<TMTDrug> getDrugs() {
         return drugs;
     }
 
-    public void setDrugs(SpringDataLazyDataModelSupport<Drug> drugs) {
+    public void setDrugs(SpringDataLazyDataModelSupport<TMTDrug> drugs) {
         this.drugs = drugs;
     }
 

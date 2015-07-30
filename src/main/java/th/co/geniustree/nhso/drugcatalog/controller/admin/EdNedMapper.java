@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import th.co.geniustree.nhso.drugcatalog.model.EdNed;
+import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 
 /**
  *
@@ -31,19 +31,20 @@ public class EdNedMapper {
      * @param objList - list of result
      * @return edNed entity - a first element
      */
-    public static EdNed mapToModelAndGetFirst(List<Object[]> objList) {
-        if (objList.isEmpty()) {
-            return null;
-        }
-        Object[] obj = objList.get(0);
-        if (obj.length != 4) {
-            return null;
-        }
-        Date date = stringToDate(obj[2].toString());
-        EdNed edNed = new EdNed(obj[0].toString(), obj[1].toString(), date);
-        edNed.setStatus(obj[3].toString());
+    public static TMTEdNed mapToModelAndGetFirst(List<Object[]> objList) {
+//        if (objList.isEmpty()) {
+//            return null;
+//        }
+//        Object[] obj = objList.get(0);
+//        if (obj.length != 4) {
+//            return null;
+//        }
+//        Date date = stringToDate(obj[2].toString());
+//        EdNed edNed = new EdNed(obj[0].toString(), obj[1].toString(), date);
+//        edNed.setStatus(obj[3].toString());
 
-        return edNed;
+//        return edNed;
+        return null;
     }
 
     private static Date stringToDate(String dateText) {

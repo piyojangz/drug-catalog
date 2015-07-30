@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.model.Drug;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 

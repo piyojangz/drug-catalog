@@ -13,14 +13,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10_;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
-import th.co.geniustree.nhso.drugcatalog.model.Drug_;
 import th.co.geniustree.nhso.drugcatalog.model.Fund_;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10Group_;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem_;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup_;
-import static th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup_.specialProject;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug_;
 
 /**
  *
@@ -36,9 +33,9 @@ public class ReimburseGroupItemSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(root.get(ReimburseGroupItem_.tmtDrug).get(Drug_.tmtId), "%" + keyword + "%");
+                        and = cb.like(root.get(ReimburseGroupItem_.tmtDrug).get(TMTDrug_.tmtId), "%" + keyword + "%");
                     } else {
-                        cb.and(and, cb.like(root.get(ReimburseGroupItem_.tmtDrug).get(Drug_.tmtId), "%" + keyword + "%"));
+                        cb.and(and, cb.like(root.get(ReimburseGroupItem_.tmtDrug).get(TMTDrug_.tmtId), "%" + keyword + "%"));
                     }
                 }
                 return and;
@@ -55,9 +52,9 @@ public class ReimburseGroupItemSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(cb.upper(root.get(ReimburseGroupItem_.fund).get(Fund_.fundCode)), "%" + keyword.toUpperCase() + "%");
+                        and = cb.like(cb.upper(root.get(ReimburseGroupItem_.fund).get(Fund_.code)), "%" + keyword.toUpperCase() + "%");
                     } else {
-                        cb.and(and, cb.like(cb.upper(root.get(ReimburseGroupItem_.fund).get(Fund_.fundCode)), "%" + keyword.toUpperCase() + "%"));
+                        cb.and(and, cb.like(cb.upper(root.get(ReimburseGroupItem_.fund).get(Fund_.code)), "%" + keyword.toUpperCase() + "%"));
                     }
                 }
                 return and;
@@ -92,9 +89,9 @@ public class ReimburseGroupItemSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(cb.upper(root.get(ReimburseGroupItem_.icd10Group).get(ICD10Group_.icd10).get(ICD10_.code)), "%" + keyword.toUpperCase() + "%");
+                        and = cb.like(cb.upper(root.get(ReimburseGroupItem_.icd10).get(ICD10_.code)), "%" + keyword.toUpperCase() + "%");
                     } else {
-                        cb.and(and, cb.like(cb.upper(root.get(ReimburseGroupItem_.icd10Group).get(ICD10Group_.icd10).get(ICD10_.code)), "%" + keyword.toUpperCase() + "%"));
+                        cb.and(and, cb.like(cb.upper(root.get(ReimburseGroupItem_.icd10).get(ICD10_.code)), "%" + keyword.toUpperCase() + "%"));
                     }
                 }
                 return and;
@@ -110,9 +107,9 @@ public class ReimburseGroupItemSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10Group).get(ICD10Group_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%");
+                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%");
                     } else {
-                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10Group).get(ICD10Group_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%"));
+                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10).get(ICD10_.name)), "%" + keyword.toLowerCase() + "%"));
                     }
                 }
                 return and;
@@ -138,9 +135,9 @@ public class ReimburseGroupItemSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10Group).get(ICD10Group_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%");
+                        and = cb.like(cb.lower(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%");
                     } else {
-                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.icd10Group).get(ICD10Group_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%"));
+                        cb.and(and, cb.like(cb.lower(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.id)), "%" + keyword.toLowerCase() + "%"));
                     }
                 }
                 return and;
@@ -153,7 +150,7 @@ public class ReimburseGroupItemSpecs {
 
             @Override
             public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get(ReimburseGroupItem_.icd10Group).get(ICD10Group_.reimburseGroup).get(ReimburseGroup_.specialProject), specialProject);
+                return cb.equal(root.get(ReimburseGroupItem_.reimburseGroup).get(ReimburseGroup_.specialProject), specialProject);
             }
         };
     }
@@ -163,7 +160,6 @@ public class ReimburseGroupItemSpecs {
 
             @Override
             public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                
                 return cb.equal(root.get(ReimburseGroupItem_.budgetYear), budgetYear);
             }
         };

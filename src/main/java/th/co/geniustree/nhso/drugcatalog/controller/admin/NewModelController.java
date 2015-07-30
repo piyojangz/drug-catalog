@@ -19,11 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
-import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemID;
-import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
+import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
 
@@ -39,9 +37,6 @@ public class NewModelController {
 
     @Autowired
     private FundRepo fundRepo;
-
-    @Autowired
-    private EdNedRepo edNedRepo;
 
     @Autowired
     private ReimburseGroupItemRepo reimburseGroupItemRepo;
@@ -69,25 +64,25 @@ public class NewModelController {
     }
 
     public void findGroup() {
-        log.info("TMTID     -> {}", tmtId);
-        log.info("FUND_ID   -> {}", fundId);
-        log.info("ICD0_CODE -> {}", icd10Id);
-        log.info("DATE_IN   -> {}", dateIn);
-        EdNed edNed;
-        fundId = selectedFund.getFundCode();
-        List<Object[]> obj = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
-        edNed = EdNedMapper.mapToModelAndGetFirst(obj);
-
-        if (edNed != null) {
-            log.info("edStatus -> {}", edNed.getStatus());
-            if (reimburseGroupItem != null) {
-            } else {
-                FacesMessageUtils.error("ไม่พบข้อมูลในตาราง ReimburseGroupItem");
-            }
-
-        } else {
-            FacesMessageUtils.error("ไม่พบข้อมูลในตาราง Ed_STATUS");
-        }
+//        log.info("TMTID     -> {}", tmtId);
+//        log.info("FUND_ID   -> {}", fundId);
+//        log.info("ICD0_CODE -> {}", icd10Id);
+//        log.info("DATE_IN   -> {}", dateIn);
+//        EdNed edNed;
+//        fundId = selectedFund.getFundCode();
+//        List<Object[]> obj = edNedRepo.findByTmtDrugAndFund(tmtId, fundId, dateIn);
+//        edNed = EdNedMapper.mapToModelAndGetFirst(obj);
+//
+//        if (edNed != null) {
+//            log.info("edStatus -> {}", edNed.getStatus());
+//            if (reimburseGroupItem != null) {
+//            } else {
+//                FacesMessageUtils.error("ไม่พบข้อมูลในตาราง ReimburseGroupItem");
+//            }
+//
+//        } else {
+//            FacesMessageUtils.error("ไม่พบข้อมูลในตาราง Ed_STATUS");
+//        }
     }
 
     public void onSearchIcd10Dialog() {
@@ -124,7 +119,7 @@ public class NewModelController {
         funds = fundRepo.findAll();
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund fund : funds) {
-            if (fund.getFundCode().startsWith(query.toUpperCase()) || (fund.getName().contains(query))) {
+            if (fund.getCode().startsWith(query.toUpperCase()) || (fund.getName().contains(query))) {
                 filterFunds.add(fund);
             }
         }

@@ -24,18 +24,16 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.model.Drug;
-import th.co.geniustree.nhso.drugcatalog.model.EdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10Group;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
-import th.co.geniustree.nhso.drugcatalog.service.Icd10GroupService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 
 /**
@@ -54,8 +52,6 @@ public class ReimburseGroupItemController {
     @Autowired
     private Icd10Repo icdRepo;
 
-    @Autowired
-    private Icd10GroupService icd10GroupService;
 
     @Autowired
     private ReimburseGroupItemService reimburseGroupItemService;
@@ -63,10 +59,10 @@ public class ReimburseGroupItemController {
     @Autowired
     private ReimburseGroupRepo reimburseGroupRepo;
 
-    private Drug drug;
+    private TMTDrug drug;
     private Fund fund;
+    private TMTEdNed edNed;
     private ICD10 icd10;
-    private EdNed edNed;
     private ReimburseGroup reimburseGroup;
     private ReimburseGroupItem reimburseGroupItem;
 
@@ -102,7 +98,7 @@ public class ReimburseGroupItemController {
 
     public void onSave() {
         if ((fund != null && reimburseGroup != null)) {
-            fundCode = fund.getFundCode();
+            fundCode = fund.getCode();
             group = reimburseGroup.getId();
             try {
 //                reimburseGroupItemService.save(tmtId, fundCode, edStatus, icd10Id, group);
@@ -118,17 +114,17 @@ public class ReimburseGroupItemController {
     }
 
     public void resetData() {
-        tmtId = "";
-        fundCode = "";
-        icd10Id = "";
-        edStatus = "";
-        group = "";
-        drug = new Drug();
-        fund = new Fund();
-        icd10 = new ICD10();
-        edNed = new EdNed();
-        reimburseGroup = new ReimburseGroup();
-        reimburseGroupItem = new ReimburseGroupItem();
+//        tmtId = "";
+//        fundCode = "";
+//        icd10Id = "";
+//        edStatus = "";
+//        group = "";
+//        drug = new Drug();
+//        fund = new Fund();
+//        icd10 = new ICD10();
+//        edNed = new EdNed();
+//        reimburseGroup = new ReimburseGroup();
+//        reimburseGroupItem = new ReimburseGroupItem();
     }
 
     public void search() {
@@ -144,9 +140,7 @@ public class ReimburseGroupItemController {
 
     private Specification specify(String keyword) {
         List<String> keyList = Arrays.asList(keyword.split(" "));
-        Specification<ReimburseGroupItem> spec = Specifications.where(ReimburseGroupItemSpecs.tmtIdLike(keyList))
-                .or(ReimburseGroupItemSpecs.fundIdLike(keyList))
-                .or(ReimburseGroupItemSpecs.fundNameLike(keyList));
+        Specification<ReimburseGroupItem> spec = Specifications.where(null);
 //                .or(ReimburseGroupItemSpecs.icd10IdLike(keyList));
         return spec;
     }
@@ -212,7 +206,7 @@ public class ReimburseGroupItemController {
         funds = fundRepo.findAll();
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund f : funds) {
-            if (f.getFundCode().toUpperCase().contains(query.toUpperCase()) || (f.getName().toUpperCase().contains(query.toUpperCase()))) {
+            if (f.getCode().toUpperCase().contains(query.toUpperCase()) || (f.getName().toUpperCase().contains(query.toUpperCase()))) {
                 filterFunds.add(f);
             }
         }
@@ -241,11 +235,11 @@ public class ReimburseGroupItemController {
         this.reimburseGroupItem = reimburseGroupItem;
     }
 
-    public Drug getDrug() {
+    public TMTDrug getDrug() {
         return drug;
     }
 
-    public void setDrug(Drug drug) {
+    public void setDrug(TMTDrug drug) {
         this.drug = drug;
     }
 
@@ -265,11 +259,11 @@ public class ReimburseGroupItemController {
         this.icd10 = icd10;
     }
 
-    public EdNed getEdNed() {
+    public TMTEdNed getEdNed() {
         return edNed;
     }
 
-    public void setEdNed(EdNed edNed) {
+    public void setEdNed(TMTEdNed edNed) {
         this.edNed = edNed;
     }
 

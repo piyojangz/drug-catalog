@@ -6,20 +6,16 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 
 /**
  *
@@ -28,70 +24,39 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "TMT_REIMBURSE_GROUP_ITEM")
 public class ReimburseGroupItem implements Serializable {
-
-    @Id
-    @TableGenerator(name = "TMT_REIMBURSE_GROUP_ITEM_GEN",
-            table = "TMT_SEQUENCE",
-            pkColumnName = "name",
-            valueColumnName = "value",
-            pkColumnValue = "TMT_REIMBURSE_GROUP_ITEM")
-    @GeneratedValue(generator = "TMT_REIMBURSE_GROUP_ITEM_GEN", strategy = GenerationType.TABLE)
-    private Integer id;
-
-    @Column(name = "ED_STATUS")
-    private String statusEd;
+public enum ED{N,E,EX}
+    @EmbeddedId
+    private ReimburseGroupItemPK pk;
 
     @ManyToOne
-    @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", insertable = false, updatable = false, nullable = false)
-    private Drug tmtDrug;
+    @JoinColumn(name = "TMTID", insertable = false, updatable = false, nullable = false)
+    private TMTDrug tmtDrug;
 
     @ManyToOne
-    @JoinColumn(name = "FUND_CODE", referencedColumnName = "FUND_CODE", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "FUND_CODE", insertable = false, updatable = false, nullable = false)
     private Fund fund;
 
     @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "ICD10_CODE", referencedColumnName = "ICD10_CODE", insertable = false, updatable = false),
-        @JoinColumn(name = "REIMBURSE_GROUP_ID", referencedColumnName = "REIMBURSE_GROUP_ID", insertable = false, updatable = false)
-    })
-    private ICD10Group icd10Group;
+    @JoinColumn(name = "ICD10_CODE", insertable = false, updatable = false, nullable = false)
+    private ICD10 icd10;
 
-    @Temporal(TemporalType.DATE)
-    private Date budgetYear;
+    @ManyToOne
+    @JoinColumn(name = "REIMBURSE_GROUP_ID", insertable = false, updatable = false, nullable = false)
+    private ReimburseGroup reimburseGroup;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ED_STATUS")
+    private ED statusEd;
 
     public ReimburseGroupItem() {
     }
 
-    public ReimburseGroupItem(String statusEd, Drug drug, Fund fund, ICD10Group icd10Group, Date budgetYear) {
-        this.statusEd = statusEd;
-        this.tmtDrug = drug;
-        this.fund = fund;
-        this.icd10Group = icd10Group;
-        this.budgetYear = budgetYear;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getStatusEd() {
+    public ED getStatusEd() {
         return statusEd;
     }
 
-    public void setStatusEd(String statusEd) {
+    public void setStatusEd(ED statusEd) {
         this.statusEd = statusEd;
-    }
-
-    public Drug getTmtDrug() {
-        return tmtDrug;
-    }
-
-    public void setTmtDrug(Drug tmtDrug) {
-        this.tmtDrug = tmtDrug;
     }
 
     public Fund getFund() {
@@ -102,26 +67,43 @@ public class ReimburseGroupItem implements Serializable {
         this.fund = fund;
     }
 
-    public ICD10Group getIcd10Group() {
-        return icd10Group;
+   
+    public ReimburseGroupItemPK getPk() {
+        return pk;
     }
 
-    public void setIcd10Group(ICD10Group icd10Group) {
-        this.icd10Group = icd10Group;
+    public void setPk(ReimburseGroupItemPK pk) {
+        this.pk = pk;
     }
 
-    public Date getBudgetYear() {
-        return budgetYear;
+    public TMTDrug getTmtDrug() {
+        return tmtDrug;
     }
 
-    public void setBudgetYear(Date budgetYear) {
-        this.budgetYear = budgetYear;
+    public void setTmtDrug(TMTDrug tmtDrug) {
+        this.tmtDrug = tmtDrug;
+    }
+
+    public ICD10 getIcd10() {
+        return icd10;
+    }
+
+    public void setIcd10(ICD10 icd10) {
+        this.icd10 = icd10;
+    }
+
+    public ReimburseGroup getReimburseGroup() {
+        return reimburseGroup;
+    }
+
+    public void setReimburseGroup(ReimburseGroup reimburseGroup) {
+        this.reimburseGroup = reimburseGroup;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.pk);
         return hash;
     }
 
@@ -134,7 +116,7 @@ public class ReimburseGroupItem implements Serializable {
             return false;
         }
         final ReimburseGroupItem other = (ReimburseGroupItem) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.pk, other.pk)) {
             return false;
         }
         return true;

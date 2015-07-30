@@ -49,7 +49,7 @@ public class FundController {
     }
 
     public void onSave() {
-        if (!fund.getFundCode().isEmpty()) {
+        if (!fund.getCode().isEmpty()) {
             try {
                 fundService.save(fund);
                 FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");

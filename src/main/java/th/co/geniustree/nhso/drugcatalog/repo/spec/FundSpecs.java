@@ -28,9 +28,9 @@ public class FundSpecs {
                 Predicate and = null;
                 for (String keyword : keywords) {
                     if (and == null) {
-                        and = cb.like(cb.lower(root.get(Fund_.fundCode)), "%" + keyword.toLowerCase() + "%");
+                        and = cb.like(cb.lower(root.get(Fund_.code)), "%" + keyword.toLowerCase() + "%");
                     } else {
-                        cb.and(and, cb.like(cb.lower(root.get(Fund_.fundCode)), "%" + keyword.toLowerCase() + "%"));
+                        cb.and(and, cb.like(cb.lower(root.get(Fund_.code)), "%" + keyword.toLowerCase() + "%"));
                     }
                 }
                 return and;
