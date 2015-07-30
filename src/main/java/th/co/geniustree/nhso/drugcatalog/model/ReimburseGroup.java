@@ -32,6 +32,15 @@ public class ReimburseGroup implements Serializable {
 
     private Integer version;
 
+    public ReimburseGroup() {
+    }
+
+    public ReimburseGroup(String id, String description, boolean specialProject) {
+        this.id = id;
+        this.description = description;
+        this.specialProject = specialProject;
+    }
+    
     public String getId() {
         return id;
     }

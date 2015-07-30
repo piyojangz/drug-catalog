@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -24,7 +25,11 @@ import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 @Entity
 @Table(name = "TMT_REIMBURSE_GROUP_ITEM")
 public class ReimburseGroupItem implements Serializable {
-public enum ED{N,E,EX}
+
+    public enum ED {
+
+        N, E, EX
+    }
     @EmbeddedId
     private ReimburseGroupItemPK pk;
 
@@ -51,6 +56,15 @@ public enum ED{N,E,EX}
     public ReimburseGroupItem() {
     }
 
+    public ReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup, ED statusEd, Date budgetYear) {
+        this.tmtDrug = tmtDrug;
+        this.fund = fund;
+        this.icd10 = icd10;
+        this.reimburseGroup = reimburseGroup;
+        this.statusEd = statusEd;
+        this.pk = new ReimburseGroupItemPK(tmtDrug, fund, icd10, reimburseGroup, budgetYear);
+    }
+    
     public ED getStatusEd() {
         return statusEd;
     }
@@ -67,7 +81,6 @@ public enum ED{N,E,EX}
         this.fund = fund;
     }
 
-   
     public ReimburseGroupItemPK getPk() {
         return pk;
     }

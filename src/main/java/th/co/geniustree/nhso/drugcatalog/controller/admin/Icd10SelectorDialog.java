@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
+import th.co.geniustree.nhso.drugcatalog.repo.ICD10Repo;
 
 /**
  *
@@ -28,7 +28,7 @@ public class Icd10SelectorDialog {
     private static final Logger log = LoggerFactory.getLogger(Icd10SelectorDialog.class);
 
     @Autowired
-    private Icd10Repo icdRepo;
+    private ICD10Repo icdRepo;
 
     private String searchIcd10;
 

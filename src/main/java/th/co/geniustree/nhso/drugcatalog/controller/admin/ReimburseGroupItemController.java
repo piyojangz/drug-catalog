@@ -31,7 +31,7 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
+import th.co.geniustree.nhso.drugcatalog.repo.ICD10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
@@ -50,7 +50,7 @@ public class ReimburseGroupItemController {
     private FundRepo fundRepo;
 
     @Autowired
-    private Icd10Repo icdRepo;
+    private ICD10Repo icdRepo;
 
 
     @Autowired

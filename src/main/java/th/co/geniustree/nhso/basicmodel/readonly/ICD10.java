@@ -27,6 +27,14 @@ public class ICD10 implements Serializable {
     
     @Column(name = "DESC_R")
     private String name;
+
+    public ICD10() {
+    }
+
+    public ICD10(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
     
     public String getCode() {
         return code;

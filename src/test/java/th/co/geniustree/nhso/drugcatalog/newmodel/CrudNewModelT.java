@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
+import th.co.geniustree.nhso.drugcatalog.service.FundService;
+import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
 /**
  *
@@ -28,57 +30,29 @@ import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
 @Transactional(propagation = Propagation.REQUIRED)
 public class CrudNewModelT {
 
-//
-@Autowired
-private ReimburseGroupItemRepo edNedRepo;
-
+    @Autowired
+    private TMTDrugService tmtDrugService;
+    
+    @Autowired
+    private FundService fundService;
+    
+    
+    @Autowired
+    private ReimburseGroupItemRepo reimburseGroupItemRepo;
+    
     private static final Logger LOG = LoggerFactory.getLogger(CrudNewModelT.class);
 
     public CrudNewModelT() {
     }
 
     @Test
-    public void testMappingToModel() {
-//        EdNed edNed;
-//
-//        edNed = findEdNed("100005", "U", new GregorianCalendar(2013, 9, 1).getTime());
-//        assertNull(edNed);
-//
-//        edNed = findEdNed("100005", "UC", new GregorianCalendar(2011, 9, 1).getTime());
-//        assertNotNull(edNed);
-//        assertEquals("UC", edNed.getPk().getFundCode());
-//        assertEquals("100005", edNed.getPk().getTmtId());
-//        try {
-//            assertTrue(isInDefindStatus(edNed));
-//        } catch (Exception e) {
-//            assertTrue(e.getMessage(), false);
-//        }
-
+    public void testFindSpecialProject() {
+        
     }
-//    private boolean isInDefindStatus(EdNed edNed) {
-//        String edStatus = edNed.getStatus();
-//        edStatus = edStatus.toUpperCase();
-//        return edStatus.equals("E") || edStatus.equals("N") || edStatus.equals("E*");
-//    }
-//
-//    private EdNed findEdNed(String tmtId, String fundCode, Date dateIn) {
-//        List<Object[]> objList = edNedRepo.findByTmtDrugAndFund(tmtId, fundCode, dateIn);
-//        return EdNedMapper.mapToModelAndGetFirst(objList);
-//    }
-
+    
     @Test
-    public void testFindReimburseGroup() {
-//        List<ReimburseGroupItem> reimburseGroupItems;
-//        reimburseGroupItems = findGroup("100005", "UC", "A00", new GregorianCalendar(2012, 9, 1).getTime());
-//        String group = reimburseGroupItems.get(0).getIcd10Group().getReimburseGroup().getId();
-//        assertEquals("CAG", group);
-//
-////        
-//        reimburseGroupItems = findGroup("100005", "C", "A00", new GregorianCalendar(2012, 9, 1).getTime());
-//        group = reimburseGroupItems.get(0).getIcd10Group().getReimburseGroup().getId();
-//        assertEquals("OCPA", group);
-//        reimburseGroupItems = findGroup("100005", "O", "A00", new GregorianCalendar(2012, 9, 1).getTime());
-//        assertNull(reimburseGroupItems);
+    public void testSaveReimburseGroupItem(){
+        
     }
 
 }

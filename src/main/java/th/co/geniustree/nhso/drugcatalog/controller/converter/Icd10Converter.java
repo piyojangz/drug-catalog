@@ -12,7 +12,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.SpringUtils;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
+import th.co.geniustree.nhso.drugcatalog.repo.ICD10Repo;
 
 /**
  *
@@ -21,10 +21,10 @@ import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
 @FacesConverter("icd10Converter")
 public class Icd10Converter implements Converter, Serializable {
 
-    private final Icd10Repo icd10Repo;
+    private final ICD10Repo icd10Repo;
 
     public Icd10Converter() {
-        icd10Repo = SpringUtils.getBean(Icd10Repo.class);
+        icd10Repo = SpringUtils.getBean(ICD10Repo.class);
     }
 
     @Override
