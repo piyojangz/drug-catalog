@@ -5,8 +5,11 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo;
 
+import java.util.Date;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
 
@@ -16,6 +19,12 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
  */
 public interface ReimburseGroupItemRepo extends JpaRepository<ReimburseGroupItem, ReimburseGroupItemPK>, JpaSpecificationExecutor<ReimburseGroupItem> {  
     
-    
-//    public List<ReimburseGroupItem> findByTmtDrugTmtIdAndStatusEdAndFundCodeAndBudgetYear(String tmtid , String statusEd , String fundCode , Date budgetYear);
+    @Query("select i "
+            + "from ReimburseGroupItem i "
+            + "where i.pk.tmtid = ?1 "
+            + "and i.pk.fundCode = ?2 "
+            + "and i.pk.icd10Code = ?3 "
+            + "and i.pk.budgetYear = ?4 ")
+    public List<ReimburseGroupItem> findbyTMTFundICD10BudgetYear(String tmtid, String fundCode, String icd10Code , Integer budgetYear);
+
 }

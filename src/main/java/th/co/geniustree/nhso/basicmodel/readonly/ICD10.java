@@ -11,14 +11,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 /**
  *
  * @author Thanthathon
  */
 @Entity
-@Table(name = "ICD10")
+@Table(name = "ICD10_VIEW")
 public class ICD10 implements Serializable {
     
     @Id

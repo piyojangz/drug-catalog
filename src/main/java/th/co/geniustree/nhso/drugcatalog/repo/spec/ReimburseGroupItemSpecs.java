@@ -117,16 +117,6 @@ public class ReimburseGroupItemSpecs {
         };
     }
 
-    public static Specification<ReimburseGroupItem> edStatusEq(final String keyword) {
-        return new Specification<ReimburseGroupItem>() {
-
-            @Override
-            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(cb.upper(root.get(ReimburseGroupItem_.statusEd)), keyword.toUpperCase());
-            }
-        };
-    }
-
     public static Specification<ReimburseGroupItem> reimburseGroupIdLike(final List<String> keywords) {
         return new Specification<ReimburseGroupItem>() {
 
@@ -154,15 +144,4 @@ public class ReimburseGroupItemSpecs {
             }
         };
     }
-
-    public static Specification<ReimburseGroupItem> budgetYearEq(final Date budgetYear) {
-        return new Specification<ReimburseGroupItem>() {
-
-            @Override
-            public Predicate toPredicate(Root<ReimburseGroupItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get(ReimburseGroupItem_.budgetYear), budgetYear);
-            }
-        };
-    }
-
 }

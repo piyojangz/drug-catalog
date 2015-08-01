@@ -56,7 +56,7 @@ public class ReimburseGroupItem implements Serializable {
     public ReimburseGroupItem() {
     }
 
-    public ReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup, ED statusEd, Date budgetYear) {
+    public ReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup, ED statusEd, Integer budgetYear) {
         this.tmtDrug = tmtDrug;
         this.fund = fund;
         this.icd10 = icd10;

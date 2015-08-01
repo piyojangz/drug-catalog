@@ -22,70 +22,69 @@ import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 public class ReimburseGroupItemPK implements Serializable {
 
     @Column(name = "TMTID")
-    private String drug;
+    private String tmtid;
 
     @Column(name = "FUND_CODE")
-    private String fund;
+    private String fundCode;
 
     @Column(name = "ICD10_CODE")
-    private String icd10;
+    private String icd10Code;
     
     @Column(name = "REIMBURSE_GROUP_ID")
     private String reimburseGroupId;
     
-    @Temporal(TemporalType.DATE)
     @Column(name = "BUDGET_YEAR")
-    private Date budgetYear;
+    private Integer budgetYear;
 
     public ReimburseGroupItemPK() {
 
     }
 
-    public ReimburseGroupItemPK(String tmtid, String fundCode, String icd10Id,String reimburseGroupId ,Date budgetYear) {
-        this.drug = tmtid;
-        this.fund = fundCode;
-        this.icd10 = icd10Id;
+    public ReimburseGroupItemPK(String tmtid, String fundCode, String icd10Id,String reimburseGroupId ,Integer budgetYear) {
+        this.tmtid = tmtid;
+        this.fundCode = fundCode;
+        this.icd10Code = icd10Id;
         this.budgetYear = budgetYear;
         this.reimburseGroupId = reimburseGroupId;
     }
 
-    public ReimburseGroupItemPK(TMTDrug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup ,Date budgetYear) {
-        this.drug = drug.getTmtId();
-        this.fund = fund.getCode();
-        this.icd10 = icd10.getCode();
+    public ReimburseGroupItemPK(TMTDrug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup ,Integer budgetYear) {
+        this.tmtid = drug.getTmtId();
+        this.fundCode = fund.getCode();
+        this.icd10Code = icd10.getCode();
         this.reimburseGroupId = reimburseGroup.getId();
         this.budgetYear = budgetYear;
     }
 
-    public String getDrug() {
-        return drug;
+    public String getTmtid() {
+        return tmtid;
     }
 
-    public void setDrug(String drug) {
-        this.drug = drug;
+    public void setTmtid(String tmtid) {
+        this.tmtid = tmtid;
     }
 
-    public String getFund() {
-        return fund;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setFund(String fund) {
-        this.fund = fund;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
-    public String getIcd10() {
-        return icd10;
+    public String getIcd10Code() {
+        return icd10Code;
     }
 
-    public void setIcd10(String icd10) {
-        this.icd10 = icd10;
+    public void setIcd10Code(String icd10Code) {
+        this.icd10Code = icd10Code;
     }
 
-    public Date getBudgetYear() {
+    public Integer getBudgetYear() {
         return budgetYear;
     }
 
-    public void setBudgetYear(Date budgetYear) {
+    public void setBudgetYear(Integer budgetYear) {
         this.budgetYear = budgetYear;
     }
 
@@ -100,9 +99,9 @@ public class ReimburseGroupItemPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.drug);
-        hash = 11 * hash + Objects.hashCode(this.fund);
-        hash = 11 * hash + Objects.hashCode(this.icd10);
+        hash = 11 * hash + Objects.hashCode(this.tmtid);
+        hash = 11 * hash + Objects.hashCode(this.fundCode);
+        hash = 11 * hash + Objects.hashCode(this.icd10Code);
         hash = 11 * hash + Objects.hashCode(this.reimburseGroupId);
         hash = 11 * hash + Objects.hashCode(this.budgetYear);
         return hash;
@@ -117,13 +116,13 @@ public class ReimburseGroupItemPK implements Serializable {
             return false;
         }
         final ReimburseGroupItemPK other = (ReimburseGroupItemPK) obj;
-        if (!Objects.equals(this.drug, other.drug)) {
+        if (!Objects.equals(this.tmtid, other.tmtid)) {
             return false;
         }
-        if (!Objects.equals(this.fund, other.fund)) {
+        if (!Objects.equals(this.fundCode, other.fundCode)) {
             return false;
         }
-        if (!Objects.equals(this.icd10, other.icd10)) {
+        if (!Objects.equals(this.icd10Code, other.icd10Code)) {
             return false;
         }
         if (!Objects.equals(this.reimburseGroupId, other.reimburseGroupId)) {

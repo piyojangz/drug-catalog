@@ -22,11 +22,13 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
  */
 public interface ReimburseGroupItemService {
 
-    public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Date budgetYear);
+    public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Integer budgetYear);
 
-    public ReimburseGroupItem findById(String tmtid, String fundCode, String icd10Id, String reimburseGroupId, Date budgetYear);
+    public ReimburseGroupItem findById(String tmtid, String fundCode, String icd10Id, String reimburseGroupId, Date searchDate);
 
     public Page<ReimburseGroupItem> findAllPaging(Pageable pageable);
 
     public Page<ReimburseGroupItem> findPagingBySpec(Specification spec, Pageable pageable);
+    
+    public List<ReimburseGroupItem> findReimburseGroup(String tmtid, String fundCode, String icd10Id,Date searchDate);
 }
