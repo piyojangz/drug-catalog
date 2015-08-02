@@ -6,6 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,11 @@ public class ICD10ServiceImpl implements ICD10Service{
     @Override
     public ICD10 findByCode(String code) {
         return icd10Repo.findOne(code);
+    }
+
+    @Override
+    public Page<ICD10> findByCodeContains(String code, Pageable pageable) {
+        return icd10Repo.findByCodeContains(code, pageable);
     }
     
 }

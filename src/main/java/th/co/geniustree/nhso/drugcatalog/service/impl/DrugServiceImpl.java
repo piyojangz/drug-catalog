@@ -31,5 +31,10 @@ public class DrugServiceImpl implements  TMTDrugService{
     public Page<TMTDrug> findAllAndEagerGroup(Specification<TMTDrug> s, Pageable pgbl) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Page<TMTDrug> findByTmtIdContains(String searchTmtid, Pageable pageable) {
+        return tmtDrugRepo.findByTmtIdContains(searchTmtid, pageable);
+    }
     
 }

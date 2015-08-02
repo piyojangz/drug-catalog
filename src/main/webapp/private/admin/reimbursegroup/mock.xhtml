@@ -92,16 +92,16 @@
                             <h:outputText value="TMTID : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="tmtid" value="#{reimburseGroupItemController.tmtId}" styleClass="input">
+                            <p:inputText id="tmtid" value="#{reimburseGroupItemController.tmtDrug.tmtId}" styleClass="input">
                             </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchTMTDrugDialog()}" update="@form">
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchTMTDrugDialog}" update="@form">
                                 <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onTmtDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="ID กองทุน : "/>
+                            <h:outputText value="FUND_CODE: "/>
                         </p:column>
                         <p:column>
                             <p:autoComplete id="fund" 
@@ -109,13 +109,13 @@
                                             completeMethod="#{reimburseGroupItemController.completeFund}"
                                             var="fund" 
                                             itemLabel="#{fund.name}" 
-                                            itemValue="#{fund.fundCode}" 
+                                            itemValue="#{fund.code}" 
                                             forceSelection="true" 
                                             converter="fundConverter" 
                                             styleClass="input1"
                                             dropdown="true">
                                 <p:column>
-                                    #{fund.fundCode}
+                                    #{fund.code}
                                 </p:column>
                                 <p:column>
                                     #{fund.name}
@@ -128,7 +128,7 @@
                             <h:outputText value="ICD10_CODE : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="icd10" value="#{reimburseGroupItemController.icd10Id}" styleClass="input">
+                            <p:inputText id="icd10" value="#{reimburseGroupItemController.icd10.code}" styleClass="input">
                             </p:inputText>
                             <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchIcd10Dialog()}" update="@form">
                                 <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onIcdDialogReturn}" update="@form" />
@@ -168,6 +168,26 @@
                                 <f:selectItems value="#{reimburseGroupItemController.edStatusList}" var="status"
                                                itemLabel="#{status}" itemValue="#{status}"/>
                             </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="ปีงบประมาณ : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete id="budgetYearComplete" 
+                                            value="#{reimburseGroupItemController.budgetYear}" 
+                                            completeMethod="#{reimburseGroupItemController.completeBudgetYear}"
+                                            var="year" 
+                                            itemLabel="#{year}"
+                                            itemValue="#{year}" 
+                                            forceSelection="true" 
+                                            styleClass="input1"
+                                            dropdown="true">
+                                <p:column>
+                                    1 ต.ค. #{year - 1} - 30 ก.ย. #{year}
+                                </p:column>
+                            </p:autoComplete>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -216,16 +236,16 @@
                     #{rowIndex + 1}
                 </p:column>
                 <p:column headerText="TMT" style="width: 100px;text-align: center;">
-                    <h:outputText value="#{item.drug.tmtId}"/>
+                    <h:outputText value="#{item.tmtDrug.tmtId}"/>
                 </p:column>
                 <p:column headerText="กองทุน" style="width: 200px;">
-                    <h:outputText value="#{item.fund.fundCode} -> #{item.fund.name}"/>
+                    <h:outputText value="#{item.fund.code} -> #{item.fund.name}"/>
                 </p:column>
                 <p:column headerText="รหัสยา" style="width: 200px;">
-                    <h:outputText value="#{item.icd10.id} -> #{item.icd10.name}"/>
+                    <h:outputText value="#{item.icd10.code} -> #{item.icd10.name}"/>
                 </p:column>
                 <p:column headerText="สถานะ ED" style="width: 50px;">
-                    <h:outputText value="#{item.edStatus}"/>
+                    <h:outputText value="#{item.statusEd}"/>
                 </p:column>
                 <p:column headerText="REIMBURSE_GROUP" style="width: 200px;">
                     <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>

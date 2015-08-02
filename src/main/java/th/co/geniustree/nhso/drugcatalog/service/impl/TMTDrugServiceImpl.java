@@ -41,4 +41,10 @@ public class TMTDrugServiceImpl implements TMTDrugService {
         return findAll;
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Override
+    public Page<TMTDrug> findByTmtIdContains(String searchTmtid, Pageable pageable) {
+        return tMTDrugRepo.findByTmtIdContains(searchTmtid, pageable);
+    }
+
 }
