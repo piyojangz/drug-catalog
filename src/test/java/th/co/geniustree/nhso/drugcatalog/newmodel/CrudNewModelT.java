@@ -90,15 +90,15 @@ public class CrudNewModelT {
     @Test
     public void testFindReimburseGroup() {
         List<ReimburseGroupItem> reimburseGroupItems = null;
-        reimburseGroupItems = reimburseGroupItemService.findReimburseGroup("100005", "UC", null, new GregorianCalendar(2556,9,1).getTime());
+        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "UC", null, new GregorianCalendar(2556,9,1).getTime());
         assertNotNull(reimburseGroupItems);
         
         reimburseGroupItems = null;
-        reimburseGroupItems = reimburseGroupItemService.findReimburseGroup("100005", "C", "A001", new GregorianCalendar(2556,9,1).getTime());
+        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "C", "A001", new GregorianCalendar(2556,9,1).getTime());
         assertEquals(0,reimburseGroupItems.size()); // find not found
         
         reimburseGroupItems = null;
-        reimburseGroupItems = reimburseGroupItemService.findReimburseGroup("100005", "C", "A0012", new GregorianCalendar(2556,9,1).getTime());
+        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "C", "A0012", new GregorianCalendar(2556,9,1).getTime());
         assertEquals(0,reimburseGroupItems.size()); // find not found
     }
 

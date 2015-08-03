@@ -30,5 +30,9 @@ public interface ReimburseGroupItemService {
 
     public Page<ReimburseGroupItem> findPagingBySpec(Specification spec, Pageable pageable);
     
-    public List<ReimburseGroupItem> findReimburseGroup(String tmtid, String fundCode, String icd10Id,Date searchDate);
+    public List<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Id,Date searchDate);
+    
+    public Page<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Id,Date searchDate,Pageable pageable);
+    
+    public Page<ReimburseGroupItem> findReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10,Integer budgetYear,Pageable pageable);
 }

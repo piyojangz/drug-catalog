@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +51,12 @@ public class FundServiceImpl implements FundService{
     public Page<Fund> findAllBySpecs(Specification<Fund> spec, Pageable pageable) {
         return fundRepo.findAll(spec, pageable);
     }
-    
+
+    @Override
+    public List<Fund> fundAll() {
+        return fundRepo.findAll();
+    }
+
+   
     
 }

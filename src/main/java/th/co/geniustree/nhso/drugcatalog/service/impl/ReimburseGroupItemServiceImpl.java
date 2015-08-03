@@ -72,7 +72,7 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
     }
 
     @Override
-    public List<ReimburseGroupItem> findReimburseGroup(String tmtid, String fundCode, String icd10Id, Date searchDate) {
+    public List<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Id, Date searchDate) {
         if (icd10Id == null || icd10Id.isEmpty()) {
             icd10Id = emptyICD10Id;
         }
@@ -84,4 +84,21 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         return items;
     }
 
+    @Override
+    public Page<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Id, Date searchDate, Pageable pageable) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Page<ReimburseGroupItem> findReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, Integer budgetYear, Pageable pageable) {
+        if (icd10 == null) {
+            icd10 = icd10Repo.findOne(emptyICD10Id);
+        }
+        String tmtid = tmtDrug.getTmtId();
+        String fundCode = fund.getCode();
+        String icd10Code = icd10.getCode();
+        return reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Code, budgetYear,pageable);
+    }
+
+    
 }
