@@ -21,13 +21,16 @@ import th.co.geniustree.nhso.drugcatalog.service.ICD10Service;
  */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-public class ICD10ServiceImpl implements ICD10Service{
+public class ICD10ServiceImpl implements ICD10Service {
 
     @Autowired
     private ICD10Repo icd10Repo;
-    
+
     @Override
-    public ICD10 save(String code,String name) {
+    public ICD10 save(String code, String name) {
+        if (name == null || name.isEmpty()) {
+            name = " - ";
+        }
         ICD10 icd10 = new ICD10(code, name);
         return icd10Repo.save(icd10);
     }
@@ -41,5 +44,5 @@ public class ICD10ServiceImpl implements ICD10Service{
     public Page<ICD10> findByCodeContains(String code, Pageable pageable) {
         return icd10Repo.findByCodeContains(code, pageable);
     }
-    
+
 }

@@ -26,7 +26,10 @@ public class ReimburseGroupServiceImpl implements ReimburseGroupService{
     
     @Override
     public ReimburseGroup save(String id, String name, boolean isSpecialProject) {
-        ReimburseGroup group = new ReimburseGroup(id, id, isSpecialProject);
+        if(name == null || name.isEmpty()){
+            name = " - ";
+        }
+        ReimburseGroup group = new ReimburseGroup(id, name, isSpecialProject);
         return reimburseGroupRepo.save(group);
     }
 

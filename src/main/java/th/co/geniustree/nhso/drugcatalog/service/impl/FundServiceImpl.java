@@ -34,6 +34,10 @@ public class FundServiceImpl implements FundService{
 
     @Override
     public Fund save(Fund fund) {
+        String fundName = fund.getName();
+        if(fundName == null || fundName.isEmpty()){
+            fund.setName(" - ");
+        }
         return fundRepo.save(fund);
     }
 
