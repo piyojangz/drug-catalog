@@ -51,33 +51,84 @@
             <h:form id="form">
                 <p:growl id="growl" showDetail="true"/>
                 <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
-                    <h:outputText value="กองทุน"/>
+                    <h:outputText value="ED / NED"/>
                 </div>
                 <p:panelGrid>
                     <p:row>
                         <p:column style="font-size: 20px;background-color: #F0F0F0;text-align: center;border-radius: 5px;" colspan="2">
-                            <h:outputText value="เพิ่มกองทุน"/>
+                            <h:outputText value="เพิ่มข้อมูล ED ของยา"/>
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
-                            <h:outputText value="ID กองทุน : "/>
+                        <p:column style="text-align: right; width: 100px;">
+                            <h:outputText value="TMTID : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText styleClass="inputFund" value="#{fundController.fund.code}" style="width: 50px;"/>
+                            <p:inputText id="tmtid" value="#{edNedController.tmtDrug.tmtId}" styleClass="input">
+                            </p:inputText>
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{edNedController.onSearchTMTDrugDialog}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{edNedController.onTmtDialogReturn}" update="@form" />
+                            </p:commandButton>
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
-                            <h:outputText value="ชื่อกองทุน : "/>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="FUND_CODE: "/>
                         </p:column>
                         <p:column>
-                            <p:inputText styleClass="inputFund" value="#{fundController.fund.name}" style="width: 300px;"/>
+                            <p:autoComplete id="fund" 
+                                            value="#{edNedController.fund}" 
+                                            completeMethod="#{edNedController.completeFund}"
+                                            var="fund" 
+                                            itemLabel="#{fund.name}" 
+                                            itemValue="#{fund.code}" 
+                                            forceSelection="true" 
+                                            converter="fundConverter" 
+                                            styleClass="input1"
+                                            dropdown="true">
+                                <p:column>
+                                    #{fund.code}
+                                </p:column>
+                                <p:column>
+                                    #{fund.name}
+                                </p:column>
+                            </p:autoComplete>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="ปีงบประมาณ : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete id="budgetYearComplete" 
+                                            value="#{edNedController.budgetYear}" 
+                                            completeMethod="#{edNedController.completeBudgetYear}"
+                                            var="year" 
+                                            itemLabel="#{year}"
+                                            itemValue="#{year}" 
+                                            forceSelection="true" 
+                                            styleClass="input1"
+                                            dropdown="true">
+                                <p:column>
+                                    1 ต.ค. #{year - 1} - 30 ก.ย. #{year}
+                                </p:column>
+                            </p:autoComplete>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="ED_STAUTS : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="edstatus" value="#{edNedController.edStatus}">
+                                <f:selectItems value="#{edNedController.edStatusList}" var="status"
+                                               itemLabel="#{status}" itemValue="#{status}"/>
+                            </p:selectOneMenu>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form , growl , :table" actionListener="#{fundController.onSave}">
+                            <p:commandButton value="เพิ่ม" update="@form , growl , :table" actionListener="#{edNedController.onSave}">
                             </p:commandButton>
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset"/>
@@ -94,10 +145,10 @@
                             <h:outputText value="keyword : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{fundController.keyword}" styleClass="searchFund" style="width: 100px;"/>
+                            <p:inputText value="#{edNedController.searchWord}" styleClass="searchFund" style="width: 100px;"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{fundController.search}">
+                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{edNedController.search}">
                                 <f:ajax execute="@form" render=":table"/>
                             </p:commandButton>
                         </p:column>
@@ -106,8 +157,8 @@
             </h:form>
             <p:spacer height="20"/>
             <p:dataTable id="table"
-                         value="#{fundController.funds}"
-                         var="fund"
+                         value="#{edNedController.tmtEdNeds}"
+                         var="model"
                          rowIndexVar="rowIndex"
                          paginator="true" 
                          rows="20" 
@@ -117,17 +168,25 @@
 
                 <f:facet name="header">
                     <div style="text-align: center;">
-                        <h:outputText value="รายชื่อกองทุนทั้งหมดในระบบ"/>
+                        <h:outputText value="ข้อมูลยาและสถานะ ed (essential drug)"/>
                     </div>
                 </f:facet>
                 <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
                     #{rowIndex + 1}
                 </p:column>
-                <p:column headerText="ID" style="width: 100px;text-align: center;">
-                    <h:outputText value="#{fund.code}"/>
+                <p:column headerText="TMTID" style="width: 100px;text-align: center;">
+                    <h:outputText value="#{model.tmtDrug.tmtId}"/>
                 </p:column>
-                <p:column headerText="ชื่อ" style="width: 300px;">
-                    <h:outputText value="#{fund.name}"/>
+                <p:column headerText="กองทุน" style="width: 300px;">
+                    <h:outputText value="#{model.fund.code} -> #{model.fund.name}"/>
+                </p:column>
+                <p:column headerText="BUDGET_YEAR" style="width: 300px;">
+                    <h:outputText value="#{model.dateIn}">
+                        <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="สถานะ ED" style="width: 300px;">
+                    <h:outputText value="#{model.statusEd}"/>
                 </p:column>
             </p:dataTable>
 

@@ -53,7 +53,7 @@ public class FundServiceImpl implements FundService{
     }
 
     @Override
-    public List<Fund> fundAll() {
+    public List<Fund> findAll() {
         return fundRepo.findAll();
     }
 

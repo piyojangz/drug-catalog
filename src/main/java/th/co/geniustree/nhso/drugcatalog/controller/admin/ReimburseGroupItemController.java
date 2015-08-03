@@ -32,9 +32,8 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
-import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.ICD10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.FundService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupService;
 
@@ -49,10 +48,7 @@ public class ReimburseGroupItemController {
     private static final Logger log = LoggerFactory.getLogger(ReimburseGroupItemController.class);
 
     @Autowired
-    private FundRepo fundRepo;
-
-    @Autowired
-    private ICD10Repo icdRepo;
+    private FundService fundService;
 
     @Autowired
     private ReimburseGroupItemService reimburseGroupItemService;
@@ -228,7 +224,7 @@ public class ReimburseGroupItemController {
 
     public List<Fund> completeFund(String query) {
         if (funds == null || funds.isEmpty()) {
-            funds = fundRepo.findAll();
+            funds = fundService.findAll();
         }
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund f : funds) {

@@ -25,6 +25,6 @@ public interface FundService {
 
     public Page<Fund> findAllBySpecs(Specification<Fund> spec, Pageable pageable);
     
-    public List<Fund> fundAll();
+    public List<Fund> findAll();
 
 }

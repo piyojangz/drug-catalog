@@ -89,7 +89,7 @@ public class ReimburseGroupFinder {
 
     public List<Fund> completeFund(String query) {
         if (funds == null || funds.isEmpty()) {
-            funds = fundService.fundAll();
+            funds = fundService.findAll();
         }
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund f : funds) {

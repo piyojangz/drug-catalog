@@ -18,8 +18,10 @@ public class BudgetYearConverter {
 
     public static int dateToBudgetYear(Date date) {
         Integer budgetYear = Integer.parseInt(DateUtils.format(YEAR_PATTERN, date));
-        budgetYear += 543;
+        
         Date budgetDate = new GregorianCalendar(budgetYear, 9, 1).getTime();
+        budgetYear = convertToBEYear(budgetYear);
+        
         if (date.after(budgetDate)) {
             budgetYear += 1;
         }
@@ -28,5 +30,41 @@ public class BudgetYearConverter {
 
     public static Date budgetYearToDate(Integer budgetYear) {
         return new GregorianCalendar(budgetYear, 9, 1).getTime();
+    }
+
+    public static Date getCurrentBudgetDate() {
+        return budgetYearToDate(dateToBudgetYear(new Date()));
+    }
+
+    /**
+     * get Thai year (Buddhist Era)
+     * example <br/>
+     *   input 2015 -> output 2558<br/>
+     *   input 2550 -> output 2550 because now C.E. year is 2015
+     * @param year
+     * @return B.E year
+     */
+    public static Integer convertToBEYear(Integer year) {
+        Integer currentYear = Integer.parseInt(DateUtils.format(YEAR_PATTERN, new Date()));
+        if (year - currentYear <= 0) {
+            year += 543;
+        }
+        return year;
+    }
+    
+    /**
+     * get Christian Era year
+     * example <br/>
+     *   input 2015 -> output 2015<br/>
+     *   input 2550 -> output 2007 because now C.E. year is 2015
+     * @param year
+     * @return B.E year
+     */
+    public static Integer convertToCEYear(Integer year){
+        Integer currentYear = Integer.parseInt(DateUtils.format(YEAR_PATTERN, new Date()));
+        if (year - currentYear >= 0) {
+            year -= 543;
+        }
+        return year;
     }
 }
