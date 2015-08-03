@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.util.List;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 
 /**
@@ -16,4 +17,6 @@ public interface ReimburseGroupService {
     public ReimburseGroup save(String id, String name, boolean isSpecialProject);
 
     public ReimburseGroup findById(String id);
+    
+    public List<ReimburseGroup> findOnlySpecialProjectOrGroup(boolean isSpecialProject);
 }

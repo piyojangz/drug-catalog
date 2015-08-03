@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,5 +38,11 @@ public class ReimburseGroupServiceImpl implements ReimburseGroupService{
     public ReimburseGroup findById(String id) {
         return reimburseGroupRepo.findOne(id);
     }
+
+    @Override
+    public List<ReimburseGroup> findOnlySpecialProjectOrGroup(boolean isSpecialProject) {
+        return reimburseGroupRepo.findBySpecialProject(isSpecialProject);
+    }
+    
     
 }

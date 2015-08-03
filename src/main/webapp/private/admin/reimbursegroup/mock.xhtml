@@ -72,7 +72,7 @@
                     min-width: 600px;
                 }
             </style>
-            
+
             <f:metadata>
                 <f:viewAction action="#{reimburseGroupItemController.resetData()}"/>
             </f:metadata>
@@ -130,10 +130,22 @@
                         <p:column>
                             <p:inputText id="icd10" value="#{reimburseGroupItemController.icd10.code}" styleClass="input">
                             </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchIcd10Dialog()}" update="@form">
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchIcd10Dialog}" update="@form">
                                 <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onIcdDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <h:outputText value="ลงทะเบียนโครงการพิเศษหรือไม่ : " style="float: left;"/>
+                            <p:selectOneRadio value="#{reimburseGroupItemController.specialProject}" >
+                                <f:selectItem itemLabel="ใช่" itemValue="true"/>
+                                <f:selectItem itemLabel="ไม่ใช่" itemValue="false"/>
+                                <p:ajax event="change" update="@form"/>
+                            </p:selectOneRadio>
+                            <span style="clear: both;"/>
+                        </p:column>
+
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
@@ -159,7 +171,7 @@
                             </p:autoComplete>
                         </p:column>
                     </p:row>
-                    <p:row>
+                    <p:row rendered="#{not reimburseGroupItemController.specialProject}">
                         <p:column style="text-align: right;">
                             <h:outputText value="ED_STAUTS : "/>
                         </p:column>
@@ -249,6 +261,9 @@
                 </p:column>
                 <p:column headerText="REIMBURSE_GROUP" style="width: 200px;">
                     <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>
+                </p:column>
+                <p:column headerText="ปีงบประมาณ" style="width: 40px;text-align: center;">
+                    <h:outputText value="#{item.pk.budgetYear + 543}"/>
                 </p:column>
                 <p:column headerText="โครงการพิเศษ" style="width: 50px;">
                     <h:outputText value="#{item.reimburseGroup.specialProject == true ? 'ใช่' : 'ไม่ใช่'}" style="#{item.reimburseGroup.specialProject == true ? 'color:#00C700;' : 'color:red;'} font-size: large;"/>

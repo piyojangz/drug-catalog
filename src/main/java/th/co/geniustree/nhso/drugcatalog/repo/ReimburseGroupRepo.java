@@ -15,4 +15,6 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
  */
 public interface ReimburseGroupRepo extends JpaRepository<ReimburseGroup, String>{
     public List<ReimburseGroup> findByIdContains(String searchId);
+    
+    public List<ReimburseGroup> findBySpecialProject(boolean isSpecialProject);
 }
