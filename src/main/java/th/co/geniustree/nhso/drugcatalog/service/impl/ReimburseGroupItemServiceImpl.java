@@ -8,6 +8,8 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,8 @@ import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ReimburseGroupItemServiceImpl.class);
+
     private final String emptyICD10Id = "_EMPTY";
 
     @Autowired
@@ -44,11 +48,11 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
 
     @Override
     public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Integer budgetYear) {
-        if (icd10 == null) {
+        if (icd10 == null || icd10.getCode() == null || icd10.getCode().isEmpty()) {
             icd10 = icd10Repo.findOne(emptyICD10Id);
         }
         ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(tmtDrug, fund, icd10, reimburseGroup, edStatus, budgetYear);
-        return reimburseGroupItemRepo.saveAndFlush(reimburseGroupItem);
+        return reimburseGroupItemRepo.save(reimburseGroupItem);
     }
 
     @Override
@@ -78,7 +82,7 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         }
         int budgetYear = BudgetYearConverter.dateToBudgetYear(searchDate);
         List<ReimburseGroupItem> items = reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Id, budgetYear);
-        if(items == null){
+        if (items == null) {
             return new ArrayList<>();
         }
         return items;
@@ -97,8 +101,7 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         String tmtid = tmtDrug.getTmtId();
         String fundCode = fund.getCode();
         String icd10Code = icd10.getCode();
-        return reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Code, budgetYear,pageable);
+        return reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Code, budgetYear, pageable);
     }
 
-    
 }

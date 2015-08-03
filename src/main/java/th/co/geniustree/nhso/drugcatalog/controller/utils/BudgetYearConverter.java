@@ -18,6 +18,7 @@ public class BudgetYearConverter {
 
     public static int dateToBudgetYear(Date date) {
         Integer budgetYear = Integer.parseInt(DateUtils.format(YEAR_PATTERN, date));
+        budgetYear += 543;
         Date budgetDate = new GregorianCalendar(budgetYear, 9, 1).getTime();
         if (date.after(budgetDate)) {
             budgetYear += 1;

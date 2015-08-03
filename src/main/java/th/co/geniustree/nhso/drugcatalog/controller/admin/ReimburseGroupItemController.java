@@ -85,8 +85,6 @@ public class ReimburseGroupItemController {
 
     @PostConstruct
     public void postConstruct() {
-        tmtDrug = new TMTDrug();
-        icd10 = new ICD10();
         initialStatusEd();
         initialBudgetYear();
         resetData();
@@ -116,9 +114,16 @@ public class ReimburseGroupItemController {
     }
 
     public void onSave() {
+        ReimburseGroupItem.ED ed = selectEdStatus(edStatus);
+        log.debug("tmtid -> {}" , tmtDrug.getTmtId());
+        log.debug("fund code -> {}" , fund.getCode());
+        log.debug("icd10 code -> {}" , icd10.getCode());
+        log.debug("ed status -> {}" , ed);
+        log.debug("reimburseGroup id -> {}" , reimburseGroup.getId());
+        log.debug("budgetYear -> {}" , budgetYear);
         if ((fund != null && reimburseGroup != null)) {
             try {
-                reimburseGroupItemService.save(tmtDrug, fund, icd10, selectEdStatus(edStatus), reimburseGroup, budgetYear);
+                reimburseGroupItemService.save(tmtDrug, fund, icd10,ed , reimburseGroup, budgetYear);
                 FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
             } catch (Exception e) {
                 FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
@@ -131,6 +136,9 @@ public class ReimburseGroupItemController {
     }
 
     private ReimburseGroupItem.ED selectEdStatus(String ed) {
+        if(ed == null || ed.isEmpty()){
+            return null;
+        }
         if (ed.equalsIgnoreCase("E")) {
             return ReimburseGroupItem.ED.E;
         } else if (ed.equalsIgnoreCase("N")) {
