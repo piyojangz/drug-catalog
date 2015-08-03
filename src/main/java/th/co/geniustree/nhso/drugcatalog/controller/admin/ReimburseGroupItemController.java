@@ -34,6 +34,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.ICD10Repo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimburseGroupItemSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupService;
 
@@ -163,9 +164,13 @@ public class ReimburseGroupItemController {
     }
 
     private Specification specify(String keyword) {
-        List<String> keyList = Arrays.asList(keyword.split(" "));
-        Specification<ReimburseGroupItem> spec = Specifications.where(null);
-//                .or(ReimburseGroupItemSpecs.icd10IdLike(keyList));
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
+        Specification<ReimburseGroupItem> spec = Specifications.where(ReimburseGroupItemSpecs.tmtIdLike(keyList))
+                .or(ReimburseGroupItemSpecs.icd10IdLike(keyList))
+                .or(ReimburseGroupItemSpecs.icd10NameLike(keyList))
+                .or(ReimburseGroupItemSpecs.reimburseGroupIdLike(keyList))
+                .or(ReimburseGroupItemSpecs.fundIdLike(keyList))
+                .or(ReimburseGroupItemSpecs.fundNameLike(keyList));
         return spec;
     }
 

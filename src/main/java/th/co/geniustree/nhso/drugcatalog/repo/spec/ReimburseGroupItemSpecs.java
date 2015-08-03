@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo.spec;
 
-import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

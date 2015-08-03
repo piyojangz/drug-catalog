@@ -263,7 +263,7 @@
                     <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>
                 </p:column>
                 <p:column headerText="ปีงบประมาณ" style="width: 40px;text-align: center;">
-                    <h:outputText value="#{item.pk.budgetYear + 543}"/>
+                    <h:outputText value="#{item.pk.budgetYear}"/>
                 </p:column>
                 <p:column headerText="โครงการพิเศษ" style="width: 50px;">
                     <h:outputText value="#{item.reimburseGroup.specialProject == true ? 'ใช่' : 'ไม่ใช่'}" style="#{item.reimburseGroup.specialProject == true ? 'color:#00C700;' : 'color:red;'} font-size: large;"/>
