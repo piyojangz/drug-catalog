@@ -48,7 +48,7 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
 
     @Override
     public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Integer budgetYear) {
-        if (icd10 == null || icd10.getCode() == null || icd10.getCode().isEmpty()) {
+        if (isNullICD10(icd10)) {
             icd10 = icd10Repo.findOne(emptyICD10Id);
         }
         ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(tmtDrug, fund, icd10, reimburseGroup, edStatus, budgetYear);
@@ -95,7 +95,7 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
 
     @Override
     public Page<ReimburseGroupItem> findReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, Integer budgetYear, Pageable pageable) {
-        if (icd10 == null) {
+        if (isNullICD10(icd10)) {
             icd10 = icd10Repo.findOne(emptyICD10Id);
         }
         String tmtid = tmtDrug.getTmtId();
@@ -104,4 +104,7 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         return reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Code, budgetYear, pageable);
     }
 
+    private boolean isNullICD10(ICD10 icd10){
+        return icd10 == null || icd10.getCode() == null || icd10.getCode().isEmpty();
+    }
 }
