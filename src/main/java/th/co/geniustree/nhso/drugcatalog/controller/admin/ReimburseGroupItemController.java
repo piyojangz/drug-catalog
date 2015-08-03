@@ -68,6 +68,7 @@ public class ReimburseGroupItemController {
     private ReimburseGroupItem reimburseGroupItem;
 
     private Integer budgetYear;
+    private String selectedFund;
     private String icd10Id = "";
     private String edStatus = "";
     private String searchKeyword = "";
@@ -209,6 +210,9 @@ public class ReimburseGroupItemController {
         }
         List<Fund> filterFunds = new ArrayList<>();
         for (Fund f : funds) {
+            if(f.getName() == null){
+                f.setName(" - ");
+            }
             if (f.getCode().toUpperCase().contains(query.toUpperCase()) || (f.getName().toUpperCase().contains(query.toUpperCase()))) {
                 filterFunds.add(f);
             }
@@ -222,6 +226,9 @@ public class ReimburseGroupItemController {
         }
         List<ReimburseGroup> filterGroup = new ArrayList<>();
         for (ReimburseGroup g : reimburseGroups) {
+            if(g.getDescription() == null){
+                g.setDescription(" - ");
+            }
             if (g.getId().toUpperCase().contains(query.toUpperCase()) || (g.getDescription().toUpperCase().contains(query.toUpperCase()))) {
                 filterGroup.add(g);
             }
@@ -376,4 +383,13 @@ public class ReimburseGroupItemController {
         this.budgetYears = budgetYears;
     }
 
+    public String getSelectedFund() {
+        return selectedFund;
+    }
+
+    public void setSelectedFund(String selectedFund) {
+        this.selectedFund = selectedFund;
+    }
+
+    
 }
