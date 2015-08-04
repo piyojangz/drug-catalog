@@ -7,6 +7,14 @@
       xmlns:f="http://java.sun.com/jsf/core"
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition >
+        <script>
+            function keyEnter(e) {
+                if ((e.which &amp;&amp; e.which === 13) || (e.keyCode &amp;&amp; e.keyCode === 13)) {
+                    #{hospitalDrugListControllerTemp.search()}
+                    $(e.target).closest('form').submit();
+                }
+            }
+        </script>
         <p:panelGrid>
             <p:row>
                 <p:column style="text-align: right">
@@ -14,7 +22,7 @@
 
                 </p:column>
                 <p:column>
-                    <p:inputText id="keyword" value="#{hospitalDrugListControllerTemp.keyword}" size="60"/>
+                    <p:inputText id="keyword" value="#{hospitalDrugListControllerTemp.keyword}" size="60" onkeypress="keyEnter(event)"/>
                     <p:commandButton value="Search" action="#{hospitalDrugListControllerTemp.search()}" update="table"/>
                     &nbsp;
                     <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
