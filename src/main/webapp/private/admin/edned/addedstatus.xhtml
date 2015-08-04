@@ -128,8 +128,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form , growl , :table" actionListener="#{edNedController.onSave}">
-                            </p:commandButton>
+                            <p:commandButton value="เพิ่ม" update="@form , growl , :tableForm" actionListener="#{edNedController.onSave}"/>
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset"/>
                         </p:column>
@@ -148,47 +147,64 @@
                             <p:inputText value="#{edNedController.searchWord}" styleClass="searchFund" style="width: 100px;"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{edNedController.search}">
-                                <f:ajax execute="@form" render=":table"/>
-                            </p:commandButton>
+                            <p:commandButton value="ค้นหา" icon="ui-icon-search" actionListener="#{edNedController.search}" update="@form , :tableForm"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>
             <p:spacer height="20"/>
-            <p:dataTable id="table"
-                         value="#{edNedController.tmtEdNeds}"
-                         var="model"
-                         rowIndexVar="rowIndex"
-                         paginator="true" 
-                         rows="20" 
-                         lazy="true" 
-                         rowsPerPageTemplate="20,30,40,50"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+            <h:form id="tableForm">
+                <p:dataTable id="table"
+                             value="#{edNedController.tmtEdNeds}"
+                             var="model"
+                             rowIndexVar="rowIndex"
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                <f:facet name="header">
-                    <div style="text-align: center;">
-                        <h:outputText value="ข้อมูลยาและสถานะ ed (essential drug)"/>
-                    </div>
-                </f:facet>
-                <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
-                    #{rowIndex + 1}
-                </p:column>
-                <p:column headerText="TMTID" style="width: 100px;text-align: center;">
-                    <h:outputText value="#{model.tmtDrug.tmtId}"/>
-                </p:column>
-                <p:column headerText="กองทุน" style="width: 300px;">
-                    <h:outputText value="#{model.fund.code} -> #{model.fund.name}"/>
-                </p:column>
-                <p:column headerText="BUDGET_YEAR" style="width: 300px;">
-                    <h:outputText value="#{model.dateIn}">
-                        <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="สถานะ ED" style="width: 300px;">
-                    <h:outputText value="#{model.statusEd}"/>
-                </p:column>
-            </p:dataTable>
+                    <f:facet name="header">
+                        <div style="text-align: center;">
+                            <h:outputText value="ข้อมูลยาและสถานะ ed (essential drug)"/>
+                        </div>
+                    </f:facet>
+                    <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
+                        #{rowIndex + 1}
+                    </p:column>
+                    <p:column headerText="TMTID" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{model.tmtDrug.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="กองทุน" style="width: 300px;">
+                        <h:outputText value="#{model.fund.code} -> #{model.fund.name}"/>
+                    </p:column>
+                    <p:column headerText="BUDGET_YEAR" style="width: 300px;">
+                        <h:outputText value="#{model.dateIn}">
+                            <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="สถานะ ED" style="width: 300px;">
+                        <h:outputText value="#{model.statusEd}"/>
+                    </p:column>
+                    <p:column headerText="แก้ไขรายการยา" style="width: 50px;">
+                        <p:commandLink value="แก้ไข" style="color: blue;" action="#{edNedController.onEdit()}"/>
+                    </p:column>
+                    <p:column headerText="ลบรายการยา" style="width: 50px;">
+                        <p:commandLink value="ลบ" style="color: blue;" action="#{edNedController.delete(model)}"  global="true" update="@form">
+                            <p:confirm header="ยืนยันการ ลบ" 
+                                       icon="ui-icon-alert"
+                                       message="ต้องการลบรายการ ed นี้หรือไม่"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="confirmDialogForm">
+                <p:confirmDialog global="true" showEffect="fade">
+                    <p:commandButton value="ใช่" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="ไม่ใช่" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
 
         </ui:define>
     </ui:composition>

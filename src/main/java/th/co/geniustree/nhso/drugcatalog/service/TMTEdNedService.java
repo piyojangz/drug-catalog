@@ -30,4 +30,6 @@ public interface TMTEdNedService {
     public TMTEdNed save(TMTDrug tmtDrug,Fund fund,Date dateIn,String statusEd,Date createDate);
     
     public Page<TMTEdNed> findBySpec(Specification<TMTEdNed> spec, Pageable pageable);
+    
+    public void delete(TMTEdNed edNed);
 }

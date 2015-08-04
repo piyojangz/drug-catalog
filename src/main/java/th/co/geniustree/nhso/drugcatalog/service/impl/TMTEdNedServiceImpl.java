@@ -71,6 +71,11 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
     public Page<TMTEdNed> findBySpec(Specification<TMTEdNed> spec, Pageable pageable) {
         return tmtEdNedRepo.findAll(spec, pageable);
     }
+
+    @Override
+    public void delete(TMTEdNed edNed) {
+        tmtEdNedRepo.delete(edNed);
+    }
     
     
 

@@ -55,6 +55,7 @@ public class EdNedController {
     private String edStatus;
 
     private String searchWord;
+    private TMTEdNed selectedEdNed;
 
     private SpringDataLazyDataModelSupport<TMTEdNed> tmtEdNeds;
 
@@ -73,6 +74,19 @@ public class EdNedController {
     public void reset() {
         tmtDrug = new TMTDrug();
         fund = new Fund();
+    }
+
+    public void delete(TMTEdNed edNed) {
+        try {
+            tmtEdNedService.delete(edNed);
+            FacesMessageUtils.info("ลบรายการยา สำเร็จ");
+        } catch (Exception e) {
+            FacesMessageUtils.error("ไม่สามารถลบรายการยาได้");
+        }
+    }
+
+    public void onEdit() {
+        //ดูจาก druggroup 
     }
 
     private void initialBudgetYear() {
@@ -120,8 +134,8 @@ public class EdNedController {
             }
         };
     }
-    
-    private Specification<TMTEdNed> specify(String search){
+
+    private Specification<TMTEdNed> specify(String search) {
         List<String> searches = Arrays.asList(search.split("\\s+"));
         Specification<TMTEdNed> spec = Specifications.where(EdNedSpecs.tmtIdLike(searches))
                 .or(EdNedSpecs.fundCodeLike(searches))
@@ -248,6 +262,14 @@ public class EdNedController {
 
     public void setFunds(List<Fund> funds) {
         this.funds = funds;
+    }
+
+    public TMTEdNed getSelectedEdNed() {
+        return selectedEdNed;
+    }
+
+    public void setSelectedEdNed(TMTEdNed selectedEdNed) {
+        this.selectedEdNed = selectedEdNed;
     }
 
 }
