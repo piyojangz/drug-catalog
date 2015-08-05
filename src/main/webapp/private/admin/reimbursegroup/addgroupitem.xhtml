@@ -69,7 +69,7 @@
                     overflow-y: scroll;
                     max-height: 300px;
                     max-width: 600px;
-                    min-width: 600px;
+                    min-width: 200px;
                 }
             </style>
 
@@ -112,7 +112,7 @@
                                             itemValue="#{fund.code}" 
                                             forceSelection="true" 
                                             converter="fundConverter" 
-                                            styleClass="input1"
+                                            styleClass="fundComplete"
                                             dropdown="true">
                                 <p:column>
                                     #{fund.code}
@@ -160,7 +160,7 @@
                                             itemValue="#{group.id}" 
                                             forceSelection="true" 
                                             converter="reimburseGroupConverter" 
-                                            styleClass="input1"
+                                            styleClass="groupComplete"
                                             dropdown="true">
                                 <p:column>
                                     #{group.id}
@@ -194,10 +194,10 @@
                                             itemLabel="#{year}"
                                             itemValue="#{year}" 
                                             forceSelection="true" 
-                                            styleClass="input1"
+                                            styleClass="budgetYearComplete"
                                             dropdown="true">
                                 <p:column>
-                                    1 ต.ค. #{year - 1} - 30 ก.ย. #{year}
+                                    #{year}
                                 </p:column>
                             </p:autoComplete>
                         </p:column>
@@ -253,7 +253,7 @@
                 <p:column headerText="กองทุน" style="width: 200px;">
                     <h:outputText value="#{item.fund.code} -> #{item.fund.name}"/>
                 </p:column>
-                <p:column headerText="รหัสยา" style="width: 200px;">
+                <p:column headerText="รหัสโรค" style="width: 200px;">
                     <h:outputText value="#{item.icd10.code} -> #{item.icd10.name}"/>
                 </p:column>
                 <p:column headerText="สถานะ ED" style="width: 50px;">

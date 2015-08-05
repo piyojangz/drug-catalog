@@ -63,13 +63,13 @@
                     width: 250px;
                 }
                 .ui-autocomplete-items{
-                    font-size: 22px;
+                    font-size: 16px;
                 }
                 .ui-autocomplete-panel{
                     overflow-y: scroll;
                     max-height: 300px;
                     max-width: 600px;
-                    min-width: 600px;
+                    min-width: 200px;
                 }
             </style>
             <h:form id="form">
@@ -138,10 +138,10 @@
                                             itemLabel="#{year}"
                                             itemValue="#{year}" 
                                             forceSelection="true" 
-                                            styleClass="input1"
+                                            styleClass="budgetYearComplete"
                                             dropdown="true">
                                 <p:column>
-                                    1 ต.ค. #{year - 1} - 30 ก.ย. #{year}
+                                    #{year}
                                 </p:column>
                             </p:autoComplete>
                         </p:column>

@@ -72,6 +72,14 @@
                 <p:submenu label="Fund" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem value="กองทุน" outcome="/private/admin/fund/addfund" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/fund/addfund'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
+                <p:submenu label="DosageForm Group" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="รายการ Dosage Form Group" outcome="/private/admin/dosageformgroup/adddosageformgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/dosageformgroup/adddosageformgroup'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Upload Dosage Form Group" outcome="/private/admin/dosageformgroup/upload" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/dosageformgroup/upload'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
+                <p:submenu label="Reimburse Price" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="รายการ Reimburse Price" outcome="/private/admin/reimburseprice/addreimburseprice" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimburseprice/addreimburseprice'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Upload Reimburse Price" outcome="/private/admin/reimburseprice/upload" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimburseprice/upload'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
                 <p:separator/>
                 <p:menuitem value="Logout" url="#{request.contextPath}/logout" icon="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
             </p:menu>

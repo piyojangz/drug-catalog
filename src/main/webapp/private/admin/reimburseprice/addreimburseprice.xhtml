@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+                .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
+                    background-color : rgb(0, 194, 0);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
+                    background-color : rgb(247, 79, 79);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+                .input{
+                    width: 250px;
+                }
+                .ui-autocomplete-items{
+                    font-size: 16px;
+                }
+                .ui-autocomplete-panel{
+                    overflow-y: scroll;
+                    max-height: 300px;
+                    max-width: 200px;
+                    min-width: 200px;
+                }
+            </style>
+
+            <f:metadata>
+                <f:viewAction action="#{reimburseGroupItemController.resetData()}"/>
+            </f:metadata>
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true"/>
+                <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
+                    <h:outputText value="Reimburse Price"/>
+                </div>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="font-size: 20px;background-color: #F0F0F0;text-align: center;border-radius: 5px;" colspan="2">
+                            <h:outputText value="เพิ่มรายการ ราคายา"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right; width: 100px;">
+                            <h:outputText value="TMTID : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="tmtid" value="#{reimburseGroupItemController.tmtDrug.tmtId}" styleClass="input">
+                            </p:inputText>
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchTMTDrugDialog}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onTmtDialogReturn}" update="@form" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="ปีงบประมาณ : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete id="budgetYearComplete" 
+                                            value="#{reimburseGroupItemController.budgetYear}" 
+                                            completeMethod="#{reimburseGroupItemController.completeBudgetYear}"
+                                            var="year" 
+                                            itemLabel="#{year}"
+                                            itemValue="#{year}" 
+                                            forceSelection="true" 
+                                            styleClass="input1"
+                                            dropdown="true">
+                                <p:column>
+                                    #{year}
+                                </p:column>
+                            </p:autoComplete>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="ราคายา : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText type="number" id="reimbursePrice">
+
+                            </p:inputText>
+                            &nbsp;&nbsp;(หน่วย : บาท)
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center;">
+                            <p:commandButton value="เพิ่ม" update="@form ,growl ,:tableForm" actionListener="#{reimburseGroupItemController.onSave}"/>
+                            <p:spacer width="20"/>
+                            <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>           
+            <p:spacer height="20"/>
+            <h:form id="searchform">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="text-align: right; width: 100px;">
+                            <h:outputText value="ค้นหายา : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{reimburseGroupItemController.searchKeyword}" styleClass="searchFund" style="width: 200px;"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="ค้นหา" update="@form , :tableForm" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.search}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+            <p:spacer height="20"/>
+            <h:form id="tableForm">
+                <p:dataTable id="reimbursePriceTable"
+                             value="#{reimburseGroupItemController.reimburseGroupItems}"
+                             var="item"
+                             rowIndexVar="rowIndex"
+                             style="width: 100%;overflow-x: scroll;"
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                    <f:facet name="header">
+                        <div style="text-align: center;">
+                            <h:outputText value="รายการยาและราคายาทั้งหมด"/>
+                        </div>
+                    </f:facet>
+                    <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">
+                        #{rowIndex + 1}
+                    </p:column>
+                    <p:column headerText="TMT" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="ปีงบประมาณ" style="width: 40px;text-align: center;">
+                        <h:outputText value="#{item.pk.budgetYear}"/>
+                    </p:column>
+                    <p:column headerText="Reimburse Price" style="width: 50px;">
+                        <h:outputText value="#{item.pk.budgetYear} บาท"/>
+                    </p:column>
+                    <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
+                        <p:commandLink value="แก้ไข" style="color: blue;" action="#{edNedController.onEdit()}"/>
+                    </p:column>
+                    <p:column headerText="ลบ" style="width: 50px;text-align: center;">
+                        <p:commandLink value="ลบ" style="color: blue;" action="#{edNedController.delete(model)}"  global="true" update="@form">
+                            <p:confirm header="ยืนยันการ ลบ" 
+                                       icon="ui-icon-alert"
+                                       message="ต้องการลบรายการนี้หรือไม่"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form id="confirmDialogForm">
+                <p:confirmDialog global="true" showEffect="fade">
+                    <p:commandButton value="ใช่" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="ไม่ใช่" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
