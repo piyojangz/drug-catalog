@@ -48,8 +48,8 @@
                     border-bottom: 2px solid #7F7E7E;
                 }
             </style>
+            <p:growl id="growl" showDetail="true"/>
             <h:form id="form">
-                <p:growl id="growl" showDetail="true"/>
                 <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
                     <h:outputText value="กองทุน"/>
                 </div>
@@ -77,7 +77,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form , growl , :table" actionListener="#{fundController.onSave}">
+                            <p:commandButton value="เพิ่ม" update="@form , :growl , :tableForm" actionListener="#{fundController.onSave}">
                             </p:commandButton>
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset"/>
@@ -97,40 +97,53 @@
                             <p:inputText value="#{fundController.keyword}" styleClass="searchFund" style="width: 100px;"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{fundController.search}">
-                                <f:ajax execute="@form" render=":table"/>
-                            </p:commandButton>
+                            <p:commandButton value="ค้นหา" update="@form , :tableForm" icon="ui-icon-search" actionListener="#{fundController.search}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>
             <p:spacer height="20"/>
-            <p:dataTable id="table"
-                         value="#{fundController.funds}"
-                         var="fund"
-                         rowIndexVar="rowIndex"
-                         paginator="true" 
-                         rows="20" 
-                         lazy="true" 
-                         rowsPerPageTemplate="20,30,40,50"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+            <h:form id="tableForm">
+                <p:dataTable id="table"
+                             value="#{fundController.funds}"
+                             var="fund"
+                             rowIndexVar="rowIndex"
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                <f:facet name="header">
-                    <div style="text-align: center;">
-                        <h:outputText value="รายชื่อกองทุนทั้งหมดในระบบ"/>
-                    </div>
-                </f:facet>
-                <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
-                    #{rowIndex + 1}
-                </p:column>
-                <p:column headerText="ID" style="width: 100px;text-align: center;">
-                    <h:outputText value="#{fund.code}"/>
-                </p:column>
-                <p:column headerText="ชื่อ" style="width: 300px;">
-                    <h:outputText value="#{fund.name}"/>
-                </p:column>
-            </p:dataTable>
-
+                    <f:facet name="header">
+                        <div style="text-align: center;">
+                            <h:outputText value="รายชื่อกองทุนทั้งหมดในระบบ"/>
+                        </div>
+                    </f:facet>
+                    <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
+                        #{rowIndex + 1}
+                    </p:column>
+                    <p:column headerText="ID" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{fund.code}"/>
+                    </p:column>
+                    <p:column headerText="ชื่อ" style="width: 300px;">
+                        <h:outputText value="#{fund.name}"/>
+                    </p:column>
+                    <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
+                        <p:commandLink value="แก้ไข" 
+                                       style="color: blue;" 
+                                       action="#{dosageFormGroupController.onSelect(model)}" 
+                                       onclick="PF('editDialogWidget').show()"
+                                       update="@form"/>
+                    </p:column>
+                    <p:column headerText="ลบ" style="width: 50px;text-align: center;">
+                        <p:commandLink value="ลบ" 
+                                       style="color: blue;" 
+                                       action="#{dosageFormGroupController.onSelect(model)}" 
+                                       update="@form"
+                                       onclick="PF('deleteDialogWidget').show()"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </ui:define>
     </ui:composition>
 </html>
