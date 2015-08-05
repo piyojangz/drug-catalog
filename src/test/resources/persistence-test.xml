@@ -33,6 +33,8 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Right</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.DosageFormGroup</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugDosageFormGroup</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

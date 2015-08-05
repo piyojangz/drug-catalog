@@ -47,9 +47,12 @@
                 .clean-table .ui-datatable-tablewrapper{
                     border-bottom: 2px solid #7F7E7E;
                 }
+                .ui-widget-overlay{
+                    opacity: 0.50;
+                }
             </style>
+            <p:growl id="growl" showDetail="true"/>
             <h:form id="form">
-                <p:growl id="growl" showDetail="true"/>
                 <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
                     <h:outputText value="Dosage form Group"/>
                 </div>
@@ -64,7 +67,9 @@
                             <h:outputText value="* " style="color: red;font-size: 20px;"/><h:outputText value="ชื่อ group : " />
                         </p:column>
                         <p:column>
-                            <p:inputText styleClass="inputFund" value="#{fundController.fund.code}" style="width: 200px;"/><h:outputText value=" ควรเป็นตัวพิมพ์เล็กทั้งหมด" style="color: rgb(255, 72, 72)"/>
+                            <p:inputText id="inputId" styleClass="addDFG" value="#{dosageFormGroupController.dfgId}" style="width: 200px;">
+                                <p:watermark for="inputId" value="ควรเป็นตัวพิมพ์เล็กทั้งหมด"/>
+                            </p:inputText>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -72,12 +77,12 @@
                             <h:outputText value="คำอธิบาย group : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText styleClass="inputFund" value="#{fundController.fund.name}" style="width: 300px;"/>
+                            <p:inputText styleClass="addDFG" value="#{dosageFormGroupController.dfgDescription}" style="width: 300px;"/>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form , growl , :tableForm" actionListener="#{fundController.onSave}">
+                            <p:commandButton value="เพิ่ม" update="@form , :growl , :tableForm" actionListener="#{dosageFormGroupController.save()}">
                             </p:commandButton>
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset"/>
@@ -94,11 +99,10 @@
                             <h:outputText value="ค้นหา group : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{fundController.keyword}" styleClass="searchFund" style="width: 200px;"/>
+                            <p:inputText value="#{dosageFormGroupController.keyword}" styleClass="searchFund" style="width: 200px;"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="ค้นหา" update="@form" icon="ui-icon-search" actionListener="#{fundController.search}">
-                                <f:ajax execute="@form" render=":tableForm"/>
+                            <p:commandButton value="ค้นหา" update="@form , :tableForm" icon="ui-icon-search" actionListener="#{dosageFormGroupController.search()}">
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -107,8 +111,8 @@
             <p:spacer height="20"/>
             <h:form id="tableForm">
                 <p:dataTable id="table"
-                             value="#{fundController.funds}"
-                             var="fund"
+                             value="#{dosageFormGroupController.dosageFormGroups}"
+                             var="model"
                              style="min-width: 500px;"
                              rowIndexVar="rowIndex"
                              paginator="true" 
@@ -126,29 +130,115 @@
                         #{rowIndex + 1}
                     </p:column>
                     <p:column headerText="dosage form group" style="width: 100px;text-align: center;">
-                        <h:outputText value="#{fund.code}"/>
+                        <h:outputText value="#{model.idGroup}"/>
                     </p:column>
                     <p:column headerText="description" style="width: 300px;">
-                        <h:outputText value="#{fund.name}"/>
+                        <h:outputText value="#{model.description}"/>
                     </p:column>
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
-                        <p:commandLink value="แก้ไข" style="color: blue;" action="#{edNedController.onEdit()}"/>
+                        <p:commandLink value="แก้ไข" 
+                                       style="color: blue;" 
+                                       action="#{dosageFormGroupController.onSelect(model)}" 
+                                       onclick="PF('editDialogWidget').show()"
+                                       update="@form , :editDialogForm"/>
                     </p:column>
                     <p:column headerText="ลบ" style="width: 50px;text-align: center;">
-                        <p:commandLink value="ลบ" style="color: blue;" action="#{edNedController.delete(model)}"  global="true" update="@form">
-                            <p:confirm header="ยืนยันการ ลบ" 
-                                       icon="ui-icon-alert"
-                                       message="ต้องการลบรายการนี้หรือไม่"/>
-                        </p:commandLink>
+                        <p:commandLink value="ลบ" 
+                                       style="color: blue;" 
+                                       action="#{dosageFormGroupController.onSelect(model)}" 
+                                       update="@form , :deleteDialogForm"
+                                       onclick="PF('deleteDialogWidget').show()"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
-            <h:form id="confirmDialogForm">
-                <p:confirmDialog global="true" showEffect="fade">
-                    <p:commandButton value="ใช่" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="ไม่ใช่" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-            </h:form>
+            <p:dialog id="editDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      widgetVar="editDialogWidget"
+                      header="แก้ไข dosage form group">
+                <h:form id="editDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ชื่อ dosage form group : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="editId" value="#{dosageFormGroupController.selectedDosageFormGroup.idGroup}" style="width: 200px;" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="คำอธิบาย : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="editDescription" value="#{dosageFormGroupController.selectedDosageFormGroup.description}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="แก้ไข" 
+                                                 update="@form , :growl , :tableForm" 
+                                                 actionListener="#{dosageFormGroupController.edit()}" 
+                                                 onsuccess="PF('editDialogWidget').hide()"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
+
+            <p:dialog id="deleteDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      widgetVar="deleteDialogWidget"
+                      header="ยืนยันการลบข้อมูล">
+                <h:form id="deleteDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ชื่อ dosage form group : "/>
+                            </p:column>
+                            <p:column style="width: 200px;">
+                                <h:outputText value="#{dosageFormGroupController.selectedDosageFormGroup.idGroup}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="คำอธิบาย : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{dosageFormGroupController.selectedDosageFormGroup.description}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="ใช่" 
+                                                 actionListener="#{dosageFormGroupController.delete()}" 
+                                                 styleClass="ui-confirmdialog-yes" 
+                                                 icon="ui-icon-check" 
+                                                 update="@form , :growl , :tableForm"  />
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ไม่ใช่" 
+                                                 styleClass="ui-confirmdialog-no" 
+                                                 icon="ui-icon-close" 
+                                                 onclick="PF('deleteDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
+
         </ui:define>
     </ui:composition>
 </html>
