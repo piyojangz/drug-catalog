@@ -74,7 +74,9 @@
             </style>
             <h:form id="form">
                 <p:growl id="growl" showDetail="true" />
-
+                <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
+                    <h:outputText value="ค้นหา Reimburse Group Item"/>
+                </div>
                 <p:panelGrid>
 
                     <p:row>
@@ -166,21 +168,40 @@
                          rowsPerPageTemplate="20,30,40,50"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                <f:facet name="header">
-                    <div style="text-align: center;">
-                        <h:outputText value="ข้อมูล ReimburseGroup ในระบบ"/>
-                    </div>
-                </f:facet>
                 <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">
                     #{rowIndex + 1}
                 </p:column>
-                <p:column headerText="ED/NED" style="width: 50px;">
+                <p:column headerText="TMTID" style="width: 50px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                </p:column>
+                <p:column headerText="TMT_TYPE" style="width: 80px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.type}"/>
+                </p:column>
+                <p:column headerText="FSN" style="width: 300px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.fsn}"/>
+                </p:column>
+                <p:column headerText="Dosage Form" style="width: 150px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.dosageform}"/>
+                </p:column>
+                <p:column headerText="Dosage Form Group" style="width: 100px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.dosageformGroup}"/>
+                </p:column>
+                <p:column headerText="Content unit" style="width: 100px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.contunit}"/>
+                </p:column>
+                <p:column headerText="Content value" style="width: 60px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.contvalue}"/>
+                </p:column>
+                <p:column headerText="Dispensing Unit" style="width: 150px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.dispUnit}"/>
+                </p:column>              
+                <p:column headerText="ED/NED" style="width: 60px;">
                     <h:outputText value="#{item.statusEd}"/>
                 </p:column>
                 <p:column headerText="REIMBURSE_GROUP" style="width: 200px;">
                     <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>
                 </p:column>
-                <p:column headerText="ปีงบประมาณ" style="width: 40px;text-align: center;">
+                <p:column headerText="ปีงบประมาณ" style="width: 80px;text-align: center;">
                     <h:outputText value="#{item.pk.budgetYear}"/>
                 </p:column>
             </p:dataTable>
