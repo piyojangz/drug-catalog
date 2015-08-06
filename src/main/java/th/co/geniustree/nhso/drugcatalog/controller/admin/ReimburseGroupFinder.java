@@ -48,40 +48,29 @@ public class ReimburseGroupFinder {
     private TMTDrug selectedTMTDrug;
     private Fund selectedFund;
     private ICD10 selectedICD10;
-    private Integer selectedBudgetYear;
     private ReimburseGroupItem returnReimburseGroupItem;
+    private Date serviceDate;
     
     private List<Fund> funds;
-    private List<Integer> budgetYears;
     private SpringDataLazyDataModelSupport<ReimburseGroupItem> reimburseGroupItems;
 
     @PostConstruct
     public void postConstruct() {
         reset();
-        initialBudgetYear();
     }
 
     public void reset() {
         selectedTMTDrug = new TMTDrug();
         selectedFund = new Fund();
         selectedICD10 = new ICD10();
-        selectedBudgetYear = BudgetYearConverter.dateToBudgetYear(new Date());
         returnReimburseGroupItem = new ReimburseGroupItem();
-    }
-    
-    private void initialBudgetYear() {
-        Integer yearSelector = BudgetYearConverter.dateToBudgetYear(new Date());
-        budgetYears = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            budgetYears.add(yearSelector - i);
-        }
     }
 
     public void findReimburseGroupItem() {
         reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>(){
             @Override
             public Page<ReimburseGroupItem> load(Pageable pageable) {
-                Page<ReimburseGroupItem> page = reimburseGroupItemService.findReimburseGroupItem(selectedTMTDrug, selectedFund, selectedICD10, selectedBudgetYear,pageable);
+                Page<ReimburseGroupItem> page = reimburseGroupItemService.findReimburseGroupItem(selectedTMTDrug, selectedFund, selectedICD10, serviceDate,pageable);
                 return page;
             }
         };
@@ -101,16 +90,6 @@ public class ReimburseGroupFinder {
             }
         }
         return filterFunds;
-    }
-    
-    public List<Integer> completeBudgetYear(String query) {
-        List<Integer> filterBudgetYear = new ArrayList<>();
-        for (Integer year : budgetYears) {
-            if (year.toString().startsWith(query)) {
-                filterBudgetYear.add(year);
-            }
-        }
-        return filterBudgetYear;
     }
     
     public void onSearchTMTDrugDialog() {
@@ -181,15 +160,6 @@ public class ReimburseGroupFinder {
     public void setSelectedICD10(ICD10 selectedICD10) {
         this.selectedICD10 = selectedICD10;
     }
-
-    public Integer getSelectedBudgetYear() {
-        return selectedBudgetYear;
-    }
-
-    public void setSelectedBudgetYear(Integer selectedBudgetYear) {
-        this.selectedBudgetYear = selectedBudgetYear;
-    }
-
     public ReimburseGroupItem getReturnReimburseGroupItem() {
         return returnReimburseGroupItem;
     }
@@ -206,14 +176,6 @@ public class ReimburseGroupFinder {
         this.funds = funds;
     }
 
-    public List<Integer> getBudgetYears() {
-        return budgetYears;
-    }
-
-    public void setBudgetYears(List<Integer> budgetYears) {
-        this.budgetYears = budgetYears;
-    }
-
     public SpringDataLazyDataModelSupport<ReimburseGroupItem> getReimburseGroupItems() {
         return reimburseGroupItems;
     }
@@ -222,5 +184,12 @@ public class ReimburseGroupFinder {
         this.reimburseGroupItems = reimburseGroupItems;
     }
 
-    
+    public Date getServiceDate() {
+        return serviceDate;
+    }
+
+    public void setServiceDate(Date serviceDate) {
+        this.serviceDate = serviceDate;
+    }
+
 }
