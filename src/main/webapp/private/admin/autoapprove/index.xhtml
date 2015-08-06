@@ -14,18 +14,49 @@
                         padding: 5px;
                         border: none;
                     }
+                    .description{
+                        color: #8a6d3b;
+                    }
                 </style>
-                <p:panelGrid columns="1">
-                    <p:commandButton value="Approve Item.status=REQUEST and editCount >0" action="#{autoApprove.approveRejectAndEditCountGreaterThanZero()}" />
-                    <p:commandButton value="Approve Item.status=REQUEST and TMT IS NULL" action="#{autoApprove.approveRequestWhichTMTisNull()}" />
-                    <p:commandButton value="Approve Item that create ONLINE" action="#{autoApprove.approveRequestWhichCreateOneline()}" />
-                </p:panelGrid>
-                <p:panelGrid columns="2">
-                    <p:inputText value="#{autoApprove.hcode}"/>
-                    <p:commandButton value="Approve By Hcode" action="#{autoApprove.approveByHcode()}" />
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="Approve Item.status=REQUEST and editCount >0" action="#{autoApprove.approveRejectAndEditCountGreaterThanZero()}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText styleClass="description" value="อนุมัติรายการยาทั้งหมด โดยที่มีการแก้ไขมาแล้ว" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="Approve Item.status=REQUEST and TMT IS NULL" action="#{autoApprove.approveRequestWhichTMTisNull()}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText styleClass="description" value="อนุมัติรายการยาที่ไม่มี TMTID ทั้งหมด" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="Approve Item that create ONLINE" action="#{autoApprove.approveRequestWhichCreateOneline()}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText styleClass="description" value="อนุมัติรายการยาที่มาจากการ upload ไฟล์ excel ทั้งหมด" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:inputText value="#{autoApprove.hcode}"/>
+                            <p:commandButton value="Approve By Hcode" action="#{autoApprove.approveByHcode()}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText styleClass="description" value="อนุมัติรายการยาทั้งหมดของหน่วยบริการนั้นๆ" />
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
                 <hr/>
                 <p:commandButton value="CALL INITIAL_HOSPITAL_DRUG(copy approved data to TMT_HOSPDRUG_TRANS)" action="#{autoApprove.copyDataToHospDrugtran()}" />
+                <p:spacer width="10"/>
+                <h:outputText styleClass="description" value="จัดเตรียมข้อมูลที่อนุมัติแล้วลงในตาราง TMT_HOSPDRUG_TRANS " /><h:outputText styleClass="description" value="เพื่อให้ E-Claim มาอ่านข้อมูลจาก Drug Catalog" style="font-weight: bolder;" />
             </h:form>
         </ui:define>
     </ui:composition>
