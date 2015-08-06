@@ -108,6 +108,7 @@ public class AdminInbox implements Serializable {
         errorColumnSet.add("UNITPRICE");
         errorColumnSet.add("ISED");
         errorColumnSet.add("SPECPREP");
+        errorColumnSet.add("TMTID");
     }
 
     public long getTotalElementOfSearchTmt() {

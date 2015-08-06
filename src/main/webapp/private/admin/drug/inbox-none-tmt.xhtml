@@ -146,6 +146,18 @@
                                            action="#{adminInbox.clearErrorColumns(model)}"/>
                         </p:outputPanel>
                     </p:column>
+                    <p:column headerText="TMTID" style="width: 120px;">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
+                                           value="มี TMT แล้ว" 
+                                           style="#{model.errorColumns.contains('TMTID')?'color:red':'display: none;'}" 
+                                           action="#{adminInbox.error(model, 'TMTID')}"/>
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
+                                           value="TMT" 
+                                           style="#{model.errorColumns.contains('TMTID')?'display: none;':'color: blue;'}" 
+                                           action="#{adminInbox.error(model, 'TMTID')}"/>
+                        </p:outputPanel>
+                    </p:column>
                     <p:column headerText="ProductCat" style="width: 120px;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
