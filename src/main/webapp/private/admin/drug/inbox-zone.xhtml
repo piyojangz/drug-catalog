@@ -71,7 +71,8 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="zone" value="#{summaryInbox.selectedZone}" style="width: 400px;" >
-                                <f:selectItem itemLabel="ยังไม่ได้ระบุ" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="-" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="เลือกทุกเขต" itemValue="all"/>
                                 <f:selectItems value="#{summaryInbox.zones}" var="zone"
                                                itemLabel="#{zone.fullName}" 
                                                itemValue="#{zone.nhsoZone}" >

@@ -20,11 +20,11 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
-import th.co.geniustree.nhso.basicmodel.repository.ProvinceRepository;
 import th.co.geniustree.nhso.basicmodel.repository.ZoneRepository;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
+import th.co.geniustree.nhso.drugcatalog.service.ProvinceService;
 
 /**
  *
@@ -39,7 +39,7 @@ public class SummaryInbox {
     @Autowired
     private ZoneRepository zoneRepo;
     @Autowired
-    private ProvinceRepository provinceRepo;
+    private ProvinceService provinceService;
     @Autowired
     private RequestItemRepo requestItemRepo;
 
@@ -59,21 +59,21 @@ public class SummaryInbox {
     @PostConstruct
     public void postConstruct() {
         notEmptyRequest = false;
+        initZone();
+    }
+
+    private void initZone() {
         zones = zoneRepo.findAll(new Sort("nhsoZone"));
         Zone deletedZone = new Zone();
         deletedZone.setNhsoZone("14");
         zones.remove(deletedZone);
         deletedZone.setNhsoZone("15");
         zones.remove(deletedZone);
-        LOG.info("selected zone -> {}", selectedZone);
-        if (selectedZone != null) {
-            provinces = provinceRepo.findByNhsoZone(selectedZone, new Sort("id"));
-        }
     }
 
     public void onSelectZone() {
         LOG.info("Selected Zone -> {}", selectedZone);
-        provinces = provinceRepo.findByNhsoZone(selectedZone, new Sort("id"));
+        provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
     }
 
     public void onSelectProvince() {
