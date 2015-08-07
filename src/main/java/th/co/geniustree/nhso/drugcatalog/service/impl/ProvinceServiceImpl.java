@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.repository.ProvinceRepository;
+import th.co.geniustree.nhso.drugcatalog.controller.admin.SummaryRequest;
 import th.co.geniustree.nhso.drugcatalog.service.ProvinceService;
 
 /**
@@ -27,12 +28,10 @@ public class ProvinceServiceImpl implements ProvinceService {
     @Autowired
     private ProvinceRepository provinceRepo;
 
-    private final String ALL_ZONE = "all";
-
     @Override
     public List<Province> findBySelectedZone(String zoneId, Sort sortBy) {
         List<Province> provinces = null;
-        if (zoneId.equalsIgnoreCase(ALL_ZONE)) {
+        if (zoneId.equals(SummaryRequest.ALL_ZONE)) {
             List<String> notZone = new ArrayList<>();
             notZone.add("14");
             notZone.add("15");

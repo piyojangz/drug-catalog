@@ -62,17 +62,20 @@
                 }
 
             </style>
+            <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
+                <h:outputText value="รายการยารอตรวจสอบ (ทั้งหมด)"/>
+            </div>
             <h:form id="form">
 
                 <p:panelGrid>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             กรุณาเลือกเขต : 
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="zone" value="#{summaryInbox.selectedZone}" style="width: 400px;" >
                                 <f:selectItem itemLabel="-" noSelectionOption="true"/>
-                                <f:selectItem itemLabel="เลือกทุกเขต" itemValue="all"/>
+                                <f:selectItem itemLabel="เลือกทุกเขต" itemValue="#{summaryInbox.selectAllZone}"/>
                                 <f:selectItems value="#{summaryInbox.zones}" var="zone"
                                                itemLabel="#{zone.fullName}" 
                                                itemValue="#{zone.nhsoZone}" >
@@ -82,18 +85,25 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             กรุณาเลือกจังหวัด : 
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="province" value="#{summaryInbox.selectedProvince}" style="width: 400px;">
-                                <f:selectItem itemLabel="ยังไม่ได้ระบุ" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="เลือกทุกจังหวัด" itemValue="#{summaryInbox.selectAllProvince}"/>
                                 <f:selectItems value="#{summaryInbox.provinces}" var="province"
                                                itemLabel="#{province.fullName}" 
                                                itemValue="#{province.id}">
                                 </f:selectItems>
-                                <p:ajax event="change" process="@this" listener="#{summaryInbox.onSelectProvince()}" update="table ,summary"/>
                             </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center;">
+                            <p:commandButton value="ค้นหา" update="@form , table" actionListener="#{summaryInbox.search()}"/>
+                            <p:spacer width="10"/>
+                            <p:commandButton value="เคลียร์" update="@form" actionListener="#{summaryInbox.search()}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -102,7 +112,7 @@
                              value="#{summaryInbox.summary}"
                              var="hospital"
                              resizableColumns="true" 
-                             styleClass="clean-table config-table" 
+                             styleClass="clean-table" 
                              rowIndexVar="rowIndex" 
                              scrollable="true" 
                              scrollHeight="275"
@@ -112,14 +122,9 @@
                              rowsPerPageTemplate="10,20,30,40"
                              emptyMessage="ไม่มีข้อมูล"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                    <f:facet name="header">
-                        <div align="center">
-                            <h:outputLabel value="รายการยาที่รอตรวจสอบ" style="font-size: 20px;color: #8B25B2"/>
-                        </div>
-                    </f:facet>
                     <p:column headerText="วันที่ส่งข้อมูล Drug Catalogue" width="200">
                         <h:outputText value="#{hospital.requestDate}">
-                            <f:convertDateTime pattern="dd / MMM / yyyy HH:mm:ss"/>
+                            <f:convertDateTime pattern="d  MMM  yyyy HH:mm:ss"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="โรงพยาบาล" width="300">

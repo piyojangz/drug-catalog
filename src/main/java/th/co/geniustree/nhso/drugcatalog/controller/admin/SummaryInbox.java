@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -22,9 +20,9 @@ import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
 import th.co.geniustree.nhso.basicmodel.repository.ZoneRepository;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ProvinceService;
+import th.co.geniustree.nhso.drugcatalog.service.SummaryRequestService;
 
 /**
  *
@@ -36,6 +34,9 @@ public class SummaryInbox {
 
     private static final Logger LOG = LoggerFactory.getLogger(SummaryInbox.class);
 
+    @Autowired
+    private SummaryRequestService summaryRequestService;
+    
     @Autowired
     private ZoneRepository zoneRepo;
     @Autowired
@@ -55,6 +56,8 @@ public class SummaryInbox {
     private long totalHospitalRequest;
 
     private boolean notEmptyRequest;
+    private final String selectAllZone = SummaryRequest.ALL_ZONE;
+    private final String selectAllProvince = SummaryRequest.ALL_PROVINCE;
 
     @PostConstruct
     public void postConstruct() {
@@ -69,40 +72,25 @@ public class SummaryInbox {
         zones.remove(deletedZone);
         deletedZone.setNhsoZone("15");
         zones.remove(deletedZone);
+        selectedZone = "";
     }
 
     public void onSelectZone() {
         LOG.info("Selected Zone -> {}", selectedZone);
         provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
+        selectedProvince = "";
     }
-
-    public void onSelectProvince() {
-        summary = new SpringDataLazyDataModelSupport() {
+    
+    public void search(){
+        summary = new SpringDataLazyDataModelSupport<SummaryRequest>() {
             @Override
             public Page<SummaryRequest> load(Pageable pageAble) {
-                List<SummaryRequest> summaryRequests = new ArrayList<>();
-                long totalElement = 0;
-                Page<Object[]> page = null;
-                if (!selectedProvince.isEmpty()) {
-                    page = requestItemRepo.countSummaryRequestByProvince(RequestItem.Status.REQUEST, selectedProvince, pageAble);
-                    List<Object[]> list = page.getContent();
-                    for (Object[] objArray : list) {
-                        SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(objArray);
-                        summaryRequests.add(summaryRequest);
-                    }
-                    totalHospitalRequest = page.getTotalElements();
-                    if (totalHospitalRequest > 0) {
-                        notEmptyRequest = true;
-                    }
-                    totalElement = page.getTotalElements();
-                }
-                Page<SummaryRequest> summary = new PageImpl<>(summaryRequests, pageAble, totalElement);
+                Page<SummaryRequest> summary = summaryRequestService.loadSummaryRequest(selectedZone, selectedProvince, pageAble);
+                totalHospitalRequest = summary.getTotalElements();
+                totalRequestOfProvince = summaryRequestService.getTotalReqeust();
                 return summary;
             }
         };
-        if (selectedProvince != null) {
-            totalRequestOfProvince = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, selectedProvince);
-        }
     }
 
     public void onSelectHospital() {
@@ -181,6 +169,16 @@ public class SummaryInbox {
     public void setSelectedHospital(Hospital selectedHospital) {
         this.selectedHospital = selectedHospital;
     }
+    public String getSelectAllZone() {
+        return selectAllZone;
+    }
+
+    public String getSelectAllProvince() {
+        return selectAllProvince;
+    }
+
+    
     //****************************** getter and setter methods ******************************
 
+    
 }
