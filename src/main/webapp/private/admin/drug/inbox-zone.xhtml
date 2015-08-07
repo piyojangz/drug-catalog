@@ -60,6 +60,15 @@
                 .clean-table .ui-datatable-tablewrapper{
                     border-bottom: 2px solid #7F7E7E;
                 }
+                .ui-autocomplete-items{
+                    font-size: 16px;
+                }
+                .ui-autocomplete-panel{
+                    overflow-y: scroll;
+                    max-height: 300px;
+                    max-width: 400px;
+                    min-width: 400px;
+                }
 
             </style>
             <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
@@ -96,9 +105,24 @@
                                                itemValue="#{province.id}">
                                 </f:selectItems>
                             </p:selectOneMenu>
+                            <ui:remove>
+
+                                <p:autoComplete id="province" 
+                                                value="#{summaryInbox.province}" 
+                                                completeMethod="#{summaryInbox.completeProvince}"
+                                                var="p" 
+                                                itemLabel="#{p.name}" 
+                                                itemValue="#{p.id}" 
+                                                forceSelection="true" 
+                                                converter="provinceConverter" 
+                                                style="width: 400px;"
+                                                dropdown="true">
+                                </p:autoComplete>
+                            </ui:remove>
+
                         </p:column>
                     </p:row>
-                    
+
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
                             <p:commandButton value="ค้นหา" update="@form , table" actionListener="#{summaryInbox.search()}"/>

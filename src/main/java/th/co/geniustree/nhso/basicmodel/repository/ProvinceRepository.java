@@ -27,8 +27,6 @@ public interface ProvinceRepository extends JpaRepository<Province, String> {
     @Query("SELECT prov FROM Province prov WHERE prov.nhsoZone.nhsoZone = ?1")
     public List<Province> findByNhsoZone(String nhsoZone, Sort sort);
 
-    public Province findById(String id);
-
     @Query("select p from Province p where p.nhsoZone.nhsoZone not in ?1")
     public List<Province> findByNhsoZoneNhsoZoneNotIn(Collection<String> zoneId, Sort sortBy);
 }

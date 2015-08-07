@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -41,8 +42,6 @@ public class SummaryInbox {
     private ZoneRepository zoneRepo;
     @Autowired
     private ProvinceService provinceService;
-    @Autowired
-    private RequestItemRepo requestItemRepo;
 
     private List<Zone> zones;
     private List<Province> provinces;
@@ -50,6 +49,7 @@ public class SummaryInbox {
 
     private String selectedZone;
     private String selectedProvince;
+    private Province province;
     private Hospital selectedHospital;
 
     private long totalRequestOfProvince;
@@ -93,6 +93,25 @@ public class SummaryInbox {
         };
     }
 
+    public List<Province> completeProvince(String query) {
+        if (provinces == null || provinces.isEmpty()) {
+            provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
+        }
+        List<Province> filterProvince = new ArrayList<>();
+        for (Province p : provinces) {
+            if (p.getName() == null) {
+                p.setName(" - ");
+            }
+            if (p.getFullName().toLowerCase().contains(query)) {
+                filterProvince.add(p);
+            }
+        }
+        Province p = new Province(selectAllProvince);
+        p.setName("เลือกทุกจังหวัด");
+        filterProvince.add(0, p);
+        return filterProvince;
+    }
+    
     public void onSelectHospital() {
 
     }
@@ -138,11 +157,11 @@ public class SummaryInbox {
         this.provinces = provinces;
     }
 
-    public SpringDataLazyDataModelSupport getSummary() {
+    public SpringDataLazyDataModelSupport<SummaryRequest> getSummary() {
         return summary;
     }
 
-    public void setSummary(SpringDataLazyDataModelSupport summary) {
+    public void setSummary(SpringDataLazyDataModelSupport<SummaryRequest> summary) {
         this.summary = summary;
     }
 
@@ -177,8 +196,13 @@ public class SummaryInbox {
         return selectAllProvince;
     }
 
-    
-    //****************************** getter and setter methods ******************************
+    public Province getProvince() {
+        return province;
+    }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
 
     
 }
