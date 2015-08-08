@@ -5,8 +5,11 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,23 +17,15 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import th.co.geniustree.nhso.drugcatalog.controller.admin.EdNedMapper;
-import th.co.geniustree.nhso.drugcatalog.model.Drug;
-import th.co.geniustree.nhso.drugcatalog.model.EdNed;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.BudgetYearConverter;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
-import th.co.geniustree.nhso.drugcatalog.model.ICD10;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10Group;
-import th.co.geniustree.nhso.drugcatalog.model.Icd10GroupPK;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
-import th.co.geniustree.nhso.drugcatalog.repo.DrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.EdNedRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10GroupRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.Icd10Repo;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.repo.ICD10Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupItemRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.ReimburseGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 
 /**
@@ -41,73 +36,33 @@ import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupItemService;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ReimburseGroupItemServiceImpl.class);
+
+    private final String EMPTY_ICD10_CODE = "_EMPTY";
+
     @Autowired
     private ReimburseGroupItemRepo reimburseGroupItemRepo;
 
     @Autowired
-    private Icd10GroupRepo icd10GroupRepo;
-
-    @Autowired
-    private ReimburseGroupRepo reimburseGroupRepo;
-
-    @Autowired
-    private Icd10Repo icd10Repo;
-
-    @Autowired
-    private EdNedRepo edNedRepo;
-
-    @Autowired
-    private DrugRepo drugRepo;
-
-    @Autowired
-    private FundRepo fundReopo;
+    private ICD10Repo icd10Repo;
 
     @Override
-    public ReimburseGroupItem save(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
-
-        Drug drug = drugRepo.findOne(tmtid);
-        Fund fund = fundReopo.findOne(fundCode);
-        ICD10 icd10 = icd10Repo.findOne(icd10Id);
-        ReimburseGroup reimburseGroup = reimburseGroupRepo.findOne(reimburseGroupId);
-        if (hasData(tmtid, fundCode, edStatus, icd10Id, reimburseGroupId)) {
-            ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(edStatus, drug, fund, icd10, reimburseGroup);
-            return reimburseGroupItemRepo.save(reimburseGroupItem);
-        } else {
-            return null;
+    public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Integer budgetYear) {
+        if (isNullICD10(icd10)) {
+            icd10 = icd10Repo.findOne(EMPTY_ICD10_CODE);
         }
-    }
-
-    private boolean hasData(String tmtid, String fundCode, String edStatus, String icd10Id, String reimburseGroupId) {
-        EdNed edNed = edNedRepo.findByTmtDrugAndFundAndStatus(tmtid, fundCode, edStatus);
-        Icd10Group icd10Group = icd10GroupRepo.findOne(new Icd10GroupPK(icd10Id, reimburseGroupId));
-        return edNed != null && icd10Group != null;
+        ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(tmtDrug, fund, icd10, reimburseGroup, edStatus, budgetYear);
+        return reimburseGroupItemRepo.save(reimburseGroupItem);
     }
 
     @Override
-    public ReimburseGroupItem save(ReimburseGroupItem item) {
-        if (hasData(item.getDrug().getTmtId(),
-                item.getFund().getFundCode(),
-                item.getEdStatus(),
-                item.getIcd10().getId(),
-                item.getReimburseGroup().getId())) {
-            return reimburseGroupItemRepo.save(item);
-        } else {
-            return null;
+    public ReimburseGroupItem findById(String tmtid, String fundCode, String icd10Id, String reimburseGroupId, Date searchDate) {
+        if (icd10Id == null || icd10Id.isEmpty()) {
+            icd10Id = EMPTY_ICD10_CODE;
         }
-    }
-
-    @Override
-    public ReimburseGroupItem findReimburseGroup(String tmtid, String fundCode, String icd10Id, Date dateIn) {
-        List<Object[]> objs = edNedRepo.findByTmtDrugAndFund(tmtid, fundCode, dateIn);
-        if (objs == null) {
-            return null;
-        }
-        EdNed edNed = EdNedMapper.mapToModelAndGetFirst(objs);
-        if (edNed == null) {
-            return null;
-        }
-        String edStatus = edNed.getStatus();
-        return reimburseGroupItemRepo.findOne(new ReimburseGroupItemPK(tmtid, fundCode, edStatus, icd10Id));
+        int budgetYear = BudgetYearConverter.dateToBudgetYear(searchDate);
+        ReimburseGroupItemPK pk = new ReimburseGroupItemPK(tmtid, fundCode, icd10Id, reimburseGroupId, budgetYear);
+        return reimburseGroupItemRepo.findOne(pk);
     }
 
     @Override
@@ -120,4 +75,50 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         return reimburseGroupItemRepo.findAll(spec, pageable);
     }
 
+    @Override
+    public List<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Id, Date searchDate) {
+        if (icd10Id == null || icd10Id.isEmpty()) {
+            icd10Id = EMPTY_ICD10_CODE;
+        }
+        int budgetYear = BudgetYearConverter.dateToBudgetYear(searchDate);
+        List<ReimburseGroupItem> items = reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Id, budgetYear);
+        if (items == null) {
+            return new ArrayList<>();
+        }
+        return items;
+    }
+
+    @Override
+    public Page<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Code,Integer budgetYear, Pageable pageable) {
+        if (isNullICD10(icd10Code)) {
+            icd10Code = EMPTY_ICD10_CODE;
+        }
+        return reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Code, budgetYear, pageable);
+    }
+
+    @Override
+    public Page<ReimburseGroupItem> findReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, Date searchDate, Pageable pageable) {
+        if (isNullICD10(icd10)) {
+            icd10 = icd10Repo.findOne(EMPTY_ICD10_CODE);
+        }
+        Integer budgetYear = BudgetYearConverter.dateToBudgetYear(searchDate);
+        String tmtid = tmtDrug.getTmtId();
+        String fundCode = fund.getCode();
+        String icd10Code = icd10.getCode();
+        return reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Code, budgetYear, pageable);
+    }
+
+    @Override
+    public void delete(ReimburseGroupItem reimburseGroupItem) {
+        reimburseGroupItemRepo.delete(reimburseGroupItem);
+    }
+
+    
+    private boolean isNullICD10(ICD10 icd10) {
+        return icd10 == null || icd10.getCode() == null || icd10.getCode().isEmpty();
+    }
+
+    private boolean isNullICD10(String icd10) {
+        return icd10 == null || icd10.isEmpty();
+    }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package th.co.geniustree.nhso.drugcatalog.model;
+package th.co.geniustree.nhso.basicmodel.readonly;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,32 +11,36 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 /**
  *
  * @author Thanthathon
  */
 @Entity
-@Table(name = "ICD10")
+@Table(name = "ICD10_VIEW")
 public class ICD10 implements Serializable {
     
     @Id
-    @Column(name = "ICD10_ID")
-    private String id;
+    @Column(name = "CODE")
+    private String code;
     
-    @Column(name = "ICD10_NAME")
+    @Column(name = "DESC_R")
     private String name;
-    
-    @Version
-    private Integer version;
 
-    public String getId() {
-        return id;
+    public ICD10() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public ICD10(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+    
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -47,18 +51,10 @@ public class ICD10 implements Serializable {
         this.name = name;
     }
 
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.code);
         return hash;
     }
 
@@ -71,7 +67,7 @@ public class ICD10 implements Serializable {
             return false;
         }
         final ICD10 other = (ICD10) obj;
-        return Objects.equals(this.id, other.id);
+        return Objects.equals(this.code, other.code);
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,10 @@ public class FundServiceImpl implements FundService{
 
     @Override
     public Fund save(Fund fund) {
+        String fundName = fund.getName();
+        if(fundName == null || fundName.isEmpty()){
+            fund.setName(" - ");
+        }
         return fundRepo.save(fund);
     }
 
@@ -46,6 +51,17 @@ public class FundServiceImpl implements FundService{
     public Page<Fund> findAllBySpecs(Specification<Fund> spec, Pageable pageable) {
         return fundRepo.findAll(spec, pageable);
     }
-    
+
+    @Override
+    public List<Fund> findAll() {
+        return fundRepo.findAll();
+    }
+
+    @Override
+    public void delete(Fund fund) {
+        fundRepo.delete(fund);
+    }
+
+   
     
 }

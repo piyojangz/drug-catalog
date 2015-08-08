@@ -61,10 +61,28 @@ public class CreateHospitalDrug implements Serializable {
     @Autowired
     private EdNEdService edNEdService;
     private HospitalDrug editHospitalDrug;
+    private String oldUnitPrice;
+    private Date oldDateEffective;
 
     @PostConstruct
     public void postConstruct() {
         clear();
+    }
+
+    public String getOldUnitPrice() {
+        return oldUnitPrice;
+    }
+
+    public void setOldUnitPrice(String oldUnitPrice) {
+        this.oldUnitPrice = oldUnitPrice;
+    }
+
+    public Date getOldDateEffective() {
+        return oldDateEffective;
+    }
+
+    public void setOldDateEffective(Date oldDateEffective) {
+        this.oldDateEffective = oldDateEffective;
     }
 
     public UploadHospitalDrugItem getItem() {
@@ -106,6 +124,14 @@ public class CreateHospitalDrug implements Serializable {
 
     public void setEditHospitalDrug(HospitalDrug editHospitalDrug) {
         this.editHospitalDrug = editHospitalDrug;
+    }
+
+    public void saveOldEditUnitPrice() {
+        if (updateFlag.equalsIgnoreCase("U")) {
+            oldDateEffective = item.getDateEffectiveDate();
+            oldUnitPrice = item.getUnitPrice();
+            item.setDateEffectiveDate(null);
+        }
     }
 
     public void checkHospDrugCodeExist(FacesContext context, UIComponent component, Object value) {
@@ -210,7 +236,8 @@ public class CreateHospitalDrug implements Serializable {
         hospDrugCode = null;
         return null;
     }
-    public String reload(){
+
+    public String reload() {
         return "/private/hospital/create/index?faces-redirect=true&amp;includeViewParams=true";
     }
 }

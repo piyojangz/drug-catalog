@@ -25,7 +25,7 @@ public class Fund implements Serializable {
 
     @Id
     @Column(name = "FUND_CODE")
-    private String fundCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String name;
@@ -34,17 +34,17 @@ public class Fund implements Serializable {
     private List<ReimburseGroupItem> reimburseGroups;
 
     @OneToMany(mappedBy = "fund")
-    private List<EdNed> edNeds;
+    private List<TMTEdNed> edNeds;
 
     @Version
     private Integer version;
 
-    public String getFundCode() {
-        return fundCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setFundCode(String fundCode) {
-        this.fundCode = fundCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -63,18 +63,18 @@ public class Fund implements Serializable {
         this.reimburseGroups = reimburseGroups;
     }
 
-    public List<EdNed> getEdNeds() {
+    public List<TMTEdNed> getEdNeds() {
         return edNeds;
     }
 
-    public void setEdNeds(List<EdNed> edNeds) {
+    public void setEdNeds(List<TMTEdNed> edNeds) {
         this.edNeds = edNeds;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.fundCode);
+        hash = 83 * hash + Objects.hashCode(this.code);
         return hash;
     }
 
@@ -87,12 +87,12 @@ public class Fund implements Serializable {
             return false;
         }
         final Fund other = (Fund) obj;
-        return Objects.equals(this.fundCode, other.fundCode);
+        return Objects.equals(this.code, other.code);
     }
 
     @Override
     public String toString() {
-        return this.fundCode;
+        return this.code;
     }
 
 }

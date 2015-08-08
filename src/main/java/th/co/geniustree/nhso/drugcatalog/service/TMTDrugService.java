@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.List;
@@ -25,4 +21,5 @@ public interface TMTDrugService {
     public List<TMTDrug> findTMTDrugWithFsn(String fsn);
 
     public List<TMTDrug> findTMTDrugWithFsn(String fsn, Specifications specs);
+    public Page<TMTDrug> search(String tmtid,Pageable pageable);
 }

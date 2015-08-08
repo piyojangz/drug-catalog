@@ -63,125 +63,148 @@
                     width: 250px;
                 }
                 .ui-autocomplete-items{
-                    font-size: 22px;
+                    font-size: 16px;
                 }
                 .ui-autocomplete-panel{
                     overflow-y: scroll;
                     max-height: 300px;
                     max-width: 600px;
-                    min-width: 600px;
+                    min-width: 200px;
                 }
             </style>
             <h:form id="form">
                 <p:growl id="growl" showDetail="true" />
-
+                <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
+                    <h:outputText value="ค้นหา Reimburse Group Item"/>
+                </div>
                 <p:panelGrid>
+
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right; width: 100px;">
                             <h:outputText value="TMTID : "/>
                         </p:column>
-                        <p:column style="width: 500px;min-width: 460px;">
-                            <p:inputText id="tmtid" value="#{newModelController.tmtId}" styleClass="input1">
-
+                        <p:column style="min-width: 350px;">
+                            <p:inputText id="tmtid" value="#{reimburseGroupFinder.selectedTMTDrug.tmtId}" styleClass="input">
                             </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelController.onSearchTMTDrug()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{newModelController.onTmtDialogReturn}" update="@form" />
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupFinder.onSearchTMTDrugDialog}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{reimburseGroupFinder.onTmtDialogReturn}" update="@form" />
                             </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{reimburseGroupFinder.selectedTMTDrug.fsn}" rendered="#{reimburseGroupFinder.selectedTMTDrug != null}"/>
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
-                            <h:outputText value="FUND_ID : "/>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="FUND_CODE: "/>
                         </p:column>
                         <p:column>
                             <p:autoComplete id="fund" 
-                                            value="#{newModelController.selectedFund}" 
-                                            completeMethod="#{newModelController.completeFund}"
-                                            var="f" 
-                                            itemLabel="#{f.name}" 
-                                            itemValue="#{f.fundCode}" 
+                                            value="#{reimburseGroupFinder.selectedFund}" 
+                                            completeMethod="#{reimburseGroupFinder.completeFund}"
+                                            var="fund" 
+                                            itemLabel="#{fund.name}" 
+                                            itemValue="#{fund.code}" 
                                             forceSelection="true" 
                                             converter="fundConverter" 
                                             styleClass="input1"
                                             dropdown="true">
                                 <p:column>
-                                    #{f.fundCode}
+                                    #{fund.code}
                                 </p:column>
                                 <p:column>
-                                    #{f.name}
+                                    #{fund.name}
                                 </p:column>
                             </p:autoComplete>
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             <h:outputText value="ICD10_CODE : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="icd10" value="#{newModelController.icd10Id}" styleClass="input">
+                            <p:inputText id="icd10" value="#{reimburseGroupFinder.selectedICD10.code}" styleClass="input">
                             </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelController.onSearchIcd10Dialog()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{newModelController.onIcdDialogReturn}" update="@form" />
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupFinder.onSearchIcd10Dialog}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{reimburseGroupFinder.onIcdDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
+
                     <p:row>
-                        <p:column>
-                            <h:outputText value="วันที่เบิก : "/>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="วันที่ตรวจสอบ : "/>
                         </p:column>
                         <p:column>
-                            <p:calendar id="dateIn" 
-                                        value="#{newModelController.dateIn}" 
-                                        styleClass="input" 
-                                        locale="en_US" 
-                                        pattern="dd/MM/yyyy"
-                                        navigator="true">
-                                <p:watermark for="dateIn" value="date แรกหลังจาก datein ที่กำหนด"/>
-                            </p:calendar>
+                            <p:calendar value="#{reimburseGroupFinder.serviceDate}" 
+                                        showOn="button" 
+                                        navigator="true"/>
                         </p:column>
                     </p:row>
+
                     <p:row>
                         <p:column>
-                            <p:commandButton value="ค้นหา" actionListener="#{newModelController.findGroup()}" update="@form growl"/>
+                            <p:row>
+                                <p:column colspan="2" style="text-align: center;">
+                                    <p:commandButton value="ค้นหา" update="@form ,growl ,:reimburseGroupTable" actionListener="#{reimburseGroupFinder.findReimburseGroupItem}"/>
+                                    <p:spacer width="20"/>
+                                    <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
+                                </p:column>
+                            </p:row>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
 
-                <p:panelGrid rendered="#{not empty newModelController.reimburseGroupItem.reimburseGroup}" style="font-size: 22px;">
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="Is Special Project : "/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.specialProject}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="ED Status : "/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{newModelController.reimburseGroupItem.edStatus}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="Reimburse Group : "/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.id}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="Reimburse Group Description : "/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.description}"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
             </h:form>
+            <p:spacer height="20"/>
+            <p:dataTable id="reimburseGroupTable"
+                         value="#{reimburseGroupFinder.reimburseGroupItems}"
+                         var="item"
+                         rowIndexVar="rowIndex"
+                         style="width: 100%;overflow-x: scroll;"
+                         paginator="true" 
+                         rows="20" 
+                         lazy="true" 
+                         rowsPerPageTemplate="20,30,40,50"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">
+                    #{rowIndex + 1}
+                </p:column>
+                <p:column headerText="TMTID" style="width: 50px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                </p:column>
+                <p:column headerText="TMT_TYPE" style="width: 80px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.type}"/>
+                </p:column>
+                <p:column headerText="FSN" style="width: 300px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.fsn}"/>
+                </p:column>
+                <p:column headerText="Dosage Form" style="width: 150px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.dosageform}"/>
+                </p:column>
+                <p:column headerText="Dosage Form Group" style="width: 100px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.dosageformGroup}"/>
+                </p:column>
+                <p:column headerText="Content unit" style="width: 100px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.contunit}"/>
+                </p:column>
+                <p:column headerText="Content value" style="width: 60px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.contvalue}"/>
+                </p:column>
+                <p:column headerText="Dispensing Unit" style="width: 150px;text-align: center;">
+                    <h:outputText value="#{item.tmtDrug.dispUnit}"/>
+                </p:column>              
+                <p:column headerText="ED/NED" style="width: 60px;">
+                    <h:outputText value="#{item.statusEd}"/>
+                </p:column>
+                <p:column headerText="REIMBURSE_GROUP" style="width: 200px;">
+                    <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>
+                </p:column>
+                <p:column headerText="ปีงบประมาณ" style="width: 80px;text-align: center;">
+                    <h:outputText value="#{item.pk.budgetYear}"/>
+                </p:column>
+            </p:dataTable>
         </ui:define>
     </ui:composition>
 </html>

@@ -42,16 +42,22 @@ public class TMTEdNed implements Serializable {
     private Date dateIn;
     @Id
     @Column(name = "CLASSIFIER", nullable = false, length = 3)
-    private String classifier = HospitalEdNedPK.SUPPORT_CASSIFIER;//support only UC in current version.
+    private String classifier;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATEDATE", nullable = false)
     private Date createDate;
+    
     @Column(name = "STATUS_ED", length = 2, nullable = false)
     private String statusEd;
+    
     @ManyToOne(optional = false)
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
+    
+    @ManyToOne
+    @JoinColumn(name = "CLASSIFIER", insertable = false, updatable = false)
+    private Fund fund;
 
     @PrePersist
     public void prePersist() {
@@ -105,8 +111,15 @@ public class TMTEdNed implements Serializable {
     public void setTmtDrug(TMTDrug tmtDrug) {
         this.tmtDrug = tmtDrug;
     }
-    
 
+    public Fund getFund() {
+        return fund;
+    }
+
+    public void setFund(Fund fund) {
+        this.fund = fund;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;

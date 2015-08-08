@@ -6,76 +6,104 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 
 /**
  *
  * @author Thanthathon
  */
+@Embeddable
 public class ReimburseGroupItemPK implements Serializable {
 
-    private String drug;
-    private String fund;
-    private String edStatus;
-    private String icd10;
+    @Column(name = "TMTID")
+    private String tmtid;
+
+    @Column(name = "FUND_CODE")
+    private String fundCode;
+
+    @Column(name = "ICD10_CODE")
+    private String icd10Code;
+    
+    @Column(name = "REIMBURSE_GROUP_ID")
+    private String reimburseGroupId;
+    
+    @Column(name = "BUDGET_YEAR")
+    private Integer budgetYear;
 
     public ReimburseGroupItemPK() {
 
     }
 
-    public ReimburseGroupItemPK(String tmtid, String fundCode, String edStatus, String icd10Id) {
-        this.drug = tmtid;
-        this.fund = fundCode;
-        this.edStatus = edStatus;
-        this.icd10 = icd10Id;
+    public ReimburseGroupItemPK(String tmtid, String fundCode, String icd10Id,String reimburseGroupId ,Integer budgetYear) {
+        this.tmtid = tmtid;
+        this.fundCode = fundCode;
+        this.icd10Code = icd10Id;
+        this.budgetYear = budgetYear;
+        this.reimburseGroupId = reimburseGroupId;
     }
 
-    public ReimburseGroupItemPK(Drug drug, Fund fund, String status, String icd10) {
-        this.drug = drug.getTmtId();
-        this.fund = fund.getFundCode();
-        this.icd10 = icd10;
-        this.edStatus = status;
+    public ReimburseGroupItemPK(TMTDrug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup ,Integer budgetYear) {
+        this.tmtid = drug.getTmtId();
+        this.fundCode = fund.getCode();
+        this.icd10Code = icd10.getCode();
+        this.reimburseGroupId = reimburseGroup.getId();
+        this.budgetYear = budgetYear;
     }
 
-    public String getDrug() {
-        return drug;
+    public String getTmtid() {
+        return tmtid;
     }
 
-    public void setDrug(String drug) {
-        this.drug = drug;
+    public void setTmtid(String tmtid) {
+        this.tmtid = tmtid;
     }
 
-    public String getFund() {
-        return fund;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setFund(String fund) {
-        this.fund = fund;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
-    public String getEdStatus() {
-        return edStatus;
+    public String getIcd10Code() {
+        return icd10Code;
     }
 
-    public void setEdStatus(String edStatus) {
-        this.edStatus = edStatus;
+    public void setIcd10Code(String icd10Code) {
+        this.icd10Code = icd10Code;
     }
 
-    public String getIcd10() {
-        return icd10;
+    public Integer getBudgetYear() {
+        return budgetYear;
     }
 
-    public void setIcd10(String icd10) {
-        this.icd10 = icd10;
+    public void setBudgetYear(Integer budgetYear) {
+        this.budgetYear = budgetYear;
+    }
+
+    public String getReimburseGroupId() {
+        return reimburseGroupId;
+    }
+
+    public void setReimburseGroupId(String reimburseGroupId) {
+        this.reimburseGroupId = reimburseGroupId;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.drug);
-        hash = 89 * hash + Objects.hashCode(this.fund);
-        hash = 89 * hash + Objects.hashCode(this.edStatus);
-        hash = 89 * hash + Objects.hashCode(this.icd10);
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.tmtid);
+        hash = 11 * hash + Objects.hashCode(this.fundCode);
+        hash = 11 * hash + Objects.hashCode(this.icd10Code);
+        hash = 11 * hash + Objects.hashCode(this.reimburseGroupId);
+        hash = 11 * hash + Objects.hashCode(this.budgetYear);
         return hash;
     }
 
@@ -88,16 +116,19 @@ public class ReimburseGroupItemPK implements Serializable {
             return false;
         }
         final ReimburseGroupItemPK other = (ReimburseGroupItemPK) obj;
-        if (!Objects.equals(this.drug, other.drug)) {
+        if (!Objects.equals(this.tmtid, other.tmtid)) {
             return false;
         }
-        if (!Objects.equals(this.fund, other.fund)) {
+        if (!Objects.equals(this.fundCode, other.fundCode)) {
             return false;
         }
-        if (!Objects.equals(this.edStatus, other.edStatus)) {
+        if (!Objects.equals(this.icd10Code, other.icd10Code)) {
             return false;
         }
-        if (!Objects.equals(this.icd10, other.icd10)) {
+        if (!Objects.equals(this.reimburseGroupId, other.reimburseGroupId)) {
+            return false;
+        }
+        if (!Objects.equals(this.budgetYear, other.budgetYear)) {
             return false;
         }
         return true;

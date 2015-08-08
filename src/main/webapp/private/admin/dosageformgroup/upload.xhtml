@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+<!--            <div style="text-align: center;font-size: 40px;color: red;">
+                ยังไม่ได้ทำ upload Dosage Form Group
+            </div>-->
+            <h:form>
+                <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า Dosage Form Group" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
+                    <p:fileDownload value="#{uploadTMTEdNed.templateFile}" />
+                </p:commandLink>
+            </h:form>
+            <br/>
+            <h:form enctype="multipart/form-data" id="form">
+                <p:messages id="messages" globalOnly="true" showDetail="true"/>
+                <p:fileUpload fileUploadListener="#{uploadTMTEdNed.handleFileUpload}" mode="advanced"
+                              update="form" auto="true" sizeLimit="10000000" allowTypes="/(\.|\/)(xls|xlsx)$/" label="#{not empty uploadTMTEdNed.originalFileName?'File : '.concat(uploadTMTEdNed.originalFileName):'เลือกไฟล์ Dosage Form Group (xls,xlsx)'}"/>
+                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadTMTEdNed.passModels.size()+uploadMappedDrugGroup.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadTMTEdNed.file}"/><br/>
+                <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" rendered="#{uploadTMTEdNed.duplicateFile}" style="color:red;font-weight: bold"/><br/>
+                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadTMTEdNed.notPassModels}">
+                    <f:facet name="header">
+                        <h:outputText value="จำนวนข้อมูลที่" />
+                        <h:outputText value="ไม่ผ่าน" style="color:red"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
+                        <h:outputText value="#{uploadTMTEdNed.notPassModels.size()} " style="color:red"/>
+                        <h:outputText value="เรคคอร์ด"/>
+                    </f:facet>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadTMTEdNed.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                            <f:facet name="header">
+                                <h:commandLink style="float:left">
+                                    <p:graphicImage name="images/excel24.png" />
+                                    <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
+                                </h:commandLink>
+                            </f:facet>
+                            <p:column   headerText="ROW#" width="40">
+                                <h:outputText value="#{model.rowNum}"/>
+                            </p:column>
+                            <p:column   headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tmtId']}"/>
+                            </p:column>
+                            <p:column headerText="DATEIN" width="60" styleClass="#{empty model.errorMap['dateinString']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.dateinString}"  title="#{model.errorMap['dateinString']}"/>
+                            </p:column>
+                            <p:column headerText="ISED" width="60" styleClass="#{empty model.errorMap['statusEd']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.statusEd}"  title="#{model.errorMap['statusEd']}"/>
+                            </p:column>
+                            <p:column headerText="ERROR" width="400">
+                                <h:outputText value="#{model.errors}" style="color:orange"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel style="margin-bottom:20px" rendered="#{not empty uploadTMTEdNed.passModels}">
+                    <f:facet name="header">
+                        <h:outputText value="จำนวนข้อมูลที่" />
+                        <h:outputText value="ผ่าน" style="color:green"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
+                        <h:outputText value="#{uploadTMTEdNed.passModels.size()} " style="color:green"/>
+                        <h:outputText value="เรคคอร์ด"/>
+                    </f:facet>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:dataTable id="passTable" resizableColumns="true" rowIndexVar="rowIndex" value="#{uploadTMTEdNed.passModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                            <f:facet name="header">
+                                <h:commandLink style="float:left">
+                                    <p:graphicImage name="images/excel24.png"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                                </h:commandLink>
+                            </f:facet>
+                            <p:column   headerText="#" width="80" resizable="false">
+                                <h:outputText value="#{rowIndex+1}" style="" />
+                            </p:column>
+                            <p:column   headerText="TMTID" width="80" >
+                                <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tmtId']}"/>
+                            </p:column>
+                            <p:column headerText="DATEIN" width="100" >
+                                <h:outputText value="#{model.dateinString}"  title="#{model.errorMap['dateinString']}"/>
+                            </p:column>
+                             <p:column headerText="ISED" width="100" >
+                                 <h:outputText value="#{model.statusEd}"  title="#{model.errorMap['statusEd']}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+                <p:blockUI block="form" widgetVar="allblock" >
+                    Please wait...
+                </p:blockUI>
+                <p:commandButton ajax="false" value="Save" action="#{uploadTMTEdNed.save()}" disabled="#{empty uploadTMTEdNed.passModels or uploadTMTEdNed.duplicateFile}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
+                &nbsp;
+                <p:commandButton ajax="false" value="Cancle" action="#{uploadTMTEdNed.reset()}" disabled="#{empty uploadTMTEdNed.file}" update="form"  onclick="PF('allblock').show()" />
+            </h:form>
+            
+            <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+            </p:dialog>
+
+            <script type="text/javascript">
+                function start() {
+                    PF('statusDialog').show();
+                }
+
+                function stop() {
+                    PF('statusDialog').hide();
+                }
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 /**
  *
@@ -30,8 +31,18 @@ public class ReimburseGroup implements Serializable {
     @Column(name = "IS_SPECIAL_PROJECT")
     private boolean specialProject;
 
+    @Version
     private Integer version;
 
+    public ReimburseGroup() {
+    }
+
+    public ReimburseGroup(String id, String description, boolean specialProject) {
+        this.id = id;
+        this.description = description;
+        this.specialProject = specialProject;
+    }
+    
     public String getId() {
         return id;
     }

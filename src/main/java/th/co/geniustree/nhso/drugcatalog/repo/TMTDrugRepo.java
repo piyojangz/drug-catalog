@@ -6,6 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.repo;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -22,5 +24,7 @@ public interface TMTDrugRepo extends JpaRepository<TMTDrug, String>, JpaSpecific
     public List<TMTDrug> findByFsnIgnoreCaseContaining(String fsn);
     
     public List<TMTDrug> findByFsn(String fsn,Specification specs);
+    
+    public Page<TMTDrug> findByTmtIdContains(String searchTmtid,Pageable pageable);
 
 }

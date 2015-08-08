@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,5 +24,9 @@ public interface FundService {
     public Page<Fund> findAllPaging(Pageable pageable);
 
     public Page<Fund> findAllBySpecs(Specification<Fund> spec, Pageable pageable);
+    
+    public List<Fund> findAll();
+    
+    public void delete(Fund fund);
 
 }

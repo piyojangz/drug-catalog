@@ -56,6 +56,7 @@
                     </ui:remove>
                 </p:submenu>
                 <p:submenu label="ED/NED" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="รายการ ED/NED" outcome="/private/admin/edned/addedstatus" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/addedstatus'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Upload ED/NED" outcome="/private/admin/edned/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/upload'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="TMT-NDC24" rendered="#{request.isUserInRole('ADMIN')}">
@@ -75,12 +76,25 @@
                 </p:submenu>
                 <p:separator/>
                 <p:menuitem value="E Claim" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}" outcome="/private/admin/eclaim/index" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/eclaim/index'), 0)?'background-color: #FFF2DB':''}"/>
-                <p:submenu label="Reimburse Group Item" rendered="#{request.isUserInRole('ADMIN')}">
-                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="ค้นหาข้อมูล group" outcome="/private/admin/reimbursegroup/findgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/findgroup'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="reimburse group item" outcome="/private/admin/reimbursegroup/mock" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/mock'), 0)?'background-color: #FFF2DB':''}"/>
+                <p:submenu label="โครงการพิเศษ" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="เพิ่มโครงการพิเศษ" outcome="/private/admin/reimbursegroup/addspecialproject" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/addspecialproject'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
-                <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="fund" outcome="/private/admin/fund/mock" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/fund/mock'), 0)?'background-color: #FFF2DB':''}"/>
-                <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="ED-Status" outcome="/private/admin/edstatus/mock" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edstatus/mock'), 0)?'background-color: #FFF2DB':''}"/>
+                <p:submenu label="Reimburse Group Item" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="ค้นหาข้อมูล reimburse group item" outcome="/private/admin/reimbursegroup/findgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/findgroup'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="เพิ่ม reimburse group item" outcome="/private/admin/reimbursegroup/addgroupitem" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/addgroupitem'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
+                <p:submenu label="Fund" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="กองทุน" outcome="/private/admin/fund/addfund" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/fund/addfund'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
+                <p:submenu label="DosageForm Group" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="รายการ Dosage Form Group" outcome="/private/admin/dosageformgroup/adddosageformgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/dosageformgroup/adddosageformgroup'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Upload Dosage Form Group" outcome="/private/admin/dosageformgroup/upload" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/dosageformgroup/upload'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
+                <p:submenu label="Reimburse Price" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="รายการ Reimburse Price" outcome="/private/admin/reimburseprice/addreimburseprice" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimburseprice/addreimburseprice'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Upload Reimburse Price" outcome="/private/admin/reimburseprice/upload" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimburseprice/upload'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
+                <p:separator/>
                 <p:menuitem value="Logout" url="#{request.contextPath}/logout" icon="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
             </p:menu>
         </h:form>
