@@ -65,6 +65,9 @@
                         <f:param name="title" value="#{msg.menu_tmt_database_label}"/>
                     </p:menuitem>
                 </p:submenu>
+                <p:submenu label="โครงการพิเศษ" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="เพิ่มโครงการพิเศษ" outcome="/private/admin/reimbursegroup/addspecialproject" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/addspecialproject'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
                 <p:submenu label="Reimburse Group Item" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="ค้นหาข้อมูล reimburse group item" outcome="/private/admin/reimbursegroup/findgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/findgroup'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="เพิ่ม reimburse group item" outcome="/private/admin/reimbursegroup/addgroupitem" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/addgroupitem'), 0)?'background-color: #FFF2DB':''}"/>

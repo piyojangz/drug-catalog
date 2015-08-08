@@ -73,7 +73,7 @@ public class CrudNewModelT {
         if (icd10Code != null && !icd10Code.isEmpty()) {
             icd10 = icd10Service.findByCode(icd10Code);
         }
-        ReimburseGroup reimburseGroup = reimburseGroupService.findById(reimburseGroupId);
+        ReimburseGroup reimburseGroup = reimburseGroupService.findByCode(reimburseGroupId);
         ReimburseGroupItem reimburseGroupItem = reimburseGroupItemService.save(tmtDrug, fund, icd10, statusEd, reimburseGroup, budgetYear);
         assertNotNull(reimburseGroupItem);
     }

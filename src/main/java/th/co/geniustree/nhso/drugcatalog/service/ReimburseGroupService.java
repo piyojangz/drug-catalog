@@ -6,6 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 
 /**
@@ -16,7 +18,15 @@ public interface ReimburseGroupService {
 
     public ReimburseGroup save(String id, String name, boolean isSpecialProject);
 
-    public ReimburseGroup findById(String id);
+    public ReimburseGroup findByCode(String id);
     
     public List<ReimburseGroup> findOnlySpecialProjectOrGroup(boolean isSpecialProject);
+    
+    public Page<ReimburseGroup> findAllPaging(Pageable pageable);
+    
+    public Page<ReimburseGroup> search(String keyword,Pageable pageable);
+    
+    public ReimburseGroup edit(ReimburseGroup reimburseGroup);
+    
+    public void delete(ReimburseGroup reimburseGroup);
 }
