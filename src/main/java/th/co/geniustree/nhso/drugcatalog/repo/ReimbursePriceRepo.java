@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
 
@@ -13,6 +14,6 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
  *
  * @author Thanthathon
  */
-public interface ReimbursePriceRepo extends JpaRepository<ReimbursePrice,ReimbursePricePK>{
+public interface ReimbursePriceRepo extends JpaRepository<ReimbursePrice,ReimbursePricePK>, JpaSpecificationExecutor<ReimbursePrice>{
     
 }

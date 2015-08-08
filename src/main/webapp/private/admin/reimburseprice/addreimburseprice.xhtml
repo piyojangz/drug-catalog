@@ -125,8 +125,7 @@
                             <h:outputText value="ราคายา : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText type="number" id="reimbursePrice">
-
+                            <p:inputText type="number" id="reimbursePrice" value="#{reimbursePriceController.price}">
                             </p:inputText>
                             &nbsp;&nbsp;(หน่วย : บาท)
                         </p:column>
@@ -177,10 +176,13 @@
                     <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">
                         #{rowIndex + 1}
                     </p:column>
-                    <p:column headerText="TMT" style="width: 100px;text-align: center;">
-                        <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                    <p:column headerText="TMT" style="width: 100px;">
+                        <div style="text-align: center;">
+                            <h:outputText value="#{item.tmtDrug.tmtId}"/><br/>
+                            #{item.tmtDrug.fsn}<h:outputText value="#{item.tmtDrug.tradeName}"/>
+                        </div>
                     </p:column>
-                    <p:column headerText="ปีงบประมาณ" style="width: 100px;text-align: center;">
+                    <p:column headerText="DATE_IN" style="width: 100px;text-align: center;">
                         <h:outputText value="#{item.id.effectiveDate}">
                             <f:convertDateTime locale="th_TH" pattern="d MMM yyyy"/>
                         </h:outputText>
@@ -191,14 +193,14 @@
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
                         <p:commandLink value="แก้ไข" 
                                        style="color: blue;" 
-                                       action="#{reimbursePriceController.onSelect(model)}" 
+                                       action="#{reimbursePriceController.onSelect(item)}" 
                                        onclick="PF('editDialogWidget').show()"
                                        update="@form , :editDialogForm"/>
                     </p:column>
                     <p:column headerText="ลบ" style="width: 50px;text-align: center;">
                         <p:commandLink value="ลบ" 
                                        style="color: blue;" 
-                                       action="#{reimbursePriceController.onSelect(model)}" 
+                                       action="#{reimbursePriceController.onSelect(item)}" 
                                        update="@form , :deleteDialogForm"
                                        onclick="PF('deleteDialogWidget').show()"/>
                     </p:column>
@@ -226,20 +228,21 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
+                                <h:outputText value="ปีงบประมาณ : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" style="width: 200px;" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
                                 <h:outputText value="ราคายา : "/>
                             </p:column>
                             <p:column>
                                 <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.price}" style="width: 200px;"/>
                             </p:column>
                         </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="ปีงบประมาณ : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" style="width: 200px;"/>
-                            </p:column>
-                        </p:row>
+
                         <p:row>
                             <p:column colspan="2" style="text-align: right;">
                                 <p:commandButton value="แก้ไข" 
@@ -296,7 +299,8 @@
                                                  actionListener="#{reimbursePriceController.delete()}" 
                                                  styleClass="ui-confirmdialog-yes" 
                                                  icon="ui-icon-check" 
-                                                 update="@form , :growl , :tableForm"  />
+                                                 update="@form , :growl , :tableForm"
+                                                 oncomplete="PF('deleteDialogWidget').hide()"/>
                                 <p:spacer width="20"/>
                                 <p:commandButton value="ไม่ใช่" 
                                                  styleClass="ui-confirmdialog-no" 

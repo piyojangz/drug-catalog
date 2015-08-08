@@ -6,18 +6,22 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.BudgetYearConverter;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimbursePriceRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimbursePriceSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 
 /**
@@ -33,7 +37,7 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService{
     
     @Override
     public ReimbursePrice save(String tmtid, BigDecimal price, Integer budgetYear) {
-        Date dateEffective = new GregorianCalendar(budgetYear, 9, 1).getTime();
+        Date dateEffective = BudgetYearConverter.budgetYearToDate(BudgetYearConverter.convertToCEYear(budgetYear));
         ReimbursePrice reimbursePrice = new ReimbursePrice();
         ReimbursePricePK pk = new ReimbursePricePK();
         pk.setTmtId(tmtid);
@@ -44,38 +48,26 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService{
     }
 
     @Override
-    public ReimbursePrice edit(ReimbursePrice dosageFormGroup) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ReimbursePrice edit(ReimbursePrice reimbursePrice) {
+        return reimbursePriceRepo.save(reimbursePrice);
     }
 
     @Override
-    public boolean delete(ReimbursePrice dosageFormGroup) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(ReimbursePrice reimbursePrice) {
+        reimbursePriceRepo.delete(reimbursePrice);
     }
 
     @Override
-    public boolean delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<ReimbursePrice> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Page<ReimbursePrice> findAll(Pageable pageable) {
+    public Page<ReimbursePrice> findAllPaging(Pageable pageable) {
         return reimbursePriceRepo.findAll(pageable);
     }
 
     @Override
-    public List<ReimbursePrice> search(String keyword) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Page<ReimbursePrice> search(String keyword, Pageable pageable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
+        Specification<ReimbursePrice> spec = Specifications.where(ReimbursePriceSpecs.tmtLike(keyList))
+                .or(ReimbursePriceSpecs.fsnLike(keyList));
+        return reimbursePriceRepo.findAll(spec, pageable);
     }
     
 }

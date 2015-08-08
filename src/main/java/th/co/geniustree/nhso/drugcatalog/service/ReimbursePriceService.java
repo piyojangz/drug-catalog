@@ -22,15 +22,9 @@ public interface ReimbursePriceService {
     
     public ReimbursePrice edit(ReimbursePrice dosageFormGroup);
     
-    public boolean delete(ReimbursePrice dosageFormGroup);
+    public void delete(ReimbursePrice dosageFormGroup);
     
-    public boolean delete(String id);
+    public Page<ReimbursePrice> findAllPaging(Pageable pageable);
     
-    public List<ReimbursePrice> findAll();
-    
-    public Page<ReimbursePrice> findAll(Pageable pageable);
-    
-    public List<ReimbursePrice> search(String keyword);
-
     public Page<ReimbursePrice> search(String keyword, Pageable pageable);
 }

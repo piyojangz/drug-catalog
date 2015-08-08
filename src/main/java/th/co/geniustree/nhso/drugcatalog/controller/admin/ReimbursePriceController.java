@@ -63,16 +63,16 @@ public class ReimbursePriceController implements Serializable {
         findAll();
     }
 
-    public void reset(){
+    public void reset() {
         tmtDrug = new TMTDrug();
     }
-    
+
     public void save() {
         try {
             reimbursePriceService.save(tmtDrug.getTmtId(), price, budgetYear);
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้ อาจเป็นเพราะมีข้อมูลอยู่แล้ว");
+            FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้");
         }
     }
 
@@ -86,6 +86,7 @@ public class ReimbursePriceController implements Serializable {
             FacesMessageUtils.info("แก้ไขข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถแก้ไขข้อมูลได้");
+            LOG.debug(e.getMessage());
         }
     }
 
@@ -94,7 +95,8 @@ public class ReimbursePriceController implements Serializable {
             reimbursePriceService.delete(selectedReimbursePrice);
             FacesMessageUtils.info("ลบข้อมูล สำเร็จ");
         } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้ อาจเป็นเพราะข้อมูลนี้ ถูกใช้งานอยู่");
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+            LOG.debug(e.getMessage());
         }
     }
 
@@ -112,7 +114,7 @@ public class ReimbursePriceController implements Serializable {
         reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>() {
             @Override
             public Page<ReimbursePrice> load(Pageable pageAble) {
-                Page<ReimbursePrice> page = reimbursePriceService.findAll(pageAble);
+                Page<ReimbursePrice> page = reimbursePriceService.findAllPaging(pageAble);
                 return page;
             }
         };
