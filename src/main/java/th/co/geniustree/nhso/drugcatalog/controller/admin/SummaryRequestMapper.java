@@ -7,12 +7,13 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,14 @@ public class SummaryRequestMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(SummaryRequestMapper.class);
 
+    public static List<SummaryRequest> mapAllToModel(List<Object[]> objects){
+        List<SummaryRequest> summaryReqeust = new ArrayList<>();
+        for(Object[] obj : objects){
+            summaryReqeust.add(mapToModel(obj));
+        }
+        return summaryReqeust;
+    }
+    
     public static SummaryRequest mapToModel(Object[] object) {
         SummaryRequest summaryRequest = new SummaryRequest();
         int length = object.length;

@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
@@ -32,6 +34,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemTempRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.UploadHospitalDrugItemTempSpecs;
 
 /**
@@ -59,6 +62,9 @@ public class HospitalDrugListControllerTemp implements Serializable {
     private TMTEdNedRepo tmtEdNedRepo;
     private String hcode;
     private String selectedHcode;
+    private Hospital selectedHospital;
+    @Autowired
+    private UploadHospitalDrugRepo uploadHospitalDrugRepo;
 
     @PostConstruct
     public void postConstruct() {
@@ -70,6 +76,12 @@ public class HospitalDrugListControllerTemp implements Serializable {
     }
 
     public void showSearchHospitalDialog() {
+        if (checkHospitalReturnOneElement()) {
+            hcode = selectedHospital.getFullName();
+            selectedHcode = selectedHospital.getHcode();
+            search();
+            return;
+        }
         Map<String, Object> options = new HashMap<String, Object>();
         options.put("modal", true);
         options.put("draggable", true);
@@ -81,6 +93,18 @@ public class HospitalDrugListControllerTemp implements Serializable {
         keywords.add(hcode);
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/common/searchHospitalDialog", options, params);
+    }
+    
+    private boolean checkHospitalReturnOneElement() {
+        String _keyword = "%" + Strings.nullToEmpty(this.hcode).trim() + "%";
+        PageRequest pageRequest = new PageRequest(0, 3);
+        Page<Hospital> findHospitalInTmt = uploadHospitalDrugRepo.findHospitalInTmt(_keyword, _keyword, pageRequest);
+        if (findHospitalInTmt.getTotalElements() == 1) {
+            selectedHospital = findHospitalInTmt.getContent().get(0);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void searchHospitalDialogReturn(SelectEvent event) {

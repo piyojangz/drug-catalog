@@ -48,5 +48,8 @@
         <converter-id>reimburseGroupConverter</converter-id>
         <converter-for-class>java.lang.Object</converter-for-class>
         <converter-class>th.co.geniustree.nhso.drugcatalog.controller.converter.ReimburseGroupConverter</converter-class>
+        <converter-id>provinceConverter</converter-id>
+        <converter-for-class>java.lang.Object</converter-for-class>
+        <converter-class>th.co.geniustree.nhso.drugcatalog.controller.converter.ProvinceConverter</converter-class>
     </converter>
 </faces-config>

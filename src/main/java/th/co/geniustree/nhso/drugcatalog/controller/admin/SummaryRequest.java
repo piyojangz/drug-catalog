@@ -13,6 +13,9 @@ import java.util.Date;
  */
 public class SummaryRequest {
     
+    public static final String ALL_ZONE = "SELECT_ALL_ZONE";
+    public static final String ALL_PROVINCE = "SELECT_ALL_PROVINCE";
+    
     private Date requestDate;
     private String hcode;
     private String hname;
