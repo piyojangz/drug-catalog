@@ -55,24 +55,30 @@ public class CrudNewModelT {
     @Before
     public void before() {
 //        initial sample data
-        save("100005", "UC", "A00", ED.E, "IVIG", 2555);
-        save("100005", "UC", "A000",ED.N,"CAP",2556);
-        save("100005", "UC", "A001",ED.N,"OCPA",2556);
-        save("100005", "UC", "A001",ED.EX,"J2",2557);
+        saveReimburseGroup("CAP",",มะเร็ง protocol",true);
+        saveReimburseGroup("OCPA","OCPA",true);
+        saveReimburseGroup("IVIG","IVIG",false);
+        saveReimburseGroup("J2","J2",false);
+        saveReimburseGroup("CAP",",มะเร็ง protocol",true);
+        saveReimburseGroupItem("100005", "UC", "A00", ED.E, "IVIG", 2555);
+        saveReimburseGroupItem("100005", "UC", "A000", ED.N, "CAP", 2556);
+        saveReimburseGroupItem("100005", "UC", "A001", ED.N, "OCPA", 2556);
+        saveReimburseGroupItem("100005", "UC", "A001", ED.EX, "J2", 2557);
     }
 
     public CrudNewModelT() {
 
     }
 
-    
-    private void save(String tmtid, String fundCode, String icd10Code, ED statusEd, String reimburseGroupId, int budgetYear) {
+    private void saveReimburseGroup(String id, String name,boolean specialProject) {
+        reimburseGroupService.save(id, name, specialProject);
+    }
+
+    private void saveReimburseGroupItem(String tmtid, String fundCode, String icd10Code, ED statusEd, String reimburseGroupId, int budgetYear) {
         TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(tmtid);
         Fund fund = fundService.findOne(fundCode);
-        ICD10 icd10 = null;
-        if (icd10Code != null && !icd10Code.isEmpty()) {
-            icd10 = icd10Service.findByCode(icd10Code);
-        }
+        ICD10 icd10 = icd10Service.findByCode(icd10Code);
+
         ReimburseGroup reimburseGroup = reimburseGroupService.findByCode(reimburseGroupId);
         ReimburseGroupItem reimburseGroupItem = reimburseGroupItemService.save(tmtDrug, fund, icd10, statusEd, reimburseGroup, budgetYear);
         assertNotNull(reimburseGroupItem);
@@ -83,24 +89,24 @@ public class CrudNewModelT {
         ReimburseGroupItem groupItem;
         groupItem = reimburseGroupItemService.findById("100005", "UC", "A000", "CAP", new GregorianCalendar(2556, 9, 1).getTime());
         assertNotNull(groupItem);
-        
+
         groupItem = reimburseGroupItemService.findById("100005", "UC", null, "CAP", new GregorianCalendar(2556, 9, 1).getTime());
         assertNull(groupItem);
     }
-    
+
     @Test
     public void testFindReimburseGroup() {
         List<ReimburseGroupItem> reimburseGroupItems = null;
-        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "UC", null, new GregorianCalendar(2556,9,1).getTime());
+        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "UC", null, new GregorianCalendar(2556, 9, 1).getTime());
         assertNotNull(reimburseGroupItems);
-        
+
         reimburseGroupItems = null;
-        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "C", "A001", new GregorianCalendar(2556,9,1).getTime());
-        assertEquals(0,reimburseGroupItems.size()); // find not found 
-        
+        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "C", "A001", new GregorianCalendar(2556, 9, 1).getTime());
+        assertEquals(0, reimburseGroupItems.size()); // find not found 
+
         reimburseGroupItems = null;
-        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "C", "A0012", new GregorianCalendar(2556,9,1).getTime());
-        assertEquals(0,reimburseGroupItems.size()); // find not found because icdCode input range is overflow
+        reimburseGroupItems = reimburseGroupItemService.findReimburseGroupItem("100005", "C", "A0012", new GregorianCalendar(2556, 9, 1).getTime());
+        assertEquals(0, reimburseGroupItems.size()); // find not found because icdCode input range is overflow
     }
 
 }
