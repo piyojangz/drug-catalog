@@ -15,6 +15,16 @@
                 <f:viewAction action="#{hospitalDrugListController.setWait(true)}"/>
                 <f:viewAction action="#{createHospitalDrug.loadHospitalDrug}"/>
             </f:metadata>
+            <style>
+                .ui-widget-content .ui-inputfield.ui-state-error{
+                    border: 1px solid #F42020;
+                    box-shadow: inset 1px 1px 2px #E58888;
+                }
+                .ui-widget-content .ui-state-error{
+                    border: 1px solid #F42020;
+                    box-shadow: inset 1px 1px 2px #E58888;
+                }
+            </style>
             <h:form id="form">
                 <style type="text/css">
                     .ui-panelgrid .ui-panelgrid-cell{

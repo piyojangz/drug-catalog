@@ -23,6 +23,9 @@ public interface HospitalRepository extends JpaRepository<Hospital, String> {
 
     @Query("select h from Hospital h where  h.province = ?1")
     public Page<Hospital> findByProvince(Province province, Pageable pageable);
+    
+    @Query("select h from Hospital h where  h.province.id = ?1")
+    public Page<Hospital> findByProvince(String province, Pageable pageable);
 
     @Query("select h from Hospital h where  h.hname like ?1")
     public Page<Hospital> findLikeHname(String hname, Pageable pageable);

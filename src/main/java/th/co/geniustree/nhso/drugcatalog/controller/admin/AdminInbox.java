@@ -5,15 +5,20 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -21,17 +26,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.RequestItemSpecs;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
+import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 
 /**
  *
@@ -42,28 +54,100 @@ import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 public class AdminInbox implements Serializable {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminInbox.class);
-    private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
-    private String keyword;
+
+    private List<String> selectColumns = new ArrayList<>();
+    private final Set<String> errorColumnSet = new HashSet<>();
+
     @Autowired
     private RequestItemRepo requestItemRepo;
-    private SpringDataLazyDataModelSupport<RequestItem> requestItems;
-    private List<List<RequestItem>> requestItemHolders = new ArrayList<>();
-    private Hospital selectedHospital;
-    private String hcode;
+    @Autowired
+    private RequestItemService requestItemService;
     @Autowired
     private TMTDrugRepo tmtDrugRepo;
     @Autowired
     private UploadHospitalDrugRepo uploadHospitalDrugRepo;
     @Autowired
     private ApproveService approveService;
+
+    private SpringDataLazyDataModelSupport<RequestItem> requestItems;
+    private List<SpringDataLazyDataModelSupport<RequestItem>> requestItemHoldersNullTMT = new ArrayList<>();
+    private List<List<RequestItem>> requestItemHolders = new ArrayList<>();
     private List<RequestItem> approveRequests = new ArrayList<>();
     private List<RequestItem> notApproveRequests = new ArrayList<>();
+
+    private List<TMTDrug> tmtDrugs = new ArrayList<>();
+    private UploadHospitalDrugItem uploadDrugItem;
+    private String searchName;
+
+    private Hospital selectedHospital;
+    private String hcode;
     private long totalElements;
     private long displayElement;
+    private String keyword;
+    private boolean nullTmt;
+    private String haveTmt;
+    private String searchType;
+    private SpringDataLazyDataModelSupport<TMTDrug> searchTmt;
+    private long totalElementOfSearchTmt;
 
     @PostConstruct
     public void postConstruct() {
+        selectColumns.add("HOSPDRUGCODE");
+        selectColumns.add("TMTID");
+        selectColumns.add("GENERICNAME");
+        selectColumns.add("TRADENAME");
+        selectColumns.add("DOSAGEFORM");
 
+        errorColumnSet.add("PRODUCTCAT");
+        errorColumnSet.add("TRADENAME");
+        errorColumnSet.add("GENRICNAME");
+        errorColumnSet.add("STRENGTH");
+        errorColumnSet.add("DOSAGEFORM");
+        errorColumnSet.add("CONTENT");
+        errorColumnSet.add("MANUFACTURER");
+        errorColumnSet.add("UNITPRICE");
+        errorColumnSet.add("ISED");
+        errorColumnSet.add("SPECPREP");
+    }
+
+    public long getTotalElementOfSearchTmt() {
+        return totalElementOfSearchTmt;
+    }
+
+    public void setTotalElementOfSearchTmt(long totalElementOfSearchTmt) {
+        this.totalElementOfSearchTmt = totalElementOfSearchTmt;
+    }
+
+    public String getHaveTmt() {
+        return haveTmt;
+    }
+
+    public void setHaveTmt(String haveTmt) {
+        this.haveTmt = haveTmt;
+    }
+
+    public String getSearchName() {
+        return searchName;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
+    }
+
+    public boolean isNullTmt() {
+        return nullTmt;
+    }
+
+    public void setNullTmt(boolean nullTmt) {
+        this.nullTmt = nullTmt;
+    }
+
+    public List<SpringDataLazyDataModelSupport<RequestItem>> getRequestItemHoldersNullTMT() {
+        return requestItemHoldersNullTMT;
+    }
+
+    public void setRequestItemHoldersNullTMT(List<SpringDataLazyDataModelSupport<RequestItem>> requestItemHoldersNullTMT) {
+        this.requestItemHoldersNullTMT = requestItemHoldersNullTMT;
     }
 
     public SpringDataLazyDataModelSupport<RequestItem> getRequestItems() {
@@ -141,24 +225,53 @@ public class AdminInbox implements Serializable {
     public void setSelectColumns(List<String> selectColumns) {
         this.selectColumns = selectColumns;
     }
-    
+
+    public List<TMTDrug> getTmtDrugs() {
+        return tmtDrugs;
+    }
+
+    public void setTmtDrugs(List<TMTDrug> tmtDrugs) {
+        this.tmtDrugs = tmtDrugs;
+    }
+
+    public UploadHospitalDrugItem getUploadDrugItem() {
+        return uploadDrugItem;
+    }
+
+    public void setUploadDrugItem(UploadHospitalDrugItem uploadDrugItem) {
+        this.uploadDrugItem = uploadDrugItem;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    public SpringDataLazyDataModelSupport<TMTDrug> getSearchTmt() {
+        return searchTmt;
+    }
+
+    public void setSearchTmt(SpringDataLazyDataModelSupport<TMTDrug> searchTmt) {
+        this.searchTmt = searchTmt;
+    }
 
     public void showSearchHospitalDialog() {
-        requestItemHolders.clear();
-        notApproveRequests.clear();
-        approveRequests.clear();
+        clearAll();
         if (checkHospitalReturnOneElement()) {
             hcode = selectedHospital.getFullName();
             search();
             return;
         }
-        Map<String, Object> options = new HashMap<String, Object>();
+        Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
         options.put("draggable", true);
         options.put("resizable", true);
         options.put("contentHeight", 500);
         options.put("contentWidth", 800);
-        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
         keywords.add(hcode);
         params.put("keyword", keywords);
@@ -171,23 +284,54 @@ public class AdminInbox implements Serializable {
             hcode = selectedHospital.getFullName();
             search();
         }
-        log.info("selected hospital from search dialog is => {}", selectedHospital);
+        log.info("selected hospital from search dialog is => {}", selectedHospital.getFullName());
     }
 
     public void search() {
-        requestItemHolders.clear();
-        notApproveRequests.clear();
-        approveRequests.clear();
         if (selectedHospital != null) {
-            Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcodeAndNotDel(RequestItem.Status.REQUEST,
-                    selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
-            totalElements = pageResult.getTotalElements();
-            displayElement = pageResult.getSize();
-            for (RequestItem item : pageResult.getContent()) {
-                List<RequestItem> requestItems = new ArrayList<>();
-                requestItems.add(createRequestFormTmt(item));
-                requestItems.add(item);
-                requestItemHolders.add(requestItems);
+            if (nullTmt == true) {
+                requestItemHoldersNullTMT.clear();
+                requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
+                    @Override
+                    public Page<RequestItem> load(Pageable pageAble) {
+                        Page<RequestItem> result = requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
+                        setApproveSelected(result);
+                        return result;
+                    }
+                };
+                requestItemHoldersNullTMT.add(requestItems);
+            } else {
+                requestItemHolders.clear();
+                log.debug("selectedHospital hcode -> {}", selectedHospital.getHcode());
+                Page<RequestItem> pageResult = requestItemRepo.findByStatusAndHcodeAndNotDel(RequestItem.Status.REQUEST,
+                        selectedHospital.getHcode(), new PageRequest(0, 10, Sort.Direction.ASC, "requestDate"));
+                totalElements = pageResult.getTotalElements();
+                displayElement = pageResult.getSize();
+                for (RequestItem item : pageResult.getContent()) {
+                    log.debug("hospdrugcode -> {}", item.getUploadDrugItem().getHospDrugCode());
+                    List<RequestItem> requestItemList = new ArrayList<>();
+                    requestItemList.add(createRequestFormTmt(item));
+                    requestItemList.add(item);
+                    requestItemHolders.add(requestItemList);
+                }
+
+            }
+        }
+    }
+
+    private void setApproveSelected(Page<RequestItem> page) {
+        List<RequestItem> items = page.getContent();
+        for (RequestItem item : items) {
+            for (RequestItem approve : approveRequests) {
+                if (approve.equals(item)) {
+                    item.setStatus(RequestItem.Status.ACCEPT);
+                }
+            }
+            for (RequestItem notApprove : notApproveRequests) {
+                if (notApprove.equals(item)) {
+                    item.setStatus(RequestItem.Status.REJECT);
+                    item.setErrorColumns(notApprove.getErrorColumns());
+                }
             }
         }
     }
@@ -200,6 +344,71 @@ public class AdminInbox implements Serializable {
         return new RequestItem();
     }
 
+    private Specifications spec() {
+        Specification hcodeSpec = RequestItemSpecs.hcodeEq(selectedHospital.getHcode());
+        Specification requestStatusSpec = RequestItemSpecs.statusEq(RequestItem.Status.REQUEST);
+        Specification deleteSpec = RequestItemSpecs.deleteIsFalse();
+        Specification tmtSpec = RequestItemSpecs.tmtIdIsNull(nullTmt);
+
+        Specifications spec = Specifications.where(hcodeSpec).and(requestStatusSpec).and(deleteSpec).and(tmtSpec);
+        return spec;
+    }
+
+    private Specifications advanceSearchSpec(List<String> keywords) {
+        Specifications<RequestItem> keySpec = Specifications.where(null);
+        if (keywords != null) {
+            if (selectColumns.contains("HOSPDRUGCODE")) {
+                keySpec = keySpec.or(RequestItemSpecs.hospDrugCodeLike(keywords));
+            }
+            if (selectColumns.contains("TMTID")) {
+                keySpec = keySpec.or(RequestItemSpecs.tmtIdLike(keywords));
+            }
+            if (selectColumns.contains("GENERICNAME")) {
+                keySpec = keySpec.or(RequestItemSpecs.genericNameLike(keywords));
+            }
+            if (selectColumns.contains("TRADENAME")) {
+                keySpec = keySpec.or(RequestItemSpecs.tradeNameLike(keywords));
+            }
+            if (selectColumns.contains("DOSAGEFORM")) {
+                keySpec = keySpec.or(RequestItemSpecs.dosageFormLike(keywords));
+            }
+        }
+        return keySpec;
+    }
+
+    public void searchByKeyword() {
+        final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
+        final Specifications<RequestItem> spec = spec().and(advanceSearchSpec(keywords));
+
+        if (nullTmt == true) {
+            requestItems = new SpringDataLazyDataModelSupport<RequestItem>() {
+                @Override
+                public Page<RequestItem> load(Pageable pageAble) {
+
+                    Page<RequestItem> items = requestItemRepo.findAll(spec, pageAble);
+                    setApproveSelected(items);
+                    return items;
+                }
+            };
+            requestItemHoldersNullTMT.clear();
+            requestItemHoldersNullTMT.add(requestItems);
+        } else {
+            requestItemHolders.clear();
+            Pageable pageRequest = new PageRequest(0, 10, Sort.Direction.ASC, "requestDate");
+            Page<RequestItem> pageResult = requestItemRepo.findAll(spec, pageRequest);
+
+            totalElements = pageResult.getTotalElements();
+            displayElement = pageResult.getSize();
+            for (RequestItem item : pageResult.getContent()) {
+                log.debug("tmtid -> {}", item.getUploadDrugItem().getTmtId());
+                List<RequestItem> requestItemList = new ArrayList<>();
+                requestItemList.add(createRequestFormTmt(item));
+                requestItemList.add(item);
+                requestItemHolders.add(requestItemList);
+            }
+        }
+    }
+
     public void error(RequestItem requestItem, String columnName) {
         requestItem.getErrorColumns().add(columnName);
         requestItem.setStatus(RequestItem.Status.REJECT);
@@ -210,9 +419,11 @@ public class AdminInbox implements Serializable {
     }
 
     public void clearErrorColumns(RequestItem requestItem) {
-        requestItem.getErrorColumns().clear();
+        Set<String> emptyColumn = new HashSet<>();
+        requestItem.setErrorColumns(emptyColumn);
         requestItem.setStatus(RequestItem.Status.REQUEST);
         notApproveRequests.remove(requestItem);
+        approveRequests.remove(requestItem);
     }
 
     public void approve(ValueChangeEvent event) {
@@ -222,10 +433,12 @@ public class AdminInbox implements Serializable {
         if (event.getNewValue() != null) {
             item.setStatus(RequestItem.Status.valueOf(event.getNewValue().toString()));
             if (item.getStatus() == RequestItem.Status.ACCEPT) {
-                item.getErrorColumns().clear();
+                Set<String> set = new HashSet<>();
+                item.setErrorColumns(set);
                 approveRequests.add(item);
                 notApproveRequests.remove(item);
             } else {
+                item.setErrorColumns(errorColumnSet);
                 notApproveRequests.add(item);
                 approveRequests.remove(item);
             }
@@ -237,9 +450,7 @@ public class AdminInbox implements Serializable {
             List<RequestItem> merge = new ArrayList<>(approveRequests);
             merge.addAll(notApproveRequests);
             approveService.approveOrReject(merge);
-            requestItemHolders.clear();
-            notApproveRequests.clear();
-            approveRequests.clear();
+            clearAll();
             //TODO send mail to each HCODE
             search();
             FacesMessageUtils.info("บันทึกเสร็จสิ้น");
@@ -248,11 +459,20 @@ public class AdminInbox implements Serializable {
     }
 
     public String clear() {
+        clearAll();
+        hcode = "";
+        if (isNullTmt()) {
+            return "/private/admin/drug/inbox-none-tmt.xhtml?faces-redirect=true";
+        } else {
+            return "/private/admin/drug/inbox.xhtml?faces-redirect=true";
+        }
+    }
+
+    private void clearAll() {
         requestItemHolders.clear();
+        requestItemHoldersNullTMT.clear();
         notApproveRequests.clear();
         approveRequests.clear();
-        hcode = "";
-        return "/private/admin/drug/inbox.xhtml?faces-redirect=true";
     }
 
     private boolean checkHospitalReturnOneElement() {
@@ -278,4 +498,66 @@ public class AdminInbox implements Serializable {
         return true;
     }
 
+    public void compareWithTMTDrug() {
+        log.debug("search name -> {}", searchName);
+        searchTmt = new SpringDataLazyDataModelSupport<TMTDrug>() {
+
+            @Override
+            public Page<TMTDrug> load(Pageable pageAble) {
+                Page<TMTDrug> page;
+                String[] searchSplit = searchName.split("[+]");
+                List<String> searches = Arrays.asList(searchSplit);
+                Specifications spec = Specifications.where(TMTDrugSpecs.fsnContains(searches));
+                page = tmtDrugRepo.findAll(spec, pageAble);
+                totalElementOfSearchTmt = page.getTotalElements();
+                return page;
+            }
+        };
+    }
+
+    public void showCompareTmtDialog() {
+        Map<String, String> requestParameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        searchName = requestParameters.get("search");
+        searchType = requestParameters.get("typeOfSearch");
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 600);
+        options.put("contentWidth", 1024);
+        Map<String, List<String>> params = new HashMap<>();
+        List<String> keywords = new ArrayList<>();
+        keywords.add(searchName);
+        params.put("search", keywords);
+        keywords = new ArrayList<>();
+        keywords.add(searchType);
+        params.put("typeOfSearch", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/common/drug/findTMTDialog", options, params);
+    }
+
+    public void onActionAfterSelectHospitalFromInBoxZone() {
+        if (hcode != null && !hcode.isEmpty()) {
+            showSearchHospitalDialog();
+        }
+    }
+
+    public void onSearchFSN() {
+        searchTmt = new SpringDataLazyDataModelSupport<TMTDrug>() {
+            @Override
+            public Page<TMTDrug> load(Pageable pageAble) {
+                Page<TMTDrug> page;
+                List<String> searchSeperateBySpace = Arrays.asList(searchName.split(" "));
+                Specifications spec = Specifications.where(TMTDrugSpecs.fsnContainsOR(searchSeperateBySpace));
+                List<String> seperateByPlus = new ArrayList<>();
+                for (String text : searchSeperateBySpace) {
+                    seperateByPlus.addAll(Arrays.asList(text.split("[+]")));
+                    spec = spec.or(TMTDrugSpecs.fsnContains(seperateByPlus));
+                }
+                page = tmtDrugRepo.findAll(spec, pageAble);
+                totalElementOfSearchTmt = page.getTotalElements();
+                return page;
+            }
+        };
+    }
 }

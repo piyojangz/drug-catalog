@@ -34,14 +34,23 @@
                     <p:menuitem value="#{msg.menu_listdrug_adddrug_label}" outcome="/private/hospital/create/index" icon="temIconSize24 temIconBackgroundSave temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/create/index'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="#{msg.menu_listdrug_edit_label}" outcome="/private/hospital/listdrug/index" icon="temIconSize24 temIconBackgroundApproveCode temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/hospital/listdrug/index'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
-                <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN')}">
-                    <p:menuitem value="Inbox (Group by HCODE กรณีมี TMT)" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem value="Inbox (Group by TMTID)" outcome="/private/admin/drug/tmt/inbox-groupby-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/inbox-groupby-tmt'), 0)?'background-color: #FFF2DB':''}"/>
+                <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}">
+                    <p:menuitem value="รายการยารอตรวจสอบ" outcome="/private/admin/drug/inbox-zone" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox-zone.xhtml'), 0)?'background-color: #FFF2DB':''}">
+                    </p:menuitem>
+                    <p:menuitem value="Group by HCODE กรณีมี TMT" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox.xhtml'), 0)?'background-color: #FFF2DB':''}">
+                        <f:param name="tmt" value="false"/>
+                        <f:param name="hcode" value=""/>
+                    </p:menuitem>
+                    <p:menuitem value="Group by HCODE กรณีไม่มี TMT" outcome="/private/admin/drug/inbox-none-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox-none-tmt'), 0)?'background-color: #FFF2DB':''}">
+                        <f:param name="tmt" value="true"/>
+                        <f:param name="hcode" value=""/>
+                    </p:menuitem>
+                    <p:menuitem value="Group by TMTID" outcome="/private/admin/drug/tmt/inbox-groupby-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/inbox-groupby-tmt'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Upload approved file." outcome="/private/admin/drug/tmt/upload-approved-file" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/tmt/upload-approved-file'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
-                <p:submenu label="Drug group" rendered="#{request.isUserInRole('ADMIN')}">
-                    <p:menuitem value="Add druggroup" outcome="/private/admin/druggroup/addgroup" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/addgroup'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem value="Assign drug group" outcome="/private/admin/druggroup/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/upload'), 0)?'background-color: #FFF2DB':''}"/>
+                <p:submenu label="Drug group" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}">
+                    <p:menuitem value="Add druggroup" outcome="/private/admin/druggroup/addgroup" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/addgroup'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="Assign drug group" outcome="/private/admin/druggroup/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/upload'), 0)?'background-color: #FFF2DB':''}"/>
                     <ui:remove>
                         <p:menuitem value="Drug-Druggroup association" outcome="/private/admin/druggroup/assigngroup" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/assigngroup'), 0)?'background-color: #FFF2DB':''}"/>
                     </ui:remove>
@@ -65,6 +74,8 @@
                         <f:param name="title" value="#{msg.menu_tmt_database_label}"/>
                     </p:menuitem>
                 </p:submenu>
+                <p:separator/>
+                <p:menuitem value="E Claim" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}" outcome="/private/admin/eclaim/index" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/eclaim/index'), 0)?'background-color: #FFF2DB':''}"/>
                 <p:submenu label="โครงการพิเศษ" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="เพิ่มโครงการพิเศษ" outcome="/private/admin/reimbursegroup/addspecialproject" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/addspecialproject'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>

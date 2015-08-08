@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.Arrays;
@@ -45,6 +40,17 @@ public class TMTDrugServiceImpl implements TMTDrugService {
         return findAll;
     }
 
+    @Override
+    public List<TMTDrug> findTMTDrugWithFsn(String fsn) {
+        return tMTDrugRepo.findByFsnIgnoreCaseContaining(fsn);
+    }
+
+    @Override
+    public List<TMTDrug> findTMTDrugWithFsn(String fsn, Specifications specs) {
+        return tMTDrugRepo.findByFsn(fsn, specs);
+    }
+
+
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public Page<TMTDrug> search(String searchTmtid, Pageable pageable) {
@@ -52,5 +58,6 @@ public class TMTDrugServiceImpl implements TMTDrugService {
         Specification<TMTDrug> spec = Specifications.where(TMTDrugSpecs.tmtIdContains(keyList)).or(TMTDrugSpecs.fsnContains(keyList));
         return tMTDrugRepo.findAll(spec,pageable);
     }
+
 
 }

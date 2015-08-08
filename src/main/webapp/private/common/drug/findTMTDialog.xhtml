@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <h:head>
+        <title><p:spacer width="20" />ผลการค้นหาจาก #{adminInbox.searchType}</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+
+    </h:head>
+    <f:metadata>
+        <f:view>
+            <f:viewParam name="search" value="#{adminInbox.searchName}" />
+            <f:viewParam name="typeOfSearch" value="#{adminInbox.searchType}" />
+            <f:viewAction id="viewAction" action="#{adminInbox.compareWithTMTDrug()}"/> 
+        </f:view>
+    </f:metadata>
+    <h:body>
+        <h:form id="form">
+            <div style="margin-bottom: 50px;position: relative;z-index: 1000;">
+                keyword : 
+                <p:inputText id="fsnSearch" value="#{adminInbox.searchName}"/>
+                <p:commandButton id="searchBtn"
+                                 value="search" 
+                                 action="#{adminInbox.onSearchFSN()}" 
+                                 update="@form"
+                                 icon="ui-icon-search"/>
+                <br/>
+
+            </div>
+            <p:dataTable id="table" 
+                         var="tmtDrug" 
+                         value="#{adminInbox.searchTmt}"
+                         rowIndexVar="rowIndex"
+                         paginator="true" 
+                         rows="20" 
+                         lazy="true" 
+                         rowsPerPageTemplate="20,30,40,50"
+                         emptyMessage="ไม่มีข้อมูล"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                <f:facet name="header">
+                    <div style="text-align: left;">
+                        <h:outputText id="total" value="จำนวนรายการทั้งหมดที่ค้นหาได้ #{adminInbox.totalElementOfSearchTmt} records"/>
+                    </div>
+                </f:facet>
+                <p:column headerText="No." width="20">
+                    <h:outputText value="#{rowIndex + 1}" />
+                </p:column>
+                <p:column headerText="TMTID" width="50">
+                    <h:outputText value="#{tmtDrug.tmtId}" />
+                </p:column>
+                <p:column headerText="FSN" width="500">
+                    <h:outputText value="#{tmtDrug.fsn}" />
+                </p:column>
+                <p:column headerText="Strength" width="100">
+                    <h:outputText value="#{tmtDrug.strength}"/>
+                </p:column>
+                <p:column headerText="Manufacturer" width="100">
+                    <h:outputText value="#{tmtDrug.manufacturer}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body> 
+</html>

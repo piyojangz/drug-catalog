@@ -27,6 +27,10 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.ApproveFile</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp</class>
+    <class>th.co.geniustree.nhso.drugcatalog.pl.HospitalDrugType</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrugTran</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugHistory</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.ICD10</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Fund</class>

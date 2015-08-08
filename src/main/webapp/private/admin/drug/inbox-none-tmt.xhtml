@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+                .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
+                    background-color : rgb(0, 194, 0);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
+                    background-color : rgb(247, 79, 79);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+
+            </style>
+            <f:metadata>
+                <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
+                <f:viewParam name="hcode" value="#{adminInbox.hcode}"/>
+                <f:viewAction action="#{adminInbox.onActionAfterSelectHospitalFromInBoxZone()}"/>
+            </f:metadata>
+            <h:form id="form">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="width: 80px;">
+                            หน่วยบริการ :
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{adminInbox.hcode}" size="50" autocomplete="false"/>
+                            <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{adminInbox.showSearchHospitalDialog()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{adminInbox.searchHospitalDialogReturn}" update="@form" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
+                    <p:row>
+                        <p:column style="text-align: left;width: 80px;" styleClass="advancePanel">
+                            <p:outputLabel value="filter by:"/>
+                        </p:column>
+                        <p:column styleClass="advancePanel">
+                            <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
+                                <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
+                                <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
+                                <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
+                                <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
+                            </p:selectManyCheckbox>
+                        </p:column>
+                        <p:column styleClass="advancePanel">
+                            <p:outputLabel value="(คลิกเลือกเพื่อค้นหาตามคอลัมน์ที่กำหนด)" style="color: rgb(59, 156, 157);"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: left;width: 80px;">
+                            <p:outputLabel value="keyword:" for="keyword"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
+                            <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="table"/>
+                            &nbsp;
+                            <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <p:spacer height="30"/>
+                <p:dataTable id="table"
+                             resizableColumns="true" 
+                             styleClass="clean-table config-table" 
+                             var="model"  
+                             rowIndexVar="rowIndex" 
+                             scrollable="true" 
+                             scrollHeight="400"
+                             value="#{adminInbox.requestItemHoldersNullTMT.get(0)}"
+                             rendered="#{not empty adminInbox.requestItemHoldersNullTMT}"
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
+                             emptyMessage="ไม่มีข้อมูล"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                    <p:column headerText="Approve"  style="text-align: center; width: 200px;" >
+                        <p:selectOneButton value="#{model.status}" valueChangeListener="#{adminInbox.approve}" styleClass="approved-button updateBtn-#{model.id}">
+                            <p:ajax event="change" process="@this" update="@(.updateset-#{model.id}) :form:saveBtn"/>
+                            <f:selectItem itemLabel="อนุมัติ" itemValue="ACCEPT" />
+                            <f:selectItem itemLabel="ไม่อนุมัติ" itemValue="REJECT" />
+                            <f:attribute name="selectedItem" value="#{model}"/>
+                        </p:selectOneButton>
+                        <p:outputPanel layout="inline" styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) @(.updateset-#{model.id}) :form:saveBtn @this" 
+                                           rendered="#{model.status ne 'REQUEST'}" 
+                                           value="reset" 
+                                           style="color:blue" 
+                                           action="#{adminInbox.clearErrorColumns(model)}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="ProductCat" style="width: 120px;">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="HCODE" style="width: 120px;">
+                        <h:outputText value="#{model.uploadDrugItem.uploadDrug.hcode}"/>
+                    </p:column>
+                    <p:column headerText="HospDrugCode" width="200">
+                        <h:outputText value="#{model.uploadDrugItem.hospDrugCode}"/>
+                    </p:column>
+                    <p:column headerText="TradeName" width="600" >
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; TradeName">
+                                <f:param name="search" value="#{model.uploadDrugItem.tradeName}"/>
+                                <f:param name="typeOfSearch" value="TradeName"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.tradeName}" style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'TRADENAME')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="GenericName" width="800">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; GenericName">
+                                <f:param name="search" value="#{model.uploadDrugItem.genericName}"/>
+                                <f:param name="typeOfSearch" value="GenericName"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.genericName}" style="#{model.errorColumns.contains('GENRICNAME')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'GENRICNAME')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="Strength" width="250">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.strength}" style="#{model.errorColumns.contains('STRENGTH')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'STRENGTH')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="dosageform" width="300">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'DOSAGEFORM')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="CONTENT" width="300">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'CONTENT')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="Manufacturer" width="500">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.manufacturer}" style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'MANUFACTURER')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="UnitPrice" width="100">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.unitPrice}" style="#{model.errorColumns.contains('UNITPRICE')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'UNITPRICE')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="ISED" width="60">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.ised}" style="#{model.errorColumns.contains('ISED')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'ISED')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="SPECPREP" width="150">
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.specPrep}" style="#{model.errorColumns.contains('SPECPREP')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'SPECPREP')}"/>
+                        </p:outputPanel>
+                    </p:column>
+                    <p:column   headerText="ISED_APPROVE" width="120">
+                        <h:outputText value="#{model.uploadDrugItem.hospitalDrug.isedApprove}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton value="Save" id="saveBtn" onclick="return confirm('ยืนยันการอนุมัติ');" action="#{adminInbox.save}" ajax="false" 
+                                 disabled="#{(empty adminInbox.notApproveRequests) and (empty adminInbox.approveRequests)}"/>
+                &nbsp;
+                <p:commandButton value="Cancel" immediate="true" ajax="false" action="#{adminInbox.clear()}"/>
+
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
