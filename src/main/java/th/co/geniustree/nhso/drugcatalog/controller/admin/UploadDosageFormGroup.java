@@ -10,6 +10,7 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -26,10 +27,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.input.DosageFormExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.DosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.service.DosageFormGroupService;
-import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
 import th.co.geniustree.xls.beans.ReaderUtils;
@@ -54,18 +53,17 @@ public class UploadDosageFormGroup {
     @Autowired
     private DosageFormGroupService dosageFormGroupService;
     
-    @Autowired
-    private TMTEdNedService tmtEdNedService;
-    
     private UploadedFile file;
-    private List<DosageFormExcelModel> notPassModels = new ArrayList<>();
-    private List<DosageFormExcelModel> passModels = new ArrayList<>();
+    private List<DosageFormGroup> notPassModels = new ArrayList<>();
+    private List<DosageFormGroup> passModels = new ArrayList<>();
+    private List<DosageFormGroup> dosageFormGroups = new ArrayList<>();
     private boolean duplicateFile = false;
     private String originalFileName;
     
     private File uploadtempFileDir;
     private String saveFileName;
     private File targetFile;
+    
     
     private StreamedContent templateFile;
 
@@ -88,24 +86,32 @@ public class UploadDosageFormGroup {
         this.file = file;
     }
 
-    public List<DosageFormExcelModel> getNotPassModels() {
+    public List<DosageFormGroup> getNotPassModels() {
         return notPassModels;
     }
 
-    public void setNotPassModels(List<DosageFormExcelModel> notPassModels) {
+    public void setNotPassModels(List<DosageFormGroup> notPassModels) {
         this.notPassModels = notPassModels;
     }
 
-    public List<DosageFormExcelModel> getPassModels() {
+    public List<DosageFormGroup> getPassModels() {
         return passModels;
     }
 
-    public void setPassModels(List<DosageFormExcelModel> passModels) {
+    public void setPassModels(List<DosageFormGroup> passModels) {
         this.passModels = passModels;
     }
 
     public StreamedContent getTemplateFile() {
         return templateFile;
+    }
+
+    public List<DosageFormGroup> getDosageFormGroups() {
+        return dosageFormGroups;
+    }
+
+    public void setDosageFormGroups(List<DosageFormGroup> dosageFormGroups) {
+        this.dosageFormGroups = dosageFormGroups;
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -117,7 +123,7 @@ public class UploadDosageFormGroup {
             targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}", targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
-            ReaderUtils.read(targetFile, DosageFormExcelModel.class, new ReadCallback<DosageFormExcelModel>() {
+            ReaderUtils.read(targetFile, DosageFormGroup.class, new ReadCallback<DosageFormGroup>() {
 
                 @Override
                 public void header(List headers) {
@@ -125,24 +131,10 @@ public class UploadDosageFormGroup {
                 }
 
                 @Override
-                public void ok(int rowNum, DosageFormExcelModel bean) {
-                    bean.setRowNum(rowNum);
-                    bean.addErrors(beanValidator.validate(bean));
-                    
-                    if (bean.getErrorMap().isEmpty()) {
-                        DosageFormGroup dosageFormGroup = dosageFormGroupService.findById(saveFileName)
-                        if (findOneWithoutTx == null) {
-                            bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
-                        }
-                        if (tmtEdNedService.exist(bean.getTmtId(), bean.getDateIn())) {
-                            bean.addError("dateinString", "ED/NED ในวันที่เดียวกันนี้เคยระบุไปแล้ว");
-                        }
-                    }
-                    if (bean.getErrorMap().isEmpty()) {
-                        passModels.add(bean);
-                    } else {
-                        notPassModels.add(bean);
-                    }
+                public void ok(int rowNum, DosageFormGroup bean) {
+                    bean.setCreateDate(new Date());
+                    dosageFormGroups.add(bean);
+                    LOG.debug("id : {} \t\t\t desc : {}",bean.getIdGroup(),bean.getDescription());
                 }
 
                 @Override
@@ -161,6 +153,7 @@ public class UploadDosageFormGroup {
             FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
+        save();
     }
 
     public boolean isDuplicateFile() {
@@ -180,13 +173,14 @@ public class UploadDosageFormGroup {
     }
 
     public void save() {
-        tmtEdNedService.save(passModels);
-        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
-        reset();
+        dosageFormGroupService.saveAll(dosageFormGroups);
+//        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+//        reset();
     }
 
     public void reset() {
         notPassModels.clear();
         passModels.clear();
+        dosageFormGroups.clear();
     }
 }

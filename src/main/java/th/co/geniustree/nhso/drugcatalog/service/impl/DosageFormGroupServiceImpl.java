@@ -93,5 +93,10 @@ public class DosageFormGroupServiceImpl implements DosageFormGroupService {
         return dosageFormGroupRepo.findOne(id);
     }
 
+    @Override
+    public void saveAll(List<DosageFormGroup> groups) {
+        dosageFormGroupRepo.save(groups);
+    }
+
     
 }

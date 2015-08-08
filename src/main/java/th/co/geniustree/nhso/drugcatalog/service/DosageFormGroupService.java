@@ -33,4 +33,6 @@ public interface DosageFormGroupService {
     public Page<DosageFormGroup> search(String keyword, Pageable pageable);
     
     public DosageFormGroup findById(String id);
+    
+    public void saveAll(List<DosageFormGroup> groups);
 }

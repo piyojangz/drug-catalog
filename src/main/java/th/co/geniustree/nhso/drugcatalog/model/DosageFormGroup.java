@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import org.hibernate.validator.constraints.NotEmpty;
+import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
  *
@@ -26,8 +28,11 @@ public class DosageFormGroup implements Serializable {
     
     @Id
     @Column(name = "DOSAGEFORM_GROUP_ID")
+    @XlsColumn(columnNames = "ID")
+    @NotEmpty(message = "ต้องระบุ Dosage Form Group ID มาด้วย")
     private String idGroup;
     
+    @XlsColumn(columnNames = "DESCRIPTION")
     @Column(name = "DOSAGEFORM_GROUP_DESCRIPTION")
     private String description;
     
