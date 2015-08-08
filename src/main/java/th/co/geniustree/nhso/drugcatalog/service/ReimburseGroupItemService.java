@@ -35,4 +35,6 @@ public interface ReimburseGroupItemService {
     public Page<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Code,Integer budgetYear,Pageable pageable);
     
     public Page<ReimburseGroupItem> findReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, Date searchDate, Pageable pageable);
+    
+    public void delete(ReimburseGroupItem reimburseGroupItem);
 }

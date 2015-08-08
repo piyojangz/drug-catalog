@@ -61,7 +61,7 @@ public class ReimburseGroupItemController {
     private TMTEdNed edNed;
     private ICD10 icd10;
     private ReimburseGroup reimburseGroup;
-    private ReimburseGroupItem reimburseGroupItem;
+    private ReimburseGroupItem selectedReimburseGroupItem;
 
     private Integer budgetYear;
     private String searchTmt;
@@ -111,6 +111,10 @@ public class ReimburseGroupItemController {
         edStatusList.add("E*");
     }
 
+    public void onSelect(ReimburseGroupItem r){
+         selectedReimburseGroupItem = r;
+    }
+    
     public void onSave() {
         ReimburseGroupItem.ED ed = selectEdStatus(edStatus);
         log.debug("tmtid -> {}", tmtDrug.getTmtId());
@@ -155,9 +159,18 @@ public class ReimburseGroupItemController {
         fund = new Fund();
         icd10 = new ICD10();
         reimburseGroup = new ReimburseGroup();
-        reimburseGroupItem = new ReimburseGroupItem();
+        selectedReimburseGroupItem = new ReimburseGroupItem();
     }
 
+    public void delete(){
+        try{
+            reimburseGroupItemService.delete(selectedReimburseGroupItem);
+            FacesMessageUtils.info("ลบข้อมูล สำเร็จ");
+        } catch (Exception e){
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+        }
+    }
+    
     public void search() {
         reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
             @Override
@@ -279,12 +292,12 @@ public class ReimburseGroupItemController {
     }
 
     //***************** getter and setter *****************
-    public ReimburseGroupItem getReimburseGroupItem() {
-        return reimburseGroupItem;
+    public ReimburseGroupItem getSelectedReimburseGroupItem() {
+        return selectedReimburseGroupItem;
     }
 
-    public void setReimburseGroupItem(ReimburseGroupItem reimburseGroupItem) {
-        this.reimburseGroupItem = reimburseGroupItem;
+    public void setSelectedReimburseGroupItem(ReimburseGroupItem selectedReimburseGroupItem) {
+        this.selectedReimburseGroupItem = selectedReimburseGroupItem;
     }
 
     public TMTDrug getTmtDrug() {

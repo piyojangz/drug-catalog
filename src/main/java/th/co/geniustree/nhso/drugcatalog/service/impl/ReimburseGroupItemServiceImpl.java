@@ -108,6 +108,12 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         return reimburseGroupItemRepo.findbyTMTFundICD10BudgetYear(tmtid, fundCode, icd10Code, budgetYear, pageable);
     }
 
+    @Override
+    public void delete(ReimburseGroupItem reimburseGroupItem) {
+        reimburseGroupItemRepo.delete(reimburseGroupItem);
+    }
+
+    
     private boolean isNullICD10(ICD10 icd10) {
         return icd10 == null || icd10.getCode() == null || icd10.getCode().isEmpty();
     }

@@ -76,8 +76,9 @@
             <f:metadata>
                 <f:viewAction action="#{reimburseGroupItemController.resetData()}"/>
             </f:metadata>
+            <p:growl id="growl" showDetail="true"/>
+
             <h:form id="form">
-                <p:growl id="growl" showDetail="true"/>
                 <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
                     <h:outputText value="Reimburse Group Item"/>
                 </div>
@@ -89,7 +90,7 @@
                         <p:column></p:column>
                     </p:row>
                     <p:row>
-                        <p:column style="text-align: right; width: 100px;">
+                        <p:column style="text-align: right; width: 120px;">
                             <h:outputText value="TMT : "/>
                         </p:column>
                         <p:column>
@@ -215,7 +216,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form ,growl ,:reimburseGroupTable" actionListener="#{reimburseGroupItemController.onSave}"/>
+                            <p:commandButton value="เพิ่ม" update="@form , :growl , :tableForm" actionListener="#{reimburseGroupItemController.onSave}"/>
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
                         </p:column>
@@ -234,53 +235,183 @@
                             <p:inputText value="#{reimburseGroupItemController.searchKeyword}" styleClass="searchFund" style="width: 200px;"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="ค้นหา" update="@form , :reimburseGroupTable" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.search}"/>
+                            <p:commandButton value="ค้นหา" update="@form , :tableForm" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.search}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>
             <p:spacer height="20"/>
-            <p:dataTable id="reimburseGroupTable"
-                         value="#{reimburseGroupItemController.reimburseGroupItems}"
-                         var="item"
-                         rowIndexVar="rowIndex"
-                         style="width: 100%;overflow-x: scroll;"
-                         paginator="true" 
-                         rows="20" 
-                         lazy="true" 
-                         rowsPerPageTemplate="20,30,40,50"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+            <h:form id="tableForm">
+                <p:dataTable id="reimburseGroupTable"
+                             value="#{reimburseGroupItemController.reimburseGroupItems}"
+                             var="item"
+                             rowIndexVar="rowIndex"
+                             style="width: 100%;overflow-x: scroll;"
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                <f:facet name="header">
-                    <div style="text-align: center;">
-                        <h:outputText value="รายการ Reimburse Group Item"/>
-                    </div>
-                </f:facet>
-                <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">
-                    #{rowIndex + 1}
-                </p:column>
-                <p:column headerText="TMT" style="width: 100px;text-align: center;">
-                    <h:outputText value="#{item.tmtDrug.tmtId}"/>
-                </p:column>
-                <p:column headerText="กองทุน" style="width: 200px;">
-                    <h:outputText value="#{item.fund.code} -> #{item.fund.name}"/>
-                </p:column>
-                <p:column headerText="รหัสโรค" style="width: 200px;">
-                    <h:outputText value="#{item.icd10.code} -> #{item.icd10.name}"/>
-                </p:column>
-                <p:column headerText="สถานะ ED" style="width: 50px;">
-                    <h:outputText value="#{item.statusEd}"/>
-                </p:column>
-                <p:column headerText="REIMBURSE_GROUP" style="width: 200px;">
-                    <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>
-                </p:column>
-                <p:column headerText="ปีงบประมาณ" style="width: 40px;text-align: center;">
-                    <h:outputText value="#{item.pk.budgetYear}"/>
-                </p:column>
-                <p:column headerText="โครงการพิเศษ" style="width: 50px;">
-                    <h:outputText value="#{item.reimburseGroup.specialProject == true ? 'ใช่' : 'ไม่ใช่'}" style="#{item.reimburseGroup.specialProject == true ? 'color:#00C700;' : 'color:red;'} font-size: large;"/>
-                </p:column>
-            </p:dataTable>
+                    <f:facet name="header">
+                        <div style="text-align: center;">
+                            <h:outputText value="รายการ Reimburse Group Item"/>
+                        </div>
+                    </f:facet>
+                    <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">
+                        #{rowIndex + 1}
+                    </p:column>
+                    <p:column headerText="TMT" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="กองทุน" style="width: 200px;">
+                        <h:outputText value="#{item.fund.code} -> #{item.fund.name}"/>
+                    </p:column>
+                    <p:column headerText="รหัสโรค" style="width: 200px;">
+                        <h:outputText value="#{item.icd10.code} -> #{item.icd10.name}"/>
+                    </p:column>
+                    <p:column headerText="สถานะ ED" style="width: 50px;">
+                        <h:outputText value="#{item.statusEd}"/>
+                    </p:column>
+                    <p:column headerText="REIMBURSE_GROUP" style="width: 200px;">
+                        <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}"/>
+                    </p:column>
+                    <p:column headerText="ปีงบประมาณ" style="width: 40px;text-align: center;">
+                        <h:outputText value="#{item.pk.budgetYear}"/>
+                    </p:column>
+                    <ui:remove>
+                        <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
+                            <p:commandLink value="แก้ไข" 
+                                           style="color: blue;" 
+                                           action="#{reimburseGroupItemController.onSelect(model)}" 
+                                           onclick="PF('editDialogWidget').show()"
+                                           update="@form , :editDialogForm"/>
+                        </p:column>
+                    </ui:remove>
+                    <p:column headerText="ลบ" style="width: 50px;text-align: center;">
+                        <p:commandLink value="ลบ" 
+                                       style="color: blue;" 
+                                       action="#{reimburseGroupItemController.onSelect(item)}" 
+                                       update="@form , :deleteDialogForm"
+                                       onclick="PF('deleteDialogWidget').show()"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <ui:remove>
+                <p:dialog id="editDialog"
+                          appendTo="@(body)"
+                          modal="true"
+                          showEffect="fade"
+                          hideEffect="fade"
+                          minWidth="400"
+                          minHeight="200"
+                          widgetVar="editDialogWidget"
+                          header="แก้ไข Reimburse Group Item">
+                    <h:form id="editDialogForm">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column style="text-align: right;">
+                                    <h:outputText value="ชื่อ dosage form group : "/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="editId" value="#{reimburseGroupItemController.selectedReimburseGroupItem}" style="width: 200px;" disabled="true"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column style="text-align: right;">
+                                    <h:outputText value="คำอธิบาย : "/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="editDescription" value="#{dosageFormGroupController.selectedDosageFormGroup.description}" style="width: 200px;"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2" style="text-align: right;">
+                                    <p:commandButton value="แก้ไข" 
+                                                     update="@form , :growl , :tableForm" 
+                                                     actionListener="#{dosageFormGroupController.edit()}" 
+                                                     onsuccess="PF('editDialogWidget').hide()"/>
+                                    <p:spacer width="20"/>
+                                    <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </h:form>
+
+                </p:dialog>
+            </ui:remove>
+
+            <p:dialog id="deleteDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      widgetVar="deleteDialogWidget"
+                      header="ยืนยันการลบข้อมูล">
+                <h:form id="deleteDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="TMT : "/>
+                            </p:column>
+                            <p:column style="width: 200px;">
+                                <h:outputText value="#{reimburseGroupItemController.selectedReimburseGroupItem.pk.tmtid}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="กองทุน : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimburseGroupItemController.selectedReimburseGroupItem.pk.fundCode}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="รหัสโรค : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimburseGroupItemController.selectedReimburseGroupItem.pk.icd10Code}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="reimburse group : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimburseGroupItemController.selectedReimburseGroupItem.pk.reimburseGroupId}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ปีงบประมาณ : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimburseGroupItemController.selectedReimburseGroupItem.pk.budgetYear}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="ใช่" 
+                                                 actionListener="#{reimburseGroupItemController.delete()}" 
+                                                 styleClass="ui-confirmdialog-yes" 
+                                                 icon="ui-icon-check" 
+                                                 update="@form , :growl , :tableForm" 
+                                                 oncomplete="PF('deleteDialogWidget').hide()"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ไม่ใช่" 
+                                                 styleClass="ui-confirmdialog-no" 
+                                                 icon="ui-icon-close" 
+                                                 onclick="PF('deleteDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>
