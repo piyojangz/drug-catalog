@@ -13,18 +13,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
 import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
-import th.co.geniustree.nhso.basicmodel.repository.ProvinceRepository;
 import th.co.geniustree.nhso.basicmodel.repository.ZoneRepository;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
+import th.co.geniustree.nhso.drugcatalog.service.ProvinceService;
+import th.co.geniustree.nhso.drugcatalog.service.SummaryRequestService;
 
 /**
  *
@@ -37,11 +36,12 @@ public class SummaryInbox {
     private static final Logger LOG = LoggerFactory.getLogger(SummaryInbox.class);
 
     @Autowired
+    private SummaryRequestService summaryRequestService;
+    
+    @Autowired
     private ZoneRepository zoneRepo;
     @Autowired
-    private ProvinceRepository provinceRepo;
-    @Autowired
-    private RequestItemRepo requestItemRepo;
+    private ProvinceService provinceService;
 
     private List<Zone> zones;
     private List<Province> provinces;
@@ -49,62 +49,69 @@ public class SummaryInbox {
 
     private String selectedZone;
     private String selectedProvince;
+    private Province province;
     private Hospital selectedHospital;
 
     private long totalRequestOfProvince;
     private long totalHospitalRequest;
 
     private boolean notEmptyRequest;
+    private final String selectAllZone = SummaryRequest.ALL_ZONE;
+    private final String selectAllProvince = SummaryRequest.ALL_PROVINCE;
 
     @PostConstruct
     public void postConstruct() {
         notEmptyRequest = false;
+        initZone();
+    }
+
+    private void initZone() {
         zones = zoneRepo.findAll(new Sort("nhsoZone"));
         Zone deletedZone = new Zone();
         deletedZone.setNhsoZone("14");
         zones.remove(deletedZone);
         deletedZone.setNhsoZone("15");
         zones.remove(deletedZone);
-        LOG.info("selected zone -> {}", selectedZone);
-        if (selectedZone != null) {
-            provinces = provinceRepo.findByNhsoZone(selectedZone, new Sort("id"));
-        }
+        selectedZone = "";
     }
 
     public void onSelectZone() {
         LOG.info("Selected Zone -> {}", selectedZone);
-        provinces = provinceRepo.findByNhsoZone(selectedZone, new Sort("id"));
+        provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
+        selectedProvince = "";
     }
-
-    public void onSelectProvince() {
-        summary = new SpringDataLazyDataModelSupport() {
+    
+    public void search(){
+        summary = new SpringDataLazyDataModelSupport<SummaryRequest>() {
             @Override
             public Page<SummaryRequest> load(Pageable pageAble) {
-                List<SummaryRequest> summaryRequests = new ArrayList<>();
-                long totalElement = 0;
-                Page<Object[]> page = null;
-                if (!selectedProvince.isEmpty()) {
-                    page = requestItemRepo.countSummaryRequestByProvince(RequestItem.Status.REQUEST, selectedProvince, pageAble);
-                    List<Object[]> list = page.getContent();
-                    for (Object[] objArray : list) {
-                        SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(objArray);
-                        summaryRequests.add(summaryRequest);
-                    }
-                    totalHospitalRequest = page.getTotalElements();
-                    if (totalHospitalRequest > 0) {
-                        notEmptyRequest = true;
-                    }
-                    totalElement = page.getTotalElements();
-                }
-                Page<SummaryRequest> summary = new PageImpl<>(summaryRequests, pageAble, totalElement);
+                Page<SummaryRequest> summary = summaryRequestService.loadSummaryRequest(selectedZone, selectedProvince, pageAble);
+                totalHospitalRequest = summary.getTotalElements();
+                totalRequestOfProvince = summaryRequestService.getTotalReqeust();
                 return summary;
             }
         };
-        if (selectedProvince != null) {
-            totalRequestOfProvince = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, selectedProvince);
-        }
     }
 
+    public List<Province> completeProvince(String query) {
+        if (provinces == null || provinces.isEmpty()) {
+            provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
+        }
+        List<Province> filterProvince = new ArrayList<>();
+        for (Province p : provinces) {
+            if (p.getName() == null) {
+                p.setName(" - ");
+            }
+            if (p.getFullName().toLowerCase().contains(query)) {
+                filterProvince.add(p);
+            }
+        }
+        Province p = new Province(selectAllProvince);
+        p.setName("เลือกทุกจังหวัด");
+        filterProvince.add(0, p);
+        return filterProvince;
+    }
+    
     public void onSelectHospital() {
 
     }
@@ -150,11 +157,11 @@ public class SummaryInbox {
         this.provinces = provinces;
     }
 
-    public SpringDataLazyDataModelSupport getSummary() {
+    public SpringDataLazyDataModelSupport<SummaryRequest> getSummary() {
         return summary;
     }
 
-    public void setSummary(SpringDataLazyDataModelSupport summary) {
+    public void setSummary(SpringDataLazyDataModelSupport<SummaryRequest> summary) {
         this.summary = summary;
     }
 
@@ -181,6 +188,21 @@ public class SummaryInbox {
     public void setSelectedHospital(Hospital selectedHospital) {
         this.selectedHospital = selectedHospital;
     }
-    //****************************** getter and setter methods ******************************
+    public String getSelectAllZone() {
+        return selectAllZone;
+    }
 
+    public String getSelectAllProvince() {
+        return selectAllProvince;
+    }
+
+    public Province getProvince() {
+        return province;
+    }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
+
+    
 }

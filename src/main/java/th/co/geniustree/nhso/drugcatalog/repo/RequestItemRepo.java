@@ -121,4 +121,34 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and h.province.nhsoZone.nhsoZone = ?2 "
             + "group by h.province.id")
     public Integer countTotalRequestByZone(RequestItem.Status status, String zone);
+    
+    @Query(value = "select max(r.requestDate) , "
+            + "u.hcode ,"
+            + "h.hname ,"
+            + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is null then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'A' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'E' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'D' then 1 else 0 end) ,"
+            + "sum( case when ui.updateFlag = 'U' then 1 else 0 end) ,"
+            + "count(r) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "group by u.hcode , h.hname "
+            + "order by u.hcode")
+    public Page countSummaryRequestAll(RequestItem.Status status, Pageable pageable);
+    
+    @Query(value = "select sum(count(r)) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "group by h.province.id")
+    public Integer countTotalRequestAll(RequestItem.Status status);
 }
