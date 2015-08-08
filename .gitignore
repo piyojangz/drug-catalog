@@ -1,3 +1,4 @@
 /target/
 /src/main/resources/rebel.xml
 /rebel.xml
+/log.file.location_IS_UNDEFINED/

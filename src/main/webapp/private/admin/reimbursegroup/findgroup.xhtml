@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+                .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
+                    background-color : rgb(0, 194, 0);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
+                    background-color : rgb(247, 79, 79);
+                    color : #fff;
+                    text-shadow: none; 
+                }
+
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+                .input{
+                    width: 250px;
+                }
+                .ui-autocomplete-items{
+                    font-size: 22px;
+                }
+                .ui-autocomplete-panel{
+                    overflow-y: scroll;
+                    max-height: 300px;
+                    max-width: 600px;
+                    min-width: 600px;
+                }
+            </style>
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true" />
+
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="TMTID : "/>
+                        </p:column>
+                        <p:column style="width: 500px;min-width: 460px;">
+                            <p:inputText id="tmtid" value="#{newModelController.tmtId}" styleClass="input1">
+
+                            </p:inputText>
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelController.onSearchTMTDrug()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{newModelController.onTmtDialogReturn}" update="@form" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="FUND_ID : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete id="fund" 
+                                            value="#{newModelController.selectedFund}" 
+                                            completeMethod="#{newModelController.completeFund}"
+                                            var="f" 
+                                            itemLabel="#{f.name}" 
+                                            itemValue="#{f.fundCode}" 
+                                            forceSelection="true" 
+                                            converter="fundConverter" 
+                                            styleClass="input1"
+                                            dropdown="true">
+                                <p:column>
+                                    #{f.fundCode}
+                                </p:column>
+                                <p:column>
+                                    #{f.name}
+                                </p:column>
+                            </p:autoComplete>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ICD10_CODE : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="icd10" value="#{newModelController.icd10Id}" styleClass="input">
+                            </p:inputText>
+                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{newModelController.onSearchIcd10Dialog()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{newModelController.onIcdDialogReturn}" update="@form" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="วันที่เบิก : "/>
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="dateIn" 
+                                        value="#{newModelController.dateIn}" 
+                                        styleClass="input" 
+                                        locale="en_US" 
+                                        pattern="dd/MM/yyyy"
+                                        navigator="true">
+                                <p:watermark for="dateIn" value="date แรกหลังจาก datein ที่กำหนด"/>
+                            </p:calendar>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="ค้นหา" actionListener="#{newModelController.findGroup()}" update="@form growl"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <p:panelGrid rendered="#{not empty newModelController.reimburseGroupItem.reimburseGroup}" style="font-size: 22px;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Is Special Project : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.specialProject}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ED Status : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.edStatus}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Reimburse Group : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.id}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Reimburse Group Description : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{newModelController.reimburseGroupItem.reimburseGroup.description}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -27,12 +27,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <jpa:repositories base-package="th.co.geniustree.nhso.drugcatalog.repo"/>
     <jpa:repositories base-package="th.co.geniustree.nhso.basicmodel.repository"/>
     
-     
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
-    <tx:annotation-driven transaction-manager="txManager" />
-     
+    </bean>    
      
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
  

@@ -31,6 +31,15 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrugTran</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugHistory</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.Drug</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.EdNed</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.Fund</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.ICD10</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.Icd10Group</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.Right</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

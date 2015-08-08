@@ -75,6 +75,12 @@
                 </p:submenu>
                 <p:separator/>
                 <p:menuitem value="E Claim" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}" outcome="/private/admin/eclaim/index" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/eclaim/index'), 0)?'background-color: #FFF2DB':''}"/>
+                <p:submenu label="Reimburse Group Item" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="ค้นหาข้อมูล group" outcome="/private/admin/reimbursegroup/findgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/findgroup'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="reimburse group item" outcome="/private/admin/reimbursegroup/mock" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/mock'), 0)?'background-color: #FFF2DB':''}"/>
+                </p:submenu>
+                <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="fund" outcome="/private/admin/fund/mock" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/fund/mock'), 0)?'background-color: #FFF2DB':''}"/>
+                <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="ED-Status" outcome="/private/admin/edstatus/mock" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edstatus/mock'), 0)?'background-color: #FFF2DB':''}"/>
                 <p:menuitem value="Logout" url="#{request.contextPath}/logout" icon="temIconSize24 temIconBackgroundLogout temMarginRight5"/>
             </p:menu>
         </h:form>
