@@ -131,19 +131,109 @@
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
                         <p:commandLink value="แก้ไข" 
                                        style="color: blue;" 
-                                       action="#{dosageFormGroupController.onSelect(model)}" 
+                                       action="#{fundController.onSelect(fund)}" 
                                        onclick="PF('editDialogWidget').show()"
-                                       update="@form"/>
+                                       update="@form , :editDialogForm"/>
                     </p:column>
                     <p:column headerText="ลบ" style="width: 50px;text-align: center;">
                         <p:commandLink value="ลบ" 
                                        style="color: blue;" 
-                                       action="#{dosageFormGroupController.onSelect(model)}" 
-                                       update="@form"
+                                       action="#{fundController.onSelect(fund)}" 
+                                       update="@form ,:deleteDialogForm"
                                        onclick="PF('deleteDialogWidget').show()"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
+            
+            
+            <p:dialog id="editDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      widgetVar="editDialogWidget"
+                      header="แก้ไขข้อมูลกองทุน">
+                <h:form id="editDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="รหัสกองทุน : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="editId" value="#{fundController.seletedFund.code}" style="width: 200px;" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ชื่อกองทุน : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="editDescription" value="#{fundController.seletedFund.name}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="แก้ไข" 
+                                                 update="@form , :growl , :tableForm" 
+                                                 actionListener="#{fundController.edit()}" 
+                                                 onsuccess="PF('editDialogWidget').hide()"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
+
+            <p:dialog id="deleteDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      widgetVar="deleteDialogWidget"
+                      header="ยืนยันการลบข้อมูล">
+                <h:form id="deleteDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="รหัสกองทุน : "/>
+                            </p:column>
+                            <p:column style="width: 200px;">
+                                <h:outputText value="#{fundController.seletedFund.code}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ชื่อกองทุน : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{fundController.seletedFund.name}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="ใช่" 
+                                                 actionListener="#{fundController.delete()}" 
+                                                 styleClass="ui-confirmdialog-yes" 
+                                                 icon="ui-icon-check" 
+                                                 oncomplete="PF('deleteDialogWidget').hide()"
+                                                 update="@form , :growl , :tableForm"  />
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ไม่ใช่" 
+                                                 styleClass="ui-confirmdialog-no" 
+                                                 icon="ui-icon-close" 
+                                                 onclick="PF('deleteDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

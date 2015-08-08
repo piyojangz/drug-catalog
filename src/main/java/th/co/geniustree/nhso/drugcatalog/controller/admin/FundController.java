@@ -39,6 +39,7 @@ public class FundController {
     private SpringDataLazyDataModelSupport<Fund> funds;
 
     private Fund fund;
+    private Fund seletedFund;
 
     private String keyword;
 
@@ -71,6 +72,28 @@ public class FundController {
                 return fundService.findAllPaging(pageAble);
             }
         };
+    }
+
+    public void onSelect(Fund f) {
+        seletedFund = f;
+    }
+
+    public void edit() {
+        try {
+            fundService.save(seletedFund);
+            FacesMessageUtils.info("แก้ไขข้อมูล สำเร็จ");
+        } catch (Exception e) {
+            FacesMessageUtils.error("แก้ไขข้อมูล ไม่สำเร็จ");
+        }
+    }
+    
+    public void delete() {
+        try {
+            fundService.delete(seletedFund);
+            FacesMessageUtils.info("ลบข้อมูล สำเร็จ");
+        } catch (Exception e) {
+            FacesMessageUtils.error("ลบข้อมูล ไม่สำเร็จ");
+        }
     }
 
     public void search() {
@@ -111,6 +134,14 @@ public class FundController {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public Fund getSeletedFund() {
+        return seletedFund;
+    }
+
+    public void setSeletedFund(Fund seletedFund) {
+        this.seletedFund = seletedFund;
     }
 
 }

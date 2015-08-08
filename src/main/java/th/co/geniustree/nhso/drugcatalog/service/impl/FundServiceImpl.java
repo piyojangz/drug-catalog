@@ -57,6 +57,11 @@ public class FundServiceImpl implements FundService{
         return fundRepo.findAll();
     }
 
+    @Override
+    public void delete(Fund fund) {
+        fundRepo.delete(fund);
+    }
+
    
     
 }
