@@ -5,15 +5,19 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
 /**
@@ -43,8 +47,10 @@ public class TMTDrugServiceImpl implements TMTDrugService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
-    public Page<TMTDrug> findByTmtIdContains(String searchTmtid, Pageable pageable) {
-        return tMTDrugRepo.findByTmtIdContains(searchTmtid, pageable);
+    public Page<TMTDrug> search(String searchTmtid, Pageable pageable) {
+        List<String> keyList = Arrays.asList(searchTmtid.split("\\s+"));
+        Specification<TMTDrug> spec = Specifications.where(TMTDrugSpecs.tmtIdContains(keyList)).or(TMTDrugSpecs.fsnContains(keyList));
+        return tMTDrugRepo.findAll(spec,pageable);
     }
 
 }

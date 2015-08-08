@@ -21,7 +21,7 @@
     </h:head>
     <h:body>
         <h:form>
-            icd10 id : <p:inputText id="keyword" value="#{icd10SelectorDialog.searchIcd10}"/> <p:commandButton action="#{icd10SelectorDialog.search}" value="ค้นหา"  update="table"/>
+            icd10 : <p:inputText id="keyword" value="#{icd10SelectorDialog.searchIcd10}"/> <p:commandButton action="#{icd10SelectorDialog.search}" value="ค้นหา"  update="table"/>
             <p:dataTable id="table" 
                          var="model" 
                          value="#{icd10SelectorDialog.icd10s}"  

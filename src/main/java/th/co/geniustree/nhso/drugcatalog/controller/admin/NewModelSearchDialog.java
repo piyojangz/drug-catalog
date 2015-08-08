@@ -46,7 +46,7 @@ public class NewModelSearchDialog {
         drugs = new SpringDataLazyDataModelSupport<TMTDrug>() {
             @Override
             public Page<TMTDrug> load(Pageable pageAble) {
-                Page<TMTDrug> page = tmtDrugService.findByTmtIdContains(searchTMT, pageAble);
+                Page<TMTDrug> page = tmtDrugService.search(searchTMT, pageAble);
                 return page;
             }
 

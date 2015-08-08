@@ -40,7 +40,7 @@ public class Icd10SelectorDialog {
         icd10s = new SpringDataLazyDataModelSupport<ICD10>() {
             @Override
             public Page<ICD10> load(Pageable pageAble) {
-                Page<ICD10> page = icd10Service.findByCodeContains(searchIcd10, pageAble);
+                Page<ICD10> page = icd10Service.search(searchIcd10, pageAble);
                 return page;
             }
         };

@@ -21,7 +21,7 @@
     </h:head>
     <h:body>
         <h:form>
-            tmt id : <p:inputText id="keyword" value="#{newModelSearchDialog.searchTMT}"/> <p:commandButton action="#{newModelSearchDialog.search}" value="ค้นหา"  update="table"/>
+            tmt : <p:inputText id="keyword" value="#{newModelSearchDialog.searchTMT}"/> <p:commandButton action="#{newModelSearchDialog.search}" value="ค้นหา"  update="table"/>
             <p:dataTable id="table" var="model" value="#{newModelSearchDialog.drugs}"   rowIndexVar="rowIndex"
                          paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">

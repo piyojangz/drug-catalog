@@ -19,5 +19,5 @@ public interface TMTDrugService {
     public TMTDrug findOneWithoutTx(String tmtid);
     public Page<TMTDrug> findAllAndEagerGroup(Specification<TMTDrug> s, Pageable pgbl);
     
-    public Page<TMTDrug> findByTmtIdContains(String tmtid,Pageable pageable);
+    public Page<TMTDrug> search(String tmtid,Pageable pageable);
 }

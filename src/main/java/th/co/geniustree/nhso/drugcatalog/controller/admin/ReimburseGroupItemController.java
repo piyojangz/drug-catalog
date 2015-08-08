@@ -64,6 +64,8 @@ public class ReimburseGroupItemController {
     private ReimburseGroupItem reimburseGroupItem;
 
     private Integer budgetYear;
+    private String searchTmt;
+    private String searchICD10;
     private String icd10Id = "";
     private String edStatus = "";
     private String searchKeyword = "";
@@ -111,15 +113,15 @@ public class ReimburseGroupItemController {
 
     public void onSave() {
         ReimburseGroupItem.ED ed = selectEdStatus(edStatus);
-        log.debug("tmtid -> {}" , tmtDrug.getTmtId());
-        log.debug("fund code -> {}" , fund.getCode());
-        log.debug("icd10 code -> {}" , icd10.getCode());
-        log.debug("ed status -> {}" , ed);
-        log.debug("reimburseGroup id -> {}" , reimburseGroup.getId());
-        log.debug("budgetYear -> {}" , budgetYear);
+        log.debug("tmtid -> {}", tmtDrug.getTmtId());
+        log.debug("fund code -> {}", fund.getCode());
+        log.debug("icd10 code -> {}", icd10.getCode());
+        log.debug("ed status -> {}", ed);
+        log.debug("reimburseGroup id -> {}", reimburseGroup.getId());
+        log.debug("budgetYear -> {}", budgetYear);
         if ((fund != null && reimburseGroup != null)) {
             try {
-                reimburseGroupItemService.save(tmtDrug, fund, icd10,ed , reimburseGroup, budgetYear);
+                reimburseGroupItemService.save(tmtDrug, fund, icd10, ed, reimburseGroup, budgetYear);
                 FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
             } catch (Exception e) {
                 FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
@@ -132,7 +134,7 @@ public class ReimburseGroupItemController {
     }
 
     private ReimburseGroupItem.ED selectEdStatus(String ed) {
-        if(ed == null || ed.isEmpty()){
+        if (ed == null || ed.isEmpty()) {
             return null;
         }
         if (ed.equalsIgnoreCase("E")) {
@@ -187,7 +189,7 @@ public class ReimburseGroupItemController {
         options.put("contentWidth", 800);
         Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
-        keywords.add(tmtDrug.getTmtId());
+        keywords.add(searchTmt);
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/tmtdialog", options, params);
     }
@@ -201,7 +203,7 @@ public class ReimburseGroupItemController {
         options.put("contentWidth", 800);
         Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
-        keywords.add(icd10.getCode());
+        keywords.add(searchICD10);
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/icd10dialog", options, params);
     }
@@ -210,6 +212,7 @@ public class ReimburseGroupItemController {
         TMTDrug tmt = (TMTDrug) event.getObject();
         if (tmt != null) {
             tmtDrug = tmt;
+            searchTmt = tmtDrug.getTmtId();
         }
         log.info("selected drug from search dialog is => {}", tmtDrug.getTmtId());
     }
@@ -218,6 +221,7 @@ public class ReimburseGroupItemController {
         ICD10 icd = (ICD10) event.getObject();
         if (icd != null) {
             icd10 = icd;
+            searchICD10 = icd10.getCode();
         }
         log.info("selected icd10 from search dialog is => {}", icd10.getCode());
     }
@@ -417,6 +421,22 @@ public class ReimburseGroupItemController {
 
     public void setSpecialProject(boolean specialProject) {
         this.specialProject = specialProject;
+    }
+
+    public String getSearchTmt() {
+        return searchTmt;
+    }
+
+    public void setSearchTmt(String searchTmt) {
+        this.searchTmt = searchTmt;
+    }
+
+    public String getSearchICD10() {
+        return searchICD10;
+    }
+
+    public void setSearchICD10(String searchICD10) {
+        this.searchICD10 = searchICD10;
     }
 
 }

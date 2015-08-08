@@ -69,7 +69,7 @@
                     overflow-y: scroll;
                     max-height: 300px;
                     max-width: 600px;
-                    min-width: 200px;
+                    min-width: 500px;
                 }
             </style>
 
@@ -86,22 +86,26 @@
                         <p:column style="font-size: 20px;background-color: #F0F0F0;text-align: center;border-radius: 5px;" colspan="2">
                             <h:outputText value="เพิ่ม item"/>
                         </p:column>
+                        <p:column></p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right; width: 100px;">
-                            <h:outputText value="TMTID : "/>
+                            <h:outputText value="TMT : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="tmtid" value="#{reimburseGroupItemController.tmtDrug.tmtId}" styleClass="input">
+                            <p:inputText id="tmtid" value="#{reimburseGroupItemController.searchTmt}" styleClass="input">
                             </p:inputText>
                             <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchTMTDrugDialog}" update="@form">
                                 <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onTmtDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
+                        <p:column>
+                            <h:outputText value=" #{reimburseGroupItemController.tmtDrug.fsn}"/>
+                        </p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="FUND_CODE: "/>
+                            <h:outputText value="กองทุน : "/>
                         </p:column>
                         <p:column>
                             <p:autoComplete id="fund" 
@@ -122,17 +126,21 @@
                                 </p:column>
                             </p:autoComplete>
                         </p:column>
+                        <p:column></p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="ICD10_CODE : "/>
+                            <h:outputText value="รหัสโรค : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="icd10" value="#{reimburseGroupItemController.icd10.code}" styleClass="input">
+                            <p:inputText id="icd10" value="#{reimburseGroupItemController.searchICD10}" styleClass="input">
                             </p:inputText>
                             <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimburseGroupItemController.onSearchIcd10Dialog}" update="@form">
                                 <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onIcdDialogReturn}" update="@form" />
                             </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value=" #{reimburseGroupItemController.icd10.name}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -145,14 +153,14 @@
                             </p:selectOneRadio>
                             <span style="clear: both;"/>
                         </p:column>
-
+                        <p:column></p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="group : "/>
+                            <h:outputText value="reimburse group : "/>
                         </p:column>
                         <p:column>
-                            <p:autoComplete id="g" 
+                            <p:autoComplete id="group" 
                                             value="#{reimburseGroupItemController.reimburseGroup}" 
                                             completeMethod="#{reimburseGroupItemController.completeReimburseGroup}"
                                             var="group" 
@@ -170,6 +178,7 @@
                                 </p:column>
                             </p:autoComplete>
                         </p:column>
+                        <p:column></p:column>
                     </p:row>
                     <p:row rendered="#{not reimburseGroupItemController.specialProject}">
                         <p:column style="text-align: right;">
@@ -181,6 +190,7 @@
                                                itemLabel="#{status}" itemValue="#{status}"/>
                             </p:selectOneMenu>
                         </p:column>
+                        <p:column></p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
@@ -201,6 +211,7 @@
                                 </p:column>
                             </p:autoComplete>
                         </p:column>
+                        <p:column></p:column>
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
@@ -208,6 +219,7 @@
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
                         </p:column>
+                        <p:column></p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>           
@@ -241,7 +253,7 @@
 
                 <f:facet name="header">
                     <div style="text-align: center;">
-                        <h:outputText value="รายชื่อกองทุนทั้งหมดในระบบ"/>
+                        <h:outputText value="รายการ Reimburse Group Item"/>
                     </div>
                 </f:facet>
                 <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">

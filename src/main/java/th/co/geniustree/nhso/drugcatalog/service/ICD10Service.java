@@ -19,5 +19,5 @@ public interface ICD10Service {
 
     public ICD10 findByCode(String code);
     
-    public Page<ICD10> findByCodeContains(String code,Pageable pageable);
+    public Page<ICD10> search(String code,Pageable pageable);
 }

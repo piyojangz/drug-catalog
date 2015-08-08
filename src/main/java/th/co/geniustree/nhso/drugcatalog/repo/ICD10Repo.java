@@ -18,7 +18,7 @@ import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
  */
 public interface ICD10Repo extends JpaRepository<ICD10, String> , JpaSpecificationExecutor<ICD10>{
     
-    public Page<ICD10> findByCodeContains(String search,Pageable pageable);
+    public Page<ICD10> findByCodeContainsOrNameContains(String search,Pageable pageable);
     
     public List<ICD10> findByCodeContains(String searchId);
 }
