@@ -32,4 +32,6 @@ public interface TMTEdNedService {
     public Page<TMTEdNed> findBySpec(Specification<TMTEdNed> spec, Pageable pageable);
     
     public void delete(TMTEdNed edNed);
+    
+    public TMTEdNed edit(TMTEdNed edNed);
 }

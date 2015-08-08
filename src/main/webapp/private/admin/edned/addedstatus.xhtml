@@ -48,8 +48,9 @@
                     border-bottom: 2px solid #7F7E7E;
                 }
             </style>
+            <p:growl id="growl" showDetail="true"/>
+
             <h:form id="form">
-                <p:growl id="growl" showDetail="true"/>
                 <div style="text-align: center;font-size: 22px;background-color: #ddd;border-radius: 5px;margin-bottom: 10px;">
                     <h:outputText value="ED / NED"/>
                 </div>
@@ -128,7 +129,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form , growl , :tableForm" actionListener="#{edNedController.onSave}"/>
+                            <p:commandButton value="เพิ่ม" update="@form , :growl , :tableForm" actionListener="#{edNedController.onSave}"/>
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset"/>
                         </p:column>
@@ -160,13 +161,14 @@
                              rowIndexVar="rowIndex"
                              paginator="true" 
                              rows="20" 
+                             style="min-width: 700px;"
                              lazy="true" 
                              rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
                     <f:facet name="header">
                         <div style="text-align: center;">
-                            <h:outputText value="ข้อมูลยาและสถานะ ed (essential drug)"/>
+                            <h:outputText value="ข้อมูลยา ED / NED"/>
                         </div>
                     </f:facet>
                     <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
@@ -175,37 +177,157 @@
                     <p:column headerText="TMTID" style="width: 100px;text-align: center;">
                         <h:outputText value="#{model.tmtDrug.tmtId}"/>
                     </p:column>
-                    <p:column headerText="กองทุน" style="width: 300px;">
+                    <p:column headerText="กองทุน" style="width: 150px;">
                         <h:outputText value="#{model.fund.code} -> #{model.fund.name}"/>
                     </p:column>
-                    <p:column headerText="BUDGET_YEAR" style="width: 300px;">
+                    <p:column headerText="ปีงบประมาณ" style="width: 100px;">
                         <h:outputText value="#{model.dateIn}">
                             <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="สถานะ ED" style="width: 300px;">
+                    <p:column headerText="ED / NED" style="width: 100px;">
                         <h:outputText value="#{model.statusEd}"/>
                     </p:column>
-                    <p:column headerText="แก้ไขรายการยา" style="width: 50px;">
-                        <p:commandLink value="แก้ไข" style="color: blue;" action="#{edNedController.onEdit()}"/>
+                    <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
+                        <p:commandLink value="แก้ไข" 
+                                       style="color: blue;" 
+                                       action="#{edNedController.onSelect(model)}" 
+                                       onclick="PF('editDialogWidget').show()"
+                                       update="@form , :editDialogForm"/>
                     </p:column>
-                    <p:column headerText="ลบรายการยา" style="width: 50px;">
-                        <p:commandLink value="ลบ" style="color: blue;" action="#{edNedController.delete(model)}"  global="true" update="@form">
-                            <p:confirm header="ยืนยันการ ลบ" 
-                                       icon="ui-icon-alert"
-                                       message="ต้องการลบรายการ ed นี้หรือไม่"/>
-                        </p:commandLink>
+                    <p:column headerText="ลบ" style="width: 50px;text-align: center;">
+                        <p:commandLink value="ลบ" 
+                                       style="color: blue;" 
+                                       action="#{edNedController.onSelect(model)}" 
+                                       update="@form ,:deleteDialogForm"
+                                       onclick="PF('deleteDialogWidget').show()"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
 
-            <h:form id="confirmDialogForm">
-                <p:confirmDialog global="true" showEffect="fade">
-                    <p:commandButton value="ใช่" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="ไม่ใช่" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-            </h:form>
 
+            <p:dialog id="editDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      widgetVar="editDialogWidget"
+                      header="แก้ไขข้อมูล">
+                <h:form id="editDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{edNedController.selectedEdNed.tmtId}" style="width: 200px;" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="กองทุน : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{edNedController.selectedEdNed.classifier}" style="width: 200px;" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ปีงบประมาณ : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ED / NED : "/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{edNedController.selectedEdNed.statusEd}">
+                                    <f:selectItems value="#{edNedController.edStatusList}" var="status"
+                                                   itemLabel="#{status}" itemValue="#{status}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="แก้ไข" 
+                                                 update="@form , :growl , :tableForm" 
+                                                 actionListener="#{edNedController.edit()}" 
+                                                 onsuccess="PF('editDialogWidget').hide()"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
+
+            <p:dialog id="deleteDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      widgetVar="deleteDialogWidget"
+                      header="ยืนยันการลบข้อมูล">
+                <h:form id="deleteDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column style="width: 200px;">
+                                <h:outputText value="#{edNedController.selectedEdNed.tmtId}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="กองทุน : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{edNedController.selectedEdNed.classifier}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ปีงบประมาณ : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ED / NED : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{edNedController.selectedEdNed.statusEd}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="ใช่" 
+                                                 actionListener="#{edNedController.delete()}" 
+                                                 styleClass="ui-confirmdialog-yes" 
+                                                 icon="ui-icon-check" 
+                                                 oncomplete="PF('deleteDialogWidget').hide()"
+                                                 update="@form , :growl , :tableForm"  />
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ไม่ใช่" 
+                                                 styleClass="ui-confirmdialog-no" 
+                                                 icon="ui-icon-close" 
+                                                 onclick="PF('deleteDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

@@ -76,17 +76,26 @@ public class EdNedController {
         fund = new Fund();
     }
 
-    public void delete(TMTEdNed edNed) {
+    public void delete() {
         try {
-            tmtEdNedService.delete(edNed);
+            tmtEdNedService.delete(selectedEdNed);
             FacesMessageUtils.info("ลบรายการยา สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถลบรายการยาได้");
         }
     }
 
-    public void onEdit() {
-        //ดูจาก druggroup 
+    public void edit() {
+        try {
+            tmtEdNedService.edit(selectedEdNed);
+            FacesMessageUtils.info("แก้ไขรายการยา สำเร็จ");
+        } catch (Exception e) {
+            FacesMessageUtils.error("ไม่สามารถแก้ไขรายการยาได้");
+        }
+    }
+
+    public void onSelect(TMTEdNed e) {
+        selectedEdNed = e;
     }
 
     private void initialBudgetYear() {

@@ -76,6 +76,11 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
     public void delete(TMTEdNed edNed) {
         tmtEdNedRepo.delete(edNed);
     }
+
+    @Override
+    public TMTEdNed edit(TMTEdNed edNed) {
+        return tmtEdNedRepo.save(edNed);
+    }
     
     
 
