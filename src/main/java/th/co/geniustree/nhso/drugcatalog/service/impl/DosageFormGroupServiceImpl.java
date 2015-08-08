@@ -88,4 +88,10 @@ public class DosageFormGroupServiceImpl implements DosageFormGroupService {
         return dosageFormGroupRepo.findAll(spec, pageable);
     }
 
+    @Override
+    public DosageFormGroup findById(String id) {
+        return dosageFormGroupRepo.findOne(id);
+    }
+
+    
 }

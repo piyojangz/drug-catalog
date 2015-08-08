@@ -100,7 +100,7 @@
                                 <p:ajax event="dialogReturn" listener="#{reimburseGroupItemController.onTmtDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
-                        <p:column>
+                        <p:column style="max-width: 200px;">
                             <h:outputText value=" #{reimburseGroupItemController.tmtDrug.fsn}"/>
                         </p:column>
                     </p:row>
@@ -145,14 +145,15 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column colspan="2">
-                            <h:outputText value="ลงทะเบียนโครงการพิเศษหรือไม่ : " style="float: left;"/>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="โครงการพิเศษ : "/>
+                        </p:column>
+                        <p:column>
                             <p:selectOneRadio value="#{reimburseGroupItemController.specialProject}" >
                                 <f:selectItem itemLabel="ใช่" itemValue="true"/>
                                 <f:selectItem itemLabel="ไม่ใช่" itemValue="false"/>
                                 <p:ajax event="change" update="@form"/>
                             </p:selectOneRadio>
-                            <span style="clear: both;"/>
                         </p:column>
                         <p:column></p:column>
                     </p:row>

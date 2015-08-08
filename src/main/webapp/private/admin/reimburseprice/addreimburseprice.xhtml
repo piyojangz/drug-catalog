@@ -139,7 +139,11 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>           
+            
+            
             <p:spacer height="20"/>
+            
+            
             <h:form id="searchform">
                 <p:panelGrid>
                     <p:row>
@@ -155,13 +159,17 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
+            
+            
             <p:spacer height="20"/>
+            
+            
             <h:form id="tableForm">
                 <p:dataTable id="table"
                              value="#{reimbursePriceController.reimbursePrices}"
                              var="item"
                              rowIndexVar="rowIndex"
-                             style="width: 100%;overflow-x: scroll;"
+                             style="min-width: 500px;overflow-x: scroll;"
                              paginator="true" 
                              rows="20" 
                              lazy="true" 
@@ -286,7 +294,7 @@
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column style="text-align: right;width: 200px;">
+                            <p:column style="text-align: right;width: 100px;">
                                 <h:outputText value="ปีงบประมาณ : "/>
                             </p:column>
                             <p:column>
