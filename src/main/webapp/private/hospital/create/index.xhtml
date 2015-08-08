@@ -29,7 +29,7 @@
                         </p:column>
                         <p:column>
                             <p:selectOneButton id="UPDATEFLAG" value="#{createHospitalDrug.updateFlag}" rendered="#{createHospitalDrug.editMode}"  required="true" requiredMessage="กรุณาระบุสิ่งที่ต้องการแก้ไข">
-                                <p:ajax process="UPDATEFLAG" update="@form"/>
+                                <p:ajax process="UPDATEFLAG" update="@form" listener="#{createHospitalDrug.saveOldEditUnitPrice()}"/>
                                 <f:selectItem itemLabel="แก้ไขราคายา" itemValue="U" />
                                 <f:selectItem itemLabel="แก้ไข ED และอื่นๆ" itemValue="E" />
                                 <f:selectItem itemLabel="ลบ (UPDATEFLAG 'D')" itemValue="D" />
@@ -241,8 +241,14 @@
                             <h:outputLabel  style="color:red">*</h:outputLabel>DATEEFFECTIVE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATEEFFECTIVE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceOrEdExist}">
+                            <p:calendar id="DATEEFFECTIVE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceOrEdExist}"
+                                        showOn="button">
                             </p:calendar>
+                            <p:spacer width="10"/>
+                            <h:outputText value="date เดิม : " rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}"/>
+                            <h:outputText value="#{createHospitalDrug.oldDateEffective}" rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}">
+                                <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
+                            </h:outputText>
                         </p:column>
                         <p:column>
                             <p:message for="DATEEFFECTIVE"/>
