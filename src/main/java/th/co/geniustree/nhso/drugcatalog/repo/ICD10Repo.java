@@ -21,4 +21,5 @@ public interface ICD10Repo extends JpaRepository<ICD10, String> , JpaSpecificati
     public Page<ICD10> findByCodeContainsOrNameContains(String search,Pageable pageable);
     
     public List<ICD10> findByCodeContains(String searchId);
+    
 }
