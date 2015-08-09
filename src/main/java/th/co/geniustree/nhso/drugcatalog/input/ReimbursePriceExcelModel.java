@@ -21,10 +21,10 @@ public class ReimbursePriceExcelModel implements Serializable{
     private String tmtid;
     
     @XlsColumn(columnNames = "EFFECTIVE_DATE")
-    private Date effectiveDate;
+    private String effectiveDate;
     
     @XlsColumn(columnNames = "PRICE")
-    private BigDecimal price;
+    private String price;
 
     public String getTmtid() {
         return tmtid;
@@ -34,19 +34,19 @@ public class ReimbursePriceExcelModel implements Serializable{
         this.tmtid = tmtid;
     }
 
-    public Date getEffectiveDate() {
+    public String getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(Date effectiveDate) {
+    public void setEffectiveDate(String effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(String price) {
         this.price = price;
     }
     

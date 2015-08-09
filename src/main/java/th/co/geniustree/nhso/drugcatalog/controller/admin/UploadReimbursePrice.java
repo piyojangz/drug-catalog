@@ -10,7 +10,11 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -28,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ReimbursePriceExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
@@ -140,9 +145,10 @@ public class UploadReimbursePrice implements Serializable{
                     ReimbursePrice rp = new ReimbursePrice();
                     ReimbursePricePK pk = new ReimbursePricePK();
                     pk.setTmtId(bean.getTmtid());
-                    pk.setEffectiveDate(bean.getEffectiveDate());
+                    Date effectiveDate = DateUtils.parseUSDate("dd/mm/yyyy", bean.getEffectiveDate());
+                    pk.setEffectiveDate(effectiveDate);
                     rp.setId(pk);
-                    rp.setPrice(bean.getPrice());
+                    rp.setPrice(new BigDecimal(bean.getPrice()));
                     reimbursePrices.add(rp);
 //                    passModels.add(bean);
                     LOG.debug("tmtid : {} \t\t\t effective_date : {}",bean.getTmtid(),bean.getEffectiveDate());
@@ -185,8 +191,8 @@ public class UploadReimbursePrice implements Serializable{
 
     public void save() {
         reimbursePriceService.saveAll(reimbursePrices);
-//        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
-//        reset();
+        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        reset();
     }
 
     public void reset() {

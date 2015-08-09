@@ -102,7 +102,7 @@
                 <p:blockUI block="form" widgetVar="allblock" >
                     Please wait...
                 </p:blockUI>
-                <p:commandButton ajax="false" value="Save" action="#{uploadReimbursePrice.save()}" disabled="#{empty uploadReimbursePrice.passModels or uploadReimbursePrice.duplicateFile}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
+                <p:commandButton ajax="false" value="Save" action="#{uploadReimbursePrice.save()}" disabled="#{empty uploadReimbursePrice.reimbursePrices}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
                 <p:commandButton ajax="false" value="Cancle" action="#{uploadReimbursePrice.reset()}" disabled="#{empty uploadReimbursePrice.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
