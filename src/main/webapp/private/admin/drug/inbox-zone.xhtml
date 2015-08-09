@@ -83,7 +83,6 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="zone" value="#{summaryInbox.selectedZone}" style="width: 400px;" >
-                                <f:selectItem itemLabel="-" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="เลือกทุกเขต" itemValue="#{summaryInbox.selectAllZone}"/>
                                 <f:selectItems value="#{summaryInbox.zones}" var="zone"
                                                itemLabel="#{zone.fullName}" 
@@ -148,7 +147,7 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <p:column headerText="วันที่ส่งข้อมูล Drug Catalogue" width="200">
                         <h:outputText value="#{hospital.requestDate}">
-                            <f:convertDateTime pattern="d  MMM  yyyy HH:mm:ss"/>
+                            <f:convertDateTime pattern="d MMM yyyy HH:mm:ss"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="โรงพยาบาล" width="300">

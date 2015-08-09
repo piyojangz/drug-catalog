@@ -21,7 +21,6 @@ import th.co.geniustree.nhso.basicmodel.readonly.Province;
 import th.co.geniustree.nhso.basicmodel.readonly.Zone;
 import th.co.geniustree.nhso.basicmodel.repository.ZoneRepository;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ProvinceService;
 import th.co.geniustree.nhso.drugcatalog.service.SummaryRequestService;
 
@@ -73,6 +72,7 @@ public class SummaryInbox {
         deletedZone.setNhsoZone("15");
         zones.remove(deletedZone);
         selectedZone = "";
+        provinces = provinceService.findBySelectedZone(selectAllZone, new Sort("name"));
     }
 
     public void onSelectZone() {
