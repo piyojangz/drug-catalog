@@ -69,5 +69,12 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService{
                 .or(ReimbursePriceSpecs.fsnLike(keyList));
         return reimbursePriceRepo.findAll(spec, pageable);
     }
+
+    @Override
+    public void saveAll(List<ReimbursePrice> reimbursePrices) {
+        reimbursePriceRepo.save(reimbursePrices);
+    }
+    
+    
     
 }

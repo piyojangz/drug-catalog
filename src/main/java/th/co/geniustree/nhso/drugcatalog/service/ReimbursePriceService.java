@@ -27,4 +27,6 @@ public interface ReimbursePriceService {
     public Page<ReimbursePrice> findAllPaging(Pageable pageable);
     
     public Page<ReimbursePrice> search(String keyword, Pageable pageable);
+    
+    public void saveAll(List<ReimbursePrice> reimbursePrices);
 }
