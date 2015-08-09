@@ -26,6 +26,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateRange;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
+import th.co.geniustree.nhso.drugcatalog.input.validator.HasFlagABeforeEDU;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
 import th.co.geniustree.nhso.drugcatalog.input.validator.StartWith;
 import th.co.geniustree.nhso.drugcatalog.input.validator.ValueSet;
@@ -35,6 +36,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
  *
  * @author moth
  */
+@HasFlagABeforeEDU(groups = {UGroup.class,EDGroup.class})
 public class HospitalDrugExcelModel implements Serializable {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugExcelModel.class);

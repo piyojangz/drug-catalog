@@ -41,7 +41,6 @@ import th.co.geniustree.nhso.drugcatalog.input.UGroup;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugErrorItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
@@ -82,8 +81,6 @@ public class UploadMappedDrug implements Serializable {
     private TMTDrugRepo tmtDrugRepo;
     private File uploadDir;
     private File targetFile;
-    @Autowired
-    private HospitalDrugRepo hospitalDrugRepo;
     private String hcodeFromFile;
 
     @PostConstruct
@@ -217,13 +214,14 @@ public class UploadMappedDrug implements Serializable {
         }
 
         try (InputStream inputFileStream = file.getInputstream()) {
+            final List<HospitalDrugExcelModel> allRowModels = new ArrayList<>();
             originalFileName = file.getFileName();
             saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
             targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
             shaHex = DigestUtils.shaHex(targetFile);
-            duplicateFile = uploadHospitalDrugRepo.countByShaHexAndHcode(shaHex,hcodeFromFile) > 0;
+            duplicateFile = uploadHospitalDrugRepo.countByShaHexAndHcode(shaHex, hcodeFromFile) > 0;
             ReaderUtils.read(targetFile, HospitalDrugExcelModel.class, new ReadCallback<HospitalDrugExcelModel>() {
                 @Override
                 public void header(List<String> headers) {
@@ -235,29 +233,7 @@ public class UploadMappedDrug implements Serializable {
                     bean.setRowNum(rowNum + 1);
                     bean.setHcode(hcodeFromFile);
                     bean.postProcessing();
-                    Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
-                    if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
-                        violations.addAll(beanValidator.validate(bean, UGroup.class));
-                    } else if ("E".equalsIgnoreCase(bean.getUpdateFlag()) || "D".equalsIgnoreCase(bean.getUpdateFlag())) {
-                        violations.addAll(beanValidator.validate(bean, EDGroup.class));
-                    } else if ("A".equalsIgnoreCase(bean.getUpdateFlag())) {
-                        violations.addAll(beanValidator.validate(bean, AGroup.class));
-                    }
-                    violations.addAll(beanValidator.validate(bean, Lastgroup.class));
-
-                    if (violations.isEmpty()) {
-                        checkDuplicateInCurrentFile(bean);
-                        checkTmt(bean);
-                        duplicateCheckFacade.checkDuplicateInDatabase(bean);
-                        if (bean.getErrorMap().isEmpty()) {
-                            models.add(bean);
-                        } else {
-                            notPassModels.add(bean);
-                        }
-                    } else {
-                        bean.addErrors(violations);
-                        notPassModels.add(bean);
-                    }
+                    allRowModels.add(bean);
                 }
 
                 @Override
@@ -269,6 +245,7 @@ public class UploadMappedDrug implements Serializable {
                 }
 
             });
+            processValidate(allRowModels, models, notPassModels);
         } catch (ColumnNotFoundException columnNotFound) {
             reset();
             FacesMessageUtils.error("ไม่พบ column => " + Joiner.on(",").join(columnNotFound.getColumnNames()));
@@ -300,7 +277,34 @@ public class UploadMappedDrug implements Serializable {
         long count = tmtDrugRepo.countByTmtId(bean.getTmtId());
         if (count == 0) {
             bean.addError("tmtId", "ไม่พบ TMTID ตามรหัสยามาตรฐาน TMT");
-            return;
+        }
+    }
+
+    private void processValidate(List<HospitalDrugExcelModel> allRowModels, List<HospitalDrugExcelModel> models, List<HospitalDrugExcelModel> notPassModels) {
+        for (HospitalDrugExcelModel bean : allRowModels) {
+            Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
+            if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
+                violations.addAll(beanValidator.validate(bean, UGroup.class));
+            } else if ("E".equalsIgnoreCase(bean.getUpdateFlag()) || "D".equalsIgnoreCase(bean.getUpdateFlag())) {
+                violations.addAll(beanValidator.validate(bean, EDGroup.class));
+            } else if ("A".equalsIgnoreCase(bean.getUpdateFlag())) {
+                violations.addAll(beanValidator.validate(bean, AGroup.class));
+            }
+            violations.addAll(beanValidator.validate(bean, Lastgroup.class));
+
+            if (violations.isEmpty()) {
+                checkDuplicateInCurrentFile(bean);
+                checkTmt(bean);
+                duplicateCheckFacade.checkDuplicateInDatabase(bean);
+                if (bean.getErrorMap().isEmpty()) {
+                    models.add(bean);
+                } else {
+                    notPassModels.add(bean);
+                }
+            } else {
+                bean.addErrors(violations);
+                notPassModels.add(bean);
+            }
         }
     }
 
