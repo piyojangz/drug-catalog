@@ -125,7 +125,7 @@
             <h:form id="searchForm">
                 <p:panelGrid rendered="#{not empty adminInbox.requestItemHolders}" style="min-width: 600px;overflow-x: hidden;margin-bottom: 5px;margin-top: 5px;">
                     <p:row>
-                        <p:column style="text-align: right;width: 70px;" styleClass="advancePanel">
+                        <p:column style="text-align: right;width: 90px;" styleClass="advancePanel">
                             <p:outputLabel value="filter by : "/>
                         </p:column>
                         <p:column styleClass="advancePanel">
@@ -140,7 +140,7 @@
                         </p:column>
                     </p:row>
                     <p:row rendered="#{not empty adminInbox.requestItemHolders}">
-                        <p:column style="text-align: right;">
+                        <p:column style="text-align: right;width: 90px;">
                             <p:outputLabel value="keyword : " for="keyword"/>
                         </p:column>
                         <p:column colspan="2">

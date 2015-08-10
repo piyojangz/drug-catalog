@@ -110,10 +110,11 @@
             <h:form id="searchForm">
                 <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
                     <p:row>
-                        <p:column style="text-align: left;width: 80px;" styleClass="advancePanel">
-                            <p:outputLabel value="filter by:"/>
+                        <p:column style="text-align: right;width: 90px;" styleClass="advancePanel">
+                            <p:outputLabel value="filter by : "/>
                         </p:column>
                         <p:column styleClass="advancePanel">
+                            <p:outputLabel value="(คลิกเลือกเพื่อค้นหาตามคอลัมน์ที่กำหนด)" style="color: rgb(59, 156, 157);"/><br/>
                             <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
                                 <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
                                 <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
@@ -121,13 +122,10 @@
                                 <f:selectItem itemLabel="DOSAGEFORM" itemValue="DOSAGEFORM"/>
                             </p:selectManyCheckbox>
                         </p:column>
-                        <p:column styleClass="advancePanel">
-                            <p:outputLabel value="(คลิกเลือกเพื่อค้นหาตามคอลัมน์ที่กำหนด)" style="color: rgb(59, 156, 157);"/>
-                        </p:column>
                     </p:row>
                     <p:row>
-                        <p:column style="text-align: left;width: 80px;">
-                            <p:outputLabel value="keyword:" for="keyword"/>
+                        <p:column style="text-align: right;width: 90px;">
+                            <p:outputLabel value="keyword : " for="keyword"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
