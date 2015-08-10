@@ -92,6 +92,13 @@ public class SummaryInbox {
             }
         };
     }
+    
+    public void reset(){
+        summary = null;
+        selectedZone = "";
+        provinces = provinceService.findBySelectedZone(selectAllZone, new Sort("name"));
+        selectedProvince = "";
+    }
 
     public List<Province> completeProvince(String query) {
         if (provinces == null || provinces.isEmpty()) {

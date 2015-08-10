@@ -13,7 +13,16 @@
                     padding: 4px 2px;
                     border: none;
                 }
+                .textWrap{
+                    word-wrap: break-word;
+                    display: block;
+                    width: 35ch;
+                    white-space: pre-line;
+                }
             </style>
+            <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
+                <h:outputText value="อนุมัติรายการยากรณี จัดกลุ่มตาม TMTID"/>
+            </div>
             <h:form >
                 <p:panelGrid >
                     <p:row>
@@ -29,6 +38,7 @@
                     </p:row>
                 </p:panelGrid>
                 <p:dataTable id="table" resizableColumns="true"  value="#{inboxByTmt.tmtDrug}" var="model"  rowIndexVar="rowIndex"
+                             style="min-width: 650px;"
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
@@ -37,25 +47,25 @@
                             <p:dataExporter type="xls" target="table" fileName="inbox" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
-                                         style="float:right" icon="ui-icon-calculator" />
+                                         style="float:right;" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
-                    <p:column   headerText="" style="width:50px;text-align:center">
+                    <p:column   headerText="" style="width:70px;text-align:center">
                         <h:link outcome="approve-by-tmt" value="Approve" style="color:blue">
                             <f:param name="tmtId" value="#{model.tmtId}"/>
                         </h:link>
                     </p:column>
-                    <p:column headerText="TMTID" width="100">
+                    <p:column headerText="TMTID" width="80" style="text-align: center;">
                         <h:outputText value="#{model.tmtId}" />
                     </p:column>
-                    <p:column headerText="FSN" width="200">
-                        <h:outputText value="#{model.fsn}"/>
+                    <p:column headerText="FSN" style="width: 40ch;">
+                        <h:outputText value="#{model.fsn}" styleClass="textWrap"/>
                     </p:column>
-                    <p:column headerText="TradeName" width="200">
-                        <h:outputText value="#{model.tradeName}"/>
+                    <p:column headerText="TradeName" style="width: 40ch;">
+                        <h:outputText value="#{model.tradeName}" styleClass="textWrap"/>
                     </p:column>
-                    <p:column headerText="MANUFACTURER" width="200">
-                        <h:outputText value="#{model.manufacturer}"/>
+                    <p:column headerText="MANUFACTURER" style="width: 40ch;">
+                        <h:outputText value="#{model.manufacturer}" styleClass="textWrap"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
