@@ -46,25 +46,24 @@ public class UploadDosageFormGroup {
     @Autowired
     @Qualifier("app")
     private Properties app;
-    
+
     @Autowired
     private Validator beanValidator;
-    
+
     @Autowired
     private DosageFormGroupService dosageFormGroupService;
-    
+
     private UploadedFile file;
     private List<DosageFormGroup> notPassModels = new ArrayList<>();
     private List<DosageFormGroup> passModels = new ArrayList<>();
     private List<DosageFormGroup> dosageFormGroups = new ArrayList<>();
     private boolean duplicateFile = false;
     private String originalFileName;
-    
+
     private File uploadtempFileDir;
     private String saveFileName;
     private File targetFile;
-    
-    
+
     private StreamedContent templateFile;
 
     @PostConstruct
@@ -133,8 +132,18 @@ public class UploadDosageFormGroup {
                 @Override
                 public void ok(int rowNum, DosageFormGroup bean) {
                     bean.setCreateDate(new Date());
+                    if (bean.getIdGroup().matches("[a-z][a-z0-9]*")) {
+                        DosageFormGroup group = dosageFormGroupService.findById(bean.getIdGroup());
+                        if (group != null) {
+                            passModels.add(bean);
+                        } else {
+                            notPassModels.add(bean);
+                        }
+                    } else {
+                        notPassModels.add(bean);
+                    }
                     dosageFormGroups.add(bean);
-                    LOG.debug("id : {} \t\t\t desc : {}",bean.getIdGroup(),bean.getDescription());
+                    LOG.debug("id : {} \t\t\t desc : {}", bean.getIdGroup(), bean.getDescription());
                 }
 
                 @Override
@@ -153,7 +162,6 @@ public class UploadDosageFormGroup {
             FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
-        save();
     }
 
     public boolean isDuplicateFile() {
@@ -173,9 +181,9 @@ public class UploadDosageFormGroup {
     }
 
     public void save() {
-        dosageFormGroupService.saveAll(dosageFormGroups);
-//        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
-//        reset();
+        dosageFormGroupService.saveAll(passModels);
+        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        reset();
     }
 
     public void reset() {
