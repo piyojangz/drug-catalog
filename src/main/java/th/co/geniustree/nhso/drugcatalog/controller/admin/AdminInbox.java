@@ -297,6 +297,8 @@ public class AdminInbox implements Serializable {
                     public Page<RequestItem> load(Pageable pageAble) {
                         Page<RequestItem> result = requestItemService.findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status.REQUEST, selectedHospital.getHcode(), pageAble);
                         setApproveSelected(result);
+                        totalElements = result.getTotalElements();
+                        displayElement = result.getSize();
                         return result;
                     }
                 };
@@ -388,6 +390,8 @@ public class AdminInbox implements Serializable {
 
                     Page<RequestItem> items = requestItemRepo.findAll(spec, pageAble);
                     setApproveSelected(items);
+                    totalElements = items.getTotalElements();
+                    displayElement = items.getSize();
                     return items;
                 }
             };
