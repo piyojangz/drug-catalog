@@ -8,7 +8,9 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-
+            <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
+                <h:outputText value="Upload รายการ Dosage Form Group"/>
+            </div>
             <h:form>
                 <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า Dosage Form Group" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
                     <p:fileDownload value="#{uploadDosageFormGroup.templateFile}" />
@@ -38,42 +40,42 @@
                                style="color:red;font-weight: bold"/>
                 <br/>
 
-                    <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadDosageFormGroup.notPassModels}">
+                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadDosageFormGroup.notPassModels}">
 
-                        <f:facet name="header">
-                            <h:outputText value="จำนวนข้อมูลที่" />
-                            <h:outputText value="ไม่ผ่าน" style="color:red"/>
-                            <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
-                            <h:outputText value="#{uploadDosageFormGroup.notPassModels.size()} " style="color:red"/>
-                            <h:outputText value="เรคคอร์ด"/>
-                        </f:facet>
+                    <f:facet name="header">
+                        <h:outputText value="จำนวนข้อมูลที่" />
+                        <h:outputText value="ไม่ผ่าน" style="color:red"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
+                        <h:outputText value="#{uploadDosageFormGroup.notPassModels.size()} " style="color:red"/>
+                        <h:outputText value="เรคคอร์ด"/>
+                    </f:facet>
 
-                        <h:panelGrid columns="1" cellpadding="5">
-                            <p:dataTable id="errorTable" 
-                                         resizableColumns="true"  
-                                         value="#{uploadDosageFormGroup.notPassModels}" 
-                                         var="model"  
-                                         paginator="true"
-                                         rows="10"
-                                         rowsPerPageTemplate="10,20,30,40,50"
-                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:dataTable id="errorTable" 
+                                     resizableColumns="true"  
+                                     value="#{uploadDosageFormGroup.notPassModels}" 
+                                     var="model"  
+                                     paginator="true"
+                                     rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
-                                <f:facet name="header">
-                                    <h:commandLink style="float:left">
-                                        <p:graphicImage name="images/excel24.png" />
-                                        <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
-                                    </h:commandLink>
-                                </f:facet>
-                                <p:column headerText="DOSAGEFORM_GROUP_ID" width="80" >
-                                    <h:outputText value="#{model.idGroup}" style=""/>
-                                </p:column>
-                                <p:column headerText="DESCRIPTION" width="60" >
-                                    <h:outputText value="#{model.description}" />
-                                </p:column>
-                            </p:dataTable>
-                        </h:panelGrid>
+                            <f:facet name="header">
+                                <h:commandLink style="float:left">
+                                    <p:graphicImage name="images/excel24.png" />
+                                    <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
+                                </h:commandLink>
+                            </f:facet>
+                            <p:column headerText="DOSAGEFORM_GROUP_ID" width="80" >
+                                <h:outputText value="#{model.idGroup}" style=""/>
+                            </p:column>
+                            <p:column headerText="DESCRIPTION" width="60" >
+                                <h:outputText value="#{model.description}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
 
-                    </p:panel>
+                </p:panel>
                 <p:panel style="margin-bottom:20px" rendered="#{not empty uploadTMTEdNed.passModels}">
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />

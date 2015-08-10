@@ -77,7 +77,7 @@
                 }
                 .textWrap{
                     word-wrap: break-word;
-                    display: block;
+                    /*                    display: block;*/
                     width: 35ch;
                 }
                 .ui-outputpanel{
@@ -136,6 +136,7 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
+
             <h:form id="tableForm">
                 <h:panelGroup rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
                     <span class="label-tabledescription label-tabledescription-info">
@@ -146,6 +147,7 @@
                 </h:panelGroup>
                 <br/>
                 <br/> <br/>
+
                 <p:dataTable id="table"
                              resizableColumns="true" 
                              styleClass="clean-table config-table" 
@@ -173,7 +175,7 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) @(.updateset-#{model.id}) :tableForm:saveBtn @this" 
                                            rendered="#{model.status ne 'REQUEST'}" 
                                            value="reset" 
-                                           style="color:blue" 
+                                           style="color:blue; display: block; width: 100%;" 
                                            action="#{adminInbox.clearErrorColumns(model)}"/>
                         </p:outputPanel>
                     </p:column>
@@ -197,37 +199,34 @@
                                            action="#{adminInbox.error(model, 'TMTID')}"/>
                         </p:outputPanel>
                     </p:column>
+
                     <p:column headerText="TRADENAME" style="width: 40ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
-                            <div style="text-align: center;margin-bottom: -10px;margin-top: -10px;">
-                                <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; TradeName">
-                                    <f:param name="search" value="#{model.uploadDrugItem.tradeName}"/>
-                                    <f:param name="typeOfSearch" value="TradeName"/>
-                                </p:commandButton>
-                            </div>
-                            <p:spacer width="10"/>
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.tradeName}" 
                                            style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" 
                                            action="#{adminInbox.error(model, 'TRADENAME')}"
                                            styleClass="textWrap"/>
+                            <p:commandButton style="margin-left: 5px;" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; TradeName">
+                                <f:param name="search" value="#{model.uploadDrugItem.tradeName}"/>
+                                <f:param name="typeOfSearch" value="TradeName"/>
+                            </p:commandButton>
                         </p:outputPanel>
                     </p:column>
+
                     <p:column headerText="GENERICNAME" style="width: 40ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
-                            <div style="text-align: center;margin-bottom: -10px;margin-top: -10px;">
-                                <p:commandButton value="TMT" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; GenericName">
-                                    <f:param name="search" value="#{model.uploadDrugItem.genericName}"/>
-                                    <f:param name="typeOfSearch" value="GenericName"/>
-                                </p:commandButton>
-                            </div>
-                            <p:spacer width="10"/>
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="#{model.uploadDrugItem.genericName}" 
                                            style="#{model.errorColumns.contains('GENRICNAME')?'color:red':'color:blue'}" 
                                            action="#{adminInbox.error(model, 'GENRICNAME')}"
                                            styleClass="textWrap"/>
+                             <p:commandButton style="margin-left: 5px;" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; GenericName">
+                                    <f:param name="search" value="#{model.uploadDrugItem.genericName}"/>
+                                    <f:param name="typeOfSearch" value="GenericName"/>
+                                </p:commandButton>
                         </p:outputPanel>
                     </p:column>
+
                     <p:column headerText="STRENGTH" style="width: 20ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
