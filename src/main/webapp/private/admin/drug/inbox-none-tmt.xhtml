@@ -83,6 +83,21 @@
                 .ui-outputpanel{
                     white-space: pre-line;
                 }
+                .icon-search, .icon-search:hover{
+                    margin: 0 !important;
+                    margin-left: 5px !important;
+                    width: 16px !important;
+                    height: 16px !important;
+                    background-color: transparent !important;
+                    background-image: url('#{request.contextPath}/contracts/green/images/ic-serarch16x16.png') !important;
+                    background-repeat: no-repeat !important;
+                    font-size: 0 !important;
+                    border: 0 !important;
+                    border-radius: 0 !important;
+                }
+                .icon-search:hover{
+                    background-position-y: 0 !important;
+                }
             </style>
             <f:metadata>
                 <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
@@ -206,7 +221,7 @@
                                            style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" 
                                            action="#{adminInbox.error(model, 'TRADENAME')}"
                                            styleClass="textWrap"/>
-                            <p:commandButton style="margin-left: 5px;" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; TradeName">
+                            <p:commandButton style="margin-left: 5px;" value=""  actionListener="#{adminInbox.showCompareTmtDialog()}" styleClass="icon-search" title="TMT &lt;-&gt; TradeName">
                                 <f:param name="search" value="#{model.uploadDrugItem.tradeName}"/>
                                 <f:param name="typeOfSearch" value="TradeName"/>
                             </p:commandButton>
@@ -220,10 +235,10 @@
                                            style="#{model.errorColumns.contains('GENRICNAME')?'color:red':'color:blue'}" 
                                            action="#{adminInbox.error(model, 'GENRICNAME')}"
                                            styleClass="textWrap"/>
-                             <p:commandButton style="margin-left: 5px;" actionListener="#{adminInbox.showCompareTmtDialog()}" icon="ui-icon-search" title="TMT &lt;-&gt; GenericName">
-                                    <f:param name="search" value="#{model.uploadDrugItem.genericName}"/>
-                                    <f:param name="typeOfSearch" value="GenericName"/>
-                                </p:commandButton>
+                            <p:commandButton style="margin-left: 5px;" value="" actionListener="#{adminInbox.showCompareTmtDialog()}" styleClass="icon-search" title="TMT &lt;-&gt; GenericName">
+                                <f:param name="search" value="#{model.uploadDrugItem.genericName}"/>
+                                <f:param name="typeOfSearch" value="GenericName"/>
+                            </p:commandButton>
                         </p:outputPanel>
                     </p:column>
 
