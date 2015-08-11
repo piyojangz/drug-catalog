@@ -98,6 +98,9 @@
                 .icon-search:hover{
                     background-position-y: 0 !important;
                 }
+                .ui-layout-unit-content.ui-widget-content{
+                    overflow-x: hidden;
+                }
             </style>
             <f:metadata>
                 <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
@@ -108,7 +111,7 @@
                 <h:outputText value="อนุมัติรายการยากรณี ไม่มี TMT (รายโรงพยาบาล)"/>
             </div>
             <h:form id="form">
-                <p:panelGrid>
+                <p:panelGrid style="min-width: 680px;">
                     <p:row>
                         <p:column style="width: 75px;text-align: right;">
                             หน่วยบริการ :
@@ -125,7 +128,7 @@
             
             
             <h:form id="searchForm">
-                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
+                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}" style="min-width: 680px;">
                     <p:row>
                         <p:column style="text-align: right;width: 75px;" styleClass="advancePanel">
                             <p:outputLabel value="filter by : "/>
@@ -141,7 +144,7 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column style="text-align: right;">
+                        <p:column style="text-align: right;width: 75px;">
                             <p:outputLabel value="keyword : " for="keyword"/>
                         </p:column>
                         <p:column>
