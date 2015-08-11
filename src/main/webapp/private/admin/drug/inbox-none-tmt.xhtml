@@ -110,7 +110,7 @@
             <h:form id="form">
                 <p:panelGrid>
                     <p:row>
-                        <p:column style="width: 90px;text-align: right;">
+                        <p:column style="width: 75px;text-align: right;">
                             หน่วยบริการ :
                         </p:column>
                         <p:column>
@@ -122,10 +122,12 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
+            
+            
             <h:form id="searchForm">
                 <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
                     <p:row>
-                        <p:column style="text-align: right;width: 90px;" styleClass="advancePanel">
+                        <p:column style="text-align: right;width: 75px;" styleClass="advancePanel">
                             <p:outputLabel value="filter by : "/>
                         </p:column>
                         <p:column styleClass="advancePanel">
@@ -139,14 +141,14 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column style="text-align: right;width: 90px;">
+                        <p:column style="text-align: right;">
                             <p:outputLabel value="keyword : " for="keyword"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
                             <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="@form, :tableForm"/>
                             &nbsp;
-                            <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
+                            <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer;">Advance Search</span>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -169,7 +171,7 @@
                              var="model"  
                              rowIndexVar="rowIndex" 
                              scrollable="true" 
-                             scrollHeight="400"
+                             scrollHeight="450"
                              value="#{adminInbox.requestItemHoldersNullTMT.get(0)}"
                              rendered="#{not empty adminInbox.requestItemHoldersNullTMT}"
                              paginator="true" 
@@ -202,8 +204,8 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="TMTID" width="70">
-                        <p:outputPanel styleClass="updateset-#{model.id}">
+                    <p:column headerText="TMTID" width="85">
+                        <p:outputPanel styleClass="updateset-#{model.id}" style="text-align: center;">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="มี TMT แล้ว" 
                                            style="#{model.errorColumns.contains('TMTID')?'color:red':'display: none;'}" 

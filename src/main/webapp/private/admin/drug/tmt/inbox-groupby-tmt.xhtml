@@ -19,6 +19,11 @@
                     width: 35ch;
                     white-space: pre-line;
                 }
+
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
                 .clean-table tbody tr td{
                     border: solid 1px;
                     border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
@@ -67,13 +72,23 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:dataTable id="table" resizableColumns="true"  value="#{inboxByTmt.tmtDrug}" var="model"  rowIndexVar="rowIndex"
-                             style="min-width: 650px;" styleClass="clean-table"
-                             paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
+                <p:dataTable id="table" 
+                             resizableColumns="true"  
+                             value="#{inboxByTmt.tmtDrug}" 
+                             var="model"  
+                             rowIndexVar="rowIndex"
+                             scrollable="true"
+                             scrollHeight="600"
+                             style="min-width: 650px;"
+                             styleClass="clean-table config-table"
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         <h:commandLink style="float:left">
-                            <p:graphicImage name="images/excel24.png" /><h:outputText value="Download ไฟล์ข้อมูล รออนุมัติรายการยา จัดกลุ่มตาม TMTID"/>
+                            <p:graphicImage name="images/excel24.png" /><h:outputText value="export to excel" />
                             <p:dataExporter type="xls" target="table" fileName="inbox" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"

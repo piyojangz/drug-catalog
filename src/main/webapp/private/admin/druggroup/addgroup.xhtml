@@ -14,6 +14,41 @@
                         padding: 4px 2px;
                         border: none;
                     }
+                    
+                    .ui-datatable-scrollable-header td{
+                        background-color: rgb(255, 250, 179);
+                    }
+
+                    .clean-table tbody tr td{
+                        border: solid 1px;
+                        border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                    }
+
+                    .clean-table tbody tr:first-child td{
+                        border-top: 2px solid rgb(156, 156, 156);
+                    }
+
+                    .clean-table tbody tr{
+                        border-left: 2px rgb(162, 161, 161) solid !important;
+                        border-right: 2px rgb(162, 161, 161) solid !important;
+                    }
+
+                    .clean-table tbody{
+                        border-color: #999;
+                    }
+
+                    .clean-table{
+                        border-width: 0 0 1px 0 !important;
+                        background: none !important;
+                    }
+
+                    .clean-table + .clean-table thead{
+                        visibility: hidden;
+                    }
+
+                    .clean-table .ui-datatable-tablewrapper{
+                        border-bottom: 2px solid #7F7E7E;
+                    }
                 </style>
                 <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
                     <h:outputText value="เพิ่มรายการ Drug group"/>
@@ -49,7 +84,17 @@
                     </p:row>
                 </p:panelGrid>
                 <p:messages id="msg" showDetail="true" showSummary="true" />
-                <p:dataTable id="table" resizableColumns="false"  value="#{addDrugGroup.druggroups}" var="model"  paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
+                <p:dataTable id="table" 
+                             styleClass="clean-table"
+                             resizableColumns="true"  
+                             value="#{addDrugGroup.druggroups}"
+                             scrollable="true"
+                             scrollHeight="500"
+                             var="model"  
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowIndexVar="rowIndex">
                     <f:facet name="header">
                         Drug group
@@ -58,13 +103,13 @@
                             <p:dataExporter type="xls" target="table" fileName="druggroup" pageOnly="false"/>
                         </h:commandLink>
                     </f:facet>
-                    <p:column   headerText="#" width="60">
+                    <p:column   headerText="#" width="10">
                         <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
-                    <p:column   headerText="Group" width="100">
+                    <p:column   headerText="Group" width="50">
                         <h:outputText value="#{model.id}"/>
                     </p:column>
-                    <p:column   headerText="Description" width="100">
+                    <p:column   headerText="Description" width="150">
                         <h:outputText value="#{model.description}"/>
                     </p:column>
                     <p:column   headerText="createDate" width="100">
@@ -72,12 +117,12 @@
                             <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Edit" width="60">
+                    <p:column headerText="Edit" width="30">
                         <h:commandLink action="#{addDrugGroup.edit(model.id)}" value="Edit" style="color: blue;" >
                             <f:ajax execute="@this" render=":form:groupName :form:desc"/>
                         </h:commandLink>
                     </p:column>
-                    <p:column headerText="Delete" width="60">
+                    <p:column headerText="Delete" width="30">
                         <p:commandLink action="#{addDrugGroup.delete(model.id)}" value="Delete" partialSubmit="true" process="@this" update="@form" style="color: blue;"> 
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                         </p:commandLink>

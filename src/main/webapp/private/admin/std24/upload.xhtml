@@ -8,6 +8,9 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
+                    <h:outputText value="Upload TMT - NDC24"/>
+                </div>
             <h:form>
                 <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า TMT-NDC24 (คอลัมน์ NDC24 ต้องใส่ single quotes ใน excel เพื่อไม่ให้ excel แปลงเป็น numberic)" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
                     <p:fileDownload value="#{uploadTMTNDC24.templateFile}" />
