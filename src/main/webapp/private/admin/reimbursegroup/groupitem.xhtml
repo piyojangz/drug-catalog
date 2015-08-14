@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+                .input{
+                    width: 250px;
+                }
+                #addPanel > tbody > tr > td:nth-child(2n+1){
+                    text-align: right;
+                    width: 120px;
+                }
+
+                .ui-autocomplete-items{
+                    font-size: 16px;
+                }
+                .ui-autocomplete-panel{
+                    overflow-y: scroll;
+                    max-height: 300px;
+                    max-width: 600px;
+                    min-width: 100px;
+                }
+                .ui-selectonemenu {
+                    min-width: 200px;
+                }
+                .ui-selectonemenu-label{
+                    min-width: 177px;
+                }
+                .ui-selectonemenu-items{
+                    min-width: 168px;
+                }
+                .ui-radiobutton{
+                    margin-right: -10px;
+                }
+                .header-content{
+                    text-align: center;
+                    font-size: 22px;
+                    background-color: #3b9c9d;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    color: white;
+                    padding-top: 2px;
+                    padding-bottom: 2px;
+                }
+            </style>
+            <div class="header-content">
+                <h:outputText value="จัดกลุ่มรายการยา"/>
+            </div>
+            <p:panelGrid class="header-content">
+                <p:row>
+                    <p:column style="text-align: right; width: 120px;">
+                        <h:outputText value="ActiveIngredient : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="ciprofloxacin"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: right;">
+                        <h:outputText value="Strength : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="500 mg"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid> 
+            <p:spacer height="20"/>
+            <h:form id="addForm">
+                <p:panelGrid id="addPanel">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Fund : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectManyCheckbox id="fund">
+                                <f:selectItem itemLabel="UC" itemValue="UC"/>
+                                <f:selectItem itemLabel="LGO" itemValue="LGO"/>
+                                <f:selectItem itemLabel="CSMBS" itemValue="CSMBS"/>
+                                <f:selectItem itemLabel="SSS" itemValue="SSS"/>
+                            </p:selectManyCheckbox>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ICD10 : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete dropdown="true"
+                                            forceSelection="true"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Special Group : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete dropdown="true"
+                                            forceSelection="true">   
+                            </p:autoComplete>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Drug Group : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete dropdown="true"
+                                            forceSelection="true">   
+                            </p:autoComplete>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="ED / NED : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneRadio style="width: 200px;">
+                                <f:selectItem itemLabel="E" itemValue="E"/>
+                                <f:selectItem itemLabel="N" itemValue="N"/>
+                                <f:selectItem itemLabel="E*" itemValue="E*"/>
+                            </p:selectOneRadio>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center;">
+                            <p:commandButton value="บันทึก" onclick="PF('confirmWidgetDialog').show()"/>
+                            <p:commandButton value="ยกเลิก" type="reset" action="grouping.xhtml"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+            <p:dialog id="confirmDialog"
+                      widgetVar="confirmWidgetDialog"
+                      appendTo="@(body)"
+                      header="ยืนยันการเพิ่มข้อมูล"
+                      modal="true"
+                      height="700">
+
+                <h:form id="tableFormDialog">
+                    <p:dataTable id="tableDialog"
+                                 rowIndexVar="rowIndex"
+                                 paginator="true" 
+                                 rows="10"
+                                 style="max-height: 500px;"
+                                 class="clean-table config-table"
+                                 scrollable="true"
+                                 lazy="true" 
+                                 rowsPerPageTemplate="10,20,30,40"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                        <p:column headerText="#">
+                            #{rowIndex + 1}
+                        </p:column>
+                        <p:column headerText="TMTID">
+                            
+                        </p:column>
+                        <p:column headerText="FSN">
+                            
+                        </p:column>
+                        <p:column headerText="FUND_CODE">
+                            
+                        </p:column>
+                        <p:column headerText="ICD10">
+                            
+                        </p:column>
+                        <p:column headerText="Special Group">
+                            
+                        </p:column>
+                        <p:column headerText="Drug group">
+                            
+                        </p:column>
+                        <p:column headerText="ED / NED">
+                            
+                        </p:column>
+                        <p:column headerText="ReimbursePrice">
+                            
+                        </p:column>
+                        <p:column headerText="CREATE_DATE">
+                            
+                        </p:column>                        
+                    </p:dataTable>
+                    <p:spacer height="10"/>
+                    <div style="text-align: center;">
+                        <p:commandButton value="ยืนยัน" onsuccess="PF('confirmWidgetDialog').hide()" action="grouped.xhtml"/>
+                        <p:commandButton value="ยกเลิก" onclick="PF('confirmWidgetDialog').hide()"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>
