@@ -50,11 +50,6 @@
                 .input{
                     width: 250px;
                 }
-                #addPanel > tbody > tr > td:nth-child(2n+1){
-                    text-align: right;
-                    width: 120px;
-                }
-
                 .ui-autocomplete-items{
                     font-size: 16px;
                 }
@@ -86,6 +81,29 @@
                     padding-top: 2px;
                     padding-bottom: 2px;
                 }
+                .textWrap{
+                    word-wrap: break-word;
+                    display: block;
+                }
+                .ui-outputpanel{
+                    white-space: pre-line;
+                }
+                .label-tabledescription{
+                    display: inline;
+                    padding: .2em .6em .3em;
+                    line-height: 1;
+                    color: #fff;
+                    text-align: right;
+                    white-space: nowrap;
+                    vertical-align: baseline;
+                    border-radius: .25em;
+                    float: right;
+                    margin-right: 5px;
+                    text-align: center;
+                }
+                .label-tabledescription-info{
+                    background-color: #777;
+                }
             </style>
             <div class="header-content">
                 <h:outputText value="จัดกลุ่มรายการยา"/>
@@ -108,11 +126,10 @@
                     </p:column>
                 </p:row>
             </p:panelGrid> 
-            <p:spacer height="20"/>
             <h:form id="addForm">
                 <p:panelGrid id="addPanel">
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             <h:outputText value="Fund : "/>
                         </p:column>
                         <p:column>
@@ -125,16 +142,7 @@
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
-                            <h:outputText value="ICD10 : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete dropdown="true"
-                                            forceSelection="true"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             <h:outputText value="Special Group : "/>
                         </p:column>
                         <p:column>
@@ -144,17 +152,27 @@
                         </p:column>
                     </p:row>
                     <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="ICD10 : "/>
+                        </p:column>
                         <p:column>
+                            <p:autoComplete forceSelection="true"
+                                            multiple="true"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
                             <h:outputText value="Drug Group : "/>
                         </p:column>
                         <p:column>
-                            <p:autoComplete dropdown="true"
-                                            forceSelection="true">   
+                            <p:autoComplete forceSelection="true"
+                                            multiple="true"
+                                            emptyMessage="ไม่พบข้อมูล">   
                             </p:autoComplete>
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column>
+                        <p:column style="text-align: right;">
                             <h:outputText value="ED / NED : "/>
                         </p:column>
                         <p:column>
@@ -165,13 +183,52 @@
                             </p:selectOneRadio>
                         </p:column>
                     </p:row>
-                    <p:row>
-                        <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="บันทึก" onclick="PF('confirmWidgetDialog').show()"/>
-                            <p:commandButton value="ยกเลิก" type="reset" action="grouping.xhtml"/>
-                        </p:column>
-                    </p:row>
+
                 </p:panelGrid>
+            </h:form>
+            <h:form id="tableForm">
+                <h:panelGroup>
+                    <span class="label-tabledescription label-tabledescription-info">
+                        สามารถคลิกที่ช่อง<br/>DateIn และ ReimbursePrice<br/>เพื่อแก้ไขได้ทันที
+                    </span>
+                    <span style="clear: both;"></span>
+                </h:panelGroup>
+                <br/>
+                <br/> <br/>
+                <p:dataTable id="table" 
+                             styleClass="clean-table config-table"
+                             var="item"
+                             editingRow="true"
+                             value="#{reimburseGroupItemController.budgetYears}"
+                             rowIndexVar="rowIndex">
+                    <p:column headerText="TMTID" style="width: 50px;text-align: center;">
+                        <h:outputText value="328022"/>
+                    </p:column>
+                    <p:column headerText="FSN" style="width: 40ch;" >
+                        <h:outputText value="FLOXCIPRO 500 (สหแพทย์เภสัช) (ciprofloxacin 500 mg) film-coated tablet, 1 tablet" styleClass="textWrap"/>
+                    </p:column>
+                    <p:column headerText="DateIn" style="width: 100px;">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="1 ต.ค. 2015" /></f:facet>
+                            <f:facet name="input">
+                                <p:calendar id="calendar" navigator="true" size="10">
+                                    <p:watermark value="1 ต.ค. 2015" for="calendar"/>
+                                </p:calendar>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column headerText="Reimburse Price" style="width: 100px;">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="20" /><h:outputText value=" บาท" /></f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="inputReimbursePrice" size="5">
+                                    <p:watermark value="20 " for="inputReimbursePrice"/>
+                                </p:inputText>
+                                <h:outputText value=" บาท" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
             </h:form>
             <p:dialog id="confirmDialog"
                       widgetVar="confirmWidgetDialog"
@@ -185,8 +242,9 @@
                                  rowIndexVar="rowIndex"
                                  paginator="true" 
                                  rows="10"
-                                 style="max-height: 500px;"
-                                 class="clean-table config-table"
+                                 value="#{reimburseGroupItemController.budgetYears}"
+                                 scrollHeight="400"
+                                 class="clean-table"
                                  scrollable="true"
                                  lazy="true" 
                                  rowsPerPageTemplate="10,20,30,40"
@@ -195,40 +253,48 @@
                             #{rowIndex + 1}
                         </p:column>
                         <p:column headerText="TMTID">
-                            
+                            <h:outputText value="328022" styleClass="textWrap"/>
                         </p:column>
-                        <p:column headerText="FSN">
-                            
+                        <p:column headerText="FSN" style="width: 300px;">
+                            <h:outputText value="FLOXCIPRO 500 (สหแพทย์เภสัช) (ciprofloxacin 500 mg) film-coated tablet, 1 tablet" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="FUND_CODE">
-                            
+                            <h:outputText value="UC" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ICD10">
-                            
+                            <h:outputText value="A001" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="Special Group">
-                            
+                            <h:outputText value="CAP" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="Drug group">
-                            
+                            <h:outputText value="J2" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ED / NED">
-                            
+                             <h:outputText value="E" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ReimbursePrice">
-                            
+                             <h:outputText value="50 บาท" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="CREATE_DATE">
-                            
+                             <h:outputText value="1 ต.ค. 2558" styleClass="textWrap"/>
                         </p:column>                        
                     </p:dataTable>
-                    <p:spacer height="10"/>
+                    <p:spacer height="20"/>
                     <div style="text-align: center;">
                         <p:commandButton value="ยืนยัน" onsuccess="PF('confirmWidgetDialog').hide()" action="grouped.xhtml"/>
                         <p:commandButton value="ยกเลิก" onclick="PF('confirmWidgetDialog').hide()"/>
                     </div>
                 </h:form>
             </p:dialog>
+            <p:panelGrid>
+                <p:row>
+                    <p:column colspan="2" style="text-align: center;">
+                        <p:commandButton value="บันทึก" onclick="PF('confirmWidgetDialog').show()"/>
+                        <p:commandButton value="ยกเลิก" type="reset" action="grouping.xhtml"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
         </ui:define>
     </ui:composition>
 </html>
