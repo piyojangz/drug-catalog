@@ -66,6 +66,7 @@ public class FSNSearching {
 
     @Test
     public void searchInboxWithoutTmt() {
+        FSNSplitter splitter = new FSNSplitter();
         String activeIngredient = "ciprofloxacin";
         List<String> list = Arrays.asList(activeIngredient.split("\\s+"));
         Specifications<TMTDrug> spec = Specifications.where(TMTDrugSpecs.fsnContains(list));
@@ -74,7 +75,8 @@ public class FSNSearching {
             System.out.println("-----------------------");
             System.out.println("TMTID : " + drug.getTmtId());
             System.out.println("TYPE : " + drug.getType());
-            FSNSplitter.getActiveIngredientFromFSN(drug);
+            System.out.println("FSN : " + drug.getFsn());
+            splitter.getActiveIngredientAndStrengthFromFSN(drug);
             System.out.println("-----------------------");
             System.out.println("\n\n");
         }
