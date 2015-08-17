@@ -59,5 +59,10 @@ public class TMTDrugServiceImpl implements TMTDrugService {
         return tMTDrugRepo.findAll(spec,pageable);
     }
 
+    @Override
+    public List<TMTDrug> findBySpec(Specification<TMTDrug> s) {
+        return tMTDrugRepo.findAll(s);
+    }
+
 
 }
