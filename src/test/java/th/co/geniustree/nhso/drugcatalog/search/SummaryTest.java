@@ -59,6 +59,15 @@ public class SummaryTest {
         Object[] startObject = (Object[]) list.get(0);
         SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(startObject);
         LOG.info("All hospital Request = {}", page.getTotalElements());
+        printDetails(summaryRequest);
+        long totalRequest = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, "1000");
+        long totalHospitalRequest = page.getTotalElements();
+        LOG.info("Total hospital Request -> {}", totalHospitalRequest);
+        LOG.info("Total Request of Province -> {}", totalRequest);
+        assertNotNull(startObject[1]);
+    }
+
+    public void printDetails(SummaryRequest summaryRequest) {
         LOG.info("date {} ", summaryRequest.getRequestDate());
         LOG.info("hcode {} ", summaryRequest.getHcode());
         LOG.info("hname {} ", summaryRequest.getHname());
@@ -69,9 +78,5 @@ public class SummaryTest {
         LOG.info("FLAG_U {} ", summaryRequest.getCountFlagU());
         LOG.info("FLAG_D {} ", summaryRequest.getCountFlagD());
         LOG.info("ALL {} ", summaryRequest.getCountAll());
-        Integer totalRequest = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, "1400");
-        LOG.info("Total Request of Province -> {}",totalRequest);
-        assertNotNull(startObject[1]);
     }
-
 }

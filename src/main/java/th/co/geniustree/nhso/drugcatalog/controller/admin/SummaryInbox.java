@@ -67,8 +67,6 @@ public class SummaryInbox {
     private void initZone() {
         zones = zoneRepo.findAll(new Sort("nhsoZone"));
         Zone deletedZone = new Zone();
-        deletedZone.setNhsoZone("14");
-        zones.remove(deletedZone);
         deletedZone.setNhsoZone("15");
         zones.remove(deletedZone);
         selectedZone = "";
@@ -76,7 +74,7 @@ public class SummaryInbox {
     }
 
     public void onSelectZone() {
-        LOG.info("Selected Zone -> {}", selectedZone);
+        LOG.debug("Selected Zone -> {}", selectedZone);
         provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
         selectedProvince = "";
     }

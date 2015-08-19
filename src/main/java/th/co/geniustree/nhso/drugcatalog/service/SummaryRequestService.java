@@ -16,6 +16,6 @@ import th.co.geniustree.nhso.drugcatalog.controller.admin.SummaryRequest;
 public interface SummaryRequestService {
     public Page<SummaryRequest> loadSummaryRequest(String selectedZone , String selectedProvince,Pageable pageable);
     
-    public long getTotalReqeust();
+    public Long getTotalReqeust();
     
 }

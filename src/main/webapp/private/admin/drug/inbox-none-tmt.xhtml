@@ -101,6 +101,9 @@
                 .ui-layout-unit-content.ui-widget-content{
                     overflow-x: hidden;
                 }
+                .advancePanel{
+                    display: none;
+                }
             </style>
             <f:metadata>
                 <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
@@ -220,7 +223,7 @@
                         </p:outputPanel>
                     </p:column>
 
-                    <p:column headerText="TRADENAME" style="width: 40ch;">
+                    <p:column headerText="TRADENAME" style="width: 36ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.tradeName}" 
                                            style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" 
@@ -233,7 +236,7 @@
                         </p:outputPanel>
                     </p:column>
 
-                    <p:column headerText="GENERICNAME" style="width: 40ch;">
+                    <p:column headerText="GENERICNAME" style="width: 36ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="#{model.uploadDrugItem.genericName}" 
@@ -256,7 +259,7 @@
                                            styleClass="textWrap"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM" width="200">
+                    <p:column headerText="DOSAGEFORM" style="width: 36ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"
@@ -270,7 +273,7 @@
                                            value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'CONTENT')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="MANUFACTURER" style="width: 40ch;">
+                    <p:column headerText="MANUFACTURER" style="width: 36ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"

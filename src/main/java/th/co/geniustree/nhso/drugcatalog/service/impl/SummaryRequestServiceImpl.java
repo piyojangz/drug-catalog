@@ -6,6 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,10 +29,12 @@ import th.co.geniustree.nhso.drugcatalog.service.SummaryRequestService;
 @Transactional(propagation = Propagation.REQUIRED)
 public class SummaryRequestServiceImpl implements SummaryRequestService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SummaryRequestServiceImpl.class);
+
     @Autowired
     private RequestItemRepo requestItemRepo;
 
-    private long totalRequest;
+    private Long totalRequest;
 
     @Override
     public Page<SummaryRequest> loadSummaryRequest(String selectedZone, String selectedProvince, Pageable pageable) {
@@ -49,13 +53,19 @@ public class SummaryRequestServiceImpl implements SummaryRequestService {
             objPage = requestItemRepo.countSummaryRequestByProvince(RequestItem.Status.REQUEST, selectedProvince, pageable);
             totalRequest = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, selectedProvince);
         }
+        if (totalRequest == null) {
+            //fixed NullPointerException
+            totalRequest = 0l;
+        }
         summaryRequests = SummaryRequestMapper.mapAllToModel(objPage.getContent());
         Page<SummaryRequest> summary = new PageImpl<>(summaryRequests, pageable, objPage.getTotalElements());
+        LOG.debug("summaryRequests.size() -> {}", summaryRequests.size());
+        LOG.debug("objPage.getTotalElements() -> {}", objPage.getTotalElements());
         return summary;
     }
 
     @Override
-    public long getTotalReqeust() {
+    public Long getTotalReqeust() {
         return totalRequest;
     }
 
