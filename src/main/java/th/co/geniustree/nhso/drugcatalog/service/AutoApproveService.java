@@ -20,4 +20,6 @@ public interface AutoApproveService {
     public void approveByHcode(String hcode);
 
     public boolean approvePartial(int page,int pageSize);
+    
+    public void approveRequestFlagU();
 }

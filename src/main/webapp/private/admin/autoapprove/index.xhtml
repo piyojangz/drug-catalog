@@ -52,6 +52,14 @@
                             <h:outputText styleClass="description" value="อนุมัติรายการยาทั้งหมดของหน่วยบริการนั้นๆ" />
                         </p:column>
                     </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="Approve All Flag U" action="#{autoApprove.approveAllRequestWithFlagU()}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText styleClass="description" value="อนุมัติรายการยาทั้งหมด ที่แก้ไขราคายา (Flag U)" />
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
                 <hr/>
                 <p:commandButton value="CALL INITIAL_HOSPITAL_DRUG(copy approved data to TMT_HOSPDRUG_TRANS)" action="#{autoApprove.copyDataToHospDrugtran()}" />

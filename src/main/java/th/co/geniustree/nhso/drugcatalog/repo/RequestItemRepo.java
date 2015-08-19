@@ -177,4 +177,12 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "group by h.province.id")
     public Long countTotalRequestAll(RequestItem.Status status);
+    
+    @Query(value = "select r "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "and ui.updateFlag = ?2")
+    public List<RequestItem> findAllByFlag(RequestItem.Status status, String updateFlag);
 }
