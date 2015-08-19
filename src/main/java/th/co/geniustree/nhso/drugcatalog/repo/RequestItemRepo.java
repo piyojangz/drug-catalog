@@ -76,7 +76,16 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.id = ?2 "
             + "group by u.hcode , h.hname "
-            + "order by u.hcode")
+            + "order by u.hcode",
+            countQuery = "select count( distinct(u.hcode)) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "and h.province.id = ?2 "
+            + "group by u.hcode")
     public Page countSummaryRequestByProvince(RequestItem.Status status, String provinceId, Pageable pageable);
 
     @Query(value = "select sum(count(r)) "
@@ -88,8 +97,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.id = ?2 "
             + "group by h.province.id")
-    public Integer countTotalRequestByProvince(RequestItem.Status status, String provinceId);
-    
+    public Long countTotalRequestByProvince(RequestItem.Status status, String provinceId);
+
     @Query(value = "select max(r.requestDate) , "
             + "u.hcode ,"
             + "h.hname ,"
@@ -108,7 +117,16 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.nhsoZone.nhsoZone = ?2 "
             + "group by u.hcode , h.hname "
-            + "order by u.hcode")
+            + "order by u.hcode",
+            countQuery = "select count( distinct(u.hcode)) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "and h.province.nhsoZone.nhsoZone = ?2 "
+            + "group by u.hcode , h.hname ")
     public Page countSummaryRequestByZone(RequestItem.Status status, String zone, Pageable pageable);
 
     @Query(value = "select sum(count(r)) "
@@ -120,8 +138,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.nhsoZone.nhsoZone = ?2 "
             + "group by h.province.id")
-    public Integer countTotalRequestByZone(RequestItem.Status status, String zone);
-    
+    public Long countTotalRequestByZone(RequestItem.Status status, String zone);
+
     @Query(value = "select max(r.requestDate) , "
             + "u.hcode ,"
             + "h.hname ,"
@@ -139,9 +157,17 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "where r.deleted = 0 "
             + "and r.status = ?1 "
             + "group by u.hcode , h.hname "
-            + "order by u.hcode")
+            + "order by u.hcode",
+            countQuery = "select count( distinct(u.hcode)) "
+            + "from RequestItem r "
+            + "join r.uploadDrugItem ui "
+            + "join ui.uploadDrug u "
+            + "join u.hospital h "
+            + "where r.deleted = 0 "
+            + "and r.status = ?1 "
+            + "group by u.hcode , h.hname ")
     public Page countSummaryRequestAll(RequestItem.Status status, Pageable pageable);
-    
+
     @Query(value = "select sum(count(r)) "
             + "from RequestItem r "
             + "join r.uploadDrugItem ui "
@@ -150,5 +176,5 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "where r.deleted = 0 "
             + "and r.status = ?1 "
             + "group by h.province.id")
-    public Integer countTotalRequestAll(RequestItem.Status status);
+    public Long countTotalRequestAll(RequestItem.Status status);
 }

@@ -74,7 +74,7 @@ public class SummaryInbox {
     }
 
     public void onSelectZone() {
-        LOG.info("Selected Zone -> {}", selectedZone);
+        LOG.debug("Selected Zone -> {}", selectedZone);
         provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
         selectedProvince = "";
     }
