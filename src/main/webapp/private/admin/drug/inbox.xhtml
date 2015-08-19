@@ -94,6 +94,9 @@
                 .ui-outputpanel{
                     white-space: pre-line;
                 }
+                .advancePanel{
+                    display: none;
+                }
             </style>
 
             <f:metadata>
@@ -121,11 +124,10 @@
 
                 </p:panelGrid>
             </h:form>
-
             <h:form id="searchForm">
-                <p:panelGrid rendered="#{not empty adminInbox.requestItemHolders}" style="min-width: 600px;overflow-x: hidden;margin-bottom: 5px;margin-top: 5px;">
+                <p:panelGrid rendered="#{not empty adminInbox.requestItemHolders}" style="min-width: 600px;overflow-x: hidden;margin-bottom: 5px;margin-top: 5px">
                     <p:row>
-                        <p:column style="text-align: right;width: 90px;" styleClass="advancePanel">
+                        <p:column style="text-align: right;width: 90px" styleClass="advancePanel" >
                             <p:outputLabel value="filter by : "/>
                         </p:column>
                         <p:column styleClass="advancePanel">
@@ -147,7 +149,7 @@
                             <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
                             <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="@form , :tableForm" />
                             &nbsp;
-                            <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
+                            <span onclick="jQuery('.advancePanel').fadeToggle('fast');" style="color:blue;cursor: pointer">Advance Search</span>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -215,7 +217,7 @@
                             <p:column headerText="TMTID" width="70" style="text-align: center;">
                                 <h:outputText value="#{model.uploadDrugItem.tmtId}" />
                             </p:column>
-                            <p:column headerText="TRADENAME" style="width: 40ch;">
+                            <p:column headerText="TRADENAME" style="width: 36ch;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
                                     <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
                                                    rendered="#{rowIndex ne 0}" 
@@ -226,7 +228,7 @@
                                     <h:outputText value="#{model.uploadDrugItem.tradeName}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
-                            <p:column headerText="GENERICNAME" style="width: 40ch;" >
+                            <p:column headerText="GENERICNAME" style="width: 36ch;" >
                                 <p:outputPanel styleClass="updateset-#{model.id}">
                                     <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
                                                    rendered="#{rowIndex ne 0}" 
@@ -243,7 +245,7 @@
                                     <h:outputText value="#{model.uploadDrugItem.strength}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
-                            <p:column headerText="DOSAGEFORM" width="200">
+                            <p:column headerText="DOSAGEFORM" style="width: 36ch;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
                                     <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'DOSAGEFORM')}" styleClass="textWrap"/>
                                     <h:outputText value="#{model.uploadDrugItem.dosageForm}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
@@ -255,7 +257,7 @@
                                     <h:outputText value="#{model.uploadDrugItem.content}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
-                            <p:column headerText="MANUFACTURER" style="width: 40ch;">
+                            <p:column headerText="MANUFACTURER" style="width: 36ch;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
                                     <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.manufacturer}" style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'MANUFACTURER')}" styleClass="textWrap"/>
                                     <h:outputText value="#{model.uploadDrugItem.manufacturer}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>

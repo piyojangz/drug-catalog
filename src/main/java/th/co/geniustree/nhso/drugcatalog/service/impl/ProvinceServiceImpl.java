@@ -33,7 +33,6 @@ public class ProvinceServiceImpl implements ProvinceService {
         List<Province> provinces = null;
         if (zoneId.equals(SummaryRequest.ALL_ZONE)) {
             List<String> notZone = new ArrayList<>();
-            notZone.add("14");
             notZone.add("15");
             provinces = provinceRepo.findByNhsoZoneNhsoZoneNotIn(notZone, sortBy);
         } else {
