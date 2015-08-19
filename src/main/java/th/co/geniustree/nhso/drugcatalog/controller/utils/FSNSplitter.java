@@ -5,8 +5,9 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.utils;
 
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,54 +22,56 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 public class FSNSplitter {
 
     private static final Logger LOG = LoggerFactory.getLogger(FSNSplitter.class);
-    
+
     private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "(\\w+[\\w\\s]*\\s)([\\d.]+\\s*[a-zA-Z]+/?[\\d.]*\\s*[a-zA-Z]*)";
 
-    private final Set<String> activeIngredients;
-    private final Set<String> strengths;
-    
-    public FSNSplitter(){
-        activeIngredients = new HashSet<>();
-        strengths = new HashSet<>();
+    private final Map<String, String> activeIngreDientAndStrength;
+
+    public FSNSplitter() {
+        activeIngreDientAndStrength = new HashMap<>();
     }
-    
+
     /**
      * get ActiveIngredient and Strength only from GP, TP, and TPU TMTDrugType
-     * @param drug 
+     *
+     * @param drug
      */
     public void getActiveIngredientAndStrengthFromFSN(TMTDrug drug) {
-        if (drug.getType().equals(TMTDrug.Type.GP) || drug.getType().equals(TMTDrug.Type.TP) || drug.getType().equals(TMTDrug.Type.TPU)) {
+        if (drug.getType().equals(TMTDrug.Type.GP)
+                || drug.getType().equals(TMTDrug.Type.GPU)
+                || drug.getType().equals(TMTDrug.Type.TP)
+                || drug.getType().equals(TMTDrug.Type.TPU)) {
+            activeIngreDientAndStrength.clear();
             String fsn = drug.getFsn();
+            LOG.debug("              fsn : {}", fsn);
+
             Pattern p = Pattern.compile(ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN, Pattern.UNICODE_CHARACTER_CLASS);
             Matcher m = p.matcher(fsn);
             while (m.find()) {
                 String activeIngredient = m.group(1);
                 String strength = m.group(2);
-                System.out.println("active + strength : " + m.group());
-                System.out.println("active ingredient : " + activeIngredient);
-                System.out.println("         strength : " + strength);
-                activeIngredients.add(activeIngredient);
-                strengths.add(strength);
+                LOG.debug("active + strength : {}", m.group());
+                LOG.debug("active ingredient : {}", activeIngredient);
+                LOG.debug("         strength : {}\n", strength);
+                activeIngreDientAndStrength.put(activeIngredient, strength);
             }
         } else {
-            LOG.warn("Not supported {} type!",drug.getType());
-        }
-    }
-    
-    public void getActiveIngredientAndStrengthFromFSN(List<TMTDrug> drugs){
-        for(TMTDrug drug : drugs){
-            getActiveIngredientAndStrengthFromFSN(drug);
+            LOG.warn("Not supported {} type!", drug.getType());
         }
     }
 
     public Set<String> getActiveIngredients() {
-        return activeIngredients;
+        return activeIngreDientAndStrength.keySet();
     }
 
     public Set<String> getStrengths() {
+        Set<String> strengths = new HashSet<>();
+        strengths.addAll(activeIngreDientAndStrength.values());
         return strengths;
     }
-    
-    
+
+    public Map<String, String> getActiveIngreDientAndStrength() {
+        return activeIngreDientAndStrength;
+    }
 
 }
