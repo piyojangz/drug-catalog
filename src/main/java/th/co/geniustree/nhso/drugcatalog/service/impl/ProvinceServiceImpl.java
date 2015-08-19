@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -32,10 +31,7 @@ public class ProvinceServiceImpl implements ProvinceService {
     public List<Province> findBySelectedZone(String zoneId, Sort sortBy) {
         List<Province> provinces = null;
         if (zoneId.equals(SummaryRequest.ALL_ZONE)) {
-            List<String> notZone = new ArrayList<>();
-            notZone.add("14");
-            notZone.add("15");
-            provinces = provinceRepo.findByNhsoZoneNhsoZoneNotIn(notZone, sortBy);
+            provinces = provinceRepo.findAll(sortBy);
         } else {
             provinces = provinceRepo.findByNhsoZone(zoneId, sortBy);
         }
