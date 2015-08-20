@@ -86,4 +86,13 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         approveService.reApproveAndNotChangeRequestItemState(items.getContent());
         return items.hasNext();
     }
+
+    @Override
+    public void approveRequestFlagU() {
+        List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, "U");
+        log.info("auto approve for request and flag \'U\' ==> {} items", items.size());
+        approveService.approve(items);
+    }
+    
+    
 }

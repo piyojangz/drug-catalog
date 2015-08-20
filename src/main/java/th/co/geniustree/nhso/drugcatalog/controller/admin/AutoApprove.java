@@ -60,4 +60,8 @@ public class AutoApprove implements Serializable {
     public void copyDataToHospDrugtran() {
         uploadHospitalDrugItemRepo.copyDataProcedure();
     }
+    
+    public void approveAllRequestWithFlagU(){
+        autoApproveService.approveRequestFlagU();
+    }
 }

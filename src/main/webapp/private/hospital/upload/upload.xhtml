@@ -196,7 +196,7 @@
                     Please wait...
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrug.save()}" 
-                                 disabled="#{empty uploadMappedDrug.models or uploadMappedDrug.duplicateFile or uploadMappedDrug.notPassModels.size() ge 0}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
+                                 disabled="#{empty uploadMappedDrug.models or uploadMappedDrug.duplicateFile or (not empty uploadMappedDrug.notPassModels)}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
                 <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrug.reset()}" disabled="#{empty uploadMappedDrug.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
