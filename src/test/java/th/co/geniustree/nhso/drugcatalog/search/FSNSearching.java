@@ -14,7 +14,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 
@@ -46,46 +46,55 @@ public class FSNSearching {
         drug.setType(TMTDrug.Type.GP);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000002");
         drug.setFsn("CIPRO HC OTIC (ALCON CUSI, SPAIN) (ciprofloxacin 200 mg/100 mL + hydrocortisone 1 g/100 mL) ear drops, suspension, 10 mL bottle");
         drug.setType(TMTDrug.Type.TPU);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000003");
         drug.setFsn("ciprofloxacin + hydrocortisone");
         drug.setType(TMTDrug.Type.VTM);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000004");
         drug.setFsn("ciprofloxacin + doxycycline + metronidazole + polyethylene glycol 4000 + propylene glycol");
         drug.setType(TMTDrug.Type.VTM);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000005");
         drug.setFsn(" CIPROHEXAL 500 (P.T. PRIMA HEXAL, INDONESIA) (ciprofloxacin 500 mg) film-coated tablet");
         drug.setType(TMTDrug.Type.TP);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000006");
         drug.setFsn("QUALIMOL (อังกฤษตรางู) (paracetamol 500 mg) tablet, 1 tablet");
         drug.setType(TMTDrug.Type.TPU);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000007");
         drug.setFsn("PAMAPHEN (เคมีภัณฑ์ เมดิคอล) (chlorpheniramine 1 mg + paracetamol 120 mg + phenylephrine 5 mg) tablet");
         drug.setType(TMTDrug.Type.TP);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000008");
         drug.setFsn("ibuprofen 400 mg + paracetamol 325 mg tablet");
         drug.setType(TMTDrug.Type.GP);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000009");
         drug.setFsn("paracetamol");
         drug.setType(TMTDrug.Type.SUB);
         drugs.add(drug);
 
+        drug = new TMTDrug();
         drug.setTmtId("000010");
         drug.setFsn("chlorpheniramine 750 mcg/5 mL + guaifenesin 50 mg/5 mL + paracetamol 150 mg/5 mL + phenyephrine 2.5 mg/5 mL syrup, 60 mL bottle");
         drug.setType(TMTDrug.Type.GPU);
@@ -106,9 +115,46 @@ public class FSNSearching {
             activeIngredients.addAll(splitter.getActiveIngredients());
             strengths.addAll(splitter.getStrengths());
         }
-        assertTrue(activeIngredients.contains("chlorpheniramine"));
-        assertTrue(activeIngredients.contains("guaifenesin"));
-        assertTrue(activeIngredients.contains("hydrocortisone"));
-        assertTrue(activeIngredients.contains("phenyephrine"));
+        for(String s : activeIngredients){
+            System.out.println("act : " + s);
+        }
+        assertThat(activeIngredients).doesNotHaveDuplicates();
+        assertThat(activeIngredients).doesNotContainNull();
+        assertThat(activeIngredients).contains(
+                "chlorpheniramine",
+                "propylene glycol",
+                "hydrocortisone",
+                "polyethylene glycol 4000");
+        assertThat(activeIngredients).doesNotContain(
+                "ibuprofen 400 mg",
+                "2.5 mg/5 mL",
+                "hydrocortisone ",
+                "bottle",
+                "paracetamol 150 mg/5 mL + phenyephrine",
+                "syrup, 60 mL bottle",
+                "(chlorpheniramine 1 mg + paracetamol 120 mg + phenylephrine 5 mg)",
+                "QUALIMOL (อังกฤษตรางู) (paracetamol 500 mg) tablet, 1 tablet",
+                "polyethylene glycol 4000 1 g/1.1 g",
+                "Not supported VTM type!");
+        
+        assertThat(strengths).doesNotHaveDuplicates();
+        assertThat(strengths).doesNotContainNull();
+        assertThat(strengths).contains("400 mg",
+                "750 mcg/5 mL",
+                "325 mg",
+                "2.5 mg/5 mL",
+                "5 mg/1.1 g");
+        assertThat(strengths).doesNotContain(
+                "325 mg tablet",
+                "phenyephrine 2.5 mg/5 mL",
+                "chlorpheniramine",
+                "4000",
+                "mg",
+                "mg/5 mL",
+                "2.5 mg/5",
+                "2.5",
+                "chlorpheniramine 750 mcg/5 mL + guaifenesin 50 mg/5 mL + paracetamol 150 mg/5 mL + phenyephrine 2.5 mg/5 mL syrup, 60 mL bottle",
+                "60 mL bottle",
+                "Not supported SUB type!");
     }
 }

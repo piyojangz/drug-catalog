@@ -23,7 +23,7 @@ public class FSNSplitter {
 
     private static final Logger LOG = LoggerFactory.getLogger(FSNSplitter.class);
 
-    private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "(\\w+[\\w\\s]*\\s)([\\d.]+\\s*[a-zA-Z]+/?[\\d.]*\\s*[a-zA-Z]*)";
+    private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "(\\w+[\\w\\s]*)\\s+([\\d.]+\\s*[a-zA-Z]+(/[\\d.]+\\s*\\w+)*)";
 
     private final Map<String, String> activeIngreDientAndStrength;
 
@@ -43,6 +43,7 @@ public class FSNSplitter {
                 || drug.getType().equals(TMTDrug.Type.TPU)) {
             activeIngreDientAndStrength.clear();
             String fsn = drug.getFsn();
+            LOG.debug("         TMT Type : {}", drug.getType());
             LOG.debug("              fsn : {}", fsn);
 
             Pattern p = Pattern.compile(ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN, Pattern.UNICODE_CHARACTER_CLASS);
