@@ -21,7 +21,10 @@ public interface TMTDrugService {
     public List<TMTDrug> findTMTDrugWithFsn(String fsn);
 
     public List<TMTDrug> findTMTDrugWithFsn(String fsn, Specifications specs);
-    public Page<TMTDrug> search(String tmtid,Pageable pageable);
+    
+    public List<TMTDrug> searchByFSN(String keyword);
+    
+    public Page<TMTDrug> search(String keyword,Pageable pageable);
     
     public List<TMTDrug> findBySpec(Specification<TMTDrug> s);
 }

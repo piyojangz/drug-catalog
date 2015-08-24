@@ -52,4 +52,11 @@ public class ICD10ServiceImpl implements ICD10Service {
         return icd10Repo.findAll(spec, pageable);
     }
 
+    @Override
+    public List<ICD10> findAll() {
+        return icd10Repo.findAll();
+    }
+    
+    
+
 }

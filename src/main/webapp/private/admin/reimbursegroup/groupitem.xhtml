@@ -108,84 +108,7 @@
             <div class="header-content">
                 <h:outputText value="จัดกลุ่มรายการยา"/>
             </div>
-            <p:panelGrid class="header-content">
-                <p:row>
-                    <p:column style="text-align: right; width: 120px;">
-                        <h:outputText value="ActiveIngredient : "/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="ciprofloxacin"/>
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column style="text-align: right;">
-                        <h:outputText value="Strength : "/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="500 mg"/>
-                    </p:column>
-                </p:row>
-            </p:panelGrid> 
-            <h:form id="addForm">
-                <p:panelGrid id="addPanel">
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="Fund : "/>
-                        </p:column>
-                        <p:column>
-                            <p:selectManyCheckbox id="fund">
-                                <f:selectItem itemLabel="UC" itemValue="UC"/>
-                                <f:selectItem itemLabel="LGO" itemValue="LGO"/>
-                                <f:selectItem itemLabel="CSMBS" itemValue="CSMBS"/>
-                                <f:selectItem itemLabel="SSS" itemValue="SSS"/>
-                            </p:selectManyCheckbox>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="Special Group : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete dropdown="true"
-                                            forceSelection="true">   
-                            </p:autoComplete>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="ICD10 : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete forceSelection="true"
-                                            multiple="true"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="Drug Group : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete forceSelection="true"
-                                            multiple="true"
-                                            emptyMessage="ไม่พบข้อมูล">   
-                            </p:autoComplete>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="ED / NED : "/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneRadio style="width: 200px;">
-                                <f:selectItem itemLabel="E" itemValue="E"/>
-                                <f:selectItem itemLabel="N" itemValue="N"/>
-                                <f:selectItem itemLabel="E*" itemValue="E*"/>
-                            </p:selectOneRadio>
-                        </p:column>
-                    </p:row>
-
-                </p:panelGrid>
-            </h:form>
+            
             <h:form id="tableForm">
                 <h:panelGroup>
                     <span class="label-tabledescription label-tabledescription-info">
@@ -199,13 +122,12 @@
                              styleClass="clean-table config-table"
                              var="item"
                              editingRow="true"
-                             value="#{reimburseGroupItemController.budgetYears}"
                              rowIndexVar="rowIndex">
-                    <p:column headerText="TMTID" style="width: 50px;text-align: center;">
-                        <h:outputText value="328022"/>
+                    <p:column headerText="ContentValue" style="width: 10ch;" >
+                        <h:outputText value="1" styleClass="textWrap"/>
                     </p:column>
-                    <p:column headerText="FSN" style="width: 40ch;" >
-                        <h:outputText value="FLOXCIPRO 500 (สหแพทย์เภสัช) (ciprofloxacin 500 mg) film-coated tablet, 1 tablet" styleClass="textWrap"/>
+                    <p:column headerText="ContentUnit" style="width: 30ch;" >
+                        <h:outputText value="tablet" styleClass="textWrap"/>
                     </p:column>
                     <p:column headerText="DateIn" style="width: 100px;">
                         <p:cellEditor>
@@ -271,13 +193,13 @@
                             <h:outputText value="J2" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ED / NED">
-                             <h:outputText value="E" styleClass="textWrap"/>
+                            <h:outputText value="E" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ReimbursePrice">
-                             <h:outputText value="50 บาท" styleClass="textWrap"/>
+                            <h:outputText value="50 บาท" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="CREATE_DATE">
-                             <h:outputText value="1 ต.ค. 2558" styleClass="textWrap"/>
+                            <h:outputText value="1 ต.ค. 2558" styleClass="textWrap"/>
                         </p:column>                        
                     </p:dataTable>
                     <p:spacer height="20"/>

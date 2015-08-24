@@ -53,8 +53,8 @@ public class TMTDrugServiceImpl implements TMTDrugService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
-    public Page<TMTDrug> search(String searchTmtid, Pageable pageable) {
-        List<String> keyList = Arrays.asList(searchTmtid.split("\\s+"));
+    public Page<TMTDrug> search(String keyword, Pageable pageable) {
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
         Specification<TMTDrug> spec = Specifications.where(TMTDrugSpecs.tmtIdContains(keyList)).or(TMTDrugSpecs.fsnContains(keyList));
         return tMTDrugRepo.findAll(spec,pageable);
     }
@@ -62,6 +62,12 @@ public class TMTDrugServiceImpl implements TMTDrugService {
     @Override
     public List<TMTDrug> findBySpec(Specification<TMTDrug> s) {
         return tMTDrugRepo.findAll(s);
+    }
+
+    @Override
+    public List<TMTDrug> searchByFSN(String keyword) {
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
+        return tMTDrugRepo.findAll(Specifications.where(TMTDrugSpecs.fsnContains(keyList)));
     }
 
 

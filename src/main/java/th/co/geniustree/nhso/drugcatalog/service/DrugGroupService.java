@@ -6,6 +6,7 @@
 
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.util.List;
 import th.co.geniustree.nhso.drugcatalog.model.DrugGroup;
 
 /**
@@ -14,4 +15,6 @@ import th.co.geniustree.nhso.drugcatalog.model.DrugGroup;
  */
 public interface DrugGroupService {
     public DrugGroup findOne(String id);
+    
+    public List<DrugGroup> findAll();
 }
