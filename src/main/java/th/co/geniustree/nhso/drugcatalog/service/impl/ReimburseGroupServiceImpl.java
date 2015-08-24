@@ -51,11 +51,11 @@ public class ReimburseGroupServiceImpl implements ReimburseGroupService {
     }
 
     @Override
-    public Page<ReimburseGroup> search(String keyword,Pageable pageable) {
+    public Page<ReimburseGroup> search(String keyword, Pageable pageable) {
         List<String> keyList = Arrays.asList(keyword.split("\\s+"));
         Specification<ReimburseGroup> spec = Specifications.where(ReimburseGroupSpecs.idLike(keyList)).or(ReimburseGroupSpecs.descriptionLike(keyList));
         spec = Specifications.where(ReimburseGroupSpecs.specialProjectEq(true)).and(spec);
-        return reimburseGroupRepo.findAll(spec,pageable);
+        return reimburseGroupRepo.findAll(spec, pageable);
     }
 
     @Override
@@ -65,14 +65,13 @@ public class ReimburseGroupServiceImpl implements ReimburseGroupService {
 
     @Override
     public Page<ReimburseGroup> findAllPaging(Pageable pageable) {
-        return reimburseGroupRepo.findAll(pageable);
+        Specification<ReimburseGroup> spec = Specifications.where(ReimburseGroupSpecs.specialProjectEq(true));
+        return reimburseGroupRepo.findAll(spec, pageable);
     }
 
     @Override
     public void delete(ReimburseGroup reimburseGroup) {
         reimburseGroupRepo.delete(reimburseGroup);
     }
-    
-    
 
 }
