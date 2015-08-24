@@ -37,7 +37,7 @@ public class ReimburseGroupController implements Serializable {
 
     private String reimburseGroupCode;
     private String reimburseGroupDescription;
-
+    private boolean specialProject;
     private String keyword;
 
     @PostConstruct
@@ -47,8 +47,10 @@ public class ReimburseGroupController implements Serializable {
 
     public void save() {
         try {
-            reimburseGroupService.save(reimburseGroupCode, reimburseGroupDescription, true);
+            reimburseGroupService.save(reimburseGroupCode, reimburseGroupDescription, specialProject);
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
+            reimburseGroupCode = "";
+            reimburseGroupDescription = "";
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้ อาจเป็นเพราะมีข้อมูล " + reimburseGroupCode + " อยู่แล้ว");
         }
@@ -68,7 +70,7 @@ public class ReimburseGroupController implements Serializable {
         }
     }
 
-    public void delete(){
+    public void delete() {
         try {
             reimburseGroupService.delete(selectedReimburseGroup);
             FacesMessageUtils.info("ลบข้อมูล สำเร็จ");
@@ -76,12 +78,12 @@ public class ReimburseGroupController implements Serializable {
             FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
         }
     }
-    
+
     public void search() {
         reimburseGroups = new SpringDataLazyDataModelSupport<ReimburseGroup>() {
             @Override
             public Page<ReimburseGroup> load(Pageable pageAble) {
-                Page<ReimburseGroup> page = reimburseGroupService.search(keyword, pageAble);
+                Page<ReimburseGroup> page = reimburseGroupService.search(keyword, specialProject, pageAble);
                 return page;
             }
         };
@@ -91,7 +93,7 @@ public class ReimburseGroupController implements Serializable {
         reimburseGroups = new SpringDataLazyDataModelSupport<ReimburseGroup>() {
             @Override
             public Page<ReimburseGroup> load(Pageable pageAble) {
-                Page<ReimburseGroup> page = reimburseGroupService.findAllPaging(pageAble);
+                Page<ReimburseGroup> page = reimburseGroupService.findAllPaging(specialProject, pageAble);
                 return page;
             }
         };
@@ -137,5 +139,12 @@ public class ReimburseGroupController implements Serializable {
         this.reimburseGroups = reimburseGroups;
     }
 
-    
+    public boolean isSpecialProject() {
+        return specialProject;
+    }
+
+    public void setSpecialProject(boolean specialProject) {
+        this.specialProject = specialProject;
+    }
+
 }

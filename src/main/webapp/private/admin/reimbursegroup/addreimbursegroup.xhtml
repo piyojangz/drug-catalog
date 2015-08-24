@@ -56,13 +56,13 @@
             </f:metadata>
             <p:growl id="growl" showDetail="true"/>
             <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
-                <h:outputText value="โครงการพิเศษ"/>
+                <h:outputText value="Reimburse Group"/>
             </div>
             <h:form id="form">
                 <p:panelGrid style="min-width: 500px;">
                     <p:row>
                         <p:column style="text-align: right">
-                            <h:outputText value="* " style="color: red;font-size: 20px;"/><h:outputText value="รหัสโครงการพิเศษ : " />
+                            <h:outputText value="* " style="color: red;font-size: 20px;"/><h:outputText value="รหัส Reimburse Group : " />
                         </p:column>
                         <p:column>
                             <p:inputText id="inputId" styleClass="input" value="#{reimburseGroupController.reimburseGroupCode}" style="width: 200px;"/>
@@ -70,7 +70,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="width: 120px; text-align: right;">
-                            <h:outputText value="ชื่อโครงการพิเศษ : "/>
+                            <h:outputText value="ชื่อ Reimburse Group : "/>
                         </p:column>
                         <p:column>
                             <p:inputText styleClass="input" value="#{reimburseGroupController.reimburseGroupDescription}" style="width: 300px;"/>
@@ -92,7 +92,7 @@
                 <p:panelGrid>
                     <p:row>
                         <p:column style="width: 120px; text-align: right;">
-                            <h:outputText value="ค้นหาโครงการพิเศษ : "/>
+                            <h:outputText value="ค้นหา Reimburse Group : "/>
                         </p:column>
                         <p:column>
                             <p:inputText value="#{reimburseGroupController.keyword}" styleClass="search" style="width: 200px;"/>
@@ -119,16 +119,16 @@
 
                     <f:facet name="header">
                         <div style="text-align: center;">
-                            <h:outputText value="รายการโครงการพิเศษ"/>
+                            <h:outputText value="รายการ Reimburse Group"/>
                         </div>
                     </f:facet>
                     <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
                         #{rowIndex + 1}
                     </p:column>
-                    <p:column headerText="รหัสโครงการ" style="width: 100px;text-align: center;">
+                    <p:column headerText="รหัส Reimburse Group" style="width: 100px;text-align: center;">
                         <h:outputText value="#{model.id}"/>
                     </p:column>
-                    <p:column headerText="ชื่อโครงการ" style="width: 300px;">
+                    <p:column headerText="ชื่อ Reimburse Group" style="width: 300px;">
                         <h:outputText value="#{model.description}"/>
                     </p:column>
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
@@ -155,12 +155,12 @@
                       minWidth="400"
                       minHeight="200"
                       widgetVar="editDialogWidget"
-                      header="แก้ไขโครงการพิเศษ">
+                      header="แก้ไข Reimburse Group">
                 <h:form id="editDialogForm">
                     <p:panelGrid>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="รหัสโครงการ : "/>
+                                <h:outputText value="รหัส Reimburse Group : "/>
                             </p:column>
                             <p:column>
                                 <p:inputText id="editId" value="#{reimburseGroupController.selectedReimburseGroup.id}" style="width: 200px;" disabled="true"/>
@@ -168,7 +168,7 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="ชื่อโครงการ : "/>
+                                <h:outputText value="ชื่อ Reimburse Group : "/>
                             </p:column>
                             <p:column>
                                 <p:inputText id="editDescription" value="#{reimburseGroupController.selectedReimburseGroup.description}" style="width: 200px;"/>
@@ -201,7 +201,7 @@
                     <p:panelGrid>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="รหัสโครงการพิเศษ : "/>
+                                <h:outputText value="รหัส Reimburse Group : "/>
                             </p:column>
                             <p:column style="width: 200px;">
                                 <h:outputText value="#{reimburseGroupController.selectedReimburseGroup.id}"/>
@@ -209,7 +209,7 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="ชื่อโครงการพิเศษ : "/>
+                                <h:outputText value="ชื่อ Reimburse Group : "/>
                             </p:column>
                             <p:column>
                                 <h:outputText value="#{reimburseGroupController.selectedReimburseGroup.description}"/>
