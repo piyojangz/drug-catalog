@@ -81,18 +81,29 @@
                                 <h:outputText value="กำหนดกลุ่มยา"/>
                             </div>
                         </p:column>
+                        <p:column colspan="2">
+                            <div class="header-content">
+                                <h:outputText value="ค้นหายาที่ต้องการ"/>
+                            </div>
+                        </p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
                             <h:outputText value="Fund : "/>
                         </p:column>
                         <p:column>
-                            <p:selectManyCheckbox id="fund">
-                                <f:selectItem itemLabel="UC" itemValue="UC"/>
-                                <f:selectItem itemLabel="LGO" itemValue="LGO"/>
-                                <f:selectItem itemLabel="CSMBS" itemValue="CSMBS"/>
-                                <f:selectItem itemLabel="SSS" itemValue="SSS"/>
+                            <p:selectManyCheckbox id="fund" converter="fundConverter">
+                                <f:selectItems value="#{specialGroupItem.funds}" var="item" itemLabel="#{item.code}" itemValue="#{item}">
+                                </f:selectItems>
                             </p:selectManyCheckbox>
+                        </p:column>
+                        <p:column style="text-align: right; width: 120px;">
+                            <h:outputText value="ActiveIngredient : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{specialGroupItem.selectedActiveIngredient}" styleClass="input">
+                                <p:ajax event="blur" listener="#{specialGroupItem.onFindStrength()}" update="@form"/>
+                            </p:inputText>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -110,6 +121,20 @@
                                 <p:column>
                                     <h:outputText value="#{item.id} - #{item.description}"/>
                                 </p:column>
+                            </p:autoComplete>
+                        </p:column>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="Strength : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete id="strength" 
+                                            var="item" 
+                                            value="#{specialGroupItem.selectedStrength}"
+                                            forceSelection="true" 
+                                            completeMethod="#{specialGroupItem.completeStrength}"
+                                            converter="reimburseGroupConverter" 
+                                            styleClass="groupComplete"
+                                            dropdown="true">
                             </p:autoComplete>
                         </p:column>
                     </p:row>
@@ -132,6 +157,19 @@
                                 </p:column>
                             </p:autoComplete>
                             <!--<h:outputText value="กรุณาใส่อย่างน้อย 3 ตัวอักษร" style="color: red;"/>-->
+                        </p:column>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="Dosage form : "/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete id="dosageForm" 
+                                            var="item" 
+                                            value="#{specialGroupItem.selectedDosageForm}"
+                                            forceSelection="true" 
+                                            converter="reimburseGroupConverter" 
+                                            styleClass="groupComplete"
+                                            dropdown="true">
+                            </p:autoComplete>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -163,63 +201,14 @@
                                 <f:selectItem itemLabel="E*" itemValue="EX"/>
                             </p:selectOneRadio>
                         </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="2">
-                            <p:separator/>
-                            <div class="header-content">
-                                <h:outputText value="ค้นหายาที่ต้องการ"/>
-                            </div>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right; width: 120px;">
-                            <h:outputText value="ActiveIngredient : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText value="#{specialGroupItem.selectedActiveIngredient}" styleClass="input">
-                                <p:ajax event="blur" listener="#{specialGroupItem.onFindStrength()}" update="@form"/>
-                            </p:inputText>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="Strength : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete id="strength" 
-                                            var="item" 
-                                            value="#{specialGroupItem.selectedStrength}"
-                                            forceSelection="true" 
-                                            completeMethod="#{specialGroupItem.completeStrength}"
-                                            converter="reimburseGroupConverter" 
-                                            styleClass="groupComplete"
-                                            dropdown="true">
-                            </p:autoComplete>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="Dosage form : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete id="dosageForm" 
-                                            var="item" 
-                                            value="#{specialGroupItem.selectedDosageForm}"
-                                            forceSelection="true" 
-                                            converter="reimburseGroupConverter" 
-                                            styleClass="groupComplete"
-                                            dropdown="true">
-                            </p:autoComplete>
-                        </p:column>
-                    </p:row>
-                    <p:row>
                         <p:column colspan="2" style="text-align: center;">
                             <p:commandButton value="ค้นหา" icon="ui-icon-search" update=":tableForm" actionListener="#{specialGroupItem.searchTMTDrug()}"/>
                             <p:spacer width="10"/>
                             <p:commandButton value="เคลียร์" type="reset"/>
                         </p:column>
                     </p:row>
+
+
                 </p:panelGrid>
             </h:form>
             <h:form id="tableForm">

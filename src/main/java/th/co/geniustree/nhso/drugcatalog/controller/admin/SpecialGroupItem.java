@@ -23,7 +23,7 @@ import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
-import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
+import th.co.geniustree.nhso.drugcatalog.service.FundService;
 import th.co.geniustree.nhso.drugcatalog.service.ICD10Service;
 import th.co.geniustree.nhso.drugcatalog.service.ReimburseGroupService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
@@ -47,6 +47,10 @@ public class SpecialGroupItem implements Serializable {
     @Autowired
     private ICD10Service icd10Service;
     
+    @Autowired
+    private FundService fundService;
+    
+    private List<Fund> funds;
     private List<Fund> selectedFunds = new ArrayList<>();
     private List<ReimburseGroup> specialGroups = new ArrayList<>();
     private List<ReimburseGroup> selectedReimburseGroups = new ArrayList<>();
@@ -62,7 +66,7 @@ public class SpecialGroupItem implements Serializable {
 
     @PostConstruct
     public void postConstruct() {
-        
+        funds = fundService.findAll();
     }
     
     public void searchTMTDrug(){
@@ -216,6 +220,14 @@ public class SpecialGroupItem implements Serializable {
 
     public void setStatusED(ReimburseGroupItem.ED statusED) {
         this.statusED = statusED;
+    }
+
+    public List<Fund> getFunds() {
+        return funds;
+    }
+
+    public void setFunds(List<Fund> funds) {
+        this.funds = funds;
     }
 
     
