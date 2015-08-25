@@ -91,10 +91,6 @@
                         <f:param name="specialProjectStatus" value="false"/>
                     </p:menuitem>
                 </p:submenu>
-                <p:submenu label="Reimburse Group Item" rendered="#{request.isUserInRole('ADMIN')}">
-                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="ค้นหาข้อมูล reimburse group item" outcome="/private/admin/reimbursegroup/findgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/findgroup'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem rendered="#{request.isUserInRole('ADMIN')}" value="เพิ่ม reimburse group item" outcome="/private/admin/reimbursegroup/addgroupitem" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimbursegroup/addgroupitem'), 0)?'background-color: #FFF2DB':''}"/>
-                </p:submenu>
                 <p:submenu label="Fund" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem value="กองทุน" outcome="/private/admin/fund/addfund" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/fund/addfund'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
