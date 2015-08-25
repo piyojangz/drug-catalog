@@ -295,3 +295,33 @@ tr>th.ui-resizable-column{
 .warnBackground{
     background: #ffcc00 !important;
 }
+.header-content{
+    position: relative;
+    padding: 10px 20px;
+    background: #FF8A00;
+    border-radius: 0;
+    /*text-indent: 40px;*/
+    font-size: 14px;
+    font-weight: bold;
+    font-family: tahoma;
+    color: #fff;
+    text-shadow: 0px 1px 1px rgb(206, 126, 0);
+    border-bottom: 2px solid #C56B00;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+.header-content i{
+    font-size: 16px;
+    margin-right: 10px;
+}
+.header-content-sub{
+    margin-top: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 14px;
+    color: #444;
+}
+.header-content-sub i{
+    font-size: 15px;
+    margin-right: 10px;
+}
