@@ -231,11 +231,10 @@
                         </p:panelGrid>
                     </div>
                 </div>
-
             </h:form>
             <h:form id="tableForm">
                 <p:dataTable id="table"
-                             value="#{specialGroupItem.selectedTMTDrugs}"
+                             value="#{specialGroupItem.reimburseGroupItems}"
                              styleClass="clean-table"
                              var="item"
                              rowIndexVar="rowIndex"
@@ -255,25 +254,23 @@
                         <f:facet name="header">
                             All<br/><p:selectBooleanCheckbox/>
                         </f:facet>
-                        <p:selectBooleanCheckbox disabled="#{item.type ne 'TP' or item.type ne 'TPU'}"/>
+                        <p:selectBooleanCheckbox/>
                     </p:column>
                     <p:column headerText="TMT" style="width: 50px;text-align: center;">
-                        <h:outputText value="#{item.tmtId}"/>
+                        <h:outputText value="#{item.tmtDrug.tmtId}"/>
                     </p:column>
                     <p:column headerText="TYPE" style="width: 50px;">
-                        <h:outputText value="#{item.type}"/>
+                        <h:outputText value="#{item.tmtDrug.type}"/>
                     </p:column>
                     <p:column headerText="FSN" style="width: 300px;">
-                        <h:outputText value="#{item.fsn}" styleClass="textWrap"/>
+                        <h:outputText value="#{item.tmtDrug.fsn}" styleClass="textWrap"/>
                     </p:column>
-                    <p:column headerText="ActiveIngredient" style="width: 100px;">
-                        <h:outputText value="#{item.activeIngredient}" styleClass="textWrap"/>
+                    <p:column headerText="DateIn" style="width: 100px;">
+                        <h:outputText value="#{item.pk.budgetYear}" styleClass="textWrap"/>
                     </p:column>
-                    <p:column headerText="Strength" style="width: 100px;">
-                        <h:outputText value="#{item.strength}" styleClass="textWrap"/>
-                    </p:column>
-                    <p:column headerText="Dosage Form" style="width: 100px;">
-                        <h:outputText value="#{item.dosageform}" styleClass="textWrap"/>
+                    <p:column headerText="Reimburse Price" style="width: 100px;">
+                        <h:outputText value="#{item}"/>
+                        <p:commandButton value="Add All"/>
                     </p:column>
                 </p:dataTable>
                 <p:commandButton value="เลือก" action="groupitem.xhtml"  />

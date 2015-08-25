@@ -23,56 +23,54 @@ public class FSNSplitter {
 
     private static final Logger LOG = LoggerFactory.getLogger(FSNSplitter.class);
 
-    private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "(\\w+[\\w\\s]*)\\s+([\\d.]+\\s*[a-zA-Z]+(/[\\d.]+\\s*\\w+)*)";
+    private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "((?<activeIngregient>\\w+[\\w\\s]*)\\s+(?<strength>[\\d]+[.\\d]*\\s*[a-zA-Z]+(/[\\d.]+\\s*\\w+)*))+";
 
-    private final Map<String, String> activeIngreDientAndStrength;
+    private final Set<String> activeIngredients;
+    private final Set<String> strengths;
+    private String dosageForm;
 
     public FSNSplitter() {
-        activeIngreDientAndStrength = new HashMap<>();
+        activeIngredients = new HashSet<>();
+        strengths = new HashSet<>();
     }
 
-    /**
-     * get ActiveIngredient and Strength only from GP, TP, and TPU TMTDrugType
-     *
-     * @param drug
-     */
     public void getActiveIngredientAndStrengthFromFSN(TMTDrug drug) {
-        if (drug.getType().equals(TMTDrug.Type.GP)
-                || drug.getType().equals(TMTDrug.Type.GPU)
-                || drug.getType().equals(TMTDrug.Type.TP)
-                || drug.getType().equals(TMTDrug.Type.TPU)) {
-            activeIngreDientAndStrength.clear();
+        
+        String regex = "[(](?<manufacturer>[\\w\\s+-,./]+)[)]\\s*[(](?<activeIngregientAndStrength>[\\w\\s+-,./\\d]+)[)]\\s*(?<dosageForm>\\w+[\\w\\s\\-]*)\\s*,*";
+        activeIngredients.clear();
+        strengths.clear();
+        if (drug.getType().equals(TMTDrug.Type.TPU) || drug.getType().equals(TMTDrug.Type.TP)) {
             String fsn = drug.getFsn();
-            LOG.debug("         TMT Type : {}", drug.getType());
-            LOG.debug("              fsn : {}", fsn);
-
-            Pattern p = Pattern.compile(ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN, Pattern.UNICODE_CHARACTER_CLASS);
+            Pattern p = Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS);
             Matcher m = p.matcher(fsn);
-            while (m.find()) {
-                String activeIngredient = m.group(1);
-                String strength = m.group(2);
-                LOG.debug("active + strength : {}", m.group());
-                LOG.debug("active ingredient : {}", activeIngredient);
-                LOG.debug("         strength : {}\n", strength);
-                activeIngreDientAndStrength.put(activeIngredient, strength);
+            if (m.find()) {
+                dosageForm = m.group("dosageForm");
             }
-        } else {
-            LOG.warn("Not supported {} type!", drug.getType());
+            if(m.reset().find()){
+                fsn = m.group("activeIngregientAndStrength");
+            }
+            p = Pattern.compile(ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN, Pattern.UNICODE_CHARACTER_CLASS);
+            m = p.matcher(fsn);
+            while (m.find()) {
+                String activeIngredient = m.group("activeIngregient");
+                String strength = m.group("strength");
+                activeIngredients.add(activeIngredient);
+                strengths.add(strength);
+            }
+            
         }
     }
 
     public Set<String> getActiveIngredients() {
-        return activeIngreDientAndStrength.keySet();
+        return activeIngredients;
     }
 
     public Set<String> getStrengths() {
-        Set<String> strengths = new HashSet<>();
-        strengths.addAll(activeIngreDientAndStrength.values());
         return strengths;
     }
 
-    public Map<String, String> getActiveIngreDientAndStrength() {
-        return activeIngreDientAndStrength;
+    public String getDosageForm() {
+        return dosageForm;
     }
 
 }

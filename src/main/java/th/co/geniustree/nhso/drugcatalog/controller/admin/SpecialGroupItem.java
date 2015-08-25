@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,73 +41,84 @@ public class SpecialGroupItem implements Serializable {
 
     @Autowired
     private TMTDrugService tmtDrugService;
-    
+
     @Autowired
     private ReimburseGroupService reimburseGroupService;
-    
+
     @Autowired
     private ICD10Service icd10Service;
-    
+
     @Autowired
     private FundService fundService;
-    
+
     private List<Fund> funds;
     private List<Fund> selectedFunds = new ArrayList<>();
     private List<ReimburseGroup> specialGroups = new ArrayList<>();
     private List<ReimburseGroup> selectedReimburseGroups = new ArrayList<>();
     private List<ICD10> selectedICD10s = new ArrayList<>();
     private ReimburseGroupItem.ED statusED;
-    
+
     private Set<String> strengths = new HashSet<>();
+    private Set<String> dosageForms = new HashSet<>();
     private String selectedActiveIngredient = "";
     private String selectedStrength = "";
     private String selectedDosageForm = "";
     private SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs;
     private List<TMTDrug> selectedTMTDrugs = new ArrayList<>();
 
+    private List<ReimburseGroupItem> reimburseGroupItems = new ArrayList<>();
+
     @PostConstruct
     public void postConstruct() {
-        funds = fundService.findAll();
     }
-    
-    public void searchTMTDrug(){
-        LOG.debug("ed/ned : {}", statusED);
+
+    public void searchTMTDrug() {
+        reimburseGroupItems.clear();
+        selectedTMTDrugs = tmtDrugService.searchByFSN(selectedStrength + " " + selectedActiveIngredient + " " + selectedDosageForm);
+        for (TMTDrug drug : selectedTMTDrugs) {
+            ReimburseGroupItem item = new ReimburseGroupItem();
+            item.setTmtDrug(drug);
+            reimburseGroupItems.add(item);
+        }
     }
-        
-    public List<ReimburseGroup> completeSpecialGroup(String query){
+
+    public List<ReimburseGroup> completeSpecialGroup(String query) {
         List<ReimburseGroup> filterSpecialGroup = new ArrayList<>();
         List<ReimburseGroup> specialProjects = reimburseGroupService.findOnlySpecialProjectOrGroup(true);
-        for(ReimburseGroup r : specialProjects){
-            if(r.getId().toUpperCase().contains(query.toUpperCase()) || r.getDescription().toUpperCase().contains(query.toUpperCase())){
+        for (ReimburseGroup r : specialProjects) {
+            if (r.getId().toUpperCase().contains(query.toUpperCase()) || r.getDescription().toUpperCase().contains(query.toUpperCase())) {
                 filterSpecialGroup.add(r);
             }
         }
         return filterSpecialGroup;
     }
-    
-    public List<ICD10> completeICD10(String query){
+
+    public List<ICD10> completeICD10(String query) {
         List<ICD10> filterICD10 = new ArrayList<>();
         List<ICD10> icd10s = icd10Service.findAll();
-        for(ICD10 icd10 : icd10s){
-            if(icd10.getCode().toUpperCase().contains(query.toUpperCase()) || icd10.getName().contains(query.toUpperCase())){
+        for (ICD10 icd10 : icd10s) {
+            if (icd10.getCode().toUpperCase().contains(query.toUpperCase()) || icd10.getName().contains(query.toUpperCase())) {
                 filterICD10.add(icd10);
             }
         }
         return filterICD10;
     }
-    
-    public List<ReimburseGroup> completeReimburseGroup(String query){
+
+    public List<ReimburseGroup> completeReimburseGroup(String query) {
         List<ReimburseGroup> filter = new ArrayList<>();
         List<ReimburseGroup> reimburseGroup = reimburseGroupService.findOnlySpecialProjectOrGroup(false);
-        for(ReimburseGroup group : reimburseGroup){
-            if(group.getId().toUpperCase().contains(query.toUpperCase()) || group.getDescription().toUpperCase().contains(query.toUpperCase())){
+        for (ReimburseGroup group : reimburseGroup) {
+            if (group.getId().toUpperCase().contains(query.toUpperCase()) || group.getDescription().toUpperCase().contains(query.toUpperCase())) {
                 filter.add(group);
             }
         }
         return filter;
     }
 
-    public void onFindStrength() {
+    public void onSelectActiveIngredient() {
+        if (selectedActiveIngredient == null || selectedActiveIngredient.isEmpty()) {
+            return;
+        }
         strengths.clear();
         selectedTMTDrugs = tmtDrugService.searchByFSN(selectedActiveIngredient);
         FSNSplitter splitter = new FSNSplitter();
@@ -114,14 +126,31 @@ public class SpecialGroupItem implements Serializable {
             splitter.getActiveIngredientAndStrengthFromFSN(drug);
             strengths.addAll(splitter.getStrengths());
         }
+        selectedStrength = "";
+    }
+
+    public void onSelectStrength() {
+        dosageForms.clear();
+        List<TMTDrug> drugs = new ArrayList<>();
+        for (TMTDrug drug : selectedTMTDrugs) {
+            if (drug.getFsn().contains(selectedStrength)) {
+                drugs.add(drug);
+            }
+        }
+        FSNSplitter splitter = new FSNSplitter();
+        for (TMTDrug drug : drugs) {
+            splitter.getActiveIngredientAndStrengthFromFSN(drug);
+            String dosageForm = splitter.getDosageForm();
+            if (dosageForm != null) {
+                dosageForms.add(dosageForm);
+            }
+        }
+        selectedDosageForm = "";
     }
 
     public List<String> completeStrength(String query) {
-        if (selectedTMTDrugs == null || selectedTMTDrugs.isEmpty()) {
-            onFindStrength();
-        }
-        if (strengths == null || strengths.isEmpty()) {
-            return new ArrayList<>(1);
+        if (selectedTMTDrugs == null || selectedTMTDrugs.isEmpty() || strengths == null) {
+            return new ArrayList<>();
         }
         List<String> filterStrength = new ArrayList<>();
         for (String s : strengths) {
@@ -129,11 +158,26 @@ public class SpecialGroupItem implements Serializable {
                 filterStrength.add(s);
             }
         }
+        Collections.sort(filterStrength);
         return filterStrength;
     }
 
+    public List<String> completeDosageForm(String query) {
+        if (dosageForms == null) {
+            return new ArrayList<>();
+        }
+        List<String> filterStrength = new ArrayList<>();
+        for (String d : dosageForms) {
+            if (d.toLowerCase().contains(query.toLowerCase())) {
+                filterStrength.add(d);
+            }
+        }
+        Collections.sort(filterStrength);
+        return filterStrength;
+    }
+    
+    
 //  ************************ getter and setter ************************
-
     public List<Fund> getSelectedFunds() {
         return selectedFunds;
     }
@@ -157,7 +201,7 @@ public class SpecialGroupItem implements Serializable {
     public void setSelectedReimburseGroups(List<ReimburseGroup> selectedReimburseGroups) {
         this.selectedReimburseGroups = selectedReimburseGroups;
     }
-    
+
     public List<ICD10> getSelectedICD10s() {
         return selectedICD10s;
     }
@@ -230,6 +274,20 @@ public class SpecialGroupItem implements Serializable {
         this.funds = funds;
     }
 
-    
-    
+    public Set<String> getDosageForms() {
+        return dosageForms;
+    }
+
+    public void setDosageForms(Set<String> dosageForms) {
+        this.dosageForms = dosageForms;
+    }
+
+    public List<ReimburseGroupItem> getReimburseGroupItems() {
+        return reimburseGroupItems;
+    }
+
+    public void setReimburseGroupItems(List<ReimburseGroupItem> reimburseGroupItems) {
+        this.reimburseGroupItems = reimburseGroupItems;
+    }
+
 }
