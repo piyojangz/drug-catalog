@@ -258,11 +258,6 @@
                     </div>
                 </div>
             </h:form>
-            <script>
-                function copyPrice() {
-                    $('input[class^="price"]').val = $('input[class="price-#{item.tmtDrug.tmtId}"]').val;
-                }
-            </script>
             <h:form id="tableForm">
                 <p:panelGrid style="border-top: 1px solid #E1E1E1;margin-top: 20px;">
                     <p:row>
@@ -270,10 +265,19 @@
                             <h:outputText value="เลือก Content ที่ต้องการกรอง : "/>
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu value="#{specialGroupItem.selectedContent}" >
-                                <f:selectItem itemLabel="1 tablet" itemValue="1 tablet"/>
-                                <f:selectItem itemLabel="1 bottle" itemValue="1 bottle"/>
-                            </p:selectOneMenu>
+                            <p:autoComplete id="content" 
+                                            var="content" 
+                                            value="#{specialGroupItem.selectedContent}"
+                                            completeMethod="#{specialGroupItem.completeContent}"
+                                            forceSelection="true" 
+                                            emptyMessage="ไม่มีข้อมูลที่ต้องการ"
+                                            cache="true"
+                                            styleClass="groupComplete"
+                                            itemLabel="#{content}"
+                                            itemValue="#{content}"
+                                            dropdown="true">
+                                <p:ajax event="itemSelect" listener="#{specialGroupItem.onFilterByContent()}" update="@form"/>
+                            </p:autoComplete>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -284,7 +288,7 @@
                              rowIndexVar="rowIndex"
                              style="min-width: 650px;overflow-x: hidden"
                              scrollable="true"
-                             scrollHeight="400"
+                             scrollHeight="350"
                              editable="true"
                              editMode="cell">
 
@@ -299,12 +303,12 @@
                     <p:column style="width: 30px;text-align: center;">
                         <f:facet name="header">
                             All<br/>
-                            <h:selectBooleanCheckbox value="${specialGroupItem.checkedAll}">
+                            <h:selectBooleanCheckbox value="${specialGroupItem.checkedAll}" >
                                 <p:ajax event="change" listener="#{specialGroupItem.toggleAllCheckBox()}" update="@(.checkBox), @(.edit)"/>
                             </h:selectBooleanCheckbox>
                         </f:facet>
-                        <h:selectBooleanCheckbox value="${specialGroupItem.initialDefaultCheckStatus}" styleClass="checkBox">
-                            <p:ajax event="change" listener="#{specialGroupItem.selectItem(item)}" update="@(.input-#{item.tmtDrug.tmtId})"/>
+                        <h:selectBooleanCheckbox value="${specialGroupItem.initialDefaultCheckStatus}" styleClass="checkBox" disabled="${!specialGroupItem.selectedReimburseGroupItems.contains(item)}">
+                            <p:ajax event="change" listener="#{specialGroupItem.checkItem}" update="@(.input-#{item.tmtDrug.tmtId})"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="TMT" style="width: 50px;text-align: center;">
@@ -349,7 +353,7 @@
                                  rowIndexVar="rowIndex"
                                  paginator="true" 
                                  rows="10"
-                                 value="#{reimburseGroupItemController.budgetYears}"
+                                 value="#{specialGroupItem.beforeSaveGroupItems}"
                                  scrollHeight="400"
                                  class="clean-table"
                                  scrollable="true"

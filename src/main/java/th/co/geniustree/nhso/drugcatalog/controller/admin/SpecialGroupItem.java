@@ -53,13 +53,14 @@ public class SpecialGroupItem implements Serializable {
 
     private List<Fund> funds;
     private List<Fund> selectedFunds = new ArrayList<>();
-    private List<ReimburseGroup> specialGroups = new ArrayList<>();
+    private List<ReimburseGroup> selectedSpecialGroups = new ArrayList<>();
     private List<ReimburseGroup> selectedReimburseGroups = new ArrayList<>();
     private List<ICD10> selectedICD10s = new ArrayList<>();
     private ReimburseGroupItem.ED statusED;
 
     private Set<String> strengths = new HashSet<>();
     private Set<String> dosageForms = new HashSet<>();
+    private List<String> contents = new ArrayList<>();
     private String selectedActiveIngredient = "";
     private String selectedStrength = "";
     private String selectedDosageForm = "";
@@ -70,6 +71,8 @@ public class SpecialGroupItem implements Serializable {
 
     private Set<ReimburseGroupItem> selectedReimburseGroupItems = new HashSet<>();
 
+    private Set<ReimburseGroupItem> beforeSaveGroupItems = new HashSet<>();
+
     private boolean checkedAll;
 
     private boolean initialDefaultCheckStatus = true;
@@ -79,18 +82,30 @@ public class SpecialGroupItem implements Serializable {
         strengths.add("");
     }
 
-    public void searchTMTDrug() {
+    public void reset() {
         reimburseGroupItems.clear();
         selectedReimburseGroupItems.clear();
+        contents.clear();
+    }
+
+    public void searchTMTDrug() {
+        reset();
         selectedTMTDrugs = tmtDrugService.searchByFSN(selectedStrength + " " + selectedActiveIngredient + " " + selectedDosageForm);
+        FSNSplitter splitter = new FSNSplitter();
+        Set<String> contentSet = new HashSet<>();
         for (TMTDrug drug : selectedTMTDrugs) {
             ReimburseGroupItem item = new ReimburseGroupItem();
             item.setTmtDrug(drug);
             item.setPk(new ReimburseGroupItemPK(drug.getTmtId(), null, null, null, null));
             reimburseGroupItems.add(item);
-            LOG.debug("search tmt : {}", drug.getTmtId());
             selectedReimburseGroupItems.add(item);
+            splitter.getActiveIngredientAndStrengthFromFSN(drug);
+            String content = splitter.getContent();
+            if (content != null) {
+                contentSet.add(content);
+            }
         }
+        contents.addAll(contentSet);
     }
 
     public List<ReimburseGroup> completeSpecialGroup(String query) {
@@ -177,14 +192,41 @@ public class SpecialGroupItem implements Serializable {
         if (dosageForms == null) {
             return new ArrayList<>();
         }
-        List<String> filterStrength = new ArrayList<>();
+        List<String> filterDosageForm = new ArrayList<>();
         for (String d : dosageForms) {
             if (d.toLowerCase().contains(query.toLowerCase())) {
-                filterStrength.add(d);
+                filterDosageForm.add(d);
             }
         }
-        Collections.sort(filterStrength);
-        return filterStrength;
+        Collections.sort(filterDosageForm);
+        return filterDosageForm;
+    }
+
+    public List<String> completeContent(String query) {
+        if (contents == null) {
+            return new ArrayList<>();
+        }
+        List<String> filterContent = new ArrayList<>();
+        for (String c : contents) {
+            if (c.toLowerCase().contains(query.toLowerCase())) {
+                filterContent.add(c);
+            }
+        }
+        Collections.sort(filterContent);
+        return filterContent;
+    }
+
+    public void onFilterByContent() {
+        selectedReimburseGroupItems.clear();
+        for (ReimburseGroupItem r : reimburseGroupItems) {
+            if (r.getTmtDrug().getFsn().contains(selectedContent)) {
+                selectedReimburseGroupItems.add(r);
+            }
+        }
+    }
+
+    public void onSelectContent() {
+        LOG.debug("selected content : {}", selectedContent);
     }
 
     public void toggleAllCheckBox() {
@@ -193,14 +235,14 @@ public class SpecialGroupItem implements Serializable {
         } else {
             selectedReimburseGroupItems.clear();
         }
-        LOG.debug("Total Selected TMT : {}" , selectedReimburseGroupItems.size());
-        for(ReimburseGroupItem item : selectedReimburseGroupItems){
-            LOG.debug("selected tmt : {}" , item.getPk().getTmtid());
+        LOG.debug("Total Selected TMT : {}", selectedReimburseGroupItems.size());
+        for (ReimburseGroupItem item : selectedReimburseGroupItems) {
+            LOG.debug("selected tmt : {}", item.getPk().getTmtid());
         }
         initialDefaultCheckStatus = checkedAll;
     }
 
-    public void selectItem(ReimburseGroupItem item) {
+    public void checkItem(ReimburseGroupItem item) {
         for (ReimburseGroupItem r : selectedReimburseGroupItems) {
             if (r.getPk().getTmtid().equals(item.getPk().getTmtid())) {
                 LOG.debug("disable selected tmt : {}", r.getPk().getTmtid());
@@ -219,6 +261,21 @@ public class SpecialGroupItem implements Serializable {
         }
     }
 
+    public void onSave() {
+//        for (ReimburseGroupItem r : selectedReimburseGroupItems) {
+//            for (Fund fund : selectedFunds) {
+//                for (ReimburseGroup group : selectedReimburseGroups) {
+//                    for (ICD10 icd10 : selectedICD10s) {
+//                        for (ReimburseGroup specialGroup : selectedSpecialGroups) {
+//                            ReimburseGroupItem item = new ReimburseGroupItem(r.getTmtDrug(),fund,icd10,g)
+//                    
+//                        }
+//                    }
+//                }
+//            }
+//        }
+    }
+
 //  ************************ getter and setter ************************
     public List<Fund> getSelectedFunds() {
         return selectedFunds;
@@ -228,12 +285,12 @@ public class SpecialGroupItem implements Serializable {
         this.selectedFunds = selectedFunds;
     }
 
-    public List<ReimburseGroup> getSpecialGroups() {
-        return specialGroups;
+    public List<ReimburseGroup> getSelectedSpecialGroups() {
+        return selectedSpecialGroups;
     }
 
-    public void setSpecialGroups(List<ReimburseGroup> specialGroups) {
-        this.specialGroups = specialGroups;
+    public void setSelectedSpecialGroups(List<ReimburseGroup> selectedSpecialGroups) {
+        this.selectedSpecialGroups = selectedSpecialGroups;
     }
 
     public List<ReimburseGroup> getSelectedReimburseGroups() {
@@ -354,6 +411,22 @@ public class SpecialGroupItem implements Serializable {
 
     public void setInitialDefaultCheckStatus(boolean initialDefaultCheckStatus) {
         this.initialDefaultCheckStatus = initialDefaultCheckStatus;
+    }
+
+    public Set<ReimburseGroupItem> getBeforeSaveGroupItems() {
+        return beforeSaveGroupItems;
+    }
+
+    public void setBeforeSaveGroupItems(Set<ReimburseGroupItem> beforeSaveGroupItems) {
+        this.beforeSaveGroupItems = beforeSaveGroupItems;
+    }
+
+    public List<String> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<String> contents) {
+        this.contents = contents;
     }
 
 }
