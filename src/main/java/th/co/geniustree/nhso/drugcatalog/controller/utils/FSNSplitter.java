@@ -28,6 +28,7 @@ public class FSNSplitter {
     private final Set<String> activeIngredients;
     private final Set<String> strengths;
     private String dosageForm;
+    private String content;
 
     public FSNSplitter() {
         activeIngredients = new HashSet<>();
@@ -35,18 +36,23 @@ public class FSNSplitter {
     }
 
     public void getActiveIngredientAndStrengthFromFSN(TMTDrug drug) {
-        
-        String regex = "[(](?<manufacturer>[\\w\\s+-,./]+)[)]\\s*[(](?<activeIngregientAndStrength>[\\w\\s+-,./\\d]+)[)]\\s*(?<dosageForm>\\w+[\\w\\s\\-]*)\\s*,*";
         activeIngredients.clear();
         strengths.clear();
         if (drug.getType().equals(TMTDrug.Type.TPU) || drug.getType().equals(TMTDrug.Type.TP)) {
+            StringBuilder regex = new StringBuilder("[(](?<manufacturer>[\\w\\s+-,./]+)[)]\\s*[(](?<activeIngregientAndStrength>[\\w\\s+-,./\\d]+)[)]\\s*(?<dosageForm>\\w+[\\w\\s\\-]*)\\s*,*");
+            if (drug.getType().equals(TMTDrug.Type.TPU)) {
+                regex.append("[\\w\\s\\-/*+.,]*,+\\s*(?<content>\\d+[\\w\\s+-,./]+)\\s*");
+            }
             String fsn = drug.getFsn();
-            Pattern p = Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS);
+            Pattern p = Pattern.compile(regex.toString(), Pattern.UNICODE_CHARACTER_CLASS);
             Matcher m = p.matcher(fsn);
             if (m.find()) {
                 dosageForm = m.group("dosageForm");
+                if (drug.getType().equals(TMTDrug.Type.TPU)) {
+                    content = m.group("content");
+                }
             }
-            if(m.reset().find()){
+            if (m.reset().find()) {
                 fsn = m.group("activeIngregientAndStrength");
             }
             p = Pattern.compile(ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN, Pattern.UNICODE_CHARACTER_CLASS);
@@ -57,7 +63,6 @@ public class FSNSplitter {
                 activeIngredients.add(activeIngredient);
                 strengths.add(strength);
             }
-            
         }
     }
 
@@ -71,6 +76,10 @@ public class FSNSplitter {
 
     public String getDosageForm() {
         return dosageForm;
+    }
+
+    public String getContent() {
+        return content;
     }
 
 }

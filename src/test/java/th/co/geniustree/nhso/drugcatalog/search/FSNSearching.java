@@ -41,63 +41,98 @@ public class FSNSearching {
     public void setUp() {
         drugs = new ArrayList<>();
         TMTDrug drug = new TMTDrug();
-        drug.setTmtId("000001");
         drug.setFsn("ciprofloxacin 5 mg/1.1 g + doxycycline 22 mg/1.1 g + metronidazole 23 mg/1.1 g + polyethylene glycol 4000 1 g/1.1 g + propylene glycol 50 mcL/1.1 g powder and solution for dental cement");
         drug.setType(TMTDrug.Type.GP);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000002");
         drug.setFsn("CIPRO HC OTIC (ALCON CUSI, SPAIN) (ciprofloxacin 200 mg/100 mL + hydrocortisone 1 g/100 mL) ear drops, suspension, 10 mL bottle");
         drug.setType(TMTDrug.Type.TPU);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000003");
         drug.setFsn("ciprofloxacin + hydrocortisone");
         drug.setType(TMTDrug.Type.VTM);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000004");
         drug.setFsn("ciprofloxacin + doxycycline + metronidazole + polyethylene glycol 4000 + propylene glycol");
         drug.setType(TMTDrug.Type.VTM);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000005");
         drug.setFsn(" CIPROHEXAL 500 (P.T. PRIMA HEXAL, INDONESIA) (ciprofloxacin 500 mg) film-coated tablet");
         drug.setType(TMTDrug.Type.TP);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000006");
         drug.setFsn("QUALIMOL (อังกฤษตรางู) (paracetamol 500 mg) tablet, 1 tablet");
         drug.setType(TMTDrug.Type.TPU);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000007");
         drug.setFsn("PAMAPHEN (เคมีภัณฑ์ เมดิคอล) (chlorpheniramine 1 mg + paracetamol 120 mg + phenylephrine 5 mg) tablet");
         drug.setType(TMTDrug.Type.TPU);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000008");
         drug.setFsn("ibuprofen 400 mg + paracetamol 325 mg tablet");
         drug.setType(TMTDrug.Type.GP);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000009");
         drug.setFsn("paracetamol");
         drug.setType(TMTDrug.Type.SUB);
         drugs.add(drug);
 
         drug = new TMTDrug();
-        drug.setTmtId("000010");
         drug.setFsn("chlorpheniramine 750 mcg/5 mL + guaifenesin 50 mg/5 mL + paracetamol 150 mg/5 mL + phenyephrine 2.5 mg/5 mL syrup, 60 mL bottle");
         drug.setType(TMTDrug.Type.GPU);
+        drugs.add(drug);
+
+        drug = new TMTDrug();
+        drug.setFsn("FILGEN (BIOPROFARMA, ARGENTINA) (filgrastim 300 mcg/1 mL) solution for injection in pre-filled syringe, 1 mL prefilled syr");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+
+        drug = new TMTDrug();
+        drug.setFsn("GAVISCON 250 (RECKITT BENCKISER HEALTHCARE, U.K.) (calcium carbonate 80 mg + sodium alginate 250 mg + sodium bicarbonate 133.5 mg) tablet, 1 tablet");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+
+        drug = new TMTDrug();
+        drug.setFsn("FUNGIZID-RATIOPHARM 200 (MERCKLE, GERMANY) (clotrimazole 200 mg) vaginal tablet, 1 tablet");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+
+        drug = new TMTDrug();
+        drug.setFsn("CLOXA T.O. 250 (ที.โอ. แลบ) (cloxacillin 250 mg) capsule, hard, 1 capsule");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+
+        drug = new TMTDrug();
+        drug.setFsn("DEXTROSE 5% IN NORMAL SALINE (ไทยนครพัฒนา) (dextrose 5 g/100 mL + sodium chloride 900 mg/100 mL) solution for infusion, 500 mL bag");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+
+        drug = new TMTDrug();
+        drug.setFsn("HYDROX-10 (ที.แมน. ฟาร์มา) (hydroxyzine 10 mg) film-coated tablet, 1 tablet");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+
+        drug = new TMTDrug();
+        drug.setFsn("CLOXACILLIN 500 (ชุมชนเภสัชกรรม) (cloxacillin 500 mg) capsule, hard, 1 capsule");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+        
+        drug = new TMTDrug();
+        drug.setFsn("SPIRO R P C (อาร์.พี.ซี. อินเตอร์เนชั่นแนล) (spironolactone 25 mg) tablet, 1 tablet");
+        drug.setType(TMTDrug.Type.TPU);
+        drugs.add(drug);
+        
+        drug = new TMTDrug();
+        drug.setFsn("MITOTAX 100 (DR. REDDY'S LABORATORIES, INDIA) (paclitaxel 100 mg) injection, 16.7 mL vial");
+        drug.setType(TMTDrug.Type.TPU);
         drugs.add(drug);
     }
 
@@ -111,11 +146,15 @@ public class FSNSearching {
         Set<String> activeIngredients = new HashSet<>();
         Set<String> strengths = new HashSet<>();
         Set<String> dosageForms = new HashSet<>();
+        Set<String> contents = new HashSet<>();
         for (TMTDrug drug : drugs) {
-            splitter.getActiveIngredientAndStrengthFromFSN(drug);
-            activeIngredients.addAll(splitter.getActiveIngredients());
-            strengths.addAll(splitter.getStrengths());
-            dosageForms.add(splitter.getDosageForm());
+            if (drug.getType().equals(TMTDrug.Type.TPU) || drug.getType().equals(TMTDrug.Type.TP)) {
+                splitter.getActiveIngredientAndStrengthFromFSN(drug);
+                activeIngredients.addAll(splitter.getActiveIngredients());
+                strengths.addAll(splitter.getStrengths());
+                dosageForms.add(splitter.getDosageForm());
+                contents.add(splitter.getContent());
+            }
         }
         for (String s : activeIngredients) {
             System.out.println("activeIngredient : " + s);
@@ -125,6 +164,9 @@ public class FSNSearching {
         }
         for (String s : dosageForms) {
             System.out.println("     dosage form : " + s);
+        }
+        for (String s : contents) {
+            System.out.println("         content : " + s);
         }
         assertThat(activeIngredients)
                 .doesNotHaveDuplicates()
@@ -178,5 +220,14 @@ public class FSNSearching {
                         "ear drops, suspension",
                         "powder and solution for dental cement");
 
+        assertThat(contents)
+                .contains(
+                        "1 tablet",
+                        "10 mL bottle")
+                .doesNotContain(
+                        "1 tablet ",
+                        ", 1 tablet",
+                        "film-coated tablet",
+                        "suspension, 10 mL bottle");
     }
 }
