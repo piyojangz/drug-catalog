@@ -18,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
-import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
+import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItemPK;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.service.FundService;
 import th.co.geniustree.nhso.drugcatalog.service.ICD10Service;
@@ -63,22 +63,33 @@ public class SpecialGroupItem implements Serializable {
     private String selectedActiveIngredient = "";
     private String selectedStrength = "";
     private String selectedDosageForm = "";
-    private SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs;
+    private String selectedContent = "";
     private List<TMTDrug> selectedTMTDrugs = new ArrayList<>();
 
     private List<ReimburseGroupItem> reimburseGroupItems = new ArrayList<>();
 
+    private Set<ReimburseGroupItem> selectedReimburseGroupItems = new HashSet<>();
+
+    private boolean checkedAll;
+
+    private boolean initialDefaultCheckStatus = true;
+
     @PostConstruct
     public void postConstruct() {
+        strengths.add("");
     }
 
     public void searchTMTDrug() {
         reimburseGroupItems.clear();
+        selectedReimburseGroupItems.clear();
         selectedTMTDrugs = tmtDrugService.searchByFSN(selectedStrength + " " + selectedActiveIngredient + " " + selectedDosageForm);
         for (TMTDrug drug : selectedTMTDrugs) {
             ReimburseGroupItem item = new ReimburseGroupItem();
             item.setTmtDrug(drug);
+            item.setPk(new ReimburseGroupItemPK(drug.getTmtId(), null, null, null, null));
             reimburseGroupItems.add(item);
+            LOG.debug("search tmt : {}", drug.getTmtId());
+            selectedReimburseGroupItems.add(item);
         }
     }
 
@@ -175,8 +186,39 @@ public class SpecialGroupItem implements Serializable {
         Collections.sort(filterStrength);
         return filterStrength;
     }
-    
-    
+
+    public void toggleAllCheckBox() {
+        if (checkedAll) {
+            selectedReimburseGroupItems.addAll(reimburseGroupItems);
+        } else {
+            selectedReimburseGroupItems.clear();
+        }
+        LOG.debug("Total Selected TMT : {}" , selectedReimburseGroupItems.size());
+        for(ReimburseGroupItem item : selectedReimburseGroupItems){
+            LOG.debug("selected tmt : {}" , item.getPk().getTmtid());
+        }
+        initialDefaultCheckStatus = checkedAll;
+    }
+
+    public void selectItem(ReimburseGroupItem item) {
+        for (ReimburseGroupItem r : selectedReimburseGroupItems) {
+            if (r.getPk().getTmtid().equals(item.getPk().getTmtid())) {
+                LOG.debug("disable selected tmt : {}", r.getPk().getTmtid());
+                selectedReimburseGroupItems.remove(r);
+                return;
+            }
+        }
+        LOG.debug("enable selected tmt : {}", item.getPk().getTmtid());
+        selectedReimburseGroupItems.add(item);
+    }
+
+    public void copyPrice(ReimburseGroupItem selectedItem) {
+        for (ReimburseGroupItem item : selectedReimburseGroupItems) {
+            item.setReimbursePrice(selectedItem.getReimbursePrice());
+            LOG.debug("copy price to tmt : {}\t\tprice : {}", item.getTmtDrug().getTmtId(), item.getReimbursePrice());
+        }
+    }
+
 //  ************************ getter and setter ************************
     public List<Fund> getSelectedFunds() {
         return selectedFunds;
@@ -234,14 +276,6 @@ public class SpecialGroupItem implements Serializable {
         this.selectedDosageForm = selectedDosageForm;
     }
 
-    public SpringDataLazyDataModelSupport<TMTDrug> getTmtDrugs() {
-        return tmtDrugs;
-    }
-
-    public void setTmtDrugs(SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs) {
-        this.tmtDrugs = tmtDrugs;
-    }
-
     public List<TMTDrug> getSelectedTMTDrugs() {
         return selectedTMTDrugs;
     }
@@ -288,6 +322,38 @@ public class SpecialGroupItem implements Serializable {
 
     public void setReimburseGroupItems(List<ReimburseGroupItem> reimburseGroupItems) {
         this.reimburseGroupItems = reimburseGroupItems;
+    }
+
+    public boolean isCheckedAll() {
+        return checkedAll;
+    }
+
+    public void setCheckedAll(boolean checkedAll) {
+        this.checkedAll = checkedAll;
+    }
+
+    public Set<ReimburseGroupItem> getSelectedReimburseGroupItems() {
+        return selectedReimburseGroupItems;
+    }
+
+    public void setSelectedReimburseGroupItems(Set<ReimburseGroupItem> selectedReimburseGroupItems) {
+        this.selectedReimburseGroupItems = selectedReimburseGroupItems;
+    }
+
+    public String getSelectedContent() {
+        return selectedContent;
+    }
+
+    public void setSelectedContent(String selectedContent) {
+        this.selectedContent = selectedContent;
+    }
+
+    public boolean isInitialDefaultCheckStatus() {
+        return initialDefaultCheckStatus;
+    }
+
+    public void setInitialDefaultCheckStatus(boolean initialDefaultCheckStatus) {
+        this.initialDefaultCheckStatus = initialDefaultCheckStatus;
     }
 
 }

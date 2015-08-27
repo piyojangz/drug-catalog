@@ -8,6 +8,14 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <script>
+                function togglecheckboxes(master, group) {
+                    var cbarray = document.getElementsByClassName(group);
+                    var cb = document.getElementById(cbarray[1].id);
+                    cb.checked = master.checked;
+                }
+                }
+            </script>
             <style>
                 .ui-panelgrid .ui-panelgrid-cell{
                     padding: 4px 5px;
@@ -48,7 +56,7 @@
                     border-bottom: 2px solid #7F7E7E;
                 }
                 .input{
-                    width: 250px;
+                    width: 200px;
                 }
                 .ui-autocomplete-items{
                     font-size: 16px;
@@ -57,9 +65,10 @@
                     overflow-y: scroll;
                     max-height: 300px;
                     max-width: 600px;
-                    min-width: 500px;
+                    min-width: 300px;
                 }
             </style>
+
             <div class="header-content">
                 <i class="fa fa-medkit"></i><h:outputText value="จัดกลุ่มรายการยา"/>
             </div>
@@ -75,7 +84,7 @@
                                 </p:column>
                             </p:row>
                             <p:row>
-                                <p:column style="text-align: right;">
+                                <p:column style="text-align: right;min-width: 110px;">
                                     <h:outputText value="Fund : "/>
                                 </p:column>
                                 <p:column>
@@ -96,11 +105,11 @@
                                                     forceSelection="true"
                                                     multiple="true"
                                                     converter="reimburseGroupConverter"
-                                                    var="specialGroup"
+                                                    var="item"
                                                     itemLabel="#{item.description}"
                                                     completeMethod="#{specialGroupItem.completeSpecialGroup}">
                                         <p:column>
-                                            <h:outputText value="#{specialGroup.id} - #{specialGroup.description}"/>
+                                            <h:outputText value="#{item.id} - #{item.description}"/>
                                         </p:column>
                                     </p:autoComplete>
                                 </p:column>
@@ -115,6 +124,7 @@
                                                     multiple="true"
                                                     converter="icd10Converter"
                                                     var="icd10"
+                                                    cacheTimeout="3000"
                                                     cache="true"
                                                     minQueryLength="3"
                                                     itemLabel="#{icd10.name}"
@@ -134,6 +144,8 @@
                                     <p:autoComplete value="#{specialGroupItem.selectedReimburseGroups}"
                                                     forceSelection="true"
                                                     multiple="true"
+                                                    cache="true"
+                                                    cacheTimeout="3000"
                                                     converter="reimburseGroupConverter"
                                                     var="reimburseGroup"
                                                     itemLabel="#{reimburseGroup.description}"
@@ -159,7 +171,7 @@
                         </p:panelGrid>
                     </div>
                     <div style="display: table-cell">
-                        <p:panelGrid>
+                        <p:panelGrid style="min-width: 500px;overflow-x: hidden;">
                             <p:row>
                                 <p:column colspan="3">
                                     <div class="header-content-sub">
@@ -168,16 +180,23 @@
                                 </p:column>
                             </p:row>
                             <p:row>
-                                <p:column style="text-align: right; width: 120px;">
+                                <p:column style="text-align: right; min-width: 110px;">
                                     <h:outputText value="ActiveIngredient : "/>
                                 </p:column>
-                                <p:column>
+                                <p:column style="min-width: 200px;">
                                     <p:inputText value="#{specialGroupItem.selectedActiveIngredient}" styleClass="input">
                                         <p:ajax event="change" listener="#{specialGroupItem.onSelectActiveIngredient()}" update="@form"/>
                                     </p:inputText>
+                                    <br/><h:outputText value="ไม่มีข้อมูลรายการ Active Ingredient นี้" 
+                                                       rendered="#{specialGroupItem.strengths == null or specialGroupItem.strengths.size() eq 0}"
+                                                       style="color: red;"/>
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton icon="ui-icon-search" value="ค้นหา active ingredient" actionListener="#{specialGroupItem.onSelectActiveIngredient()}" update="@form" />
+                                    <p:commandButton icon="ui-icon-search" 
+                                                     value="ค้นหา active ingredient" 
+                                                     actionListener="#{specialGroupItem.onSelectActiveIngredient()}" 
+                                                     update="@form"
+                                                     oncomplete="PF('strengthComplete').search('')"/>
                                 </p:column>
                             </p:row>
                             <p:row>
@@ -186,9 +205,13 @@
                                 </p:column>
                                 <p:column>
                                     <p:autoComplete id="strength" 
+                                                    widgetVar="strengthComplete"
                                                     var="strength" 
                                                     value="#{specialGroupItem.selectedStrength}"
-                                                    forceSelection="true" 
+                                                    forceSelection="true"
+                                                    emptyMessage="ไม่มีข้อมูลที่ต้องการ"
+                                                    queryDelay="700"
+                                                    cache="true"
                                                     completeMethod="#{specialGroupItem.completeStrength}"
                                                     styleClass="groupComplete"
                                                     itemLabel="#{strength}"
@@ -198,7 +221,7 @@
                                     </p:autoComplete>
                                 </p:column>
                                 <p:column>
-                                    
+
                                 </p:column>
                             </p:row>
                             <p:row>
@@ -211,6 +234,9 @@
                                                     value="#{specialGroupItem.selectedDosageForm}"
                                                     completeMethod="#{specialGroupItem.completeDosageForm}"
                                                     forceSelection="true" 
+                                                    emptyMessage="ไม่มีข้อมูลที่ต้องการ"
+                                                    queryDelay="700"
+                                                    cache="true"
                                                     styleClass="groupComplete"
                                                     itemLabel="#{dosageForm}"
                                                     itemValue="#{dosageForm}"
@@ -218,7 +244,7 @@
                                     </p:autoComplete>
                                 </p:column>
                                 <p:column>
-                                    
+
                                 </p:column>
                             </p:row>
                             <p:row>
@@ -232,15 +258,35 @@
                     </div>
                 </div>
             </h:form>
+            <script>
+                function copyPrice() {
+                    $('input[class^="price"]').val = $('input[class="price-#{item.tmtDrug.tmtId}"]').val;
+                }
+            </script>
             <h:form id="tableForm">
+                <p:panelGrid style="border-top: 1px solid #E1E1E1;margin-top: 20px;">
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="เลือก Content ที่ต้องการกรอง : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{specialGroupItem.selectedContent}" >
+                                <f:selectItem itemLabel="1 tablet" itemValue="1 tablet"/>
+                                <f:selectItem itemLabel="1 bottle" itemValue="1 bottle"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
                 <p:dataTable id="table"
                              value="#{specialGroupItem.reimburseGroupItems}"
                              styleClass="clean-table"
                              var="item"
                              rowIndexVar="rowIndex"
-                             style="min-width: 650px;"
+                             style="min-width: 650px;overflow-x: hidden"
                              scrollable="true"
-                             scrollHeight="200">
+                             scrollHeight="400"
+                             editable="true"
+                             editMode="cell">
 
                     <f:facet name="header">
                         <div style="text-align: center;">
@@ -250,11 +296,16 @@
                     <p:column headerText="#" style="width: 10px;text-align: center;max-width: 30px;">
                         #{rowIndex + 1}
                     </p:column>
-                    <p:column headerText="เลือก" style="width: 10px;text-align: center;">
+                    <p:column style="width: 30px;text-align: center;">
                         <f:facet name="header">
-                            All<br/><p:selectBooleanCheckbox/>
+                            All<br/>
+                            <h:selectBooleanCheckbox value="${specialGroupItem.checkedAll}">
+                                <p:ajax event="change" listener="#{specialGroupItem.toggleAllCheckBox()}" update="@(.checkBox), @(.edit)"/>
+                            </h:selectBooleanCheckbox>
                         </f:facet>
-                        <p:selectBooleanCheckbox/>
+                        <h:selectBooleanCheckbox value="${specialGroupItem.initialDefaultCheckStatus}" styleClass="checkBox">
+                            <p:ajax event="change" listener="#{specialGroupItem.selectItem(item)}" update="@(.input-#{item.tmtDrug.tmtId})"/>
+                        </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="TMT" style="width: 50px;text-align: center;">
                         <h:outputText value="#{item.tmtDrug.tmtId}"/>
@@ -262,20 +313,87 @@
                     <p:column headerText="TYPE" style="width: 50px;">
                         <h:outputText value="#{item.tmtDrug.type}"/>
                     </p:column>
-                    <p:column headerText="FSN" style="width: 300px;">
+                    <p:column headerText="FSN" style="width: 200px;">
                         <h:outputText value="#{item.tmtDrug.fsn}" styleClass="textWrap"/>
                     </p:column>
                     <p:column headerText="DateIn" style="width: 100px;">
-                        <h:outputText value="#{item.pk.budgetYear}" styleClass="textWrap"/>
+                        <p:calendar size="10" navigator="true" styleClass="input-#{item.tmtDrug.tmtId} edit" disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}"/>
                     </p:column>
-                    <p:column headerText="Reimburse Price" style="width: 100px;">
-                        <h:outputText value="#{item}"/>
-                        <p:commandButton value="Add All"/>
+                    <p:column headerText="Reimburse Price" style="width: 150px;">
+                        <p:outputPanel styleClass="reimbursePrice edit">
+                            <p:inputText value="#{item.reimbursePrice}" 
+                                         size="6" 
+                                         class="price-#{item.tmtDrug.tmtId}" 
+                                         styleClass="input-#{item.tmtDrug.tmtId}" 
+                                         disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}"/>&nbsp;&nbsp;
+                            <p:commandButton value="Add All" 
+                                             styleClass="input-#{item.tmtDrug.tmtId}" 
+                                             disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}" 
+                                             action="#{specialGroupItem.copyPrice(item)}" 
+                                             update="@(.reimbursePrice)"/>
+                        </p:outputPanel>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="เลือก" action="groupitem.xhtml"  />
+                <p:commandButton value="บันทึก" onclick="PF('confirmWidgetDialog').show()" />
             </h:form>
 
+            <p:dialog id="confirmDialog"
+                      widgetVar="confirmWidgetDialog"
+                      appendTo="@(body)"
+                      header="ยืนยันการเพิ่มข้อมูล"
+                      modal="true"
+                      height="700">
+
+                <h:form id="tableFormDialog">
+                    <p:dataTable id="tableDialog"
+                                 rowIndexVar="rowIndex"
+                                 paginator="true" 
+                                 rows="10"
+                                 value="#{reimburseGroupItemController.budgetYears}"
+                                 scrollHeight="400"
+                                 class="clean-table"
+                                 scrollable="true"
+                                 lazy="true" 
+                                 rowsPerPageTemplate="10,20,30,40"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                        <p:column headerText="#">
+                            #{rowIndex + 1}
+                        </p:column>
+                        <p:column headerText="TMTID">
+                            <h:outputText value="328022" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="FSN" style="width: 300px;">
+                            <h:outputText value="FLOXCIPRO 500 (สหแพทย์เภสัช) (ciprofloxacin 500 mg) film-coated tablet, 1 tablet" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="FUND_CODE">
+                            <h:outputText value="UC" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="ICD10">
+                            <h:outputText value="A001" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="Special Group">
+                            <h:outputText value="CAP" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="Drug group">
+                            <h:outputText value="J2" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="ED / NED">
+                            <h:outputText value="E" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="ReimbursePrice">
+                            <h:outputText value="50 บาท" styleClass="textWrap"/>
+                        </p:column>
+                        <p:column headerText="CREATE_DATE">
+                            <h:outputText value="1 ต.ค. 2558" styleClass="textWrap"/>
+                        </p:column>                        
+                    </p:dataTable>
+                    <p:spacer height="20"/>
+                    <div style="text-align: center;">
+                        <p:commandButton value="ยืนยัน" onsuccess="PF('confirmWidgetDialog').hide()" action="grouped.xhtml"/>
+                        <p:commandButton value="ยกเลิก" onclick="PF('confirmWidgetDialog').hide()"/>
+                    </div>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>
