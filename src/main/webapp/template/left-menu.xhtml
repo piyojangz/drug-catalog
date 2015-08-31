@@ -54,9 +54,7 @@
                     </ui:remove>
                 </p:submenu>
                 <p:submenu label="ED/NED" rendered="#{request.isUserInRole('ADMIN')}">
-                    <ui:remove>
-                        <p:menuitem value="รายการ ED/NED" outcome="/private/admin/edned/addedstatus" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/addedstatus'), 0)?'background-color: #FFF2DB':''}"/>
-                    </ui:remove>
+                    <p:menuitem value="รายการ ED/NED" outcome="/private/admin/edned/addedstatus" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/addedstatus'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Upload ED/NED" outcome="/private/admin/edned/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/upload'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="TMT-NDC24" rendered="#{request.isUserInRole('ADMIN')}">
