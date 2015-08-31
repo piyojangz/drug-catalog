@@ -122,7 +122,6 @@ public class SpecialGroupItem implements Serializable {
         if (!(keywords == null || keywords.isEmpty())) {
             List<TMTDrug.Type> typesIn = new ArrayList<>();
             typesIn.add(TMTDrug.Type.GP);
-            typesIn.add(TMTDrug.Type.TP);
             typesIn.add(TMTDrug.Type.TPU);
             Specification<TMTDrug> spec = Specifications.where(TMTDrugSpecs.fsnContains(keywords)).and(TMTDrugSpecs.typeIn(typesIn));
             selectedTMTDrugs = tmtDrugService.findBySpec(spec);

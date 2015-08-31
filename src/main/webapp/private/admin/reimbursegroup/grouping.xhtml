@@ -172,7 +172,7 @@
                         </p:panelGrid>
                     </div>
                     <div style="display: table-cell">
-                        <p:panelGrid style="min-width: 500px;overflow-x: hidden;">
+                        <p:panelGrid style="min-width: 550px;overflow-x: hidden;">
                             <p:row>
                                 <p:column colspan="3">
                                     <div class="header-content-sub">
@@ -181,10 +181,10 @@
                                 </p:column>
                             </p:row>
                             <p:row>
-                                <p:column style="text-align: right; min-width: 110px;">
+                                <p:column style="text-align: right; width: 110px;">
                                     <h:outputText value="ActiveIngredient : "/>
                                 </p:column>
-                                <p:column style="min-width: 200px;">
+                                <p:column style="width: 210px;">
                                     <p:inputText value="#{specialGroupItem.selectedActiveIngredient}" styleClass="input">
                                         <p:ajax event="change" listener="#{specialGroupItem.onSelectActiveIngredient()}" update="strength"/>
                                     </p:inputText>
@@ -192,9 +192,8 @@
                                                        rendered="#{specialGroupItem.strengths == null or specialGroupItem.strengths.size() eq 0}"
                                                        style="color: red;"/>
                                 </p:column>
-                                <p:column>
+                                <p:column style="text-align: left;">
                                     <p:commandButton icon="ui-icon-search" 
-                                                     value="ค้นหา active ingredient" 
                                                      actionListener="#{specialGroupItem.onSelectActiveIngredient()}" 
                                                      update="strength"
                                                      oncomplete="PF('strengthComplete').search('')"/>
@@ -305,13 +304,13 @@
                         <f:facet name="header">
                             All<br/>
                             <h:selectBooleanCheckbox value="${specialGroupItem.checkedAll}" >
-                                <p:ajax event="change" listener="#{specialGroupItem.checkAll()}" update="@(.checkBox), @(.edit)"/>
+                                <p:ajax event="change" listener="#{specialGroupItem.checkAll()}" update="@(.checkBox), @(.edit) ,@(.saveBtn)"/>
                             </h:selectBooleanCheckbox>
                         </f:facet>
                         <h:selectBooleanCheckbox value="${specialGroupItem.initialDefaultCheckStatus}" 
                                                  styleClass="checkBox" 
-                                                 disabled="${item.tmtDrug.type eq 'GP' or not specialGroupItem.selectedReimburseGroupItems.contains(item)}">
-                            <p:ajax event="change" listener="#{specialGroupItem.checkItem(item)}" update="@(.input-#{item.tmtDrug.tmtId})"/>
+                                                 disabled="${item.tmtDrug.type eq 'GP'}">
+                            <p:ajax event="change" listener="#{specialGroupItem.checkItem(item)}" update="@(.input-#{item.tmtDrug.tmtId}) ,@(.saveBtn)"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="TMT" style="width: 50px;text-align: center;">
@@ -357,8 +356,10 @@
                     </p:column>
                 </p:dataTable>
                 <p:commandButton value="บันทึก"
+                                 styleClass="saveBtn"
                                  oncomplete="PF('confirmWidgetDialog').show()" 
                                  actionListener="#{specialGroupItem.onSave()}" 
+                                 disabled="#{empty specialGroupItem.selectedReimburseGroupItems }"
                                  update=":tableFormDialog, :tableFormDialog:tableDialog , @form"/>
             </h:form>
 
@@ -367,7 +368,7 @@
                       appendTo="@(body)"
                       header="ยืนยันการเพิ่มข้อมูล"
                       modal="true"
-                      height="700">
+                      height="750">
 
                 <h:form id="tableFormDialog">
                     <p:dataTable id="tableDialog"

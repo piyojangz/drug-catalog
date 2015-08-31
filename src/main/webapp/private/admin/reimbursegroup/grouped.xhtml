@@ -181,11 +181,12 @@
                         </p:row>
 
                     </p:panelGrid>
-                    <div style="text-align: center;">
+                    <div style="text-align: center;margin-top: 5px;">
                         <p:commandButton value="ยืนยัน" 
                                          actionListener="#{specialGroupItem.delete()}" 
                                          update=":tableForm , :growl"
                                          onsuccess="PF('confirmWidgetDialog').hide()"/>
+                        <p:spacer width="5"/>
                         <p:commandButton value="ยกเลิก"
                                          onclick="PF('confirmWidgetDialog').hide()"/>
                     </div>
