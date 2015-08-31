@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,10 @@ public interface ReimburseGroupItemService {
 
     public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Date budgetYear, BigDecimal reimbursePrice);
 
+    public void save(ReimburseGroupItem item);
+    
+    public void save(Collection<ReimburseGroupItem> items);
+    
     public ReimburseGroupItem findById(String tmtid, String fundCode, String icd10Id, String reimburseGroupId, Date searchDate);
 
     public Page<ReimburseGroupItem> findAllPaging(Pageable pageable);

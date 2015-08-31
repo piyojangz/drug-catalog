@@ -72,7 +72,7 @@
             <div class="header-content">
                 <i class="fa fa-medkit"></i><h:outputText value="จัดกลุ่มรายการยา"/>
             </div>
-            <h:form id="searchForm">
+            <h:form id="tableForm">
                 <div style="display: table-row">
                     <div style="display: table-cell">
                         <p:panelGrid>
@@ -88,11 +88,11 @@
                                     <h:outputText value="Fund : "/>
                                 </p:column>
                                 <p:column>
-                                    <p:selectManyCheckbox id="fund">
-                                        <f:selectItem itemLabel="UC" itemValue="UC"/>
-                                        <f:selectItem itemLabel="LGO" itemValue="LGO"/>
-                                        <f:selectItem itemLabel="OFC" itemValue="OFC"/>
-                                        <f:selectItem itemLabel="SSO" itemValue="SSO"/>
+                                    <p:selectManyCheckbox id="fund" value="#{specialGroupItem.selectedFunds}" converter="fundConverter">
+                                        <f:selectItems var="item" 
+                                                       itemLabel="#{item.code}" 
+                                                       itemValue="#{item}"
+                                                       value="#{specialGroupItem.funds}"/>
                                     </p:selectManyCheckbox>
                                 </p:column>
                             </p:row>
@@ -101,12 +101,13 @@
                                     <h:outputText value="Special Group : "/>
                                 </p:column>
                                 <p:column>
-                                    <p:autoComplete value="#{specialGroupItem.selectedReimburseGroups}"
+                                    <p:autoComplete value="#{specialGroupItem.selectedSpecialProjects}"
                                                     forceSelection="true"
                                                     multiple="true"
                                                     converter="reimburseGroupConverter"
                                                     var="item"
                                                     itemLabel="#{item.description}"
+                                                    itemValue="#{item.id}"
                                                     completeMethod="#{specialGroupItem.completeSpecialGroup}">
                                         <p:column>
                                             <h:outputText value="#{item.id} - #{item.description}"/>
@@ -123,14 +124,15 @@
                                                     forceSelection="true"
                                                     multiple="true"
                                                     converter="icd10Converter"
-                                                    var="icd10"
+                                                    var="item"
                                                     cacheTimeout="3000"
                                                     cache="true"
                                                     minQueryLength="3"
-                                                    itemLabel="#{icd10.name}"
+                                                    itemLabel="#{item.name}"
+                                                    itemValue="#{item.code}"
                                                     completeMethod="#{specialGroupItem.completeICD10}">
                                         <p:column>
-                                            <h:outputText value="#{icd10.code} - #{icd10.name}"/>
+                                            <h:outputText value="#{item.code} - #{item.name}"/>
                                         </p:column>
                                     </p:autoComplete>
                                     <!--<h:outputText value="กรุณาใส่อย่างน้อย 3 ตัวอักษร" style="color: red;"/>-->
@@ -144,14 +146,13 @@
                                     <p:autoComplete value="#{specialGroupItem.selectedReimburseGroups}"
                                                     forceSelection="true"
                                                     multiple="true"
-                                                    cache="true"
-                                                    cacheTimeout="3000"
                                                     converter="reimburseGroupConverter"
-                                                    var="reimburseGroup"
-                                                    itemLabel="#{reimburseGroup.description}"
+                                                    var="item"
+                                                    itemLabel="#{item.description}"
+                                                    itemValue="#{item.id}"
                                                     completeMethod="#{specialGroupItem.completeReimburseGroup}">
                                         <p:column>
-                                            <h:outputText value="#{reimburseGroup.id} - #{reimburseGroup.description}"/>
+                                            <h:outputText value="#{item.id} - #{item.description}"/>
                                         </p:column>
                                     </p:autoComplete>
                                 </p:column>
@@ -185,7 +186,7 @@
                                 </p:column>
                                 <p:column style="min-width: 200px;">
                                     <p:inputText value="#{specialGroupItem.selectedActiveIngredient}" styleClass="input">
-                                        <p:ajax event="change" listener="#{specialGroupItem.onSelectActiveIngredient()}" update="@form"/>
+                                        <p:ajax event="change" listener="#{specialGroupItem.onSelectActiveIngredient()}" update="strength"/>
                                     </p:inputText>
                                     <br/><h:outputText value="ไม่มีข้อมูลรายการ Active Ingredient นี้" 
                                                        rendered="#{specialGroupItem.strengths == null or specialGroupItem.strengths.size() eq 0}"
@@ -195,7 +196,7 @@
                                     <p:commandButton icon="ui-icon-search" 
                                                      value="ค้นหา active ingredient" 
                                                      actionListener="#{specialGroupItem.onSelectActiveIngredient()}" 
-                                                     update="@form"
+                                                     update="strength"
                                                      oncomplete="PF('strengthComplete').search('')"/>
                                 </p:column>
                             </p:row>
@@ -217,7 +218,7 @@
                                                     itemLabel="#{strength}"
                                                     itemValue="#{strength}"
                                                     dropdown="true">
-                                        <p:ajax event="itemSelect" listener="#{specialGroupItem.onSelectStrength()}" update="@form"/>
+                                        <p:ajax event="itemSelect" listener="#{specialGroupItem.onSelectStrength()}" update="dosageForm"/>
                                     </p:autoComplete>
                                 </p:column>
                                 <p:column>
@@ -249,7 +250,7 @@
                             </p:row>
                             <p:row>
                                 <p:column colspan="3" style="text-align: center;">
-                                    <p:commandButton value="ค้นหา" icon="ui-icon-search" update=":tableForm:table" actionListener="#{specialGroupItem.searchTMTDrug()}"/>
+                                    <p:commandButton value="ค้นหา" icon="ui-icon-search" update="@form" actionListener="#{specialGroupItem.searchTMTDrug()}"/>
                                     <p:spacer width="10"/>
                                     <p:commandButton value="เคลียร์" type="reset"/>
                                 </p:column>
@@ -257,8 +258,7 @@
                         </p:panelGrid>
                     </div>
                 </div>
-            </h:form>
-            <h:form id="tableForm">
+
                 <p:panelGrid style="border-top: 1px solid #E1E1E1;margin-top: 20px;">
                     <p:row>
                         <p:column style="text-align: right;">
@@ -290,7 +290,8 @@
                              scrollable="true"
                              scrollHeight="350"
                              editable="true"
-                             editMode="cell">
+                             editMode="cell"
+                             sortBy="#{item.tmtDrug.type}">
 
                     <f:facet name="header">
                         <div style="text-align: center;">
@@ -298,47 +299,67 @@
                         </div>
                     </f:facet>
                     <p:column headerText="#" style="width: 10px;text-align: center;max-width: 30px;">
-                        #{rowIndex + 1}
+                        <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
                     <p:column style="width: 30px;text-align: center;">
                         <f:facet name="header">
                             All<br/>
                             <h:selectBooleanCheckbox value="${specialGroupItem.checkedAll}" >
-                                <p:ajax event="change" listener="#{specialGroupItem.toggleAllCheckBox()}" update="@(.checkBox), @(.edit)"/>
+                                <p:ajax event="change" listener="#{specialGroupItem.checkAll()}" update="@(.checkBox), @(.edit)"/>
                             </h:selectBooleanCheckbox>
                         </f:facet>
-                        <h:selectBooleanCheckbox value="${specialGroupItem.initialDefaultCheckStatus}" styleClass="checkBox" disabled="${!specialGroupItem.selectedReimburseGroupItems.contains(item)}">
-                            <p:ajax event="change" listener="#{specialGroupItem.checkItem}" update="@(.input-#{item.tmtDrug.tmtId})"/>
+                        <h:selectBooleanCheckbox value="${specialGroupItem.initialDefaultCheckStatus}" 
+                                                 styleClass="checkBox" 
+                                                 disabled="${item.tmtDrug.type eq 'GP' or not specialGroupItem.selectedReimburseGroupItems.contains(item)}">
+                            <p:ajax event="change" listener="#{specialGroupItem.checkItem(item)}" update="@(.input-#{item.tmtDrug.tmtId})"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="TMT" style="width: 50px;text-align: center;">
-                        <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                        <h:outputText value="#{item.tmtDrug.tmtId}" />
                     </p:column>
                     <p:column headerText="TYPE" style="width: 50px;">
-                        <h:outputText value="#{item.tmtDrug.type}"/>
+                        <h:outputText value="#{item.tmtDrug.type}" />
                     </p:column>
                     <p:column headerText="FSN" style="width: 200px;">
-                        <h:outputText value="#{item.tmtDrug.fsn}" styleClass="textWrap"/>
+                        <h:outputText value="#{item.tmtDrug.fsn}" styleClass="textWrap" />
                     </p:column>
                     <p:column headerText="DateIn" style="width: 100px;">
-                        <p:calendar size="10" navigator="true" styleClass="input-#{item.tmtDrug.tmtId} edit" disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}"/>
+                        <p:calendar size="10" 
+                                    value="#{item.pk.budgetYear}"
+                                    navigator="true" 
+                                    yearRange="c-20:c+5"
+                                    styleClass="input-#{item.tmtDrug.tmtId} edit inputDate" 
+                                    disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}"/>
+                        <ui:remove>
+                            <p:spacer width="2"/>
+                            <p:commandButton value="Fill all" 
+                                             styleClass="input-#{item.tmtDrug.tmtId}" 
+                                             disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}" 
+                                             action="#{specialGroupItem.copyDateIn(item)}"
+                                             update="@(.inputDate)"/>
+
+                        </ui:remove>
                     </p:column>
                     <p:column headerText="Reimburse Price" style="width: 150px;">
                         <p:outputPanel styleClass="reimbursePrice edit">
                             <p:inputText value="#{item.reimbursePrice}" 
                                          size="6" 
                                          class="price-#{item.tmtDrug.tmtId}" 
-                                         styleClass="input-#{item.tmtDrug.tmtId}" 
-                                         disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}"/>&nbsp;&nbsp;
-                            <p:commandButton value="Add All" 
+                                         styleClass="input-#{item.tmtDrug.tmtId} inputPrice" 
+                                         disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}"/>
+                            <p:spacer width="2"/>
+                            <p:commandButton value="Fill all" 
                                              styleClass="input-#{item.tmtDrug.tmtId}" 
                                              disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}" 
                                              action="#{specialGroupItem.copyPrice(item)}" 
-                                             update="@(.reimbursePrice)"/>
+                                             update="@(.inputPrice)"/>
                         </p:outputPanel>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="บันทึก" onclick="PF('confirmWidgetDialog').show()" />
+                <p:commandButton value="บันทึก"
+                                 oncomplete="PF('confirmWidgetDialog').show()" 
+                                 actionListener="#{specialGroupItem.onSave()}" 
+                                 update=":tableFormDialog, :tableFormDialog:tableDialog , @form"/>
             </h:form>
 
             <p:dialog id="confirmDialog"
@@ -350,6 +371,7 @@
 
                 <h:form id="tableFormDialog">
                     <p:dataTable id="tableDialog"
+                                 var="item"
                                  rowIndexVar="rowIndex"
                                  paginator="true" 
                                  rows="10"
@@ -364,36 +386,36 @@
                             #{rowIndex + 1}
                         </p:column>
                         <p:column headerText="TMTID">
-                            <h:outputText value="328022" styleClass="textWrap"/>
+                            <h:outputText value="#{item.pk.tmtid}" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="FSN" style="width: 300px;">
-                            <h:outputText value="FLOXCIPRO 500 (สหแพทย์เภสัช) (ciprofloxacin 500 mg) film-coated tablet, 1 tablet" styleClass="textWrap"/>
+                            <h:outputText value="#{item.tmtDrug.fsn}" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="FUND_CODE">
-                            <h:outputText value="UC" styleClass="textWrap"/>
+                            <h:outputText value="#{item.fund.code} -> #{item.fund.name}" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ICD10">
-                            <h:outputText value="A001" styleClass="textWrap"/>
+                            <h:outputText value="#{item.icd10.code} -> #{item.icd10.name}" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="Special Group">
-                            <h:outputText value="CAP" styleClass="textWrap"/>
+                            <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="Drug group">
-                            <h:outputText value="J2" styleClass="textWrap"/>
+                            <h:outputText value="#{item.reimburseGroup.id} -> #{item.reimburseGroup.description}" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ED / NED">
-                            <h:outputText value="E" styleClass="textWrap"/>
+                            <h:outputText value="#{item.statusEd}" styleClass="textWrap"/>
                         </p:column>
                         <p:column headerText="ReimbursePrice">
-                            <h:outputText value="50 บาท" styleClass="textWrap"/>
+                            <h:outputText value="#{item.reimbursePrice} บาท" styleClass="textWrap"/>
                         </p:column>
-                        <p:column headerText="CREATE_DATE">
-                            <h:outputText value="1 ต.ค. 2558" styleClass="textWrap"/>
+                        <p:column headerText="ปีงบประมาณ">
+                            <h:outputText value="#{item.pk.budgetYear}" styleClass="textWrap"/>
                         </p:column>                        
                     </p:dataTable>
                     <p:spacer height="20"/>
                     <div style="text-align: center;">
-                        <p:commandButton value="ยืนยัน" onsuccess="PF('confirmWidgetDialog').hide()" action="grouped.xhtml"/>
+                        <p:commandButton value="ยืนยัน" onsuccess="PF('confirmWidgetDialog').hide()" actionListener="#{specialGroupItem.save()}"/>
                         <p:commandButton value="ยกเลิก" onclick="PF('confirmWidgetDialog').hide()"/>
                     </div>
                 </h:form>

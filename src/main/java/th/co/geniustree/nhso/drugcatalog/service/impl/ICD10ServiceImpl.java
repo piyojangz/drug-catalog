@@ -53,6 +53,15 @@ public class ICD10ServiceImpl implements ICD10Service {
     }
 
     @Override
+    public List<ICD10> search(String searchWord) {
+        List<String> keyList = Arrays.asList(searchWord.split("\\s+"));
+        Specification<ICD10> spec = Specifications.where(ICD10Specs.codeLike(keyList)).or(ICD10Specs.nameLike(keyList));
+        return icd10Repo.findAll(spec);
+    }
+    
+    
+
+    @Override
     public List<ICD10> findAll() {
         return icd10Repo.findAll();
     }

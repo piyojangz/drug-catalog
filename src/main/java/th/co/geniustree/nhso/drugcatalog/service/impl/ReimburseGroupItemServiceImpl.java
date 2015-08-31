@@ -7,7 +7,9 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +57,23 @@ public class ReimburseGroupItemServiceImpl implements ReimburseGroupItemService 
         ReimburseGroupItem reimburseGroupItem = new ReimburseGroupItem(tmtDrug, fund, icd10, reimburseGroup, edStatus, budgetYear,price);
         return reimburseGroupItemRepo.save(reimburseGroupItem);
     }
+
+    @Override
+    public void save(Collection<ReimburseGroupItem> items) {
+        for(ReimburseGroupItem item : items){
+            save(item);
+        }
+    }
+
+    @Override
+    public void save(ReimburseGroupItem item) {
+        if(isNullICD10(item.getIcd10())){
+            item.setIcd10(icd10Repo.findOne(EMPTY_ICD10_CODE));
+        }
+        item.setCreateDate(new GregorianCalendar().getTime());
+        reimburseGroupItemRepo.save(item);
+    }
+    
 
     @Override
     public ReimburseGroupItem findById(String tmtid, String fundCode, String icd10Id, String reimburseGroupId, Date searchDate) {

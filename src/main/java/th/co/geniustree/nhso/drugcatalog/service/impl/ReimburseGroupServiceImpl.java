@@ -74,4 +74,19 @@ public class ReimburseGroupServiceImpl implements ReimburseGroupService {
         reimburseGroupRepo.delete(reimburseGroup);
     }
 
+    @Override
+    public List<ReimburseGroup> findAll() {
+        return reimburseGroupRepo.findAll();
+    }
+
+    @Override
+    public List<ReimburseGroup> searchOnlySpecialStatus(String keyword, boolean specialProject) {
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
+        Specification<ReimburseGroup> spec = Specifications.where(ReimburseGroupSpecs.idLike(keyList)).or(ReimburseGroupSpecs.descriptionLike(keyList));
+        spec = Specifications.where(spec).and(ReimburseGroupSpecs.specialProjectEq(specialProject));
+        return reimburseGroupRepo.findAll(spec);
+    }
+    
+    
+
 }

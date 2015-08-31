@@ -26,7 +26,11 @@ public interface ReimburseGroupService {
     
     public Page<ReimburseGroup> search(String keyword,boolean specialProject,Pageable pageable);
     
+    public List<ReimburseGroup> searchOnlySpecialStatus(String keyword,boolean specialProject);
+    
     public ReimburseGroup edit(ReimburseGroup reimburseGroup);
     
     public void delete(ReimburseGroup reimburseGroup);
+    
+    public List<ReimburseGroup> findAll();
 }
