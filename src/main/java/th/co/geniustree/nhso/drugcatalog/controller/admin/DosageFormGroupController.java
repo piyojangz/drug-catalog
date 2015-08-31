@@ -47,7 +47,7 @@ public class DosageFormGroupController implements Serializable {
 
     public void save() {
         try {
-            dosageFormGroupService.save(dfgId, dfgDescription);
+            dosageFormGroupService.save(dfgId.toLowerCase(), dfgDescription);
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้ อาจเป็นเพราะมีข้อมูล " + dfgId + " อยู่แล้ว");
