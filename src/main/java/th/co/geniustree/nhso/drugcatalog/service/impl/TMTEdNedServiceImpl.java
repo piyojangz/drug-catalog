@@ -18,6 +18,7 @@ import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNedPK;
+import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
@@ -33,6 +34,8 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
     private TMTEdNedRepo tmtEdNedRepo;
     @Autowired
     private TMTDrugRepo tMTDrugRepo;
+    @Autowired
+    private FundRepo fundRepo;
 
     @Override
     public void save(List<ExcelTMTEdNed> excelTMTEdNeds) {
@@ -41,7 +44,9 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
             BeanUtils.copyProperties(excel, tmtEdNed);
             TMTDrug findOne = tMTDrugRepo.findOne(tmtEdNed.getTmtId());
             tmtEdNed.setTmtDrug(findOne);
-            tmtEdNed.setClassifier("UC");
+            Fund fund = fundRepo.findOne(excel.getFundCode());
+            tmtEdNed.setFund(fund);
+            tmtEdNed.setClassifier(fund.getCode());
             findOne.getEdNeds().add(tmtEdNed);
             tmtEdNedRepo.save(tmtEdNed);
         }

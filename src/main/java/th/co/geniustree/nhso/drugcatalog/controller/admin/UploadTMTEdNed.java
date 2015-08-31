@@ -28,7 +28,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ExcelTMTEdNed;
+import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.service.FundService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
@@ -63,6 +65,9 @@ public class UploadTMTEdNed implements Serializable {
     @Autowired
     private TMTEdNedService tmtEdNedService;
     private StreamedContent templateFile;
+    
+    @Autowired
+    private FundService fundService;
 
     @PostConstruct
     public void postConstruct() {
@@ -126,8 +131,12 @@ public class UploadTMTEdNed implements Serializable {
                     bean.postConstruct();
                     if (bean.getErrorMap().isEmpty()) {
                         TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
+                        Fund fund = fundService.findOne(bean.getFundCode().trim());
                         if (findOneWithoutTx == null) {
                             bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
+                        }
+                        if(fund == null){
+                            bean.addError("fundCode", "ไม่พบ FUNDCODE นี้ในระบบ");
                         }
                         if(tmtEdNedService.exist(bean.getTmtId(),bean.getDateIn())){
                             bean.addError("dateinString", "ED/NED ในวันที่เดียวกันนี้เคยระบุไปแล้ว");
