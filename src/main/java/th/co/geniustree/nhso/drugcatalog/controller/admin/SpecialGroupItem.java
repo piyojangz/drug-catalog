@@ -18,10 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
+import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
@@ -84,14 +87,27 @@ public class SpecialGroupItem implements Serializable {
 
     private Set<ReimburseGroupItem> beforeSaveGroupItems = new HashSet<>();
 
+    private SpringDataLazyDataModelSupport<ReimburseGroupItem> groupedItems;
+
     private boolean checkedAll;
 
     private boolean initialDefaultCheckStatus = true;
+
+    private ReimburseGroupItem selectItem;
 
     @PostConstruct
     public void postConstruct() {
         strengths.add("");
         funds = fundService.findAll();
+        groupedItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>() {
+
+            @Override
+            public Page<ReimburseGroupItem> load(Pageable pageAble) {
+                return reimburseGroupItemService.findAllPaging(pageAble);
+            }
+
+        };
+
     }
 
     public void reset() {
@@ -262,8 +278,8 @@ public class SpecialGroupItem implements Serializable {
             LOG.debug("copy price to tmt : {}\t\tprice : {}", item.getTmtDrug().getTmtId(), item.getReimbursePrice());
         }
     }
-    
-    public void copyDateIn(ReimburseGroupItem selectedItem){
+
+    public void copyDateIn(ReimburseGroupItem selectedItem) {
         for (ReimburseGroupItem item : selectedReimburseGroupItems) {
             item.getPk().setBudgetYear(selectedItem.getPk().getBudgetYear());
             LOG.debug("copy date to tmt : {}\t\tdate : {}", item.getTmtDrug().getTmtId(), item.getPk().getBudgetYear());
@@ -271,22 +287,23 @@ public class SpecialGroupItem implements Serializable {
     }
 
     public void onSave() {
-        LOG.debug("onSave");
         List<ReimburseGroup> selectedGroups = new ArrayList<>();
         selectedGroups.addAll(selectedSpecialProjects);
         selectedGroups.addAll(selectedReimburseGroups);
         for (ReimburseGroupItem r : selectedReimburseGroupItems) {
-//            LOG.debug("tmt : {}",r.getTmtDrug().getTmtId());
             for (Fund fund : selectedFunds) {
-//                LOG.debug("fund : {}",fund.getCode());
                 for (ReimburseGroup group : selectedGroups) {
-//                    LOG.debug("group : {}",group.getId());
                     for (ICD10 icd10 : selectedICD10s) {
-//                        LOG.debug("icd10 : {}",icd10.getCode());
                         ReimburseGroupItem item = new ReimburseGroupItem(r.getTmtDrug(), fund, icd10, group, statusED, r.getPk().getBudgetYear(), r.getReimbursePrice());
                         item.setPk(new ReimburseGroupItemPK(r.getTmtDrug().getTmtId(), fund.getCode(), icd10.getCode(), group.getId(), r.getPk().getBudgetYear()));
                         beforeSaveGroupItems.add(item);
-                        LOG.debug("tmt : {}\tfund : {}\treimburseGroup : {}\ticd10 : {}", item.getTmtDrug().getTmtId(), item.getFund().getCode(), item.getReimburseGroup().getId(), item.getIcd10().getCode());
+                        LOG.debug("tmtid : {}\t\tFSN : {}", item.getPk().getTmtid(), item.getTmtDrug().getFsn());
+                        LOG.debug("ReimbursePrice : {}", item.getReimbursePrice());
+                        LOG.debug("DateIn : ", item.getPk().getBudgetYear());
+                        LOG.debug("Fund : {} - {}", item.getPk().getFundCode(), item.getFund().getName());
+                        LOG.debug("ReimburseGroup : {} - {}", item.getPk().getReimburseGroupId(), item.getReimburseGroup().getDescription());
+                        LOG.debug("ICD10 : {} - {}", item.getPk().getIcd10Code(), item.getIcd10().getCode());
+                        LOG.debug("ED / NED : {} - {}", item.getStatusEd());
                     }
                 }
             }
@@ -299,6 +316,24 @@ public class SpecialGroupItem implements Serializable {
             FacesMessageUtils.info("ยาถูกจัดกลุ่ม สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถจัดกลุ่มยาได้");
+        }
+    }
+
+    public void onDelete(ReimburseGroupItem item) {
+        this.selectItem = item;
+        LOG.debug("selete tmt : {}", item.getPk().getTmtid());
+        LOG.debug("delete Fund : {}", item.getPk().getFundCode());
+        LOG.debug("delete Group : {}", item.getPk().getReimburseGroupId());
+        LOG.debug("delete ICD10 : {}", item.getPk().getIcd10Code());
+        LOG.debug("delete dateIn : {}", item.getPk().getBudgetYear());
+    }
+
+    public void delete() {
+        try{
+            reimburseGroupItemService.delete(selectItem);
+            FacesMessageUtils.info("ลบข้อมูลสำเร็จ");
+        } catch (Exception e){
+             FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
         }
     }
 
@@ -461,6 +496,22 @@ public class SpecialGroupItem implements Serializable {
 
     public void setSelectedSpecialProjects(List<ReimburseGroup> selectedSpecialProjects) {
         this.selectedSpecialProjects = selectedSpecialProjects;
+    }
+
+    public SpringDataLazyDataModelSupport<ReimburseGroupItem> getGroupedItems() {
+        return groupedItems;
+    }
+
+    public void setGroupedItems(SpringDataLazyDataModelSupport<ReimburseGroupItem> groupedItems) {
+        this.groupedItems = groupedItems;
+    }
+
+    public ReimburseGroupItem getSelectItem() {
+        return selectItem;
+    }
+
+    public void setSelectItem(ReimburseGroupItem selectItem) {
+        this.selectItem = selectItem;
     }
 
 }

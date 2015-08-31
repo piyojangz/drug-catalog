@@ -55,13 +55,16 @@
                 <h:outputText value="ข้อมูลรายการยาที่จัดกลุ่มแล้ว"/>
             </div>
             <p:spacer height="20"/>
+            <p:growl id="growl" showDetail="true"/>
+
             <h:form id="tableForm">
                 <p:dataTable id="table"
-                             value=""
+                             value="#{specialGroupItem.groupedItems}"
                              styleClass="clean-table"
                              var="item"
                              rowIndexVar="rowIndex"
                              style="min-width: 650px;"
+                             scrollHeight="600"
                              paginator="true" 
                              scrollable="true"
                              rows="20" 
@@ -72,19 +75,122 @@
                         #{rowIndex + 1}
                     </p:column>
                     <p:column headerText="TMT" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{item.pk.tmtid}"/>
                     </p:column>
-                    <p:column headerText="TYPE" style="width: 60px;">
+                    <p:column headerText="FSN" style="width: 36ch;">
+                        <h:outputText value="#{item.tmtDrug.fsn}" class="textWrap"/>
                     </p:column>
-                    <p:column headerText="FSN" style="width: 200px;">
+                    <p:column headerText="Fund" style="width: 20ch;">
+                        <h:outputText value="#{item.pk.fundCode} - #{item.fund.name}" class="textWrap"/>
                     </p:column>
-                    <p:column headerText="ActiveIngredient" style="width: 200px;">
+                    <p:column headerText="reimburseGroup" style="width: 100px;">
+                        <h:outputText value="#{item.pk.reimburseGroupId} - #{item.reimburseGroup.description}" class="textWrap"/>
                     </p:column>
-                    <p:column headerText="Strength" style="width: 100px;">
+                    <p:column headerText="ICD10" style="width: 36ch;">
+                        <h:outputText value="#{item.pk.icd10Code} - #{item.icd10.name}" class="textWrap"/>
                     </p:column>
-                    <p:column headerText="Dosage Form" style="width: 100px;">
+                    <p:column headerText="ED / NED" style="width: 50px;">
+                        <h:outputText value="#{item.statusEd}"/>
+                    </p:column>
+                    <p:column headerText="DateIn" style="width: 100px;">
+                        <h:outputText value="#{item.pk.budgetYear}">
+                            <f:convertDateTime pattern="dd / MMM / yyyy" locale="th_TH"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Reimburse Price" style="width: 100px;">
+                        <h:outputText value="#{item.reimbursePrice} บาท"/>
+                    </p:column>
+                    <p:column headerText="ลบ" style="width: 100px;">
+                        <p:commandButton value="ลบ" 
+                                         icon="ui-icon-circle-close" 
+                                         actionListener="#{specialGroupItem.onDelete(item)}" 
+                                         update=":deleteFormDialog" 
+                                         onclick="PF('confirmWidgetDialog').show()"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
+
+            <p:dialog id="confirmDialog"
+                      widgetVar="confirmWidgetDialog"
+                      appendTo="@(body)"
+                      header="ยืนยันการลบข้อมูล"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      height="300"
+                      width="800">
+                <h:form id="deleteFormDialog">
+                    <p:panelGrid style="border-bottom:1px solid #dddddd">
+                        <p:row>
+                            <p:column style="text-align: right;width: 140px;">
+                                <h:outputText value="tmtid : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{specialGroupItem.selectItem.pk.tmtid}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right">
+                                <h:outputText value="fsn : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{specialGroupItem.selectItem.tmtDrug.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right">
+                                <h:outputText value="price : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{specialGroupItem.selectItem.reimbursePrice} บาท"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right">
+                                <h:outputText value="dateIn : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{specialGroupItem.selectItem.pk.budgetYear}">
+                                    <f:convertDateTime pattern="dd / MMM / yyyy" locale="th_TH"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right">
+                                <h:outputText value="fund : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{specialGroupItem.selectItem.pk.fundCode} - #{specialGroupItem.selectItem.fund.name}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right">
+                                <h:outputText value="reimburseGroup : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{specialGroupItem.selectItem.pk.reimburseGroupId} - #{specialGroupItem.selectItem.reimburseGroup.description}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right">
+                                <h:outputText value="icd10 : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{specialGroupItem.selectItem.pk.icd10Code} - #{specialGroupItem.selectItem.icd10.name}"/>
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+                    <div style="text-align: center;">
+                        <p:commandButton value="ยืนยัน" 
+                                         actionListener="#{specialGroupItem.delete()}" 
+                                         update=":tableForm , :growl"
+                                         onsuccess="PF('confirmWidgetDialog').hide()"/>
+                        <p:commandButton value="ยกเลิก"
+                                         onclick="PF('confirmWidgetDialog').hide()"/>
+                    </div>
+                </h:form>
+            </p:dialog>
 
         </ui:define>
     </ui:composition>
