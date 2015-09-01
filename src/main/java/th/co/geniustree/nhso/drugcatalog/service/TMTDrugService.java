@@ -27,4 +27,8 @@ public interface TMTDrugService {
     public Page<TMTDrug> search(String keyword,Pageable pageable);
     
     public List<TMTDrug> findBySpec(Specification<TMTDrug> s);
+    
+    public Page<TMTDrug> findAll(Pageable pageable);
+    
+    public void save(TMTDrug tmtDrug);
 }

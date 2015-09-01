@@ -70,5 +70,16 @@ public class TMTDrugServiceImpl implements TMTDrugService {
         return tMTDrugRepo.findAll(Specifications.where(TMTDrugSpecs.fsnContains(keyList)));
     }
 
+    @Override
+    public Page<TMTDrug> findAll(Pageable pageable) {
+        return tMTDrugRepo.findAll(pageable);
+    }
+
+    @Override
+    public void save(TMTDrug tmtDrug) {
+        tMTDrugRepo.save(tmtDrug);
+    }
+
+    
 
 }

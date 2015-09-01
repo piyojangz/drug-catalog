@@ -94,6 +94,7 @@
                 </p:submenu>
                 <p:submenu label="DosageForm Group" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem value="รายการ Dosage Form Group" outcome="/private/admin/dosageformgroup/adddosageformgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/dosageformgroup/adddosageformgroup'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="TMT_DRUG DosageFormGroup" outcome="/private/admin/dosageformgroup/tmtdrug_dosageformgroup" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/dosageformgroup/tmtdrug_dosageformgroup'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Upload Dosage Form Group" outcome="/private/admin/dosageformgroup/upload" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/dosageformgroup/upload'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="Reimburse Price" rendered="#{request.isUserInRole('ADMIN')}">
