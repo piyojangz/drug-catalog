@@ -61,7 +61,6 @@ public class UploadMappedTMTAndDosageFormGroup implements Serializable{
     private UploadedFile file;
     private List<DrugAndDosageFormGroup> notPassModels = new ArrayList<>();
     private List<DrugAndDosageFormGroup> passModels = new ArrayList<>();
-    private List<DrugAndDosageFormGroup> tmtDosageformGroups = new ArrayList<>();
     private boolean duplicateFile = false;
     private String originalFileName;
 
@@ -110,14 +109,6 @@ public class UploadMappedTMTAndDosageFormGroup implements Serializable{
         return templateFile;
     }
 
-    public List<DrugAndDosageFormGroup> getTmtDosageformGroups() {
-        return tmtDosageformGroups;
-    }
-
-    public void setTmtDosageformGroups(List<DrugAndDosageFormGroup> tmtDosageformGroups) {
-        this.tmtDosageformGroups = tmtDosageformGroups;
-    }
-
     public void handleFileUpload(FileUploadEvent event) {
         reset();
         file = event.getFile();
@@ -161,7 +152,6 @@ public class UploadMappedTMTAndDosageFormGroup implements Serializable{
                         notPassModels.add(bean);
                     }
 
-                    tmtDosageformGroups.add(bean);
                     LOG.debug("tmtid : {}\t\t dosageFormGroup : {}", bean.getTmtid(), bean.getDosageFormGroup());
                 }
 
@@ -208,6 +198,5 @@ public class UploadMappedTMTAndDosageFormGroup implements Serializable{
     public void reset() {
         notPassModels.clear();
         passModels.clear();
-        tmtDosageformGroups.clear();
     }
 }

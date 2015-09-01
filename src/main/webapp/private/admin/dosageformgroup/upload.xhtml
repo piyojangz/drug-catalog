@@ -69,13 +69,13 @@
                             <p:column   headerText="#" width="80" resizable="false">
                                 <h:outputText value="#{model.rowNum}" style="" />
                             </p:column>
-                            <p:column headerText="TMTID" width="80" >
-                                <h:outputText value="#{model.tmtid}" style=""/>
+                            <p:column headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtid']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.tmtid}" style="" title="#{model.errorMap['tmtid']}"/>
                             </p:column>
-                            <p:column headerText="DOSAGE_FORM_GROUP" width="120" >
-                                <h:outputText value="#{model.dosageFormGroup}" />
+                            <p:column headerText="DOSAGE_FORM_GROUP" width="120" styleClass="#{empty model.errorMap['effectiveDate']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.dosageFormGroup}" style="" title="#{model.errorMap['dosageFormGroup']}"/>
                             </p:column>
-                            <p:column headerText="ERROR" width="400">
+                            <p:column headerText="ERROR" width="400" >
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
                         </p:dataTable>
