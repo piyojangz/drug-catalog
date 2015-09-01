@@ -9,8 +9,8 @@ import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -27,8 +27,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
+import th.co.geniustree.nhso.drugcatalog.input.DrugAndDosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.model.DosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.service.DosageFormGroupService;
+import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
 import th.co.geniustree.xls.beans.ReaderUtils;
@@ -39,9 +41,9 @@ import th.co.geniustree.xls.beans.ReaderUtils;
  */
 @Component
 @Scope("view")
-public class UploadDosageFormGroup {
+public class UploadMappedTMTAndDosageFormGroup implements Serializable{
 
-    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadDosageFormGroup.class);
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadMappedTMTAndDosageFormGroup.class);
 
     @Autowired
     @Qualifier("app")
@@ -53,10 +55,13 @@ public class UploadDosageFormGroup {
     @Autowired
     private DosageFormGroupService dosageFormGroupService;
 
+    @Autowired
+    private TMTDrugService tmtDrugService;
+
     private UploadedFile file;
-    private List<DosageFormGroup> notPassModels = new ArrayList<>();
-    private List<DosageFormGroup> passModels = new ArrayList<>();
-    private List<DosageFormGroup> dosageFormGroups = new ArrayList<>();
+    private List<DrugAndDosageFormGroup> notPassModels = new ArrayList<>();
+    private List<DrugAndDosageFormGroup> passModels = new ArrayList<>();
+    private List<DrugAndDosageFormGroup> tmtDosageformGroups = new ArrayList<>();
     private boolean duplicateFile = false;
     private String originalFileName;
 
@@ -85,19 +90,19 @@ public class UploadDosageFormGroup {
         this.file = file;
     }
 
-    public List<DosageFormGroup> getNotPassModels() {
+    public List<DrugAndDosageFormGroup> getNotPassModels() {
         return notPassModels;
     }
 
-    public void setNotPassModels(List<DosageFormGroup> notPassModels) {
+    public void setNotPassModels(List<DrugAndDosageFormGroup> notPassModels) {
         this.notPassModels = notPassModels;
     }
 
-    public List<DosageFormGroup> getPassModels() {
+    public List<DrugAndDosageFormGroup> getPassModels() {
         return passModels;
     }
 
-    public void setPassModels(List<DosageFormGroup> passModels) {
+    public void setPassModels(List<DrugAndDosageFormGroup> passModels) {
         this.passModels = passModels;
     }
 
@@ -105,12 +110,12 @@ public class UploadDosageFormGroup {
         return templateFile;
     }
 
-    public List<DosageFormGroup> getDosageFormGroups() {
-        return dosageFormGroups;
+    public List<DrugAndDosageFormGroup> getTmtDosageformGroups() {
+        return tmtDosageformGroups;
     }
 
-    public void setDosageFormGroups(List<DosageFormGroup> dosageFormGroups) {
-        this.dosageFormGroups = dosageFormGroups;
+    public void setTmtDosageformGroups(List<DrugAndDosageFormGroup> tmtDosageformGroups) {
+        this.tmtDosageformGroups = tmtDosageformGroups;
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -122,7 +127,7 @@ public class UploadDosageFormGroup {
             targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}", targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
-            ReaderUtils.read(targetFile, DosageFormGroup.class, new ReadCallback<DosageFormGroup>() {
+            ReaderUtils.read(targetFile, DrugAndDosageFormGroup.class, new ReadCallback<DrugAndDosageFormGroup>() {
 
                 @Override
                 public void header(List headers) {
@@ -130,20 +135,34 @@ public class UploadDosageFormGroup {
                 }
 
                 @Override
-                public void ok(int rowNum, DosageFormGroup bean) {
-                    bean.setCreateDate(new Date());
-                    if (bean.getIdGroup().matches("[a-z][a-z0-9]*")) {
-                        DosageFormGroup group = dosageFormGroupService.findById(bean.getIdGroup());
-                        if (group != null) {
-                            passModels.add(bean);
+                public void ok(int rowNum, DrugAndDosageFormGroup bean) {
+                    bean.setRowNum(rowNum);
+                    bean.addErrors(beanValidator.validate(bean));
+                    if (bean.getTmtid().matches("\\d{6}")) {
+                        if (bean.getDosageFormGroup() != null && !bean.getDosageFormGroup().isEmpty()) {
+                            if (bean.getDosageFormGroup().matches("[a-z][a-z0-9]*")) {
+                                DosageFormGroup group = dosageFormGroupService.findById(bean.getDosageFormGroup());
+                                if (group != null) {
+                                    passModels.add(bean);
+                                } else {
+                                    bean.addError("dosageFormGroup", "ไม่พบ Dosage Form Group");
+                                    notPassModels.add(bean);
+                                }
+                            } else {
+                                bean.addError("dosageFormGroup", "รูปแบบของ DOSAGE_FORM_GROUP ไม่ถูกต้อง");
+                                notPassModels.add(bean);
+                            }
                         } else {
+                            bean.addError("dosageFormGroup", "กรุณากรอก DOSAGE_FORM_GROUP");
                             notPassModels.add(bean);
                         }
                     } else {
+                        bean.addError("tmtid", "รูปแบบของ TMTID ไม่ถูกต้อง");
                         notPassModels.add(bean);
                     }
-                    dosageFormGroups.add(bean);
-                    LOG.debug("id : {} \t\t\t desc : {}", bean.getIdGroup(), bean.getDescription());
+
+                    tmtDosageformGroups.add(bean);
+                    LOG.debug("tmtid : {}\t\t dosageFormGroup : {}", bean.getTmtid(), bean.getDosageFormGroup());
                 }
 
                 @Override
@@ -181,7 +200,7 @@ public class UploadDosageFormGroup {
     }
 
     public void save() {
-        dosageFormGroupService.saveAll(passModels);
+        tmtDrugService.uploadEditDosageFormGroup(passModels);
         FacesMessageUtils.info("บันทึกเสร็จสิ้น");
         reset();
     }
@@ -189,6 +208,6 @@ public class UploadDosageFormGroup {
     public void reset() {
         notPassModels.clear();
         passModels.clear();
-        dosageFormGroups.clear();
+        tmtDosageformGroups.clear();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.input.DrugAndDosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
@@ -78,6 +79,16 @@ public class TMTDrugServiceImpl implements TMTDrugService {
     @Override
     public void save(TMTDrug tmtDrug) {
         tMTDrugRepo.save(tmtDrug);
+    }
+
+    @Override
+    public void uploadEditDosageFormGroup(List<DrugAndDosageFormGroup> drugAndDosageFormGroups) {
+        for(DrugAndDosageFormGroup group : drugAndDosageFormGroups){
+            TMTDrug tmtDrug = tMTDrugRepo.findOne(group.getTmtid());
+            tmtDrug.setDosageformGroup(group.getDosageFormGroup());
+            tMTDrugRepo.save(tmtDrug);
+        }
+        
     }
 
     

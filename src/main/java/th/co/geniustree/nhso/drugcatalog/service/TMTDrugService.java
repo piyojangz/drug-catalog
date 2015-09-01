@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
+import th.co.geniustree.nhso.drugcatalog.input.DrugAndDosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 
 /**
@@ -31,4 +32,6 @@ public interface TMTDrugService {
     public Page<TMTDrug> findAll(Pageable pageable);
     
     public void save(TMTDrug tmtDrug);
+    
+    public void uploadEditDosageFormGroup(List<DrugAndDosageFormGroup> drugAndDosageFormGroups);
 }
