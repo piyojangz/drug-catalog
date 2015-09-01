@@ -131,6 +131,8 @@ public class CreateHospitalDrug implements Serializable {
             oldDateEffective = item.getDateEffectiveDate();
             oldUnitPrice = item.getUnitPrice();
             item.setDateEffectiveDate(null);
+        } else if(oldDateEffective != null){
+            item.setDateEffectiveDate(oldDateEffective);
         }
     }
 
@@ -220,6 +222,10 @@ public class CreateHospitalDrug implements Serializable {
             clear();
             return null;
         } else {
+            if( updateFlag.equals("U") && item.getDateEffectiveDate().before(oldDateEffective)){
+                FacesMessageUtils.error("ไม่สามารถแก้ไขวันที่ย้อนหลังได้");
+                return "/private/hospital/listdrug/index?faces-redirect=true";
+            }
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
             FacesMessageUtils.info("แก้ไขเสร็จสิ้น ข้อมูลถูกส่งไปอนุมัติแล้ว ");
             clear();
