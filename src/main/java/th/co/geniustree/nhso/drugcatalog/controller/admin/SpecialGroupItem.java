@@ -286,6 +286,9 @@ public class SpecialGroupItem implements Serializable {
     }
 
     public void onSave() {
+        if (selectedICD10s.isEmpty()) {
+            selectedICD10s.add(icd10Service.findByCode(null));
+        }
         List<ReimburseGroup> selectedGroups = new ArrayList<>();
         selectedGroups.addAll(selectedSpecialProjects);
         selectedGroups.addAll(selectedReimburseGroups);
@@ -328,11 +331,11 @@ public class SpecialGroupItem implements Serializable {
     }
 
     public void delete() {
-        try{
+        try {
             reimburseGroupItemService.delete(selectItem);
             FacesMessageUtils.info("ลบข้อมูลสำเร็จ");
-        } catch (Exception e){
-             FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+        } catch (Exception e) {
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
         }
     }
 
