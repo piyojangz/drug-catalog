@@ -37,6 +37,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.Right</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.DosageFormGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugDosageFormGroup</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

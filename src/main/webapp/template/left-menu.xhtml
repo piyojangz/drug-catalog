@@ -58,6 +58,7 @@
                     <p:menuitem value="Upload ED/NED" outcome="/private/admin/edned/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/upload'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="TMT-NDC24" rendered="#{request.isUserInRole('ADMIN')}">
+                    <p:menuitem value="TMT - NDC24" outcome="/private/admin/std24/tmt_ndc24" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/std24/tmt_ndc24'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Upload NDC24" outcome="/private/admin/std24/upload" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/std24/upload'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="ฐานข้อมูลยา TMT Master">
