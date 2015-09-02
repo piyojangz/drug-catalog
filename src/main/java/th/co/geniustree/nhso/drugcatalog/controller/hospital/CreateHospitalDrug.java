@@ -150,7 +150,7 @@ public class CreateHospitalDrug implements Serializable {
         }
         if (updateFlag.equals("A")) {
             if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept((String) value, SecurityUtil.getUserDetails().getHospital().getHcode()) > 0) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการเพิ่มยานี้แล้ว"));
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการเพิ่มยานี้แล้ว หรือเป็นรายการยาที่ตรวจสอบแล้ว ไม่ผ่าน"));
             }
         }
     }
