@@ -298,11 +298,11 @@ public class SpecialGroupItem implements Serializable {
                         beforeSaveGroupItems.add(item);
                         LOG.debug("tmtid : {}\t\tFSN : {}", item.getPk().getTmtid(), item.getTmtDrug().getFsn());
                         LOG.debug("ReimbursePrice : {}", item.getReimbursePrice());
-                        LOG.debug("DateIn : ", item.getPk().getBudgetYear());
+                        LOG.debug("DateIn : {}", item.getPk().getBudgetYear());
                         LOG.debug("Fund : {} - {}", item.getPk().getFundCode(), item.getFund().getName());
                         LOG.debug("ReimburseGroup : {} - {}", item.getPk().getReimburseGroupId(), item.getReimburseGroup().getDescription());
                         LOG.debug("ICD10 : {} - {}", item.getPk().getIcd10Code(), item.getIcd10().getCode());
-                        LOG.debug("ED / NED : {} - {}", item.getStatusEd());
+                        LOG.debug("ED / NED : {}", item.getStatusEd());
                     }
                 }
             }

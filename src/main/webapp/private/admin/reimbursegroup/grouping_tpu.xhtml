@@ -327,8 +327,10 @@
                                     value="#{item.pk.budgetYear}"
                                     navigator="true" 
                                     yearRange="c-20:c+5"
+                                    locale="en_US"
                                     styleClass="input-#{item.tmtDrug.tmtId} edit inputDate" 
-                                    disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}"/>
+                                    disabled="#{specialGroupItem.selectedReimburseGroupItems.contains(item) ? 'false' : 'true'}">
+                        </p:calendar>
                         <ui:remove>
                             <p:spacer width="2"/>
                             <p:commandButton value="Fill all" 
