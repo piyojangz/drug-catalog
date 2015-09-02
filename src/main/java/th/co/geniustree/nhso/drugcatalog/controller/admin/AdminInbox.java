@@ -9,6 +9,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import java.io.Serializable;
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -451,16 +452,21 @@ public class AdminInbox implements Serializable {
     }
 
     public String save() {
-        if (notApproveHaveErrorColumn()) {
-            List<RequestItem> merge = new ArrayList<>(approveRequests);
-            merge.addAll(notApproveRequests);
-            approveService.approveOrReject(merge);
-            clearAll();
-            //TODO send mail to each HCODE
-            search();
-            FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        try {
+            if (notApproveHaveErrorColumn()) {
+                List<RequestItem> merge = new ArrayList<>(approveRequests);
+                merge.addAll(notApproveRequests);
+                approveService.approveOrReject(merge);
+                clearAll();
+                //TODO send mail to each HCODE
+                search();
+                FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+            }
+        } catch (Exception e) {
+            FacesMessageUtils.error("รูปแบบข้อมูลไม่ถูกต้อง ไม่สามารถบันทึกข้อมูลได้");
         }
         return null;
+
     }
 
     public String clear() {
