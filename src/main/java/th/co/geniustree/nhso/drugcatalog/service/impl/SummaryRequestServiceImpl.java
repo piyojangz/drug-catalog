@@ -59,8 +59,6 @@ public class SummaryRequestServiceImpl implements SummaryRequestService {
         }
         summaryRequests = SummaryRequestMapper.mapAllToModel(objPage.getContent());
         Page<SummaryRequest> summary = new PageImpl<>(summaryRequests, pageable, objPage.getTotalElements());
-        LOG.debug("summaryRequests.size() -> {}", summaryRequests.size());
-        LOG.debug("objPage.getTotalElements() -> {}", objPage.getTotalElements());
         return summary;
     }
 
