@@ -80,8 +80,8 @@ public class CrudNewModelT {
         ICD10 icd10 = icd10Service.findByCode(icd10Code);
 
         ReimburseGroup reimburseGroup = reimburseGroupService.findByCode(reimburseGroupId);
-        ReimburseGroupItem reimburseGroupItem = reimburseGroupItemService.save(tmtDrug, fund, icd10, statusEd, reimburseGroup, budgetYear);
-        assertNotNull(reimburseGroupItem);
+//        ReimburseGroupItem reimburseGroupItem = reimburseGroupItemService.save(tmtDrug, fund, icd10, statusEd, reimburseGroup, budgetYear);
+//        assertNotNull(reimburseGroupItem);
     }
 
     @Test

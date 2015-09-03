@@ -52,7 +52,7 @@
                 }
             </style>
             <p:growl id="growl" showDetail="true"/>
-            <div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
+            <div class="header-content">
                 <h:outputText value="รายการ Dosage Form Group"/>
             </div>
             <h:form id="form">
@@ -226,7 +226,8 @@
                                                  actionListener="#{dosageFormGroupController.delete()}" 
                                                  styleClass="ui-confirmdialog-yes" 
                                                  icon="ui-icon-check" 
-                                                 update="@form , :growl , :tableForm"  />
+                                                 update="@form , :growl , :tableForm" 
+                                                 onsuccess="PF('deleteDialogWidget').hide()"/>
                                 <p:spacer width="20"/>
                                 <p:commandButton value="ไม่ใช่" 
                                                  styleClass="ui-confirmdialog-no" 

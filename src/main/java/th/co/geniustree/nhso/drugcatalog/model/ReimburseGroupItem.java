@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -16,6 +17,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 
 /**
@@ -52,16 +55,24 @@ public class ReimburseGroupItem implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "ED_STATUS")
     private ED statusEd;
+    
+    @Column(name = "REIMBURSE_PRICE")
+    private BigDecimal reimbursePrice;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
 
     public ReimburseGroupItem() {
     }
 
-    public ReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup, ED statusEd, Integer budgetYear) {
+    public ReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup, ED statusEd, Date budgetYear,BigDecimal price) {
         this.tmtDrug = tmtDrug;
         this.fund = fund;
         this.icd10 = icd10;
         this.reimburseGroup = reimburseGroup;
         this.statusEd = statusEd;
+        this.reimbursePrice = price;
         this.pk = new ReimburseGroupItemPK(tmtDrug, fund, icd10, reimburseGroup, budgetYear);
     }
     
@@ -113,6 +124,22 @@ public class ReimburseGroupItem implements Serializable {
         this.reimburseGroup = reimburseGroup;
     }
 
+    public BigDecimal getReimbursePrice() {
+        return reimbursePrice;
+    }
+
+    public void setReimbursePrice(BigDecimal reimbursePrice) {
+        this.reimbursePrice = reimbursePrice;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -134,5 +161,5 @@ public class ReimburseGroupItem implements Serializable {
         }
         return true;
     }
-
+    
 }

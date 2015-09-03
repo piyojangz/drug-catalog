@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.ICD10;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.BudgetYearConverter;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
@@ -67,6 +68,14 @@ public class ReimburseGroupFinder {
     }
 
     public void findReimburseGroupItem() {
+        if(selectedFund == null || selectedFund.getCode() == null){
+            FacesMessageUtils.error("กรุณาระบุกองทุน");
+            return;
+        }
+        if(serviceDate==null){
+            FacesMessageUtils.error("กรุณาระบุ Service Date");
+            return;
+        }
         reimburseGroupItems = new SpringDataLazyDataModelSupport<ReimburseGroupItem>(){
             @Override
             public Page<ReimburseGroupItem> load(Pageable pageable) {

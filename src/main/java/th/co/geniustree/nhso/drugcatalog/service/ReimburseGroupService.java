@@ -22,11 +22,15 @@ public interface ReimburseGroupService {
     
     public List<ReimburseGroup> findOnlySpecialProjectOrGroup(boolean isSpecialProject);
     
-    public Page<ReimburseGroup> findAllPaging(Pageable pageable);
+    public Page<ReimburseGroup> findAllPaging(boolean specialProject,Pageable pageable);
     
-    public Page<ReimburseGroup> search(String keyword,Pageable pageable);
+    public Page<ReimburseGroup> search(String keyword,boolean specialProject,Pageable pageable);
+    
+    public List<ReimburseGroup> searchOnlySpecialStatus(String keyword,boolean specialProject);
     
     public ReimburseGroup edit(ReimburseGroup reimburseGroup);
     
     public void delete(ReimburseGroup reimburseGroup);
+    
+    public List<ReimburseGroup> findAll();
 }

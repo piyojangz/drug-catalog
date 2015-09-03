@@ -31,6 +31,8 @@ public class ICD10ServiceImpl implements ICD10Service {
     @Autowired
     private ICD10Repo icd10Repo;
 
+    private final String EMPTY_ICD10_CODE = "_EMPTY";
+    
     @Override
     public ICD10 save(String code, String name) {
         if (name == null || name.isEmpty()) {
@@ -42,7 +44,7 @@ public class ICD10ServiceImpl implements ICD10Service {
 
     @Override
     public ICD10 findByCode(String code) {
-        return icd10Repo.findOne(code);
+        return icd10Repo.findOne(code == null ? EMPTY_ICD10_CODE : code);
     }
 
     @Override
@@ -51,5 +53,21 @@ public class ICD10ServiceImpl implements ICD10Service {
         Specification<ICD10> spec = Specifications.where(ICD10Specs.codeLike(keyList)).or(ICD10Specs.nameLike(keyList));
         return icd10Repo.findAll(spec, pageable);
     }
+
+    @Override
+    public List<ICD10> search(String searchWord) {
+        List<String> keyList = Arrays.asList(searchWord.split("\\s+"));
+        Specification<ICD10> spec = Specifications.where(ICD10Specs.codeLike(keyList)).or(ICD10Specs.nameLike(keyList));
+        return icd10Repo.findAll(spec);
+    }
+    
+    
+
+    @Override
+    public List<ICD10> findAll() {
+        return icd10Repo.findAll();
+    }
+    
+    
 
 }

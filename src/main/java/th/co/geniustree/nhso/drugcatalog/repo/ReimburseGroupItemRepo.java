@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public interface ReimburseGroupItemRepo extends JpaRepository<ReimburseGroupItem
             + "where i.pk.tmtid = ?1 "
             + "and i.pk.fundCode = ?2 "
             + "and i.pk.icd10Code = ?3 "
-            + "and i.pk.budgetYear = ?4 ")
+            + "and i.pk.budgetYear >= ?4 ")
     public List<ReimburseGroupItem> findbyTMTFundICD10BudgetYear(String tmtid, String fundCode, String icd10Code , Integer budgetYear);
     
     @Query("select i "
@@ -33,7 +34,7 @@ public interface ReimburseGroupItemRepo extends JpaRepository<ReimburseGroupItem
             + "where i.pk.tmtid = ?1 "
             + "and i.pk.fundCode = ?2 "
             + "and i.pk.icd10Code = ?3 "
-            + "and i.pk.budgetYear = ?4 ")
-    public Page<ReimburseGroupItem> findbyTMTFundICD10BudgetYear(String tmtid, String fundCode, String icd10Code , Integer budgetYear,Pageable pageable);
+            + "and i.pk.budgetYear >= ?4 ")
+    public Page<ReimburseGroupItem> findbyTMTFundICD10BudgetYear(String tmtid, String fundCode, String icd10Code , Date budgetYear,Pageable pageable);
 
 }

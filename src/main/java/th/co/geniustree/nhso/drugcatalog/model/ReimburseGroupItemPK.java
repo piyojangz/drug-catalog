@@ -33,14 +33,15 @@ public class ReimburseGroupItemPK implements Serializable {
     @Column(name = "REIMBURSE_GROUP_ID")
     private String reimburseGroupId;
     
+    @Temporal(TemporalType.DATE)
     @Column(name = "BUDGET_YEAR")
-    private Integer budgetYear;
+    private Date budgetYear;
 
     public ReimburseGroupItemPK() {
 
     }
 
-    public ReimburseGroupItemPK(String tmtid, String fundCode, String icd10Id,String reimburseGroupId ,Integer budgetYear) {
+    public ReimburseGroupItemPK(String tmtid, String fundCode, String icd10Id,String reimburseGroupId ,Date budgetYear) {
         this.tmtid = tmtid;
         this.fundCode = fundCode;
         this.icd10Code = icd10Id;
@@ -48,7 +49,7 @@ public class ReimburseGroupItemPK implements Serializable {
         this.reimburseGroupId = reimburseGroupId;
     }
 
-    public ReimburseGroupItemPK(TMTDrug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup ,Integer budgetYear) {
+    public ReimburseGroupItemPK(TMTDrug drug, Fund fund, ICD10 icd10, ReimburseGroup reimburseGroup ,Date budgetYear) {
         this.tmtid = drug.getTmtId();
         this.fundCode = fund.getCode();
         this.icd10Code = icd10.getCode();
@@ -80,11 +81,11 @@ public class ReimburseGroupItemPK implements Serializable {
         this.icd10Code = icd10Code;
     }
 
-    public Integer getBudgetYear() {
+    public Date getBudgetYear() {
         return budgetYear;
     }
 
-    public void setBudgetYear(Integer budgetYear) {
+    public void setBudgetYear(Date budgetYear) {
         this.budgetYear = budgetYear;
     }
 

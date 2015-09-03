@@ -49,7 +49,7 @@
                 }
             </style>
             <p:growl id="growl" showDetail="true"/>
-<div style="text-align: center;font-size: 22px;background-color: #3b9c9d;border-radius: 5px;margin-bottom: 10px;color: white;padding-top: 2px;padding-bottom: 2px;">
+            <div class="header-content">
                 <h:outputText value="รายการ ยาและ ED / NED"/>
             </div>
             <h:form id="form">
@@ -95,19 +95,8 @@
                             <h:outputText value="ปีงบประมาณ : "/>
                         </p:column>
                         <p:column>
-                            <p:autoComplete id="budgetYearComplete" 
-                                            value="#{edNedController.budgetYear}" 
-                                            completeMethod="#{edNedController.completeBudgetYear}"
-                                            var="year" 
-                                            itemLabel="#{year}"
-                                            itemValue="#{year}" 
-                                            forceSelection="true" 
-                                            styleClass="input1"
-                                            dropdown="true">
-                                <p:column>
-                                    1 ต.ค. #{year - 1} - 30 ก.ย. #{year}
-                                </p:column>
-                            </p:autoComplete>
+                            <p:calendar value="#{edNedController.budgetYear}" navigator="true" >
+                            </p:calendar>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -224,7 +213,7 @@
                                 <h:outputText value="กองทุน : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.classifier}" style="width: 200px;" disabled="true"/>
+                                <p:inputText value="#{edNedController.selectedEdNed.classifier} - #{edNedController.selectedEdNed.fund.name}" style="width: 200px;" disabled="true"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -232,7 +221,9 @@
                                 <h:outputText value="ปีงบประมาณ : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true"/>
+                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true">
+                                    <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
+                                </p:inputText>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -285,7 +276,7 @@
                                 <h:outputText value="กองทุน : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{edNedController.selectedEdNed.classifier}"/>
+                                <h:outputText value="#{edNedController.selectedEdNed.classifier} - #{edNedController.selectedEdNed.fund.name}"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -293,7 +284,9 @@
                                 <h:outputText value="ปีงบประมาณ : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}"/>
+                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}">
+                                    <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
+                                </h:outputText>
                             </p:column>
                         </p:row>
                         <p:row>

@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class EdNedController {
 
     private TMTDrug tmtDrug;
     private Fund fund;
-    private Integer budgetYear;
+    private Date budgetYear;
     private String edStatus;
 
     private String searchWord;
@@ -124,9 +125,9 @@ public class EdNedController {
     }
 
     public void onSave() {
-        budgetYear = BudgetYearConverter.convertToCEYear(budgetYear);
+
         try {
-            tmtEdNedService.save(tmtDrug, fund, BudgetYearConverter.budgetYearToDate(budgetYear), edStatus, new Date());
+            tmtEdNedService.save(tmtDrug, fund,budgetYear, edStatus, new GregorianCalendar().getTime());
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
@@ -217,11 +218,11 @@ public class EdNedController {
         this.fund = fund;
     }
 
-    public Integer getBudgetYear() {
+    public Date getBudgetYear() {
         return budgetYear;
     }
 
-    public void setBudgetYear(Integer budgetYear) {
+    public void setBudgetYear(Date budgetYear) {
         this.budgetYear = budgetYear;
     }
 

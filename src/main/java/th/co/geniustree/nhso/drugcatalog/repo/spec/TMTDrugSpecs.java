@@ -122,4 +122,14 @@ public class TMTDrugSpecs {
             }
         };
     }
+    
+    public static Specification<TMTDrug> haveDosageFormGroup(final boolean haveDFG) {
+        return new Specification<TMTDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return haveDFG ? cb.isNotNull(root.get(TMTDrug_.dosageformGroup)) : cb.isNull(root.get(TMTDrug_.dosageformGroup));
+            }
+        };
+    }
 }

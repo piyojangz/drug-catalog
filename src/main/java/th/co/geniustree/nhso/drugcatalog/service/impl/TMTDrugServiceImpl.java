@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.input.DrugAndDosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
@@ -53,11 +54,43 @@ public class TMTDrugServiceImpl implements TMTDrugService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
-    public Page<TMTDrug> search(String searchTmtid, Pageable pageable) {
-        List<String> keyList = Arrays.asList(searchTmtid.split("\\s+"));
+    public Page<TMTDrug> search(String keyword, Pageable pageable) {
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
         Specification<TMTDrug> spec = Specifications.where(TMTDrugSpecs.tmtIdContains(keyList)).or(TMTDrugSpecs.fsnContains(keyList));
         return tMTDrugRepo.findAll(spec,pageable);
     }
 
+    @Override
+    public List<TMTDrug> findBySpec(Specification<TMTDrug> s) {
+        return tMTDrugRepo.findAll(s);
+    }
+
+    @Override
+    public List<TMTDrug> searchByFSN(String keyword) {
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
+        return tMTDrugRepo.findAll(Specifications.where(TMTDrugSpecs.fsnContains(keyList)));
+    }
+
+    @Override
+    public Page<TMTDrug> findAll(Pageable pageable) {
+        return tMTDrugRepo.findAll(pageable);
+    }
+
+    @Override
+    public void save(TMTDrug tmtDrug) {
+        tMTDrugRepo.save(tmtDrug);
+    }
+
+    @Override
+    public void uploadEditDosageFormGroup(List<DrugAndDosageFormGroup> drugAndDosageFormGroups) {
+        for(DrugAndDosageFormGroup group : drugAndDosageFormGroups){
+            TMTDrug tmtDrug = tMTDrugRepo.findOne(group.getTmtid());
+            tmtDrug.setDosageformGroup(group.getDosageFormGroup());
+            tMTDrugRepo.save(tmtDrug);
+        }
+        
+    }
+
+    
 
 }

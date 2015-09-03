@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,4 +30,10 @@ public class DrugGroupServiceImpl implements DrugGroupService {
         return drugGroupRepo.findOne(id);
     }
 
+    @Override
+    public List<DrugGroup> findAll() {
+        return drugGroupRepo.findAll();
+    }
+
+    
 }

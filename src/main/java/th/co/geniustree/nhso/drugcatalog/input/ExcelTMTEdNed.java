@@ -42,6 +42,11 @@ public class ExcelTMTEdNed implements Serializable {
     @NotEmpty(message = "ต้องกำหนด ISED มาด้วยทุกครั้ง")
     @ValueSet(values = {"E", "N", "E*"}, message = "ISED ต้องประกอบด้วย N หรือ E หรือ E* เท่านั้น")
     private String statusEd;
+    
+    @XlsColumn(columnNames = "FUNDCODE")
+    @NotEmpty(message = "ต้องระบุ FUNDCODE มาด้วย")
+    private String fundCode;    
+    
     private Map<String, List<String>> errorMap;
     private Date dateIn;
     private int rowNum;
@@ -57,6 +62,14 @@ public class ExcelTMTEdNed implements Serializable {
         this.errorMap = errorMap;
     }
 
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
+    }
+    
     public String getTmtId() {
         return tmtId;
     }

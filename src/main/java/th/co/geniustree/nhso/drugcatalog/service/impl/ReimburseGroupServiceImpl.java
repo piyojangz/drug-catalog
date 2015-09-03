@@ -51,11 +51,11 @@ public class ReimburseGroupServiceImpl implements ReimburseGroupService {
     }
 
     @Override
-    public Page<ReimburseGroup> search(String keyword,Pageable pageable) {
+    public Page<ReimburseGroup> search(String keyword,boolean specialProject, Pageable pageable) {
         List<String> keyList = Arrays.asList(keyword.split("\\s+"));
         Specification<ReimburseGroup> spec = Specifications.where(ReimburseGroupSpecs.idLike(keyList)).or(ReimburseGroupSpecs.descriptionLike(keyList));
-        spec = Specifications.where(ReimburseGroupSpecs.specialProjectEq(true)).and(spec);
-        return reimburseGroupRepo.findAll(spec,pageable);
+        spec = Specifications.where(ReimburseGroupSpecs.specialProjectEq(specialProject)).and(spec);
+        return reimburseGroupRepo.findAll(spec, pageable);
     }
 
     @Override
@@ -64,13 +64,27 @@ public class ReimburseGroupServiceImpl implements ReimburseGroupService {
     }
 
     @Override
-    public Page<ReimburseGroup> findAllPaging(Pageable pageable) {
-        return reimburseGroupRepo.findAll(pageable);
+    public Page<ReimburseGroup> findAllPaging(boolean specialProject, Pageable pageable) {
+        Specification<ReimburseGroup> spec = Specifications.where(ReimburseGroupSpecs.specialProjectEq(specialProject));
+        return reimburseGroupRepo.findAll(spec, pageable);
     }
 
     @Override
     public void delete(ReimburseGroup reimburseGroup) {
         reimburseGroupRepo.delete(reimburseGroup);
+    }
+
+    @Override
+    public List<ReimburseGroup> findAll() {
+        return reimburseGroupRepo.findAll();
+    }
+
+    @Override
+    public List<ReimburseGroup> searchOnlySpecialStatus(String keyword, boolean specialProject) {
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
+        Specification<ReimburseGroup> spec = Specifications.where(ReimburseGroupSpecs.idLike(keyList)).or(ReimburseGroupSpecs.descriptionLike(keyList));
+        spec = Specifications.where(spec).and(ReimburseGroupSpecs.specialProjectEq(specialProject));
+        return reimburseGroupRepo.findAll(spec);
     }
     
     

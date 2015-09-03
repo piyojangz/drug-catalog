@@ -5,6 +5,8 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -22,19 +24,23 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
  */
 public interface ReimburseGroupItemService {
 
-    public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Integer budgetYear);
+    public ReimburseGroupItem save(TMTDrug tmtDrug, Fund fund, ICD10 icd10, ReimburseGroupItem.ED edStatus, ReimburseGroup reimburseGroup, Date budgetYear, BigDecimal reimbursePrice);
 
+    public void save(ReimburseGroupItem item);
+    
+    public void save(Collection<ReimburseGroupItem> items);
+    
     public ReimburseGroupItem findById(String tmtid, String fundCode, String icd10Id, String reimburseGroupId, Date searchDate);
 
     public Page<ReimburseGroupItem> findAllPaging(Pageable pageable);
 
     public Page<ReimburseGroupItem> findPagingBySpec(Specification spec, Pageable pageable);
-    
-    public List<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Code,Date searchDate);
-    
-    public Page<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Code,Integer budgetYear,Pageable pageable);
-    
+
+    public List<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Code, Date searchDate);
+
+    public Page<ReimburseGroupItem> findReimburseGroupItem(String tmtid, String fundCode, String icd10Code, Date searchDate, BigDecimal reimbursePrice, Pageable pageable);
+
     public Page<ReimburseGroupItem> findReimburseGroupItem(TMTDrug tmtDrug, Fund fund, ICD10 icd10, Date searchDate, Pageable pageable);
-    
+
     public void delete(ReimburseGroupItem reimburseGroupItem);
 }

@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+                .ui-widget-overlay{
+                    opacity: 0.50;
+                }
+            </style>
+            <p:growl id="growl" showDetail="true"/>
+            <div class="header-content">
+                <h:outputText value="กำหนด DosageFormGroup ของรายการยา"/>
+            </div>
+            <h:form id="searchform">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="width: 100px; text-align: right;">
+                            <h:outputText value="ค้นหา group : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{matchTMTAndDosageFormGroup.searchWord}" style="width: 200px;"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="ค้นหา" update="@form , :tableForm" icon="ui-icon-search" actionListener="#{matchTMTAndDosageFormGroup.searchTMT()}">
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+
+            <p:spacer height="20"/>
+            <h:form id="tableForm">
+                <p:dataTable id="table"
+                             styleClass="clean-table"
+                             value="#{matchTMTAndDosageFormGroup.tmtDrugs}"
+                             var="model"
+                             style="min-width: 500px;"
+                             scrollable="true"
+                             scrollHeight="450"
+                             rowIndexVar="rowIndex"
+                             paginator="true" 
+                             rows="20" 
+                             lazy="true" 
+                             rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                    <f:facet name="header">
+                        <div style="text-align: center;">
+                            <h:outputText value="รายการ dosage form group ทั้งหมด"/>
+                        </div>
+                    </f:facet>
+                    <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
+                        #{rowIndex + 1}
+                    </p:column>
+                    <p:column headerText="tmtid" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{model.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="FSN" style="width: 300px;">
+                        <h:outputText value="#{model.fsn}"/>
+                    </p:column>
+                    <p:column headerText="dosageformGroup" style="width: 200px;">
+                        <h:outputText value="#{model.dosageformGroup}"/>
+                    </p:column>
+                    <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
+                        <p:commandButton style="color: blue;" 
+                                         icon="ui-icon-wrench"
+                                         action="#{matchTMTAndDosageFormGroup.select(model)}" 
+                                         onclick="PF('editDialogWidget').show()"
+                                         update="@form , :editDialogForm"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <p:dialog id="editDialog"
+                      appendTo="@(body)"
+                      modal="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      minWidth="400"
+                      minHeight="200"
+                      style="max-width: 500px;"
+                      widgetVar="editDialogWidget"
+                      header="แก้ไข dosage form group">
+                <h:form id="editDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;min-width: 130px;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{matchTMTAndDosageFormGroup.tmtDrug.tmtId}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="FSN : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText  value="#{matchTMTAndDosageFormGroup.tmtDrug.fsn}" style="width: 200px;"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="dosage form group : "/>
+                            </p:column>
+                            <p:column>
+                                <p:autoComplete value="#{matchTMTAndDosageFormGroup.dosageFormGroup}"
+                                                dropdown="true"
+                                                completeMethod="#{matchTMTAndDosageFormGroup.completeDosageFormGroup}"
+                                                var="item"
+                                                converter="dosageFormGroupConverter"
+                                                itemLabel="#{item.idGroup}"
+                                                itemValue="#{item.idGroup}"
+                                                id="editDosageFormGroup">
+                                    <p:column>
+                                        #{item.idGroup}
+                                    </p:column>
+                                    <p:column>
+                                        #{item.description}
+                                    </p:column>
+
+                                </p:autoComplete>
+                                <p:watermark for="editDosageFormGroup" value="#{matchTMTAndDosageFormGroup.tmtDrug.dosageformGroup}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: right;">
+                                <p:commandButton value="แก้ไข" 
+                                                 update="@form , :growl , :tableForm" 
+                                                 actionListener="#{matchTMTAndDosageFormGroup.save()}" 
+                                                 onsuccess="PF('editDialogWidget').hide()"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
+</html>

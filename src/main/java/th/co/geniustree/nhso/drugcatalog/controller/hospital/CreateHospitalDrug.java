@@ -63,6 +63,7 @@ public class CreateHospitalDrug implements Serializable {
     private HospitalDrug editHospitalDrug;
     private String oldUnitPrice;
     private Date oldDateEffective;
+    private Date newDateEffective;
 
     @PostConstruct
     public void postConstruct() {
@@ -126,11 +127,20 @@ public class CreateHospitalDrug implements Serializable {
         this.editHospitalDrug = editHospitalDrug;
     }
 
+    public Date getNewDateEffective() {
+        return newDateEffective;
+    }
+
+    public void setNewDateEffective(Date newDateEffective) {
+        this.newDateEffective = newDateEffective;
+    }
+
     public void saveOldEditUnitPrice() {
+        oldDateEffective = item.getDateEffectiveDate();
         if (updateFlag.equalsIgnoreCase("U")) {
-            oldDateEffective = item.getDateEffectiveDate();
             oldUnitPrice = item.getUnitPrice();
-            item.setDateEffectiveDate(null);
+        } else if (oldDateEffective != null) {
+            item.setDateEffectiveDate(oldDateEffective);
         }
     }
 
@@ -140,7 +150,7 @@ public class CreateHospitalDrug implements Serializable {
         }
         if (updateFlag.equals("A")) {
             if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept((String) value, SecurityUtil.getUserDetails().getHospital().getHcode()) > 0) {
-                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการเพิ่มยานี้แล้ว"));
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการเพิ่มยานี้แล้ว หรือเป็นรายการยาที่ตรวจสอบแล้ว ไม่ผ่าน"));
             }
         }
     }
@@ -220,6 +230,10 @@ public class CreateHospitalDrug implements Serializable {
             clear();
             return null;
         } else {
+            if (item.getDateEffectiveDate().before(oldDateEffective)) {
+                FacesMessageUtils.error("ไม่สามารถแก้ไขวันที่ย้อนหลังได้");
+                return "/private/hospital/listdrug/index?faces-redirect=true";
+            }
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
             FacesMessageUtils.info("แก้ไขเสร็จสิ้น ข้อมูลถูกส่งไปอนุมัติแล้ว ");
             clear();

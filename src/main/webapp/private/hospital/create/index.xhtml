@@ -268,7 +268,18 @@
                     <p:row>
                         <p:column/>
                         <p:column>
-                            <p:commandButton action="#{createHospitalDrug.save()}" ajax="#{not createHospitalDrug.editMode}" update="@form :secondForm:table" value="Save" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
+                            <p:commandButton action="#{createHospitalDrug.save()}" 
+                                             ajax="#{not createHospitalDrug.editMode}" 
+                                             update="@form :secondForm:table" 
+                                             value="Save" 
+                                             onclick="PF('allblock').show()"  
+                                             oncomplete="PF('allblock').hide()" 
+                                             rendered="#{createHospitalDrug.updateFlag ne 'U'}">
+                            </p:commandButton>
+                            <p:commandButton onclick="PF('confirmDialogWidget').show()" value="Save" 
+                                             update=":confirmDialogForm"
+                                             rendered="#{createHospitalDrug.updateFlag eq 'U'}">
+                            </p:commandButton>
                             <p:commandButton action="#{edcreateHospitalDrug.clear()}" ajax="#{not createHospitalDrug.editMode}" rendered="#{not createHospitalDrug.editMode}" immediate="#{createHospitalDrug.editMode}" update="@form" value="Cancel" process="@this"/>
                             <p:commandButton action="#{createHospitalDrug.reload()}" ajax="false" rendered="#{createHospitalDrug.editMode}" immediate="#{createHospitalDrug.editMode}" update="@form" value="Cancel" process="@this"/>
                         </p:column>  
@@ -278,10 +289,68 @@
                 <p:blockUI block="form" widgetVar="allblock" >
                     Please wait...
                 </p:blockUI>
+
             </h:form>
             <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
                 <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
             </h:form>
+            <p:dialog widgetVar="confirmDialogWidget" 
+                      appendTo="@(body)" 
+                      showEffect="fade" 
+                      closable="true" 
+                      width="350" 
+                      modal="true"
+                      header="ยืนยันการแก้ไข">
+                <h:form id="confirmDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="ระบบจะ Approve ราคายาโดยอัตโนมัติ"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="ทุกสิ้นวัน"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="กรุณาตรวจสอบราคายาให้ถูกต้อง"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 100px;text-align: right;">
+                                <h:outputText value="ก่อนแก้ไข : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{createHospitalDrug.oldUnitPrice}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 100px;text-align: right;">
+                                <h:outputText value="หลังแก้ไข : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{createHospitalDrug.item.unitPrice}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center">
+                                <p:commandButton action="#{createHospitalDrug.save()}" 
+                                                 ajax="false" 
+                                                 update="@form ,:secondForm:table , :form" 
+                                                 value="ยืนยัน" 
+                                                 oncomplete="PF('allblock').hide()" 
+                                                 onclick="PF('confirmDialogWidget').hide(),PF('allblock').show()" >
+                                </p:commandButton>
+                                <p:commandButton value="กลับไปเพิ่มราคายา"
+                                                 onclick="PF('confirmDialogWidget').hide()">
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

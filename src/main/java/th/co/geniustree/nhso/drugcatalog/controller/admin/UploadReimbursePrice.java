@@ -12,9 +12,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -37,7 +35,9 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ReimbursePriceExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
+import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
 import th.co.geniustree.xls.beans.ReaderUtils;
@@ -48,33 +48,37 @@ import th.co.geniustree.xls.beans.ReaderUtils;
  */
 @Component
 @Scope("view")
-public class UploadReimbursePrice implements Serializable{
- 
+public class UploadReimbursePrice implements Serializable {
+
     private static final Logger LOG = LoggerFactory.getLogger(UploadReimbursePrice.class);
-    
+
     @Autowired
     @Qualifier("app")
     private Properties app;
-    
+
     @Autowired
     private Validator beanValidator;
-    
+
     @Autowired
     private ReimbursePriceService reimbursePriceService;
-    
-     private UploadedFile file;
+
+    @Autowired
+    private TMTDrugService tmtDrugService;
+
+    private UploadedFile file;
     private List<ReimbursePriceExcelModel> notPassModels = new ArrayList<>();
     private List<ReimbursePriceExcelModel> passModels = new ArrayList<>();
-    
     private List<ReimbursePrice> reimbursePrices = new ArrayList<>();
+
     private boolean duplicateFile = false;
     private String originalFileName;
-    
+
     private File uploadtempFileDir;
     private String saveFileName;
     private File targetFile;
-    
+
     private StreamedContent templateFile;
+
     @PostConstruct
     public void postConstruct() {
         String uploadtempLocation = app.getProperty("uploadtempLocation");
@@ -85,8 +89,7 @@ public class UploadReimbursePrice implements Serializable{
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/files/reimburseprice_template.xlsx");
         templateFile = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "reimburseprice_template.xlsx");
     }
-    
-    
+
     public UploadedFile getFile() {
         return file;
     }
@@ -122,7 +125,6 @@ public class UploadReimbursePrice implements Serializable{
     public void setReimbursePrices(List<ReimbursePrice> reimbursePrices) {
         this.reimbursePrices = reimbursePrices;
     }
-    
 
     public void handleFileUpload(FileUploadEvent event) {
         reset();
@@ -142,16 +144,36 @@ public class UploadReimbursePrice implements Serializable{
 
                 @Override
                 public void ok(int rowNum, ReimbursePriceExcelModel bean) {
-                    ReimbursePrice rp = new ReimbursePrice();
-                    ReimbursePricePK pk = new ReimbursePricePK();
-                    pk.setTmtId(bean.getTmtid());
-                    Date effectiveDate = DateUtils.parseUSDate("dd/mm/yyyy", bean.getEffectiveDate());
-                    pk.setEffectiveDate(effectiveDate);
-                    rp.setId(pk);
-                    rp.setPrice(new BigDecimal(bean.getPrice()));
-                    reimbursePrices.add(rp);
-//                    passModels.add(bean);
-                    LOG.debug("tmtid : {} \t\t\t effective_date : {}",bean.getTmtid(),bean.getEffectiveDate());
+                    TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(bean.getTmtid());
+                    if (tmtDrug != null) {
+                        ReimbursePrice reimbursePrice = new ReimbursePrice();
+                        ReimbursePricePK pk = new ReimbursePricePK();
+                        pk.setTmtId(bean.getTmtid());
+                        Date effectiveDate = null;
+                        if (bean.getPrice().matches("\\d+\\.?\\d{0,2}")) {
+                            try {
+                                effectiveDate = DateUtils.parseUSDate("dd/MM/yyyy", bean.getEffectiveDate());
+                                pk.setEffectiveDate(effectiveDate);
+                                reimbursePrice.setId(pk);
+                                LOG.debug("effective date : {}", reimbursePrice.getId().getEffectiveDate());
+                                reimbursePrice.setPrice(new BigDecimal(bean.getPrice()));
+                                reimbursePrices.add(reimbursePrice);
+                                passModels.add(bean);
+                            } catch (RuntimeException e) {
+                                bean.addError("effectiveDate", "รูปแบบของวันที่ไม่ถูกต้อง");
+                                notPassModels.add(bean);
+                            }
+                        } else {
+                            bean.addError("price", "รูปแบบของราคายาไม่ถูกต้อง");
+                            notPassModels.add(bean);
+                        }
+
+                    } else {
+                        bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
+                        notPassModels.add(bean);
+                    }
+
+                    LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDate(), bean.getPrice());
                 }
 
                 @Override
@@ -170,7 +192,6 @@ public class UploadReimbursePrice implements Serializable{
             FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
-        save();
     }
 
     public boolean isDuplicateFile() {

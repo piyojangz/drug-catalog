@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
+import th.co.geniustree.nhso.drugcatalog.input.DrugAndDosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 
 /**
@@ -21,5 +22,16 @@ public interface TMTDrugService {
     public List<TMTDrug> findTMTDrugWithFsn(String fsn);
 
     public List<TMTDrug> findTMTDrugWithFsn(String fsn, Specifications specs);
-    public Page<TMTDrug> search(String tmtid,Pageable pageable);
+    
+    public List<TMTDrug> searchByFSN(String keyword);
+    
+    public Page<TMTDrug> search(String keyword,Pageable pageable);
+    
+    public List<TMTDrug> findBySpec(Specification<TMTDrug> s);
+    
+    public Page<TMTDrug> findAll(Pageable pageable);
+    
+    public void save(TMTDrug tmtDrug);
+    
+    public void uploadEditDosageFormGroup(List<DrugAndDosageFormGroup> drugAndDosageFormGroups);
 }
