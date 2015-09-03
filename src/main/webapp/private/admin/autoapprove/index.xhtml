@@ -61,10 +61,13 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <hr/>
-                <p:commandButton value="CALL INITIAL_HOSPITAL_DRUG(copy approved data to TMT_HOSPDRUG_TRANS)" action="#{autoApprove.copyDataToHospDrugtran()}" />
-                <p:spacer width="10"/>
-                <h:outputText styleClass="description" value="จัดเตรียมข้อมูลที่อนุมัติแล้วลงในตาราง TMT_HOSPDRUG_TRANS " /><h:outputText styleClass="description" value="เพื่อให้ E-Claim มาอ่านข้อมูลจาก Drug Catalog" style="font-weight: bolder;" />
+
+                <ui:remove>
+                    <hr/>
+                    <p:commandButton value="CALL INITIAL_HOSPITAL_DRUG(copy approved data to TMT_HOSPDRUG_TRANS)" action="#{autoApprove.copyDataToHospDrugtran()}" />
+                    <p:spacer width="10"/>
+                    <h:outputText styleClass="description" value="จัดเตรียมข้อมูลที่อนุมัติแล้วลงในตาราง TMT_HOSPDRUG_TRANS " /><h:outputText styleClass="description" value="เพื่อให้ E-Claim มาอ่านข้อมูลจาก Drug Catalog" style="font-weight: bolder;" />
+                </ui:remove>
             </h:form>
         </ui:define>
     </ui:composition>
