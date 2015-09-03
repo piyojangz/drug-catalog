@@ -72,7 +72,6 @@
                 .textWrap{
                     word-wrap: break-word;
                     display: block;
-                    width: 35ch;
                     white-space: pre-line;
                 }
 
@@ -81,7 +80,6 @@
                 <h:outputText value="รายการยารอตรวจสอบ (ทั้งหมด)"/>
             </div>
             <h:form id="form">
-
                 <p:panelGrid>
                     <p:row>
                         <p:column style="text-align: right;">
@@ -110,33 +108,18 @@
                                                itemValue="#{province.id}">
                                 </f:selectItems>
                             </p:selectOneMenu>
-                            <ui:remove>
-
-                                <p:autoComplete id="province" 
-                                                value="#{summaryInbox.province}" 
-                                                completeMethod="#{summaryInbox.completeProvince}"
-                                                var="p" 
-                                                itemLabel="#{p.name}" 
-                                                itemValue="#{p.id}" 
-                                                forceSelection="true" 
-                                                converter="provinceConverter" 
-                                                style="width: 400px;"
-                                                dropdown="true">
-                                </p:autoComplete>
-                            </ui:remove>
-
                         </p:column>
                     </p:row>
-
                     <p:row>
                         <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="ค้นหา" update="@form , table" actionListener="#{summaryInbox.search()}"/>
+                            <p:commandButton value="ค้นหา" update="@form" actionListener="#{summaryInbox.search()}"/>
                             <p:spacer width="10"/>
                             <p:commandButton value="เคลียร์" update="@form" actionListener="#{summaryInbox.reset()}" />
                         </p:column>
                     </p:row>
                 </p:panelGrid>
                 <p:spacer height="20"/>
+
                 <p:dataTable id="table"
                              value="#{summaryInbox.summary}"
                              var="hospital"
@@ -152,13 +135,24 @@
                              rowsPerPageTemplate="10,20,30,40"
                              emptyMessage="ไม่มีข้อมูล"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <f:facet name="header">
+                        <p:outputPanel style="font-size: 16px;">
+                            <h:outputText value="จำนวนโรงพยาบาลที่รออนุมัติ ทั้งหมด "/>
+                            <h:outputText value="#{summaryInbox.totalHospitalRequest}" style="color: #7F7E7E"/>
+                            <h:outputText value=" โรงพยาบาล"/>
+                            <br/>
+                            <h:outputText value="จำนวนรายการยาที่รออนุมัติ ทั้งหมด "/>
+                            <h:outputText value="#{summaryInbox.totalRequestOfProvince}" style="color: #7F7E7E"/>
+                            <h:outputText value=" รายการ"/>
+                        </p:outputPanel>
+                    </f:facet>
                     <p:column headerText="วันที่ส่งข้อมูล Drug Catalogue" width="200">
                         <h:outputText value="#{hospital.requestDate}">
                             <f:convertDateTime pattern="d MMM yyyy HH:mm:ss"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="โรงพยาบาล" width="300">
-                        <h:outputText value="#{hospital.hcode} &rarr; #{hospital.hname}" styleClass="textWrap"/>
+                        <h:outputText value="#{hospital.hcode} : #{hospital.hname}" styleClass="textWrap"/>
                     </p:column>
                     <p:column headerText="เพิ่มใหม่" width="75">
                         <h:outputText value="#{hospital.countFlagA}"/>
@@ -187,34 +181,7 @@
                     <p:column headerText="จำนวนรายการทั้งหมด" width="150">
                         <h:outputText value="#{hospital.countAll}"/>
                     </p:column>
-
                 </p:dataTable>
-                <br/><br/>
-                <p:panelGrid id="summary" 
-                             style="margin-left: 200px;font-size: 18px;">
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="จำนวนโรงพยาบาลที่รออนุมัติ ทั้งหมด"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{summaryInbox.totalHospitalRequest}"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="โรงพยาบาล"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="จำนวนรายการยาที่รออนุมัติ ทั้งหมด"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{summaryInbox.totalRequestOfProvince}"/>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="รายการ"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

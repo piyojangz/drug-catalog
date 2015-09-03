@@ -58,7 +58,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
 
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status status, String hcode);
 
-    @Query(value = "select max(r.requestDate) , "
+    @Query(value = "select max(r.requestDate) as REQUEST_DATE  , "
             + "u.hcode ,"
             + "h.hname ,"
             + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
@@ -76,7 +76,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.id = ?2 "
             + "group by u.hcode , h.hname "
-            + "order by u.hcode",
+            + "order by REQUEST_DATE",
             countQuery = "select count( distinct(u.hcode)) "
             + "from RequestItem r "
             + "join r.uploadDrugItem ui "
@@ -99,7 +99,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "group by h.province.id")
     public Long countTotalRequestByProvince(RequestItem.Status status, String provinceId);
 
-    @Query(value = "select max(r.requestDate) , "
+    @Query(value = "select max(r.requestDate) as REQUEST_DATE , "
             + "u.hcode ,"
             + "h.hname ,"
             + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
@@ -117,7 +117,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "and r.status = ?1 "
             + "and h.province.nhsoZone.nhsoZone = ?2 "
             + "group by u.hcode , h.hname "
-            + "order by u.hcode",
+            + "order by REQUEST_DATE",
             countQuery = "select count( distinct(u.hcode)) "
             + "from RequestItem r "
             + "join r.uploadDrugItem ui "
@@ -140,7 +140,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "group by h.province.id")
     public Long countTotalRequestByZone(RequestItem.Status status, String zone);
 
-    @Query(value = "select max(r.requestDate) , "
+    @Query(value = "select max(r.requestDate) as REQUEST_DATE, "
             + "u.hcode ,"
             + "h.hname ,"
             + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
@@ -157,7 +157,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
             + "where r.deleted = 0 "
             + "and r.status = ?1 "
             + "group by u.hcode , h.hname "
-            + "order by u.hcode",
+            + "order by REQUEST_DATE",
             countQuery = "select count( distinct(u.hcode)) "
             + "from RequestItem r "
             + "join r.uploadDrugItem ui "
