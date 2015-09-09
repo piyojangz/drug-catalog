@@ -55,7 +55,7 @@ public class TMTDrug implements Serializable, TMT {
 
     public enum Type {
 
-        SUB, VTM, GP, GPU, TP, TPU, X
+        SUB, VTM, GP, GPU, TP, TPU
     }
     @XlsColumn(columnNames = {"TPUCODE"})
     @Id
@@ -121,6 +121,16 @@ public class TMTDrug implements Serializable, TMT {
     )
     private List<NDC24> ndc24s;
 
+    @XlsColumn
+    @ManyToMany
+    @JoinTable(name = "TMT_PARENT_CHILD",
+            joinColumns = @JoinColumn(name = "TMT_CHILD", referencedColumnName = "TMTID"),
+            inverseJoinColumns = @JoinColumn(name = "TMT_PARENT", referencedColumnName = "TMTID"))
+    private List<TMTDrug> parents;
+
+    @ManyToMany(mappedBy = "parents")
+    private List<TMTDrug> children;
+    
     @Column(name = "DOSAGEFORM_GROUP", length = 100)
     private String dosageformGroup;
 
@@ -318,8 +328,23 @@ public class TMTDrug implements Serializable, TMT {
     public void setReimbursePrices(List<ReimbursePrice> reimbursePrices) {
         this.reimbursePrices = reimbursePrices;
     }
-    
 
+    public List<TMTDrug> getParents() {
+        return parents;
+    }
+
+    public void setParents(List<TMTDrug> parents) {
+        this.parents = parents;
+    }
+
+    public List<TMTDrug> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<TMTDrug> children) {
+        this.children = children;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
