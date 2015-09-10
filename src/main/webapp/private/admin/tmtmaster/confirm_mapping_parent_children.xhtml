@@ -56,7 +56,7 @@
                 }
             </style>
             <div class="header-content">
-                <h:outputText value="ตารางความสัมพันธ์ TMT TP - TPU"/>
+                <h:outputText value="เชื่อมโยงรหัส TMT"/>
             </div>
             <h:form id="beforeSaveForm">
                 <p:panelGrid>
@@ -69,11 +69,11 @@
                     </p:row>
                     <p:row>
                         <p:column>
-                            <h:outputText value="รายการ TP ที่เลือก"/>
+                            <h:outputText value="รายการ TMT Parent ที่เลือก"/>
                             <br/>
-                            <h:outputText value="TMT : #{tmtRelationMapping.selectedTMTParent.tmtId}"/>
+                            <h:outputText value="TMT : #{tmtRelationMapping.selectedTMTParent.tmtId}"/><p:spacer width="20"/><h:outputText value="TMT Type : #{tmtRelationMapping.selectedTMTParent.type}"/>
                             <br/>
-                            <h:outputText value="FSN : #{tmtRelationMselectedTMTParentectedTP.fsn}"/>
+                            <h:outputText value="FSN : #{tmtRelationMapping.selectedTMTParent.fsn}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -89,18 +89,31 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         <div style="text-align: center;">
-                            <h:outputText value="รายการ TPU ที่เลือก"/>
+                            <h:outputText value="รายการ TMT Children ที่เลือก"/>
                         </div>
                     </f:facet>
                     <p:column headerText="TMTID" style="width: 50px;">
                         <h:outputText value="#{item.tmtId}"/>
                     </p:column>
+                    <p:column headerText="TYPE" style="width: 50px;">
+                        <h:outputText value="#{item.type}"/>
+                    </p:column>
                     <p:column headerText="FSN">
                         <h:outputText value="#{item.fsn}"/>
                     </p:column>
+                    <ui:remove>
+                        <p:column headerText="STATUS">
+                            <div style="#{tmtRelationMapping.beforeEditTMTChildren.contains(item) ? 'display: none': 'color: green'}">
+                                <h:outputText value="เพิ่ม"/>
+                            </div>
+                            <div style="#{tmtRelationMapping.beforeEditTMTChildren.contains(item) ? 'display: none': 'color: green'}">
+                                <h:outputText value="เพิ่ม"/>
+                            </div>
+                        </p:column> 
+                    </ui:remove>
                 </p:dataTable>
                 <div style="text-align: center;padding-top: 10px;">
-                    <p:commandButton value="ยืนยัน" action="mapping.xhtml" actionListener="#{tmtRelationMapping.save()}"/>
+                    <p:commandButton value="ยืนยัน" action="#{tmtRelationMapping.save()}"/>
                     <p:spacer width="10"/>
                     <p:commandButton value="ย้อนกลับ" action="mapping.xhtml"/>
                 </div>

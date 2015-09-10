@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.service;
 import java.util.Collection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 
 /**
@@ -25,5 +26,9 @@ public interface TMTRelationService {
     public void saveAll(Collection<TMTRelation> tmtList);
     
     public void delete(TMTRelation tmt);
+    
+    public Page<TMTRelation> findBySpec(Specification<TMTRelation> spec,Pageable pageable);
+    
+    public void deleteAllRelationByParent(TMTRelation relation);
     
 }

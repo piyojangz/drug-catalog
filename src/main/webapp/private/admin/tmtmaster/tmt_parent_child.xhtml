@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+                .ui-datatable-scrollable-header td{
+                    background-color: rgb(255, 250, 179);
+                }
+
+                .clean-table tbody tr td{
+                    border: solid 1px;
+                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+                }
+
+                .clean-table tbody tr:first-child td{
+                    border-top: 2px solid rgb(156, 156, 156);
+                }
+
+                .clean-table tbody tr{
+                    border-left: 2px rgb(162, 161, 161) solid !important;
+                    border-right: 2px rgb(162, 161, 161) solid !important;
+                }
+
+                .clean-table tbody{
+                    border-color: #999;
+                }
+
+                .clean-table{
+                    border-width: 0 0 1px 0 !important;
+                    background: none !important;
+                    min-width: 600px;
+                }
+
+                .clean-table + .clean-table thead{
+                    visibility: hidden;
+                }
+
+                .clean-table .ui-datatable-tablewrapper{
+                    border-bottom: 2px solid #7F7E7E;
+                }
+                .tab{
+                    background-color: #FD6B6B;
+                    width: 100%; 
+                    height: 10px;
+                    border-radius: 4em;
+                }
+            </style>
+            <p:growl id="growl" showDetail="true"/>
+            <div class="header-content" style="margin-bottom: 20px;">
+                <h:outputText value="ตรวจสอบการเชื่อมโยงรหัส TMT"/>
+            </div>
+            <h:form id="viewAllForm">
+                <p:panelGrid style="margin-bottom: 20px;">
+                    <p:row>
+                        <p:column style="text-align: right;min-width: 100px;width: 100px;">
+                            <h:outputText value="ค้นหา TMT : "/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="searchText" value="#{tmtRelationMapping.keyword}" size="15">
+                                <p:watermark for="searchText" value="Activev Ingredient"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:spacer width="20"/>
+                            <h:outputText value="กรอง TYPE : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="filterTMTType" value="#{tmtRelationMapping.filterType}" style="width: 100px;" >
+                                <f:selectItem itemLabel="เลือกทั้งหมด" itemValue=""/>
+                                <f:selectItems itemLabel="#{type}" itemValue="#{type}" var="type" value="#{tmtRelationMapping.allType}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="search" 
+                                             actionListener="#{tmtRelationMapping.searchRelation()}"
+                                             icon="ui-icon-search"
+                                             update="@form">
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <p:dataTable value="#{tmtRelationMapping.tmtRelations}"
+                             var="item"
+                             styleClass="clean-table"
+                             scrollable="true"
+                             scrollHeight="320"
+                             style="width: 700px;"
+                             paginator="true"
+                             rows="20" 
+                             lazy="true"
+                             rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+
+                    <p:column headerText="TMTID" style="width: 50px;">
+                        <h:outputText value="#{item.parent.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="TMTID" style="width: 50px;">
+                        <h:outputText value="#{item.parent.type}"/>
+                    </p:column>
+                    <p:column headerText="FSN">
+                        <h:outputText value="#{item.parent.fsn}"/>
+                    </p:column>
+                    <p:column headerText="ดูการเชื่อมโยง" style="text-align: center;width: 100px;">
+                        <p:commandButton icon="ui-icon-zoomin"
+                                         onclick="PF('relationDialogWidget').show()" 
+                                         update=":relationDialogForm"
+                                         actionListener="#{tmtRelationMapping.showTMTChildOfSelectParent(item)}"/>
+                    </p:column>
+                    <p:column style="width: 70px;text-align: center;">
+                        <p:commandButton style="height: 25px;width: 25px;" 
+                                         icon="ui-icon-wrench" 
+                                         title="แก้ไข"
+                                         action="#{tmtRelationMapping.onEdit(item)}"/>
+                        <p:spacer width="10"/>
+                        <p:commandButton style="height: 25px;width: 25px;" 
+                                         icon="ui-icon-closethick" 
+                                         title="ลบทั้งความสัมพันธ์"
+                                         actionListener="#{tmtRelationMapping.onSelectRelation(item)}"
+                                         onclick="PF('deleteRelationDialogWidget').show()"
+                                         update=":deleteRelationDialogForm"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <p:dialog id="relationDialog"
+                      appendTo="@(body)"
+                      widgetVar="relationDialogWidget"
+                      width="800"
+                      closable="true"
+                      closeOnEscape="true"
+                      header="ดูการเชื่อมโยงของ TMT"
+                      modal="true"
+                      height="600">
+                <h:form id="relationDialogForm">
+                    <p:dataTable id="relationTable"
+                                 value="#{tmtRelationMapping.viewChildrenTMT}"
+                                 paginator="true"
+                                 rows="20" 
+                                 styleClass="clean-table"
+                                 var="child"
+                                 lazy="true"
+                                 rowsPerPageTemplate="20,30,40,50"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                        <f:facet name="header">
+                            <div style="text-align: left;">
+                                <h:outputText value="TMTID : #{tmtRelationMapping.selectedTMTParent.tmtId}"/><br/>
+                                <h:outputText value="TYPE : #{tmtRelationMapping.selectedTMTParent.type}"/><br/>
+                                <h:outputText value="FSN : #{tmtRelationMapping.selectedTMTParent.fsn}"/>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="TMTID" style="width: 60px;">
+                            <h:outputText value="#{child.tmtId}"/>
+                        </p:column>
+                        <p:column headerText="TYPE" style="width: 60px;">
+                            <h:outputText value="#{child.type}"/>
+                        </p:column>
+                        <p:column headerText="FSN">
+                            <h:outputText value="#{child.fsn}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+            </p:dialog>
+            
+            <p:dialog id="deleteRelationDialog"
+                      appendTo="@(body)"
+                      widgetVar="deleteRelationDialogWidget"
+                      width="800"
+                      closable="true"
+                      closeOnEscape="true"
+                      header="ยืนยันการลบความสัมพันธ์"
+                      modal="true"
+                      height="600">
+                <h:form id="deleteRelationDialogForm">
+                    <div style="text-align: center;">
+                        <h:outputText value="กรุณายืนยันการลบข้อมูลความสัมพันธ์"/>
+                    </div>
+                    <div style="text-align: left;">
+                        <h:outputText value="TMTID : #{tmtRelationMapping.selectRelation.parent.tmtId}"/><br/>
+                        <h:outputText value="TYPE : #{tmtRelationMapping.selectRelation.parent.type}"/><br/>
+                        <h:outputText value="FSN : #{tmtRelationMapping.selectRelation.parent.fsn}"/>
+                    </div>
+                    <div>
+                        <p:commandButton value="ยืนยัน"
+                                         actionListener="#{tmtRelationMapping.deleteAllRelation}"
+                                         onclick="PF('relationDialogWidget').hide()"
+                                         update=":growl,:viewAllForm"/>
+                        <p:commandButton value="ไม่ยืนยัน"
+                                         type="reset"
+                                         onclick="PF('relationDialogWidget').hide()"/>
+                    </div>
+
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

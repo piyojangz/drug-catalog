@@ -22,11 +22,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelationID;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTRelationSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;
 
@@ -42,25 +44,23 @@ public class TmtRelationMapping implements Serializable {
 
     @Autowired
     private TMTDrugService tmtDrugService;
-
     @Autowired
     private TMTRelationService tmtRelationService;
 
     private SpringDataLazyDataModelSupport<TMTDrug> tmtParents;
-
     private SpringDataLazyDataModelSupport<TMTDrug> tmtChildren;
+    private SpringDataLazyDataModelSupport<TMTRelation> tmtRelations;
+    private List<TMTDrug> viewChildrenTMT;
 
     private TMTDrug selectedTMTParent;
-
     private String keyword;
-
     private Set<TMTDrug> selectedTMTChildren;
-
+    private List<TMTDrug> beforeEditTMTChildren;
+    private List<TMTDrug> deletedTMTChildren;
     private boolean checkItem;
-
     private final List<TMTDrug.Type> allType = new ArrayList<>();
-
     private TMTDrug.Type filterType;
+    private TMTRelation selectRelation;
 
     @PostConstruct
     public void postConstruct() {
@@ -72,15 +72,55 @@ public class TmtRelationMapping implements Serializable {
         allType.add(TMTDrug.Type.GP);
         allType.add(TMTDrug.Type.GPU);
         allType.add(TMTDrug.Type.TP);
+        viewAllRelation();
+    }
+
+    public void viewAllRelation() {
+        tmtRelations = searchRelation(null, allType);
+    }
+
+    public void searchRelation() {
+        if (filterType == null) {
+            tmtRelations = searchRelation(keyword, allType);
+        } else {
+            List<TMTDrug.Type> typeIn = new ArrayList<>();
+            typeIn.add(filterType);
+            tmtRelations = searchRelation(keyword, typeIn);
+        }
+
+    }
+
+    private SpringDataLazyDataModelSupport<TMTRelation> searchRelation(final String keyword, final List<TMTDrug.Type> typeIn) {
+        return new SpringDataLazyDataModelSupport<TMTRelation>() {
+
+            @Override
+            public Page<TMTRelation> load(Pageable pageAble) {
+                if (keyword != null && !keyword.isEmpty()) {
+                    List<String> keywords = Arrays.asList(keyword.split("\\s+"));
+                    Specification<TMTRelation> spec = Specifications.where(TMTRelationSpecs.tmtIdContains(keywords)).or(TMTRelationSpecs.fsnContains(keywords));
+                    if (typeIn != null) {
+                        spec = Specifications.where(spec).and(TMTRelationSpecs.typeIn(typeIn));
+                    }
+                    return tmtRelationService.findBySpec(spec, pageAble);
+                } else {
+                    return tmtRelationService.findAll(pageAble);
+                }
+            }
+        };
     }
 
     public void search() {
-        List<TMTDrug.Type> filterTypes = new ArrayList<>();
-        filterTypes.add(filterType);
-        tmtParents = search(keyword, filterTypes);
+        if (filterType == null) {
+            tmtParents = searchTMTDrug(keyword, allType);
+        } else {
+            List<TMTDrug.Type> filterTypes = new ArrayList<>();
+            filterTypes.add(filterType);
+            tmtParents = searchTMTDrug(keyword, filterTypes);
+        }
+
     }
 
-    private SpringDataLazyDataModelSupport<TMTDrug> search(final String keyword, final List<TMTDrug.Type> typeIn) {
+    private SpringDataLazyDataModelSupport<TMTDrug> searchTMTDrug(final String keyword, final List<TMTDrug.Type> typeIn) {
         return new SpringDataLazyDataModelSupport<TMTDrug>() {
             @Override
             public Page<TMTDrug> load(Pageable pageAble) {
@@ -98,6 +138,27 @@ public class TmtRelationMapping implements Serializable {
         };
     }
 
+    public String onEdit(TMTDrug tmtDrug) {
+        if (tmtDrug != null) {
+            selectedTMTParent = tmtDrug;
+
+            tmtChildren = searchTMTDrug(selectedTMTParent.getFsn(), findChildTypeFromParentType(selectedTMTParent.getType()));
+            beforeEditTMTChildren = new ArrayList<>(selectedTMTParent.getChildren());
+            selectedTMTChildren = new HashSet<>(selectedTMTParent.getChildren());
+        }
+        return "mapping.xhtml";
+    }
+
+    private String getActiveIngredientFrom(TMTDrug drug) {
+        FSNSplitter splitter = new FSNSplitter();
+        splitter.getActiveIngredientAndStrengthFromFSN(drug);
+        StringBuilder sb = new StringBuilder();
+        for (String activeIngredient : splitter.getActiveIngredients()) {
+            sb.append(activeIngredient).append(" ");
+        }
+        return sb.toString();
+    }
+
     public void onSelectParentTMT(TMTDrug tmt) {
         if (selectedTMTChildren == null) {
             selectedTMTChildren = new HashSet<>();
@@ -105,8 +166,9 @@ public class TmtRelationMapping implements Serializable {
             selectedTMTChildren.clear();
         }
         selectedTMTParent = tmt;
+        beforeEditTMTChildren = new ArrayList<>(selectedTMTParent.getChildren());
         LOG.debug("selected Parent TMT : {}", selectedTMTParent.getTmtId());
-        searchTPU();
+        searchChildrenTMT();
     }
 
     private List<TMTDrug.Type> findChildTypeFromParentType(TMTDrug.Type parentType) {
@@ -126,8 +188,8 @@ public class TmtRelationMapping implements Serializable {
         return childType;
     }
 
-    public void searchTPU() {
-        tmtChildren = search(keyword, findChildTypeFromParentType(selectedTMTParent.getType()));
+    public void searchChildrenTMT() {
+        tmtChildren = searchTMTDrug(selectedTMTParent.getFsn(), findChildTypeFromParentType(selectedTMTParent.getType()));
         selectedTMTChildren.addAll(selectedTMTParent.getChildren());
     }
 
@@ -145,33 +207,83 @@ public class TmtRelationMapping implements Serializable {
         LOG.debug("remove tmt : {}", tmtDrug.getTmtId());
     }
 
-    public void onSave() {
+    public String onSave() {
+        deletedTMTChildren = new ArrayList<>();
+        for (TMTDrug tmt : beforeEditTMTChildren) {
+            if (!selectedTMTChildren.contains(tmt)) {
+                deletedTMTChildren.add(tmt);
+            }
+        }
+        return "confirm_mapping_tp_tpu.xhtml";
     }
 
     public String save() {
-        TMTRelation relation = new TMTRelation();
-        relation.setParent(selectedTMTParent);
-        for (TMTDrug child : selectedTMTChildren) {
-            TMTRelationID id = relation.getId();
-            id.setParentId(selectedTMTParent.getTmtId());
-            id.setChildId(child.getTmtId());
-            relation.setChild(child);
-            tmtRelationService.save(relation);
-        }
         try {
-            tmtDrugService.save(selectedTMTParent);
-            FacesMessageUtils.info("บันทึกข้อมูล เรียบร้อย");
+            TMTRelation relation = new TMTRelation();
+            relation.setParent(selectedTMTParent);
+            for (TMTDrug child : selectedTMTChildren) {
+                if (!beforeEditTMTChildren.contains(child)) {
+                    TMTRelationID id = new TMTRelationID();
+                    id.setParentId(selectedTMTParent.getTmtId());
+                    id.setChildId(child.getTmtId());
+                    relation.setId(id);
+                    relation.setChild(child);
+                    tmtRelationService.save(relation);
+                }
+            }
+            delete(relation);
+            FacesMessageUtils.info("บันทึก/แก้ไข ข้อมูล เรียบร้อย");
+
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถ บันทึก/แก้ไข ได้");
         }
         reset();
-        return "mapping.xhtml";
+        return "tmt_parent_child.xhtml";
+    }
+
+    private void delete(TMTRelation relation) {
+        LOG.debug("DELETE TMT Parent : {}", relation.getParent().getTmtId());
+        for (TMTDrug tmt : deletedTMTChildren) {
+            TMTRelationID id = new TMTRelationID();
+            id.setParentId(relation.getParent().getTmtId());
+            id.setChildId(tmt.getTmtId());
+            relation.setId(id);
+            relation.setChild(tmt);
+            tmtRelationService.delete(relation);
+            LOG.debug("DELETE TMT Child : {}", relation.getId().getChildId());
+        }
+    }
+
+    public void showTMTChildOfSelectParent(TMTRelation relation) {
+        selectedTMTParent = relation.getParent();
+        viewChildrenTMT = relation.getParent().getChildren();
     }
 
     public void reset() {
         selectedTMTParent = null;
         selectedTMTChildren.clear();
         keyword = "";
+    }
+
+    public void deleteAllRelation() {
+        try {
+            tmtRelationService.deleteAllRelationByParent(selectRelation);
+            FacesMessageUtils.warn("ลบความสัมพันธ์ทั้งหมด เรียบร้อย");
+        } catch (Exception e) {
+            FacesMessageUtils.warn("ไม่สามารถ ลบความสัมพันธ์ทั้งหมดได้");
+        }
+    }
+
+    public void onSelectRelation(TMTRelation relation) {
+        selectRelation = relation;
+    }
+
+    public TMTRelation getSelectRelation() {
+        return selectRelation;
+    }
+
+    public void setSelectRelation(TMTRelation selectRelation) {
+        this.selectRelation = selectRelation;
     }
 
     public String getKeyword() {
@@ -232,6 +344,38 @@ public class TmtRelationMapping implements Serializable {
 
     public void setFilterType(TMTDrug.Type filterType) {
         this.filterType = filterType;
+    }
+
+    public List<TMTDrug> getBeforeEditTMTChildren() {
+        return beforeEditTMTChildren;
+    }
+
+    public void setBeforeEditTMTChildren(List<TMTDrug> beforeEditTMTChildren) {
+        this.beforeEditTMTChildren = beforeEditTMTChildren;
+    }
+
+    public SpringDataLazyDataModelSupport<TMTRelation> getTmtRelations() {
+        return tmtRelations;
+    }
+
+    public void setTmtRelations(SpringDataLazyDataModelSupport<TMTRelation> tmtRelations) {
+        this.tmtRelations = tmtRelations;
+    }
+
+    public List<TMTDrug> getDeletedTMTChildren() {
+        return deletedTMTChildren;
+    }
+
+    public void setDeletedTMTChildren(List<TMTDrug> deletedTMTChildren) {
+        this.deletedTMTChildren = deletedTMTChildren;
+    }
+
+    public List<TMTDrug> getViewChildrenTMT() {
+        return viewChildrenTMT;
+    }
+
+    public void setViewChildrenTMT(List<TMTDrug> viewChildrenTMT) {
+        this.viewChildrenTMT = viewChildrenTMT;
     }
 
 }

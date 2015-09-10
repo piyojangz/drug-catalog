@@ -59,4 +59,19 @@ public class TMTRelationServiceImpl implements TMTRelationService {
         tmtRelationRepo.delete(tmt);
     }
 
+    @Override
+    public Page<TMTRelation> findBySpec(Specification<TMTRelation> spec,Pageable pageable) {
+        return tmtRelationRepo.findAll(spec,pageable);
+    }
+
+    @Override
+    public void deleteAllRelationByParent(TMTRelation relation) {
+        List<TMTRelation> relations = tmtRelationRepo.findByIdParentId(relation.getId().getParentId());
+        for(TMTRelation r : relations){
+            tmtRelationRepo.delete(r);
+        }
+    }
+
+    
+    
 }

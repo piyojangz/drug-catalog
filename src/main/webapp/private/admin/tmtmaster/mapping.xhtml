@@ -122,11 +122,14 @@
                                              update=":selectParentDialogForm">
                             </p:commandButton>
                         </p:column>
-                        <p:column >
+                        <p:column>
                             <h:outputText value="รายการ TMT ที่เลือก"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="#{tmtRelationMapping.selectedTMTParent.tmtId} : " rendered="#{tmtRelationMapping.selectedTMTParent ne null}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.type} : " rendered="#{tmtRelationMapping.selectedTMTParent ne null}"/>
                         </p:column>
                         <p:column style="width: 300px;">
                             <h:outputText value="#{tmtRelationMapping.selectedTMTParent.fsn}" rendered="#{tmtRelationMapping.selectedTMTParent ne null}"/>
@@ -209,7 +212,7 @@
                     </p:row>
                     <p:row>
                         <p:column colspan="2">
-                            <p:commandButton value="บันทึก" action="confirm_mapping_tp_tpu.xhtml" disabled="#{tmtRelationMapping.selectedTMTChildren.size() eq 0}"/>
+                            <p:commandButton value="บันทึก" action="#{tmtRelationMapping.onSave()}" disabled="#{tmtRelationMapping.selectedTMTChildren.size() eq 0}"/>
                             <p:commandButton value="เคลียร์" actionListener="#{tmtRelationMapping.reset()}" update="@form" disabled="#{tmtRelationMapping.selectedTMTChildren.size() eq 0}"/>
                         </p:column>
                     </p:row>
@@ -243,13 +246,13 @@
                             </p:column>
                             <p:column>
                                 <p:selectOneMenu id="filterTMTType" value="#{tmtRelationMapping.filterType}" style="width: 100px;" >
+                                    <f:selectItem itemLabel="เลือกทั้งหมด" itemValue=""/>
                                     <f:selectItems itemLabel="#{type}" itemValue="#{type}" var="type" value="#{tmtRelationMapping.allType}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
                                 <p:commandButton value="search" 
                                                  actionListener="#{tmtRelationMapping.search}"
-                                                 onclick="PF('selectParentDialogWidget').show()"
                                                  icon="ui-icon-search"
                                                  update="@form">
                                 </p:commandButton>
