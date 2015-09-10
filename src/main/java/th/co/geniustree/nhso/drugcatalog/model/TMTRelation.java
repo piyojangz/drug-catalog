@@ -45,6 +45,8 @@ public class TMTRelation implements Serializable {
         this.id = new TMTRelationID();
         this.id.setParentId(tp.getTmtId());
         this.id.setChildId(tpu.getTmtId());
+        this.parent = tp;
+        this.child = tpu;
     }
 
     public TMTDrug getParent() {

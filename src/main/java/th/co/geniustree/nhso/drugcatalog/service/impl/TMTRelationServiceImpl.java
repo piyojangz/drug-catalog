@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
+import th.co.geniustree.nhso.drugcatalog.model.TMTRelationID;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTRelationRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTRelationSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;
@@ -72,6 +73,13 @@ public class TMTRelationServiceImpl implements TMTRelationService {
         }
     }
 
+    @Override
+    public boolean isRelationExist(String parentTmtId,String childTmtId) {
+        TMTRelationID relationId = new TMTRelationID();
+        relationId.setParentId(parentTmtId);
+        relationId.setChildId(childTmtId);
+        return tmtRelationRepo.findOne(relationId) != null;
+    }
     
     
 }

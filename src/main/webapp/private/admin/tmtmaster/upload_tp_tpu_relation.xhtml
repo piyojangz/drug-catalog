@@ -9,12 +9,12 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <div class="header-content">
-                <h:outputText value="Upload TMT Relation TP - TPU"/>
+                <h:outputText value="Upload TMT Relation"/>
             </div>
 
             <h:form>
-                <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า TMT Relation TP - TPU" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
-                    <p:fileDownload value="#{uploadTMTNDC24.templateFile}" />
+                <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า TMT Relation" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
+                    <p:fileDownload value="#{uploadTMTRelation.templateFile}" />
                 </p:commandLink>
             </h:form>
 
@@ -23,28 +23,28 @@
             <h:form enctype="multipart/form-data" id="form">
                 
                 <p:messages id="messages" globalOnly="true" showDetail="true"/>
-                <p:fileUpload fileUploadListener="#{uploadTMTNDC24.handleFileUpload}" 
+                <p:fileUpload fileUploadListener="#{uploadTMTRelation.handleFileUpload}" 
                               mode="advanced"
                               update="form" 
                               auto="true" 
                               sizeLimit="10000000" 
                               allowTypes="/(\.|\/)(xls|xlsx)$/" 
-                              label="#{not empty uploadTMTNDC24.originalFileName?'File : '.concat(uploadTMTNDC24.originalFileName):'เลือกไฟล์ TMT-NDC24 (xls,xlsx)'}"/>
-                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadTMTNDC24.passModels.size()+uploadMappedDrugGroup.notPassModels.size()} เรคคอร์ด" 
-                               rendered="#{not empty uploadTMTNDC24.file}"/>
+                              label="#{not empty uploadTMTRelation.originalFileName?'File : '.concat(uploadTMTRelation.originalFileName):'เลือกไฟล์ TMT-Relation (xls,xlsx)'}"/>
+                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadTMTRelation.passModels.size()+uploadMappedDrugGroup.notPassModels.size()} เรคคอร์ด" 
+                               rendered="#{not empty uploadTMTRelation.file}"/>
                 <br/>
                 <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" 
-                               rendered="#{uploadTMTNDC24.duplicateFile}" 
+                               rendered="#{uploadTMTRelation.duplicateFile}" 
                                style="color:red;font-weight: bold"/>
                 <br/>
                 
-                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadTMTNDC24.notPassModels}">
+                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadTMTRelation.notPassModels}">
                     
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ไม่ผ่าน" style="color:red"/>
                         <h:outputText value="การตรวจสอบตามโครงสร้าง TMT Relation "/>
-                        <h:outputText value="#{uploadTMTNDC24.notPassModels.size()} " style="color:red"/>
+                        <h:outputText value="#{uploadTMTRelation.notPassModels.size()} " style="color:red"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
                     
@@ -52,7 +52,7 @@
                         
                         <p:dataTable id="errorTable" 
                                      resizableColumns="true"  
-                                     value="#{uploadTMTNDC24.notPassModels}" 
+                                     value="#{uploadTMTRelation.notPassModels}" 
                                      var="model"  
                                      paginator="true" 
                                      rows="10" 
@@ -69,11 +69,11 @@
                             <p:column   headerText="ROW#" width="40">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
-                            <p:column   headerText="TP" width="80" styleClass="#{empty model.errorMap['tp']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tp']}"/>
+                            <p:column   headerText="TMTID_PARENT" width="80" styleClass="#{empty model.errorMap['TMTID_PARENT']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.parentTmtId}" style="" title="#{model.errorMap['TMTID_PARENT']}"/>
                             </p:column>
-                            <p:column headerText="TPU" width="60" styleClass="#{empty model.errorMap['tpu']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.ndc24}"  title="#{model.errorMap['tpu']}"/>
+                            <p:column headerText="TMTID_CHILD" width="60" styleClass="#{empty model.errorMap['TMTID_CHILD']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.childTmtId}"  title="#{model.errorMap['TMTID_CHILD']}"/>
                             </p:column>
                             <p:column headerText="ERROR" width="400">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
@@ -85,13 +85,13 @@
                     
                 </p:panel>
                 
-                <p:panel style="margin-bottom:20px" rendered="#{not empty uploadTMTNDC24.passModels}">
+                <p:panel style="margin-bottom:20px" rendered="#{not empty uploadTMTRelation.passModels}">
                     
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ผ่าน" style="color:green"/>
                         <h:outputText value="การตรวจสอบตามโครงสร้าง TMT Relation "/>
-                        <h:outputText value="#{uploadTMTNDC24.passModels.size()} " style="color:green"/>
+                        <h:outputText value="#{uploadTMTRelation.passModels.size()} " style="color:green"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
                     
@@ -100,7 +100,7 @@
                         <p:dataTable id="passTable" 
                                      resizableColumns="true" 
                                      rowIndexVar="rowIndex" 
-                                     value="#{uploadTMTNDC24.passModels}" 
+                                     value="#{uploadTMTRelation.passModels}" 
                                      var="model"  
                                      paginator="true" 
                                      rows="10" 
@@ -117,11 +117,11 @@
                             <p:column   headerText="#" width="80">
                                 <h:outputText value="#{rowIndex+1}" style="" />
                             </p:column>
-                            <p:column   headerText="TP" width="80" >
-                                <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tp']}"/>
+                            <p:column   headerText="TMTID_PARENT" width="80" >
+                                <h:outputText value="#{model.parentTmtId}" style="" title="#{model.errorMap['TMTID_PARENT']}"/>
                             </p:column>
-                            <p:column headerText="TPU" width="120" >
-                                <h:outputText value="#{model.ndc24}"  title="#{model.errorMap['tpu']}"/>
+                            <p:column headerText="TMTID_CHILD" width="120" >
+                                <h:outputText value="#{model.childTmtId}"  title="#{model.errorMap['TMTID_CHILD']}"/>
                             </p:column>
                             
                         </p:dataTable>
@@ -135,14 +135,14 @@
                 </p:blockUI>
                 
                 <p:commandButton ajax="false" value="Save" 
-                                 action="#{uploadTMTNDC24.save()}" 
-                                 disabled="#{empty uploadTMTNDC24.passModels or uploadTMTNDC24.duplicateFile}" 
+                                 action="#{uploadTMTRelation.save()}" 
+                                 disabled="#{empty uploadTMTRelation.passModels or uploadTMTRelation.duplicateFile}" 
                                  onclick="PF('allblock').show()"  
                                  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
                 <p:commandButton ajax="false" value="Cancle" 
-                                 action="#{uploadTMTNDC24.reset()}" 
-                                 disabled="#{empty uploadTMTNDC24.file}" 
+                                 action="#{uploadTMTRelation.reset()}" 
+                                 disabled="#{empty uploadTMTRelation.file}" 
                                  update="form"  
                                  onclick="PF('allblock').show()" />
             </h:form>

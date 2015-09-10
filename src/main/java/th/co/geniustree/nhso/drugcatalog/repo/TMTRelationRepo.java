@@ -15,7 +15,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTRelationID;
  *
  * @author Thanthathon
  */
-public interface TMTRelationRepo extends JpaRepository<TMTRelation,TMTRelationID>, JpaSpecificationExecutor<TMTRelation>{
+public interface TMTRelationRepo extends JpaRepository<TMTRelation, TMTRelationID>, JpaSpecificationExecutor<TMTRelation>{
     
     public  List<TMTRelation> findByIdParentId(String parentId);
     

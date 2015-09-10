@@ -31,4 +31,6 @@ public interface TMTRelationService {
     
     public void deleteAllRelationByParent(TMTRelation relation);
     
+    public boolean isRelationExist(String parentTmtId,String childTmtId);
+    
 }
