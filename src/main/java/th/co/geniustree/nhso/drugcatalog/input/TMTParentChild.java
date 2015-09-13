@@ -21,7 +21,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
  *
  * @author Thanthathon
  */
-public class TMTParentChild implements Serializable {
+public class TMTParentChild implements Serializable , UploadRelationshipModel {
 
     @XlsColumn(columnNames = "TMTID_PARENT")
     @NotEmpty
@@ -34,18 +34,22 @@ public class TMTParentChild implements Serializable {
     private Map<String, List<String>> errorMap;
     private int rowNum;
 
+    @Override
     public String getParentTmtId() {
         return parentTmtId;
     }
 
+    @Override
     public void setParentTmtId(String parentTmtId) {
         this.parentTmtId = parentTmtId;
     }
 
+    @Override
     public String getChildTmtId() {
         return childTmtId;
     }
 
+    @Override
     public void setChildTmtId(String childTmtId) {
         this.childTmtId = childTmtId;
     }

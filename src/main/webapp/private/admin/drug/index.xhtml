@@ -24,6 +24,12 @@
                     <h:outputLabel value="GP " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.gp.size()} เรคคอร์ด" />
                     <h:outputLabel value="VTM " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.vtm.size()} เรคคอร์ด" />
                     <h:outputLabel value="SUBS " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.subs.size()} เรคคอร์ด" />
+                    <h:outputLabel value="SUBS to VTM " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.subsToVtm.size()} เรคคอร์ด" />
+                    <h:outputLabel value="VTM to GP " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.vtmToGp.size()} เรคคอร์ด" />
+                    <h:outputLabel value="GP to GPU " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.gpToGpu.size()} เรคคอร์ด" />
+                    <h:outputLabel value="GP to TP " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.gpToTp.size()} เรคคอร์ด" />
+                    <h:outputLabel value="GPU to TPU " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.gpuToTpu.size()} เรคคอร์ด" />
+                    <h:outputLabel value="TP to TPU " /><h:outputLabel value="จำนวน  #{uploadMasterDrug.tpToTpu.size()} เรคคอร์ด" />
                 </h:panelGrid>
                 <p:commandButton ajax="false" value="Save" action="#{uploadMasterDrug.save()}" disabled="#{not uploadMasterDrug.canSave}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
