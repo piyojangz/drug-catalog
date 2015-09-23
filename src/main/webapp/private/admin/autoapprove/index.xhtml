@@ -54,10 +54,25 @@
                     </p:row>
                     <p:row>
                         <p:column>
-                            <p:commandButton value="Approve All Flag U" action="#{autoApprove.approveAllRequestWithFlagU()}" />
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Flag : "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu value="#{autoApprove.flagApprove}" >
+                                            <f:selectItem itemLabel="U" itemValue="U"/>
+                                            <f:selectItem itemLabel="D" itemValue="D"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="Approve" action="#{autoApprove.approveAllRequestWithFlag()}" />
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <h:outputText styleClass="description" value="อนุมัติรายการยาทั้งหมด ที่แก้ไขราคายา (Flag U)" />
+                            <h:outputText styleClass="description" value="อนุมัติรายการยาทั้งหมด ตาม Flag ที่ระบุ" />
                         </p:column>
                     </p:row>
                 </p:panelGrid>

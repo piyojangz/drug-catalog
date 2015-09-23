@@ -26,6 +26,16 @@ public class AutoApprove implements Serializable {
     @Autowired
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
 
+    private String flagApprove;
+
+    public String getFlagApprove() {
+        return flagApprove;
+    }
+
+    public void setFlagApprove(String flagApprove) {
+        this.flagApprove = flagApprove;
+    }
+
     public String getHcode() {
         return hcode;
     }
@@ -61,7 +71,7 @@ public class AutoApprove implements Serializable {
         uploadHospitalDrugItemRepo.copyDataProcedure();
     }
     
-    public void approveAllRequestWithFlagU(){
-        autoApproveService.approveRequestFlagU();
+    public void approveAllRequestWithFlag(){
+        autoApproveService.approveRequestFlag(flagApprove);
     }
 }
