@@ -94,6 +94,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         approveService.approve(items);
     }
     
+    @Override
     public void approveSelectedFlagBySystem(String flag){
         List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, flag);
         log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
