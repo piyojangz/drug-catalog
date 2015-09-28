@@ -30,6 +30,10 @@ public interface ApproveService {
     public void approveOrRejects(List<ApproveData> datas);
 
     public void approveOrRejects(List<ApproveData> datas, ApproveFile approveFile);
-    
+
     public void reApproveAndNotChangeRequestItemState(List<RequestItem> requestItems);
+
+    public void approveBySystem(RequestItem requestItem);
+
+    public void approveBySystem(List<RequestItem> requestItems);
 }

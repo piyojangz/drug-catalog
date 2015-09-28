@@ -22,4 +22,6 @@ public interface AutoApproveService {
     public boolean approvePartial(int page,int pageSize);
     
     public void approveRequestFlag(String flag);
+    
+    public void approveSelectedFlagBySystem(String flag);
 }

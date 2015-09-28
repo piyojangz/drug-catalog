@@ -1,0 +1,4527 @@
+[33mcommit c8b8942351245355527d06b7b4295f90e2bba970[m
+Merge: d8cf762 9b7c47e
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Sep 25 16:23:16 2015 +0700
+
+    Merge branch '1.1.44' of http://192.168.1.126/git/drug-catalog into 1.1.44
+
+[33mcommit d8cf76293530148f16840d2d1472b3f0663ee13a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Sep 25 16:22:30 2015 +0700
+
+    merge commit approve all flag U and D from branch new_model
+
+[33mcommit 9b7c47ebc04370e7d59fb4f8fa173ac656775fdd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 24 10:35:58 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit daad7a34782731021e0418f37bbca3c359d15fef[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 24 10:34:40 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.44.1
+
+[33mcommit 75b9cd626459bf0ac7ab33aea0c81dd96f441dc2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 24 10:28:29 2015 +0700
+
+    add java doc plugin
+
+[33mcommit 04ef91d0e48c01c95aabd7a47ced0dfe7dc3cf3f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 24 10:27:00 2015 +0700
+
+    [maven-release-plugin] rollback the release of drug-catalog-1.1.44.1
+
+[33mcommit 6ee213fcd43a6265dbe5415a36b7b4c6ffea9903[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 24 10:05:12 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit f7e6f7cbeccfc80b3b08adc4b53a3a7306f1f831[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 24 10:05:08 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.44.1
+
+[33mcommit 8778d00a690a6fdbf895b563ba8bc2c06ad03712[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 24 10:03:24 2015 +0700
+
+    version 1.1.44.1-SNAPSHOT
+
+[33mcommit 005aa7143b1d8a21e184a57ba7213356d7f8acf3[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Sep 23 14:17:00 2015 +0700
+
+    can select flag U and D for approve
+
+[33mcommit afca3c2195fca90c68506d4bb88dc9548a314553[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 3 16:08:54 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.44
+
+[33mcommit 9dfd161c2ffcea47077087f489394ffa9635877c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 3 15:59:23 2015 +0700
+
+    [maven-release-plugin] rollback the release of drug-catalog-1.1.44
+
+[33mcommit 20373343e08b7db546420544198ad45f1f40bd8e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 3 15:52:39 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 38e48044776cf012681d63835060606d1e6ce088[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 3 15:52:38 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.44
+
+[33mcommit 7a1cbd4e3986db7994a19285aafc0a6676cc9c7e[m
+Merge: 79df6c8 2f05f24
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 3 15:50:54 2015 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit 2f05f24fa7323e8fbdc5b4ab2b1f586551afb36d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Sep 3 15:50:10 2015 +0700
+
+    disable CALL INITIAL_HOSPITAL_DRUG button
+
+[33mcommit f27cab89ea6c0b79ffcbd121d31dc1f9b5f22250[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Sep 3 15:46:18 2015 +0700
+
+    set order by request date
+
+[33mcommit 79df6c8eba9053396630d389ce614814dde18913[m
+Merge: 57cfc0b c3d14d9
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 3 09:59:25 2015 +0700
+
+    Merge branch 'new_model' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit c3d14d9b58e36ff3f179465302ca14e037e9234a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Sep 2 16:54:57 2015 +0700
+
+    if not select icd10 then save _EMPTY_ICD10
+
+[33mcommit d7f1828e5fe0dabe4d8685656931fb40905d38b5[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Sep 2 16:08:51 2015 +0700
+
+    edit wording for warn
+
+[33mcommit 66a33fb0491e8836af76c4988c423d944229de36[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Sep 2 16:01:45 2015 +0700
+
+    catch SQLDataException
+
+[33mcommit a8e05344e9f4964774c6b10765cd32a71d3e999d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Sep 2 14:35:09 2015 +0700
+
+    add page for check reimbursegroup
+
+[33mcommit e54e9fdbf97ebef363bed96a7f96d3a2c1091732[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Sep 2 11:53:15 2015 +0700
+
+    edit menu
+
+[33mcommit 3a3eb33809c6f2547cbd0d9a87e2a9b1a234e0fd[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Sep 2 10:59:52 2015 +0700
+
+    ndc24 key-in complete
+
+[33mcommit 011034626f5d91ba850561b68ad518ed0acc084c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Sep 1 15:09:43 2015 +0700
+
+    cannot edit dateEffective for all flag
+
+[33mcommit f933ef306d4572cd3fcb7ecf415b629880b1d64a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Sep 1 14:40:53 2015 +0700
+
+    cannot update price backward
+
+[33mcommit b6f486f67e6c6882fb228612c2ef327e8410f7f5[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Sep 1 12:41:41 2015 +0700
+
+    upload reimburse price complete
+
+[33mcommit 7a9a94ec42c8d519be1e30aa666b52a791845b29[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Sep 1 11:38:27 2015 +0700
+
+    upload mapped tmt and dosage form group complete
+
+[33mcommit 9e9a79df91666d6c6db0a20497855ab244b4c5c8[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Sep 1 10:18:58 2015 +0700
+
+    dosage form group key-in complete
+
+[33mcommit 5893d1773ab839e1b5f7ae3efb580eea5cc8aff6[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 31 14:23:35 2015 +0700
+
+    force dosage form group only for lower case id
+
+[33mcommit 49fea1cb46b0e9f4807bb4e76d22a5450fa3189c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 31 14:14:47 2015 +0700
+
+    edit render page
+
+[33mcommit 90c9642f9c61b614b8e97bde8359df65cd48205d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 31 12:32:34 2015 +0700
+
+    ed/ned key-in complete
+
+[33mcommit c603777516d624e47c5dbafeb37b46586973eaeb[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 31 12:22:28 2015 +0700
+
+    add fund for upload excel file ed/ned
+
+[33mcommit d367075937fd8c5f0621b7640b9c04e695148825[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 31 11:26:12 2015 +0700
+
+    can remove tmt that grouped
+
+[33mcommit 3199055388c68159f7402af6a2f3978caf036ece[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 31 10:11:56 2015 +0700
+
+    reimbursegroup item can save
+
+[33mcommit 406be7a4cfd38763a595222e6ac1f92f4894c1ac[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 27 18:42:29 2015 +0700
+
+    can filter by content
+
+[33mcommit 6e73fd949640bd707d9800674a8ab5e0de29c885[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 27 18:20:12 2015 +0700
+
+    after delete dosageform group will close delete dialog
+
+[33mcommit 1d61d5f558628b6c68c1fbf9c981f18d71d94401[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 27 16:36:45 2015 +0700
+
+    can split content from fsn (only TPU Type)
+
+[33mcommit 5b5d7c5f04db188917a7ef8d1d7ccb107d6a5411[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 27 14:44:09 2015 +0700
+
+    can select list of tmtdrug by checkbox
+
+[33mcommit 42120458cba792257ac577555464fb75dd8bb46c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 25 18:02:11 2015 +0700
+
+    searchable tmtDrug by activeIngredient, strength, and dosageForm
+
+[33mcommit b75d0ab08cc8a3fc754d628f7e7e0a3518fb3d25[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 25 17:45:24 2015 +0700
+
+    add column reimburse price into table TMT_REIMBURSE_GROUP_ITEM
+
+[33mcommit 8d58f8c78d91b5f5095d524788aed0e3cafda16b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 25 16:23:54 2015 +0700
+
+    edit header of content page
+
+[33mcommit 181b68a3cb89095f57bf45f02420f4f1492d1536[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 24 17:51:10 2015 +0700
+
+    edit page
+
+[33mcommit 6cb21fe7ef399ce03045340b2cad7f7f05fdce7a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 24 17:18:48 2015 +0700
+
+    add reimburse group page
+
+[33mcommit 927eee382636675d10f220a627c7f47f26bf88c2[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 24 16:57:09 2015 +0700
+
+    add auto complete
+
+[33mcommit 9d048658b324cc1b6525c5b8f7940238fc4d500a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 24 13:46:16 2015 +0700
+
+    find only special project
+
+[33mcommit aa85fdb06cfdae042c1c84b4540f4aeeba2bab4c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Aug 21 12:36:31 2015 +0700
+
+    used AssertJ to Test , Regular expression complete
+
+[33mcommit 57cfc0b38971f2b42acef59ea0dec30e5af22a80[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 13:37:35 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 5bb3f30186ef4de9f5532847cb4e42608faece12[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 13:37:34 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.43
+
+[33mcommit 7764e758d1ab3d96d531ab3dff913f11a20dcc75[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 20 13:11:27 2015 +0700
+
+    edit menu name
+
+[33mcommit 999ba8c43d82a9252e29216af505a9564e38868a[m
+Merge: 5906797 a374bbb
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 20 08:32:54 2015 +0700
+
+    Merge branch 'new_model' of http://192.168.1.126/git/drug-catalog into new_model
+
+[33mcommit 5906797260c52b3bb5d061cedfc863748c5e8804[m
+Merge: 50c9874 1e9019e
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 20 08:31:39 2015 +0700
+
+    Merge branch 'master' into new_model
+
+[33mcommit a374bbb7b2d4bd7355eabae15889d5eab0ae4c4a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 01:09:02 2015 +0700
+
+    ficed menu parse error
+
+[33mcommit 8b48144fce1872fa13751efa04d535a9a90d1681[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 00:45:07 2015 +0700
+
+    enabled reimbruse menu again
+
+[33mcommit 8280b1d5752ffd41663ce9d26bc05ebdfc135504[m
+Merge: 430eaa5 1e9019e
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 00:41:49 2015 +0700
+
+    Merge branch 'master' into new_model
+
+[33mcommit 1e9019ee6637d11bda135f2188f96e7992b6ffd2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 00:39:06 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 2003fa19bc799d0ed53c0380ef9b158cf7e0ea36[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 00:39:06 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.42
+
+[33mcommit b131b0d5921388362c34c6c66a06fc77a168161d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 00:37:49 2015 +0700
+
+    disable upload menu for hospital
+
+[33mcommit fddb0b69eddb3694a2943c72fd3db967f2dc8287[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 00:33:32 2015 +0700
+
+    if upload excel pass all then allow user to save
+
+[33mcommit 96509d79821fcfddebc53ece2693abbe3de6fcd6[m
+Merge: b2cf59b e99d226
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 20 00:00:51 2015 +0700
+
+    merge
+
+[33mcommit b2cf59bff821c24fdaefda667155bb968cced146[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 18:30:49 2015 +0700
+
+    add service for auto approve all request with flag U
+
+[33mcommit 50c9874d1b965ffea8a07ec553298a5e17de0899[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 17:51:31 2015 +0700
+
+    edit test
+
+[33mcommit dbe02ab40d759ef7403c0757ea94e1d49b5c0782[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 19 17:35:58 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit a7f9ea42081190d24c4832b3ab5a4b4eaa724648[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 19 17:35:57 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.41
+
+[33mcommit f7c9eada3999609e827d917e05c290d1314d244b[m
+Merge: 430eaa5 cb98716
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 16:40:25 2015 +0700
+
+    Merge branch 'master' into new_model
+
+[33mcommit cb98716625985765dd524e81bd0add6993eb6080[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 16:38:29 2015 +0700
+
+    edit menu name
+
+[33mcommit 66954c9db6abc76e7df72ad2575d2d250a18649a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 16:16:37 2015 +0700
+
+    edit query of summary request
+
+[33mcommit fce926a9977d681597648b949b87ec963bc4a936[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 13:54:26 2015 +0700
+
+    show zone 14
+
+[33mcommit 4cd5e5cfc15f4888b109241c08ad15f8155aef27[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 12:19:26 2015 +0700
+
+    not show zone 14 and zone 15
+
+[33mcommit 27ddca605de9a7cef2ffbc7bb22f4c5532813e61[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 19 12:15:27 2015 +0700
+
+    wrap text for dosage form column, set defalut not show of advance search
+
+[33mcommit 430eaa5c51cc8dedca902d9e2005b8a698078977[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 17 17:53:35 2015 +0700
+
+    add active ingredient and strength into Set
+
+[33mcommit ced94af96577a4e455668c86a52215a42cb81a7b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 17 17:31:01 2015 +0700
+
+    edit admin new model pages
+
+[33mcommit 0f786dfe475687134da32624b0359a8ae6660ec7[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 17 17:30:36 2015 +0700
+
+    regular expression for find active ingredient + strength
+
+[33mcommit dfe5b4f15527321600d3a3d9fe6025c3472c1a7f[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Aug 14 16:49:01 2015 +0700
+
+    add mock page
+
+[33mcommit aba2d8016b0ebc04f760da1a5f6508c5cbd517e6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Aug 11 15:06:32 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 0abb086b593e8d5c0213993cfdf66e926d35db23[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Aug 11 15:06:32 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.40
+
+[33mcommit 30b359366201dd9b1179da35276f3751e6d53be3[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 11 10:54:32 2015 +0700
+
+    edit render page
+
+[33mcommit fef12a355e5649bb4310a2f766f8f420bcbbb967[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 11 10:21:43 2015 +0700
+
+    add header of each admin menu, disable new model menu
+
+[33mcommit 30db68b94023584ee58a55acedaa639d42d176dc[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 10 12:19:16 2015 +0700
+
+    edit icon search null tmt , edit wording of inbox group by tmtid
+
+[33mcommit 07109925e8beaf40e9c7b2b0c02095c624fc03a8[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 10 11:21:46 2015 +0700
+
+    edit search icon and header of page
+
+[33mcommit 55671b9b1f510fceeac1d5fce318d7f39cea3cd0[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 10 10:40:03 2015 +0700
+
+    wrap word in all approve page
+
+[33mcommit ae97b459bdcb31d724c0f2f7d4ceed661d8eedb2[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 10 10:16:43 2015 +0700
+
+    edit render page
+
+[33mcommit 59dfc4020b6a58601aca8b84478b33fd90eb7160[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 10 10:10:36 2015 +0700
+
+    basic validate dosageformgroup upload excel
+
+[33mcommit 0ad264f6d2069183c156b4efe69d2c1b2131b45a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 10 10:09:50 2015 +0700
+
+    edit page render
+
+[33mcommit f2d6dc4fcd38fb7a8019689f5f77b8360fb06d88[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 10 01:57:45 2015 +0700
+
+    merge
+
+[33mcommit e99d226c076dee4c6cacdb174c364be80aeec5b6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 10 01:51:02 2015 +0700
+
+    if EDU and A not com before then not pass
+
+[33mcommit f9146f2a9d418a077ebd9f27ebbdfadeb532277b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 10 00:04:08 2015 +0700
+
+    add comment for excel template
+
+[33mcommit d571f06f8dae983d3dffd34669ff73fee572c744[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sun Aug 9 23:10:49 2015 +0700
+
+    edit selected zone not have - for null
+
+[33mcommit ec2721fa19ee84ad66af5ed99e7c5b447f15d6b1[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sun Aug 9 14:20:50 2015 +0700
+
+    upload reimburse price complete
+
+[33mcommit 2626a50fcdc2beea5464b252e4a07ea8a1f2d502[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sun Aug 9 09:56:26 2015 +0700
+
+    upload reimburse price (not complete)
+
+[33mcommit 5191f3506d3e2b03a9f3ee1c9f17447ef915208f[m
+Merge: 97759f8 bc632b5
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 18:25:34 2015 +0700
+
+    fixed confilcts
+
+[33mcommit 97759f8bc2e3834fb15ce99b517b437abcafc3fa[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 18:23:12 2015 +0700
+
+    basic upload file of dosage form group complete
+
+[33mcommit bc632b52856eb8cc91a04cdef54442ad541fcfcd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 8 17:17:38 2015 +0700
+
+    fixed merge mistake
+
+[33mcommit 8293c7b07976d7e26a8a3ef540fccd7d603bfaf5[m
+Merge: 9dc55ee 976f201
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 17:14:48 2015 +0700
+
+    Merge origin/new_model into new_model
+
+[33mcommit 976f2018146d277e561520a21771c9f3c07307ed[m
+Merge: e1ca9a2 04f4219
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 8 17:09:36 2015 +0700
+
+    merge from approve_by_zone
+
+[33mcommit 9dc55ee931fed94af9e0e13fa7160bbd58d8768d[m
+Merge: fe8f408 e1ca9a2
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 16:59:05 2015 +0700
+
+    Merge origin/new_model into new_model
+
+[33mcommit e1ca9a2f33197cbf578f27fb35d568a8af87f981[m
+Merge: 26de124 1774295
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 8 16:55:59 2015 +0700
+
+    merge from remote
+
+[33mcommit fe8f408fc736a2a12db4bc0d577f90e200f0a9b0[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 16:47:48 2015 +0700
+
+    0
+
+[33mcommit 1774295df3702e04a40620b24d303d6ac894987f[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 16:34:31 2015 +0700
+
+    ICD10Repo
+
+[33mcommit 26de1241e610176d7003d96999facfe936410d06[m
+Merge: ad34fbf 5975a2a
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 8 16:28:00 2015 +0700
+
+    merge new_model
+
+[33mcommit 953c910f13c87b04904247abb91a27ef3e780da5[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 15:32:18 2015 +0700
+
+    reimburse price can be edited , deleted
+
+[33mcommit 0907c429b474aee837544e7124ffad10d51e9104[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 14:23:19 2015 +0700
+
+    edned can be edited and deleted
+
+[33mcommit 3fcf57ec4c3cb05c723ebf56c0e80fa09d6c24ea[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 13:51:17 2015 +0700
+
+    fund page can be edited and deleted
+
+[33mcommit 5bf73840e1fb7947f01b169d44b7fb0caecedc65[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 13:32:34 2015 +0700
+
+    edit add reimburse group page , can be deleted item
+
+[33mcommit 6fe5a300f60c5e52ebdbc5df7a0e6f92262d8e8c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 13:06:51 2015 +0700
+
+    edit search
+
+[33mcommit 9c2bf1009ce6d917ac8f3f71218e1b784f362e2d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 11:52:35 2015 +0700
+
+    add reimburse group before test
+
+[33mcommit 55a2d9293ae15efa44e544dd46131b0915137730[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 11:41:11 2015 +0700
+
+    add management special project page
+
+[33mcommit ab4ef2743184cf86ce35ec41fedfe26deaff473f[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 8 11:40:37 2015 +0700
+
+    show old date effective outside calendar
+
+[33mcommit 04f4219d1e5545978c6dde688d48ac16a5de8a4c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Aug 7 16:21:06 2015 +0700
+
+    add complete province (not use)
+
+[33mcommit b7a02ceb5880ee02d65f9fc2c7606d4bdfd4b4a2[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Aug 7 15:30:04 2015 +0700
+
+    add condition of search summary request
+
+[33mcommit fce298b9652f2ef4de14532eb9bb61c4400d6235[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Aug 7 12:49:24 2015 +0700
+
+    resize approve tmt page , wrap text less than 35 char
+
+[33mcommit a56ef5d1bd88e9e301ddcbc01739ad947558ba0a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Aug 7 08:36:34 2015 +0700
+
+    resize menu
+
+[33mcommit fcfb95b439e33e08c03d35fcd5ddd515f3d15677[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 6 17:40:44 2015 +0700
+
+    approve null tmt , add error column TMTID
+
+[33mcommit ba07a1f14dbb5bb866f5751d1c7a314e9ff7f571[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 6 17:01:49 2015 +0700
+
+    can select all zone in group by zone menu
+
+[33mcommit f8886d86efa316f83dc37e6b681d3e008282c2db[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 6 16:12:47 2015 +0700
+
+    edit menu name
+
+[33mcommit dc78587286d5ea9422af60b900fbc29b4b651729[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 6 15:55:43 2015 +0700
+
+    edit output of reimburse group item page
+
+[33mcommit b5fe4463f5a7074f882319a98195585dee4c199d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 6 14:18:11 2015 +0700
+
+    change input from year to date, for find reimburse group item
+
+[33mcommit 645f1010e12a193b68b675bc524d5ad7d0b82d9c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Aug 6 13:13:21 2015 +0700
+
+    description of auto approve
+
+[33mcommit 1b551113fc0ddbd4bb50149c36cb5edb5c65f023[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 5 18:06:11 2015 +0700
+
+    add edit and delete button for fund
+
+[33mcommit 505497e962ad54278a798eac166ed371fc9412a2[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 5 17:51:18 2015 +0700
+
+    edit reimburse price controller (not complete)
+
+[33mcommit f78d94bb0be7268e12d1ea95d3cf967fd8f6c5dd[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 5 17:09:13 2015 +0700
+
+    new entity -> DosageFormGroup , admin dosage form group can read update and delete
+
+[33mcommit 21fcd1aaaf8a67175b050f845296814a79a249ba[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Aug 5 09:56:40 2015 +0700
+
+    add reimburse price page, dosage form group page, edned page
+
+[33mcommit a4846785462ff07a7e67f8820256f1cd9e0fbe0d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 4 16:07:32 2015 +0700
+
+    admin edned can be deleted
+
+[33mcommit 95a6b561d93b2cff322428d48ba7c476a5aad1b3[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 4 13:28:42 2015 +0700
+
+    edit menu
+
+[33mcommit 37805e629d80c9a5b407ab707eab937b71367eb5[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 4 11:53:59 2015 +0700
+
+    separate form for use enter when search by keyword
+
+[33mcommit 97e3c38f7b29609215a892c2291a46bc1640ff7b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 4 09:58:58 2015 +0700
+
+    add edit button to edit drug details
+
+[33mcommit 92c79f7d80af97b06655b527aa1eaf312675e3b0[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 4 09:11:15 2015 +0700
+
+    if found selectHospital , then not show a dialog but search tmt list
+
+[33mcommit 5d973bdba5f58e206f6406b688faed4a7353cb2b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Aug 4 08:57:18 2015 +0700
+
+    when pressing enter , it will be selected correct submit button
+
+[33mcommit 19c80e81a6e32602dd459375cd809f06c40df4b3[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 18:45:49 2015 +0700
+
+    add edStatus page for add TMT_TMTEDNED data , edit year converter , add test for test convert date
+
+[33mcommit 1de074facd414692342bfa8c0387d644f64cb626[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 15:18:53 2015 +0700
+
+    can find null icd10
+
+[33mcommit 6b8674f48e305002699a7d96aa73a9cc4629456f[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 15:11:37 2015 +0700
+
+    can save reimburseGroupItem with null ICD10
+
+[33mcommit 76b3fc107a1dc2f93d7a31974f9881c389b10f80[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 13:14:03 2015 +0700
+
+    find reimburseGroup from eclaim complete
+
+[33mcommit 5c1aa6d5924dc211721b80d67557b91bab1672bf[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 12:28:41 2015 +0700
+
+    edit page name
+
+[33mcommit a29e94f686a92f335ef40cdd9afa94939d26f371[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 12:24:08 2015 +0700
+
+    edit page name from mock.xhtml to addgroupitem.xhtml
+
+[33mcommit c9c8671b640f993e618bbe4dbad114f8f3e15b06[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 12:21:28 2015 +0700
+
+    can search reimburseGroupItem
+
+[33mcommit 4e0df0c7ee85b9c6ffdbbacdecc374b051931895[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 12:09:47 2015 +0700
+
+    can select only specialProject before save new ReimburseGroupItem
+
+[33mcommit c5e1c08e2c2cef9e82fdaba0ee9a0d4c49b7bb4c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 11:19:02 2015 +0700
+
+    fixed bug NPE for primefaces autoComplete
+
+[33mcommit 68e0627460e260a68bf812ac3bb5b92279149b59[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Aug 3 11:14:23 2015 +0700
+
+    fundName , icd10Name , and reimburseGroupName is insert - instead null value
+
+[33mcommit a858761d910efc9a9befdb8b224c56a319e93c0a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sun Aug 2 09:29:01 2015 +0700
+
+    ReimburseGroupItem can save (edned not use enum in addItem page)
+
+[33mcommit 74836c1864493faa0c3bd6dc9507e67f820400bf[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Aug 1 17:51:56 2015 +0700
+
+    change budgetYear from Date to Integer
+
+[33mcommit 36502ac2d315a530d2b1745d851d4509ffef0d39[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 30 15:25:06 2015 +0700
+
+    edit basic service
+
+[33mcommit 719ea5fbf7d9c82577255baaee93796deff24648[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 30 14:25:29 2015 +0700
+
+    edit model
+
+[33mcommit ad34fbfb0290ea6ec67349b31dbccb1a86b20a7e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 29 14:39:18 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 11525babecf4c225d0d84459abc38e2f97f0a94d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 29 14:39:18 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.39
+
+[33mcommit 5f6444722184afcc5909723fb37dd82f3aa13d5f[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 28 17:54:42 2015 +0700
+
+    edit model , edit service
+
+[33mcommit d095f8b3152c685de5cda021c683843adda1fdff[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 28 15:12:51 2015 +0700
+
+    edit model
+
+[33mcommit 5975a2a0e123d4cec59edecb1e965a3c8a1fd66b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 28 11:09:58 2015 +0700
+
+    if click reset button , web page is reload
+
+[33mcommit c1eb18ec36683f7ad22a77910a2b14f22e433c1c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 28 10:43:31 2015 +0700
+
+    edit search group after select icd10
+
+[33mcommit 298790d0706282c6c5f49c2c54883c06ef7e3823[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 27 15:40:49 2015 +0700
+
+    edit controller can run
+
+[33mcommit eb238b99db5041282d513ab34cb5f24c0c77ef34[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 27 14:42:58 2015 +0700
+
+    edit test new model
+
+[33mcommit bf69e9fea90f2a508d439c2510ad7c397049db0f[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 27 13:05:48 2015 +0700
+
+    add service for new model
+
+[33mcommit e904be3a42892e27dcddf3f60a99ea0b794f5298[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 27 12:33:32 2015 +0700
+
+    edit new model
+
+[33mcommit 357a5cb944733aeefc919797e87e167ddfd91d77[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 24 18:14:37 2015 +0700
+
+    test find edStatus complete
+
+[33mcommit 4a2bee2ca6f1d790aca7f4c56b777f06e6ea084d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 24 18:09:35 2015 +0700
+
+    test find edStatus complete
+
+[33mcommit 653591cd819e78c90499e30ff4749f72ff81fcd5[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 24 16:59:46 2015 +0700
+
+    edit new model , add Icd10Group Entity
+
+[33mcommit 8dc5751d800616303a05b0b279e7328dafb5bc34[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 23 08:59:59 2015 +0700
+
+    update eclaim page
+
+[33mcommit ab9614593ea73dcd234154a19ac5904db4228503[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 22 20:12:11 2015 +0700
+
+    edit find group page
+
+[33mcommit e748c7112a6340bb3382df042c38035fdc243ab7[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 22 19:57:56 2015 +0700
+
+    reimburse group add page complete
+
+[33mcommit 27b0b59e2406f77d8930c7c1d9c4f4cfff7bfd5e[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 22 17:09:13 2015 +0700
+
+    save
+
+[33mcommit 1042eb5ea03e944e22999e231b45051a5bf10333[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 22 15:42:55 2015 +0700
+
+    can find reimburse group
+
+[33mcommit 100e6ca7e81fbeb61092b70f2a1830c79e0274e6[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 22 14:25:51 2015 +0700
+
+    edit model (add right entity)
+
+[33mcommit cfb8769837a855b0c6006b1fb1f0e7b4113dbcf1[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 22 13:22:38 2015 +0700
+
+    edit model
+
+[33mcommit c8733e27459208503cd73b01531090bfba4e7660[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 22 09:13:00 2015 +0700
+
+    add fund page
+
+[33mcommit 952fefeb2ec9ecee1dbc1eb5d947c9f96a455f51[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 21 16:03:57 2015 +0700
+
+    add SpringUtils
+
+[33mcommit 27b1164c6612b59df30cc8f83ff8a30635a1d6c5[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 21 15:21:36 2015 +0700
+
+    add converter autocomplete (complete for fund)
+
+[33mcommit 72ab8a617bc05a080905492cbfabef42463df432[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 21 14:14:57 2015 +0700
+
+    add converter autocomplete
+
+[33mcommit 59b874c04dbb5b6d93493346f6ca325207ef9da3[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 21 11:09:47 2015 +0700
+
+    edit controller
+
+[33mcommit 854b4362c38218a8483fed77c1e5b2102fd98a71[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 21 10:53:48 2015 +0700
+
+    edit query of find edStatus
+
+[33mcommit 15077c93892589490096e71712deda2d86a863d1[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 21 08:52:00 2015 +0700
+
+    can query
+
+[33mcommit 9bd50f4b244277d045c899df3d4d3398a46196a7[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 20 17:31:38 2015 +0700
+
+    add ui mock of new model
+
+[33mcommit 75ac14b1168ef69bfd20b83f828b387fd77e0e9c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 20 13:51:25 2015 +0700
+
+    edit method name
+
+[33mcommit bb94e28c6df45d658145abf57ae062a06e711df3[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 20 08:24:31 2015 +0700
+
+    create new form
+
+[33mcommit d0e9db7542373fa6456ed9da7982a296c1a39164[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jul 20 01:06:06 2015 +0700
+
+    -p:ajax not always set value before call listener,so it make a program throw NPE.
+
+[33mcommit a3cd1183d1d708785cd5e46387f156d3389361a2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 19 22:38:22 2015 +0700
+
+    add method for query by zone
+
+[33mcommit a43ec14484e0f2b8003d62d57eeb6508e492e918[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 19 20:45:37 2015 +0700
+
+    rebasing
+
+[33mcommit 7ea6d312e635c28b2963d7b7f0dfb725263250d6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 19 20:39:33 2015 +0700
+
+    save TMTDrugHistory every time that we uploaded tmt master data
+
+[33mcommit eeb4798d0ec6a79f860a23aefec638984eaf75f9[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 17 19:12:33 2015 +0700
+
+    update model , create test
+
+[33mcommit c9e0e6794ac52f67b9829205ec1721a0fd66afad[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 17 18:18:10 2015 +0700
+
+    update model complete
+
+[33mcommit f843fa828823bc8cf56a7d8c6a71fdb0ac0239ae[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 17 16:37:44 2015 +0700
+
+    can search tmt in dialog
+
+[33mcommit 7f35968b07b691958e3c48e68f4d1a00ad2662db[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 17 12:31:28 2015 +0700
+
+    can search tmt in dialog
+
+[33mcommit d94dc66fed91cef0c2ebb5e5b7bc1e7c55e99312[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 17 11:46:48 2015 +0700
+
+    edit non-fix position of search
+
+[33mcommit 13e67e476055dbfd0e07705f2e722fe465a4ca75[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 17 11:42:49 2015 +0700
+
+    edit wording
+
+[33mcommit 2bd6baeff78704d2b562a72686ad873768afd120[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 16 18:05:59 2015 +0700
+
+    edit bug of advance search render
+
+[33mcommit 2c8590f56e25017d4a9d8123a3d98bdcb0890612[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 16 15:12:06 2015 +0700
+
+    set style of inputField error state
+
+[33mcommit a71cc90a3bf91adba860fb1583c8bcf82e868007[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 16 14:06:14 2015 +0700
+
+    edit role for correct
+
+[33mcommit 249e8d2dafaa1d022ee549ead758e3ded87da2a4[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 16 13:27:00 2015 +0700
+
+    edit wording
+
+[33mcommit 5d86533e6bd00fc1b38ca43015a127cfe6fef021[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 16 12:02:17 2015 +0700
+
+    ZONE permission can see a request, drug group, and e-claim menu
+
+[33mcommit 18cb89ae7c1c65d9b9cde5943dea1fdb9b11ebab[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 16 11:31:25 2015 +0700
+
+    create repository
+
+[33mcommit feb3e01f45532ffb5161ad6a7b8642ce8ae9ad2c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 16 10:27:03 2015 +0700
+
+    edit model (complete)
+
+[33mcommit 513701f631ec2f7f74eed8106a532c8f89d6fc42[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jul 13 17:08:51 2015 +0700
+
+    edit model
+
+[33mcommit 4703b427acf4640aefcdf5456387e677c0e00f3d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 12 23:04:03 2015 +0700
+
+    Fixed NPE
+
+[33mcommit 2fbd7f1038d73f52067323b9316154acf42d4a47[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jul 11 16:59:42 2015 +0700
+
+    fixed cancel button NPE
+
+[33mcommit 1a682414fc063e0569a1bcba1badaf78c866a9a6[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jul 11 16:28:22 2015 +0700
+
+    can click for view by hospital
+
+[33mcommit 0f8dbee57da32ac847ecbf8408847361f2ed506d[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jul 11 16:05:06 2015 +0700
+
+    edit query count by province
+
+[33mcommit 50905198e013be3c523d719a4bae72725c39914e[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jul 11 03:11:53 2015 +0700
+
+    add summary page (only can query)
+
+[33mcommit 74b1ce924b4e8b5263f1ecf03e7071d09a5c94af[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jul 11 03:06:17 2015 +0700
+
+    edit left-menu wording
+
+[33mcommit 6e64ff9c4fb89637009f44cb20282c175b9ae912[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jul 11 02:24:30 2015 +0700
+
+    edit query summary request
+
+[33mcommit 1af7ddd74595b70ea8e29a46a932842410a294aa[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jul 10 17:30:59 2015 +0700
+
+    can select summary request
+
+[33mcommit 5996af880394ba45b62b63b64ae75dd9f36d703e[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 9 17:50:30 2015 +0700
+
+    new model
+
+[33mcommit 6c4aef10512d84aa36d786f7b076de13d1011869[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jul 9 12:25:32 2015 +0700
+
+    resize each column in table
+
+[33mcommit dc4c977d012dfde5a6ef65e69109ade46842d698[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 8 16:55:06 2015 +0700
+
+    can search in inbox have tmt
+
+[33mcommit 51f9e11c1ee2c0e71941d5256f90cc9337e96e35[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 8 16:54:44 2015 +0700
+
+    can search in inbox have tmt
+
+[33mcommit c44ea783b9cf10a6a2f1c3f0f3ea48670a3f41b2[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 8 15:46:33 2015 +0700
+
+    edit redundant code
+
+[33mcommit c5828b3010f918a5df65ba2c7e01e963df578916[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 8 12:19:33 2015 +0700
+
+    edit search hospital of inbox null tmt
+
+[33mcommit eb9529678bfbd16e3dca875f3bcfbc52d02ce3f0[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 8 11:49:49 2015 +0700
+
+    edit column width
+
+[33mcommit f47c356804cbcb8137f26f2ad1efc6b9a5bbd0ae[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jul 8 10:47:48 2015 +0700
+
+    show column of each table
+
+[33mcommit 30bd7e3240632788c8770f88fd1000c6d5dcf8a2[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 7 17:34:41 2015 +0700
+
+    fix reset button for empty column , can find fsn with multi text
+
+[33mcommit b8666afee1419b28d8155c5ab4977a0a7fdfae43[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 7 16:09:24 2015 +0700
+
+    clicked NotApprove Button -> set all column to red column
+
+[33mcommit 1982d406e7d809aab67427c017ed7e16ca2540e7[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 7 15:17:27 2015 +0700
+
+    fix save button disable when click reset all request item
+
+[33mcommit e6e1022d4a776b69654d7d0e25a5cac76b629e74[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 7 14:57:48 2015 +0700
+
+    not approve by PRODUCTCAT of null TMT complete
+
+[33mcommit 056349830b1301ffebc3844ff059ed5a094f799f[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jul 7 14:36:39 2015 +0700
+
+    find FSN of TMTDrug by generic name and trade name of inbox null tmt
+
+[33mcommit 20d0779443919ede94af3177b4c12af52ab6186a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jun 30 16:14:39 2015 +0700
+
+    remember state of approve/reject while change page (edit code)
+
+[33mcommit 5e337dd4aa6cd35ae3ea31bfe0e67d6fddd5693e[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jun 30 15:28:43 2015 +0700
+
+    remember state of approve/reject while change page (edit method name and variable name)
+
+[33mcommit 82b8f0fa20f9b7ede181ba4a7e36f9971e423ca8[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jun 30 15:16:42 2015 +0700
+
+    remember state of approve/reject while change page
+
+[33mcommit 856774c82eafb5dc8ff5f0ed78b302b997711f67[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jun 27 19:07:13 2015 +0700
+
+    clear method can use
+
+[33mcommit c80f5eccc79da0a78cd9ecfe880ca6a5b2883a19[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Sat Jun 27 18:32:47 2015 +0700
+
+    update tmt master will not set a dosageform to null
+
+[33mcommit 7cc8d2e3cf781e16c113939d02e015d3a2d49fa8[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 26 11:11:38 2015 +0700
+
+    query  request only delete is false
+
+[33mcommit 3a12d6b87430b49bbe5d8690635de9a9c06a7161[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 26 10:24:28 2015 +0700
+
+    can save requestItem
+
+[33mcommit a62188a9268ff3914fa73aee6ff73f63775f1a9b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jun 25 18:00:06 2015 +0700
+
+    admin approve non-tmtid success, can searched, test find by tmtid is null service
+
+[33mcommit b52e7391b748716b467c83ebc0e83503696b94a4[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jun 25 12:09:08 2015 +0700
+
+    001
+
+[33mcommit 18ebddcc955b5120cd2381384ebda1d4a9801f5b[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jun 25 09:29:17 2015 +0700
+
+    reset data in eclaim page
+
+[33mcommit 8a1778679566c8bdf33be3fc2998cbaff76e1acb[m
+Merge: 49cd849 6dfad25
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jun 24 14:45:59 2015 +0700
+
+    Merge branch 'ised_approve' into eclaim
+
+[33mcommit 49cd849151c866e99f5fa41db8c0211ae0e0fd0c[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jun 24 14:27:09 2015 +0700
+
+    edit Test , edit DAO, e-claim page success (master db only)
+
+[33mcommit 6dfad2532ab91741e5efda64e279415f7ddee972[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jun 24 10:08:18 2015 +0700
+
+    add ised_approve column into inbox( group by hcode )
+
+[33mcommit 27a05143c3b892cb56260a90a7306cdf84c856c4[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jun 23 10:39:57 2015 +0700
+
+    change field name
+
+[33mcommit 3b06e7b9796db262e63cfbd6b54783fb8b8973bd[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Mon Jun 22 18:51:37 2015 +0700
+
+    add entity into test, add method into service
+
+[33mcommit 665e4c26b122460a7ca25c4e676803637655e80a[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jun 17 19:02:59 2015 +0700
+
+    new entity isedapprove
+
+[33mcommit dac5bb9c6781ec1d1951ff2aaf487c452829bf23[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Wed Jun 17 15:22:32 2015 +0700
+
+    edit html, mapping to model complete
+
+[33mcommit 425d6bae7b30a8939b146267c7e4e57d858c6f40[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Tue Jun 16 17:16:17 2015 +0700
+
+    add log in test , add mapping method from STRUCT to HospitalDrugType , edit e-claim page
+
+[33mcommit 4608650d0cd2dc8eb82d61a0fc5f6569a1745df4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 12 17:41:34 2015 +0700
+
+    Demo
+
+[33mcommit d73a88e47895873c6ed8862967dba48ae9914cc0[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 12 17:13:44 2015 +0700
+
+    edit test
+
+[33mcommit c701e8dc3c8560d6e97bc4de5925661987035813[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 12 16:04:04 2015 +0700
+
+    Demo
+
+[33mcommit 6624348655ecb750cf411414196edf8bd08fd2f7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 12 15:48:32 2015 +0700
+
+    Demo
+
+[33mcommit 19497ec1e34d9de6d5789359b8eef01cfe64cbe5[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 12 15:42:48 2015 +0700
+
+    edit mapping in test
+
+[33mcommit 98072bb21fe56b31f85ba4d43727df83521ce148[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 12 15:33:07 2015 +0700
+
+    edit mapping in test
+
+[33mcommit cab7040ddd6c04b798c6b8eedb93e2c7550f8b40[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 12 15:31:40 2015 +0700
+
+    edit mapping in test
+
+[33mcommit a3151d9ac130a162f9c6a2be036988368c347ac8[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 12 15:27:01 2015 +0700
+
+    edit mapping in test
+
+[33mcommit 0bc1ca55b648690d092920b5f7851131ad268250[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 12 15:04:34 2015 +0700
+
+    edit sql to old version , move java file to new pakage , edit mapping in test
+
+[33mcommit ffd481685bb12a210bc724f47750a3520619b578[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 12 14:03:14 2015 +0700
+
+    -add store proc call for Rain.
+
+[33mcommit ddb2eadc4d541e023b648258996b226f9b5e1e6e[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Fri Jun 12 12:26:09 2015 +0700
+
+    edit sql for define record
+
+[33mcommit 8f95e54a87dabe0c1004a10fb8a3cc7878262a87[m
+Author: Thanthathon Buagird <thanthathon@geniustree.co.th>
+Date:   Thu Jun 11 18:54:27 2015 +0700
+
+    add e-claim menu
+
+[33mcommit 4cd9080a81662d9b79669bd197e2decf2c0634e9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue May 26 23:20:11 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 5d982e53f24bead81660bb881f1ae0851301b195[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue May 26 23:20:05 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.38
+
+[33mcommit e6c394c0015f90fc6a9b2531b22e747ebe6525fd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue May 26 22:55:31 2015 +0700
+
+    validat specprep 1-5 for model UploadHospitalDrugItemTemp
+
+[33mcommit b907274c579885850a820560d3c60cb5cf6082d3[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue May 26 22:54:36 2015 +0700
+
+    -Add column ISED,SPECPREP to approve page.
+
+[33mcommit a2779f5490a19a5dcbd1232d77797815b6175545[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue May 26 21:43:14 2015 +0700
+
+    -Add local-mac profile.
+
+[33mcommit a78b0e210e4b04472c2ac0f9d86d8b0267369e39[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Apr 27 00:45:03 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 269d36c3a77597d9629bac40e602cc0486031a03[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Apr 27 00:45:01 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.37
+
+[33mcommit f99746ffe7dd3bd3be6707ea55d0b000f2320b23[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Apr 27 00:01:48 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 19ae3319a2f2d206859452deb7051aa58b0e45d2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Apr 27 00:01:41 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.36
+
+[33mcommit 7ab2dd0a25f4bda76aae93d617eb3e415646bc13[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Apr 26 23:53:07 2015 +0700
+
+    -Use JSF converter to trim all string that  HtmlInput hold.
+
+[33mcommit 78c9873b989c39dd87b67758ab0868e3737eb958[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Apr 1 22:03:06 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit a321eff1b63b70d051efd2d8171fc63cf233e747[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Apr 1 22:02:59 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.35
+
+[33mcommit 18f82a6525f26b32e73f61da2356675b52f621b9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Apr 1 21:54:00 2015 +0700
+
+    Trim hospdrugcode when edit or create.
+
+[33mcommit 074f2078bf22b7781e4458d1bc08ce0ddbedcaaf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Apr 1 12:52:25 2015 +0700
+
+    Redirect with param when press cancel button on edit drug page.
+
+[33mcommit ca4c39f854f18057be2e0cea34ac90e71e3a656c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Mar 20 00:55:48 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit ff8e6e5afe84ca58fadf284ffaaf4e97943c0193[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Mar 20 00:55:44 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.34
+
+[33mcommit 1b7fa6e9aa3321cc5ea34e1efcc212ad2d6978cd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Mar 20 00:52:31 2015 +0700
+
+    allow productcat only 1-5
+
+[33mcommit 8f23a462d6afbc8da2d745ac31fc9daacf245f2c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Mar 17 21:30:38 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit dc9f35426d44439418f73fb200583368918379d4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Mar 17 21:30:33 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.33
+
+[33mcommit f3f9f51d361036a5a5cf1602e107e043d5ea3fff[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Mar 17 10:24:36 2015 +0700
+
+    Fixed inbox display deleted elements.
+
+[33mcommit 20179b5d41ee493745be2e3b186b61ff0240b3af[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Mar 17 10:20:41 2015 +0700
+
+    Fixed inbox display deleted elements.
+
+[33mcommit 2c2aa032e6227fcce77c66a79b5f8d57450c3355[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Mar 13 01:13:00 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit a64f73ccd30e2ec0015ee770ed1d0ef8d567dbae[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Mar 13 01:12:56 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.32
+
+[33mcommit f47bf00a751894743c6d18f870937081ad7c49b8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Mar 13 01:11:05 2015 +0700
+
+    move call procedure INITIAL_HOSPITAL_DRUG to AutoApproveService instead of ApproveService
+
+[33mcommit b513e43bc640655958cda0df1284681147875c3c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Mar 9 00:37:32 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 3efafb680f1e8fb5e19633e0554f36a2848063e5[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Mar 9 00:37:27 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.31
+
+[33mcommit b35230097a7c955c1b6bb79b6fad6b051089a9a6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Mar 8 23:06:16 2015 +0700
+
+    -revert CreateHospitalDrug.java to 1f852dc to allow edit at date effective that past.
+
+[33mcommit 994c4dcba3d47ebf901a6a3f6b0bf3fa9206fe4b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Mar 5 01:47:42 2015 +0700
+
+    update UploadHospuDrugItem allocationsize to 100
+    call INITIAL_HOSPITAL_DRUG procedure after approve
+
+[33mcommit 999b111e320cf4c6b0a43c6b9f69e4f3adab5869[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Feb 19 18:34:17 2015 +0700
+
+    -not allow to edit drug in the past.
+
+[33mcommit 3e211c9a228955705c76a83a7e357cd1d8680e2b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 17 01:42:43 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 91081e7824e595f6b0c4bdcc86c137eb002998aa[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 17 01:42:37 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.30
+
+[33mcommit 18a5393ba40876dc0190dbb18f4930f7576a3011[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 17 01:35:52 2015 +0700
+
+    -remove upload menu from admin.
+
+[33mcommit ff461589fa309192251414888b17ae230d1328cd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 17 01:35:17 2015 +0700
+
+    -minor refactoring replace , from unit price.
+
+[33mcommit a68c992a2bb54b8e0e23332316d0e41fa721ceaa[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 17 01:30:10 2015 +0700
+
+    -HospitalDrug --> RequestItem cascade ALL not work where HospitalDrug  persist but requestItem is exist.
+
+[33mcommit 824e90cd9c25a786d5083f6a86eea7dcec2e1d80[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Feb 14 15:01:09 2015 +0700
+
+    ADD * Label to PRODUCCAT
+
+[33mcommit 1112e69b1c4f575ed822e00e13ef3757a3c8ca8b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 3 15:22:06 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 769283b8143cc6154bd4d8079309893b8b1dd04a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 3 15:22:00 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.29
+
+[33mcommit f0217d0e06809ec49e511ccf339b46836cec81fd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 3 15:20:30 2015 +0700
+
+    -delete TMT_HOSPDRUG_TRANS too
+
+[33mcommit 810daea86191c86c663dd89905864a223569eab5[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Feb 3 14:18:33 2015 +0700
+
+    -ใช้ ED จากที่โรงพยาบาลส่งมา (ชั่วคราว)
+
+[33mcommit ab3caf094c995f10a603c7c92b24d8be685dcd65[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jan 26 14:49:37 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit df202a66151dc0f764879ba9f19cc351a354bc0e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jan 26 14:49:33 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.28
+
+[33mcommit dc966d31cd20af624e6234cf01a3e8bdf9cefb45[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jan 26 14:46:55 2015 +0700
+
+    -admin and eclaim can view pass item.
+
+[33mcommit 568e612a1e3dbd1251071ddc361502cfef822fd4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jan 16 09:31:30 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 21f8f3e460a71a23e94d16be43bdb281f12afebf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jan 16 09:31:22 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.27
+
+[33mcommit 257e2bff940b3cfc6306b627ac232d7eead6545c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jan 16 09:30:06 2015 +0700
+
+    -add please wait label.
+
+[33mcommit 1f852dcec36d68f5a39ba9de9fd063e0c3e42199[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jan 16 09:26:31 2015 +0700
+
+    -clear entity when save.
+
+[33mcommit 82b6af1aef87d04dfd07e1ae39c3854fba95f552[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jan 15 15:05:46 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit e677045176a92279e0c4ac843bd9c9bbb7fc441e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jan 15 15:05:40 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.26
+
+[33mcommit 22733222ba4797429160db0722c93cb4a0ff63a8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jan 15 15:00:36 2015 +0700
+
+    -hide menu upload (hospital view)
+
+[33mcommit fee5f653f6b73910aaa1b2201939cbc5f1d478d1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jan 15 14:58:51 2015 +0700
+
+    -fixed temporary search panel can't search.
+
+[33mcommit bcbe411dddb91fbaf0389bd8c81cdfc4c694d15c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jan 6 15:25:46 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 5188c2e7b7a6a56b3d10d5ebea8b3c28b3c606d2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jan 6 15:25:42 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.25
+
+[33mcommit f382f5d0ea35c8e95d02d5507eb8c2561478c5d1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jan 6 15:03:48 2015 +0700
+
+    -disable upload for role HOSPITAL
+
+[33mcommit 84a000b439eb4c4af045754604fe3a11d231f4da[m
+Author: syntaxs <syntaxweerapan@gmail.com>
+Date:   Tue Jan 6 14:36:07 2015 +0700
+
+    เพิ่ม page นำเข้าข้อมูล
+
+[33mcommit a62abe1c47e57da125bc9583d05d29245feb6a5e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jan 6 11:06:12 2015 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit c9fa0c6e02fff70ed33847bbfd7e87c11228f3bf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jan 6 11:06:05 2015 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.24
+
+[33mcommit 395e7a3b93cfa9fe2dd015462591b7c0fdee22eb[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jan 5 04:52:06 2015 +0700
+
+    -re approvePatial should reapprove only status ACCEPT
+
+[33mcommit 9940c7edb2f4beab9bbbf546332b0eb15b52d375[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jan 5 04:26:29 2015 +0700
+
+    -add blockUI for create drug button
+
+[33mcommit dea3f3a6cc4f7c7cf3f729afeb8f90c2a37df951[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 19:47:11 2014 +0700
+
+    -enabled upload.
+
+[33mcommit b6e936dcb022723a5969a08f8fe6456617470ce7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 14:28:13 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 199a5393b0fe59147f631d5ef825ba86b0a1514b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 14:28:08 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.22
+
+[33mcommit 171505a901982560d0e74ce813d079812ead00b7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 14:27:14 2014 +0700
+
+    -fix validation bug.
+
+[33mcommit ebafd4104d96d4da22d400c8c98bec9d71dfb184[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 10:56:47 2014 +0700
+
+    -disable upload by excel menu
+
+[33mcommit 6f988b48ef24b263725ee491debd38474bdf9e16[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 05:36:03 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 09ae07c2989877495dea3d65aa384f5c2dc3c174[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 05:35:58 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.21
+
+[33mcommit 283a919cab7956656a7f447349199d30f88fd1b0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 30 05:35:13 2014 +0700
+
+    -check hsaHex with hcode
+    -add re-approve function
+
+[33mcommit 163a7a207d6453fef57d1589175fecc770358602[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 29 22:23:49 2014 +0700
+
+    -allow to approve (update) effective < already effective
+
+[33mcommit 32a28088f6cc3b4c9c424e3359e6531f26f703bf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 29 21:35:56 2014 +0700
+
+    -Fixed. DateRangeValidator can not use with Date type.
+
+[33mcommit dba6ce6818cbdd0ccec2b99a87d792526f0ac9a6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Dec 28 12:30:58 2014 +0700
+
+    -use daterange validator with UploadDrugItem too because of I'm forget to use it.
+
+[33mcommit b4f1592edaa06977e45ab3cd453b3dc714a11bb0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Dec 28 03:15:12 2014 +0700
+
+    -double validator include "," by defaut.
+
+[33mcommit 68bdf2287490fb710550a288f96596327aa943b0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Dec 28 02:28:52 2014 +0700
+
+    -add approve by hcode.
+
+[33mcommit dbcdf65e07884afea66dc3dbebec180723ac4ffe[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 26 18:19:54 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit d0537aa41a2d04250e7e3d51a28bc2564448786f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 26 18:19:52 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.20
+
+[33mcommit d5a62e266b19a8a460d3ea565160f89a0cc11ed5[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 26 18:18:41 2014 +0700
+
+    -ajax = false
+
+[33mcommit 8dbc1a499e30a0736ce1c1e50065c5160efc0c5f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 26 17:29:35 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 617baffd0b7c3475930e76e7201cf1a12ab5c2cf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 26 17:29:31 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.19
+
+[33mcommit 70ddffc5ae839bb8f90072dbd8f4ed09c73633ff[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 26 17:27:13 2014 +0700
+
+    -remove
+
+[33mcommit d76a1d36ae8da69409003e3869a67ba18ca23172[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 20:26:18 2014 +0700
+
+    -remove unused import.
+
+[33mcommit 5864184afb995baef24ed0ab8c8f963599e481b8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 16:23:45 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit e7a2888ff27a5bee2934c72f11fcb624572d871c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 16:23:41 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.18
+
+[33mcommit 511d9921daab3c686e57c1bf7b9e5d4ff8169380[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 16:22:53 2014 +0700
+
+    -don't allow to delete STATUS=ACCEPT
+
+[33mcommit 2a66e5e9432a1fca432ee77df4630c021a186752[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 16:01:06 2014 +0700
+
+    -use temporary data to export for eclaim.
+
+[33mcommit 02488c43f4cd1aaf21ab8a08ecbaff0779cb287a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 14:52:08 2014 +0700
+
+    -change word back to prev state.
+
+[33mcommit 541ef6d4c94ad7bce2960a2b8d9f82ede443760b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 13:50:36 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit eaf464a6c92bf407120e5b7e618211c79e497e85[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 13:50:32 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.17
+
+[33mcommit 8f301baf387a18b912a845b7ce35a0a18d7c3756[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 13:48:54 2014 +0700
+
+    NPE when approve (old record have null TMTID)
+
+[33mcommit bd4fcd0f79815b2681386dd0a391f5c797782e22[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 13:48:45 2014 +0700
+
+    NPE when approve (old record have null TMTID)
+
+[33mcommit 2ea2c3a66d8ad1adfdb649b31faa819a7ae5cc9d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 13:45:05 2014 +0700
+
+    NPE when approve (old record have null TMTID)
+
+[33mcommit 66bb548fe2e7c175812551a53ebd89c248adf748[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 12:06:29 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit e8d15e26259c0c2306649beba33120ff9961903a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 12:06:25 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.16
+
+[33mcommit d1e3e0157d9e3d65d947bd11091a9393508c5e6a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 12:05:19 2014 +0700
+
+    - ขออภัยในความไม่สะดวก
+                            ขณะนี้กำลังปรับปรุงข้อมูลรายการยาของทางโรงพยาบาลของท่าน ที่ต้องนำไปใช้กับโปรแกรม E-Claim เพื่อให้รองรับธุรกรรมเบิกจ่ายค่ารักษาพยาบาล
+
+[33mcommit 7eaaf097025ae3bf7abcb54e7f961c679a8278e7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 08:46:41 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 86904e879d8a554920c98e8824d1a488255c68ce[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 08:46:36 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.15
+
+[33mcommit 80710cac0d61e7922bd1eb56963f71b7ca62e3d4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 25 08:45:49 2014 +0700
+
+    -temporary out of service.
+
+[33mcommit d9048c9148a674daf93fd1b6a01fb9402b7c6465[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 23:26:44 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 6f3dd26fb91716137a514fb7d8b8cfd9ac3a7cbe[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 23:26:39 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.14
+
+[33mcommit dba53deace874c2b6092a6d969f90899c877b226[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 23:25:55 2014 +0700
+
+    -add button approve online in admin page (hide by default)
+
+[33mcommit 8f938a2813bc0c90a498a018811dafb15cce1c58[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 23:06:49 2014 +0700
+
+    -fixed bug.
+    create drug page load all drug.
+
+[33mcommit bc8d77024d775c6b82490a2022cc3410ff727392[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 23:02:45 2014 +0700
+
+    -trim unit price.
+
+[33mcommit 9f5d5431804529ada4c863405f06f8bf6c3d1564[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 22:56:06 2014 +0700
+
+    -specrep max lenght =3
+
+[33mcommit 2f763c24e2cb3f3992dbc6a094d5e9a027df43e6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 22:41:13 2014 +0700
+
+    -specrep max lenght =3
+
+[33mcommit f1f565007afeefe486211e1a99b5e514d78a9395[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 21:58:32 2014 +0700
+
+    -can delete by used flag D
+
+[33mcommit 335eb4664c1ed0f28f7e1e5a5683c68bb3132b70[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 20:37:19 2014 +0700
+
+    -add approve for TMT IS NULL.
+
+[33mcommit 0bd7f26ff91e69c6e01a04f043dcc0ec2abba3ff[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 14:07:30 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit f3cb40b2e83f717f3c4a79a2c1b0acab04d7bffc[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 14:07:25 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.13
+
+[33mcommit fa16d9d1b5ec150e8678c9b40dda9b6dff137ed7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 14:06:45 2014 +0700
+
+    -can't approve or reject deleted request.
+
+[33mcommit 261fe83172fede15cbe482beda9ea4fe69e073d2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 13:54:52 2014 +0700
+
+    -add delete function.
+
+[33mcommit 33b8444cc6333e9f5bea45fb634f91162287ce14[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 11:28:26 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit aa6d07853edf8f060c63c88931f0fffb929f59f7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 11:28:20 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.12
+
+[33mcommit cc1be68cd26d4a5a5e83dc84e4f5f20f032dc324[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 11:22:13 2014 +0700
+
+    -add approveRejectAndEditCountGreaterThanZero
+
+[33mcommit df8db0032fa25690cb47e8664c77ce22151dccaf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 11:21:48 2014 +0700
+
+    -ไม่ approve ตัวที่ ACCEPT แล้ว
+
+[33mcommit faca9e556b6d4181e2faac60c8de0b63fd78a218[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 11:18:31 2014 +0700
+
+    -add column deleted.
+
+[33mcommit 4dab1afe8b061f97b5c144225ff81d88468a2d9c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 24 09:04:21 2014 +0700
+
+    -trim unitprice.
+
+[33mcommit 47a9aedb7a9c8b26836304b369598691f6831c43[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 23 20:15:29 2014 +0700
+
+    -session timeout = 120
+
+[33mcommit 550407be98410ce572be88563922af56d13838fc[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Dec 23 19:49:26 2014 +0700
+
+    -add locale="en_US" pattern="dd/MM/yyyy" to p:calendar
+
+[33mcommit 20ae10a500cd9426610a4c40a4f0e7751d35e152[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 19 15:12:33 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit d8da1cc7fd8ae3575d53958da9822cb87539314f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 19 15:12:30 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.11
+
+[33mcommit fbe5cc07dbc84ee2aca2e3a1411938289ec59817[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 19 15:11:43 2014 +0700
+
+    -if TMT value empty then not replace.
+
+[33mcommit f756612dad1c4c637b29184b5de4c3b53e21dca1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 19 14:50:02 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit faedce624dcea0d6397bd5ea7a479b66bd9533de[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 19 14:49:55 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.10
+
+[33mcommit 6735f8f42619d443d3914cbd0a4095e0ae12a2ce[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 19 14:35:14 2014 +0700
+
+    -use @NotBlank instead of NotEmpty
+
+[33mcommit 519e94f9371872541e157a7cc042c91807af5da8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Dec 19 14:27:15 2014 +0700
+
+    -remove constrain "รหัส  TMT นี้ ได้รับการ approve ไปแล้ว"
+
+[33mcommit 515097a821bc54212553f2391e401f55fd6c7353[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 18 21:56:08 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 8b0b96e1e4ef58011749ca6c3d89bf64b29d13d8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 18 21:56:03 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.9
+
+[33mcommit 37c59f065ea66e1e43994e9454a8da8b901f1686[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Dec 18 21:54:58 2014 +0700
+
+    -log approve file to DB
+
+[33mcommit a018ea028285c2f140dee03fc825cb6384d6cf60[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 17 07:55:11 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit ba952355f71c8c1fc9e6671b6d013d033c3579f8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 17 07:55:10 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.8
+
+[33mcommit afef11fd83eb8e488131a4e40fbdfda12e2bfc0d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 17 07:53:02 2014 +0700
+
+    -update (ProductCat, TradeName, GenericName, Strength, DosageForm, Content, Manufacturer) when approce.
+
+[33mcommit 6f5e70b0c4f0ad2497cd7be50c94e60d2c7645e7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 17 07:37:39 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 76e0d238202d6d63b7b5aec23f21abecb5628bd8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 17 07:37:34 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.7
+
+[33mcommit 6eb9c231c8fd8e9fac78cb355ed1590480566a1b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 17 07:33:03 2014 +0700
+
+    -approve all status.
+    -update product cat from file.
+
+[33mcommit 9fa255c8f90396adf83a5ea9e52efee492c4ad83[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 15 01:57:53 2014 +0700
+
+    -add ApproveFile model to keep track who is create.
+
+[33mcommit 36e394038732c78ba184f38007d7775678ae9029[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Dec 13 13:24:07 2014 +0700
+
+    -UploadHospitalDrugItem.productCat  is required.
+
+[33mcommit 696b194bd154911994adab05e21fbf49a9691d81[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 8 11:10:48 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 5f9c775984dff22102f5699ec98df38bedaa6c86[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 8 11:10:42 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.6.1
+
+[33mcommit 23842f92dd2e5507db22bef9ad28e44b6c13e83e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 8 11:08:05 2014 +0700
+
+    -add rebel.xml to git ignored.
+    -colored tmt replacement field in editNotPass(request/index.xhtml)
+
+[33mcommit 03888f409997056076be3af5ee1c7aacf32cebc6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 3 15:15:42 2014 +0700
+
+    -add reimburse price
+
+[33mcommit 177bb66d1356c8f94d06b5b580c65ae0b754f39e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 3 14:18:40 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 7238ae8bab02243627e47c3745ae62a2d1d64c13[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 3 14:18:36 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.6
+
+[33mcommit 187d4983918d90f33df815d64e63061d521fa8a9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Dec 3 14:14:58 2014 +0700
+
+    -wording DSFCODE to DFSCODE
+
+[33mcommit ae6f4c525201ae815192ca0fde4d847a414f4865[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 1 11:40:21 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 86e63607cfec2d0e7857d80daf8baa8282d505ab[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 1 11:40:16 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.5.1
+
+[33mcommit 529ff892416a83096fb925ba633fe5e9629378c8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Dec 1 11:36:18 2014 +0700
+
+    -fix bug array out of range
+
+[33mcommit 6a5d12570acfb69c69351ae84ed88ea29e1f4b0c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 17:22:59 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 550af59bc9beae01d19d8b9f4e57c404e6510877[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 17:22:56 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.5
+
+[33mcommit a696f069ab5929c3acfe480cb0512358f6c333d7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 17:22:05 2014 +0700
+
+    -เปิดการใช้งาน 25 field.
+
+[33mcommit 58b73080274fea264836ee677ceb890fc36071a1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 15:00:03 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 267b6bc088dc7153d68a2fd99ca0962e43d65cbe[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 14:59:58 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.4
+
+[33mcommit 6d9cda1722901e35194331ebfb53ed8ce3b2d392[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 14:59:00 2014 +0700
+
+    -formated date
+
+[33mcommit 3724c04e2162e4b98728ae01f67be1c5b2a4e67e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 14:58:49 2014 +0700
+
+    -do not check duplicated drug if re send to approve.
+
+[33mcommit 6384de01fd7a1ebed557bd2ed8bd101eaf0a7ea9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 28 14:36:31 2014 +0700
+
+    -add NDC24 entity with relation (TMTDRUG <--M--M--> NDC24)
+
+[33mcommit ff87349ce3f36f60606a381bc6b3e6c044497dff[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 21 12:19:19 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 1d42921b8164cd433fff26ae1250938bf18a9456[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 21 12:19:18 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.3
+
+[33mcommit a8c5b326e190600b0623f5470219c62be3ba3d71[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 21 12:18:09 2014 +0700
+
+    -Fixed tmtid come with empty string violate @Min@Max it should allow empty string and treat as null value.
+
+[33mcommit 60c17b3dfd129850cbdddf4f1f513ad36909d596[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 21 11:41:28 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit f34cfda39a171e3d8fcd6736556ce8810505b984[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Nov 21 11:41:23 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.2
+
+[33mcommit bd5dbc06c95b79de2cffd33419814e06757231fc[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Nov 20 17:31:02 2014 +0700
+
+    -temporary ui:remove column 22-25 (user request)
+
+[33mcommit 34a6e1796ce4c3486254c4dfad55b7d74378a05d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Nov 20 17:29:32 2014 +0700
+
+    change glassfish context path.
+
+[33mcommit 4ad0216153da372771a50647f6281e58fc8eac79[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Nov 20 17:29:10 2014 +0700
+
+    -add column 22-25 for approved.xhtml page.
+
+[33mcommit f30d2426b6b13407d6fabe2e7e6beab2c02f4f0e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Nov 20 15:35:30 2014 +0700
+
+    fixed bug DateFormat.parse #####.## with 1,000 yield 1 (only 1 surprise!!!)
+
+[33mcommit 318897985b2ab6a270aa589a1ce89e10b419f83c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Nov 18 19:49:21 2014 +0700
+
+    -format date as date no time.
+
+[33mcommit 6d480da78bffdad6127275ff98ed4813d370f7ef[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Nov 17 10:06:39 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 3670bc19a44dc400123a752e6d4ff112e12ba459[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Nov 17 10:06:32 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.1
+
+[33mcommit 8f14f3e88bf99443c9c7568dab96ffb6fa4644a6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Nov 17 09:59:21 2014 +0700
+
+    -styling admin inbox.
+
+[33mcommit cc0c23a7e7a4bbbfecebd2b48c5431f7d1c520de[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Nov 17 09:58:58 2014 +0700
+
+    -re model TMTDrug key.
+
+[33mcommit 3bfc0526b432a673b5f666c2eab6bf2d1a205edc[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 20:01:34 2014 +0700
+
+    -if error at column UNITPRICE in not-approve.xhtml we show 'warning background' instead 'error background'.
+
+[33mcommit 919913bd1448d00b3dcb423bc7675f100071ef59[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 20:00:09 2014 +0700
+
+    -copy errorBackground,warningBackground class from green theme.
+
+[33mcommit c709ba39892f814f8b8674b52a6107d11ab55143[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 07:58:25 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 977469fe3401b690d28a1e6ccb9138f653080c92[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 07:58:21 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.1.0
+
+[33mcommit 4a66b83789717508501a21618fc9caffa8eaa810[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 07:51:39 2014 +0700
+
+    -error columns is mandatory.
+
+[33mcommit c0875a6eefe199d5f6142bdee0ca79df4643a462[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 07:38:07 2014 +0700
+
+    -size left menu
+
+[33mcommit 882774c78bfd5c78a5fb4644daeed1748e78ed40[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 07:36:43 2014 +0700
+
+    -completed approve by HCODE
+
+[33mcommit fff0e02a26ba91d7f28fa5fff01a42f04454eb67[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 03:34:41 2014 +0700
+
+    -completed render approve by HCODE (only render)
+
+[33mcommit eadb0d1c302b283ab87e92f5f2a5e93fcdf0c49a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 03:31:57 2014 +0700
+
+    -search hospital dialog can specify 'keyword' param for eager load by keyword that provided.
+
+[33mcommit 33fa457281cbe34393f35719639e8153fe9b33b0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 12 01:27:48 2014 +0700
+
+    -upload approve file (new approve file -no tmt row and add 'itemid' column).
+
+[33mcommit fe2d6b14fbb40d10b3816ef20d7e842e293e84ec[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Nov 11 22:56:21 2014 +0700
+
+    -add Guava spite test
+
+[33mcommit 84097b13d0885cf27b97f80d7f537e0e0be1a69e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Nov 10 17:32:56 2014 +0700
+
+    -increase EDIT_COUNT every re-edited.
+
+[33mcommit 51f9b63adf82ce9d9d4e02927dbed441d502ba7f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Nov 10 14:54:17 2014 +0700
+
+    -add editCount to request to keep a number of re-edit not accepted request.
+    -ALTER TABLE TMT_REQUEST_ITEM
+    ADD (EDIT_COUNT NUMBER DEFAULT 0 NOT NULL);
+
+[33mcommit 9c1615fd7693370beef406adae97c01aa7958c95[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Nov 10 01:33:47 2014 +0700
+
+    -approved file name in format "APPROVED_HODE_YYYYMMDD.xls"
+
+[33mcommit 17927bb44aa8e1e7a402403f16138d98ee8f76fa[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 5 12:32:36 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 788e69d45aabf26d9389385a7ff3e6da88e2a066[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 5 12:32:31 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.21
+
+[33mcommit 13773b1ee0ef1de7e8a3513a6bb23ec2475a8874[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Nov 5 12:31:25 2014 +0700
+
+    -temporary disable/remove approve TMT menu.
+
+[33mcommit 041603a3cd8090728f970d4bc4cc09491058109c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 11:35:15 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 3fc552059f449301db708279d956bdaaf860b940[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 11:35:10 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.20
+
+[33mcommit 91ca98c4225ad66afcde609839461c3b7b30845b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 11:03:09 2014 +0700
+
+    -update to prime face 5.1
+
+[33mcommit 4adca141124e83969bca401c67f4d43b3c896228[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 11:02:50 2014 +0700
+
+    -change approve by tmt table to single table.
+
+[33mcommit afec12f718011cb97ce585f226269e7164fbcad0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 11:01:38 2014 +0700
+
+    -add special service /button to regenerate request.
+
+[33mcommit 2191bdcc957ddc2722ebf19ddd6385c423f2791a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 11:01:09 2014 +0700
+
+    -change export file name.
+
+[33mcommit 7f0035a086e87534332ce37c651398590e1dfdcf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 11:00:11 2014 +0700
+
+    -create RequestItem for every UploadItem
+
+[33mcommit 761f0bd7a1207bd8015b810818c0be90de3e9360[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 29 10:59:14 2014 +0700
+
+    -add special service /button to regenerate request.
+
+[33mcommit 6123c81e18676684d6355bf943ffa8a2a6755ec1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Oct 28 19:22:25 2014 +0700
+
+    เปลี่ยนชื่อ เมนู
+    รายการยาที่ยังไม่ได้ตรวจสอบ
+    เป็น
+    รายการยาที่ รอ ตรวจสอบ
+
+[33mcommit d34cefdebc82ce89ea18661762ef7b6d0b4d9f42[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Oct 27 17:29:22 2014 +0700
+
+    -intercep jsf ajax event session timeout.
+
+[33mcommit 717aba6c7d33e08cb374e7ecdf10b22f5cce2c91[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Oct 26 18:17:33 2014 +0700
+
+    -fixed - primeface freeze row & paging cause action not call (action with 2 param) in last row (maxRow +1) .Fixed by not use paging.
+
+[33mcommit fdab00dd7666ccfc31d620a57fb266cb3a3c4785[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Oct 25 03:45:46 2014 +0700
+
+    Display approve by tmt in single table and can click to column to add error.
+    Still have some issue(last row of each page not call command on server) fix by remove freeze column(but we still need freeze column)
+
+[33mcommit 59821ab074ad2a0927ba7571722b9aca2940c394[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 24 14:01:36 2014 +0700
+
+    -search tmt by NDC24
+    SQL - CREATE INDEX TMT_DRUG_NDC24_IDX ON TMT_DRUG (NDC24);
+
+[33mcommit 68bc5e124aae5dedb2f643874f8dd41272ee83f0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 22 18:11:14 2014 +0700
+
+    -display TMT version(release file)
+
+[33mcommit ac4017714d95b3b12513600cbc0419a0186723d2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 22 02:36:44 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit ed578abebe0427288149274fa1f4ab5558b95a99[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 22 02:36:40 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.19
+
+[33mcommit c3d4c8ba4969e923e508fea19ddd2a2da7bd8a2e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 22 02:35:36 2014 +0700
+
+    -add search Hospital dialog for import-report.xhtml
+
+[33mcommit d51c31f3476d549f6e6cc6818d7705528b32bedb[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 22 00:38:18 2014 +0700
+
+    -Delete upload file will delete even if it has been approved.
+
+[33mcommit 6271c919185612b8c108b0b088ee7fc31159c977[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Oct 21 18:33:30 2014 +0700
+
+    -DateChange and DateUpdate can be empty.
+
+[33mcommit 0a5a2b1261bf7342ca208cea92b473cfaacee9f2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Oct 20 21:49:22 2014 +0700
+
+    -not unique index "UPLOADHOSPDRUG_SHAHEX_IDX"
+
+[33mcommit b39cf694c608c898636704496fc9c3239b5dfd7e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 02:29:01 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 140e359529e61b6aacbd55f7689df551ba11359a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 02:28:57 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.18.B
+
+[33mcommit 78ce91055b421adc3d5ef808f8baaf2b2a8a61de[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 02:22:07 2014 +0700
+
+    -Do not check duplicate for TMTID in HOSPUDRUG
+
+[33mcommit e0a039ae76b4298a01bf937bb7b0549c43bbae41[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 02:20:32 2014 +0700
+
+    -remove constrain =>@NotEmpty(message = "ต้องกำหนด Strength มาด้วยทุกครั้ง")
+
+[33mcommit 8315298c1ca88bd14d2749b54574cbb905e13013[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 01:19:34 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 3a6fcd59b6ed9b71f9f9544e06e179de59b852c8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 01:15:01 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.18.A
+
+[33mcommit a3ed5408220277d42365399be5bfacb3ca27c49d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 01:13:17 2014 +0700
+
+    [maven-release-plugin] rollback the release of drug-catalog-1.0.18.A
+
+[33mcommit 26b019580e890983b27f9b3507bbe76470355c60[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 01:13:04 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 83ad1b78b10c7b26ad10e5ff892e93e1525da683[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 17 01:13:00 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.18.A
+
+[33mcommit 8153cef1d96a9e7dd1cee43b7e78d1a07e52f329[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 16 14:12:04 2014 +0700
+
+    -fixed list drug searching not work after use new model.
+
+[33mcommit 7ea14f32692f53a18ea81756ee92d02d4affab60[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 16 13:49:04 2014 +0700
+
+    -add javax status.
+
+[33mcommit 232805c2b401395e81021393fea378476da9e1e1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 16 11:46:30 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit d8bc637203aa693c2bb4f3dd10b53e1d905068cd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 16 11:46:27 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.17
+
+[33mcommit 1e88b10cf5d474163d5dd5bf5976eda016d8607c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 16 03:00:44 2014 +0700
+
+    -complete upload TMT-NDC24
+
+[33mcommit e65854c2aee346a7417f3fb464ccfda6f257e4d0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 16 01:29:43 2014 +0700
+
+    add menu TMT-STD24
+
+[33mcommit b7fcca6b0415dec27b5e76041dfcb424616c7793[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 13:55:08 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 209eb0cb32a0ae9c8733f08fe3c36b518f2f578c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 13:55:04 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.16
+
+[33mcommit a652eb80219c70aec87ff05547571a36063c08f9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 13:12:37 2014 +0700
+
+    -do not let user edit a request's UPDATEFLAG.
+
+[33mcommit 91bb891ecad6e4b1c2e14e437855b5702dc5fa2b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 08:07:17 2014 +0700
+
+    -ability to edit (update) request that REJECT state by hand or upload from file (if hospdrugcode,hcode,effectiveDate and flag are all equal and status = REJECT  this record will be assume user want to edit rejected item.)
+
+[33mcommit 6f195a58a8efa21b3fdc449631e69e7389d39721[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 07:05:42 2014 +0700
+
+    -fix findTMTDrugByStatusAndTmtIdLike return duplicated item.
+
+[33mcommit 4f13ccaf5b9f19ed7293c8672b3c7f567866c01f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 05:44:51 2014 +0700
+
+    -complete edit request.
+
+[33mcommit 0e351f5df299db64219cb60907d576990b475247[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 04:20:46 2014 +0700
+
+    -resize columns.
+
+[33mcommit 200dc7513625338299fa51f1af8b7dfedcf9d207[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 01:56:48 2014 +0700
+
+    -remove UploadItem beanvalidation for DATEUPDATE,DATECHANGE.
+
+[33mcommit 3ec156474fde72dc2a12a76f8f115a44722f7c64[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 15 00:58:05 2014 +0700
+
+    -implement function edit that we left from previous refactoring.
+
+[33mcommit ca608e609ee4254b9abf6dbb1f3e543a7502365e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 10 17:19:51 2014 +0700
+
+    -Fixed render error Not found field(side effect of new model)
+
+[33mcommit bb3e50a8c356fe23bfffd3e653242cb69a55a4b0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 10 17:19:04 2014 +0700
+
+    -Fixed NPE (side effect of allow dateUpdate or dateChange to be null)
+
+[33mcommit 668ed48c1eda1e50634052b20f2a47e232f9522d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 10 12:29:24 2014 +0700
+
+    -Fixed approve by tmt not show data (bcz of new model)
+
+[33mcommit 74f925fb6c7f56d1c14bd7c8859fb6994fd4dce8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 10 11:32:17 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit b4ddfc4c122ecf5f58ddb6eeb47b30e82bec456a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 10 11:32:14 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.15
+
+[33mcommit 87823d67305d8eb64fadef3ab3e694460e505b16[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 10 11:30:34 2014 +0700
+
+    -display error columns.
+
+[33mcommit 5c719e432274cf6d84a5eb3c157ef10053d9d301[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:29:12 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit e24910e5028ef0ea1ec808406534e202d261ada2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:29:11 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.14
+
+[33mcommit 5bcb398c54897c3625df64c21271532d16cf70e3[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:28:46 2014 +0700
+
+    log info pro production
+
+[33mcommit 3dc1485c47d1f0703be979763b6e27843a538ca3[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:23:04 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 6d935300af3adce1e1c4298f5363487a820981e4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:23:00 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.13
+
+[33mcommit bb67be3b68c1b841c721b14033ad31c37fa3ba2d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:20:59 2014 +0700
+
+    -log file keep max=50
+
+[33mcommit e75d2eec9078d6d65d374b80d2a93d9fa2db68d4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:20:11 2014 +0700
+
+    -change log level.
+
+[33mcommit 6168ba4a5cdcd2ed4e5193f7ea72fd7f072ffcf0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:19:33 2014 +0700
+
+    -all record in a file run in same Tx.
+
+[33mcommit f078e2d678f7f82ed8e6988989328e4c09540fe2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 13:03:47 2014 +0700
+
+    -NO log on production
+
+[33mcommit 90e4af02f9c8ab84a35fe9a0ca0d221c4545aa07[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 09:46:16 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 7f57f455015129d79e17401cef2ed8c3cbb2a3ce[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 09:46:11 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.12
+
+[33mcommit 49a4bf95bee1ffbd5da83c552c3eab7ce8028660[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 09:45:07 2014 +0700
+
+    -display all drug of hospital (from HospitalDrug entity)
+
+[33mcommit 4cfdae0ffcad57b23de2135f7fdec2a9f14bc313[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 09:44:34 2014 +0700
+
+    -Fixed can't delete directory (im delete wrong path)
+    -Fixed HospitalDrug.approve never 1
+    -add message to upload tmt approve's file.
+
+[33mcommit 6bbeee0313e774a5cd18285ef393bac95c49a226[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 09:16:14 2014 +0700
+
+    -upload tmt approve's file will delete previous directory.
+
+[33mcommit 2e9cf42a0c8b497cd10512a1b21c55081d13c5ce[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 09:15:16 2014 +0700
+
+    -update primeface to 5.1-GT1 (custom version build)
+
+[33mcommit 802883614a38d98ff77ca69006b3d9560cd15686[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Oct 9 01:18:43 2014 +0700
+
+    -set all cell type to String (cell.setCellType(Cell.CELL_TYPE_STRING))
+
+[33mcommit 47945f0e5ffbc14f494ec508d5cf268f09e124ab[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 20:26:55 2014 +0700
+
+    -Release open File(POI).
+
+[33mcommit 27cd528aa648d01e461dd393a20831efc237d7da[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 16:16:29 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit c38708f229c74f77ee75c992db6e4fa57411213e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 16:16:27 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.11
+
+[33mcommit edab9f07d8023d23c3600426e694eaf4a30c2fb7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 16:13:37 2014 +0700
+
+    -Production log is INFO.
+
+[33mcommit 8c91a4a081e0419b8b60cd338dbfd77503fab99a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 16:11:35 2014 +0700
+
+    -Fixed not save error columns.
+
+[33mcommit 2a41fbfe96cf401fce82be50aba11066a5a19e13[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 15:39:04 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit a7c659ddc2c010f977d6a31e4bf42bd36361c3f8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 15:39:01 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.10
+
+[33mcommit 6712a9431075e1844cc014d851191e4bc4cbfef9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 15:35:47 2014 +0700
+
+    -cacheable Hospital Provice and Zone.
+
+[33mcommit 02bce34946509eab616e0d47b814be74caa1f778[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 12:41:12 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 425ebfd608424df98a630b0df2f74fc3754d44e0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 12:41:09 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.9
+
+[33mcommit cb8acbd8d966fba4159cdde83bb89ef3b0721122[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Oct 8 12:31:09 2014 +0700
+
+    -complete new a new approve /request/ hospdrug according to new business rule.
+
+[33mcommit 60a0ba406a1df0baa3f8c0ec0b17831562167370[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Oct 7 13:09:36 2014 +0700
+
+    -Spring data 1.7.0
+
+[33mcommit 72c5b398c7af807df52ced75b90030cb7584d242[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Oct 7 13:09:19 2014 +0700
+
+    -UploadDrugItem <--> RequestItem is OneToOne derived indentifier.
+
+[33mcommit 01322d44a58bb1f78796696affb0381df23aefb1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Oct 7 01:35:43 2014 +0700
+
+    -re-model as a result of business change.
+    -HospitalDrug can have many tmtId and request is create for every UploadDrugItem that have TMTID.
+    -Add model TMTDrugTx
+
+[33mcommit 216b58ee7f3f3f260bf879e4cbd862f983ec545e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Oct 7 01:27:03 2014 +0700
+
+    -remove unused import.
+
+[33mcommit 070f4831a80380d0dab0aba3797eeb386132d293[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Oct 6 14:27:20 2014 +0700
+
+    -add TMTDrugTx
+
+[33mcommit 1192d7747f4a2e4d67131ac4255aa7435f43179a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Oct 3 18:38:07 2014 +0700
+
+    -ไม่สนใจ dateupdate / datechange.
+
+[33mcommit 17ceb52ca55384bb29bca0d5e7d371c2c0fefcdd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 29 17:33:51 2014 +0700
+
+    -delete unused debug code.
+
+[33mcommit 56004176a916c644d5bd65726d83156071af5095[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Sep 27 02:26:52 2014 +0700
+
+    -Add Approve tmt drug by file function (not yet complete)
+
+[33mcommit 6f216a42bce5d53818d4f0882e66eb3f9e6d135e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Sep 27 02:26:09 2014 +0700
+
+    -Add migrate for refactoring script of RequestItem
+
+[33mcommit 5fe8b8069ad79f92439a60b0217df2cf7c5a4cca[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Sep 27 02:25:26 2014 +0700
+
+    Completed refactoring RequestItem
+
+[33mcommit 27d394eefebafe087bc41282b152eaede35fe6a7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Sep 27 02:24:16 2014 +0700
+
+    -add truezip zip driver.
+
+[33mcommit 68e372d152992325d6feef219266a51b5812c076[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 26 23:17:22 2014 +0700
+
+    -change menu label.
+
+[33mcommit fe907a3c1ab6f9826f351384d969325d61ff9541[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 26 00:46:38 2014 +0700
+
+    -not-approved.xhtml show wrong wording.
+
+[33mcommit e54a1a5ee78aad7b5ed3ab3ea1a5957743300136[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 25 23:07:39 2014 +0700
+
+    -wording
+
+[33mcommit cb7e9c87c4c4d4cfabafe9b5ed21b405f3015db2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 23 12:19:27 2014 +0700
+
+    -add errorColumns @ElementCollection
+    
+    --------------------------------------------------------
+    --  DDL for Table TMT_ERRORCOLUMNS
+    --------------------------------------------------------
+    
+      CREATE TABLE "DRUGCODEOWNER"."TMT_ERRORCOLUMNS"
+       (	"REQUESTITEM_ID" NUMBER(10,0),
+    	"ERRORCOLUMNS" VARCHAR2(255 BYTE)
+       )  ;
+    --------------------------------------------------------
+    --  DDL for Index TMT_ERRORCOLUMNS_INDEX1
+    --------------------------------------------------------
+    
+      CREATE INDEX "DRUGCODEOWNER"."TMT_ERRORCOLUMNS_INDEX1" ON "DRUGCODEOWNER"."TMT_ERRORCOLUMNS" ("REQUESTITEM_ID")  ;
+    --------------------------------------------------------
+    --  Ref Constraints for Table TMT_ERRORCOLUMNS
+    --------------------------------------------------------
+    
+      ALTER TABLE "DRUGCODEOWNER"."TMT_ERRORCOLUMNS" ADD CONSTRAINT "TMT_ERRORCOLUMNSREQUESTITEM_ID" FOREIGN KEY ("REQUESTITEM_ID")
+    	  REFERENCES "DRUGCODEOWNER"."TMT_REQUEST_ITEM" ("ID") ENABLE;
+
+[33mcommit 0a5a150f6cb3240a2fcdf338b67893feeae19dc7[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 19 13:16:57 2014 +0700
+
+    -remove un-used import.
+
+[33mcommit c9a1ef2f135323c1c5f4d7d578de13f0bd09d981[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 16 16:39:04 2014 +0700
+
+    -Fixed progressbar not show.
+
+[33mcommit ed8480940372d371cfa0cf36b8f35925ed345ed4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 11 12:13:46 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit a171fff12031d7df884ad10bd3b30521b629bbf1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 11 12:13:41 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.8
+
+[33mcommit 63cef1eef15739abad0b38f86267ebfd5bc78c55[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Sep 11 12:11:12 2014 +0700
+
+    -add delete log
+
+[33mcommit d7b824887c363a35a572b0571bc28184d92da834[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 8 16:34:48 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 5e226d4075da23dbb6e23b9e3ce43f3772c71ab2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 8 16:34:44 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.7
+
+[33mcommit d09e20eb57b4b751a1a8d1728ccb4e4fede8429a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 8 16:33:10 2014 +0700
+
+    -Fixed.
+     authen addFunctionGroup cause NPE (menu.getFunctionGroupId==null)
+
+[33mcommit e40b39d9fc52b5dbf5d699af1b9fb673d2a00e41[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 8 16:04:55 2014 +0700
+
+    -Fixed.
+    setDateUpdate and setDateChange parse date from param but param may be null.
+
+[33mcommit aac3ddb3a7a54b9c125e22d72a769dc9ce83a29e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 8 09:07:49 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 1df8c827048c1ed766775af78603b3ff7c3b284d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 8 09:07:45 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.6
+
+[33mcommit 505d302b936a8ec7c35d2c45384c0821e3e7b9a9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 8 00:12:35 2014 +0700
+
+    -check subMenu of menoDto (recursive)
+
+[33mcommit 9d61036303fbf4de956eab2200edc74963d4d378[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Sep 7 16:00:15 2014 +0700
+
+    -assign (authorize) functionGroupId 1149 as HOSPITAL 1150 as ADMIN
+
+[33mcommit 18bf4e9f477ddfae0b1bf736186af95a5f2fda6f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 5 14:24:52 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 561f70cb7b1cbf545128954fb85db85021b6ddba[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 5 14:24:49 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.5
+
+[33mcommit 8154fdc56410e8ca49edbf9bb85d3f24f3331de2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 5 14:20:05 2014 +0700
+
+    -maven filter on page index.xhtml
+    -pmaven filter on persistence.xml
+
+[33mcommit 06cff2e647dec7bc66e98f4a913be40c7a908c4e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 5 13:49:26 2014 +0700
+
+    -add delete all content of HOCDE (upload request drug) to fix in case of hospital mistake upload.
+
+[33mcommit 8c212db32643bc47a1414458f91fa49d8f746f58[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 5 13:26:14 2014 +0700
+
+    FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+[33mcommit ebf28053ffa522d34402d8d7dc460b57a22f7225[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 5 10:58:34 2014 +0700
+
+    -remove unused import.
+
+[33mcommit 70756aed274458c55ad94f2b21010a2a1d19a453[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Sep 5 10:46:14 2014 +0700
+
+    -wording
+
+[33mcommit 4dbd45d9237b23444d749609935d4fb097bc2326[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Sep 3 14:39:04 2014 +0700
+
+    -ต้องระบุ productcat มาด้วยทุกครั้ง
+
+[33mcommit 6b14c9686a10371caf17ed3327674502b75f7f74[m
+Merge: 0715689 d316cff
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 14:53:27 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit d316cffe5fe081ba68b12e853942bde3f908c84a[m
+Author: DOTNET <DOTNET@DOTNET-PC>
+Date:   Tue Sep 2 14:53:06 2014 +0700
+
+    background table ครั้งที่ 3
+
+[33mcommit 0715689201fe4c41f0d8ffbbd921737389fc3741[m
+Merge: 67e8201 20da7dc
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 14:51:25 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit 20da7dce2d37a9654763d5edd0a262f81951337b[m
+Author: DOTNET <DOTNET@DOTNET-PC>
+Date:   Tue Sep 2 14:50:05 2014 +0700
+
+    background table ครั้งที่ 2
+
+[33mcommit 67e820151eef5206e5ae5de7b01902a6a6e122c1[m
+Merge: 17dc74b e4c0956
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 14:47:38 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit e4c09561bff0d321e0bd188deed5a4d92e8685f8[m
+Author: DOTNET <DOTNET@DOTNET-PC>
+Date:   Tue Sep 2 14:47:07 2014 +0700
+
+    background table
+
+[33mcommit 17dc74bc0bb2ce9a2166d6036e00859ec2bbdf7c[m
+Merge: f4f6874 6caa73e
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 14:44:24 2014 +0700
+
+    Merge origin/master
+
+[33mcommit f4f68749839a82aebbd05f68a4239cafb8648572[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 14:44:07 2014 +0700
+
+    -add XBar and SD
+
+[33mcommit 88dca2ab47cf8e0bf56d387056e6267c92f26b35[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 14:43:54 2014 +0700
+
+    add query method for AVG and STDEV(oracle function)
+
+[33mcommit 6caa73e046b74c6168974c4a29ce85f52e5d9ed1[m
+Author: DOTNET <DOTNET@DOTNET-PC>
+Date:   Tue Sep 2 14:16:13 2014 +0700
+
+    จัด title inbox
+
+[33mcommit 33cd91da7353131c10d5545222d7e99b17719998[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 12:45:25 2014 +0700
+
+    -change columns display in approve tmt page.
+
+[33mcommit 4282a17d0dbb36478f4ae09806b7c5d02cb01abe[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 11:43:29 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 6e1f00a5b05524405ca7ff3beba8eca1bcd346b2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 11:43:25 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.4
+
+[33mcommit b19864b1e43defad7cd1406d8a95879f0350af52[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 11:43:03 2014 +0700
+
+    -re check condition of effective date in test.
+
+[33mcommit 56f771d16f07e7269f1c04311fb7376ad3a86ae4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 11:32:18 2014 +0700
+
+    -check equals against effectiveDate.
+
+[33mcommit 9dba77eb42349faa921599286a6db7368d0a5baf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Sep 2 05:56:39 2014 +0700
+
+    -set createDate fro price and ED manualy because of JPA listener give it a empty create date( Don't know why)
+
+[33mcommit ed3fe1fbf269c905ab58ca680091aadec4141ca6[m
+Author: DOTNET <DOTNET@DOTNET-PC>
+Date:   Mon Sep 1 17:00:56 2014 +0700
+
+    design status browser support template purple
+
+[33mcommit fcf546d0cd44004a400f97edeb08c6d804d8c1de[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 10:51:09 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 12002827003a563c7b87d0e955c8f7d8b46b1069[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 10:51:08 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.3
+
+[33mcommit 8c7cd1a9e2270176e171160cbbad40e65b172109[m
+Merge: a83970a f89fd31
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 09:51:10 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit a83970a07c41f39aa0f844431ae835126a3f1281[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 08:24:04 2014 +0700
+
+    -validate year range 2000 to current+5
+
+[33mcommit 2a58dfe3e733830017834cc95eb4a8112e939fe2[m
+Merge: 883b4c6 9320c8b
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 08:04:27 2014 +0700
+
+    Merge branch 'upload-drug-from-train'
+
+[33mcommit 9320c8bbe97d1277cc4210296f426117f67b4687[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 08:02:31 2014 +0700
+
+    -check duplicate of drug and NED against dateEffective
+
+[33mcommit 1d0daa11fcd42d4a78e8ba0a45be310093d9ee1b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 07:59:01 2014 +0700
+
+    -Is EDNED and Price already exist then update (instead of throw exception)
+
+[33mcommit e4a2742b3fe84920d820626c9d6e71c5bb5b50f4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 02:57:45 2014 +0700
+
+    Strenght is nullable.
+
+[33mcommit 883b4c6ae60a38643be5282beb769f2d55b47e4c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Sep 1 02:46:26 2014 +0700
+
+    Strenght is nullable.
+
+[33mcommit 3b87d7386aeec87741fcbd7dcb0d3d27d97023de[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 30 07:42:26 2014 +0700
+
+    -fix primeface columntoggle bug.
+
+[33mcommit 15220dd207b6dc610626d103564bafa0fa3a9096[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 29 18:54:15 2014 +0700
+
+    -add advance sear h panel.
+
+[33mcommit f89fd3181ea6fa7dd5f4163b8fac01c61c9c9f0d[m
+Author: DOTNET <DOTNET@DOTNET-PC>
+Date:   Fri Aug 29 16:22:30 2014 +0700
+
+    design status browser support
+
+[33mcommit 17b1ac56ecf88d05dafad84104152b311e6b45ac[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 29 13:02:47 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 57d33a4ac3b5a895ade4d857a021a664775c44d1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 29 13:02:43 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.2
+
+[33mcommit e1b47345099debde6b3eb67ad6bf84dcacb8ccfc[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 29 13:01:41 2014 +0700
+
+    -disable edit column
+
+[33mcommit 7ed0b6272caff0744f909316957a3c35ead91654[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 29 11:39:03 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit 72c57466f219dc227a274ea5b9f8afbb58ccae8c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 29 11:39:01 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.1
+
+[33mcommit e1397f44c12e1bb79730cecbfe3172e0af721898[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 29 00:02:01 2014 +0700
+
+    check duplicate on effectiveDate
+
+[33mcommit dba2c154020c54c322d726d58730fdcdfd73deed[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 19:14:55 2014 +0700
+
+    -Strength is not require field.
+
+[33mcommit e80d5f727e7efbd9615941ff0db3a868a4d48953[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 19:03:56 2014 +0700
+
+    -validate prive and ed against effectiveDate
+
+[33mcommit 4e62199b82a6d740da4798fdcca5a677abf43e89[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 18:55:03 2014 +0700
+
+    -remove demo folder.
+
+[33mcommit e59ac9e0723632d7b0abfab9c1a22c186a2f5bba[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 17:07:35 2014 +0700
+
+    -change icon
+
+[33mcommit dd360ed7d92e7f8c9e25e5b6fd09e001936a2995[m
+Merge: 14ef9ce 595c951
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 16:24:50 2014 +0700
+
+    Merge branch 'admin-can-upload'
+    
+    Conflicts:
+    	src/main/java/th/co/geniustree/nhso/drugcatalog/controller/hospital/UploadMappedDrug.java
+
+[33mcommit 14ef9ceb3e62527e349f7bcf24e6972927427cc4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 16:22:22 2014 +0700
+
+    -use new rule for validate dateEffective.
+
+[33mcommit 595c9517e7783882ddf2532dbf39632f5c3cc467[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 12:35:24 2014 +0700
+
+    -allow admin to upload file on behalf of hospital.
+
+[33mcommit 9ff58d8f562be407c7ecbd34683191065946a27d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 02:32:49 2014 +0700
+
+    -don't allow approved TMTID to be change. (MUST PREVENT USER EDIT INPUT BOT TOO)
+
+[33mcommit 52252d446ee097723579182d61a54757c0716f80[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 00:06:26 2014 +0700
+
+    -add upload/edit history page.
+
+[33mcommit 96fcbd91e3180d34670963c25cc810b9b95b06e3[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 28 00:04:30 2014 +0700
+
+    -Spring data Jpa 1.6.4
+
+[33mcommit edd5efa03b2ad7a94d1a69800863a6d74761f2a2[m
+Merge: 9ac9585 28a39d7
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 27 15:06:36 2014 +0700
+
+    Merge branch 'tmt-with-global-ed'
+
+[33mcommit 28a39d70a0930ef0c6a18bbef1a991ed95dffb84[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 27 14:56:23 2014 +0700
+
+    -compleate admin upload ED/NED
+
+[33mcommit f18ac24f2f07cc68292d3ea595569b0996d68495[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 27 14:55:45 2014 +0700
+
+    -swap background color.
+
+[33mcommit 9ac95853acca8c27e01b2c94e7cba8c868620a08[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Aug 26 18:30:51 2014 +0700
+
+    -add find_hospdrug.sql
+
+[33mcommit c6274e1f80857297760b09207b7ae69bff989982[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Aug 26 17:11:26 2014 +0700
+
+    -apply color for accept /reject button.
+
+[33mcommit 4c74351a9b45f417d7b0a1a38de469e9a31e1620[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 25 11:45:47 2014 +0700
+
+    -change Eng to Thai validation message
+
+[33mcommit 7f35f668cd1a51522966253108332530e342d4ed[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 25 08:35:15 2014 +0700
+
+    -disable menu (temporary)
+    -add not-approve view
+
+[33mcommit 9710cb084d840f6c7b703ef447c8972ecbbf9b37[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 25 08:07:02 2014 +0700
+
+    -Once approved then cannot change TMTID anymore.
+
+[33mcommit 3419592ce9bd20a7a42e5ae60d08f89e240c341c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 25 06:53:36 2014 +0700
+
+    -fix jsf master tmt table row index start from 1
+
+[33mcommit bd3447459baca3f4fd873e5f6f31fd030077e767[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 25 06:52:09 2014 +0700
+
+    -add search function towait approve and noTmt
+
+[33mcommit 784fbc31863fe7d01a2a057b4b4234cc3ba6ff61[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 25 03:52:42 2014 +0700
+
+    -add native confirm dialog.
+
+[33mcommit 7c00af6109a6fa7114c61530bbb0dc6d6003a1e5[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 22:28:20 2014 +0700
+
+    -remove unnecessary column from approve view.
+
+[33mcommit 3aefc547ab92d80d4649dee4a05ad6c3ca264b1a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 21:20:43 2014 +0700
+
+    -add function approve.
+
+[33mcommit d3a5cdb1701e720d7bcf216fac3d4767142fba66[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 19:51:28 2014 +0700
+
+    -add reference to TMTDrug from UploadHospitalDrugItem.
+
+[33mcommit 1e92b5ceabd696b19884a6276deac5ff7625ef10[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 19:50:25 2014 +0700
+
+    -DDL
+    ALTER TABLE TMT_REQUEST_ITEM
+    MODIFY (HCODE NOT NULL);
+    
+    ALTER TABLE TMT_REQUEST_ITEM
+    MODIFY (STATUS NOT NULL);
+
+[33mcommit 0fbcc3902b679a512bb3b1fa6b1a6b558fa77650[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 13:50:09 2014 +0700
+
+    -Use spring paging in index page.
+
+[33mcommit 8306f77e4c503e801b3e271935cea196e284cab8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 12:47:27 2014 +0700
+
+    -use p:panelgrid instread h:panelGrid
+
+[33mcommit 43b02b90d3f8c1dbf6137a88e5f044e1e2f0e746[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 12:31:15 2014 +0700
+
+    -reduce textbox size.
+
+[33mcommit 4f8850f5828b40909ba785e691f6bf2519c18803[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 24 12:30:49 2014 +0700
+
+    -display druggroup for everyone.
+
+[33mcommit e898fc805dc06bb5ae665934cdbd86d529f1249a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 23 06:42:35 2014 +0700
+
+    -complete upload druggroup
+    -add diload box to show druggroup of TMT search page (master)
+    -add download druggroup mapping file.
+
+[33mcommit fc087f641045542db4d669f4b8a062b3a9abf602[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 23 06:37:58 2014 +0700
+
+    -complete upload druggroup
+    -add diload box to show druggroup of TMT search page (master)
+    -add download druggroup mapping file.
+
+[33mcommit b42d91975cde4d046a5255f1e907da72162fa803[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 23 02:14:29 2014 +0700
+
+    1.6.2.RELEASE
+
+[33mcommit 03ccc494d7e1b5782ebbbbbd1abd0270ea143a65[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 23 02:12:14 2014 +0700
+
+    -enable selective cache mode.
+
+[33mcommit e69315cebe4150457a0173ef1eeaa8c8956b7bcd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 22 18:21:42 2014 +0700
+
+    -wording
+
+[33mcommit 44e8969656cad644bd152236026ff20f63ee6bf8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 21 11:44:25 2014 +0700
+
+    -Use resource bundle.
+
+[33mcommit f21513bdaaf43c762d4662bf9b41249a053f0ac1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 21 08:32:28 2014 +0700
+
+    completed TMT report.
+
+[33mcommit 8e57b7e2f995347b94f12bea97d8ac09645aaa3d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 21 07:34:40 2014 +0700
+
+    -complete import report.
+
+[33mcommit 19afbca1087fb16675d47f26696fb4ea3d01e4db[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 21 05:00:26 2014 +0700
+
+    -can search hospital drug by HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM
+
+[33mcommit 473e77df490cc437366294293b423549f4379808[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 21:58:03 2014 +0700
+
+    -after logout should go back to login page.
+
+[33mcommit a99b8a262ccfa87928b172a0e6a33da13e8e4870[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 20:09:39 2014 +0700
+
+    -maven filter log appender.
+
+[33mcommit 6383c051ab3ecef097767a829632c74a3d448e92[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 17:11:29 2014 +0700
+
+    -format code
+
+[33mcommit db1a183d836bf6d6a25cb71b841dee42d3222e9d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 17:11:14 2014 +0700
+
+    -styleing
+
+[33mcommit dd37bda34e5d260297486e4e6d41033dfdde2813[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 17:10:57 2014 +0700
+
+    -display message after save drug.
+
+[33mcommit a416be654f82638dc070f052071a67ff582b9473[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 17:10:08 2014 +0700
+
+    -add druggroup
+
+[33mcommit e0586e8f2d9622a32f2ef1b0c85638764bd3dbc1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 16:07:53 2014 +0700
+
+    -remove unused login icon.
+
+[33mcommit 5a0ffa15e2f4fb1cac0d0d8bac1b54106ecf81a9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 16:06:13 2014 +0700
+
+    -allow only ADMIN access /private/admin/**
+
+[33mcommit 1b1710fbee683c4b1675a36e43c90e838dd1559d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 20 14:11:14 2014 +0700
+
+    -disable menu for user HOSPITAL
+
+[33mcommit cc396a329d3ff5eccfe101b9a71b7c80a203fbf6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Aug 19 01:14:07 2014 +0700
+
+    -complete add new drug/edit drug
+
+[33mcommit 356e9ff7bb3ac4280057b4a1d4fae44506192ed5[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 18 12:52:42 2014 +0700
+
+    -rename method
+
+[33mcommit 96e6f7feb71324cc1a96f2a4e2a23e62d859863b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 18 01:42:55 2014 +0700
+
+    -almost complete "บันทึกรายการยา online"
+
+[33mcommit 2877780d39ae1cbdace15d2d7c85ebe348e569ed[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 17 23:28:09 2014 +0700
+
+    -fixed spelling
+
+[33mcommit 2d96672451d122785d843ab6d58a03e7282cdd0d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 17 22:43:47 2014 +0700
+
+    -textbox so long
+
+[33mcommit 589c3f74a95562cbbed768f0c7983242353be3b3[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 17 22:41:21 2014 +0700
+
+    -add sample for call find_hospdrug
+
+[33mcommit b5a6bd0f205ed326618db2c61bba34aa2619683c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 14 16:38:39 2014 +0700
+
+    -change column size.
+
+[33mcommit 078a1c7fb268f90a17706bf413870ccb7a357999[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Aug 14 11:32:42 2014 +0700
+
+    -add date out
+    ALTER TABLE TMT_DRUGGROUPITEM
+    ADD (DATEOUT DATE );
+
+[33mcommit 21a1d6639f19795bc12a387129563147c97ffe9b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 14:14:54 2014 +0700
+
+    -add profile "test_fake_login"
+
+[33mcommit 0711d8e95a9ffb78a137fe637e220d991bb2d88b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 13:49:48 2014 +0700
+
+    [maven-release-plugin] prepare for next development iteration
+
+[33mcommit a83887d9c7b4cece7992e289e44e5479edd432b6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 13:49:46 2014 +0700
+
+    [maven-release-plugin] prepare release drug-catalog-1.0.0
+
+[33mcommit 889585de48b045d39acafafdfd4a0991514aac27[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 13:44:18 2014 +0700
+
+    -add maven release plugin.
+
+[33mcommit d908fcfb158c7fc50e435db2e1e2663007e9c1c0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 13:35:24 2014 +0700
+
+    -add scm.
+
+[33mcommit 56138c01be90f4206bfe3891ba48faf5b29b2ccb[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 13:34:01 2014 +0700
+
+    -define final war name.
+
+[33mcommit 5f349c70dcc24bdd123bfa710243ce741ea3a9d2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 00:29:23 2014 +0700
+
+    -change to primeface 5.0
+
+[33mcommit ae1c4c8a022cded59c19fc28ab0961d8df45a3ed[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Aug 13 00:24:18 2014 +0700
+
+    fix unkown state
+
+[33mcommit 1fa0ebb3031436df3e292fecb2bd34add693d575[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 11 17:52:54 2014 +0700
+
+    -use thai validation message.
+
+[33mcommit b61eb9e9aa5dc391c6c046e8cac577e961d331cb[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 11 17:30:28 2014 +0700
+
+    -remove fraction that more than 2
+    -correct year automatic.
+
+[33mcommit f6195ca400343f9674685d9dbac864b3aa05654e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Aug 10 19:50:16 2014 +0700
+
+    -add "add drug group" page.
+
+[33mcommit 2cc47f7cf0f0b7330e250067069becb07d060e3f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 19:13:42 2014 +0700
+
+    -add MapKeyColumn
+
+[33mcommit 6254cd24cd853332be3a040018f08e1c7416d616[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 19:04:46 2014 +0700
+
+    -eclipselink 2.5.2
+
+[33mcommit 9116f3e2a7236564fde6043655d95fea4a2016f4[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 19:04:27 2014 +0700
+
+    -save error item and can view error item later time.
+
+[33mcommit 0dbe603e39c59a005c6342660b64b69bb851f488[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 14:01:32 2014 +0700
+
+    UpdateFlag 'A' (Add new one) but is already added.
+
+[33mcommit b327f10cf4b9d7769f837740a5fbf03232b47605[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 13:40:30 2014 +0700
+
+    column nofound joinner.join.on ,
+
+[33mcommit 0ef0df524a341bd607bf3fd14f65c4761971cc3b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 04:05:09 2014 +0700
+
+    -validate TMTID is already register and approved.
+
+[33mcommit db87c47e9b3fd01c5f9a8d35ae89c5c2bb9306fd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 03:45:45 2014 +0700
+
+    -allow upload TMTRF file to 20,000,000.
+
+[33mcommit 20a667570e278b47ae707da62c5a57905e3266d8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 03:28:56 2014 +0700
+
+    -refactoring
+
+[33mcommit 65162b7b35eaf686a041046b9b1bd45147ca7a31[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 03:28:19 2014 +0700
+
+    specPrep Must start with F,M,R
+
+[33mcommit 831318202936d8968b86bd6889ba8dc8c42b1f29[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 9 02:19:58 2014 +0700
+
+    -dfsCode,dsfCode also valid column's name.
+
+[33mcommit 9e4f0feeacf52517036df9850f340cdec8e11f64[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 8 18:15:09 2014 +0700
+
+    -fix bug NPE on UploadItemOrderHelper.java:53
+
+[33mcommit c1e9842f8f09b714013b8d76759ab4d1641f8286[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 4 23:58:27 2014 +0700
+
+    -add hospital_excel_drug_constraints.xlsx
+
+[33mcommit 7961a400a9b663bbcb68a1c7daa48c0f16105d0d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 4 23:57:44 2014 +0700
+
+    -Fixed.
+     validation excel model wrong column.
+
+[33mcommit adfcc03cabd1d952ca84de881d112e309025320b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Aug 4 14:11:15 2014 +0700
+
+    -Fixed.
+     Still validate datechange with flag U.
+
+[33mcommit 064ccef692f25e16fe134196033232d7ae3a482d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 2 01:23:09 2014 +0700
+
+    -Use NVARCHAR2 for difinition.
+
+[33mcommit 02d5d239582fcd2a5be201f8f6383a307e9126ba[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sat Aug 2 01:22:47 2014 +0700
+
+    -context path=/drugcatalog
+
+[33mcommit b033cf87d366fbef4ef39b54ebfcd295e3fc2775[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 1 01:46:56 2014 +0700
+
+    -fixing column size.
+
+[33mcommit 8d5199bf3c8001c94f4957ae8e62b11a9d74852d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Aug 1 00:17:19 2014 +0700
+
+    -display when column not found.
+
+[33mcommit 04380bc4efcfb736a02179634c0e825860cece36[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jul 31 23:41:48 2014 +0700
+
+    -local real login via ucdc wrapper
+
+[33mcommit 38adf5aea99f0ff830ec3b588d9c7a1d65beaeae[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jul 31 22:07:34 2014 +0700
+
+    -fixed export excel ( #{} alone do not work with prime exporter,but <h:outputText="#{}"/> work
+    -refactoring change name Price to HospitalPrice
+
+[33mcommit 84fab7754845d83527ceb05a6054eb99477cd3c8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 08:00:16 2014 +0700
+
+    -add size validator
+
+[33mcommit 63fd751b26b6004b20d5d0b419042e2b3521bc46[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 07:30:24 2014 +0700
+
+    -tmt size must be 6 or empty.
+
+[33mcommit 9a201c4dd3213accf29a7794fb5335cbd07b8c9d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 07:28:40 2014 +0700
+
+    -tmt size must be 6
+
+[33mcommit 7b3ca07eed556162afce84e645e1a59179a4f996[m
+Merge: 3e995fb f5fe2f1
+Author: pramoth <you@example.com>
+Date:   Sun Jul 27 06:37:47 2014 +0700
+
+    Merge branch 'master' of http://geniustree.ath.cx/git/drug-catalog
+
+[33mcommit 3e995fbfd0b3046b645a5db63188a5ae06d21fc6[m
+Author: M4700 <M4700@M4700-Laptop>
+Date:   Sun Jul 27 06:35:37 2014 +0700
+
+    -add constructor to tmtdrug
+    -save tmtdrug with predefine id.
+
+[33mcommit f5fe2f1409af6833812929d646d50e251dc73b8f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 06:34:10 2014 +0700
+
+    best offort to try import.
+
+[33mcommit 82f0dbbc0324aae04bf0ceda58c53d5deeec1b1b[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 06:07:15 2014 +0700
+
+    best offort to try import.
+
+[33mcommit 8e122eb39f9f7d551a2cbc2d0641d7402169ea9f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 05:45:00 2014 +0700
+
+    -try to support Concepts and Concept folder
+
+[33mcommit bd319647a52388ab1631eceb67a184c4f86f4455[m
+Author: M4700 <M4700@M4700-Laptop>
+Date:   Sun Jul 27 04:37:57 2014 +0700
+
+    -TMTDrug use copy bean  too.
+
+[33mcommit c54922fbd332495fa9f89bfc0cdc74c5161f1363[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 04:11:37 2014 +0700
+
+    -use excel-model copy to TMTDrug instead of map multiple beans to single table.
+
+[33mcommit 4fc9d4eab3a236edfab8c9f116200a73f8f6fb40[m
+Author: M4700 <M4700@M4700-Laptop>
+Date:   Sun Jul 27 03:43:55 2014 +0700
+
+    -ixed  wrong validat.
+
+[33mcommit 9dd696d62fe2a4efa46cc84a75129198675df454[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 03:11:51 2014 +0700
+
+    -add block UI.
+
+[33mcommit a30a002371a91410dfa22bf9117f4a379002c560[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 02:40:15 2014 +0700
+
+    -display error message instead of throw to UI
+
+[33mcommit 9d69833ac1e7023533c350a7c04d5c216bde005a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 02:40:09 2014 +0700
+
+    -display error message instead of throw to UI
+
+[33mcommit c71b4134ec7dc375cdea380b1cbd8fce64bd20b9[m
+Author: M4700 <M4700@M4700-Laptop>
+Date:   Sun Jul 27 02:33:47 2014 +0700
+
+    -add createDate ,lastModified date
+    -FSN max is 1000
+
+[33mcommit 25b181b79bfe35330b75c3f3687102d3754d35d6[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 01:41:07 2014 +0700
+
+    -delete temporary tmtrf file.
+
+[33mcommit 88822a7a9f1ead0bc3180e600814cfca4bfd7a36[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 27 01:32:01 2014 +0700
+
+    -can upload master drug from TMTRF (zip) file.
+
+[33mcommit 57dfbf5671508248514914594ea54c7d87ef21fd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jul 25 17:27:58 2014 +0700
+
+    -specprep lenght=2
+
+[33mcommit 6c5e5ea4db14ce7616d8455f2014c20c9b075037[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jul 25 16:03:00 2014 +0700
+
+    -Fixed dateAndTimeFormat.setLenient(false); after parse
+
+[33mcommit 0a34d29deaa1442375d9f7fce38ff85d4e4540ea[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jul 25 16:02:34 2014 +0700
+
+    -dateUpdate is nullable
+
+[33mcommit 9a9bc485acaaa663bf8f19895a985854d0e49ca0[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jul 25 05:16:09 2014 +0700
+
+    -order E and U item by changedate and updatedate.
+
+[33mcommit 7c6557015301c5c083252c5219917c9576262446[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jul 25 05:01:51 2014 +0700
+
+    -add ขั้นตอนการประมวลผล
+    -disable check TMT
+    -change from p:grow to p:message
+    -support 'manufacture' and 'manufacturer' column
+
+[33mcommit 40294db196662bddae73266f4c08bc47dc5ae015[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jul 25 04:10:17 2014 +0700
+
+    -format output date.
+
+[33mcommit 0161861bf8c218bcee9f7e1029d7b96b0461ef9d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jul 25 04:02:42 2014 +0700
+
+    -new business logic
+    for U flag use DateUpdate for date that being chage price. if U and Dateupdate is same then duplicated error must show.
+    for A E D flag user DateChange. If A E D and DateChange is same then duplicate error must show.
+    -allow user chage (edit) date.
+    -allow user change (edit) ed.
+    -fix display wrong data
+
+[33mcommit eeb06faa2f1ec845176e10dcb3362410e7079703[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jul 24 15:37:26 2014 +0700
+
+    -NDC24 must be lenght =24 and gigit only.
+
+[33mcommit a2a14b89a5aa73bc033c6a1b65d0afdd2db029b2[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jul 24 13:40:27 2014 +0700
+
+    -no drop table
+
+[33mcommit 6fc4d5537fd0e909ea3e0079ac171d2b61e8c466[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jul 24 12:44:21 2014 +0700
+
+    -add block UI
+
+[33mcommit 656a031ebba18f95525cb9cd910089a132409fe9[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jul 24 11:43:15 2014 +0700
+
+    -distributor is optional.
+
+[33mcommit bc1a2afe9ebe147903ff7697db5a16dfef9e643c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jul 24 11:18:08 2014 +0700
+
+    validate productCat with StartWithValidator instead of value set.
+
+[33mcommit 9050fc4029865bb66d20000a91b172fcf86fa741[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 23 21:33:07 2014 +0700
+
+    -display hospital name on top right.
+
+[33mcommit 45a66ea43d35d71eebba76e07fd81d3d574c990c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 23 13:57:56 2014 +0700
+
+    -fixed paging problem.
+
+[33mcommit 2a852ba761d57c9296c09247a5c620546763b405[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 23 03:06:41 2014 +0700
+
+    -check tmt code against database.
+
+[33mcommit 8e28ef11404fd246823cefe7349dac907f3161a1[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 23 02:34:01 2014 +0700
+
+    -add test profile
+    -default show drug item 50
+
+[33mcommit 22b5ff0422de40a149b500e74df1d6d0ec3a5d81[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 23 02:18:36 2014 +0700
+
+    -fix static url in css.
+
+[33mcommit 9f628521911894cb0f2fac0a5d0355d7b919e984[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 23 01:37:48 2014 +0700
+
+    -git user Files.asByteSink
+
+[33mcommit 6ad09d220601accb135bf895d05daba381888253[m
+Merge: 91e47da cf50c8e
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Wed Jul 23 00:42:44 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit cf50c8e553c5f7fdce0ef2667e25038f04afc3d0[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Wed Jul 23 00:40:20 2014 +0700
+
+    เพิ่ม Banner Drug Catalogue ที่ http://drug.nhso.go.th/DrugCode/
+
+[33mcommit 91e47da3224881864361a43f05f3efd09f355abb[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 22:37:07 2014 +0700
+
+    wording
+
+[33mcommit 8b29150cf2c4e38372fbed17024b07ed274e14ee[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 20:32:30 2014 +0700
+
+    -empty value in ValueSet validator should pass.
+
+[33mcommit 22c0afff259a4695e0f490e333888eff140af680[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 19:31:43 2014 +0700
+
+    -add digest util
+
+[33mcommit 1a2473cbcda80f7102443f8a2d27032a555ae69e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 18:43:29 2014 +0700
+
+    duplicated code.
+
+[33mcommit e28225f404ba10ba2cbbd79c6ffd62634ec24b0e[m
+Merge: 5f55248 6ac80cf
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 18:40:19 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+    
+    Conflicts:
+    	src/main/webapp/private/hospital/listdrug/approved.xhtml
+    	src/main/webapp/private/hospital/listdrug/index.xhtml
+    	src/main/webapp/private/hospital/listdrug/noTmt.xhtml
+    	src/main/webapp/private/hospital/listdrug/wait.xhtml
+
+[33mcommit 6ac80cfd0f8dbfe86e81190020d510bb59aa1c5d[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Tue Jul 22 18:10:49 2014 +0700
+
+    กำหนดขนาด table
+
+[33mcommit 5f552482c71ab6fc468481437816e059ab503e6e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 18:00:31 2014 +0700
+
+    change upload page.
+
+[33mcommit fa4bc8012aa1ddcf1565a9e9b7ee2eba4c364bbd[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 17:59:24 2014 +0700
+
+    -fixed icon.
+
+[33mcommit 1b9dd451b195a046f81ea365b883a6f8d838b801[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 17:09:19 2014 +0700
+
+    change selected menu color.
+
+[33mcommit 5619d4f68090473abc8afb07fb9c5bffd1e0ae0e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 17:05:28 2014 +0700
+
+    change selected menu color.
+
+[33mcommit a306269e9f7ac1ecdad01a8a2d156990ab4ff69d[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 16:51:55 2014 +0700
+
+    change selected menu color.
+
+[33mcommit bda32e24ed2bfc482b5075b9194d453e2859256d[m
+Merge: d5caff0 f8bab06
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 16:00:49 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit d5caff06dc49f69741600d3aca0bb90dd4f2aa69[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 16:00:45 2014 +0700
+
+    DSFCode to DFSCode
+
+[33mcommit f8bab06f7b244598d82daa78992ade1a6973172e[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Tue Jul 22 15:55:23 2014 +0700
+
+    ใส่ backgroundไฟล์ upload
+
+[33mcommit b66144d88053086b9f8f54c3f1ea736e16c54895[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Tue Jul 22 15:38:09 2014 +0700
+
+    แก้ไข menu ใหม่
+
+[33mcommit e54e6cf20d691608ad02c12f07109664564f8c30[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 14:23:49 2014 +0700
+
+    make new menu
+
+[33mcommit 37632da300cf89dc9358d5e82a1b5f08f0a6f08b[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Tue Jul 22 13:44:50 2014 +0700
+
+    แก้ไข css หน้า login
+
+[33mcommit 037335a788e81b4f65c7b5bbaf3d49b3eefebf2d[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Tue Jul 22 13:39:35 2014 +0700
+
+    แก้ไข icon
+
+[33mcommit d1e882b58b8469c76d59dad69757c8fffea33406[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 12:58:39 2014 +0700
+
+    -add list all drug.
+
+[33mcommit 9996d2eb5dd65f5dc7ef3bab360afaa456d6291a[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 12:30:13 2014 +0700
+
+    -change table name.
+    -lower case search key.
+
+[33mcommit fe07aa1916a62625c5386a3a82579512c84ee90f[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Tue Jul 22 12:29:33 2014 +0700
+
+    -show login user name on top.
+
+[33mcommit 0f41f70dcce12ce88b7ee8bade9b29817b4b68ec[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jul 21 18:57:44 2014 +0700
+
+    -add search and config hibernate validator.
+
+[33mcommit 1de4cd88aee73269d5a5087c7482c782295d78df[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jul 21 15:05:39 2014 +0700
+
+    -highlight
+
+[33mcommit 3188e9a9224d97266b2ed3a0899a9f5cb050ac81[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jul 21 05:36:33 2014 +0700
+
+    -omplete upload flow.
+
+[33mcommit b81840181fffae30c25cfa7368c560b37b5c08b3[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jul 21 05:07:54 2014 +0700
+
+    -omplete upload flow.
+
+[33mcommit 5e0fcdf7a7b170b637c0b1cb4296e850c1c27e44[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 20 22:07:06 2014 +0700
+
+    -save point
+
+[33mcommit a4d23226f3dd53db7098d86a38613255ee87bfad[m
+Merge: 4907e4a 3d21563
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 20 02:59:24 2014 +0700
+
+    Merge branch 'master' of http://192.168.1.126/git/drug-catalog
+
+[33mcommit 4907e4af011271d33c011c2633bf08cbd4ec8848[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 20 02:58:19 2014 +0700
+
+    -backup
+
+[33mcommit 4e0a4ddc0175e9c30d13b3eb2dd4f42deac0257e[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jul 20 01:59:44 2014 +0700
+
+    -add many area.
+
+[33mcommit 3d21563acd69842959eeddb6dd964d12e0cd7c55[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Tue Jul 8 12:15:40 2014 +0700
+
+    แก้ไข icon รายการยา และ นำเข้าข้อมูล
+
+[33mcommit 8b2a6c48486809e1af688b7c41870b24cb9df600[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Mon Jul 7 11:56:36 2014 +0700
+
+    add context param
+    com.sun.faces.defaultResourceMaxAge = 1 to prevent cache resource in dev stage.
+
+[33mcommit c50bcef6d1dc26578fb2154efd49b04d0475e2f5[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Tue Jul 1 15:15:15 2014 +0700
+
+    เพิ่ม icon ใหม่
+
+[33mcommit a5595d10018218ada4b4bb5104c8213b062db12c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Sun Jun 29 22:50:58 2014 +0700
+
+    -complete demo.
+
+[33mcommit 05c2c91e851ef1cd52bb1a64bfc0a7d28fcb8d42[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 27 09:19:47 2014 +0700
+
+    -complete demo.
+
+[33mcommit 8762b19ffb3f880ce40b32d0ca05de94ed370fdf[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 27 01:36:07 2014 +0700
+
+    -completed display history and details.
+
+[33mcommit da700031e35cbef630b8d99e6ec3e0474f3520e0[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Thu Jun 26 17:15:21 2014 +0700
+
+    แก้ไข icon Green Purple ใหม่
+
+[33mcommit 2ab582feea1f1c6d6f864ff7cd218d8086ebfdf8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jun 26 07:44:13 2014 +0700
+
+    -parse Xls and save to bean then copy to entity completed.
+
+[33mcommit 916803cedf0d310e021f3094545cd6af3cdf66d8[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Fri Jun 20 15:33:33 2014 +0700
+
+    ลบ jquery ออก
+
+[33mcommit 694c4dcfd183d9c8f931118bd384678d39a039eb[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 20 15:11:27 2014 +0700
+
+    -use prime upload (still have layout problem)
+
+[33mcommit 6142546d34835d9b3add705347c89b70a6f1510c[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Fri Jun 20 08:53:00 2014 +0700
+
+    -add many menu.
+
+[33mcommit a049962bb95b2c05e0c1ab1d2fe4578e734193c1[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Thu Jun 19 17:24:17 2014 +0700
+
+    เพิ่มเมนูแบบ jquery
+
+[33mcommit 6fb1747f6e426a2c383ba7cf6913d626206be6b5[m
+Author: weerapan <weerapan@geniustree.co.th>
+Date:   Thu Jun 19 17:19:15 2014 +0700
+
+    เพิ่มเมนูแบบ jquery
+
+[33mcommit 6a5bdf18d46a6648a02e9fde70a51f380b87c9c8[m
+Author: pramoth <pramoth@geniustree.co.th>
+Date:   Thu Jun 19 12:23:11 2014 +0700
+
+    init
