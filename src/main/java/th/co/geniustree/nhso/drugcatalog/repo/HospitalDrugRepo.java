@@ -59,4 +59,6 @@ public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDr
     public BigDecimal stddev(String tmtId);
 
     public Page<HospitalDrug> findByHcode(String hcode, Pageable page);
+    
+    public HospitalDrug findByHcodeAndHospDrugCodeAndTmtId(String hcode,String hospDrugCode,String tmtId);
 }

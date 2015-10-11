@@ -88,10 +88,17 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     }
 
     @Override
-    public void approveRequestFlagU() {
-        List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, "U");
-        log.info("auto approve for request and flag \'U\' ==> {} items", items.size());
+    public void approveRequestFlag(String flag) {
+        List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, flag);
+        log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
         approveService.approve(items);
+    }
+    
+    @Override
+    public void approveSelectedFlagBySystem(String flag){
+        List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, flag);
+        log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
+        approveService.approveBySystem(items);
     }
     
     

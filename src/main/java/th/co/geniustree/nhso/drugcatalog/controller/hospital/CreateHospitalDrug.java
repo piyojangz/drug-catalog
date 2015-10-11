@@ -64,6 +64,7 @@ public class CreateHospitalDrug implements Serializable {
     private String oldUnitPrice;
     private Date oldDateEffective;
     private Date newDateEffective;
+    private String oldTmt;
 
     @PostConstruct
     public void postConstruct() {
@@ -135,12 +136,15 @@ public class CreateHospitalDrug implements Serializable {
         this.newDateEffective = newDateEffective;
     }
 
-    public void saveOldEditUnitPrice() {
+    public void saveOldState() {
         oldDateEffective = item.getDateEffectiveDate();
         if (updateFlag.equalsIgnoreCase("U")) {
             oldUnitPrice = item.getUnitPrice();
         } else if (oldDateEffective != null) {
             item.setDateEffectiveDate(oldDateEffective);
+        }
+        if(updateFlag.equalsIgnoreCase("E") || updateFlag.equalsIgnoreCase("D")){
+            oldTmt = item.getTmtId();
         }
     }
 
@@ -230,8 +234,12 @@ public class CreateHospitalDrug implements Serializable {
             clear();
             return null;
         } else {
-            if (item.getDateEffectiveDate().before(oldDateEffective)) {
-                FacesMessageUtils.error("ไม่สามารถแก้ไขวันที่ย้อนหลังได้");
+            if (item.getDateEffectiveDate().before(oldDateEffective) && updateFlag.equals("U")) {
+                FacesMessageUtils.error("ไม่สามารถแก้ไขวันที่ย้อนหลัง หรือวันเดียวกันได้");
+                return "/private/hospital/listdrug/index?faces-redirect=true";
+            }
+            if(!item.getTmtId().equals(oldTmt)){
+                FacesMessageUtils.error("หากมีการเปลี่ยน TMT กรุณาเพิ่มรายการยาใหม่แทน");
                 return "/private/hospital/listdrug/index?faces-redirect=true";
             }
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);

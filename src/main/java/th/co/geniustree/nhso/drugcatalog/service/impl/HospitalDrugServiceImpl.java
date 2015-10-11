@@ -5,9 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
-import com.google.common.base.Strings;
 import java.math.BigDecimal;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
@@ -45,7 +42,11 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
 
     @Override
     public HospitalDrug addOrUpdateHospitalDrug(RequestItem requestItem) {
-        HospitalDrug findOne = hospitalDrugRepo.findOne(new HospitalDrugPK(requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUploadDrug().getHcode()));
+//        HospitalDrug findOne = hospitalDrugRepo.findOne(new HospitalDrugPK(requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUploadDrug().getHcode()));
+        HospitalDrug findOne = hospitalDrugRepo.findByHcodeAndHospDrugCodeAndTmtId(
+                requestItem.getUploadDrugItem().getUploadDrug().getHcode(), 
+                requestItem.getUploadDrugItem().getHospDrugCode(), 
+                requestItem.getUploadDrugItem().getTmtId());
         if (findOne == null) {
             return addNewHospitalDrug(requestItem);
         } else {
