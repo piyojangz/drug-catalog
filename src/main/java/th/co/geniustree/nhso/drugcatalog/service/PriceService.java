@@ -8,7 +8,6 @@ package th.co.geniustree.nhso.drugcatalog.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalPrice;
 
 /**
  *
@@ -16,7 +15,7 @@ import th.co.geniustree.nhso.drugcatalog.model.HospitalPrice;
  */
 public interface PriceService {
 
-    public boolean isPriceDuplicate(String hcode, String hospDrugCode, Date dateEffective);
+    public boolean isPriceDuplicate(String hcode, String hospDrugCode, Date dateEffective,String tmtid);
 
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal price);
 

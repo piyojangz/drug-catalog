@@ -50,6 +50,7 @@ public class CreateHospitalDrug implements Serializable {
     private boolean editMode = false;
     private String updateFlag = "A";
     private String hospDrugCode;
+    private String tmtId;
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
     @Autowired
@@ -71,6 +72,14 @@ public class CreateHospitalDrug implements Serializable {
         clear();
     }
 
+    public String getTmtId() {
+        return tmtId;
+    }
+
+    public void setTmtId(String tmtId) {
+        this.tmtId = tmtId;
+    }
+    
     public String getOldUnitPrice() {
         return oldUnitPrice;
     }
@@ -205,7 +214,7 @@ public class CreateHospitalDrug implements Serializable {
         if (!editMode) {
             return;
         }
-        editHospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode()));
+        editHospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode(),tmtId));
         if (editHospitalDrug == null) {
             FacesMessageUtils.error("ไม่พบข้อมูล hospDrugCode = " + hospDrugCode);
             return;

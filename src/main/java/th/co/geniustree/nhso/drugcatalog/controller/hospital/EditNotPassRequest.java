@@ -141,7 +141,7 @@ public class EditNotPassRequest implements Serializable {
         if (value == null) {
             return;
         }
-        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(value.toString(), SecurityUtil.getUserDetails().getHospital().getHcode()));
+        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(value.toString(), SecurityUtil.getUserDetails().getHospital().getHcode(),item.getTmtId()));
         if (exists) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "มี HOSPDRUGCODE นี้แล้ว"));
         }
@@ -152,11 +152,11 @@ public class EditNotPassRequest implements Serializable {
             return;
         }
         if (updateFlag.equals("U")) {
-            if (priceService.isPriceDuplicate(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
+            if (priceService.isPriceDuplicate(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value,item.getTmtId())) {
                 throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุราคายา ณ วันที่ effectiveDate แล้ว"));
             }
         } else if (updateFlag.equals("E")) {
-            if (edNEdService.isDuplicateEdNed(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value)) {
+            if (edNEdService.isDuplicateEdNed(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), (Date) value,item.getTmtId())) {
                 throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการระบุ ISED ณ วันที่ effectiveDate แล้ว"));
             }
         }

@@ -20,15 +20,17 @@ public class HospitalEdNedPK implements Serializable {
     private Date dateIn;
     private String classifier = SUPPORT_CASSIFIER;//support only UC in current version.
     private String hospDrugCode;
+    private String tmtId;
 
     public HospitalEdNedPK() {
     }
 
-    public HospitalEdNedPK(String hcode, String hospDrugCode, Date dateIn) {
+    public HospitalEdNedPK(String hcode, String hospDrugCode, Date dateIn,String tmtId) {
         this.hcode = hcode;
         this.dateIn = dateIn;
         this.classifier = SUPPORT_CASSIFIER;
         this.hospDrugCode = hospDrugCode;
+        this.tmtId = tmtId;
     }
 
     public Date getDateIn() {
@@ -51,13 +53,22 @@ public class HospitalEdNedPK implements Serializable {
         this.hcode = hcode;
     }
 
+    public String getTmtId() {
+        return tmtId;
+    }
+
+    public void setTmtId(String tmtId) {
+        this.tmtId = tmtId;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.hcode);
-        hash = 67 * hash + Objects.hashCode(this.dateIn);
-        hash = 67 * hash + Objects.hashCode(this.classifier);
-        hash = 67 * hash + Objects.hashCode(this.hospDrugCode);
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.hcode);
+        hash = 79 * hash + Objects.hashCode(this.dateIn);
+        hash = 79 * hash + Objects.hashCode(this.classifier);
+        hash = 79 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 79 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -82,7 +93,11 @@ public class HospitalEdNedPK implements Serializable {
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
             return false;
         }
+        if (!Objects.equals(this.tmtId, other.tmtId)) {
+            return false;
+        }
         return true;
     }
+
 
 }

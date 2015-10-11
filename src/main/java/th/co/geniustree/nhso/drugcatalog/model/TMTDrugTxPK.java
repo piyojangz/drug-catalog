@@ -30,19 +30,24 @@ public class TMTDrugTxPK implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "DATE_EFFECTIVE", nullable = false)
     private Date dateEffective;
+    
+    @Column(name = "TMTID", nullable = false,length = 6)
+    private String tmtId;
 
     public TMTDrugTxPK() {
     }
 
-    public TMTDrugTxPK(String hospDrugCode, String hcode, Date dateEffective) {
+    public TMTDrugTxPK(String hospDrugCode, String hcode, Date dateEffective,String tmtId) {
         this.hospDrugCode = hospDrugCode;
         this.hcode = hcode;
         this.dateEffective = dateEffective;
+        this.tmtId = tmtId;
     }
     public TMTDrugTxPK(HospitalDrug hospitalDrug) {
         this.hospDrugCode = hospitalDrug.getHospDrugCode();
         this.hcode = hospitalDrug.getHcode();
         this.dateEffective = hospitalDrug.getDateEffective();
+        this.tmtId = hospitalDrug.getTmtId();
     }
 
     public String getHospDrugCode() {
@@ -69,12 +74,21 @@ public class TMTDrugTxPK implements Serializable {
         this.dateEffective = dateEffective;
     }
 
+    public String getTmtId() {
+        return tmtId;
+    }
+
+    public void setTmtId(String tmtId) {
+        this.tmtId = tmtId;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.hcode);
-        hash = 29 * hash + Objects.hashCode(this.hospDrugCode);
-        hash = 29 * hash + Objects.hashCode(this.dateEffective);
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.hcode);
+        hash = 47 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 47 * hash + Objects.hashCode(this.dateEffective);
+        hash = 47 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -94,6 +108,9 @@ public class TMTDrugTxPK implements Serializable {
             return false;
         }
         if (!Objects.equals(this.dateEffective, other.dateEffective)) {
+            return false;
+        }
+        if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }
         return true;

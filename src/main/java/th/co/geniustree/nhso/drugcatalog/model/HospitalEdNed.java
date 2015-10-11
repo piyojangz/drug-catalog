@@ -43,6 +43,10 @@ public class HospitalEdNed implements Serializable {
     @Id
     @Column(name = "HOSPDRUGCODE", length = 30, nullable = false)
     private String hospDrugCode;
+    
+    @Id
+    @Column(name = "TMTID" , length = 6,nullable = false)
+    private String tmtId;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATEDATE", nullable = false)
@@ -102,15 +106,23 @@ public class HospitalEdNed implements Serializable {
     public void setStatusEd(String statusEd) {
         this.statusEd = statusEd;
     }
-    
+
+    public String getTmtId() {
+        return tmtId;
+    }
+
+    public void setTmtId(String tmtId) {
+        this.tmtId = tmtId;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.hcode);
-        hash = 23 * hash + Objects.hashCode(this.dateIn);
-        hash = 23 * hash + Objects.hashCode(this.classifier);
-        hash = 23 * hash + Objects.hashCode(this.hospDrugCode);
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.hcode);
+        hash = 59 * hash + Objects.hashCode(this.dateIn);
+        hash = 59 * hash + Objects.hashCode(this.classifier);
+        hash = 59 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 59 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -135,7 +147,11 @@ public class HospitalEdNed implements Serializable {
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
             return false;
         }
+        if (!Objects.equals(this.tmtId, other.tmtId)) {
+            return false;
+        }
         return true;
     }
+   
 
 }

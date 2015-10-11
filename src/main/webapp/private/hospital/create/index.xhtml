@@ -11,6 +11,7 @@
         <ui:define name="content">
             <f:metadata>
                 <f:viewParam name="editMode" value="#{createHospitalDrug.editMode}"/>
+                <f:viewParam name="tmtid" value="#{createHospitalDrug.tmtId}"/>
                 <f:viewParam name="hospDrugCode" value="#{createHospitalDrug.hospDrugCode}"/>
                 <f:viewAction action="#{hospitalDrugListController.setWait(true)}"/>
                 <f:viewAction action="#{createHospitalDrug.loadHospitalDrug}"/>

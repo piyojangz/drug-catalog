@@ -43,7 +43,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     }
 
     private void checkDuplicateForUpdateFlagA(HospitalDrugExcelModel uploadDrugModel) {
-        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode()));
+        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(),uploadDrugModel.getTmtId()));
         if (exists) {
             uploadDrugModel.addError("updateFlag", "UpdateFlag \"A\" ใช้เฉพาะเพิ่มรายการยาใหม่ เท่านั้น หากต้องการปรับปรุง/แก้ไขรายการยาเดิม ให้ระบุ UpdateFlag ให้ถูกต้อง");
         }

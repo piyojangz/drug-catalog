@@ -29,8 +29,8 @@ public class EdNEdServiceImpl implements EdNEdService {
     private HospitalEdNedRepo hospitalEdNedRepo;
 
     @Override
-    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn) {
-        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(hcode, hospDrugCode, dateIn));
+    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn,String tmtid) {
+        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(hcode, hospDrugCode, dateIn,tmtid));
         if (findOne != null) {
             return true;
         }
@@ -39,7 +39,7 @@ public class EdNEdServiceImpl implements EdNEdService {
 
     @Override
     public void addNewEdNed(HospitalDrug drug, String ised) {
-        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange()));
+        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange(),drug.getTmtId()));
         if (findOne == null) {
             createFirstEdNed(drug, ised);
         } else {

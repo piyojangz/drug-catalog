@@ -46,7 +46,8 @@ public class HospitalDrug implements Serializable {
     @Column(name = "PRODUCTCAT", nullable = true, length = 3)
     private String productCat;
 
-    @Column(name = "TMTID", nullable = true, length = 6)
+    @Id
+    @Column(name = "TMTID", nullable = false, length = 6)
     private String tmtId;
 
     @Column(name = "SPECPREP", nullable = true, length = 3)
@@ -124,14 +125,16 @@ public class HospitalDrug implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
-        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false),
+        @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)
     })
     private List<HospitalPrice> prices;
 
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
-        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false)
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false),
+        @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)
     })
     private List<HospitalEdNed> edNeds;
 
