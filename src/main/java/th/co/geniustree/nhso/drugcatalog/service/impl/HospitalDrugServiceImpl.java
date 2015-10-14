@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
@@ -42,11 +43,10 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
 
     @Override
     public HospitalDrug addOrUpdateHospitalDrug(RequestItem requestItem) {
-//        HospitalDrug findOne = hospitalDrugRepo.findOne(new HospitalDrugPK(requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUploadDrug().getHcode()));
-        HospitalDrug findOne = hospitalDrugRepo.findByHcodeAndHospDrugCodeAndTmtId(
-                requestItem.getUploadDrugItem().getUploadDrug().getHcode(), 
-                requestItem.getUploadDrugItem().getHospDrugCode(), 
-                requestItem.getUploadDrugItem().getTmtId());
+        HospitalDrug findOne = hospitalDrugRepo.findOne(new HospitalDrugPK(
+                requestItem.getUploadDrugItem().getHospDrugCode(),
+                requestItem.getUploadDrugItem().getUploadDrug().getHcode(),
+                requestItem.getUploadDrugItem().getTmtId()));
         if (findOne == null) {
             return addNewHospitalDrug(requestItem);
         } else {
@@ -64,7 +64,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         hospitalDrug = hospitalDrugRepo.save(hospitalDrug);
         createFirstPrice(hospitalDrug);
         createFirstEdNed(hospitalDrug);
-        if (hospitalDrug.getTmtDrug() != null) {
+        if (!hospitalDrug.getTmtDrug().getTmtId().equals("NULLID")) {
             tmtDrugTxService.addNewTmtDrugTx(hospitalDrug, hospitalDrug.getTmtDrug());
         }
         return hospitalDrug;
@@ -96,7 +96,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
             BeanUtils.copyProperties(uploadItem, alreadyDrug);
             copyAndConvertAttribute(uploadItem, alreadyDrug);
             edNedService.addNewEdNed(alreadyDrug, uploadItem.getIsed());
-            if (uploadItem.getTmtDrug() != null) {
+            if (!uploadItem.getTmtDrug().getTmtId().equals("NULLID")) {
                 tmtDrugTxService.addNewTmtDrugTx(alreadyDrug, uploadItem.getTmtDrug());
             }
         } else if ("D".equalsIgnoreCase(uploadItem.getUpdateFlag())) {

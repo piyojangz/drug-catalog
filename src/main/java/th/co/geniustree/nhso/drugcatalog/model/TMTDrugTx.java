@@ -44,6 +44,7 @@ public class TMTDrugTx implements Serializable {
         this.tmtDrug = tmtDrug;
         this.hospitalDrug = hospitalDrug;
         id = new TMTDrugTxPK(hospitalDrug);
+        id.setTmtId(tmtDrug.getTmtId());
     }
 
     public TMTDrugTxPK getId() {
