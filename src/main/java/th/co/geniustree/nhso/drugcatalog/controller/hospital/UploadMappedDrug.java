@@ -288,6 +288,7 @@ public class UploadMappedDrug implements Serializable {
             } else if ("E".equalsIgnoreCase(bean.getUpdateFlag()) || "D".equalsIgnoreCase(bean.getUpdateFlag())) {
                 violations.addAll(beanValidator.validate(bean, EDGroup.class));
             } else if ("A".equalsIgnoreCase(bean.getUpdateFlag())) {
+                beanValidator.forExecutables().validateParameters(bean, null, new Object[]{bean.getUpdateFlag()}, AGroup.class);
                 violations.addAll(beanValidator.validate(bean, AGroup.class));
             }
             violations.addAll(beanValidator.validate(bean, Lastgroup.class));

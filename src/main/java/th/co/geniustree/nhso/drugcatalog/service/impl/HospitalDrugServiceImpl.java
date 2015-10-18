@@ -67,6 +67,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         if (!hospitalDrug.getTmtDrug().getTmtId().equals("NULLID")) {
             tmtDrugTxService.addNewTmtDrugTx(hospitalDrug, hospitalDrug.getTmtDrug());
         }
+        log.info("insertComplete");
         return hospitalDrug;
     }
 

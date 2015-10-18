@@ -60,9 +60,19 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
     public void copyDataProcedure();
 
     public List<UploadHospitalDrugItem> findByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAfter(String hospDrugcode, String hcode, Date dateEffective);
-    
-        @Query("select count(u) from UploadHospitalDrugItem u where u.hospDrugCode=?1 and u.uploadDrug.hcode = ?2 "
+
+    @Query("select count(u) from UploadHospitalDrugItem u where u.hospDrugCode=?1 and u.uploadDrug.hcode = ?2 "
             + " and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + " and u.updateFlag = ?3 and u.requestItem.deleted=0")
-    public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAcceptAndUpdateFlag(String hospDrugCode, String hcode,String updateFlag);
+    public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAcceptAndUpdateFlag(String hospDrugCode, String hcode, String updateFlag);
+    
+    @Query("select count(u) "
+            + "from UploadHospitalDrugItem u "
+            + "where u.hospDrugCode.hcode = ?1 "
+            + "and u.uploadDrug = ?2 "
+            + "and u.tmtId = ?3"
+            + "and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
+            + "and u.updateFlag = ?4 "
+            + "and u.requestItem.deleted = 0")
+    public long countByHospitalDrugWithFlag(String hcode,String hospDrugCode, String tmtid,  String updateFlag);
 }
