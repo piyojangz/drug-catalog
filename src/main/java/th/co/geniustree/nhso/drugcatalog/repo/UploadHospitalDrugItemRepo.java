@@ -68,9 +68,9 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
     
     @Query("select count(u) "
             + "from UploadHospitalDrugItem u "
-            + "where u.hospDrugCode.hcode = ?1 "
-            + "and u.uploadDrug = ?2 "
-            + "and u.tmtId = ?3"
+            + "where u.uploadDrug.hcode = ?1 "
+            + "and u.hospDrugCode = ?2 "
+            + "and u.tmtId = ?3 "
             + "and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + "and u.updateFlag = ?4 "
             + "and u.requestItem.deleted = 0")

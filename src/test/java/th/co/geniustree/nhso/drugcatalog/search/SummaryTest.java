@@ -60,10 +60,6 @@ public class SummaryTest {
         SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(startObject);
         LOG.info("All hospital Request = {}", page.getTotalElements());
         printDetails(summaryRequest);
-        long totalRequest = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, "1000");
-        long totalHospitalRequest = page.getTotalElements();
-        LOG.info("Total hospital Request -> {}", totalHospitalRequest);
-        LOG.info("Total Request of Province -> {}", totalRequest);
         assertNotNull(startObject[1]);
     }
 
