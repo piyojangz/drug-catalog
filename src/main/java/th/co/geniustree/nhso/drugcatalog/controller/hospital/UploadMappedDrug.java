@@ -282,6 +282,9 @@ public class UploadMappedDrug implements Serializable {
 
     private void processValidate(List<HospitalDrugExcelModel> allRowModels, List<HospitalDrugExcelModel> models, List<HospitalDrugExcelModel> notPassModels) {
         for (HospitalDrugExcelModel bean : allRowModels) {
+            if (bean.isEmptyRow()) {
+                continue;
+            }
             Set<ConstraintViolation<HospitalDrugExcelModel>> violations = beanValidator.validate(bean);
             if ("U".equalsIgnoreCase(bean.getUpdateFlag())) {
                 violations.addAll(beanValidator.validate(bean, UGroup.class));
