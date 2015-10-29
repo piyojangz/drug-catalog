@@ -44,7 +44,7 @@
                                 <h:outputText value="#{model.productCat}"  title="#{model.errorMap['productCat']}"/>
                             </p:column>
                             <p:column headerText="TMTID" width="60" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.tmtId}"  title="#{model.errorMap['tmtId']}"/>
+                                <h:outputText value="#{model.tmtId eq 'NULLID' ? '' : model.tmtId}"  title="#{model.errorMap['tmtId']}"/>
                             </p:column>
                             <p:column headerText="SPECPREP" width="60" styleClass="#{empty model.errorMap['specPrep']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.specPrep}"  title="#{model.errorMap['specPrep']}"/>

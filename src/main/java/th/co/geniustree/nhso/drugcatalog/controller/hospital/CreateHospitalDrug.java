@@ -13,10 +13,9 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.component.UINamingContainer;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import org.assertj.core.util.Strings;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.BeanUtils;
@@ -79,7 +78,7 @@ public class CreateHospitalDrug implements Serializable {
     public void setTmtId(String tmtId) {
         this.tmtId = tmtId;
     }
-    
+
     public String getOldUnitPrice() {
         return oldUnitPrice;
     }
@@ -152,7 +151,7 @@ public class CreateHospitalDrug implements Serializable {
         } else if (oldDateEffective != null) {
             item.setDateEffectiveDate(oldDateEffective);
         }
-        if(updateFlag.equalsIgnoreCase("E") || updateFlag.equalsIgnoreCase("D")){
+        if (updateFlag.equalsIgnoreCase("E") || updateFlag.equalsIgnoreCase("D")) {
             oldTmt = item.getTmtId();
         }
     }
@@ -180,8 +179,7 @@ public class CreateHospitalDrug implements Serializable {
             if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "E") > 0) {
                 throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการแก้ไขยา ณ วันที่ effectiveDate แล้ว"));
             }
-        }
-        if (updateFlag.equals("D")) {
+        } else if (updateFlag.equals("D")) {
             if (uploadItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(item.getHospDrugCode(), SecurityUtil.getUserDetails().getHospital().getHcode(), (Date) value, "D") > 0) {
                 throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการลบยา ณ วันที่ effectiveDate แล้ว"));
             }
@@ -214,7 +212,10 @@ public class CreateHospitalDrug implements Serializable {
         if (!editMode) {
             return;
         }
-        editHospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode(),tmtId));
+        if(Strings.isNullOrEmpty(tmtId)){
+            tmtId = "NULLID";
+        }
+        editHospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode(), tmtId));
         if (editHospitalDrug == null) {
             FacesMessageUtils.error("ไม่พบข้อมูล hospDrugCode = " + hospDrugCode);
             return;
@@ -247,7 +248,7 @@ public class CreateHospitalDrug implements Serializable {
                 FacesMessageUtils.error("ไม่สามารถแก้ไขวันที่ย้อนหลัง หรือวันเดียวกันได้");
                 return "/private/hospital/listdrug/index?faces-redirect=true";
             }
-            if(!item.getTmtId().equals(oldTmt)){
+            if (!item.getTmtId().equals(oldTmt)) {
                 FacesMessageUtils.error("หากมีการเปลี่ยน TMT กรุณาเพิ่มรายการยาใหม่แทน");
                 return "/private/hospital/listdrug/index?faces-redirect=true";
             }

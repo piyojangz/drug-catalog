@@ -54,7 +54,7 @@
                     <h:outputText value="#{rowIndex + 1}" />
                 </p:column>
                 <p:column headerText="TMTID" width="50">
-                    <h:outputText value="#{tmtDrug.tmtId}" />
+                    <h:outputText value="#{tmtDrug.tmtId eq 'NULLID' ? '' : tmtDrug.tmtId}" />
                 </p:column>
                 <p:column headerText="FSN" width="500">
                     <h:outputText value="#{tmtDrug.fsn}" />

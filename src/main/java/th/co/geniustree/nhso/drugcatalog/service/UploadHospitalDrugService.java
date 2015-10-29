@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
-import java.util.List;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 

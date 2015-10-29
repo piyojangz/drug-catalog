@@ -57,6 +57,9 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
 
     @Override
     public void addNewDrugByHand(String hcode, UploadHospitalDrugItem item) {
+        if(item.getTmtDrug() == null || item.getTmtId().isEmpty()){
+            item.setTmtId("NULLID");
+        }
         item = uploadHospitalDrugItemRepo.save(item);
         UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
         uploadHospitalDrug = makeSpecialUploadDrug(uploadHospitalDrug, hcode, item);
@@ -87,6 +90,9 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
 
     @Override
     public void editDrugByHand(String hcode, UploadHospitalDrugItem uploadItem) {
+        if(uploadItem.getTmtDrug() == null || uploadItem.getTmtId().isEmpty()){
+            uploadItem.setTmtId("NULLID");
+        }
         boolean exist = hospitalDrugRepo.exists(new HospitalDrugPK(uploadItem.getHospDrugCode(), hcode,uploadItem.getTmtId()));
         if (!exist) {
             throw new IllegalStateException("Can't edit HospitalDrug that not already exist.");
