@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-import org.assertj.core.util.Strings;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.BeanUtils;

@@ -83,12 +83,7 @@ public class RequestItemServiceImpl implements RequestItemService {
     }
 
     @Override
-    public List<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode){
-        return requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(status, hcode);
-    }
-
-    @Override
     public Page<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode, Pageable pageable) {
-        return requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(status, hcode, pageable);
+        return requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdAndDeletedFalse(status, hcode, "NULLID", pageable);
     }
 }
