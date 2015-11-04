@@ -27,10 +27,16 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
  */
 public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospitalDrugItem, Integer>, JpaSpecificationExecutor {
 
-    @Query("select count(u) from UploadHospitalDrugItem u where u.hospDrugCode=?1 and u.uploadDrug.hcode = ?2 and u.dateEffective = ?3 "
-            + " and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + " and u.updateFlag = ?4 and u.requestItem.deleted=0")
-    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, String dateEffective, String updateFlag);
+    @Query("select count(u) "
+            + "from UploadHospitalDrugItem u "
+            + "where u.hospDrugCode=?1 "
+            + "and u.tmtId = ?2 "
+            + "and u.uploadDrug.hcode = ?3 "
+            + "and u.dateEffective = ?4 "
+            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
+            + "and u.updateFlag = ?5 "
+            + "and u.requestItem.deleted = 0")
+    public long countByHospDrugCodeAndTmtIdAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String tmtId, String hcode, String dateEffective, String updateFlag);
 
     @Query("select u.requestItem from UploadHospitalDrugItem u where u.hospDrugCode=?1 and u.uploadDrug.hcode = ?2 and u.dateEffective = ?3 "
             + "and u.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REJECT  and u.updateFlag = ?4 and u.requestItem.deleted=0")
@@ -72,7 +78,6 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and u.hospDrugCode = ?2 "
             + "and u.tmtId = ?3 "
             + "and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + "and u.updateFlag = ?4 "
             + "and u.requestItem.deleted = 0")
-    public long countByHospitalDrugWithFlag(String hcode,String hospDrugCode, String tmtid,  String updateFlag);
+    public long countByHospitalDrug(String hcode,String hospDrugCode, String tmtid);
 }

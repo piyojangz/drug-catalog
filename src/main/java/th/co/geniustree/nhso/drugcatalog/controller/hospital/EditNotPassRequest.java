@@ -96,6 +96,9 @@ public class EditNotPassRequest implements Serializable {
             return;
         }
         item = requestItem.getUploadDrugItem();
+        if(item.getTmtId().equals("NULLID")){
+            item.setTmtId("");
+        }
         updateFlag = item.getUpdateFlag();
         if (!item.getUploadDrug().getHcode().equals(SecurityUtil.getUserDetails().getHospital().getHcode())) {
             FacesMessageUtils.warn("แก้ไขได้เฉพาะรายการของหน่วยบริการตนเองเท่านั้น");

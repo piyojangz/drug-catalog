@@ -14,7 +14,7 @@ public class HasFlagABeforeEDUValidator implements ConstraintValidator<HasFlagAB
 
     @Autowired
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
-
+    
     @Override
     public void initialize(HasFlagABeforeEDU constraintAnnotation) {
 
@@ -23,10 +23,10 @@ public class HasFlagABeforeEDUValidator implements ConstraintValidator<HasFlagAB
     @Override
     public boolean isValid(HospitalDrugExcelModel value, ConstraintValidatorContext context) {
         if (!"A".equals(value.getUpdateFlag())) {
-            long countA = uploadHospitalDrugItemRepo.countByHospitalDrugWithFlag(value.getHcode(), value.getHospDrugCode(),value.getTmtId(), "A");
-            return countA > 0;
-        }
+            long count = uploadHospitalDrugItemRepo.countByHospitalDrug(value.getHcode(), value.getHospDrugCode(),value.getTmtId());
+            return count > 0;
+            }
         return true;
-    }
+        }
 
 }

@@ -36,9 +36,15 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     }
 
     private void checkDuplicateForUpdateFlageUED(HospitalDrugExcelModel uploadDrugModel) {
-        long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(), uploadDrugModel.getDateEffective(), uploadDrugModel.getUpdateFlag());
+        long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = 
+                uploadHospitalDrugItemRepo.countByHospDrugCodeAndTmtIdAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(
+                        uploadDrugModel.getHospDrugCode(), 
+                        uploadDrugModel.getTmtId(),
+                        uploadDrugModel.getHcode(), 
+                        uploadDrugModel.getDateEffective(), 
+                        uploadDrugModel.getUpdateFlag());
         if (countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate > 0) {
-            uploadDrugModel.addError("dateEffective", "พบ hospDrugCode ,dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
+            uploadDrugModel.addError("dateEffective", "พบ hospDrugCode , tmtid ,dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
         }
     }
 

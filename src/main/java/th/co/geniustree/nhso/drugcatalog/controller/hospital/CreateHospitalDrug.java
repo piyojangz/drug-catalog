@@ -234,6 +234,9 @@ public class CreateHospitalDrug implements Serializable {
         if (editHospitalDrug.getPackPrice() != null) {
             item.setPackPrice(editHospitalDrug.getPackPrice().toPlainString());
         }
+        if(item.getTmtId().equals("NULLID")){
+            item.setTmtId("");
+        }
     }
 
     public String save() {

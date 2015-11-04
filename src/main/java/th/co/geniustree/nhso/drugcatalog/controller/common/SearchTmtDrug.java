@@ -100,7 +100,14 @@ public class SearchTmtDrug implements Serializable {
     }
 
     public Type[] getTypes() {
-        return Type.values();
+        Type[] returnType = new Type[6];
+        int i = 0;
+        for(Type type : Type.values()){
+            if(!type.equals(Type.NA)){
+                returnType[i++] = type;
+            }
+        }
+        return returnType;
     }
 
     public String getDrugGroupFilter() {

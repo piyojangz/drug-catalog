@@ -77,8 +77,8 @@
                             TMTID:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
-                            <p:commandButton rendered="#{createHospitalDrug.updateFlag ne 'U' and createHospitalDrug.updateFlag ne 'D'}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
+                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.editMode}"/>
+                            <p:commandButton disabled="#{createHospitalDrug.editMode}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
                                 <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
                         </p:column>

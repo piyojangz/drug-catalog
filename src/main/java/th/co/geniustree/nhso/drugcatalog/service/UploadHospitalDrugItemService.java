@@ -10,7 +10,9 @@ package th.co.geniustree.nhso.drugcatalog.service;
  * @author thanthathon.b
  */
 public interface UploadHospitalDrugItemService {
+    
+    public boolean isChangeTmt(String hcode, String hospDrugCode,String tmtid);
 
-    public long countTotalHospitalDrugWithFlag(String hcode, String hospDrugCode, String tmtid, String updateFlag);
+    public long countTotalHospitalDrug(String hcode, String hospDrugCode, String tmtid);
     
 }
