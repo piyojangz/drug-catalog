@@ -44,7 +44,7 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
             BeanUtils.copyProperties(excel, tmtEdNed);
             TMTDrug findOne = tMTDrugRepo.findOne(tmtEdNed.getTmtId());
             tmtEdNed.setTmtDrug(findOne);
-            Fund fund = fundRepo.findOne(excel.getFundCode());
+            Fund fund = fundRepo.findOne(excel.getRightId());
             tmtEdNed.setFund(fund);
             tmtEdNed.setClassifier(fund.getCode());
             findOne.getEdNeds().add(tmtEdNed);
