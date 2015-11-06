@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import com.google.common.base.Strings;
 import java.math.BigDecimal;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
@@ -43,6 +44,9 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
 
     @Override
     public HospitalDrug addOrUpdateHospitalDrug(RequestItem requestItem) {
+        if(Strings.isNullOrEmpty(requestItem.getUploadDrugItem().getTmtId())){
+            requestItem.getUploadDrugItem().setTmtId("NULLID");
+        }
         HospitalDrug findOne = hospitalDrugRepo.findOne(new HospitalDrugPK(
                 requestItem.getUploadDrugItem().getHospDrugCode(),
                 requestItem.getUploadDrugItem().getUploadDrug().getHcode(),

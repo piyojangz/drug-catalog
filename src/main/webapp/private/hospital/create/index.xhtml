@@ -252,12 +252,19 @@
                             <h:outputLabel  style="color:red">*</h:outputLabel>DATEEFFECTIVE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATEEFFECTIVE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceOrEdExist}"
-                                        showOn="button">
+                            <p:calendar id="DATEEFFECTIVE" 
+                                        locale="en_US" 
+                                        pattern="dd/MM/yyyy" 
+                                        value="#{createHospitalDrug.item.dateEffectiveDate}"  
+                                        validator="#{createHospitalDrug.checkPriceOrEdExist}"
+                                        showOn="button"
+                                        navigator="true">
                             </p:calendar>
                             <p:spacer width="10"/>
-                            <h:outputText value="date เดิม : " rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}"/>
-                            <h:outputText value="#{createHospitalDrug.oldDateEffective}" rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}">
+                            <h:outputText value="date เดิม : " 
+                                          rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}"/>
+                            <h:outputText value="#{createHospitalDrug.oldDateEffective}" 
+                                          rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}">
                                 <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>

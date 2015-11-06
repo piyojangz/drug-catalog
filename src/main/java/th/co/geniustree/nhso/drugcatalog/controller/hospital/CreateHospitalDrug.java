@@ -50,21 +50,17 @@ public class CreateHospitalDrug implements Serializable {
     private String updateFlag = "A";
     private String hospDrugCode;
     private String tmtId;
+    
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
     @Autowired
     private UploadHospitalDrugService uploadHospitalDrugService;
     @Autowired
     private UploadHospitalDrugItemRepo uploadItemRepo;
-    @Autowired
-    private PriceService priceService;
-    @Autowired
-    private EdNEdService edNEdService;
+    
     private HospitalDrug editHospitalDrug;
     private String oldUnitPrice;
     private Date oldDateEffective;
-    private Date newDateEffective;
-    private String oldTmt;
 
     @PostConstruct
     public void postConstruct() {
@@ -136,23 +132,13 @@ public class CreateHospitalDrug implements Serializable {
         this.editHospitalDrug = editHospitalDrug;
     }
 
-    public Date getNewDateEffective() {
-        return newDateEffective;
-    }
-
-    public void setNewDateEffective(Date newDateEffective) {
-        this.newDateEffective = newDateEffective;
-    }
-
     public void saveOldState() {
         oldDateEffective = item.getDateEffectiveDate();
-        if (updateFlag.equalsIgnoreCase("U")) {
-            oldUnitPrice = item.getUnitPrice();
-        } else if (oldDateEffective != null) {
+        if (oldDateEffective != null) {
             item.setDateEffectiveDate(oldDateEffective);
         }
-        if (updateFlag.equalsIgnoreCase("E") || updateFlag.equalsIgnoreCase("D")) {
-            oldTmt = item.getTmtId();
+        if (updateFlag.equalsIgnoreCase("U")) {
+            oldUnitPrice = item.getUnitPrice();
         }
     }
 
@@ -249,10 +235,6 @@ public class CreateHospitalDrug implements Serializable {
         } else {
             if (item.getDateEffectiveDate().before(oldDateEffective) && updateFlag.equals("U")) {
                 FacesMessageUtils.error("ไม่สามารถแก้ไขวันที่ย้อนหลัง หรือวันเดียวกันได้");
-                return "/private/hospital/listdrug/index?faces-redirect=true";
-            }
-            if (!item.getTmtId().equals(oldTmt)) {
-                FacesMessageUtils.error("หากมีการเปลี่ยน TMT กรุณาเพิ่มรายการยาใหม่แทน");
                 return "/private/hospital/listdrug/index?faces-redirect=true";
             }
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
