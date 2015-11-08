@@ -409,9 +409,10 @@ public class HospitalDrug implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.hospDrugCode);
-        hash = 29 * hash + Objects.hashCode(this.hcode);
+        int hash = 3;
+        hash = 19 * hash + Objects.hashCode(this.hcode);
+        hash = 19 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 19 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -424,13 +425,18 @@ public class HospitalDrug implements Serializable {
             return false;
         }
         final HospitalDrug other = (HospitalDrug) obj;
+        if (!Objects.equals(this.hcode, other.hcode)) {
+            return false;
+        }
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
             return false;
         }
-        if (!Objects.equals(this.hcode, other.hcode)) {
+        if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }
         return true;
     }
+
+    
 
 }

@@ -38,9 +38,16 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndTmtIdAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String tmtId, String hcode, String dateEffective, String updateFlag);
 
-    @Query("select u.requestItem from UploadHospitalDrugItem u where u.hospDrugCode=?1 and u.uploadDrug.hcode = ?2 and u.dateEffective = ?3 "
-            + "and u.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REJECT  and u.updateFlag = ?4 and u.requestItem.deleted=0")
-    public RequestItem findRejectItem(String hospDrugCode, String hcode, String dateEffective, String updateFlag);
+    @Query("select u.requestItem "
+            + "from UploadHospitalDrugItem u "
+            + "where u.hospDrugCode = ?1 "
+            + "and u.uploadDrug.hcode = ?2 "
+            + "and u.tmtId = ?3 "
+            + "and u.dateEffective = ?4 "
+            + "and u.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REJECT "
+            + "and u.updateFlag = ?5 "
+            + "and u.requestItem.deleted=0")
+    public RequestItem findRejectItem(String hospDrugCode, String hcode, String tmtId, String dateEffective, String updateFlag);
 
     public Page<UploadHospitalDrugItem> findByUploadDrugId(Integer uploadDrugId, Pageable pageable);
 
@@ -71,7 +78,7 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + " and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + " and u.updateFlag = ?3 and u.requestItem.deleted=0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAcceptAndUpdateFlag(String hospDrugCode, String hcode, String updateFlag);
-    
+
     @Query("select count(u) "
             + "from UploadHospitalDrugItem u "
             + "where u.uploadDrug.hcode = ?1 "
@@ -79,5 +86,5 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and u.tmtId = ?3 "
             + "and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + "and u.requestItem.deleted = 0")
-    public long countByHospitalDrug(String hcode,String hospDrugCode, String tmtid);
+    public long countByHospitalDrug(String hcode, String hospDrugCode, String tmtid);
 }
