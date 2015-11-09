@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import com.google.common.base.Strings;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,7 @@ public class EdNEdServiceImpl implements EdNEdService {
     public void createFirstEdNed(HospitalDrug drug, String ised) {
         HospitalEdNed edNed = new HospitalEdNed();
         edNed.setHcode(drug.getHcode());
+        edNed.setTmtId(drug.getTmtId());
         edNed.setHospDrugCode(drug.getHospDrugCode());
         edNed.setDateIn(drug.getDateEffective());
         edNed.setStatusEd(ised);

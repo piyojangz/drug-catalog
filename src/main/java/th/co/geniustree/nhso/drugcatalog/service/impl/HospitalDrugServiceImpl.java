@@ -76,10 +76,16 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
     }
 
     private void createFirstPrice(HospitalDrug drug) {
+        if(Strings.isNullOrEmpty(drug.getTmtId())){
+            drug.setTmtId("NULLID");
+        }
         priceService.createFirstPrice(drug, drug.getUnitPrice());
     }
 
     private void createFirstEdNed(HospitalDrug drug) {
+        if(Strings.isNullOrEmpty(drug.getTmtId())){
+            drug.setTmtId("NULLID");
+        }
         edNedService.createFirstEdNed(drug, drug.getIsed());
     }
 
@@ -94,6 +100,9 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
     }
 
     private HospitalDrug processUpdate(HospitalDrug alreadyDrug, UploadHospitalDrugItem uploadItem) {
+        if(Strings.isNullOrEmpty(alreadyDrug.getTmtId())){
+            alreadyDrug.setTmtId("NULLID");
+        }
         if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
             BigDecimal newPrice = new BigDecimal(uploadItem.getUnitPrice().replaceAll(",", ""));
             priceService.addNewPrice(alreadyDrug, newPrice);

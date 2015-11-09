@@ -58,6 +58,7 @@ public class PriceServiceImpl implements PriceService {
     public void createFirstPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
         HospitalPrice price = new HospitalPrice();
         price.setHcode(hospitalDrug.getHcode());
+        price.setTmtId(hospitalDrug.getTmtId());
         price.setHospDrugCode(hospitalDrug.getHospDrugCode());
         price.setDateEffectInclusive(hospitalDrug.getDateEffective());
         price.setPrice(unitprice);
