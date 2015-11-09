@@ -131,7 +131,7 @@ public class UploadTMTEdNed implements Serializable {
                     bean.postConstruct();
                     if (bean.getErrorMap().isEmpty()) {
                         TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
-                        Fund fund = fundService.findOne(bean.getFundCode().trim());
+                        Fund fund = fundService.findOne(bean.getRightId().trim());
                         if (findOneWithoutTx == null) {
                             bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
                         }

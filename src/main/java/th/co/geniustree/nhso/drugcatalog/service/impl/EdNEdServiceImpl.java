@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import com.google.common.base.Strings;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,8 @@ public class EdNEdServiceImpl implements EdNEdService {
     private HospitalEdNedRepo hospitalEdNedRepo;
 
     @Override
-    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn) {
-        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(hcode, hospDrugCode, dateIn));
+    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn,String tmtid) {
+        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(hcode, hospDrugCode, dateIn,tmtid));
         if (findOne != null) {
             return true;
         }
@@ -39,7 +40,7 @@ public class EdNEdServiceImpl implements EdNEdService {
 
     @Override
     public void addNewEdNed(HospitalDrug drug, String ised) {
-        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange()));
+        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange(),drug.getTmtId()));
         if (findOne == null) {
             createFirstEdNed(drug, ised);
         } else {
@@ -56,6 +57,7 @@ public class EdNEdServiceImpl implements EdNEdService {
     public void createFirstEdNed(HospitalDrug drug, String ised) {
         HospitalEdNed edNed = new HospitalEdNed();
         edNed.setHcode(drug.getHcode());
+        edNed.setTmtId(drug.getTmtId());
         edNed.setHospDrugCode(drug.getHospDrugCode());
         edNed.setDateIn(drug.getDateEffective());
         edNed.setStatusEd(ised);

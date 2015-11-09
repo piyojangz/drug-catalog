@@ -55,7 +55,7 @@ public class TMTDrug implements Serializable, TMT {
 
     public enum Type {
 
-        SUB, VTM, GP, GPU, TP, TPU
+        SUB, VTM, GP, GPU, TP, TPU, NA
     }
     @XlsColumn(columnNames = {"TPUCODE"})
     @Id

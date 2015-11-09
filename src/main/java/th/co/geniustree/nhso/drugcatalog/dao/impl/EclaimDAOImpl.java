@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.dao.impl;
 
+import com.google.common.base.Strings;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -45,7 +46,9 @@ public class EclaimDAOImpl implements EclaimDAO {
 
     @Override
     public HospitalDrugType loadDrugInfo(String hospDrugCode, String hcode, String tmtid, Date dateEffective) {
-
+        if(Strings.isNullOrEmpty(tmtid)){
+            tmtid = "NULLID";
+        }
         PLSQLrecord record = new PLSQLrecord();
 
         record.setTypeName(TYPE_NAME);

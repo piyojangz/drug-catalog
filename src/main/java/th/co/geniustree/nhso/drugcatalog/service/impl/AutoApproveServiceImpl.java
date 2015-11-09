@@ -54,7 +54,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
 
     @Override
     public void approveRequestWhichTMTisNull() {
-        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status.REQUEST);
+        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtId(RequestItem.Status.REQUEST,"NULLID");
         log.info("auto approve for request and tmt is null ==>{}", items.size());
         approveService.approve(items);
         uploadHospitalDrugItemRepo.copyDataProcedure();

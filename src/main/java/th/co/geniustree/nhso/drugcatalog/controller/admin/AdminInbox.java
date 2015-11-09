@@ -464,6 +464,7 @@ public class AdminInbox implements Serializable {
             }
         } catch (Exception e) {
             FacesMessageUtils.error("รูปแบบข้อมูลไม่ถูกต้อง ไม่สามารถบันทึกข้อมูลได้");
+            log.error(null,e);
         }
         return null;
 

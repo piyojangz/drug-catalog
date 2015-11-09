@@ -11,6 +11,7 @@
         <ui:define name="content">
             <f:metadata>
                 <f:viewParam name="editMode" value="#{createHospitalDrug.editMode}"/>
+                <f:viewParam name="tmtid" value="#{createHospitalDrug.tmtId}"/>
                 <f:viewParam name="hospDrugCode" value="#{createHospitalDrug.hospDrugCode}"/>
                 <f:viewAction action="#{hospitalDrugListController.setWait(true)}"/>
                 <f:viewAction action="#{createHospitalDrug.loadHospitalDrug}"/>
@@ -76,8 +77,8 @@
                             TMTID:
                         </p:column>
                         <p:column>
-                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
-                            <p:commandButton rendered="#{createHospitalDrug.updateFlag ne 'U' and createHospitalDrug.updateFlag ne 'D'}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
+                            <p:inputText id="TMTID" value="#{createHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}" disabled="#{createHospitalDrug.editMode}"/>
+                            <p:commandButton disabled="#{createHospitalDrug.editMode}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
                                 <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
                         </p:column>
@@ -251,12 +252,19 @@
                             <h:outputLabel  style="color:red">*</h:outputLabel>DATEEFFECTIVE:
                         </p:column>
                         <p:column>
-                            <p:calendar id="DATEEFFECTIVE" locale="en_US" pattern="dd/MM/yyyy" value="#{createHospitalDrug.item.dateEffectiveDate}"  validator="#{createHospitalDrug.checkPriceOrEdExist}"
-                                        showOn="button">
+                            <p:calendar id="DATEEFFECTIVE" 
+                                        locale="en_US" 
+                                        pattern="dd/MM/yyyy" 
+                                        value="#{createHospitalDrug.item.dateEffectiveDate}"  
+                                        validator="#{createHospitalDrug.checkPriceOrEdExist}"
+                                        showOn="button"
+                                        navigator="true">
                             </p:calendar>
                             <p:spacer width="10"/>
-                            <h:outputText value="date เดิม : " rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}"/>
-                            <h:outputText value="#{createHospitalDrug.oldDateEffective}" rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}">
+                            <h:outputText value="date เดิม : " 
+                                          rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}"/>
+                            <h:outputText value="#{createHospitalDrug.oldDateEffective}" 
+                                          rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}">
                                 <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
@@ -323,7 +331,7 @@
                                 <h:outputText value="ก่อนแก้ไข : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{createHospitalDrug.oldUnitPrice}"/>
+                                <h:outputText value="#{createHospitalDrug.oldUnitPrice}"/><h:outputText value=" บาท"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -331,7 +339,7 @@
                                 <h:outputText value="หลังแก้ไข : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{createHospitalDrug.item.unitPrice}"/>
+                                <h:outputText value="#{createHospitalDrug.item.unitPrice}"/><h:outputText value=" บาท"/>
                             </p:column>
                         </p:row>
                         <p:row>

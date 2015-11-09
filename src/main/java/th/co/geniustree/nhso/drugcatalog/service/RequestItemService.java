@@ -23,8 +23,6 @@ public interface RequestItemService {
 
     public List<RequestItem> findAllByStatusAndTmtId(RequestItem.Status status, String tmtId);
 
-    public List<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode);
-    
     public Page<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode, Pageable pageable);
 
 }

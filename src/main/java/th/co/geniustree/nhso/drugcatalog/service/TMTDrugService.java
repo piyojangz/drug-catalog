@@ -19,10 +19,6 @@ public interface TMTDrugService {
 
     public Page<TMTDrug> findAllAndEagerGroup(Specification<TMTDrug> s, Pageable pgbl);
 
-    public List<TMTDrug> findTMTDrugWithFsn(String fsn);
-
-    public List<TMTDrug> findTMTDrugWithFsn(String fsn, Specifications specs);
-    
     public List<TMTDrug> searchByFSN(String keyword);
     
     public Page<TMTDrug> search(String keyword,Pageable pageable);

@@ -453,5 +453,32 @@ public class HospitalDrugExcelModel implements Serializable {
             tmtId = null;
         }
     }
+    
+    public boolean isEmptyRow(){
+        return Strings.isNullOrEmpty(content) 
+                && Strings.isNullOrEmpty(dateChange)
+                && Strings.isNullOrEmpty(dateEffective)
+                && Strings.isNullOrEmpty(dateUpdate)
+                && Strings.isNullOrEmpty(dfsCode)
+                && Strings.isNullOrEmpty(distributor)
+                && Strings.isNullOrEmpty(dosageForm)
+                && Strings.isNullOrEmpty(genericName)
+                && Strings.isNullOrEmpty(hospDrugCode)
+                && Strings.isNullOrEmpty(ised)
+                && Strings.isNullOrEmpty(manufacturer)
+                && Strings.isNullOrEmpty(ndc24)
+                && Strings.isNullOrEmpty(originalDateChange)
+                && Strings.isNullOrEmpty(originalDateEffective)
+                && Strings.isNullOrEmpty(originaleDateUpdate)
+                && Strings.isNullOrEmpty(packPrice)
+                && Strings.isNullOrEmpty(packSize)
+                && Strings.isNullOrEmpty(productCat)
+                && Strings.isNullOrEmpty(specPrep)
+                && Strings.isNullOrEmpty(strength)
+                && Strings.isNullOrEmpty(tmtId)
+                && Strings.isNullOrEmpty(tradeName)
+                && Strings.isNullOrEmpty(unitPrice)
+                && Strings.isNullOrEmpty(updateFlag);
+    }
 
 }

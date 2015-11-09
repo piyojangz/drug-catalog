@@ -16,13 +16,15 @@ public class HospitalDrugPK implements Serializable {
 
     private String hospDrugCode;
     private String hcode;
+    private String tmtId;
 
     public HospitalDrugPK() {
     }
 
-    public HospitalDrugPK(String hospDrugCode, String hcode) {
+    public HospitalDrugPK(String hospDrugCode, String hcode,String tmtId) {
         this.hospDrugCode = hospDrugCode;
         this.hcode = hcode;
+        this.tmtId = tmtId;
     }
 
     public String getHospDrugCode() {
@@ -41,11 +43,20 @@ public class HospitalDrugPK implements Serializable {
         this.hcode = hcode;
     }
 
+    public String getTmtId() {
+        return tmtId;
+    }
+
+    public void setTmtId(String tmtId) {
+        this.tmtId = tmtId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 17 * hash + Objects.hashCode(this.hospDrugCode);
-        hash = 17 * hash + Objects.hashCode(this.hcode);
+        hash = 23 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 23 * hash + Objects.hashCode(this.hcode);
+        hash = 23 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -64,8 +75,10 @@ public class HospitalDrugPK implements Serializable {
         if (!Objects.equals(this.hcode, other.hcode)) {
             return false;
         }
+        if (!Objects.equals(this.tmtId, other.tmtId)) {
+            return false;
+        }
         return true;
     }
-    
 
 }

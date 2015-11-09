@@ -6,6 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,8 @@ import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 @Transactional(propagation = Propagation.REQUIRED)
 public class RequestItemServiceImpl implements RequestItemService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(RequestItemServiceImpl.class);
+
     @Autowired
     private RequestItemRepo requestItemRepo;
 
@@ -36,7 +40,7 @@ public class RequestItemServiceImpl implements RequestItemService {
 
     @Override
     public void generateRequest(UploadHospitalDrugItem uploadItem) {
-        RequestItem requestItem = uploadHospitalDrugItemRepo.findRejectItem(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode(), uploadItem.getDateEffective(), uploadItem.getUpdateFlag());
+        RequestItem requestItem = uploadHospitalDrugItemRepo.findRejectItem(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode(), uploadItem.getTmtId(), uploadItem.getDateEffective(), uploadItem.getUpdateFlag());
         if (requestItem != null) {
             requestItemRepo.delete(requestItem);
         }
@@ -83,12 +87,7 @@ public class RequestItemServiceImpl implements RequestItemService {
     }
 
     @Override
-    public List<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode){
-        return requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(status, hcode);
-    }
-
-    @Override
     public Page<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode, Pageable pageable) {
-        return requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(status, hcode, pageable);
+        return requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdAndDeletedFalse(status, hcode, "NULLID", pageable);
     }
 }

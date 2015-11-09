@@ -34,23 +34,12 @@ public class TMTDrugServiceImpl implements TMTDrugService {
 
     @Override
     public Page<TMTDrug> findAllAndEagerGroup(Specification<TMTDrug> spec, Pageable pgbl) {
-        Page<TMTDrug> findAll = tMTDrugRepo.findAll(spec, pgbl);
+        Page<TMTDrug> findAll = tMTDrugRepo.findAll(Specifications.where(spec).and(TMTDrugSpecs.tmtIdNotNull()), pgbl);
 //        for (TMTDrug tmtDrug : findAll) {
 //            tmtDrug.getDrugGroupItems().size();
 //        }
         return findAll;
     }
-
-    @Override
-    public List<TMTDrug> findTMTDrugWithFsn(String fsn) {
-        return tMTDrugRepo.findByFsnIgnoreCaseContaining(fsn);
-    }
-
-    @Override
-    public List<TMTDrug> findTMTDrugWithFsn(String fsn, Specifications specs) {
-        return tMTDrugRepo.findByFsn(fsn, specs);
-    }
-
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
@@ -62,13 +51,13 @@ public class TMTDrugServiceImpl implements TMTDrugService {
 
     @Override
     public List<TMTDrug> findBySpec(Specification<TMTDrug> s) {
-        return tMTDrugRepo.findAll(s);
+        return tMTDrugRepo.findAll(Specifications.where(s).and(TMTDrugSpecs.tmtIdNotNull()));
     }
 
     @Override
     public List<TMTDrug> searchByFSN(String keyword) {
         List<String> keyList = Arrays.asList(keyword.split("\\s+"));
-        return tMTDrugRepo.findAll(Specifications.where(TMTDrugSpecs.fsnContains(keyList)));
+        return tMTDrugRepo.findAll(Specifications.where(TMTDrugSpecs.fsnContains(keyList)).and(TMTDrugSpecs.tmtIdNotNull()));
     }
 
     @Override
