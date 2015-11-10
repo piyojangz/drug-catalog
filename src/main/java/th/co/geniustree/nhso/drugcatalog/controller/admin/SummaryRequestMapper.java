@@ -44,8 +44,8 @@ public class SummaryRequestMapper {
             summaryRequest.setCountTMTNull(Integer.parseInt(object[4].toString()));
             summaryRequest.setCountFlagA(Integer.parseInt(object[5].toString()));
             summaryRequest.setCountFlagE(Integer.parseInt(object[6].toString()));
-            summaryRequest.setCountFlagU(Integer.parseInt(object[7].toString()));
-            summaryRequest.setCountFlagD(Integer.parseInt(object[8].toString()));
+            summaryRequest.setCountFlagD(Integer.parseInt(object[7].toString()));
+            summaryRequest.setCountFlagU(Integer.parseInt(object[8].toString()));
             summaryRequest.setCountAll(Integer.parseInt(object[9].toString()));
         }
         return summaryRequest;
