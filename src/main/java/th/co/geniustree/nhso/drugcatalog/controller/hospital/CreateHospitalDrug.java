@@ -233,8 +233,8 @@ public class CreateHospitalDrug implements Serializable {
             clear();
             return null;
         } else {
-            if (item.getDateEffectiveDate().before(oldDateEffective) && updateFlag.equals("U")) {
-                FacesMessageUtils.error("ไม่สามารถแก้ไขวันที่ย้อนหลัง หรือวันเดียวกันได้");
+            if (item.getDateEffectiveDate().equals(oldDateEffective) && updateFlag.equals("U")) {
+                FacesMessageUtils.error("ไม่สามารถแก้ไขวันเดียวกันได้");
                 return "/private/hospital/listdrug/index?faces-redirect=true";
             }
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
