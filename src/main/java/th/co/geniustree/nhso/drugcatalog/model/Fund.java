@@ -31,9 +31,6 @@ public class Fund implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "fund")
-    private List<ReimburseGroupItem> reimburseGroups;
-
-    @OneToMany(mappedBy = "fund")
     private List<TMTEdNed> edNeds;
 
     @Version
@@ -53,14 +50,6 @@ public class Fund implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<ReimburseGroupItem> getReimburseGroups() {
-        return reimburseGroups;
-    }
-
-    public void setReimburseGroups(List<ReimburseGroupItem> reimburseGroups) {
-        this.reimburseGroups = reimburseGroups;
     }
 
     public List<TMTEdNed> getEdNeds() {
