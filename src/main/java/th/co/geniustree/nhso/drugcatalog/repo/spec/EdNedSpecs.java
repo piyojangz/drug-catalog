@@ -11,7 +11,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
-import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.Fund_;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug_;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;

@@ -63,6 +63,7 @@ public class CreateHospitalDrug implements Serializable {
     private HospitalDrug editHospitalDrug;
     private String oldUnitPrice;
     private Date oldDateEffective;
+    private boolean disableSaveBtn = Boolean.FALSE;
 
     @PostConstruct
     public void postConstruct() {
@@ -126,11 +127,18 @@ public class CreateHospitalDrug implements Serializable {
         this.editHospitalDrug = editHospitalDrug;
     }
 
-    public void saveOldEditUnitPrice() {
+    public boolean isDisableSaveBtn() {
+        return disableSaveBtn;
+    }
+
+    public void setDisableSaveBtn(boolean disableSaveBtn) {
+        this.disableSaveBtn = disableSaveBtn;
+    }
+
+    public void saveOldState() {
         if (updateFlag.equalsIgnoreCase("U")) {
             oldDateEffective = item.getDateEffectiveDate();
             oldUnitPrice = item.getUnitPrice();
-            item.setDateEffectiveDate(null);
         }
     }
 
@@ -163,6 +171,12 @@ public class CreateHospitalDrug implements Serializable {
                 throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "error", "เคยมีการลบยา ณ วันที่ effectiveDate แล้ว"));
             }
         }
+    }
+    
+    public void checkDateEffective(){
+//        LOG.debug("updateFlag : {}" , updateFlag);
+//        LOG.debug("new Date Effective : {}" , item.getDateEffectiveDate());
+//        disableSaveBtn = DateUtils.format("ddMMyyyy", oldDateEffective).equals(DateUtils.format("ddMMyyyy", item.getDateEffectiveDate()));
     }
 
     public void findTmt() {
@@ -211,7 +225,7 @@ public class CreateHospitalDrug implements Serializable {
             item.setPackPrice(editHospitalDrug.getPackPrice().toPlainString());
         }
     }
-
+    
     public String save() {
         item.timString();
         if (!editMode) {
@@ -220,6 +234,9 @@ public class CreateHospitalDrug implements Serializable {
             clear();
             return null;
         } else {
+            if(oldDateEffective.equals(item.getDateEffectiveDate())){
+                FacesMessageUtils.info("ไม่สามารถบันทึก Date Effective เดียวกันได้");
+            }
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
             FacesMessageUtils.info("แก้ไขเสร็จสิ้น ข้อมูลถูกส่งไปอนุมัติแล้ว ");
             clear();
