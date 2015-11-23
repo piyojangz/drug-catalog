@@ -333,10 +333,10 @@ tr>th.ui-resizable-column{
     width: 100%;
 }
 .textinfo>tbody>tr>td{
-  border-width: 0px !important;  
+    border-width: 0px !important;  
 }
 .textinfo>tbody>tr:nth-of-type(2n + 2){
-	background: #fafafa!important;
+    background: #fafafa!important;
 }
 .leftAlgin{
     width: 25px;
@@ -350,4 +350,34 @@ tr>th.ui-resizable-column{
     background: #FF8A00;
     border-radius: 50px;
     color: #fff;
+}
+.clean-table tbody tr td{
+    border: solid 1px;
+    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
+}
+
+.clean-table tbody tr:first-child td{
+    border-top: 2px solid rgb(156, 156, 156);
+}
+
+.clean-table tbody tr{
+    border-left: 2px rgb(162, 161, 161) solid !important;
+    border-right: 2px rgb(162, 161, 161) solid !important;
+}
+
+.clean-table tbody{
+    border-color: #999;
+}
+
+.clean-table{
+    border-width: 0 0 1px 0 !important;
+    background: none !important;
+}
+
+.clean-table + .clean-table thead{
+    visibility: hidden;
+}
+
+.clean-table .ui-datatable-tablewrapper{
+    border-bottom: 2px solid #7F7E7E;
 }
