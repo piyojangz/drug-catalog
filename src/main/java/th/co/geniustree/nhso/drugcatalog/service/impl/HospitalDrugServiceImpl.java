@@ -45,7 +45,10 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
 
     @Override
     public HospitalDrug addOrUpdateHospitalDrug(RequestItem requestItem) {
-        HospitalDrug findOne = hospitalDrugRepo.findOne(new HospitalDrugPK(requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUploadDrug().getHcode()));
+        HospitalDrug findOne = hospitalDrugRepo.findOne(
+                new HospitalDrugPK(
+                        requestItem.getUploadDrugItem().getHospDrugCode(), 
+                        requestItem.getUploadDrugItem().getUploadDrug().getHcode()));
         if (findOne == null) {
             return addNewHospitalDrug(requestItem);
         } else {

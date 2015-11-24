@@ -36,7 +36,7 @@ public class SummaryInbox {
 
     @Autowired
     private SummaryRequestService summaryRequestService;
-    
+
     @Autowired
     private ZoneRepository zoneRepo;
     @Autowired
@@ -78,8 +78,8 @@ public class SummaryInbox {
         provinces = provinceService.findBySelectedZone(selectedZone, new Sort("name"));
         selectedProvince = "";
     }
-    
-    public void search(){
+
+    public void search() {
         summary = new SpringDataLazyDataModelSupport<SummaryRequest>() {
             @Override
             public Page<SummaryRequest> load(Pageable pageAble) {
@@ -90,8 +90,8 @@ public class SummaryInbox {
             }
         };
     }
-    
-    public void reset(){
+
+    public void reset() {
         summary = null;
         selectedZone = "";
         provinces = provinceService.findBySelectedZone(selectAllZone, new Sort("name"));
@@ -116,7 +116,7 @@ public class SummaryInbox {
         filterProvince.add(0, p);
         return filterProvince;
     }
-    
+
     public void onSelectHospital() {
 
     }
@@ -193,6 +193,7 @@ public class SummaryInbox {
     public void setSelectedHospital(Hospital selectedHospital) {
         this.selectedHospital = selectedHospital;
     }
+
     public String getSelectAllZone() {
         return selectAllZone;
     }
@@ -209,5 +210,4 @@ public class SummaryInbox {
         this.province = province;
     }
 
-    
 }
