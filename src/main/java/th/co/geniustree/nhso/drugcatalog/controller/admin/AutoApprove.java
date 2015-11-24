@@ -6,9 +6,12 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.io.Serializable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
 
@@ -20,11 +23,22 @@ import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
 @Scope("view")
 public class AutoApprove implements Serializable {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AutoApprove.class);
+
     @Autowired
     private AutoApproveService autoApproveService;
     private String hcode;
     @Autowired
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    private String flagApprove;
+
+    public String getFlagApprove() {
+        return flagApprove;
+    }
+
+    public void setFlagApprove(String flagApprove) {
+        this.flagApprove = flagApprove;
+    }
 
     public String getHcode() {
         return hcode;
@@ -60,8 +74,14 @@ public class AutoApprove implements Serializable {
     public void copyDataToHospDrugtran() {
         uploadHospitalDrugItemRepo.copyDataProcedure();
     }
-    
-    public void approveAllRequestWithFlagU(){
-        autoApproveService.approveRequestFlagU();
+
+    public void approveAllRequestWithFlag() {
+        try {
+            autoApproveService.approveRequestFlag(flagApprove);
+            FacesMessageUtils.info("อนุมัติทุกรายการยา Flag " + flagApprove + " เรียบร้อย");
+        } catch (Exception e) {
+            FacesMessageUtils.error("ไม่สามารถอนุมัติรายการยาได้");
+            LOG.error("Cannot approve Flag " + flagApprove + " : ", e);
+        }
     }
 }
