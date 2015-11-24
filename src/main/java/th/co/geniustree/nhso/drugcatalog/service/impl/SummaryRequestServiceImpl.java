@@ -43,15 +43,15 @@ public class SummaryRequestServiceImpl implements SummaryRequestService {
 
         if (selectedProvince.equals(SummaryRequest.ALL_PROVINCE)) {
             if (selectedZone.equals(SummaryRequest.ALL_ZONE)) {
-                objPage = requestItemRepo.countSummaryRequestAll(RequestItem.Status.REQUEST, pageable);
-                totalRequest = requestItemRepo.countTotalRequestAll(RequestItem.Status.REQUEST);
+                objPage = requestItemRepo.countSummaryRequestAll(pageable);
+                totalRequest = requestItemRepo.countTotalRequestAll();
             } else {
-                objPage = requestItemRepo.countSummaryRequestByZone(RequestItem.Status.REQUEST, selectedZone, pageable);
-                totalRequest = requestItemRepo.countTotalRequestByZone(RequestItem.Status.REQUEST, selectedZone);
+                objPage = requestItemRepo.countSummaryRequestByZone(selectedZone, pageable);
+                totalRequest = requestItemRepo.countTotalRequestByZone(selectedZone);
             }
         } else {
-            objPage = requestItemRepo.countSummaryRequestByProvince(RequestItem.Status.REQUEST, selectedProvince, pageable);
-            totalRequest = requestItemRepo.countTotalRequestByProvince(RequestItem.Status.REQUEST, selectedProvince);
+            objPage = requestItemRepo.countSummaryRequestByProvince(selectedProvince, pageable);
+            totalRequest = requestItemRepo.countTotalRequestByProvince(selectedProvince);
         }
         if (totalRequest == null) {
             //fixed NullPointerException
