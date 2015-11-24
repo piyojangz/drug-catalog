@@ -174,9 +174,12 @@ public class CreateHospitalDrug implements Serializable {
     }
     
     public void checkDateEffective(){
-//        LOG.debug("updateFlag : {}" , updateFlag);
-//        LOG.debug("new Date Effective : {}" , item.getDateEffectiveDate());
-//        disableSaveBtn = DateUtils.format("ddMMyyyy", oldDateEffective).equals(DateUtils.format("ddMMyyyy", item.getDateEffectiveDate()));
+        LOG.debug("updateFlag : {}" , updateFlag);
+        LOG.debug("new Date Effective : {}" , item.getDateEffectiveDate());
+        disableSaveBtn = DateUtils.format("ddMMyyyy", oldDateEffective).equals(DateUtils.format("ddMMyyyy", item.getDateEffectiveDate()));
+        if(disableSaveBtn){
+            FacesMessageUtils.error("กรุณาเปลี่ยนวันที่");
+        }
     }
 
     public void findTmt() {
