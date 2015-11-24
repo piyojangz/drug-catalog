@@ -20,7 +20,6 @@ import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.ApproveFileRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
 
@@ -33,6 +32,8 @@ import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
 public class ApproveServiceImpl implements ApproveService {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ApproveServiceImpl.class);
+    private static final String SYSTEM = "SYSTEM";
+
     @Autowired
     private RequestItemRepo requestItemRepo;
 
@@ -57,6 +58,23 @@ public class ApproveServiceImpl implements ApproveService {
     @Override
     public void reject(RequestItem requestItem) {
         reject(requestItem, SecurityUtil.getUserDetails().getPid());
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Override
+    public void approveBySystem(RequestItem requestItem) {
+        try {
+            approve(requestItem, SYSTEM);
+        } catch (Exception e) {
+            LOG.error(null, e);
+        }
+    }
+
+    @Override
+    public void approveBySystem(List<RequestItem> requestItems) {
+        for (RequestItem requestItem : requestItems) {
+            approveBySystem(requestItem);
+        }
     }
 
     private void approve(RequestItem requestItem, String pid) {
