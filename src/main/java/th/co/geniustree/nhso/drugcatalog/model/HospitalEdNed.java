@@ -26,10 +26,6 @@ import javax.persistence.TemporalType;
 @IdClass(HospitalEdNedPK.class)
 public class HospitalEdNed implements Serializable {
 
-    public enum Type {
-
-        NORMAL, WITH_CONDITION
-    }
     @Id
     @Column(name = "HCODE", nullable = false, length = 5)
     private String hcode;

@@ -29,10 +29,6 @@ import javax.persistence.TemporalType;
 @IdClass(TMTEdNedPK.class)
 public class TMTEdNed implements Serializable {
 
-    public enum Type {
-
-        NORMAL, WITH_CONDITION
-    }
     @Id
     @Column(name = "TMTID", nullable = false, length = 6)
     private String tmtId;
