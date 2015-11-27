@@ -5,9 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
-import com.google.common.base.Strings;
 import java.math.BigDecimal;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +45,7 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
     public HospitalDrug addOrUpdateHospitalDrug(RequestItem requestItem) {
         HospitalDrug findOne = hospitalDrugRepo.findOne(
                 new HospitalDrugPK(
-                        requestItem.getUploadDrugItem().getHospDrugCode(), 
+                        requestItem.getUploadDrugItem().getHospDrugCode(),
                         requestItem.getUploadDrugItem().getUploadDrug().getHcode()));
         if (findOne == null) {
             return addNewHospitalDrug(requestItem);
@@ -84,7 +82,9 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         drug.setDateChange(uploadItem.getDateChangeDate());
         drug.setDateUpdate(uploadItem.getDateUpdateDate());
         drug.setDateEffective(uploadItem.getDateEffectiveDate());
-        drug.setUnitPrice(new BigDecimal(uploadItem.getUnitPrice().replaceAll(",", "")));
+        if ("U".equalsIgnoreCase(uploadItem.getUpdateFlag()) || "A".equalsIgnoreCase(uploadItem.getUpdateFlag())) {
+            drug.setUnitPrice(new BigDecimal(uploadItem.getUnitPrice().replaceAll(",", "")));
+        }
         if (uploadItem.getPackPrice() != null && !uploadItem.getPackPrice().isEmpty()) {
             drug.setPackPrice(new BigDecimal(uploadItem.getPackPrice().replaceAll(",", "")));
         }
