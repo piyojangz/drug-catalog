@@ -287,23 +287,20 @@
                                         locale="en_US" 
                                         pattern="dd/MM/yyyy" 
                                         value="#{createHospitalDrug.item.dateEffectiveDate}"  
-                                        validator="#{createHospitalDrug.checkPriceOrEdExist}"
                                         showOn="button"
                                         navigator="true">
                             </p:calendar>
+                            <p:commandButton onclick="PF('dateEffectiveHistoryDialogWidget').show()"
+                                             icon="ui-icon-calendar"
+                                             value="ดูประวัติ"
+                                             rendered="#{createHospitalDrug.updateFlag ne 'A'}"
+                                             actionListener="#{createHospitalDrug.showHistory()}"
+                                             update=":dateEffectiveHistoryDialogForm:dateEffectiveHistoryTable"/>
                             <p:spacer width="10"/>
                             <span class="label-tabledescription label-tabledescription-warning" 
                                   style="display: #{createHospitalDrug.editMode and createHospitalDrug.updateFlag eq 'U' ? 'inline' : 'none'}">
                                 กรุณาเปลี่ยน Date Effective
                             </span>
-                            <ui:remove>
-                                <h:outputText value="Date Effective เดิม : " 
-                                              rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}"/>
-                                <h:outputText value="#{createHospitalDrug.oldDateEffective}" 
-                                              rendered="#{createHospitalDrug.oldDateEffective != null and createHospitalDrug.updateFlag eq 'U'}">
-                                    <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
-                                </h:outputText>
-                            </ui:remove>
                         </p:column>
                         <p:column>
                             <p:message for="DATEEFFECTIVE"/>
@@ -319,14 +316,19 @@
                                              value="Save" 
                                              onclick="PF('allblock').show()"  
                                              oncomplete="PF('allblock').hide()" 
-                                             disabled="#{createHospitalDrug.updateFlag eq 'A'}"
-                                             rendered="#{createHospitalDrug.updateFlag ne 'U'}">
+                                             rendered="#{createHospitalDrug.updateFlag eq 'D' or createHospitalDrug.updateFlag eq 'A'}">
                             </p:commandButton>
-                            <p:commandButton onsuccess="PF('confirmDialogWidget').show()" value="Save" 
-                                             update=":confirmDialogForm"
-                                             actionListener="#{createHospitalDrug.checkDateEffective()}"
+                            <p:commandButton onsuccess="PF('confirmUpdatePriceDialogWidget').show()" value="Save" 
+                                             update=":confirmUpdatePriceDialogForm"
+                                             actionListener="#{createHospitalDrug.checkDuplicateDateEffective()}"
                                              disabled="#{createHospitalDrug.updateFlag eq 'A'}"
                                              rendered="#{createHospitalDrug.updateFlag eq 'U'}">
+                            </p:commandButton>
+                            <p:commandButton onsuccess="PF('confirmEditItemDialogWidget').show()" value="Save" 
+                                             update=":confirmEditItemDialogForm"
+                                             actionListener="#{createHospitalDrug.checkDuplicateDateEffective()}"
+                                             disabled="#{createHospitalDrug.updateFlag eq 'A'}"
+                                             rendered="#{createHospitalDrug.updateFlag eq 'E'}">
                             </p:commandButton>
                             <p:commandButton action="#{edcreateHospitalDrug.clear()}" 
                                              ajax="#{not createHospitalDrug.editMode}" 
@@ -353,7 +355,7 @@
             <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
                 <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
             </h:form>
-            <p:dialog widgetVar="confirmDialogWidget" 
+            <p:dialog widgetVar="confirmUpdatePriceDialogWidget" 
                       appendTo="@(body)" 
                       showEffect="fade" 
                       hideEffect="fade"
@@ -362,7 +364,7 @@
                       width="400" 
                       modal="true"
                       header="ยืนยันการแก้ไข">
-                <h:form id="confirmDialogForm">
+                <h:form id="confirmUpdatePriceDialogForm">
                     <p:panelGrid>
                         <p:row>
                             <p:column colspan="4">
@@ -386,11 +388,6 @@
                             <p:column>
                                 <h:outputText value="#{createHospitalDrug.oldUnitPrice}"/><h:outputText value=" บาท"/>
                             </p:column>
-
-                            <ui:remove>
-                                ต้องเปลี่ยน colspan เป็น 4
-                                และ action listener เมื่อโชว์ dialog นี้
-                            </ui:remove>
                             <p:column style="width: 100px;text-align: right;">
                                 <h:outputText value="วันที่ : "/>
                             </p:column>
@@ -399,7 +396,6 @@
                                     <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
                                 </h:outputText>
                             </p:column>
-
                         </p:row>
                         <p:row>
                             <p:column style="width: 100px;text-align: right;">
@@ -433,6 +429,108 @@
                             </p:column>
                         </p:row>
                     </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <p:dialog widgetVar="confirmEditItemDialogWidget" 
+                      appendTo="@(body)" 
+                      showEffect="fade" 
+                      hideEffect="fade"
+                      closable="true" 
+                      closeOnEscape="true"
+                      width="400" 
+                      modal="true"
+                      header="ยืนยันการแก้ไข">
+                <h:form id="confirmEditItemDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column colspan="4">
+                                <h:outputText value="กรุณาตรวจสอบการแก้ไขรายการยา"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 100px;text-align: right;">
+                                <h:outputText value="ก่อนแก้ไข : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{createHospitalDrug.oldEdStatus}"/>
+                            </p:column>
+                            <p:column style="width: 100px;text-align: right;">
+                                <h:outputText value="วันที่ : "/>
+                            </p:column>
+                            <p:column style="text-align: left">
+                                <h:outputText value="#{createHospitalDrug.oldDateEffective}">
+                                    <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column style="width: 100px;text-align: right;">
+                                <h:outputText value="หลังแก้ไข : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{createHospitalDrug.item.ised}"/>
+                            </p:column>
+                            <p:column style="width: 100px;text-align: right;">
+                                <h:outputText value="วันที่ : "/>
+                            </p:column>
+                            <p:column style="text-align: left">
+                                <h:outputText value="#{createHospitalDrug.item.dateEffectiveDate}">
+                                    <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" style="text-align: center">
+                                <p:commandButton action="#{createHospitalDrug.save()}" 
+                                                 ajax="false" 
+                                                 update="@form ,:secondForm:table , :form" 
+                                                 value="ยืนยัน"
+                                                 disabled="#{createHospitalDrug.disableSaveBtn}"
+                                                 oncomplete="PF('allblock').hide()" 
+                                                 onclick="PF('confirmDialogWidget').hide(), PF('allblock').show()" >
+                                </p:commandButton>
+                                <p:commandButton value="ยกเลิก"
+                                                 onclick="PF('confirmDialogWidget').hide()">
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <p:dialog widgetVar="dateEffectiveHistoryDialogWidget" 
+                      appendTo="@(body)" 
+                      showEffect="fade" 
+                      hideEffect="fade"
+                      closable="true" 
+                      closeOnEscape="true"
+                      width="400" 
+                      modal="true"
+                      header="ประวัติการแก้ไข">
+                <h:form id="dateEffectiveHistoryDialogForm">
+                    <p:dataTable id="dateEffectiveHistoryTable"
+                                 var="item"
+                                 styleClass="clean-table"
+                                 value="#{createHospitalDrug.history}"
+                                 rowIndexVar="index">
+                        <p:column headerText="#" width="10">
+                            #{index + 1}
+                        </p:column>
+                        <p:column headerText="Create Date">
+                            <h:outputText value="#{item.dateChangeDate}">
+                                <f:convertDateTime locale="en_US" pattern="dd MMM yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Date Effective">
+                            <h:outputText value="#{item.dateEffectiveDate}" style="#{item.dateEffective eq createHospitalDrug.item.dateEffective ? 'color: red' : ''}">
+                                <f:convertDateTime locale="en_US" pattern="dd MMM yyyy HH:MM"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                    <div style="text-align: center;margin-top: 10px;">
+                        <p:commandButton value="ปิด"
+                                         onclick="PF('dateEffectiveHistoryDialogWidget').hide();"/>
+                    </div>
                 </h:form>
             </p:dialog>
         </ui:define>
