@@ -41,4 +41,10 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
         return items;
     }
 
+    @Override
+    public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag) {
+        return repo.findLatestItemThatAcceptAndNotDeleteByUpdateFlag(hcode, hospDrugCode, updateFlag);
+    }
+
+    
 }

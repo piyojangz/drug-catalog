@@ -10,7 +10,7 @@
         <script>
             function keyEnter(e) {
                 if ((e.which &amp;&amp; e.which === 13) || (e.keyCode &amp;&amp; e.keyCode === 13)) {
-                    #{hospitalDrugListControllerTemp.search()}
+                    #{hospitalDrugPassListController.search()}
                     $(e.target).closest('form').submit();
                 }
             }
@@ -22,8 +22,8 @@
 
                 </p:column>
                 <p:column>
-                    <p:inputText id="keyword" value="#{hospitalDrugListControllerTemp.keyword}" size="60" onkeypress="keyEnter(event)"/>
-                    <p:commandButton value="Search" action="#{hospitalDrugListControllerTemp.search()}" update="table"/>
+                    <p:inputText id="keyword" value="#{hospitalDrugPassListController.keyword}" size="60" onkeypress="keyEnter(event)"/>
+                    <p:commandButton value="Search" action="#{hospitalDrugPassListController.search()}" update="table"/>
                     &nbsp;
                     <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer">Advance Search</span>
                 </p:column>
@@ -37,7 +37,7 @@
                     <p:outputLabel value="Columns:"/>
                 </p:column>
                 <p:column colspan="2">
-                    <p:selectManyCheckbox value="#{hospitalDrugListControllerTemp.selectColumns}">
+                    <p:selectManyCheckbox value="#{hospitalDrugPassListController.selectColumns}">
                         <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
                         <f:selectItem itemLabel="TMTID" itemValue="TMTID"/>
                         <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>

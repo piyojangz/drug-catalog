@@ -55,6 +55,13 @@ public class HospitalDrugServiceImpl implements HospitalDrugService {
         }
     }
 
+    @Override
+    public HospitalDrug findById(String hcode, String hospDrugCode) {
+        return hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, hcode));
+    }
+    
+    
+
     private HospitalDrug addNewHospitalDrug(RequestItem requestItem) throws BeansException {
         HospitalDrug hospitalDrug = new HospitalDrug();
         hospitalDrug.setHcode(requestItem.getUploadDrugItem().getUploadDrug().getHcode());
