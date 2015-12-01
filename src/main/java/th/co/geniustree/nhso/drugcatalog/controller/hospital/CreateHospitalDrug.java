@@ -7,7 +7,6 @@ package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
 import com.google.common.base.Strings;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +59,7 @@ public class CreateHospitalDrug implements Serializable {
     private UploadHospitalDrugItemService uploadHospitalDrugItemService;
 
     private HospitalDrug editHospitalDrug;
-    private HospitalDrug beforeEditHospitalDrug;
+    private UploadHospitalDrugItem beforeEditHospitalDrug;
     private String oldUnitPrice;
     private Date oldDateEffective;
     private String oldEdStatus;
@@ -154,20 +153,20 @@ public class CreateHospitalDrug implements Serializable {
         this.history = history;
     }
 
-    public HospitalDrug getBeforeEditHospitalDrug() {
+    public UploadHospitalDrugItem getBeforeEditHospitalDrug() {
         return beforeEditHospitalDrug;
     }
 
-    public void setBeforeEditHospitalDrug(HospitalDrug beforeEditHospitalDrug) {
+    public void setBeforeEditHospitalDrug(UploadHospitalDrugItem beforeEditHospitalDrug) {
         this.beforeEditHospitalDrug = beforeEditHospitalDrug;
     }
 
     public void saveBeforeEditStatus() {
         if (beforeEditHospitalDrug == null) {
-            beforeEditHospitalDrug = new HospitalDrug();
-            BeanUtils.copyProperties(editHospitalDrug, beforeEditHospitalDrug);
+            beforeEditHospitalDrug = new UploadHospitalDrugItem();
+            BeanUtils.copyProperties(item, beforeEditHospitalDrug);
         } else {
-            BeanUtils.copyProperties(beforeEditHospitalDrug, editHospitalDrug);
+            BeanUtils.copyProperties(beforeEditHospitalDrug, item);
         }
     }
 
@@ -249,7 +248,6 @@ public class CreateHospitalDrug implements Serializable {
             return;
         }
         editHospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode()));
-        saveBeforeEditStatus();
         if (editHospitalDrug == null) {
             FacesMessageUtils.error("ไม่พบข้อมูล hospDrugCode = " + hospDrugCode);
             return;
@@ -268,6 +266,7 @@ public class CreateHospitalDrug implements Serializable {
         if (editHospitalDrug.getPackPrice() != null) {
             item.setPackPrice(editHospitalDrug.getPackPrice().toPlainString());
         }
+        saveBeforeEditStatus();
     }
 
     public String save() {
