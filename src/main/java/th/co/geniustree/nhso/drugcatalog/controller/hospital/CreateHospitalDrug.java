@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ public class CreateHospitalDrug implements Serializable {
     private UploadHospitalDrugItemService uploadHospitalDrugItemService;
 
     private HospitalDrug editHospitalDrug;
+    private HospitalDrug beforeEditHospitalDrug;
     private String oldUnitPrice;
     private Date oldDateEffective;
     private String oldEdStatus;
@@ -155,7 +157,7 @@ public class CreateHospitalDrug implements Serializable {
             oldUnitPrice = item.getUnitPrice();
         } else if (updateFlag.equalsIgnoreCase("E")) {
             oldEdStatus = item.getIsed();
-        }
+    }
 
         oldDateEffective = item.getDateEffectiveDate();
     }
@@ -220,7 +222,10 @@ public class CreateHospitalDrug implements Serializable {
         item.setManufacturer(tmtDrug.getManufacturer());
         item.setStrength(tmtDrug.getStrength());
         item.setDosageForm(tmtDrug.getDosageform());
-        LOG.info("selected tmt drug => {}", tmtDrug);
+        if (!Strings.isNullOrEmpty(tmtDrug.getContvalue())) {
+            item.setContent(tmtDrug.getContvalue() + " " + tmtDrug.getContunit() + " " + tmtDrug.getDispUnit());
+        }
+        LOG.info("selected tmt drug => {}", tmtDrug.getTmtId());
     }
 
     public void loadHospitalDrug() {
