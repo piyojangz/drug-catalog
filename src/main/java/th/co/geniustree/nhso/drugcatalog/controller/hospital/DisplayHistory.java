@@ -47,6 +47,6 @@ public class DisplayHistory implements Serializable {
 
     public void load() {
         LOG.info("load hospDrugCode = {}", hospDrugCode);
-        hospitalDrugs = uploadHospitalDrugItemRepo.findByHospDrugCodeAndUploadDrugHcode(hospDrugCode, SecurityUtil.getUserDetails().getOrgId(), new Sort(Sort.Direction.ASC, "id"));
+        hospitalDrugs = uploadHospitalDrugItemRepo.findByHospDrugCodeAndUploadDrugHcode(hospDrugCode, SecurityUtil.getUserDetails().getOrgId(), new Sort(Sort.Direction.ASC, "requestItem.approveDate"));
     }
 }

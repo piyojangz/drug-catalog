@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
@@ -79,7 +80,7 @@ public class HospitalDrugListControllerX implements Serializable {
 
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-        all = new SpringDataLazyDataModelSupport<HospitalDrug>() {
+        all = new SpringDataLazyDataModelSupport<HospitalDrug>(new Sort(Sort.Direction.ASC, "hospDrugCode","tmtId")) {
 
             @Override
             public Page<HospitalDrug> load(Pageable pageAble) {

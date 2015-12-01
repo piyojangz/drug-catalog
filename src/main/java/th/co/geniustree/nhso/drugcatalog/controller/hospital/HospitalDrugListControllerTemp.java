@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.basicmodel.readonly.Hospital;
@@ -191,7 +192,7 @@ public class HospitalDrugListControllerTemp implements Serializable {
 
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-        all = new SpringDataLazyDataModelSupport<UploadHospitalDrugItemTemp>() {
+        all = new SpringDataLazyDataModelSupport<UploadHospitalDrugItemTemp>(new Sort(Sort.Direction.ASC, "hospDrugCode","requestItem.approveDate")) {
 
             @Override
             public Page<UploadHospitalDrugItemTemp> load(Pageable pageAble) {
