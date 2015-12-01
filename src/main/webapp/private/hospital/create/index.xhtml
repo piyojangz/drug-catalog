@@ -518,7 +518,7 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Date Effective">
-                            <h:outputText value="#{item.dateEffectiveDate}" style="#{item.dateEffective eq createHospitalDrug.item.dateEffective ? 'color: red' : ''}">
+                            <h:outputText value="#{item.dateEffectiveDate}" style="#{createHospitalDrug.isSameDateEffective(createHospitalDrug.item.dateEffectiveDate, item.dateEffectiveDate) ? 'color: red' : ''}">
                                 <f:convertDateTime locale="en_US" pattern="dd MMM yyyy HH:MM"/>
                             </h:outputText>
                         </p:column>

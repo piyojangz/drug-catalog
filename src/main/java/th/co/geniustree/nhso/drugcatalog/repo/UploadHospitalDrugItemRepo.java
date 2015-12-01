@@ -56,11 +56,11 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "from UploadHospitalDrugItem u "
             + "where u.hospDrugCode= ?1 "
             + "and u.uploadDrug.hcode = ?2 "
-            + "and u.dateEffectiveDate = ?3 "
+            + "and function('trunc',u.dateEffectiveDate) = function('trunc',?3) "
             + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + "and u.updateFlag = ?4 "
+            + "and u.updateFlag in ?4 "
             + "and u.requestItem.deleted = 0")
-    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, Date dateEffective, String updateFlag);
+    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, Date dateEffective, Collection updateFlags);
 
     @Query("select count(u) "
             + "from UploadHospitalDrugItem u "
@@ -95,9 +95,8 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAcceptAndUpdateFlag(String hospDrugCode, String hcode, String updateFlag);
 
-    public List<UploadHospitalDrugItem> findByUploadDrugHcodeAndHospDrugCodeAndUpdateFlag(String hospDrugcode, String hcode, String updateFlag, Sort sort);
-    
-    
+    public List<UploadHospitalDrugItem> findByUploadDrugHcodeAndHospDrugCodeAndTmtId(String hospDrugcode, String hcode, String tmtId, Sort sort);
+
     @Query("select u "
             + "from UploadHospitalDrugItem u "
             + "where u.uploadDrug.hcode = ?1 "
@@ -113,5 +112,5 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "     and u2.updateFlag = ?3 "
             + "     and u2.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT "
             + "     and u2.requestItem.deleted = 0 )")
-    public UploadHospitalDrugItem findLatestItemThatAcceptAndNotDeleteByUpdateFlag(String hcode, String hospDrugCode , String updateFlag);
+    public UploadHospitalDrugItem findLatestItemThatAcceptAndNotDeleteByUpdateFlag(String hcode, String hospDrugCode, String updateFlag);
 }

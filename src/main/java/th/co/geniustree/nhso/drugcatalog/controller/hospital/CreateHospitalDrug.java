@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.hospital;
 
 import com.google.common.base.Strings;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -200,15 +201,22 @@ public class CreateHospitalDrug implements Serializable {
     public void checkDuplicateDateEffective() {
         LOG.debug("updateFlag : {}", updateFlag);
         LOG.debug("new Date Effective : {}", item.getDateEffectiveDate());
-        disableSaveBtn = uploadHospitalDrugItemService.isExistsItem(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), item.getDateEffectiveDate(), updateFlag)
-                && DateUtils.format("ddMMyyyy", beforeEditHospitalDrug.getDateEffective()).equals(DateUtils.format("ddMMyyyy", item.getDateEffectiveDate()));
+        disableSaveBtn = uploadHospitalDrugItemService.isExistsItem(
+                SecurityUtil.getUserDetails().getHospital().getHcode()
+                , item.getHospDrugCode()
+                , item.getDateEffectiveDate());
         if (disableSaveBtn) {
             FacesMessageUtils.error("กรุณาเปลี่ยน Date Effective");
         }
     }
+    
+    public boolean isSameDateEffective(Date d1 , Date d2){
+        LOG.debug("DATE {}",DateUtils.format("ddMMyyyy", d1));
+        return DateUtils.format("ddMMyyyy", d1).equals(DateUtils.format("ddMMyyyy", d2));
+    }
 
     public void showHistory() {
-        history = uploadHospitalDrugItemService.findEditHistory(SecurityUtil.getUserDetails().getHospital().getHcode(), hospDrugCode, updateFlag);
+        history = uploadHospitalDrugItemService.findEditHistory(SecurityUtil.getUserDetails().getHospital().getHcode(), hospDrugCode, item.getTmtId());
     }
 
     public void findTmt() {
