@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -18,10 +19,12 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.ApproveFile;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.ApproveFileRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
+import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 
 /**
  *
@@ -42,6 +45,9 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Autowired
     private ApproveFileRepo approveFileRepo;
+
+    @Autowired
+    private UploadHospitalDrugItemService uploadHospitalDrugItemService;
 
     @Override
     public void approve(RequestItem requestItem) {
@@ -64,10 +70,22 @@ public class ApproveServiceImpl implements ApproveService {
     @Override
     public void approveBySystem(RequestItem requestItem) {
         try {
-            approve(requestItem, SYSTEM);
+            if ("U".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
+                UploadHospitalDrugItem item = uploadHospitalDrugItemService.findLatestItemByFlag(requestItem.getUploadDrugItem().getUploadDrug().getHcode(), requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUpdateFlag());
+//                HospitalDrug hospitalDrug = hospitalDrugService.findById(requestItem.getUploadDrugItem().getUploadDrug().getHcode(), requestItem.getUploadDrugItem().getHospDrugCode());
+                BigDecimal oldPrice = new BigDecimal(item.getUnitPrice());
+                BigDecimal newPrice = new BigDecimal(requestItem.getUploadDrugItem().getUnitPrice());
+                if (checkPrice(oldPrice, newPrice)) {
+                    approve(requestItem, SYSTEM);
+                }
+            }
         } catch (Exception e) {
             LOG.error(null, e);
         }
+    }
+
+    private boolean checkPrice(BigDecimal oldPrice, BigDecimal newPrice) {
+        return newPrice.doubleValue() > oldPrice.divide(new BigDecimal(2)).doubleValue() && newPrice.doubleValue() < oldPrice.multiply(new BigDecimal(2)).doubleValue();
     }
 
     @Override
