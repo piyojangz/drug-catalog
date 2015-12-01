@@ -57,7 +57,7 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "where u.hospDrugCode= ?1 "
             + "and u.uploadDrug.hcode = ?2 "
             + "and function('trunc',u.dateEffectiveDate) = function('trunc',?3) "
-            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT,th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
             + "and u.updateFlag in ?4 "
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, Date dateEffective, Collection updateFlags);
