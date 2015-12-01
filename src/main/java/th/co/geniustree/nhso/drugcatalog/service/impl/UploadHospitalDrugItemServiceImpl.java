@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,4 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
     public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag) {
         return repo.findLatestItemThatAcceptAndNotDeleteByUpdateFlag(hcode, hospDrugCode, updateFlag);
     }
-
-    
 }

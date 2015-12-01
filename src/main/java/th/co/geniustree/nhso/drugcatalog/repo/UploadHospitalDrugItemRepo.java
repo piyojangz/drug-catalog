@@ -107,11 +107,11 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and u.requestItem.deleted = 0 "
             + "and u.requestItem.approveDate = ("
             + "     select max(u2.requestItem.approveDate) "
-            + "     from UploadHospitalDrugItem u "
+            + "     from UploadHospitalDrugItem u2 "
             + "     where u2.uploadDrug.hcode = ?1 "
             + "     and u2.hospDrugCode = ?2 "
             + "     and u2.updateFlag = ?3 "
             + "     and u2.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT "
-            + "     and u2.requestItem.deleted = 0 ")
+            + "     and u2.requestItem.deleted = 0 )")
     public UploadHospitalDrugItem findLatestItemThatAcceptAndNotDeleteByUpdateFlag(String hcode, String hospDrugCode , String updateFlag);
 }
