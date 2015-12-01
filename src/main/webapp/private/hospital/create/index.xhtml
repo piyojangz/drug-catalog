@@ -64,7 +64,7 @@
                         </p:column>
                         <p:column>
                             <p:selectOneButton id="UPDATEFLAG" value="#{createHospitalDrug.updateFlag}" rendered="#{createHospitalDrug.editMode}"  required="true" requiredMessage="กรุณาระบุสิ่งที่ต้องการแก้ไข">
-                                <p:ajax process="UPDATEFLAG" update="@form" listener="#{createHospitalDrug.saveOldState()}"/>
+                                <p:ajax process="UPDATEFLAG" update="@form" listener="#{createHospitalDrug.saveBeforeEditStatus()}"/>
                                 <f:selectItem itemLabel="แก้ไขราคายา" itemValue="U" />
                                 <f:selectItem itemLabel="แก้ไข ED และอื่นๆ" itemValue="E" />
                                 <f:selectItem itemLabel="ลบ (UPDATEFLAG 'D')" itemValue="D" />
@@ -103,15 +103,11 @@
                         <p:column>
                             <p:inputText id="TMTID" 
                                          value="#{createHospitalDrug.item.tmtId}" 
-                                         readonly="#{facesContext.renderResponse}" 
-                                         disabled="#{createHospitalDrug.editMode}"/>
-                            <p:commandButton disabled="#{createHospitalDrug.editMode}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
-                                <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
+                                         readonly="#{facesContext.renderResponse}"
+                                         disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
+                            <p:commandButton disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
+                                <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH CONTENT" />
                             </p:commandButton>
-                            <span class="label-tabledescription label-tabledescription-danger" 
-                                  style="display: #{createHospitalDrug.editMode ? 'inline' : 'none'}">
-                                หากต้องการแก้ไข TMT กรุณาเพิ่มรายการยาใหม่
-                            </span>
                         </p:column>
                         <p:column>
                             <p:message for="TMTID"/>
@@ -386,13 +382,13 @@
                                 <h:outputText value="ก่อนแก้ไข : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{createHospitalDrug.oldUnitPrice}"/><h:outputText value=" บาท"/>
+                                <h:outputText value="#{createHospitalDrug.beforeEditHospitalDrug.unitPrice}"/><h:outputText value=" บาท"/>
                             </p:column>
                             <p:column style="width: 100px;text-align: right;">
                                 <h:outputText value="วันที่ : "/>
                             </p:column>
                             <p:column style="text-align: left">
-                                <h:outputText value="#{createHospitalDrug.oldDateEffective}">
+                                <h:outputText value="#{createHospitalDrug.beforeEditHospitalDrug.dateEffective}">
                                     <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
                                 </h:outputText>
                             </p:column>
@@ -452,13 +448,13 @@
                                 <h:outputText value="ก่อนแก้ไข : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{createHospitalDrug.oldEdStatus}"/>
+                                <h:outputText value="#{createHospitalDrug.beforeEditHospitalDrug.ised}"/>
                             </p:column>
                             <p:column style="width: 100px;text-align: right;">
                                 <h:outputText value="วันที่ : "/>
                             </p:column>
                             <p:column style="text-align: left">
-                                <h:outputText value="#{createHospitalDrug.oldDateEffective}">
+                                <h:outputText value="#{createHospitalDrug.beforeEditHospitalDrug.dateEffective}">
                                     <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
                                 </h:outputText>
                             </p:column>

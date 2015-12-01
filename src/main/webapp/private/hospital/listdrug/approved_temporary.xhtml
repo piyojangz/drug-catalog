@@ -13,7 +13,7 @@
             </div>
             <h:form id="form">
                 <f:metadata>
-                    <f:viewParam name="approved" value="#{hospitalDrugPassListController.approved}"/>
+                    <f:viewParam name="approved" value="#{hospitalDrugListControllerTemp.approved}"/>
                 </f:metadata>
                 <style type="text/css">
                     .ui-panelgrid .ui-panelgrid-cell{
@@ -27,19 +27,19 @@
                             หน่วยบริการ :
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{hospitalDrugPassListController.hcode}" size="50" autocomplete="false"/>
-                            <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{hospitalDrugPassListController.showSearchHospitalDialog()}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{hospitalDrugPassListController.searchHospitalDialogReturn}" update="@form" />
+                            <p:inputText value="#{hospitalDrugListControllerTemp.hcode}" size="50" autocomplete="false"/>
+                            <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{hospitalDrugListControllerTemp.showSearchHospitalDialog()}" update="@form">
+                                <p:ajax event="dialogReturn" listener="#{hospitalDrugListControllerTemp.searchHospitalDialogReturn}" update="@form" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <h:panelGroup rendered="#{not empty hospitalDrugPassListController.selectedHcode}">
+                <h:panelGroup rendered="#{not empty hospitalDrugListControllerTemp.selectedHcode}">
                     <ui:include src="searchPanel_temporary.xhtml" />
                 </h:panelGroup>
                 <p:dataTable id="table" styleClass="clean-table" resizableColumns="true"  
-                             value="#{hospitalDrugPassListController.all}" var="model"   
-                             rendered="#{not empty hospitalDrugPassListController.selectedHcode}"
+                             value="#{hospitalDrugListControllerTemp.all}" var="model"   
+                             rendered="#{not empty hospitalDrugListControllerTemp.selectedHcode}"
                              scrollable="true" scrollHeight="370"
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
@@ -47,7 +47,7 @@
                         #{msg.menu_listdrug_approved_label}
                         <p:commandLink style="float:left" ajax="false">
                             <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="table" fileName="APPROVED_#{hospitalDrugPassListController.user.hospital.hcode}_#{hospitalDrugPassListController.formattedDate()}" pageOnly="false"/>
+                            <p:dataExporter type="xls" target="table" fileName="APPROVED_#{hospitalDrugListControllerTemp.user.hospital.hcode}_#{hospitalDrugListControllerTemp.formattedDate()}" pageOnly="false"/>
                         </p:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
                                          style="float:right" icon="ui-icon-calculator" />
@@ -108,42 +108,40 @@
                         <h:outputText value="#{model.updateFlag}"/>
                     </p:column>
                     <p:column headerText="DATECHANGE" width="120">
-                        <h:outputText value="#{model.dateChange}">
+                        <h:outputText value="#{model.dateChangeDate}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="DATEUPDATE" width="120">
-                        <h:outputText value="#{model.dateUpdate}">
+                        <h:outputText value="#{model.dateUpdateDate}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="DATEEFFECTIVE" width="120"> 
-                        <h:outputText value="#{model.dateEffective}">
+                        <h:outputText value="#{model.dateEffectiveDate}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ISED_APPROVED" width="120"> 
-                        <h:outputText value="#{model.ised}">
+                        <h:outputText value="#{model.isedApprove}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="NDC24_APPROVED" width="120"> 
-                        <h:outputText value="#{model.ndc24}">
+                        <h:outputText value="#{model.ndc24Approve}">
                             <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
-                    <ui:remove>
-                        <p:column headerText="DATE_APPROVED" width="120"> 
-                            <h:outputText value="#{model.requestItem.approveDate}">
-                                <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="ISED_STATUS" width="120"> 
-                            <h:outputText value="#{model.isedStatus}">
-                                <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
-                            </h:outputText>
-                        </p:column>
-                    </ui:remove>
+                    <p:column headerText="DATE_APPROVED" width="120"> 
+                        <h:outputText value="#{model.requestItem.approveDate}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="ISED_STATUS" width="120"> 
+                        <h:outputText value="#{model.isedStatus}">
+                            <f:convertDateTime locale="US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
                 </p:dataTable>
                 <p:blockUI block="form" widgetVar="allblock" >
                     กรุณารอสักครู่...

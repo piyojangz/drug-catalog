@@ -48,6 +48,7 @@ public class CreateHospitalDrug implements Serializable {
     private boolean editMode = false;
     private String updateFlag = "A";
     private String hospDrugCode;
+
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
     @Autowired
@@ -152,14 +153,21 @@ public class CreateHospitalDrug implements Serializable {
         this.history = history;
     }
 
-    public void saveOldState() {
-        if (updateFlag.equalsIgnoreCase("U")) {
-            oldUnitPrice = item.getUnitPrice();
-        } else if (updateFlag.equalsIgnoreCase("E")) {
-            oldEdStatus = item.getIsed();
+    public HospitalDrug getBeforeEditHospitalDrug() {
+        return beforeEditHospitalDrug;
     }
 
-        oldDateEffective = item.getDateEffectiveDate();
+    public void setBeforeEditHospitalDrug(HospitalDrug beforeEditHospitalDrug) {
+        this.beforeEditHospitalDrug = beforeEditHospitalDrug;
+    }
+
+    public void saveBeforeEditStatus() {
+        if (beforeEditHospitalDrug == null) {
+            beforeEditHospitalDrug = new HospitalDrug();
+            BeanUtils.copyProperties(editHospitalDrug, beforeEditHospitalDrug);
+        } else {
+            BeanUtils.copyProperties(beforeEditHospitalDrug, editHospitalDrug);
+        }
     }
 
     public void checkHospDrugCodeExist(FacesContext context, UIComponent component, Object value) {
@@ -193,7 +201,7 @@ public class CreateHospitalDrug implements Serializable {
         LOG.debug("updateFlag : {}", updateFlag);
         LOG.debug("new Date Effective : {}", item.getDateEffectiveDate());
         disableSaveBtn = uploadHospitalDrugItemService.isExistsItem(SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), item.getDateEffectiveDate(), updateFlag)
-                && DateUtils.format("ddMMyyyy", oldDateEffective).equals(DateUtils.format("ddMMyyyy", item.getDateEffectiveDate()));
+                && DateUtils.format("ddMMyyyy", beforeEditHospitalDrug.getDateEffective()).equals(DateUtils.format("ddMMyyyy", item.getDateEffectiveDate()));
         if (disableSaveBtn) {
             FacesMessageUtils.error("กรุณาเปลี่ยน Date Effective");
         }
@@ -233,6 +241,7 @@ public class CreateHospitalDrug implements Serializable {
             return;
         }
         editHospitalDrug = hospitalDrugRepo.findOne(new HospitalDrugPK(hospDrugCode, SecurityUtil.getUserDetails().getHospital().getHcode()));
+        saveBeforeEditStatus();
         if (editHospitalDrug == null) {
             FacesMessageUtils.error("ไม่พบข้อมูล hospDrugCode = " + hospDrugCode);
             return;
@@ -261,7 +270,7 @@ public class CreateHospitalDrug implements Serializable {
             clear();
             return null;
         } else {
-            if (oldDateEffective.equals(item.getDateEffectiveDate())) {
+            if (beforeEditHospitalDrug.getDateEffective().equals(item.getDateEffectiveDate())) {
                 FacesMessageUtils.info("ไม่สามารถบันทึก Date Effective เดียวกันได้");
             }
             uploadHospitalDrugService.editDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
