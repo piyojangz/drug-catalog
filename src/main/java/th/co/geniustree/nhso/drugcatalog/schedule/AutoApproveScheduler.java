@@ -20,7 +20,7 @@ public class AutoApproveScheduler implements Processor{
     @Autowired
     private AutoApproveService autoApproveService;
     
-    @Scheduled(cron = " 0 30 23 * * ?")
+    @Scheduled(cron = " 0 0 21 * * ?")
     @Override
     public void process() {
         autoApproveService.approveSelectedFlagBySystem("U");
