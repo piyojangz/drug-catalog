@@ -52,7 +52,7 @@ public class HasFlagABeforeEDUValidatorIT {
     @Test
     public void flagAMustBeforeFlagEUD() {
         hospitalDrugService.addOrUpdateHospitalDrug(generateData());
-        HospitalDrug hDrug = hospitalDrugRepo.findOne(new HospitalDrugPK("C1000", "10666", "100005"));
+        HospitalDrug hDrug = hospitalDrugRepo.findOne(new HospitalDrugPK("C1000", "10666"));
         assertThat(hDrug)
                 .isNotNull();
     }

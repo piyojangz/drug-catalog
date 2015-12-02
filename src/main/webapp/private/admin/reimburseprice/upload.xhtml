@@ -31,7 +31,7 @@
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ไม่ผ่าน" style="color:red"/>
-                        <h:outputText value="การตรวจสอบตามโครงสร้าง TMT_REIMBURSE_PRICE "/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
                         <h:outputText value="#{uploadReimbursePrice.notPassModels.size()} " style="color:red"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
@@ -50,18 +50,20 @@
                             <p:column   headerText="ROW#" width="40">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
-                            <p:column   headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtid']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.tmtid}" style="" title="#{model.errorMap['tmtid']}"/>
+                            <p:column   headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.tmtid}" style="" title="#{model.errorMap['tmtId']}"/>
                             </p:column>
-                            <p:column headerText="EFFECTIVE_DATE" width="60" styleClass="#{empty model.errorMap['effectiveDate']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}"/>
+                            <p:column headerText="EFFECTIVE_DATE" width="60" styleClass="#{empty model.errorMap['dateinString']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['dateinString']}"/>
                             </p:column>
-                            <p:column headerText="PRICE" width="60" styleClass="#{empty model.errorMap['price']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
+                            <p:column headerText="PRICE" width="60" styleClass="#{empty model.errorMap['statusEd']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.price}"  title="#{model.errorMap['statusEd']}"/>
                             </p:column>
-                            <p:column headerText="ERROR" width="400">
-                                <h:outputText value="#{model.errors}" style="color:orange"/>
-                            </p:column>
+                            <ui:remove>
+                                <p:column headerText="ERROR" width="400">
+                                    <h:outputText value="#{model.errors}" style="color:orange"/>
+                                </p:column>
+                            </ui:remove>
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
@@ -69,20 +71,17 @@
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ผ่าน" style="color:green"/>
-                        <h:outputText value="การตรวจสอบตามโครงสร้าง TMT_REIMBURSE_PRICE "/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
                         <h:outputText value="#{uploadReimbursePrice.passModels.size()} " style="color:green"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
                     <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="passTable" 
-                                     resizableColumns="true" 
-                                     rowIndexVar="rowIndex" 
-                                     value="#{uploadReimbursePrice.passModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                        <p:dataTable id="passTable" resizableColumns="true" rowIndexVar="rowIndex" value="#{uploadReimbursePrice.passModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
                             <p:column   headerText="#" width="80" resizable="false">
@@ -92,10 +91,10 @@
                                 <h:outputText value="#{model.tmtid}" style="" title="#{model.errorMap['tmtId']}"/>
                             </p:column>
                             <p:column headerText="EFFECTIVE_DATE" width="100" >
-                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}"/>
+                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['dateinString']}"/>
                             </p:column>
                             <p:column headerText="PRICE" width="100" >
-                                <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
+                                <h:outputText value="#{model.hashCode}"  title="#{model.errorMap['statusEd']}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>

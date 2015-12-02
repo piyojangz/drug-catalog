@@ -8,6 +8,7 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <p:growl id="growl" showDetail="true"/>
             <h:form id="form">
                 <style type="text/css">
                     .ui-panelgrid .ui-panelgrid-cell{
@@ -66,7 +67,7 @@
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton value="Approve" action="#{autoApprove.approveAllRequestWithFlag()}" />
+                                        <p:commandButton value="Approve" action="#{autoApprove.approveAllRequestWithFlag()}" update=":growl"/>
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
@@ -76,7 +77,6 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-
                 <ui:remove>
                     <hr/>
                     <p:commandButton value="CALL INITIAL_HOSPITAL_DRUG(copy approved data to TMT_HOSPDRUG_TRANS)" action="#{autoApprove.copyDataToHospDrugtran()}" />

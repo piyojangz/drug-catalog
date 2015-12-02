@@ -33,7 +33,6 @@ public class TMTDrugTx implements Serializable {
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false, insertable = false, updatable = false),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false, insertable = false, updatable = false)
     })
     private HospitalDrug hospitalDrug;
 

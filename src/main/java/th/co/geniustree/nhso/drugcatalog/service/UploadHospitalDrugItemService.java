@@ -5,14 +5,21 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service;
 
+import java.util.Date;
+import java.util.List;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+
 /**
  *
  * @author thanthathon.b
  */
 public interface UploadHospitalDrugItemService {
-    
-    public boolean isChangeTmt(String hcode, String hospDrugCode,String tmtid);
 
-    public long countTotalHospitalDrug(String hcode, String hospDrugCode, String tmtid);
+    public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective);
     
+    public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective, String updateFlag);
+    
+    public List<UploadHospitalDrugItem> findEditHistory(String hcode,String hospDrugCode,String tmtId);
+
+    public UploadHospitalDrugItem findLatestItemByFlag(String hcode , String hospDrugCode , String updateFlag);
 }

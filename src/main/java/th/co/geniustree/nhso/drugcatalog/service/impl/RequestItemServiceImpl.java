@@ -40,7 +40,7 @@ public class RequestItemServiceImpl implements RequestItemService {
 
     @Override
     public void generateRequest(UploadHospitalDrugItem uploadItem) {
-        RequestItem requestItem = uploadHospitalDrugItemRepo.findRejectItem(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode(), uploadItem.getTmtId(), uploadItem.getDateEffective(), uploadItem.getUpdateFlag());
+        RequestItem requestItem = uploadHospitalDrugItemRepo.findRejectItem(uploadItem.getHospDrugCode(), uploadItem.getUploadDrug().getHcode(), uploadItem.getDateEffective(), uploadItem.getUpdateFlag());
         if (requestItem != null) {
             requestItemRepo.delete(requestItem);
         }

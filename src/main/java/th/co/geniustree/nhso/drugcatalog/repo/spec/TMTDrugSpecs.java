@@ -38,7 +38,7 @@ public class TMTDrugSpecs {
             }
         };
     }
-    
+
     public static Specification<TMTDrug> fsnContainsOR(final List<String> keywords) {
         return new Specification<TMTDrug>() {
 
@@ -122,7 +122,7 @@ public class TMTDrugSpecs {
             }
         };
     }
-    
+
     public static Specification<TMTDrug> haveDosageFormGroup(final boolean haveDFG) {
         return new Specification<TMTDrug>() {
 
@@ -132,13 +132,13 @@ public class TMTDrugSpecs {
             }
         };
     }
-    
+
     public static Specification<TMTDrug> tmtIdNotNull() {
         return new Specification<TMTDrug>() {
 
             @Override
             public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.notEqual(root.get(TMTDrug_.tmtId),"NULLID");
+                return cb.isNotNull(root.get(TMTDrug_.tmtId));
             }
         };
     }

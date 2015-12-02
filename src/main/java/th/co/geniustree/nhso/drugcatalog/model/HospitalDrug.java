@@ -46,7 +46,6 @@ public class HospitalDrug implements Serializable {
     @Column(name = "PRODUCTCAT", nullable = true, length = 3)
     private String productCat;
 
-    @Id
     @Column(name = "TMTID", nullable = false, length = 6)
     private String tmtId;
 
@@ -126,7 +125,6 @@ public class HospitalDrug implements Serializable {
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false),
-        @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)
     })
     private List<HospitalPrice> prices;
 
@@ -134,7 +132,6 @@ public class HospitalDrug implements Serializable {
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", nullable = false),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", nullable = false),
-        @JoinColumn(name = "TMTID", referencedColumnName = "TMTID", nullable = false)
     })
     private List<HospitalEdNed> edNeds;
 
@@ -412,7 +409,6 @@ public class HospitalDrug implements Serializable {
         int hash = 3;
         hash = 19 * hash + Objects.hashCode(this.hcode);
         hash = 19 * hash + Objects.hashCode(this.hospDrugCode);
-        hash = 19 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -429,9 +425,6 @@ public class HospitalDrug implements Serializable {
             return false;
         }
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
-            return false;
-        }
-        if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }
         return true;

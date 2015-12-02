@@ -87,7 +87,6 @@ public class RequestItem implements Serializable {
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE"),
         @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE"),
-        @JoinColumn(name = "TMTID",referencedColumnName = "TMTID")
     })
     private HospitalDrug targetItem;
 

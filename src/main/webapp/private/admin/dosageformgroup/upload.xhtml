@@ -9,11 +9,11 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <div class="header-content">
-                <h:outputText value="Upload รายการจับคู่ TMT และ DOSAGE_FORM_GROUP"/>
+                <h:outputText value="Upload รายการ Dosage Form Group"/>
             </div>
             <h:form>
-                <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้ารายการจับคู่ TMT และ DOSAGE_FORM_GROUP" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
-                    <p:fileDownload value="#{uploadMappedTMTAndDosageFormGroup.templateFile}" />
+                <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า Dosage Form Group" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
+                    <p:fileDownload value="#{uploadDosageFormGroup.templateFile}" />
                 </p:commandLink>
             </h:form>
             <br/>
@@ -21,39 +21,39 @@
 
 
                 <p:messages id="messages" globalOnly="true" showDetail="true"/>
-                <p:fileUpload fileUploadListener="#{uploadMappedTMTAndDosageFormGroup.handleFileUpload}" 
+                <p:fileUpload fileUploadListener="#{uploadDosageFormGroup.handleFileUpload}" 
                               mode="advanced"
                               update="form" 
                               auto="true" 
                               sizeLimit="10000000" 
                               allowTypes="/(\.|\/)(xls|xlsx)$/" 
-                              label="#{not empty uploadMappedTMTAndDosageFormGroup.originalFileName 
-                                       ? 'File : '.concat(uploadMappedTMTAndDosageFormGroup.originalFileName)
+                              label="#{not empty uploadDosageFormGroup.originalFileName 
+                                       ? 'File : '.concat(uploadDosageFormGroup.originalFileName)
                                        : 'เลือกไฟล์ Dosage Form Group (xls,xlsx)'}"/>
 
 
-                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadMappedTMTAndDosageFormGroup.passModels.size()+uploadMappedTMTAndDosageFormGroup.notPassModels.size()} เรคคอร์ด" 
-                               rendered="#{not empty uploadMappedTMTAndDosageFormGroup.file}"/>
+                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadDosageFormGroup.passModels.size()+uploadMappedDrugGroup.notPassModels.size()} เรคคอร์ด" 
+                               rendered="#{not empty uploadDosageFormGroup.file}"/>
                 <br/>
                 <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" 
-                               rendered="#{uploadMappedTMTAndDosageFormGroup.duplicateFile}" 
+                               rendered="#{uploadDosageFormGroup.duplicateFile}" 
                                style="color:red;font-weight: bold"/>
                 <br/>
 
-                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadMappedTMTAndDosageFormGroup.notPassModels}">
+                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadDosageFormGroup.notPassModels}">
 
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ไม่ผ่าน" style="color:red"/>
-                        <h:outputText value="การตรวจสอบตามโครงสร้าง TMT_DOSAGE_FORM_GROUP "/>
-                        <h:outputText value="#{uploadMappedTMTAndDosageFormGroup.notPassModels.size()} " style="color:red"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
+                        <h:outputText value="#{uploadDosageFormGroup.notPassModels.size()} " style="color:red"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
 
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="errorTable" 
                                      resizableColumns="true"  
-                                     value="#{uploadMappedTMTAndDosageFormGroup.notPassModels}" 
+                                     value="#{uploadDosageFormGroup.notPassModels}" 
                                      var="model"  
                                      paginator="true"
                                      rows="10"
@@ -66,35 +66,30 @@
                                     <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="#" width="80" resizable="false">
-                                <h:outputText value="#{model.rowNum}" style="" />
+                            <p:column headerText="DOSAGEFORM_GROUP_ID" width="80" >
+                                <h:outputText value="#{model.idGroup}" style=""/>
                             </p:column>
-                            <p:column headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtid']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.tmtid}" style="" title="#{model.errorMap['tmtid']}"/>
-                            </p:column>
-                            <p:column headerText="DOSAGE_FORM_GROUP" width="120" styleClass="#{empty model.errorMap['effectiveDate']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.dosageFormGroup}" style="" title="#{model.errorMap['dosageFormGroup']}"/>
-                            </p:column>
-                            <p:column headerText="ERROR" width="400" >
-                                <h:outputText value="#{model.errors}" style="color:orange"/>
+                            <p:column headerText="DESCRIPTION" width="60" >
+                                <h:outputText value="#{model.description}" />
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>
 
                 </p:panel>
-                <p:panel style="margin-bottom:20px" rendered="#{not empty uploadMappedTMTAndDosageFormGroup.passModels}">
+                <p:panel style="margin-bottom:20px" rendered="#{not empty uploadTMTEdNed.passModels}">
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ผ่าน" style="color:green"/>
-                        <h:outputText value="การตรวจสอบตามโครงสร้าง TMT_DOSAGE_FORM_GROUP "/>
-                        <h:outputText value="#{uploadMappedTMTAndDosageFormGroup.passModels.size()} " style="color:green"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
+                        <h:outputText value="#{uploadDosageFormGroup.passModels.size()} " style="color:green"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
 
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="passTable" 
                                      resizableColumns="true" 
-                                     value="#{uploadMappedTMTAndDosageFormGroup.passModels}"
+                                     rowIndexVar="rowIndex" 
+                                     value="#{uploadDosageFormGroup.passModels}"
                                      var="model" 
                                      paginator="true" 
                                      rows="10" 
@@ -104,21 +99,18 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
 
                             <p:column   headerText="#" width="80" resizable="false">
-                                <h:outputText value="#{model.rowNum}" style="" />
+                                <h:outputText value="#{rowIndex+1}" style="" />
                             </p:column>
-                            <p:column headerText="TMTID" width="80" >
-                                <h:outputText value="#{model.tmtid}" style=""/>
+                            <p:column headerText="DOSAGEFORM_GROUP_ID" width="80" >
+                                <h:outputText value="#{model.idGroup}" style="" />
                             </p:column>
-                            <p:column headerText="DOSAGE_FORM_GROUP" width="120" >
-                                <h:outputText value="#{model.dosageFormGroup}" />
-                            </p:column>
-                            <p:column headerText="ERROR" width="400">
-                                <h:outputText value="#{model.errors}" style="color:orange"/>
+                            <p:column headerText="DESCRIPTION" width="60" >
+                                <h:outputText value="#{model.description}"/>
                             </p:column>
 
                         </p:dataTable>
@@ -132,15 +124,15 @@
 
                 <p:commandButton ajax="false" 
                                  value="Save" 
-                                 action="#{uploadMappedTMTAndDosageFormGroup.save()}" 
-                                 disabled="#{empty uploadMappedTMTAndDosageFormGroup.passModels or uploadMappedTMTAndDosageFormGroup.duplicateFile}" 
+                                 action="#{uploadDosageFormGroup.save()}" 
+                                 disabled="#{empty uploadDosageFormGroup.passModels or uploadDosageFormGroup.duplicateFile}" 
                                  onclick="PF('allblock').show()"  
                                  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
                 <p:commandButton ajax="false" 
-                                 value="Cancel"
-                                 action="#{uploadMappedTMTAndDosageFormGroup.reset()}" 
-                                 disabled="#{empty uploadMappedTMTAndDosageFormGroup.file}"
+                                 value="Cancle"
+                                 action="#{uploadDosageFormGroup.reset()}" 
+                                 disabled="#{empty uploadDosageFormGroup.file}"
                                  update="form"  
                                  onclick="PF('allblock').show()" />
             </h:form>

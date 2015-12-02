@@ -43,10 +43,6 @@ public class HospitalPrice implements Serializable {
     @Column(name = "DATE_EFFECTIVE", nullable = false)
     private Date dateEffectInclusive;
     
-    @Id
-    @Column(name = "TMTID" , nullable = false , length = 6)
-    private String tmtId;
-
     @Column(name = "PRICE", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
     
@@ -99,21 +95,12 @@ public class HospitalPrice implements Serializable {
         this.createDate = createDate;
     }
 
-    public String getTmtId() {
-        return tmtId;
-    }
-
-    public void setTmtId(String tmtId) {
-        this.tmtId = tmtId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 53 * hash + Objects.hashCode(this.hcode);
         hash = 53 * hash + Objects.hashCode(this.hospDrugCode);
         hash = 53 * hash + Objects.hashCode(this.dateEffectInclusive);
-        hash = 53 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -133,9 +120,6 @@ public class HospitalPrice implements Serializable {
             return false;
         }
         if (!Objects.equals(this.dateEffectInclusive, other.dateEffectInclusive)) {
-            return false;
-        }
-        if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }
         return true;

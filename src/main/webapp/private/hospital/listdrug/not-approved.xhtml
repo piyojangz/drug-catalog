@@ -52,7 +52,7 @@
                         <h:outputText value="#{model.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="60" styleClass="#{model.requestItem.errorColumns.contains('TMTID')?'errorBackground':'color:black'}">
-                        <h:outputText value="#{model.tmtId eq 'NULLID' ? '' : model.tmtId}"/>
+                        <h:outputText value="#{model.tmtId}"/>
                     </p:column>
                     <p:column headerText="SPECPREP" width="60" styleClass="#{model.requestItem.errorColumns.contains('SPECPREP')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.specPrep}"/>

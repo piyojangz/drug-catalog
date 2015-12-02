@@ -26,8 +26,8 @@ public class PriceServiceImpl implements PriceService {
     private HospitalPriceRepo priceRepo;
 
     @Override
-    public boolean isPriceDuplicate(String hcode, String hospDrugCode, Date dateEffective,String tmtid) {
-        HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hcode, hospDrugCode, dateEffective,tmtid));
+    public boolean isPriceDuplicate(String hcode, String hospDrugCode, Date dateEffective) {
+        HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hcode, hospDrugCode, dateEffective));
         return findOne != null;
     }
 
@@ -39,7 +39,7 @@ public class PriceServiceImpl implements PriceService {
      */
     @Override
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
-        HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hospitalDrug.getHcode(), hospitalDrug.getHospDrugCode(), hospitalDrug.getDateEffective(),hospitalDrug.getTmtId()));
+        HospitalPrice findOne = priceRepo.findOne(new HospitalPricePK(hospitalDrug.getHcode(), hospitalDrug.getHospDrugCode(), hospitalDrug.getDateEffective()));
         if (findOne == null) {
             createFirstPrice(hospitalDrug,unitprice);
         } else {
@@ -58,7 +58,6 @@ public class PriceServiceImpl implements PriceService {
     public void createFirstPrice(HospitalDrug hospitalDrug, BigDecimal unitprice) {
         HospitalPrice price = new HospitalPrice();
         price.setHcode(hospitalDrug.getHcode());
-        price.setTmtId(hospitalDrug.getTmtId());
         price.setHospDrugCode(hospitalDrug.getHospDrugCode());
         price.setDateEffectInclusive(hospitalDrug.getDateEffective());
         price.setPrice(unitprice);

@@ -18,16 +18,14 @@ public class HospitalPricePK implements Serializable {
     private String hcode;
     private Date dateEffectInclusive;
     private String hospDrugCode;
-    private String tmtId;
 
     public HospitalPricePK() {
     }
 
-    public HospitalPricePK(String hcode, String hospDrugCode, Date dateEffectInclusive,String tmtId) {
+    public HospitalPricePK(String hcode, String hospDrugCode, Date dateEffectInclusive) {
         this.hcode = hcode;
         this.dateEffectInclusive = dateEffectInclusive;
         this.hospDrugCode = hospDrugCode;
-        this.tmtId = tmtId;
     }
 
     public String getHcode() {
@@ -54,13 +52,6 @@ public class HospitalPricePK implements Serializable {
         this.hospDrugCode = hospDrugCode;
     }
 
-    public String getTmtId() {
-        return tmtId;
-    }
-
-    public void setTmtId(String tmtId) {
-        this.tmtId = tmtId;
-    }
 
     @Override
     public int hashCode() {
@@ -68,7 +59,6 @@ public class HospitalPricePK implements Serializable {
         hash = 53 * hash + Objects.hashCode(this.hcode);
         hash = 53 * hash + Objects.hashCode(this.dateEffectInclusive);
         hash = 53 * hash + Objects.hashCode(this.hospDrugCode);
-        hash = 53 * hash + Objects.hashCode(this.tmtId);
         return hash;
     }
 
@@ -88,9 +78,6 @@ public class HospitalPricePK implements Serializable {
             return false;
         }
         if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
-            return false;
-        }
-        if (!Objects.equals(this.tmtId, other.tmtId)) {
             return false;
         }
         return true;

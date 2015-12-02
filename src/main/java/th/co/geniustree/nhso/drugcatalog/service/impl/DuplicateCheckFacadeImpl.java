@@ -37,19 +37,18 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
 
     private void checkDuplicateForUpdateFlageUED(HospitalDrugExcelModel uploadDrugModel) {
         long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = 
-                uploadHospitalDrugItemRepo.countByHospDrugCodeAndTmtIdAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(
+                uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(
                         uploadDrugModel.getHospDrugCode(), 
-                        uploadDrugModel.getTmtId(),
                         uploadDrugModel.getHcode(), 
                         uploadDrugModel.getDateEffective(), 
                         uploadDrugModel.getUpdateFlag());
         if (countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate > 0) {
-            uploadDrugModel.addError("dateEffective", "พบ hospDrugCode , tmtid ,dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
+            uploadDrugModel.addError("dateEffective", "พบ hospDrugCode ,dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
         }
     }
 
     private void checkDuplicateForUpdateFlagA(HospitalDrugExcelModel uploadDrugModel) {
-        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode(),uploadDrugModel.getTmtId()));
+        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode()));
         if (exists) {
             uploadDrugModel.addError("updateFlag", "UpdateFlag \"A\" ใช้เฉพาะเพิ่มรายการยาใหม่ เท่านั้น หากต้องการปรับปรุง/แก้ไขรายการยาเดิม ให้ระบุ UpdateFlag ให้ถูกต้อง");
         }

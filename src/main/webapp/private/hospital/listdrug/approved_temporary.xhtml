@@ -37,7 +37,10 @@
                 <h:panelGroup rendered="#{not empty hospitalDrugListControllerTemp.selectedHcode}">
                     <ui:include src="searchPanel_temporary.xhtml" />
                 </h:panelGroup>
-                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListControllerTemp.all}" var="model"   rendered="#{not empty hospitalDrugListControllerTemp.selectedHcode}"
+                <p:dataTable id="table" styleClass="clean-table" resizableColumns="true"  
+                             value="#{hospitalDrugListControllerTemp.all}" var="model"   
+                             rendered="#{not empty hospitalDrugListControllerTemp.selectedHcode}"
+                             scrollable="true" scrollHeight="370"
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
@@ -57,10 +60,10 @@
                         <h:outputText value="#{model.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="60">
-                        <h:outputText value="#{model.tmtId eq 'NULLID' ? '' : model.tmtId}"/>
+                        <h:outputText value="#{model.tmtId}"/>
                     </p:column>
                     <p:column headerText="SPECPREP" width="60">
-                        <h:outputText value="#{model.specPrep}"/> 
+                        <h:outputText value="#{model.specPrep}"/>
                     </p:column>
                     <p:column headerText="GENERICNAME" width="200">
                         <h:outputText value="#{model.genericName}"/>

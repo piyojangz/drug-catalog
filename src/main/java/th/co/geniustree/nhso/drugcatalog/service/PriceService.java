@@ -15,7 +15,7 @@ import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
  */
 public interface PriceService {
 
-    public boolean isPriceDuplicate(String hcode, String hospDrugCode, Date dateEffective,String tmtid);
+    public boolean isPriceDuplicate(String hcode, String hospDrugCode, Date dateEffective);
 
     public void addNewPrice(HospitalDrug hospitalDrug, BigDecimal price);
 

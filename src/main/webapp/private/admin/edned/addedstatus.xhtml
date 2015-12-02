@@ -49,7 +49,7 @@
                 }
             </style>
             <p:growl id="growl" showDetail="true"/>
-            <div class="header-content">
+<div class="header-content">
                 <h:outputText value="รายการ ยาและ ED / NED"/>
             </div>
             <h:form id="form">
@@ -95,8 +95,19 @@
                             <h:outputText value="ปีงบประมาณ : "/>
                         </p:column>
                         <p:column>
-                            <p:calendar value="#{edNedController.budgetYear}" navigator="true" >
-                            </p:calendar>
+                            <p:autoComplete id="budgetYearComplete" 
+                                            value="#{edNedController.budgetYear}" 
+                                            completeMethod="#{edNedController.completeBudgetYear}"
+                                            var="year" 
+                                            itemLabel="#{year}"
+                                            itemValue="#{year}" 
+                                            forceSelection="true" 
+                                            styleClass="input1"
+                                            dropdown="true">
+                                <p:column>
+                                    1 ต.ค. #{year - 1} - 30 ก.ย. #{year}
+                                </p:column>
+                            </p:autoComplete>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -142,11 +153,9 @@
                              value="#{edNedController.tmtEdNeds}"
                              var="model"
                              rowIndexVar="rowIndex"
-                             styleClass="clean-table"
                              paginator="true" 
                              rows="20" 
-                             scrollable="true"
-                             scrollHeight="500"
+                             style="min-width: 700px;"
                              lazy="true" 
                              rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
@@ -162,18 +171,16 @@
                     <p:column headerText="TMTID" style="width: 100px;text-align: center;">
                         <h:outputText value="#{model.tmtDrug.tmtId}"/>
                     </p:column>
-                    <p:column headerText="FSN">
-                        <h:outputText value="#{model.tmtDrug.fsn}"/>
+                    <p:column headerText="กองทุน" style="width: 150px;">
+                        <h:outputText value="#{model.fund.code} -> #{model.fund.name}"/>
                     </p:column>
-                    <p:column headerText="สิทธิ์" style="width: 50px;text-align: center;">
-                        <h:outputText value="#{model.classifier}"/>
-                    </p:column>
-                    <p:column headerText="ED / NED" style="width: 100px;text-align: center;">
-                        <h:outputText value="#{model.statusEd}"/>
-                        <p:spacer width="5"/>
+                    <p:column headerText="ปีงบประมาณ" style="width: 100px;">
                         <h:outputText value="#{model.dateIn}">
                             <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
                         </h:outputText>
+                    </p:column>
+                    <p:column headerText="ED / NED" style="width: 100px;">
+                        <h:outputText value="#{model.statusEd}"/>
                     </p:column>
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
                         <p:commandLink value="แก้ไข" 
@@ -214,7 +221,7 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="สิทธิ์ : "/>
+                                <h:outputText value="กองทุน : "/>
                             </p:column>
                             <p:column>
                                 <p:inputText value="#{edNedController.selectedEdNed.classifier}" style="width: 200px;" disabled="true"/>
@@ -222,12 +229,10 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="DateIn : "/>
+                                <h:outputText value="ปีงบประมาณ : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true">
-                                    <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
-                                </p:inputText>
+                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -277,7 +282,7 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="สิทธิ์ : "/>
+                                <h:outputText value="กองทุน : "/>
                             </p:column>
                             <p:column>
                                 <h:outputText value="#{edNedController.selectedEdNed.classifier}"/>
@@ -285,12 +290,10 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="DateIn : "/>
+                                <h:outputText value="ปีงบประมาณ : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}">
-                                    <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
-                                </h:outputText>
+                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}"/>
                             </p:column>
                         </p:row>
                         <p:row>

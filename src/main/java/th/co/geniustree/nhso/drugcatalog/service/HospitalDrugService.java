@@ -15,4 +15,6 @@ import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 public interface HospitalDrugService {
 
     public HospitalDrug addOrUpdateHospitalDrug(RequestItem requestItem);
+    
+    public HospitalDrug findById(String hcode , String hospDrugCode);
 }

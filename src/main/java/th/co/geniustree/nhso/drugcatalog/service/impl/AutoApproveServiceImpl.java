@@ -54,7 +54,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
 
     @Override
     public void approveRequestWhichTMTisNull() {
-        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtId(RequestItem.Status.REQUEST,"NULLID");
+        List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status.REQUEST);
         log.info("auto approve for request and tmt is null ==>{}", items.size());
         approveService.approve(items);
         uploadHospitalDrugItemRepo.copyDataProcedure();
@@ -93,13 +93,12 @@ public class AutoApproveServiceImpl implements AutoApproveService {
         log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
         approveService.approve(items);
     }
-    
+
     @Override
-    public void approveSelectedFlagBySystem(String flag){
+    public void approveSelectedFlagBySystem(String flag) {
         List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, flag);
         log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
         approveService.approveBySystem(items);
     }
-    
-    
+
 }

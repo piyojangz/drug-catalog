@@ -96,7 +96,7 @@
                     <p:commandLink value="เลือก" style="color:blue" actionListener="#{searchTmtDrug.selectDrug(model)}"/>
                 </p:column>
                 <p:column headerText="TPUCODE/TMTID" width="60">
-                    <h:outputText value="#{model.tmtId eq 'NULLID' ? '' : model.tmtId}"/>
+                    <h:outputText value="#{model.tmtId}"/>
                 </p:column>
                 <p:column headerText="ActiveIngredient" width="100">
                     <h:outputText value="#{model.activeIngredient}"/>

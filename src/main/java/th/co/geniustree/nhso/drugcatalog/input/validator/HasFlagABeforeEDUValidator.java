@@ -23,7 +23,7 @@ public class HasFlagABeforeEDUValidator implements ConstraintValidator<HasFlagAB
     @Override
     public boolean isValid(HospitalDrugExcelModel value, ConstraintValidatorContext context) {
         if (!"A".equals(value.getUpdateFlag())) {
-            long count = uploadHospitalDrugItemRepo.countByHospitalDrug(value.getHcode(), value.getHospDrugCode(),value.getTmtId());
+            long count = uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept(value.getHcode(), value.getHospDrugCode());
             return count > 0;
             }
         return true;

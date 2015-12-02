@@ -13,7 +13,8 @@
                 <f:viewAction action="#{displayHistory.load()}"/>
             </f:metadata>
             <h:form>
-                <p:dataTable id="table" var="model" value="#{displayHistory.hospitalDrugs}">
+                <p:dataTable id="table" var="model" value="#{displayHistory.hospitalDrugs}"
+                             styleClass="clean-table">
                     <f:facet name="header">
                         ประวัติการแก้ไข
                         <h:commandLink style="float:left">
@@ -21,7 +22,7 @@
                             <p:dataExporter type="xls" target="table" fileName="history_#{displayHistory.hospDrugCode}" pageOnly="false"/>
                         </h:commandLink>
                         <p:commandButton id="toggler" type="button" value="Columns"
-                                         style="float:right" icon="ui-icon-calculator" />
+                                         style="right: 0px;margin-bottom: 5px;position: fixed;" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
                     <p:column   headerText="HOSPDRUGCODE" width="110">
@@ -31,7 +32,7 @@
                         <h:outputText value="#{model.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="60">
-                        <h:outputText value="#{model.tmtId eq 'NULLID' ? '' : model.tmtId}"/>
+                        <h:outputText value="#{model.tmtId}"/>
                     </p:column>
                     <p:column headerText="SPECPREP" width="60">
                         <h:outputText value="#{model.specPrep}"/>

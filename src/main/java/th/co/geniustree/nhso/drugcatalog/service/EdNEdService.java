@@ -14,7 +14,7 @@ import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
  */
 public interface EdNEdService {
 
-    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn,String tmtid);
+    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn);
 
     public void addNewEdNed(HospitalDrug alreadyDrug, String ised);
 

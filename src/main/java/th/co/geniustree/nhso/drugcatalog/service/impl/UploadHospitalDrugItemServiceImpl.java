@@ -5,12 +5,15 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 
@@ -18,24 +21,36 @@ import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
  *
  * @author thanthathon.b
  */
-public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItemService{
+@Service
+@Transactional(propagation = Propagation.REQUIRED)
+public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItemService {
 
     @Autowired
     private UploadHospitalDrugItemRepo repo;
-    
-    @Autowired
-    private HospitalDrugRepo hospitalDrugRepo;
-    
+
     @Override
-    public long countTotalHospitalDrug(String hcode, String hospDrugCode, String tmtid) {
-        return repo.countByHospitalDrug(hcode, hospDrugCode, tmtid);
+    public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective, String updateFlag) {
+        List<String> s =  Arrays.asList(new String[]{"A",updateFlag});
+        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(
+                hospDrugCode, hcode, dateEffective,s);
+        return count > 0;
     }
 
     @Override
-    public boolean isChangeTmt(String hcode, String hospDrugCode, String tmtid) {
-        HospitalDrug hospitalDrug = hospitalDrugRepo.findByHcodeAndHospDrugCodeAndTmtId(hcode, hospDrugCode, tmtid);
-        return !hospitalDrug.getTmtId().equals(tmtid);
+    public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective) {
+         List<String> s =  Arrays.asList(new String[]{"A","E","U","D"});
+        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(
+                hospDrugCode, hcode, dateEffective,s);
+        return count > 0;
     }
-    
-    
+
+    @Override
+    public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId) {
+        return repo.findByUploadDrugHcodeAndHospDrugCodeAndTmtId(hcode, hospDrugCode, tmtId, new Sort(Sort.Direction.ASC, "id"));
+    }
+
+    @Override
+    public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag) {
+        return repo.findLatestItemThatAcceptAndNotDeleteByUpdateFlag(hcode, hospDrugCode, updateFlag);
+    }
 }

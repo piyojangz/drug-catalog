@@ -7,10 +7,10 @@ package th.co.geniustree.nhso.drugcatalog.schedule;
 
 /**
  *
- * @author Thanthathon
+ * @author thanthathon.b
  */
 public interface Processor {
 
     public void process();
-    
+
 }

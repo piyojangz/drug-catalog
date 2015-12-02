@@ -30,8 +30,8 @@ public class EdNEdServiceImpl implements EdNEdService {
     private HospitalEdNedRepo hospitalEdNedRepo;
 
     @Override
-    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn,String tmtid) {
-        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(hcode, hospDrugCode, dateIn,tmtid));
+    public boolean isDuplicateEdNed(String hcode, String hospDrugCode, Date dateIn) {
+        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(hcode, hospDrugCode, dateIn));
         if (findOne != null) {
             return true;
         }
@@ -40,7 +40,7 @@ public class EdNEdServiceImpl implements EdNEdService {
 
     @Override
     public void addNewEdNed(HospitalDrug drug, String ised) {
-        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange(),drug.getTmtId()));
+        HospitalEdNed findOne = hospitalEdNedRepo.findOne(new HospitalEdNedPK(drug.getHcode(), drug.getHospDrugCode(), drug.getDateChange()));
         if (findOne == null) {
             createFirstEdNed(drug, ised);
         } else {
@@ -57,7 +57,6 @@ public class EdNEdServiceImpl implements EdNEdService {
     public void createFirstEdNed(HospitalDrug drug, String ised) {
         HospitalEdNed edNed = new HospitalEdNed();
         edNed.setHcode(drug.getHcode());
-        edNed.setTmtId(drug.getTmtId());
         edNed.setHospDrugCode(drug.getHospDrugCode());
         edNed.setDateIn(drug.getDateEffective());
         edNed.setStatusEd(ised);

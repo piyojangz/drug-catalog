@@ -6,10 +6,10 @@
 package th.co.geniustree.nhso.drugcatalog.search;
 
 import java.util.List;
+import static org.assertj.core.api.Assertions.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,13 +54,23 @@ public class SummaryTest {
     @Test
     public void testQuery() {
         Pageable pageRequest = new PageRequest(0, 5);
-        Page page = requestItemRepo.countSummaryRequestByProvince(RequestItem.Status.REQUEST, "1000", pageRequest);
+        Page page = requestItemRepo.countSummaryRequestByProvince("1000", pageRequest);
         List list = page.getContent();
         Object[] startObject = (Object[]) list.get(0);
         SummaryRequest summaryRequest = SummaryRequestMapper.mapToModel(startObject);
         LOG.info("All hospital Request = {}", page.getTotalElements());
         printDetails(summaryRequest);
-        assertNotNull(startObject[1]);
+        assertThat(summaryRequest.getCountAll())
+                .isEqualTo(sumAllFlag(summaryRequest))
+                .isEqualTo(sumAllTmt(summaryRequest));
+    }
+    
+    private int sumAllFlag(SummaryRequest model){
+        return model.getCountFlagA() + model.getCountFlagD() + model.getCountFlagE() + model.getCountFlagU();
+    }
+    
+    private int sumAllTmt(SummaryRequest model){
+        return model.getCountTMTNotNull() + model.getCountTMTNull();
     }
 
     public void printDetails(SummaryRequest summaryRequest) {

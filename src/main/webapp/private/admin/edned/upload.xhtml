@@ -52,9 +52,6 @@
                             <p:column headerText="ISED" width="60" styleClass="#{empty model.errorMap['statusEd']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.statusEd}"  title="#{model.errorMap['statusEd']}"/>
                             </p:column>
-                            <p:column headerText="FUNDCODE" width="60" styleClass="#{empty model.errorMap['fundCode']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.fundCode}"  title="#{model.errorMap['fundCode']}"/>
-                            </p:column>
                             <p:column headerText="ERROR" width="400">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
@@ -90,9 +87,6 @@
                              <p:column headerText="ISED" width="100" >
                                  <h:outputText value="#{model.statusEd}"  title="#{model.errorMap['statusEd']}"/>
                             </p:column>
-                            <p:column headerText="FUNDCODE" width="60">
-                                <h:outputText value="#{model.fundCode}"  title="#{model.errorMap['fundCode']}"/>
-                            </p:column>
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
@@ -101,7 +95,7 @@
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadTMTEdNed.save()}" disabled="#{empty uploadTMTEdNed.passModels or uploadTMTEdNed.duplicateFile}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancel" action="#{uploadTMTEdNed.reset()}" disabled="#{empty uploadTMTEdNed.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancle" action="#{uploadTMTEdNed.reset()}" disabled="#{empty uploadTMTEdNed.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
             
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
