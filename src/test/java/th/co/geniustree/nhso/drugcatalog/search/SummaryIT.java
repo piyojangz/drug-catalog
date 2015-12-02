@@ -33,14 +33,14 @@ import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/applicationContext-persistence.xml"})
 @Transactional(propagation = Propagation.REQUIRED)
-public class SummaryTest {
+public class SummaryIT {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SummaryTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SummaryIT.class);
 
     @Autowired
     private RequestItemRepo requestItemRepo;
 
-    public SummaryTest() {
+    public SummaryIT() {
     }
 
     @Before
