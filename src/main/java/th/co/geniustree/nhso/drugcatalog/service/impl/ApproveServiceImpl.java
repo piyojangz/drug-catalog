@@ -85,7 +85,7 @@ public class ApproveServiceImpl implements ApproveService {
     }
 
     private boolean checkPrice(BigDecimal oldPrice, BigDecimal newPrice) {
-        return newPrice.doubleValue() > oldPrice.divide(new BigDecimal(2)).doubleValue() && newPrice.doubleValue() < oldPrice.multiply(new BigDecimal(2)).doubleValue();
+        return newPrice.doubleValue() <= oldPrice.multiply(new BigDecimal(2)).doubleValue();
     }
 
     @Override
