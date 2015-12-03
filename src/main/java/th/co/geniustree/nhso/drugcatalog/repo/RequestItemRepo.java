@@ -52,7 +52,7 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
 
     public List<RequestItem> findByStatusAndUploadDrugItemTmtId(RequestItem.Status status,String tmtId);
 
-    public Page<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdAndDeletedFalse(RequestItem.Status status, String hcode, String tmtId, Pageable pageable);
+    public Page<RequestItem> findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(RequestItem.Status status, String hcode, Pageable pageable);
 
     public List<RequestItem> findByStatusAndUploadDrugItemUploadDrugShaHex(RequestItem.Status status, String SPECIAL_SHAHEX_VALUE);
 
@@ -61,8 +61,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     @Query(value = "select min(r.requestDate) , "
             + "u.hcode ,"
             + "h.hname ,"
-            + "sum( case when ui.tmtId <> 'NULLID' then 1 else 0 end) ,"
-            + "sum( case when ui.tmtId = 'NULLID' then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is null then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'A' then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'E' then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'D' then 1 else 0 end) ,"
@@ -102,8 +102,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     @Query(value = "select min(r.requestDate), "
             + "u.hcode ,"
             + "h.hname ,"
-            + "sum( case when ui.tmtId <> 'NULLID' then 1 else 0 end) ,"
-            + "sum( case when ui.tmtId = 'NULLID' then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is null then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'A' then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'E' then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'D' then 1 else 0 end) ,"
@@ -143,8 +143,8 @@ public interface RequestItemRepo extends JpaRepository<RequestItem, Integer>, Jp
     @Query(value = "select min(r.requestDate) , "
             + "u.hcode ,"
             + "h.hname ,"
-            + "sum( case when ui.tmtId <> 'NULLID' then 1 else 0 end) ,"
-            + "sum( case when ui.tmtId = 'NULLID' then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is not null then 1 else 0 end) ,"
+            + "sum( case when ui.tmtId is null then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'A' then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'E' then 1 else 0 end) ,"
             + "sum( case when ui.updateFlag = 'D' then 1 else 0 end) ,"

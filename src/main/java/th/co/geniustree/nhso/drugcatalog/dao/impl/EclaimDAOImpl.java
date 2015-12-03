@@ -46,9 +46,6 @@ public class EclaimDAOImpl implements EclaimDAO {
 
     @Override
     public HospitalDrugType loadDrugInfo(String hospDrugCode, String hcode, String tmtid, Date dateEffective) {
-        if(Strings.isNullOrEmpty(tmtid)){
-            tmtid = "NULLID";
-        }
         PLSQLrecord record = new PLSQLrecord();
 
         record.setTypeName(TYPE_NAME);

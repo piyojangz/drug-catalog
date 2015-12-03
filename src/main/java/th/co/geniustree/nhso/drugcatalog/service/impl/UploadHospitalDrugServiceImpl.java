@@ -87,9 +87,6 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
 
     @Override
     public void editDrugByHand(String hcode, UploadHospitalDrugItem uploadItem) {
-        if(uploadItem.getTmtDrug() == null || uploadItem.getTmtId().isEmpty()){
-            uploadItem.setTmtId("NULLID");
-        }
         boolean exist = hospitalDrugRepo.exists(new HospitalDrugPK(uploadItem.getHospDrugCode(), hcode));
         if (!exist) {
             throw new IllegalStateException("Can't edit HospitalDrug that not already exist.");
