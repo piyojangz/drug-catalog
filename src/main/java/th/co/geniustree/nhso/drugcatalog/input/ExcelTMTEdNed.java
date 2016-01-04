@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Size;
@@ -43,10 +44,6 @@ public class ExcelTMTEdNed implements Serializable {
     @ValueSet(values = {"E", "N", "E*"}, message = "ISED ต้องประกอบด้วย N หรือ E หรือ E* เท่านั้น")
     private String statusEd;
     
-    @XlsColumn(columnNames = "RIGHTID")
-    @NotEmpty(message = "ต้องระบุ RIGHTID มาด้วย")
-    private String rightId;    
-    
     private Map<String, List<String>> errorMap;
     private Date dateIn;
     private int rowNum;
@@ -62,14 +59,6 @@ public class ExcelTMTEdNed implements Serializable {
         this.errorMap = errorMap;
     }
 
-    public String getRightId() {
-        return rightId;
-    }
-
-    public void setRightId(String rightId) {
-        this.rightId = rightId;
-    }
-    
     public String getTmtId() {
         return tmtId;
     }
@@ -132,6 +121,30 @@ public class ExcelTMTEdNed implements Serializable {
         if (dateinString != null) {
             dateIn = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateinString);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ExcelTMTEdNed other = (ExcelTMTEdNed) obj;
+        if (!Objects.equals(this.tmtId, other.tmtId)) {
+            return false;
+        }
+        if (!Objects.equals(this.dateinString, other.dateinString)) {
+            return false;
+        }
+        return true;
     }
 
 }

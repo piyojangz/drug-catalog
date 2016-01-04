@@ -30,9 +30,6 @@ public class Fund implements Serializable {
     @Column(name = "DESCRIPTION")
     private String name;
 
-    @OneToMany(mappedBy = "fund")
-    private List<TMTEdNed> edNeds;
-
     @Version
     private Integer version;
 
@@ -50,14 +47,6 @@ public class Fund implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<TMTEdNed> getEdNeds() {
-        return edNeds;
-    }
-
-    public void setEdNeds(List<TMTEdNed> edNeds) {
-        this.edNeds = edNeds;
     }
 
     @Override

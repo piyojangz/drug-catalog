@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +19,6 @@ import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNedPK;
-import th.co.geniustree.nhso.drugcatalog.repo.FundRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
@@ -34,22 +34,25 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
     private TMTEdNedRepo tmtEdNedRepo;
     @Autowired
     private TMTDrugRepo tMTDrugRepo;
-    @Autowired
-    private FundRepo fundRepo;
 
     @Override
     public void save(List<ExcelTMTEdNed> excelTMTEdNeds) {
+        List<TMTEdNed> list = new ArrayList<>();
         for (ExcelTMTEdNed excel : excelTMTEdNeds) {
-            TMTEdNed tmtEdNed = new TMTEdNed();
-            BeanUtils.copyProperties(excel, tmtEdNed);
-            TMTDrug findOne = tMTDrugRepo.findOne(tmtEdNed.getTmtId());
-            tmtEdNed.setTmtDrug(findOne);
-            Fund fund = fundRepo.findOne(excel.getRightId());
-            tmtEdNed.setFund(fund);
-            tmtEdNed.setClassifier(fund.getCode());
-            findOne.getEdNeds().add(tmtEdNed);
-            tmtEdNedRepo.save(tmtEdNed);
+            TMTEdNed tmtEdNed = convertFromExcelModelToEntity(excel);
+            list.add(tmtEdNed);
         }
+        tmtEdNedRepo.save(list);
+    }
+
+    private TMTEdNed convertFromExcelModelToEntity(ExcelTMTEdNed excel) {
+        TMTEdNed tmtEdNed = new TMTEdNed();
+        BeanUtils.copyProperties(excel, tmtEdNed);
+        TMTDrug findOne = tMTDrugRepo.findOne(tmtEdNed.getTmtId());
+        tmtEdNed.setTmtDrug(findOne);
+        tmtEdNed.setClassifier(TMTEdNedPK.SUPPORT_CASSIFIER);
+        findOne.getEdNeds().add(tmtEdNed);
+        return tmtEdNed;
     }
 
     @Override
@@ -87,7 +90,5 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
     public TMTEdNed edit(TMTEdNed edNed) {
         return tmtEdNedRepo.save(edNed);
     }
-    
-    
 
 }

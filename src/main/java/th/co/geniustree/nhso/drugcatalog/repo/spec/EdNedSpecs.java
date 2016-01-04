@@ -41,41 +41,41 @@ public class EdNedSpecs {
         };
     }
     
-    public static Specification<TMTEdNed> fundCodeLike(final List<String> keywords) {
-        return new Specification<TMTEdNed>() {
-
-            @Override
-            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
-                for (String keyword : keywords) {
-                    if (and == null) {
-                        and = cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.code)), "%" + keyword.toLowerCase() + "%");
-                    } else {
-                        cb.and(and, cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.code)), "%" + keyword.toLowerCase() + "%"));
-                    }
-                }
-                return and;
-            }
-
-        };
-    }
-    
-    public static Specification<TMTEdNed> fundNameLike(final List<String> keywords) {
-        return new Specification<TMTEdNed>() {
-
-            @Override
-            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
-                for (String keyword : keywords) {
-                    if (and == null) {
-                        and = cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.name)), "%" + keyword.toLowerCase() + "%");
-                    } else {
-                        cb.and(and, cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.name)), "%" + keyword.toLowerCase() + "%"));
-                    }
-                }
-                return and;
-            }
-
-        };
-    }
+//    public static Specification<TMTEdNed> fundCodeLike(final List<String> keywords) {
+//        return new Specification<TMTEdNed>() {
+//
+//            @Override
+//            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                Predicate and = null;
+//                for (String keyword : keywords) {
+//                    if (and == null) {
+//                        and = cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.code)), "%" + keyword.toLowerCase() + "%");
+//                    } else {
+//                        cb.and(and, cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.code)), "%" + keyword.toLowerCase() + "%"));
+//                    }
+//                }
+//                return and;
+//            }
+//
+//        };
+//    }
+//    
+//    public static Specification<TMTEdNed> fundNameLike(final List<String> keywords) {
+//        return new Specification<TMTEdNed>() {
+//
+//            @Override
+//            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                Predicate and = null;
+//                for (String keyword : keywords) {
+//                    if (and == null) {
+//                        and = cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.name)), "%" + keyword.toLowerCase() + "%");
+//                    } else {
+//                        cb.and(and, cb.like(cb.lower(root.get(TMTEdNed_.fund).get(Fund_.name)), "%" + keyword.toLowerCase() + "%"));
+//                    }
+//                }
+//                return and;
+//            }
+//
+//        };
+//    }
 }

@@ -26,9 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ExcelTMTEdNed;
-import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.service.FundService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
@@ -65,7 +66,7 @@ public class UploadTMTEdNed implements Serializable {
     @Autowired
     private TMTEdNedService tmtEdNedService;
     private StreamedContent templateFile;
-    
+
     @Autowired
     private FundService fundService;
 
@@ -131,19 +132,20 @@ public class UploadTMTEdNed implements Serializable {
                     bean.postConstruct();
                     if (bean.getErrorMap().isEmpty()) {
                         TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
-                        Fund fund = fundService.findOne(bean.getRightId().trim());
                         if (findOneWithoutTx == null) {
                             bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
                         }
-                        if(fund == null){
-                            bean.addError("fundCode", "ไม่พบ FUNDCODE นี้ในระบบ");
-                        }
-                        if(tmtEdNedService.exist(bean.getTmtId(),bean.getDateIn())){
+                        if (tmtEdNedService.exist(bean.getTmtId(), bean.getDateIn())) {
                             bean.addError("dateinString", "ED/NED ในวันที่เดียวกันนี้เคยระบุไปแล้ว");
                         }
                     }
                     if (bean.getErrorMap().isEmpty()) {
-                        passModels.add(bean);
+                        if (!passModels.contains(bean)) {
+                            passModels.add(bean);
+                        } else {
+                            bean.addError("rowNum", "TMTID และ DATEIN ซ้ำกันในไฟล์");
+                            notPassModels.add(bean);
+                        }
                     } else {
                         notPassModels.add(bean);
                     }
@@ -184,9 +186,15 @@ public class UploadTMTEdNed implements Serializable {
     }
 
     public void save() {
-        tmtEdNedService.save(passModels);
-        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
-        reset();
+        try {
+            tmtEdNedService.save(passModels);
+            FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        } catch (Exception e) {
+            FacesMessageUtils.error("ไม่สามารถบันทึกได้ อาจเป็นเพราะมีข้อมูลซ้ำกัน");
+            LOG.error(null, e);
+        } finally {
+            reset();
+        }
     }
 
     public void reset() {

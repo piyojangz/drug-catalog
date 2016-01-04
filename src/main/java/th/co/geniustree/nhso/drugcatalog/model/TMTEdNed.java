@@ -50,10 +50,6 @@ public class TMTEdNed implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
-    
-    @ManyToOne
-    @JoinColumn(name = "CLASSIFIER", insertable = false, updatable = false)
-    private Fund fund;
 
     @PrePersist
     public void prePersist() {
@@ -106,14 +102,6 @@ public class TMTEdNed implements Serializable {
 
     public void setTmtDrug(TMTDrug tmtDrug) {
         this.tmtDrug = tmtDrug;
-    }
-
-    public Fund getFund() {
-        return fund;
-    }
-
-    public void setFund(Fund fund) {
-        this.fund = fund;
     }
     
     @Override

@@ -147,9 +147,9 @@ public class EdNedController {
 
     private Specification<TMTEdNed> specify(String search) {
         List<String> searches = Arrays.asList(search.split("\\s+"));
-        Specification<TMTEdNed> spec = Specifications.where(EdNedSpecs.tmtIdLike(searches))
-                .or(EdNedSpecs.fundCodeLike(searches))
-                .or(EdNedSpecs.fundNameLike(searches));
+        Specification<TMTEdNed> spec = Specifications.where(EdNedSpecs.tmtIdLike(searches));
+//                .or(EdNedSpecs.fundCodeLike(searches))
+//                .or(EdNedSpecs.fundNameLike(searches));
         return spec;
     }
 
