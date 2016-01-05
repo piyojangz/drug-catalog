@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.Date;
@@ -21,17 +20,20 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
  * @author moth
  */
 public interface TMTEdNedService {
+
     public void save(List<ExcelTMTEdNed> excelTMTEdNeds);
 
     public boolean exist(String tmtId, Date dateIn);
-    
+
     public Page<TMTEdNed> findAll(Pageable pageable);
-    
-    public TMTEdNed save(TMTDrug tmtDrug,Fund fund,Date dateIn,String statusEd,Date createDate);
-    
+
+    public TMTEdNed save(TMTDrug tmtDrug, Date dateIn, String statusEd, Date createDate);
+
     public Page<TMTEdNed> findBySpec(Specification<TMTEdNed> spec, Pageable pageable);
-    
+
     public void delete(TMTEdNed edNed);
-    
+
     public TMTEdNed edit(TMTEdNed edNed);
+
+    public Page<TMTEdNed> search(String searchWord, Pageable pageable);
 }

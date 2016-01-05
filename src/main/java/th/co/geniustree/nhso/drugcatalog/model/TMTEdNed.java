@@ -54,6 +54,7 @@ public class TMTEdNed implements Serializable {
     @PrePersist
     public void prePersist() {
         createDate = new Date();
+        classifier = TMTEdNedPK.SUPPORT_CASSIFIER;
     }
 
     public Date getDateIn() {

@@ -16,113 +16,60 @@
                 .ui-datatable-scrollable-header td{
                     background-color: rgb(255, 250, 179);
                 }
-
-                .clean-table tbody tr td{
-                    border: solid 1px;
-                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
-                }
-
-                .clean-table tbody tr:first-child td{
-                    border-top: 2px solid rgb(156, 156, 156);
-                }
-
-                .clean-table tbody tr{
-                    border-left: 2px rgb(162, 161, 161) solid !important;
-                    border-right: 2px rgb(162, 161, 161) solid !important;
-                }
-
-                .clean-table tbody{
-                    border-color: #999;
-                }
-
-                .clean-table{
-                    border-width: 0 0 1px 0 !important;
-                    background: none !important;
-                }
-
-                .clean-table + .clean-table thead{
-                    visibility: hidden;
-                }
-
-                .clean-table .ui-datatable-tablewrapper{
-                    border-bottom: 2px solid #7F7E7E;
-                }
             </style>
             <p:growl id="growl" showDetail="true"/>
-<div class="header-content">
-                <h:outputText value="รายการ ยาและ ED / NED"/>
+            <div class="header-content">
+                <h:outputText value="รายการยาและ ED / NED"/>
             </div>
-            <h:form id="form">
-                <p:panelGrid>
+            <h:form id="addForm">
+                <p:panelGrid style="min-width: 600px;">
                     <p:row>
                         <p:column style="text-align: right; width: 100px;">
                             <h:outputText value="TMTID : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="tmtid" value="#{edNedController.tmtDrug.tmtId}" styleClass="input">
-                            </p:inputText>
+                            <p:inputText id="tmtid" value="#{edNedController.tmtDrug.tmtId}" styleClass="input" readonly="true"/>
                             <p:commandButton value="search" icon="ui-icon-search" actionListener="#{edNedController.onSearchTMTDrugDialog}" update="@form">
                                 <p:ajax event="dialogReturn" listener="#{edNedController.onTmtDialogReturn}" update="@form" />
                             </p:commandButton>
+                            <h:outputText value="#{edNedController.tmtDrug.fsn}"/>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="FUND_CODE: "/>
+                            <h:outputText value="กองทุน : "/>
                         </p:column>
                         <p:column>
-                            <p:autoComplete id="fund" 
-                                            value="#{edNedController.fund}" 
-                                            completeMethod="#{edNedController.completeFund}"
-                                            var="fund" 
-                                            itemLabel="#{fund.name}" 
-                                            itemValue="#{fund.code}" 
-                                            forceSelection="true" 
-                                            converter="fundConverter" 
-                                            styleClass="input1"
-                                            dropdown="true">
-                                <p:column>
-                                    #{fund.code}
-                                </p:column>
-                                <p:column>
-                                    #{fund.name}
-                                </p:column>
-                            </p:autoComplete>
+                            <p:inputText value="UC" disabled="true"/>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="ปีงบประมาณ : "/>
+                            <h:outputText value="DATEIN : "/>
                         </p:column>
                         <p:column>
-                            <p:autoComplete id="budgetYearComplete" 
-                                            value="#{edNedController.budgetYear}" 
-                                            completeMethod="#{edNedController.completeBudgetYear}"
-                                            var="year" 
-                                            itemLabel="#{year}"
-                                            itemValue="#{year}" 
-                                            forceSelection="true" 
-                                            styleClass="input1"
-                                            dropdown="true">
-                                <p:column>
-                                    1 ต.ค. #{year - 1} - 30 ก.ย. #{year}
-                                </p:column>
-                            </p:autoComplete>
+                            <p:calendar value="#{edNedController.datein}" 
+                                        locale="en_US" 
+                                        navigator="true" 
+                                        pattern="dd / MMM / yyyy"
+                                        showOn="button"/>
                         </p:column>
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="ED_STAUTS : "/>
+                            <h:outputText value="ED / NED : "/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="edstatus" value="#{edNedController.edStatus}">
-                                <f:selectItems value="#{edNedController.edStatusList}" var="status"
-                                               itemLabel="#{status}" itemValue="#{status}"/>
+                                <f:selectItem itemLabel="E" itemValue="E"/>
+                                <f:selectItem itemLabel="N" itemValue="N"/>
+                                <f:selectItem itemLabel="E*" itemValue="E*"/>
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
                     <p:row>
-                        <p:column colspan="2" style="text-align: center;">
+                        <p:column/>
+                        <p:column style="text-align: left;">
                             <p:commandButton value="เพิ่ม" update="@form , :growl , :tableForm" actionListener="#{edNedController.onSave}"/>
                             <p:spacer width="20"/>
                             <p:commandButton value="reset" update="@form" type="reset"/>
@@ -131,7 +78,9 @@
                 </p:panelGrid>
             </h:form>           
             <p:spacer height="20"/>
-
+            <div class="header-content-sub">
+                <h:outputText value="ค้นหารายการยา"/>
+            </div>
             <h:form id="searchform">
                 <p:panelGrid>
                     <p:row>
@@ -139,7 +88,7 @@
                             <h:outputText value="keyword : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{edNedController.searchWord}" styleClass="searchFund" style="width: 100px;"/>
+                            <p:inputText value="#{edNedController.searchWord}" styleClass="searchFund" style="width: 200px;"/>
                         </p:column>
                         <p:column>
                             <p:commandButton value="ค้นหา" icon="ui-icon-search" actionListener="#{edNedController.search}" update="@form , :tableForm"/>
@@ -150,6 +99,7 @@
             <p:spacer height="20"/>
             <h:form id="tableForm">
                 <p:dataTable id="table"
+                             styleClass="clean-table"
                              value="#{edNedController.tmtEdNeds}"
                              var="model"
                              rowIndexVar="rowIndex"
@@ -159,27 +109,29 @@
                              lazy="true" 
                              rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-
                     <f:facet name="header">
                         <div style="text-align: center;">
-                            <h:outputText value="ข้อมูลยา ED / NED"/>
+                            <h:outputText value="รายการยาและสถานะ ED / NED"/>
                         </div>
                     </f:facet>
-                    <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 50px;">
+                    <p:column headerText="#" style="width: 50px;text-align: center;max-width: 50px;">
                         #{rowIndex + 1}
                     </p:column>
-                    <p:column headerText="TMTID" style="width: 100px;text-align: center;">
+                    <p:column headerText="TMTID" style="width: 60px;text-align: center;">
                         <h:outputText value="#{model.tmtDrug.tmtId}"/>
                     </p:column>
-                    <p:column headerText="กองทุน" style="width: 150px;">
-                        <h:outputText value="#{model.fund.code} -> #{model.fund.name}"/>
+                    <p:column headerText="FSN">
+                        <h:outputText value="#{model.tmtDrug.fsn}"/>
                     </p:column>
-                    <p:column headerText="ปีงบประมาณ" style="width: 100px;">
+                    <p:column headerText="กองทุน" style="width: 60px;text-align: center">
+                        <h:outputText value="#{model.classifier}"/>
+                    </p:column>
+                    <p:column headerText="DateIn" style="width: 100px;text-align: center">
                         <h:outputText value="#{model.dateIn}">
-                            <f:convertDateTime pattern="d MMM yyyy" locale="th_TH"/>
+                            <f:convertDateTime pattern="dd / MMM / yyyy" locale="en_US"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="ED / NED" style="width: 100px;">
+                    <p:column headerText="ED / NED" style="width: 100px;text-align: center">
                         <h:outputText value="#{model.statusEd}"/>
                     </p:column>
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
@@ -205,8 +157,8 @@
                       modal="true"
                       showEffect="fade"
                       hideEffect="fade"
-                      minWidth="400"
-                      minHeight="200"
+                      minWidth="600"
+                      minHeight="400"
                       widgetVar="editDialogWidget"
                       header="แก้ไขข้อมูล">
                 <h:form id="editDialogForm">
@@ -216,7 +168,7 @@
                                 <h:outputText value="TMTID : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.tmtId}" style="width: 200px;" disabled="true"/>
+                                <p:inputText value="#{edNedController.selectedEdNed.tmtId}" style="width: 60px;" disabled="true"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -224,15 +176,17 @@
                                 <h:outputText value="กองทุน : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.classifier}" style="width: 200px;" disabled="true"/>
+                                <p:inputText value="#{edNedController.selectedEdNed.classifier}" style="width: 60px;" disabled="true"/>
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="ปีงบประมาณ : "/>
+                                <h:outputText value="DateIn : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true"/>
+                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true">
+                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                                </p:inputText>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -241,8 +195,9 @@
                             </p:column>
                             <p:column>
                                 <p:selectOneMenu value="#{edNedController.selectedEdNed.statusEd}">
-                                    <f:selectItems value="#{edNedController.edStatusList}" var="status"
-                                                   itemLabel="#{status}" itemValue="#{status}"/>
+                                    <f:selectItem itemLabel="E" itemValue="E"/>
+                                    <f:selectItem itemLabel="N" itemValue="N"/>
+                                    <f:selectItem itemLabel="E*" itemValue="E*"/>
                                 </p:selectOneMenu>
                             </p:column>
                         </p:row>
@@ -266,8 +221,8 @@
                       modal="true"
                       showEffect="fade"
                       hideEffect="fade"
-                      minWidth="400"
-                      minHeight="200"
+                      minWidth="600"
+                      minHeight="400"
                       widgetVar="deleteDialogWidget"
                       header="ยืนยันการลบข้อมูล">
                 <h:form id="deleteDialogForm">
@@ -290,10 +245,12 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="ปีงบประมาณ : "/>
+                                <h:outputText value="Date in : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}"/>
+                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}">
+                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                                </h:outputText>
                             </p:column>
                         </p:row>
                         <p:row>

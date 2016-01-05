@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.input.ExcelTMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.Fund;
@@ -21,6 +23,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNedPK;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTEdNedSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 
 /**
@@ -66,13 +69,12 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
     }
 
     @Override
-    public TMTEdNed save(TMTDrug tmtDrug, Fund fund, Date dateIn, String statusEd, Date createDate) {
+    public TMTEdNed save(TMTDrug tmtDrug, Date dateIn, String statusEd, Date createDate) {
         TMTEdNed tmtEdNed = new TMTEdNed();
         tmtEdNed.setDateIn(dateIn);
         tmtEdNed.setStatusEd(statusEd);
         tmtEdNed.setCreateDate(new Date());
         tmtEdNed.setTmtId(tmtDrug.getTmtId());
-        tmtEdNed.setClassifier(fund.getCode());
         return tmtEdNedRepo.save(tmtEdNed);
     }
 
@@ -91,4 +93,12 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
         return tmtEdNedRepo.save(edNed);
     }
 
+    @Override
+    public Page<TMTEdNed> search(String searchWord, Pageable pageable) {
+        List<String> texts = Arrays.asList(searchWord.split("\\s+"));
+        Specification spec = Specifications.where(TMTEdNedSpecs.tmtIdLike(texts)).or(TMTEdNedSpecs.fsnLike(texts));
+        return tmtEdNedRepo.findAll(spec, pageable);
+    }
+
+    
 }

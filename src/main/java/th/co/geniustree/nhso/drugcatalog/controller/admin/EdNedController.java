@@ -25,13 +25,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.BudgetYearConverter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
-import th.co.geniustree.nhso.drugcatalog.repo.spec.EdNedSpecs;
-import th.co.geniustree.nhso.drugcatalog.service.FundService;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTEdNedSpecs;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 
 /**
@@ -42,17 +40,13 @@ import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 @Scope("view")
 public class EdNedController {
 
-    private static final Logger log = LoggerFactory.getLogger(EdNedController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdNedController.class);
 
     @Autowired
     private TMTEdNedService tmtEdNedService;
 
-    @Autowired
-    private FundService fundService;
-
     private TMTDrug tmtDrug;
-    private Fund fund;
-    private Date budgetYear;
+    private Date datein;
     private String edStatus;
 
     private String searchWord;
@@ -60,21 +54,14 @@ public class EdNedController {
 
     private SpringDataLazyDataModelSupport<TMTEdNed> tmtEdNeds;
 
-    private List<Integer> budgetYears;
-    private List<String> edStatusList;
-    private List<Fund> funds;
-
     @PostConstruct
     public void postConstruct() {
         reset();
         findAll();
-        initialBudgetYear();
-        initialStatusEd();
     }
 
     public void reset() {
         tmtDrug = new TMTDrug();
-        fund = new Fund();
     }
 
     public void delete() {
@@ -82,6 +69,7 @@ public class EdNedController {
             tmtEdNedService.delete(selectedEdNed);
             FacesMessageUtils.info("ลบรายการยา สำเร็จ");
         } catch (Exception e) {
+            LOG.error(null,e);
             FacesMessageUtils.error("ไม่สามารถลบรายการยาได้");
         }
     }
@@ -91,27 +79,13 @@ public class EdNedController {
             tmtEdNedService.edit(selectedEdNed);
             FacesMessageUtils.info("แก้ไขรายการยา สำเร็จ");
         } catch (Exception e) {
+            LOG.error(null,e);
             FacesMessageUtils.error("ไม่สามารถแก้ไขรายการยาได้");
         }
     }
 
     public void onSelect(TMTEdNed e) {
         selectedEdNed = e;
-    }
-
-    private void initialBudgetYear() {
-        Integer yearSelector = BudgetYearConverter.dateToBudgetYear(new Date());
-        budgetYears = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            budgetYears.add(yearSelector - i);
-        }
-    }
-
-    private void initialStatusEd() {
-        edStatusList = new ArrayList<>();
-        edStatusList.add("E");
-        edStatusList.add("N");
-        edStatusList.add("E*");
     }
 
     public void findAll() {
@@ -125,11 +99,11 @@ public class EdNedController {
     }
 
     public void onSave() {
-
         try {
-            tmtEdNedService.save(tmtDrug, fund,budgetYear, edStatus, new GregorianCalendar().getTime());
+            tmtEdNedService.save(tmtDrug, datein, edStatus, new GregorianCalendar().getTime());
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
+            LOG.error(null,e);
             FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
         }
     }
@@ -138,19 +112,10 @@ public class EdNedController {
         tmtEdNeds = new SpringDataLazyDataModelSupport<TMTEdNed>() {
             @Override
             public Page<TMTEdNed> load(Pageable pageAble) {
-                Specification spec = specify(searchWord);
-                Page<TMTEdNed> page = tmtEdNedService.findBySpec(spec, pageAble);
+                Page<TMTEdNed> page = tmtEdNedService.search(searchWord, pageAble);
                 return page;
             }
         };
-    }
-
-    private Specification<TMTEdNed> specify(String search) {
-        List<String> searches = Arrays.asList(search.split("\\s+"));
-        Specification<TMTEdNed> spec = Specifications.where(EdNedSpecs.tmtIdLike(searches));
-//                .or(EdNedSpecs.fundCodeLike(searches))
-//                .or(EdNedSpecs.fundNameLike(searches));
-        return spec;
     }
 
     public void onSearchTMTDrugDialog() {
@@ -159,46 +124,20 @@ public class EdNedController {
         options.put("draggable", true);
         options.put("resizable", true);
         options.put("contentHeight", 500);
-        options.put("contentWidth", 800);
+        options.put("contentWidth", 1000);
         Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
         keywords.add(tmtDrug.getTmtId());
-        params.put("keyword", keywords);
-        RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/tmtdialog", options, params);
+        params.put("search", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/hospital/create/selectDrugDialog.xhtml", options, params);
     }
 
     public void onTmtDialogReturn(SelectEvent event) {
         TMTDrug tmt = (TMTDrug) event.getObject();
         if (tmt != null) {
             tmtDrug = tmt;
+            LOG.info("selected drug from search dialog is => {}", tmtDrug.getTmtId());
         }
-        log.info("selected drug from search dialog is => {}", tmtDrug.getTmtId());
-    }
-
-    public List<Fund> completeFund(String query) {
-        if (funds == null || funds.isEmpty()) {
-            funds = fundService.findAll();
-        }
-        List<Fund> filterFunds = new ArrayList<>();
-        for (Fund f : funds) {
-            if (f.getName() == null) {
-                f.setName(" - ");
-            }
-            if (f.getCode().toUpperCase().contains(query.toUpperCase()) || (f.getName().toUpperCase().contains(query.toUpperCase()))) {
-                filterFunds.add(f);
-            }
-        }
-        return filterFunds;
-    }
-
-    public List<Integer> completeBudgetYear(String query) {
-        List<Integer> filterBudgetYear = new ArrayList<>();
-        for (Integer year : budgetYears) {
-            if (year.toString().startsWith(query)) {
-                filterBudgetYear.add(year);
-            }
-        }
-        return filterBudgetYear;
     }
 
 //    *************************** getter and setter method
@@ -210,20 +149,12 @@ public class EdNedController {
         this.tmtDrug = tmtDrug;
     }
 
-    public Fund getFund() {
-        return fund;
+    public Date getDatein() {
+        return datein;
     }
 
-    public void setFund(Fund fund) {
-        this.fund = fund;
-    }
-
-    public Date getBudgetYear() {
-        return budgetYear;
-    }
-
-    public void setBudgetYear(Date budgetYear) {
-        this.budgetYear = budgetYear;
+    public void setDatein(Date datein) {
+        this.datein = datein;
     }
 
     public String getSearchWord() {
@@ -242,36 +173,12 @@ public class EdNedController {
         this.tmtEdNeds = tmtEdNeds;
     }
 
-    public List<Integer> getBudgetYears() {
-        return budgetYears;
-    }
-
-    public void setBudgetYears(List<Integer> budgetYears) {
-        this.budgetYears = budgetYears;
-    }
-
     public String getEdStatus() {
         return edStatus;
     }
 
     public void setEdStatus(String edStatus) {
         this.edStatus = edStatus;
-    }
-
-    public List<String> getEdStatusList() {
-        return edStatusList;
-    }
-
-    public void setEdStatusList(List<String> edStatusList) {
-        this.edStatusList = edStatusList;
-    }
-
-    public List<Fund> getFunds() {
-        return funds;
-    }
-
-    public void setFunds(List<Fund> funds) {
-        this.funds = funds;
     }
 
     public TMTEdNed getSelectedEdNed() {
