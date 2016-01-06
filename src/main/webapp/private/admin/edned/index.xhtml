@@ -91,7 +91,7 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu value="#{edNedController.searchType}">
-                                <f:selectItem itemLabel="กรุณาเลือก" itemValue="null"/>
+                                <f:selectItem itemLabel="กรุณาเลือก" itemValue="noSelect"/>
                                 <f:selectItem itemLabel="TMT" itemValue="tmt"/>
                                 <f:selectItem itemLabel="ED / NED" itemValue="status"/>
                                 <f:selectItem itemLabel="DATEIN" itemValue="date"/>
@@ -138,6 +138,7 @@
                         <p:column style="text-align: center;">
                             <p:commandButton value="ค้นหารายการยา" 
                                              icon="ui-icon-search" 
+                                             rendered="#{edNedController.searchType ne 'noSelect'}"
                                              actionListener="#{edNedController.search}" 
                                              update="@form , :tableForm"/>
                         </p:column>

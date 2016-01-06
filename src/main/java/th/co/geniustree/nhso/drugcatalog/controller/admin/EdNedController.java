@@ -49,7 +49,7 @@ public class EdNedController {
     private Date datein;
     private String edStatus;
 
-    private String searchType;
+    private String searchType = "noSelect";
     private String searchWord;
     private String searchEdStatus;
     private Date searchStartDate;
