@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -29,7 +30,6 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTEdNedSpecs;
-import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 
 /**
@@ -49,7 +49,12 @@ public class EdNedController {
     private Date datein;
     private String edStatus;
 
+    private String searchType;
     private String searchWord;
+    private String searchEdStatus;
+    private Date searchStartDate;
+    private Date searchEndDate;
+
     private TMTEdNed selectedEdNed;
 
     private SpringDataLazyDataModelSupport<TMTEdNed> tmtEdNeds;
@@ -69,7 +74,7 @@ public class EdNedController {
             tmtEdNedService.delete(selectedEdNed);
             FacesMessageUtils.info("ลบรายการยา สำเร็จ");
         } catch (Exception e) {
-            LOG.error(null,e);
+            LOG.error(null, e);
             FacesMessageUtils.error("ไม่สามารถลบรายการยาได้");
         }
     }
@@ -79,7 +84,7 @@ public class EdNedController {
             tmtEdNedService.edit(selectedEdNed);
             FacesMessageUtils.info("แก้ไขรายการยา สำเร็จ");
         } catch (Exception e) {
-            LOG.error(null,e);
+            LOG.error(null, e);
             FacesMessageUtils.error("ไม่สามารถแก้ไขรายการยาได้");
         }
     }
@@ -103,8 +108,15 @@ public class EdNedController {
             tmtEdNedService.save(tmtDrug, datein, edStatus, new GregorianCalendar().getTime());
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
-            LOG.error(null,e);
+            LOG.error(null, e);
             FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
+        }
+    }
+    
+    public void checkDateAfter(){
+        if(searchEndDate.before(searchStartDate)){
+            searchEndDate = searchStartDate;
+            LOG.debug("start date -> end date");
         }
     }
 
@@ -112,10 +124,36 @@ public class EdNedController {
         tmtEdNeds = new SpringDataLazyDataModelSupport<TMTEdNed>() {
             @Override
             public Page<TMTEdNed> load(Pageable pageAble) {
-                Page<TMTEdNed> page = tmtEdNedService.search(searchWord, pageAble);
+                Specification<TMTEdNed> spec = specifiedBySearchInput(searchWord, searchEdStatus, searchStartDate, searchEndDate);
+                Page<TMTEdNed> page = tmtEdNedService.findBySpec(spec, pageAble);
                 return page;
             }
         };
+    }
+
+    private Specification<TMTEdNed> specifiedBySearchInput(String tmt, String edStatus, Date start, Date end) {
+        if (searchType.equals("tmt")) {
+            List<String> list = Arrays.asList(tmt.split("\\s+"));
+            return Specifications.where(TMTEdNedSpecs.tmtIdLike(list)).or(TMTEdNedSpecs.fsnLike(list));
+        } else if (searchType.equals("status")) {
+            List<String> list = Arrays.asList(edStatus.split("\\s+"));
+            return Specifications.where(TMTEdNedSpecs.edStatusLike(list));
+        } else if (searchType.equals("date")) {
+            Specification<TMTEdNed> specs = null;
+            if (start != null) {
+                if (end != null) {
+                    specs = Specifications.where(TMTEdNedSpecs.dateInRange(start, end));
+                } else {
+                    specs = Specifications.where(TMTEdNedSpecs.dateAfter(start));
+                }
+            } else if (end != null) {
+                specs = Specifications.where(TMTEdNedSpecs.dateBefore(end));
+            }
+            return specs;
+        } else {
+            return null;
+        }
+
     }
 
     public void onSearchTMTDrugDialog() {
@@ -187,6 +225,38 @@ public class EdNedController {
 
     public void setSelectedEdNed(TMTEdNed selectedEdNed) {
         this.selectedEdNed = selectedEdNed;
+    }
+
+    public String getSearchEdStatus() {
+        return searchEdStatus;
+    }
+
+    public void setSearchEdStatus(String searchEdStatus) {
+        this.searchEdStatus = searchEdStatus;
+    }
+
+    public Date getSearchStartDate() {
+        return searchStartDate;
+    }
+
+    public void setSearchStartDate(Date searchStartDate) {
+        this.searchStartDate = searchStartDate;
+    }
+
+    public Date getSearchEndDate() {
+        return searchEndDate;
+    }
+
+    public void setSearchEndDate(Date searchEndDate) {
+        this.searchEndDate = searchEndDate;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
     }
 
 }

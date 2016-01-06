@@ -22,62 +22,64 @@
                 <h:outputText value="รายการยาและ ED / NED"/>
             </div>
             <h:form id="addForm">
-                <p:panelGrid style="min-width: 600px;">
-                    <p:row>
-                        <p:column style="text-align: right; width: 100px;">
-                            <h:outputText value="TMTID : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="tmtid" value="#{edNedController.tmtDrug.tmtId}" styleClass="input" readonly="true"/>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{edNedController.onSearchTMTDrugDialog}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{edNedController.onTmtDialogReturn}" update="@form" />
-                            </p:commandButton>
-                            <h:outputText value="#{edNedController.tmtDrug.fsn}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="กองทุน : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText value="UC" disabled="true"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="DATEIN : "/>
-                        </p:column>
-                        <p:column>
-                            <p:calendar value="#{edNedController.datein}" 
-                                        locale="en_US" 
-                                        navigator="true" 
-                                        pattern="dd / MMM / yyyy"
-                                        showOn="button"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="ED / NED : "/>
-                        </p:column>
-                        <p:column>
-                            <p:selectOneMenu id="edstatus" value="#{edNedController.edStatus}">
-                                <f:selectItem itemLabel="E" itemValue="E"/>
-                                <f:selectItem itemLabel="N" itemValue="N"/>
-                                <f:selectItem itemLabel="E*" itemValue="E*"/>
-                            </p:selectOneMenu>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column/>
-                        <p:column style="text-align: left;">
-                            <p:commandButton value="เพิ่ม" update="@form , :growl , :tableForm" actionListener="#{edNedController.onSave}"/>
-                            <p:spacer width="20"/>
-                            <p:commandButton value="reset" update="@form" type="reset"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
+                <p:spacer height="10"/>
+                <p:fieldset legend="เพิ่มรายการ ED" toggleable="true" toggleSpeed="500" collapsed="true" >
+                    <p:panelGrid style="min-width: 600px;">
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="tmtid" value="#{edNedController.tmtDrug.tmtId}" styleClass="input" readonly="true"/>
+                                <p:commandButton value="search" icon="ui-icon-search" actionListener="#{edNedController.onSearchTMTDrugDialog}" update="@form">
+                                    <p:ajax event="dialogReturn" listener="#{edNedController.onTmtDialogReturn}" update="@form" />
+                                </p:commandButton>
+                                <h:outputText value="#{edNedController.tmtDrug.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="กองทุน : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="UC" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="DATEIN : "/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{edNedController.datein}" 
+                                            locale="en_US" 
+                                            navigator="true" 
+                                            pattern="dd / MMM / yyyy"
+                                            showOn="button"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ED / NED : "/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu id="edstatus" value="#{edNedController.edStatus}">
+                                    <f:selectItem itemLabel="E" itemValue="E"/>
+                                    <f:selectItem itemLabel="N" itemValue="N"/>
+                                    <f:selectItem itemLabel="E*" itemValue="E*"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column/>
+                            <p:column style="text-align: left;">
+                                <p:commandButton value="เพิ่ม" update="@form , :growl , :tableForm" actionListener="#{edNedController.onSave}"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="reset" update="@form" type="reset"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
             </h:form>           
-            <p:spacer height="20"/>
             <div class="header-content-sub">
                 <h:outputText value="ค้นหารายการยา"/>
             </div>
@@ -85,13 +87,59 @@
                 <p:panelGrid>
                     <p:row>
                         <p:column>
+                            <h:outputText value="ค้นหาจาก : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{edNedController.searchType}">
+                                <f:selectItem itemLabel="กรุณาเลือก" itemValue="null"/>
+                                <f:selectItem itemLabel="TMT" itemValue="tmt"/>
+                                <f:selectItem itemLabel="ED / NED" itemValue="status"/>
+                                <f:selectItem itemLabel="DATEIN" itemValue="date"/>
+                                <p:ajax event="change" update="@form"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column rendered="#{edNedController.searchType eq 'tmt'}" >
                             <h:outputText value="keyword : "/>
+                            <p:inputText id="tmtKeyword" value="#{edNedController.searchWord}" styleClass="searchFund" style="width: 200px;">
+                                <p:watermark value="ค้นหาด้วย TMT" for="tmtKeyword"/>
+                            </p:inputText>
                         </p:column>
-                        <p:column>
-                            <p:inputText value="#{edNedController.searchWord}" styleClass="searchFund" style="width: 200px;"/>
+                        <p:column rendered="#{edNedController.searchType eq 'status'}" >
+                            <p:selectOneMenu id="edstatus" value="#{edNedController.searchEdStatus}">
+                                <f:selectItem itemLabel="กรุณาเลือก" itemValue=""/>
+                                <f:selectItem itemLabel="E" itemValue="E"/>
+                                <f:selectItem itemLabel="N" itemValue="N"/>
+                                <f:selectItem itemLabel="E*" itemValue="E*"/>
+                            </p:selectOneMenu>
                         </p:column>
-                        <p:column>
-                            <p:commandButton value="ค้นหา" icon="ui-icon-search" actionListener="#{edNedController.search}" update="@form , :tableForm"/>
+                        <p:column rendered="#{edNedController.searchType eq 'date'}">
+                            <h:outputText value="ตั้งแต่วันที่ : "/>
+                            <p:calendar navigator="true" 
+                                        value="#{edNedController.searchStartDate}"
+                                        id="startDate"
+                                        style="width: 60px;"
+                                        showOn="button" 
+                                        locale="en_US" 
+                                        pattern="dd / MMM / yyyy">
+                                <p:watermark value="วันเริ่มต้น" for="startDate"/>
+                            </p:calendar>
+                            <h:outputText value=" ถึงวันที่ "/>
+                            <p:calendar navigator="true" 
+                                        value="#{edNedController.searchEndDate}"
+                                        id="endDate"
+                                        style="width: 60px"
+                                        showOn="button" 
+                                        locale="en_US" 
+                                        pattern="dd / MMM / yyyy">
+                                <p:watermark value="วันสุดท้าย" for="endDate"/>
+                                <p:ajax event="click" listener="#{edNedController.checkDateAfter}" update="@this"/>
+                            </p:calendar>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton value="ค้นหารายการยา" 
+                                             icon="ui-icon-search" 
+                                             actionListener="#{edNedController.search}" 
+                                             update="@form , :tableForm"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -120,7 +168,7 @@
                     <p:column headerText="TMTID" style="width: 60px;text-align: center;">
                         <h:outputText value="#{model.tmtDrug.tmtId}"/>
                     </p:column>
-                    <p:column headerText="FSN">
+                    <p:column headerText="FSN" style="min-width: 100px;">
                         <h:outputText value="#{model.tmtDrug.fsn}"/>
                     </p:column>
                     <p:column headerText="กองทุน" style="width: 60px;text-align: center">
@@ -131,7 +179,7 @@
                             <f:convertDateTime pattern="dd / MMM / yyyy" locale="en_US"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="ED / NED" style="width: 100px;text-align: center">
+                    <p:column headerText="ED / NED" style="width: 60px;text-align: center">
                         <h:outputText value="#{model.statusEd}"/>
                     </p:column>
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">

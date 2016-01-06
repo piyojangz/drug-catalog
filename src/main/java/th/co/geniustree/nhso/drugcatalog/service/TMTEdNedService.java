@@ -35,5 +35,4 @@ public interface TMTEdNedService {
 
     public TMTEdNed edit(TMTEdNed edNed);
 
-    public Page<TMTEdNed> search(String searchWord, Pageable pageable);
 }

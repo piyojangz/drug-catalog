@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo.spec;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -54,6 +55,58 @@ public class TMTEdNedSpecs {
                     }
                 }
                 return and;
+            }
+
+        };
+    }
+    
+    public static Specification<TMTEdNed> edStatusLike(final List<String> keywords) {
+        return new Specification<TMTEdNed>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate and = null;
+                for (String keyword : keywords) {
+                    if (and == null) {
+                        and = cb.like(cb.lower(root.get(TMTEdNed_.statusEd)), "%" + keyword.toLowerCase() + "%");
+                    } else {
+                        cb.and(and, cb.like(cb.lower(root.get(TMTEdNed_.statusEd)), "%" + keyword.toLowerCase() + "%"));
+                    }
+                }
+                return and;
+            }
+
+        };
+    }
+    
+    public static Specification<TMTEdNed> dateInRange(final Date start, final Date end) {
+        return new Specification<TMTEdNed>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.between(root.get(TMTEdNed_.dateIn), start, end);
+            }
+
+        };
+    }
+    
+    public static Specification<TMTEdNed> dateBefore(final Date date) {
+        return new Specification<TMTEdNed>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.lessThanOrEqualTo(root.get(TMTEdNed_.dateIn), date);
+            }
+
+        };
+    }
+    
+    public static Specification<TMTEdNed> dateAfter(final Date date) {
+        return new Specification<TMTEdNed>() {
+
+            @Override
+            public Predicate toPredicate(Root<TMTEdNed> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.greaterThanOrEqualTo(root.get(TMTEdNed_.dateIn), date);
             }
 
         };

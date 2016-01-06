@@ -93,12 +93,4 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
         return tmtEdNedRepo.save(edNed);
     }
 
-    @Override
-    public Page<TMTEdNed> search(String searchWord, Pageable pageable) {
-        List<String> texts = Arrays.asList(searchWord.split("\\s+"));
-        Specification spec = Specifications.where(TMTEdNedSpecs.tmtIdLike(texts)).or(TMTEdNedSpecs.fsnLike(texts));
-        return tmtEdNedRepo.findAll(spec, pageable);
-    }
-
-    
 }
