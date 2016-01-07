@@ -102,8 +102,9 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and COALESCE(u.tmtId,'NULLID') = COALESCE(?3,'NULLID') "
             + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REJECT "
-            + "and u.requestItem.deleted = 0")
-    public List<UploadHospitalDrugItem> findByUploadDrugHcodeAndHospDrugCodeAndTmtId(String hcode, String hospDrugCode, String tmtId, Sort sort);
+            + "and u.requestItem.deleted = 0 "
+            + "and (u.updateFlag = ?4 or u.updateFlag = 'A')")
+    public List<UploadHospitalDrugItem> findByUploadDrugHcodeAndHospDrugCodeAndTmtIdAndUpdateFlag(String hcode, String hospDrugCode, String tmtId, String updateFlag, Sort sort);
 
     @Query("select u "
             + "from UploadHospitalDrugItem u "

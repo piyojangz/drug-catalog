@@ -301,7 +301,7 @@
                             </p:calendar>
                             <p:commandButton onclick="PF('dateEffectiveHistoryDialogWidget').show()"
                                              icon="ui-icon-calendar"
-                                             value="ดูประวัติ"
+                                             value="ดูประวัติการแก้ไข DateEffective"
                                              rendered="#{createHospitalDrug.updateFlag ne 'A'}"
                                              actionListener="#{createHospitalDrug.showHistory()}"
                                              update=":dateEffectiveHistoryDialogForm:dateEffectiveHistoryTable"/>
@@ -515,7 +515,7 @@
                       closeOnEscape="true"
                       width="400" 
                       modal="true"
-                      header="ประวัติการแก้ไข">
+                      header="ประวัติการแก้ไข DateEffective">
                 <h:form id="dateEffectiveHistoryDialogForm">
                     <p:dataTable id="dateEffectiveHistoryTable"
                                  var="item"
@@ -525,14 +525,14 @@
                         <p:column headerText="#" width="10">
                             #{index + 1}
                         </p:column>
-                        <p:column headerText="Create Date">
-                            <h:outputText value="#{item.dateChangeDate}">
-                                <f:convertDateTime locale="en_US" pattern="dd MMM yyyy"/>
+                        <p:column headerText="วันที่แก้ไขข้อมูล">
+                            <h:outputText value="#{item.requestItem.lastUpdate}">
+                                <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Date Effective">
                             <h:outputText value="#{item.dateEffectiveDate}" style="#{createHospitalDrug.isSameDateEffective(createHospitalDrug.item.dateEffectiveDate, item.dateEffectiveDate) ? 'color: red' : ''}">
-                                <f:convertDateTime locale="en_US" pattern="dd MMM yyyy HH:MM"/>
+                                <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy HH:MM"/>
                             </h:outputText>
                         </p:column>
                     </p:dataTable>

@@ -201,7 +201,10 @@ public class CreateHospitalDrug implements Serializable {
         LOG.debug("updateFlag : {}", updateFlag);
         LOG.debug("new Date Effective : {}", item.getDateEffectiveDate());
         disableSaveBtn = uploadHospitalDrugItemService.isExistsItem(
-                SecurityUtil.getUserDetails().getHospital().getHcode(), item.getHospDrugCode(), item.getDateEffectiveDate());
+                SecurityUtil.getUserDetails().getHospital().getHcode(),
+                item.getHospDrugCode(),
+                item.getDateEffectiveDate(),
+                item.getUpdateFlag());
         if (disableSaveBtn) {
             FacesMessageUtils.error("กรุณาเปลี่ยน Date Effective");
         }
@@ -212,7 +215,12 @@ public class CreateHospitalDrug implements Serializable {
     }
 
     public void showHistory() {
-        history = uploadHospitalDrugItemService.findEditHistory(SecurityUtil.getUserDetails().getHospital().getHcode(), hospDrugCode, item.getTmtId());
+        LOG.debug("show date effective of flag {A,{}}",updateFlag);
+        history = uploadHospitalDrugItemService.findEditHistory(
+                SecurityUtil.getUserDetails().getHospital().getHcode(),
+                hospDrugCode,
+                item.getTmtId(),
+                updateFlag);
     }
 
     public void findTmt() {

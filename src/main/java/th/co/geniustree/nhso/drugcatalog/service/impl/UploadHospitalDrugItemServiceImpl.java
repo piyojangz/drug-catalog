@@ -30,23 +30,23 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
 
     @Override
     public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective, String updateFlag) {
-        List<String> s =  Arrays.asList(new String[]{"A",updateFlag});
+        List<String> s = Arrays.asList(new String[]{"A", updateFlag});
         long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(
-                hospDrugCode, hcode, dateEffective,s);
+                hospDrugCode, hcode, dateEffective, s);
         return count > 0;
     }
 
     @Override
     public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective) {
-         List<String> s =  Arrays.asList(new String[]{"A","E","U","D"});
+        List<String> s = Arrays.asList(new String[]{"A", "E", "U", "D"});
         long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(
-                hospDrugCode, hcode, dateEffective,s);
+                hospDrugCode, hcode, dateEffective, s);
         return count > 0;
     }
 
     @Override
-    public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId) {
-        return repo.findByUploadDrugHcodeAndHospDrugCodeAndTmtId(hcode, hospDrugCode, tmtId, new Sort(Sort.Direction.ASC, "id"));
+    public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId, String updateFlag) {
+        return repo.findByUploadDrugHcodeAndHospDrugCodeAndTmtIdAndUpdateFlag(hcode, hospDrugCode, tmtId, updateFlag, new Sort(Sort.Direction.ASC, "id"));
     }
 
     @Override

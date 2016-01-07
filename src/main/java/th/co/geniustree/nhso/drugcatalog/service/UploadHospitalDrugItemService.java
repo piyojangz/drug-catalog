@@ -16,10 +16,10 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 public interface UploadHospitalDrugItemService {
 
     public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective);
-    
-    public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective, String updateFlag);
-    
-    public List<UploadHospitalDrugItem> findEditHistory(String hcode,String hospDrugCode,String tmtId);
 
-    public UploadHospitalDrugItem findLatestItemByFlag(String hcode , String hospDrugCode , String updateFlag);
+    public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective, String updateFlag);
+
+    public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId, String updateFlag);
+
+    public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag);
 }
