@@ -8,6 +8,9 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <div class="header-content">
+                <h:outputText value="รายการยาที่ตรวจสอบแล้ว ไม่ผ่าน"/>
+            </div>
             <h:form>
                 <f:metadata>
                     <f:viewParam name="notApproved" value="#{hospitalDrugListController.notApproved}"/>

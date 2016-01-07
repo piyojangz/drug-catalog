@@ -8,6 +8,9 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <div class="header-content">
+                <h:outputText value="Upload รายการยาของหน่วยบริการ"/>
+            </div>
             <h:form enctype="multipart/form-data" id="form">
                 <p:messages id="messages" globalOnly="true" showDetail="true"/>
                 <p:fileUpload fileUploadListener="#{uploadMappedDrug.handleFileUpload}" mode="advanced"

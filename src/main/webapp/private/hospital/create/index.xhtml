@@ -54,6 +54,10 @@
                         border: none;
                     }
                 </style>
+                <div class="header-content">
+                    <h:outputText value="เพิ่มรายการยาใหม่" rendered="#{not createHospitalDrug.editMode}"/>
+                    <h:outputText value="ปรับปรุงรายการยาเดิม" rendered="#{createHospitalDrug.editMode}"/>
+                </div>
                 <p:panelGrid>
                     <p:row rendered="#{createHospitalDrug.editMode}">
                         <p:column style="text-align: right">
