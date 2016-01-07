@@ -99,11 +99,6 @@
                                 <f:selectItem itemLabel="4" itemValue="4"/>
                                 <f:selectItem itemLabel="5" itemValue="5"/>
                             </p:selectOneMenu>
-                            <ui:remove>
-                                <p:inputText id="PRODUCTCAT" 
-                                             value="#{createHospitalDrug.item.productCat}" 
-                                             disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
-                            </ui:remove>
                         </p:column>
                         <p:column>
                             <p:message for="PRODUCTCAT"/>

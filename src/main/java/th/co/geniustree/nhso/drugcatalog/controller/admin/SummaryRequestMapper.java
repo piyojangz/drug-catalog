@@ -37,7 +37,7 @@ public class SummaryRequestMapper {
         SummaryRequest summaryRequest = new SummaryRequest();
         int length = object.length;
         if (length == 10) {
-            summaryRequest.setRequestDate(stringToDate(object[0].toString()));
+            summaryRequest.setLastUpdate(stringToDate(object[0].toString()));
             summaryRequest.setHcode(object[1].toString());
             summaryRequest.setHname(object[2].toString());
             summaryRequest.setCountTMTNotNull(Integer.parseInt(object[3].toString()));

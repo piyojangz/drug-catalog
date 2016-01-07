@@ -73,7 +73,7 @@ public class SummaryIT {
     }
 
     public void printDetails(SummaryRequest summaryRequest) {
-        LOG.info("date {} ", summaryRequest.getRequestDate());
+        LOG.info("last update {} ", summaryRequest.getLastUpdate());
         LOG.info("hcode {} ", summaryRequest.getHcode());
         LOG.info("hname {} ", summaryRequest.getHname());
         LOG.info("TMT_NOT_NULL {} ", summaryRequest.getCountTMTNotNull());

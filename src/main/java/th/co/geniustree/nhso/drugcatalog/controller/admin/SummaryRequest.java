@@ -16,7 +16,7 @@ public class SummaryRequest {
     public static final String ALL_ZONE = "SELECT_ALL_ZONE";
     public static final String ALL_PROVINCE = "SELECT_ALL_PROVINCE";
     
-    private Date requestDate;
+    private Date lastUpdate;
     private String hcode;
     private String hname;
     private Integer countTMTNotNull;
@@ -27,12 +27,12 @@ public class SummaryRequest {
     private Integer countFlagD;
     private Integer countAll;
 
-    public Date getRequestDate() {
-        return requestDate;
+    public Date getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setRequestDate(Date requestDate) {
-        this.requestDate = requestDate;
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public String getHcode() {
