@@ -204,7 +204,7 @@ public class CreateHospitalDrug implements Serializable {
                 SecurityUtil.getUserDetails().getHospital().getHcode(),
                 item.getHospDrugCode(),
                 item.getDateEffectiveDate(),
-                item.getUpdateFlag());
+                updateFlag);
         if (disableSaveBtn) {
             FacesMessageUtils.error("กรุณาเปลี่ยน Date Effective");
         }
