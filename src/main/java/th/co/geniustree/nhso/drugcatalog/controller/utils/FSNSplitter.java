@@ -25,7 +25,7 @@ public class FSNSplitter {
 
     private static final Logger LOG = LoggerFactory.getLogger(FSNSplitter.class);
 
-    private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "((?<activeIngregient>\\w+[\\w\\s]*)\\s+(?<strength>[\\d]+[.\\d]*\\s*[a-zA-Z]+(/[\\d.]+\\s*\\w+)*))+";
+    private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "((?<activeIngregient>\\w+[\\w\\s\\d\\-]*)\\s(?<strength>[\\d]+[.\\d]*\\s[a-zA-Z]+(/[\\d.]+\\s*\\w+)*))+";
     
     private static final String FSN_TP_PATTERN = "(?<tradeName>.+)"
             + "\\s[(](?<manufacturer>.+)[)]"

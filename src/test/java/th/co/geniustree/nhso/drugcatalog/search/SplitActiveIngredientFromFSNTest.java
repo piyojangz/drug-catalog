@@ -198,6 +198,33 @@ public class SplitActiveIngredientFromFSNTest {
                 "powder for oral suspension",
                 null,
                 new String[]{"clavulanic", "acid", "suspension", "ห้างขายยาตราเจ็ดดาว", "mg/5", "powder"}
+            },
+            {Type.TPU,
+                "PEGINTRON CLEARCLICK (MSD INTERNATIONAL, SINGAPORE) (peginterferon alfa-2b 120 mcg) powder for solution for injection, 120 mcg pen",
+                new String[]{"peginterferon alfa-2b"},
+                new String[]{"120 mcg"},
+                new String[]{"peginterferon alfa-2b 120 mcg"},
+                "powder for solution for injection",
+                "120 mcg pen",
+                new String[]{"alfa", "2b", "alfa-2b", ", SINGAPORE", "CLEARCLICK", "pen"}
+            },
+            {Type.TPU,
+                "REBIF 22 (MERCK SERONO, ITALY) (interferon beta-1a 22 mcg/0.5 mL) solution for injection, 0.5 mL vial",
+                new String[]{"interferon beta-1a"},
+                new String[]{"22 mcg/0.5 mL"},
+                new String[]{"interferon beta-1a 22 mcg/0.5 mL"},
+                "solution for injection",
+                "0.5 mL vial",
+                new String[]{", ITALY", "beta", "beta-1a", "0.5 mL", "22", "injection"}
+            },
+            {Type.TPU,
+                "BOSTON ADVANCE CLEANER (BAUSCH & LOMB, U.S.A.) (alkyl ether sulfate 263.1 mg + makon OP-9 3.57 mg + phospholipid-PTC 1.78 mg + syloid 244 19.44 mg) irrigation solution, 30 mL bottle",
+                new String[]{"alkyl ether sulfate", "makon OP-9", "phospholipid-PTC", "syloid 244"},
+                new String[]{"263.1 mg", "3.57 mg", "1.78 mg", "19.44 mg"},
+                new String[]{"alkyl ether sulfate 263.1 mg", "makon OP-9 3.57 mg", "phospholipid-PTC 1.78 mg", "syloid 244 19.44 mg"},
+                "irrigation solution",
+                "30 mL bottle",
+                new String[]{"sulfate", "9", "PTC", "244", "syloid", "OP-9", "makon OP", "19.44","BAUSCH","BAUSCH & LOMB, U.S.A.","U.S.A."}
             }
         });
     }
