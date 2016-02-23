@@ -32,6 +32,7 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.UploadHospitalDrugItemSpecs;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.UploadHospitalDrugItemTempSpecs;
 
 /**
  *
@@ -56,6 +57,8 @@ public class HospitalDrugListController implements Serializable {
     private Map<UploadHospitalDrugItem, UploadHospitalDrugItemEx> uploadItemEx;
     @Autowired
     private TMTEdNedRepo tmtEdNedRepo;
+    private List<String> selectedProductCats = Arrays.asList(new String[]{"1", "2", "3", "4", "5", "6", "7"});
+    private boolean selectedOnlyNullTMT = false;
 
     @PostConstruct
     public void postConstruct() {
@@ -119,6 +122,22 @@ public class HospitalDrugListController implements Serializable {
         this.notApproved = notApproved;
     }
 
+    public List<String> getSelectedProductCats() {
+        return selectedProductCats;
+    }
+
+    public void setSelectedProductCats(List<String> selectedProductCats) {
+        this.selectedProductCats = selectedProductCats;
+    }
+
+    public boolean isSelectedOnlyNullTMT() {
+        return selectedOnlyNullTMT;
+    }
+
+    public void setSelectedOnlyNullTMT(boolean selectedOnlyNullTMT) {
+        this.selectedOnlyNullTMT = selectedOnlyNullTMT;
+    }
+
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
         all = new SpringDataLazyDataModelSupport<UploadHospitalDrugItem>() {
@@ -128,6 +147,10 @@ public class HospitalDrugListController implements Serializable {
                 Specifications<UploadHospitalDrugItem> hcodeEq = Specifications.where(UploadHospitalDrugItemSpecs.hcodeEq(user.getOrgId()))
                         .and(UploadHospitalDrugItemSpecs.notDelete());
                 Specifications<UploadHospitalDrugItem> spec = Specifications.where(null);
+                spec = spec.and(UploadHospitalDrugItemSpecs.productCatIn(selectedProductCats));
+                if (selectedOnlyNullTMT) {
+                    spec = spec.and(UploadHospitalDrugItemSpecs.tmtidIsNull());
+                }
                 if (keywords != null) {
 
                     if (selectColumns.contains("HOSPDRUGCODE")) {

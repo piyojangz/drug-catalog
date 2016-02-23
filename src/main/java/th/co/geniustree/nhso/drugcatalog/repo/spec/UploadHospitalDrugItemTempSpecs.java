@@ -170,5 +170,27 @@ public class UploadHospitalDrugItemTempSpecs {
             }
         };
     }
+    
+    public static Specification<UploadHospitalDrugItemTemp> productCatIn(final List<String> keywords) {
+        return new Specification<UploadHospitalDrugItemTemp>() {
+
+            @Override
+            public Predicate toPredicate(Root<UploadHospitalDrugItemTemp> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return root.get(UploadHospitalDrugItemTemp_.productCat).in(keywords);
+            }
+
+        };
+    }
+    
+    public static Specification<UploadHospitalDrugItemTemp> tmtidIsNull() {
+        return new Specification<UploadHospitalDrugItemTemp>() {
+
+            @Override
+            public Predicate toPredicate(Root<UploadHospitalDrugItemTemp> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return root.get(UploadHospitalDrugItemTemp_.tmtId).isNull();
+            }
+
+        };
+    }
 
 }

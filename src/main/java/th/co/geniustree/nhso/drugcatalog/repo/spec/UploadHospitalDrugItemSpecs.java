@@ -14,6 +14,8 @@ import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem_;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp_;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem_;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug_;
 
@@ -171,4 +173,25 @@ public class UploadHospitalDrugItemSpecs {
         };
     }
 
+    public static Specification<UploadHospitalDrugItem> productCatIn(final List<String> keywords) {
+        return new Specification<UploadHospitalDrugItem>() {
+
+            @Override
+            public Predicate toPredicate(Root<UploadHospitalDrugItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return root.get(UploadHospitalDrugItem_.productCat).in(keywords);
+            }
+
+        };
+    }
+
+    public static Specification<UploadHospitalDrugItem> tmtidIsNull() {
+        return new Specification<UploadHospitalDrugItem>() {
+
+            @Override
+            public Predicate toPredicate(Root<UploadHospitalDrugItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return root.get(UploadHospitalDrugItem_.tmtId).isNull();
+            }
+
+        };
+    }
 }
