@@ -136,4 +136,15 @@ public class HospitalDrugSpecs {
 
         };
     }
+    
+    public static Specification<HospitalDrug> tmtidIsNull() {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return root.get(HospitalDrug_.tmtId).isNull();
+            }
+
+        };
+    }
 }

@@ -57,12 +57,12 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right">
-                            <p:outputLabel value="มี TMT:"/>
+                            <p:outputLabel value="กรอง TMT:"/>
                         </p:column>
                         <p:column colspan="2">
-                            <p:selectOneRadio>
-                                <f:selectItem itemLabel="มี" itemValue="true"/>
-                                <f:selectItem itemLabel="ไม่มี" itemValue="false"/>
+                            <p:selectOneRadio value="#{hospitalDrugListControllerX.selectedOnlyNullTMT}">
+                                <f:selectItem itemLabel="เลือกทั้งมด" itemValue="false"/>
+                                <f:selectItem itemLabel="เฉพาะไม่มี TMT" itemValue="true"/>
                             </p:selectOneRadio>
                         </p:column>
                     </p:row>
