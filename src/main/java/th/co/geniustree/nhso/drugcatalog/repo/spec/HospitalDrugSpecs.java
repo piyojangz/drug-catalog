@@ -125,4 +125,15 @@ public class HospitalDrugSpecs {
 
         };
     }
+    
+    public static Specification<HospitalDrug> productCatIn(final List<String> keywords) {
+        return new Specification<HospitalDrug>() {
+
+            @Override
+            public Predicate toPredicate(Root<HospitalDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return root.get(HospitalDrug_.productCat).in(keywords);
+            }
+
+        };
+    }
 }
