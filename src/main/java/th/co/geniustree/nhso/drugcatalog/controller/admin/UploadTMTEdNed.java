@@ -26,12 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ExcelTMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
-import th.co.geniustree.nhso.drugcatalog.service.FundService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
@@ -66,9 +63,6 @@ public class UploadTMTEdNed implements Serializable {
     @Autowired
     private TMTEdNedService tmtEdNedService;
     private StreamedContent templateFile;
-
-    @Autowired
-    private FundService fundService;
 
     @PostConstruct
     public void postConstruct() {

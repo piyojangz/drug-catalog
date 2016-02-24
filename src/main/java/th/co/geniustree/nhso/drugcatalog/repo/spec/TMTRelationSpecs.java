@@ -11,7 +11,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
-import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug_;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation_;
@@ -30,11 +29,11 @@ public class TMTRelationSpecs {
                 Predicate or = null;
                 for (String key : keywords) {
                     if (or == null) {
-                        or = cb.like(cb.lower(root.get(TMTRelation_.tp).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%");
-                        or = cb.or(or, cb.like(cb.lower(root.get(TMTRelation_.tpu).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%"));
+                        or = cb.like(cb.lower(root.get(TMTRelation_.parent).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%");
+                        or = cb.or(or, cb.like(cb.lower(root.get(TMTRelation_.child).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%"));
                     } else {
-                        or = cb.or(or, cb.like(cb.lower(root.get(TMTRelation_.tp).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%"));
-                        or = cb.or(or, cb.like(cb.lower(root.get(TMTRelation_.tpu).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%"));
+                        or = cb.or(or, cb.like(cb.lower(root.get(TMTRelation_.parent).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%"));
+                        or = cb.or(or, cb.like(cb.lower(root.get(TMTRelation_.child).get(TMTDrug_.fsn)), "%" + key.toLowerCase() + "%"));
                     }
                 }
                 return or;
@@ -50,11 +49,11 @@ public class TMTRelationSpecs {
                 Predicate and = null;
                 for (String key : keywords) {
                     if (and == null) {
-                        and = cb.like(cb.lower(root.get(TMTRelation_.tp).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%");
-                        and = cb.and(and, cb.like(cb.lower(root.get(TMTRelation_.tpu).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%"));
+                        and = cb.like(cb.lower(root.get(TMTRelation_.parent).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%");
+                        and = cb.and(and, cb.like(cb.lower(root.get(TMTRelation_.child).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%"));
                     } else {
-                        and = cb.and(and, cb.like(cb.lower(root.get(TMTRelation_.tp).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%"));
-                        and = cb.and(and, cb.like(cb.lower(root.get(TMTRelation_.tpu).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%"));
+                        and = cb.and(and, cb.like(cb.lower(root.get(TMTRelation_.parent).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%"));
+                        and = cb.and(and, cb.like(cb.lower(root.get(TMTRelation_.child).get(TMTDrug_.tmtId)), "%" + key.toLowerCase() + "%"));
                     }
                 }
                 return and;
