@@ -133,19 +133,25 @@ public class UploadMasterDrug implements Serializable {
 
     public String save() {
         try {
-//            tmtrfService.save(tmtDrugs, tp, gpu, gp, vtm, subs, releaseDate);
+            tmtrfService.save(tmtDrugs, tp, gpu, gp, vtm, subs, releaseDate);
+            reset();
             saveRelationship(subsToVtm);
+            subsToVtm.clear();
             saveRelationship(vtmToGp);
+            vtmToGp.clear();
             saveRelationship(gpToGpu);
+            gpToGpu.clear();
             saveRelationship(gpToTp);
+            gpToTp.clear();
             saveRelationship(gpuToTpu);
+            gpuToTpu.clear();
             saveRelationship(tpToTpu);
+            tpToTpu.clear();
             boolean deleteTempFile = tempFile.delete();
             LOG.info("Delete temp file =>{}, result => {}", tempFile.getAbsolutePath(), deleteTempFile);
             FacesMessageUtils.info("บันทึกเสร็จสิ้น.");
-            reset();
         } catch (Exception e) {
-            LOG.error(null,e);
+            LOG.error(null, e);
             FacesMessageUtils.error("ไม่สามารถบันทึกได้.");
         }
         return null;
@@ -227,12 +233,6 @@ public class UploadMasterDrug implements Serializable {
         vtm.clear();
         gp.clear();
         gpu.clear();
-        subsToVtm.clear();
-        vtmToGp.clear();
-        gpToGpu.clear();
-        gpToTp.clear();
-        gpuToTpu.clear();
-        tpToTpu.clear();
         return null;
     }
 

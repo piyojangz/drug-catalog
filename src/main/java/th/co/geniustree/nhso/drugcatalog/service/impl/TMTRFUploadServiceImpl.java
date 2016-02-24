@@ -52,16 +52,16 @@ public class TMTRFUploadServiceImpl implements TMTRFUploadService{
         saveEachEntity(tmtReleaseFile,tmtDrug, "createDate","lastModifiedDate","version");
     }
 
-    private void saveEachEntity(TMTReleaseFileUpload tmtReleaseFile,List<? extends TMT> tp, String... ignoedProperties) throws BeansException {
+    private void saveEachEntity(TMTReleaseFileUpload tmtReleaseFile,List<? extends TMT> tp, String... ignoredProperties) throws BeansException {
         for (TMT tmt : tp) {
             TMTDrugUpload findOne = tmtDrugUploadrepo.findOne(tmt.getTmtId());
             if (findOne == null) {
                 findOne = tmtDrugUploadrepo.save(new TMTDrugUpload(tmt.getTmtId()));
             }
-            BeanUtils.copyProperties(tmt, findOne, ignoedProperties);
+            BeanUtils.copyProperties(tmt, findOne, ignoredProperties);
             TMTDrugHistory history = new TMTDrugHistory();
             history.setReleaseFileUpload(tmtReleaseFile);
-            BeanUtils.copyProperties(tmt, history, ignoedProperties);
+            BeanUtils.copyProperties(tmt, history, ignoredProperties);
             tmtDrugHistoryRepo.save(history);
         }
     }
