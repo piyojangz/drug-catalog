@@ -36,6 +36,9 @@ public class HospitalDrugListControllerX implements Serializable {
     private SpringDataLazyDataModelSupport<HospitalDrug> all;
     private WSUserDetails user;
     private List<String> selectColumns = Arrays.asList(new String[]{"HOSPDRUGCODE", "TMTID", "GENERICNAME", "TRADENAME", "DOSAGEFORM"});
+    private List<String> selectedProductCats = Arrays.asList(new String[]{"1", "2", "3", "4", "5","6","7"});
+    private boolean selectedOnlyNullTMT = false;
+    
     private String keyword = "";
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
@@ -44,6 +47,14 @@ public class HospitalDrugListControllerX implements Serializable {
     public void postConstruct() {
         user = SecurityUtil.getUserDetails();
         search();
+    }
+
+    public List<String> getSelectedProductCats() {
+        return selectedProductCats;
+    }
+
+    public void setSelectedProductCats(List<String> selectedProductCats) {
+        this.selectedProductCats = selectedProductCats;
     }
 
     public SpringDataLazyDataModelSupport<HospitalDrug> getAll() {
@@ -78,6 +89,14 @@ public class HospitalDrugListControllerX implements Serializable {
         this.keyword = keyword;
     }
 
+    public boolean isSelectedOnlyNullTMT() {
+        return selectedOnlyNullTMT;
+    }
+
+    public void setSelectedOnlyNullTMT(boolean selectedOnlyNullTMT) {
+        this.selectedOnlyNullTMT = selectedOnlyNullTMT;
+    }
+
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
         all = new SpringDataLazyDataModelSupport<HospitalDrug>(new Sort(Sort.Direction.ASC, "hospDrugCode","tmtId")) {
@@ -86,6 +105,13 @@ public class HospitalDrugListControllerX implements Serializable {
             public Page<HospitalDrug> load(Pageable pageAble) {
                 Specifications<HospitalDrug> hcodeEq = Specifications.where(HospitalDrugSpecs.hcodeEq(user.getOrgId()));
                 Specifications<HospitalDrug> spec = Specifications.where(null);
+                
+                spec = spec.and(HospitalDrugSpecs.productCatIn(selectedProductCats));
+                
+                if(selectedOnlyNullTMT){
+                    spec = spec.and(HospitalDrugSpecs.tmtidIsNull());
+                }
+                
                 if (keywords != null) {
 
                     if (selectColumns.contains("HOSPDRUGCODE")) {

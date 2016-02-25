@@ -36,6 +36,7 @@ import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemTempRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.HospitalDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.UploadHospitalDrugItemTempSpecs;
 
 /**
@@ -67,6 +68,9 @@ public class HospitalDrugListControllerTemp implements Serializable {
     @Autowired
     private UploadHospitalDrugRepo uploadHospitalDrugRepo;
 
+    private List<String> selectedProductCats = Arrays.asList(new String[]{"1", "2", "3", "4", "5", "6", "7"});
+    private boolean selectedOnlyNullTMT = false;
+
     @PostConstruct
     public void postConstruct() {
         user = SecurityUtil.getUserDetails();
@@ -95,7 +99,7 @@ public class HospitalDrugListControllerTemp implements Serializable {
         params.put("keyword", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/common/searchHospitalDialog", options, params);
     }
-    
+
     private boolean checkHospitalReturnOneElement() {
         String _keyword = "%" + Strings.nullToEmpty(this.hcode).trim() + "%";
         PageRequest pageRequest = new PageRequest(0, 3);
@@ -162,6 +166,22 @@ public class HospitalDrugListControllerTemp implements Serializable {
         return all;
     }
 
+    public List<String> getSelectedProductCats() {
+        return selectedProductCats;
+    }
+
+    public void setSelectedProductCats(List<String> selectedProductCats) {
+        this.selectedProductCats = selectedProductCats;
+    }
+
+    public boolean isSelectedOnlyNullTMT() {
+        return selectedOnlyNullTMT;
+    }
+
+    public void setSelectedOnlyNullTMT(boolean selectedOnlyNullTMT) {
+        this.selectedOnlyNullTMT = selectedOnlyNullTMT;
+    }
+
     public void setAll(SpringDataLazyDataModelSupport<UploadHospitalDrugItemTemp> all) {
         this.all = all;
     }
@@ -192,13 +212,18 @@ public class HospitalDrugListControllerTemp implements Serializable {
 
     public void search() {
         final List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-        all = new SpringDataLazyDataModelSupport<UploadHospitalDrugItemTemp>(new Sort(Sort.Direction.ASC, "hospDrugCode","requestItem.approveDate")) {
+        all = new SpringDataLazyDataModelSupport<UploadHospitalDrugItemTemp>(new Sort(Sort.Direction.ASC, "hospDrugCode", "requestItem.approveDate")) {
 
             @Override
             public Page<UploadHospitalDrugItemTemp> load(Pageable pageAble) {
                 Specifications<UploadHospitalDrugItemTemp> hcodeEq = Specifications.where(UploadHospitalDrugItemTempSpecs.hcodeEq(selectedHcode))
                         .and(UploadHospitalDrugItemTempSpecs.notDelete());
                 Specifications<UploadHospitalDrugItemTemp> spec = Specifications.where(null);
+                
+                spec = spec.and(UploadHospitalDrugItemTempSpecs.productCatIn(selectedProductCats));
+                if (selectedOnlyNullTMT) {
+                    spec = spec.and(UploadHospitalDrugItemTempSpecs.tmtidIsNull());
+                }
                 if (keywords != null) {
 
                     if (selectColumns.contains("HOSPDRUGCODE")) {

@@ -205,7 +205,6 @@
                             </p:column>
 
                             <p:column headerText="PC" width="30">
-
                                 <p:outputPanel styleClass="updateset-#{model.id}">
                                     <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
                                                    rendered="#{rowIndex ne 0}" 
@@ -214,8 +213,16 @@
                                                    action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
                                 </p:outputPanel>
                             </p:column>
+                            
                             <p:column headerText="TMTID" width="70" style="text-align: center;">
-                                <h:outputText value="#{model.uploadDrugItem.tmtId}" />
+                                <p:outputPanel styleClass="updateset-#{model.id}">
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{model.uploadDrugItem.tmtId}" 
+                                                   style="#{model.errorColumns.contains('TMTID')?'color:red;':'color:blue;'}" 
+                                                   action="#{adminInbox.error(model, 'TMTID')}"/>
+                                    <h:outputText value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}"/>
+                                </p:outputPanel>
                             </p:column>
                             <p:column headerText="TRADENAME" style="width: 36ch;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
@@ -241,49 +248,85 @@
                             </p:column>
                             <p:column headerText="STRENGTH" style="width: 20ch;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.strength}" style="#{model.errorColumns.contains('STRENGTH')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'STRENGTH')}" styleClass="textWrap"/>
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{empty model.uploadDrugItem.strength ? '-' : model.uploadDrugItem.strength}" 
+                                                   style="#{model.errorColumns.contains('STRENGTH')?'color:red':'color:blue'}" 
+                                                   action="#{adminInbox.error(model, 'STRENGTH')}" 
+                                                   styleClass="textWrap"/>
                                     <h:outputText value="#{model.uploadDrugItem.strength}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="DOSAGEFORM" style="width: 36ch;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'DOSAGEFORM')}" styleClass="textWrap"/>
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{model.uploadDrugItem.dosageForm}" 
+                                                   style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" 
+                                                   action="#{adminInbox.error(model, 'DOSAGEFORM')}" 
+                                                   styleClass="textWrap"/>
                                     <h:outputText value="#{model.uploadDrugItem.dosageForm}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="CONTENT" width="120">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'CONTENT')}" styleClass="textWrap"/>
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{model.uploadDrugItem.content}" 
+                                                   style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" 
+                                                   action="#{adminInbox.error(model, 'CONTENT')}" 
+                                                   styleClass="textWrap"/>
                                     <h:outputText value="#{model.uploadDrugItem.content}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="MANUFACTURER" style="width: 36ch;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.manufacturer}" style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'MANUFACTURER')}" styleClass="textWrap"/>
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{model.uploadDrugItem.manufacturer}" 
+                                                   style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" 
+                                                   action="#{adminInbox.error(model, 'MANUFACTURER')}" 
+                                                   styleClass="textWrap"/>
                                     <h:outputText value="#{model.uploadDrugItem.manufacturer}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="UNITPRICE" width="80">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.unitPrice}" style="#{model.errorColumns.contains('UNITPRICE')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'UNITPRICE')}"/>
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{model.uploadDrugItem.unitPrice}" 
+                                                   style="#{model.errorColumns.contains('UNITPRICE')?'color:red':'color:blue'}" 
+                                                   action="#{adminInbox.error(model, 'UNITPRICE')}"/>
                                     <h:outputText value="#{model.uploadDrugItem.unitPrice}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="ISED" width="40">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.ised}" style="#{model.errorColumns.contains('ISED')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'ISED')}"/>
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{model.uploadDrugItem.ised}" 
+                                                   style="#{model.errorColumns.contains('ISED')?'color:red':'color:blue'}" 
+                                                   action="#{adminInbox.error(model, 'ISED')}"/>
                                     <h:outputText value="#{model.uploadDrugItem.ised}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="ISED_APPROVED" width="120">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <h:outputText value="#{model.uploadDrugItem.hospitalDrug.isedApprove}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
+                                    <h:outputText value="#{model.uploadDrugItem.hospitalDrug.isedApprove}" 
+                                                  rendered="#{rowIndex eq 0}" 
+                                                  styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="SP" width="40">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
-                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.specPrep}" style="#{model.errorColumns.contains('SPECPREP')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'SPECPREP')}"/>
-                                    <h:outputText value="#{model.uploadDrugItem.specPrep}" rendered="#{rowIndex eq 0}" styleClass="textWrap"/>
+                                    <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
+                                                   rendered="#{rowIndex ne 0}" 
+                                                   value="#{empty model.uploadDrugItem.specPrep ? '-' : model.uploadDrugItem.specPrep}" 
+                                                   style="#{model.errorColumns.contains('SPECPREP')?'color:red':'color:blue'}" 
+                                                   action="#{adminInbox.error(model, 'SPECPREP')}"/>
+                                    <h:outputText value="#{model.uploadDrugItem.specPrep}" 
+                                                  rendered="#{rowIndex eq 0}" 
+                                                  styleClass="textWrap"/>
                                 </p:outputPanel>
                             </p:column>
                         </p:dataTable>

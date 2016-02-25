@@ -17,6 +17,12 @@
                         padding: 4px 5px;
                         border: none;
                     }
+                    .ui-selectmanycheckbox > tbody > tr > td:nth-child(2n) > label{
+                        margin-right: 10px;
+                    }
+                    .ui-selectoneradio > tbody > tr > td:nth-child(2n) > label {
+                        margin-right: 10px;
+                    }
                 </style>
                 <p:panelGrid>
                     <p:row>
@@ -49,8 +55,37 @@
                             </p:selectManyCheckbox>
                         </p:column>
                     </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <p:outputLabel value="กรอง TMT:"/>
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:selectOneRadio value="#{hospitalDrugListControllerX.selectedOnlyNullTMT}">
+                                <f:selectItem itemLabel="เลือกทั้งมด" itemValue="false"/>
+                                <f:selectItem itemLabel="เฉพาะไม่มี TMT" itemValue="true"/>
+                            </p:selectOneRadio>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <p:outputLabel value="productCat:"/>
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:selectManyCheckbox value="#{hospitalDrugListControllerX.selectedProductCats}">
+                                <f:selectItem itemLabel="1" itemValue="1"/>
+                                <f:selectItem itemLabel="2" itemValue="2"/>
+                                <f:selectItem itemLabel="3" itemValue="3"/>
+                                <f:selectItem itemLabel="4" itemValue="4"/>
+                                <f:selectItem itemLabel="5" itemValue="5"/>
+                                <f:selectItem itemLabel="6" itemValue="6"/>
+                                <f:selectItem itemLabel="7" itemValue="7"/>
+                            </p:selectManyCheckbox>
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
-                <p:dataTable id="table" resizableColumns="true"  value="#{hospitalDrugListControllerX.all}" var="model"  
+                <p:dataTable id="table" styleClass="clean-table"
+                             scrollable="true" scrollHeight="350" 
+                             resizableColumns="true"  value="#{hospitalDrugListControllerX.all}" var="model"  
                              paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
