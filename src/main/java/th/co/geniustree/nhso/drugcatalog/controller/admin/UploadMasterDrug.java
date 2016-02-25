@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -67,12 +68,12 @@ public class UploadMasterDrug implements Serializable {
     private List<GenericDrugExcelModel> gp = new ArrayList<>();
     private List<GenericDrugExcelModel> gpu = new ArrayList<>();
 
-    private List<TMTGpToGpu> gpToGpu = new ArrayList<>();
-    private List<TMTGpToTp> gpToTp = new ArrayList<>();
-    private List<TMTGpuToTpu> gpuToTpu = new ArrayList<>();
-    private List<TMTSubsToVtm> subsToVtm = new ArrayList<>();
-    private List<TMTTpToTpu> tpToTpu = new ArrayList<>();
-    private List<TMTVtmToGp> vtmToGp = new ArrayList<>();
+    private List<TMTGpToGpu> gpToGpu = new LinkedList<>();
+    private List<TMTGpToTp> gpToTp = new LinkedList<>();
+    private List<TMTGpuToTpu> gpuToTpu = new LinkedList<>();
+    private List<TMTSubsToVtm> subsToVtm = new LinkedList<>();
+    private List<TMTTpToTpu> tpToTpu = new LinkedList<>();
+    private List<TMTVtmToGp> vtmToGp = new LinkedList<>();
     @Autowired
     @Qualifier("app")
     private Properties app;
@@ -173,7 +174,12 @@ public class UploadMasterDrug implements Serializable {
             TMTRelation r = new TMTRelation(parent, child);
             relations.add(r);
         }
-        tmtRelationService.saveAll(relations);
+        try {
+            tmtRelationService.saveAll(relations);
+        } catch (Exception e) {
+            LOG.error("Can't save relationship.");
+            LOG.error(null, e);
+        }
     }
 
     public List<TradeDrugExcelModel> getTp() {
