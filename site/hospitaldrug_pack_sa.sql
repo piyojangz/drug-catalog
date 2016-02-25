@@ -11,6 +11,7 @@ create or replace PACKAGE              "HOSPITALDRUG_PACK_SA" AS
                            p_date         DATE) RETURN VARCHAR2;
   FUNCTION find_deleted(p_hospdrugcode VARCHAR2,
                         p_hcode        VARCHAR2,
+                        p_tmtid        VARCHAR2,
                         p_date         DATE) RETURN VARCHAR2;
   FUNCTION find_tmtid_intx(p_hospdrugcode VARCHAR2,
                            p_hcode        VARCHAR2,
@@ -40,7 +41,6 @@ create or replace PACKAGE              "HOSPITALDRUG_PACK_SA" AS
                                    p_tmtid        VARCHAR2,
                                    p_date         DATE) RETURN VARCHAR2;
 END HOSPITALDRUG_PACK_SA;
-
 
 create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
   ------------------------------------------------------------------------------------------------
@@ -133,6 +133,7 @@ create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
   ------------------------------------------------------------------------------------------------
   FUNCTION find_deleted(p_hospdrugcode VARCHAR2,
                         p_hcode        VARCHAR2,
+                        p_tmtid        VARCHAR2,
                         p_date         DATE) RETURN VARCHAR2 AS
     v_deleted VARCHAR2(1);
     err_num   NUMBER;
@@ -154,6 +155,8 @@ create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
              WHERE parent.hcode = p_hcode
                AND req.STATUS = 'ACCEPT'
                AND item.hospdrugcode = p_hospdrugcode
+               /** Add check TMTID By Rain **/
+               AND nvl(item.TMTID,'NULLID') = nvl(p_tmtid,'NULLID')
                AND TRUNC(to_date(TO_CHAR(item.DATEEFFECTIVEDATE,
                                          'DD-MM-YYYY'),
                                  'DD-MM-YYYY')) <= p_date
@@ -256,7 +259,7 @@ create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
                   FROM tmt_hospdrug hdrg
                  WHERE hdrg.HCODE = p_hcode
                    AND hdrg.HOSPDRUGCODE = p_hospdrugcode) LOOP
-      v_deleted     := find_deleted(p_hospdrugcode, p_hcode, p_date);
+      v_deleted     := find_deleted(p_hospdrugcode, p_hcode, null, p_date);
       v_current_tmt := find_tmtid_intx(p_hospdrugcode, p_hcode, p_date);
       -- find drug
       BEGIN
@@ -316,32 +319,18 @@ create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
     l_exist NUMBER := 0;
   BEGIN
     BEGIN
-      IF p_tmtid is not null THEN 
-        SELECT CASE
+    /** Refactoring code */
+      SELECT CASE
                 WHEN COUNT(*) > 0 THEN
                   1
                 ELSE
                   0
               END exist
-        INTO l_exist
-        FROM TMT_HOSPDRUG_TRANS
-        WHERE HCODE = p_hcode
-        AND HOSPDRUGCODE = p_hospdrugcode
-       --by Rain add p_tmtid
-        AND TMTID = p_tmtid;
-      ELSE
-        SELECT CASE
-                WHEN COUNT(*) > 0 THEN
-                  1
-                ELSE
-                  0
-              END exist
-        INTO l_exist
-        FROM TMT_HOSPDRUG_TRANS
-        WHERE HCODE = p_hcode
-        AND HOSPDRUGCODE = p_hospdrugcode
-        AND TMTID is null;
-      END IF;
+      INTO l_exist
+      FROM TMT_HOSPDRUG_TRANS
+      WHERE HCODE = p_hcode
+      AND HOSPDRUGCODE = p_hospdrugcode
+      AND nvl(TMTID,'NULLID') = nvl(p_tmtid,'NULLID');
        --by Rain add p_tmtid
     EXCEPTION
       --by Suwatchai
@@ -462,52 +451,54 @@ create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
     err_num NUMBER;
     err_msg VARCHAR2(1000);
   BEGIN
-    SELECT MANUFACTURER,
-           genericName,
-           tradeName,
-           SPECPREP,
-           productcat,
-           ised_approved,
-           ised_status,
-           unitprice,
-           content
-      INTO v_drug.manufacturer,
-           v_drug.hosp_genericName,
-           v_drug.hosp_tradeName,
-           v_drug.specprep,
-           v_drug.productcat,
-           v_drug.ised,
-           v_drug.ised_status,
-           v_drug.unit_price,
-           v_drug.content
-      FROM (SELECT u.MANUFACTURER,
-                   u.GENERICNAME,
-                   u.TRADENAME,
-                   u.SPECPREP,
-                   u.PRODUCTCAT,
-                   u.ISED_APPROVED,
-                   u.ISED_STATUS,
-                   u.CONTENT,
-                   u.UNITPRICE
-              FROM TMT_HOSPDRUG_TRANS u
-             WHERE u.HCODE = p_hcode
-               AND u.HOSPDRUGCODE = p_hospdrugcode
-               AND CASE
-                     WHEN p_tmtid IS NULL THEN
-                      '1'
-                     ELSE
-                      u.TMTID
-                   END = CASE
-                     WHEN p_tmtid IS NULL THEN
-                      '1'
-                     ELSE
-                      p_tmtid
-                   END
-               AND u.UPDATEFLAG IN ('A', 'E', 'U') /** Add 'U'--by Suwatchai**/
-               AND TRUNC(u.DATEEFFECTIVE) <= p_date
-             ORDER BY u.DATEEFFECTIVE DESC, u.UPDATEFLAG DESC)
-     WHERE rownum = 1;
+    FOR rcd IN (SELECT h.* 
+                FROM TMT_HOSPDRUG_TRANS h 
+                WHERE h.HCODE = p_hcode
+                AND h.HOSPDRUGCODE = p_hospdrugcode
+                AND nvl(h.TMTID,'NULLID') = nvl(p_tmtid,'NULLID')
+                AND TRUNC(h.DATEEFFECTIVE) <= p_date
+                ORDER BY trunc(h.DATEEFFECTIVE) DESC , h.updateflag DESC)
+    LOOP
+    /* ----------------------------------------------
+        Merge data between flag U and flag E ( if not found hospdrug, then get data from flag A )
+    */ ----------------------------------------------
+      IF rcd.UPDATEFLAG = 'U' THEN
+        IF v_drug.unit_price IS NULL THEN 
+          v_drug.unit_price := rcd.UNITPRICE;
+        END IF;
+      ELSIF rcd.UPDATEFLAG = 'E' THEN
+        IF v_drug.ised IS NULL THEN
+          v_drug.manufacturer := rcd.manufacturer;
+          v_drug.hosp_genericName := rcd.GENERICNAME;
+          v_drug.hosp_tradeName := rcd.TRADENAME;
+          v_drug.specprep := rcd.specprep;
+          v_drug.productcat := rcd.productcat;
+          v_drug.ised := rcd.ised;
+          v_drug.ised_status := rcd.ised_status;
+          v_drug.content := rcd.content;
+          END IF;
+      ELSIF rcd.UPDATEFLAG = 'A' THEN
+        IF v_drug.unit_price IS NULL THEN
+          v_drug.unit_price := rcd.UNITPRICE;
+        END IF;
+        IF v_drug.ised IS NULL THEN
+          v_drug.manufacturer := rcd.manufacturer;
+          v_drug.hosp_genericName := rcd.GENERICNAME;
+          v_drug.hosp_tradeName := rcd.TRADENAME;
+          v_drug.specprep := rcd.specprep;
+          v_drug.productcat := rcd.productcat;
+          v_drug.ised := rcd.ised;
+          v_drug.ised_status := rcd.ised_status;
+          v_drug.content := rcd.content;
+        END IF;
+        EXIT;
+      ELSIF rcd.UPDATEFLAG = 'D' THEN
+        EXIT;
+      END IF;
+--      EXIT WHEN rcd.UPDATEFLAG = 'A' or rcd.UPDATEFLAG = 'D';
+    END LOOP;
     RETURN v_drug;
+    
   EXCEPTION
     WHEN OTHERS THEN
       err_num := SQLCODE;
@@ -598,7 +589,9 @@ create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
                        hdrg.ndc24 ndc24
                   FROM tmt_hospdrug_trans hdrg
                  WHERE hdrg.HCODE = p_hcode
-                   AND hdrg.HOSPDRUGCODE = p_hospdrugcode) LOOP
+                   AND hdrg.HOSPDRUGCODE = p_hospdrugcode
+                   -- Add check tmtid By Rain
+                   and nvl(hdrg.TMTID,'NULLID') = nvl(p_tmtid,'NULLID')) LOOP
       --v_current_tmt := find_tmtid_intx_withtmt(p_hospdrugcode, p_hcode,p_tmtid, p_date);
       -- find drug
       BEGIN
@@ -648,10 +641,11 @@ create or replace PACKAGE BODY               HOSPITALDRUG_PACK_SA AS
       END;
       v_deleted                := find_deleted(p_hospdrugcode,
                                                p_hcode,
+                                               p_tmtid,
                                                p_date);
-      v_unit_price             := find_unit_price(p_hospdrugcode,
-                                                  p_hcode,
-                                                  p_date);
+--      v_unit_price             := find_unit_price(p_hospdrugcode,
+--                                                  p_hcode,
+--                                                  p_date);
       v_drugattr               := find_drug_attr(p_hcode,
                                                  p_hospdrugcode,
                                                  p_tmtid,
