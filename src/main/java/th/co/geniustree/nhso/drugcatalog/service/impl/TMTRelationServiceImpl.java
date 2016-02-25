@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelationID;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTRelationRepo;
@@ -67,7 +68,7 @@ public class TMTRelationServiceImpl implements TMTRelationService {
 
     @Override
     public void deleteAllRelationByParent(TMTRelation relation) {
-        List<TMTRelation> relations = tmtRelationRepo.findByIdParentId(relation.getId().getParentId());
+        List<TMTRelation> relations = tmtRelationRepo.findByParentTmtId(relation.getId().getParentId());
         for(TMTRelation r : relations){
             tmtRelationRepo.delete(r);
         }
@@ -80,6 +81,6 @@ public class TMTRelationServiceImpl implements TMTRelationService {
         relationId.setChildId(childTmtId);
         return tmtRelationRepo.findOne(relationId) != null;
     }
-    
-    
+
+
 }

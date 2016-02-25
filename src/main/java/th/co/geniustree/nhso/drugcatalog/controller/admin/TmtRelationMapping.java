@@ -5,10 +5,12 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -18,17 +20,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelationID;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
-import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTRelationSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;
 
@@ -37,7 +38,7 @@ import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;
  * @author Thanthathon
  */
 @Component
-@Scope("session")
+@Scope("view")
 public class TmtRelationMapping implements Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(TmtRelationMapping.class);
@@ -49,7 +50,7 @@ public class TmtRelationMapping implements Serializable {
 
     private SpringDataLazyDataModelSupport<TMTDrug> tmtParents;
     private SpringDataLazyDataModelSupport<TMTDrug> tmtChildren;
-    private SpringDataLazyDataModelSupport<TMTRelation> tmtRelations;
+    private List<TMTDrug> children = new LinkedList<>();
     private List<TMTDrug> viewChildrenTMT;
 
     private TMTDrug selectedTMTParent;
@@ -58,60 +59,20 @@ public class TmtRelationMapping implements Serializable {
     private List<TMTDrug> beforeEditTMTChildren;
     private List<TMTDrug> deletedTMTChildren;
     private boolean checkItem;
-    private final List<TMTDrug.Type> allType = new ArrayList<>();
     private TMTDrug.Type filterType;
-    private TMTRelation selectRelation;
+    
+    private final List<TMTDrug.Type> allTypes = Arrays.asList(new TMTDrug.Type[]{TMTDrug.Type.SUB, TMTDrug.Type.VTM, TMTDrug.Type.GP, TMTDrug.Type.GPU, TMTDrug.Type.TP});
 
     @PostConstruct
     public void postConstruct() {
         keyword = "";
         selectedTMTChildren = new HashSet<>();
-        filterType = TMTDrug.Type.SUB;
-        allType.add(TMTDrug.Type.SUB);
-        allType.add(TMTDrug.Type.VTM);
-        allType.add(TMTDrug.Type.GP);
-        allType.add(TMTDrug.Type.GPU);
-        allType.add(TMTDrug.Type.TP);
-        viewAllRelation();
-    }
-
-    public void viewAllRelation() {
-        tmtRelations = searchRelation(null, allType);
-    }
-
-    public void searchRelation() {
-        if (filterType == null) {
-            tmtRelations = searchRelation(keyword, allType);
-        } else {
-            List<TMTDrug.Type> typeIn = new ArrayList<>();
-            typeIn.add(filterType);
-            tmtRelations = searchRelation(keyword, typeIn);
-        }
-
-    }
-
-    private SpringDataLazyDataModelSupport<TMTRelation> searchRelation(final String keyword, final List<TMTDrug.Type> typeIn) {
-        return new SpringDataLazyDataModelSupport<TMTRelation>() {
-
-            @Override
-            public Page<TMTRelation> load(Pageable pageAble) {
-                if (keyword != null && !keyword.isEmpty()) {
-                    List<String> keywords = Arrays.asList(keyword.split("\\s+"));
-                    Specification<TMTRelation> spec = Specifications.where(TMTRelationSpecs.tmtIdContains(keywords)).or(TMTRelationSpecs.fsnContains(keywords));
-                    if (typeIn != null) {
-                        spec = Specifications.where(spec).and(TMTRelationSpecs.typeIn(typeIn));
-                    }
-                    return tmtRelationService.findBySpec(spec, pageAble);
-                } else {
-                    return tmtRelationService.findAll(pageAble);
-                }
-            }
-        };
+        tmtParents = searchTMTDrug(null,allTypes);
     }
 
     public void search() {
         if (filterType == null) {
-            tmtParents = searchTMTDrug(keyword, allType);
+            tmtParents = searchTMTDrug(keyword, allTypes);
         } else {
             List<TMTDrug.Type> filterTypes = new ArrayList<>();
             filterTypes.add(filterType);
@@ -120,20 +81,19 @@ public class TmtRelationMapping implements Serializable {
 
     }
 
-    private SpringDataLazyDataModelSupport<TMTDrug> searchTMTDrug(final String keyword, final List<TMTDrug.Type> typeIn) {
-        return new SpringDataLazyDataModelSupport<TMTDrug>() {
+    private SpringDataLazyDataModelSupport<TMTDrug> searchTMTDrug(final String keyword, final List<TMTDrug.Type> types) {
+        return new SpringDataLazyDataModelSupport<TMTDrug>(new Sort("tmtId")) {
             @Override
             public Page<TMTDrug> load(Pageable pageAble) {
-                if (keyword != null && !keyword.isEmpty()) {
+                Specification<TMTDrug> spec = Specifications.where(null);
+                if (!Strings.isNullOrEmpty(keyword)) {
                     List<String> keywords = Arrays.asList(keyword.split("\\s+"));
-                    Specification<TMTDrug> spec = Specifications.where(TMTDrugSpecs.tmtIdContains(keywords)).or(TMTDrugSpecs.fsnContains(keywords));
-                    if (typeIn != null) {
-                        spec = Specifications.where(spec).and(TMTDrugSpecs.typeIn(typeIn));
-                    }
-                    return tmtDrugService.findAllAndEagerGroup(spec, pageAble);
-                } else {
-                    return tmtDrugService.findAll(pageAble);
+                    spec = Specifications.where(spec).and(Specifications.where(TMTDrugSpecs.tmtIdContains(keywords)).or(TMTDrugSpecs.fsnContains(keywords)));
                 }
+                if (types != null) {
+                    spec = Specifications.where(spec).and(TMTDrugSpecs.typeIn(types));
+                }
+                return tmtDrugService.findAllAndEagerGroup(spec, pageAble);
             }
         };
     }
@@ -149,37 +109,40 @@ public class TmtRelationMapping implements Serializable {
         return "mapping.xhtml";
     }
 
-    private String getActiveIngredientFrom(TMTDrug drug) {
-        FSNSplitter splitter = new FSNSplitter();
-        splitter.getActiveIngredientAndStrengthFromFSN(drug);
-        StringBuilder sb = new StringBuilder();
-        for (String activeIngredient : splitter.getActiveIngredients()) {
-            sb.append(activeIngredient).append(" ");
-        }
-        return sb.toString();
+    public void onSelectParentTMT(TMTDrug tmt) {
+        selectedTMTParent = tmt;
+        LOG.debug("selected Parent TMT : {}", selectedTMTParent.getTmtId());
+        searchChildrenFromParent(selectedTMTParent);
+        LOG.debug("total Children of TMT = {} items", children.size());
     }
 
-    public void onSelectParentTMT(TMTDrug tmt) {
-        if (selectedTMTChildren == null) {
-            selectedTMTChildren = new HashSet<>();
-        } else {
-            selectedTMTChildren.clear();
+    private void searchChildrenFromParent(TMTDrug parent) {
+        children = new LinkedList<>();
+        if (parent.getChildren() != null) {
+            children.addAll(parent.getChildren());
+//            for (TMTDrug drug : parent.getChildren()) {
+//                searchChildrenFromParent(drug);
+//            }
         }
-        selectedTMTParent = tmt;
-        beforeEditTMTChildren = new ArrayList<>(selectedTMTParent.getChildren());
-        LOG.debug("selected Parent TMT : {}", selectedTMTParent.getTmtId());
-        searchChildrenTMT();
     }
 
     private List<TMTDrug.Type> findChildTypeFromParentType(TMTDrug.Type parentType) {
-        List<TMTDrug.Type> childType = new ArrayList<>();
+        List<TMTDrug.Type> childType = new LinkedList<>();
         if (parentType.equals(TMTDrug.Type.SUB)) {
             childType.add(TMTDrug.Type.VTM);
+            childType.add(TMTDrug.Type.GP);
+            childType.add(TMTDrug.Type.GPU);
+            childType.add(TMTDrug.Type.TP);
+            childType.add(TMTDrug.Type.TPU);
         } else if (parentType.equals(TMTDrug.Type.VTM)) {
             childType.add(TMTDrug.Type.GP);
+            childType.add(TMTDrug.Type.GPU);
+            childType.add(TMTDrug.Type.TP);
+            childType.add(TMTDrug.Type.TPU);
         } else if (parentType.equals(TMTDrug.Type.GP)) {
             childType.add(TMTDrug.Type.GPU);
             childType.add(TMTDrug.Type.TP);
+            childType.add(TMTDrug.Type.TPU);
         } else if (parentType.equals(TMTDrug.Type.GPU) || parentType.equals(TMTDrug.Type.TP)) {
             childType.add(TMTDrug.Type.TPU);
         } else {
@@ -254,9 +217,9 @@ public class TmtRelationMapping implements Serializable {
         }
     }
 
-    public void showTMTChildOfSelectParent(TMTRelation relation) {
-        selectedTMTParent = relation.getParent();
-        viewChildrenTMT = relation.getParent().getChildren();
+    public void showTMTChildOfSelectParent(TMTDrug drug) {
+        selectedTMTParent = drug;
+        viewChildrenTMT = drug.getChildren();
     }
 
     public void reset() {
@@ -267,23 +230,11 @@ public class TmtRelationMapping implements Serializable {
 
     public void deleteAllRelation() {
         try {
-            tmtRelationService.deleteAllRelationByParent(selectRelation);
+//            tmtRelationService.deleteAllRelationByParent(selectRelation);
             FacesMessageUtils.warn("ลบความสัมพันธ์ทั้งหมด เรียบร้อย");
         } catch (Exception e) {
             FacesMessageUtils.warn("ไม่สามารถ ลบความสัมพันธ์ทั้งหมดได้");
         }
-    }
-
-    public void onSelectRelation(TMTRelation relation) {
-        selectRelation = relation;
-    }
-
-    public TMTRelation getSelectRelation() {
-        return selectRelation;
-    }
-
-    public void setSelectRelation(TMTRelation selectRelation) {
-        this.selectRelation = selectRelation;
     }
 
     public String getKeyword() {
@@ -334,10 +285,6 @@ public class TmtRelationMapping implements Serializable {
         this.tmtChildren = tmtChildren;
     }
 
-    public List<TMTDrug.Type> getAllType() {
-        return allType;
-    }
-
     public TMTDrug.Type getFilterType() {
         return filterType;
     }
@@ -354,14 +301,6 @@ public class TmtRelationMapping implements Serializable {
         this.beforeEditTMTChildren = beforeEditTMTChildren;
     }
 
-    public SpringDataLazyDataModelSupport<TMTRelation> getTmtRelations() {
-        return tmtRelations;
-    }
-
-    public void setTmtRelations(SpringDataLazyDataModelSupport<TMTRelation> tmtRelations) {
-        this.tmtRelations = tmtRelations;
-    }
-
     public List<TMTDrug> getDeletedTMTChildren() {
         return deletedTMTChildren;
     }
@@ -376,6 +315,14 @@ public class TmtRelationMapping implements Serializable {
 
     public void setViewChildrenTMT(List<TMTDrug> viewChildrenTMT) {
         this.viewChildrenTMT = viewChildrenTMT;
+    }
+
+    public List<TMTDrug> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<TMTDrug> children) {
+        this.children = children;
     }
 
 }
