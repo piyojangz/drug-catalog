@@ -99,6 +99,8 @@ public class UploadMasterDrug implements Serializable {
     private TMTReleaseFileUploadRepo tmtReleaseFileUploadRepo;
     private Date releaseDate;
 
+    private String latestFile;
+    
     @PostConstruct
     public void postConstruct() {
         String uploadtempLocation = app.getProperty("uploadtempLocation");
@@ -106,6 +108,19 @@ public class UploadMasterDrug implements Serializable {
         if (!uploadtempFileDir.exists()) {
             uploadtempFileDir.mkdirs();
         }
+        
+        TMTReleaseFileUpload findLastestReleaseDate = tmtReleaseFileUploadRepo.findLastestReleaseDate();
+        if (findLastestReleaseDate != null) {
+            latestFile = "TMTRF" + DateUtils.format("yyyyMMdd", findLastestReleaseDate.getReleaseDate());
+        }
+    }
+
+    public String getLatestFile() {
+        return latestFile;
+    }
+
+    public void setLatestFile(String latestFile) {
+        this.latestFile = latestFile;
     }
 
     public String getOriginalFileName() {
