@@ -55,8 +55,8 @@
                     }
                 </style>
                 <div class="header-content">
-                    <h:outputText value="เพิ่มรายการยาใหม่" rendered="#{not createHospitalDrug.editMode}"/>
-                    <h:outputText value="ปรับปรุงรายการยาเดิม" rendered="#{createHospitalDrug.editMode}"/>
+                    <i class="fa fa-plus-circle" style="#{not createHospitalDrug.editMode ? '':'display: none'}"></i><h:outputText value="เพิ่มรายการยาใหม่" rendered="#{not createHospitalDrug.editMode}"/>
+                    <i class="fa fa-wrench" style="#{createHospitalDrug.editMode ? '':'display: none'}"></i><h:outputText value="ปรับปรุงรายการยาเดิม" rendered="#{createHospitalDrug.editMode}"/>
                 </div>
                 <p:panelGrid>
                     <p:row rendered="#{createHospitalDrug.editMode}">
