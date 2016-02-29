@@ -9,7 +9,7 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <div class="header-content">
-                <h:outputText value="ประวัติการนำเข้าข้อมูล"/>
+                <i class="fa fa-file-text-o"></i><h:outputText value="ประวัติการนำเข้าข้อมูล"/>
             </div>
             <h:form>
                 <p:dataTable id="table" resizableColumns="true"  value="#{uploadFileList.uploadHospitalDrugs}" var="model"  

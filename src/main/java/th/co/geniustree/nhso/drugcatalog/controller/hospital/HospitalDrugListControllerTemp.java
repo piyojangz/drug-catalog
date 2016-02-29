@@ -219,13 +219,7 @@ public class HospitalDrugListControllerTemp implements Serializable {
                 Specifications<UploadHospitalDrugItemTemp> hcodeEq = Specifications.where(UploadHospitalDrugItemTempSpecs.hcodeEq(selectedHcode))
                         .and(UploadHospitalDrugItemTempSpecs.notDelete());
                 Specifications<UploadHospitalDrugItemTemp> spec = Specifications.where(null);
-                
-                spec = spec.and(UploadHospitalDrugItemTempSpecs.productCatIn(selectedProductCats));
-                if (selectedOnlyNullTMT) {
-                    spec = spec.and(UploadHospitalDrugItemTempSpecs.tmtidIsNull());
-                }
                 if (keywords != null) {
-
                     if (selectColumns.contains("HOSPDRUGCODE")) {
                         spec = spec.or(UploadHospitalDrugItemTempSpecs.hospDrugCodeLike(keywords));
                     }
@@ -241,6 +235,10 @@ public class HospitalDrugListControllerTemp implements Serializable {
                     if (selectColumns.contains("DOSAGEFORM")) {
                         spec = spec.or(UploadHospitalDrugItemTempSpecs.dosageFormLike(keywords));
                     }
+                }
+                spec = Specifications.where(spec).and(UploadHospitalDrugItemTempSpecs.productCatIn(selectedProductCats));
+                if (selectedOnlyNullTMT) {
+                    spec = spec.and(UploadHospitalDrugItemTempSpecs.tmtidIsNull());
                 }
                 if (wait) {
                     spec = spec.and(UploadHospitalDrugItemTempSpecs.waitApprove());

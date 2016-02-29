@@ -105,13 +105,6 @@ public class HospitalDrugListControllerX implements Serializable {
             public Page<HospitalDrug> load(Pageable pageAble) {
                 Specifications<HospitalDrug> hcodeEq = Specifications.where(HospitalDrugSpecs.hcodeEq(user.getOrgId()));
                 Specifications<HospitalDrug> spec = Specifications.where(null);
-                
-                spec = spec.and(HospitalDrugSpecs.productCatIn(selectedProductCats));
-                
-                if(selectedOnlyNullTMT){
-                    spec = spec.and(HospitalDrugSpecs.tmtidIsNull());
-                }
-                
                 if (keywords != null) {
 
                     if (selectColumns.contains("HOSPDRUGCODE")) {
@@ -129,6 +122,11 @@ public class HospitalDrugListControllerX implements Serializable {
                     if (selectColumns.contains("DOSAGEFORM")) {
                         spec = spec.or(HospitalDrugSpecs.dosageFormLike(keywords));
                     }
+                }
+                spec = Specifications.where(spec).and(HospitalDrugSpecs.productCatIn(selectedProductCats));
+                
+                if(selectedOnlyNullTMT){
+                    spec = spec.and(HospitalDrugSpecs.tmtidIsNull());
                 }
                 return hospitalDrugRepo.findAll(hcodeEq.and(spec), pageAble);
             }

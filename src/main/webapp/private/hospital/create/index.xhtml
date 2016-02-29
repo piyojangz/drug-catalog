@@ -55,8 +55,8 @@
                     }
                 </style>
                 <div class="header-content">
-                    <h:outputText value="เพิ่มรายการยาใหม่" rendered="#{not createHospitalDrug.editMode}"/>
-                    <h:outputText value="ปรับปรุงรายการยาเดิม" rendered="#{createHospitalDrug.editMode}"/>
+                    <i class="fa fa-plus-circle" style="#{not createHospitalDrug.editMode ? '':'display: none'}"></i><h:outputText value="เพิ่มรายการยาใหม่" rendered="#{not createHospitalDrug.editMode}"/>
+                    <i class="fa fa-wrench" style="#{createHospitalDrug.editMode ? '':'display: none'}"></i><h:outputText value="ปรับปรุงรายการยาเดิม" rendered="#{createHospitalDrug.editMode}"/>
                 </div>
                 <p:panelGrid>
                     <p:row rendered="#{createHospitalDrug.editMode}">
@@ -360,6 +360,9 @@
                     Please wait...
                 </p:blockUI>
             </h:form>
+            <div class="header-content-sub">
+                <i class="fa fa-ambulance"></i><h:outputText value="รายการยาที่ รอ ตรวจสอบ"/>
+            </div>
             <h:form id="secondForm" rendered="#{not createHospitalDrug.editMode}">
                 <ui:include src="/private/hospital/listdrug/waitbody.xhtml"/>
             </h:form>
