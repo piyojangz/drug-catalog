@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,14 +61,16 @@ public class TmtRelationMapping implements Serializable {
     private List<TMTDrug> deletedTMTChildren;
     private boolean checkItem;
     private TMTDrug.Type filterType;
-    
+
+    private Stack<TMTDrug> viewTMTDrugStack;
+
     private final List<TMTDrug.Type> allTypes = Arrays.asList(new TMTDrug.Type[]{TMTDrug.Type.SUB, TMTDrug.Type.VTM, TMTDrug.Type.GP, TMTDrug.Type.GPU, TMTDrug.Type.TP});
 
     @PostConstruct
     public void postConstruct() {
         keyword = "";
         selectedTMTChildren = new HashSet<>();
-        tmtParents = searchTMTDrug(null,allTypes);
+        tmtParents = searchTMTDrug(null, allTypes);
     }
 
     public void search() {
@@ -110,19 +113,33 @@ public class TmtRelationMapping implements Serializable {
     }
 
     public void onSelectParentTMT(TMTDrug tmt) {
+        if (viewTMTDrugStack == null) {
+            viewTMTDrugStack = new Stack<>();
+        } else {
+            viewTMTDrugStack.push(selectedTMTParent);
+        }
         selectedTMTParent = tmt;
         LOG.debug("selected Parent TMT : {}", selectedTMTParent.getTmtId());
         searchChildrenFromParent(selectedTMTParent);
         LOG.debug("total Children of TMT = {} items", children.size());
     }
 
+    public void onRelationDialogHidden() {
+        viewTMTDrugStack = null;
+        LOG.debug("close relation dialog");
+    }
+
+    public void viewPreviousParent() {
+        if (!viewTMTDrugStack.empty()) {
+            selectedTMTParent = viewTMTDrugStack.pop();
+            searchChildrenFromParent(selectedTMTParent);
+        }
+    }
+
     private void searchChildrenFromParent(TMTDrug parent) {
         children = new LinkedList<>();
         if (parent.getChildren() != null) {
             children.addAll(parent.getChildren());
-//            for (TMTDrug drug : parent.getChildren()) {
-//                searchChildrenFromParent(drug);
-//            }
         }
     }
 
@@ -323,6 +340,14 @@ public class TmtRelationMapping implements Serializable {
 
     public void setChildren(List<TMTDrug> children) {
         this.children = children;
+    }
+
+    public Stack<TMTDrug> getViewTMTDrugStack() {
+        return viewTMTDrugStack;
+    }
+
+    public void setViewTMTDrugStack(Stack<TMTDrug> viewTMTDrugStack) {
+        this.viewTMTDrugStack = viewTMTDrugStack;
     }
 
 }

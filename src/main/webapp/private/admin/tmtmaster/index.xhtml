@@ -8,6 +8,12 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+            </style>
             <p:growl id="growl" showDetail="true"/>
             <div class="header-content" style="margin-bottom: 20px;">
                 <h:outputText value="การเชื่อมโยงรหัส TMT"/>
@@ -25,6 +31,8 @@
                         </p:column>
                         <p:column>
                             <p:spacer width="20"/>
+                        </p:column>
+                        <p:column>
                             <h:outputText value="กรอง TYPE : "/>
                         </p:column>
                         <p:column>
@@ -100,7 +108,13 @@
                       header="ดูการเชื่อมโยงของ TMT"
                       modal="true"
                       height="600">
+                <p:ajax event="close" listener="#{tmtRelationMapping.onRelationDialogHidden()}"/>
                 <h:form id="relationDialogForm">
+                    <p:commandButton actionListener="#{tmtRelationMapping.viewPreviousParent()}"
+                                     rendered="#{tmtRelationMapping.viewTMTDrugStack.size() gt 0}"
+                                     update="@form"
+                                     icon="ui-icon-arrowreturnthick-1-w" iconPos="right"
+                                     value="ดู TMT แม่ของ TMT นี้"/>
                     <p:dataTable id="relationTable"
                                  value="#{tmtRelationMapping.children}"
                                  paginator="true"
