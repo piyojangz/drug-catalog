@@ -152,17 +152,11 @@ public class UploadMasterDrug implements Serializable {
             tmtrfService.save(tmtDrugs, tp, gpu, gp, vtm, subs, releaseDate);
             reset();
             saveRelationship(subsToVtm);
-            subsToVtm.clear();
             saveRelationship(vtmToGp);
-            vtmToGp.clear();
             saveRelationship(gpToGpu);
-            gpToGpu.clear();
             saveRelationship(gpToTp);
-            gpToTp.clear();
             saveRelationship(gpuToTpu);
-            gpuToTpu.clear();
             saveRelationship(tpToTpu);
-            tpToTpu.clear();
             boolean deleteTempFile = tempFile.delete();
             LOG.info("Delete temp file =>{}, result => {}", tempFile.getAbsolutePath(), deleteTempFile);
             FacesMessageUtils.info("บันทึกเสร็จสิ้น.");
@@ -192,9 +186,9 @@ public class UploadMasterDrug implements Serializable {
         try {
             tmtRelationService.saveAll(relations);
         } catch (Exception e) {
-            LOG.error("Can't save relationship.");
-            LOG.error(null, e);
+            LOG.error("Can't save relationship.", e);
         }
+        relationship.clear();
     }
 
     public List<TradeDrugExcelModel> getTp() {
