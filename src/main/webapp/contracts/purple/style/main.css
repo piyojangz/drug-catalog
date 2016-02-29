@@ -355,3 +355,7 @@ tr>th.ui-resizable-column{
     font-size: 15px;
     margin-right: 10px;
 }
+.ui-panelgrid .ui-panelgrid-cell{
+    padding: 4px 5px;
+    border: none;
+}
