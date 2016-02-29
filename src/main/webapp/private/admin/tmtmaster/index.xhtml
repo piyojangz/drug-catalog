@@ -103,18 +103,19 @@
                       appendTo="@(body)"
                       widgetVar="relationDialogWidget"
                       width="800"
+                      showEffect="fade"
                       closable="true"
                       closeOnEscape="true"
                       header="ดูการเชื่อมโยงของ TMT"
                       modal="true"
-                      height="600">
+                      height="500">
                 <p:ajax event="close" listener="#{tmtRelationMapping.onRelationDialogHidden()}"/>
                 <h:form id="relationDialogForm">
                     <p:commandButton actionListener="#{tmtRelationMapping.viewPreviousParent()}"
                                      rendered="#{tmtRelationMapping.viewTMTDrugStack.size() gt 0}"
                                      update="@form"
                                      icon="ui-icon-arrowreturnthick-1-w" iconPos="right"
-                                     value="ดู TMT แม่ของ TMT นี้"/>
+                                     value="ดู TMT ก่อนหน้า"/>
                     <p:dataTable id="relationTable"
                                  value="#{tmtRelationMapping.children}"
                                  paginator="true"
