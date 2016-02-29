@@ -50,7 +50,6 @@ public class UploadTMTRelation {
     private UploadedFile file;
     private List<TMTParentChild> notPassModels = new ArrayList<TMTParentChild>();
     private List<TMTParentChild> passModels = new ArrayList<TMTParentChild>();
-    private boolean duplicateFile = false;
     private String originalFileName;
     private List<TMTRelation> passRelations;
 
@@ -177,14 +176,6 @@ public class UploadTMTRelation {
             FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
-    }
-
-    public boolean isDuplicateFile() {
-        return duplicateFile;
-    }
-
-    public void setDuplicateFile(boolean duplicateFile) {
-        this.duplicateFile = duplicateFile;
     }
 
     public String getOriginalFileName() {
