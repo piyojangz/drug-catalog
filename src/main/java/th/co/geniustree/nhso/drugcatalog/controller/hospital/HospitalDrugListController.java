@@ -147,12 +147,7 @@ public class HospitalDrugListController implements Serializable {
                 Specifications<UploadHospitalDrugItem> hcodeEq = Specifications.where(UploadHospitalDrugItemSpecs.hcodeEq(user.getOrgId()))
                         .and(UploadHospitalDrugItemSpecs.notDelete());
                 Specifications<UploadHospitalDrugItem> spec = Specifications.where(null);
-                spec = spec.and(UploadHospitalDrugItemSpecs.productCatIn(selectedProductCats));
-                if (selectedOnlyNullTMT) {
-                    spec = spec.and(UploadHospitalDrugItemSpecs.tmtidIsNull());
-                }
                 if (keywords != null) {
-
                     if (selectColumns.contains("HOSPDRUGCODE")) {
                         spec = spec.or(UploadHospitalDrugItemSpecs.hospDrugCodeLike(keywords));
                     }
@@ -168,6 +163,10 @@ public class HospitalDrugListController implements Serializable {
                     if (selectColumns.contains("DOSAGEFORM")) {
                         spec = spec.or(UploadHospitalDrugItemSpecs.dosageFormLike(keywords));
                     }
+                }
+                spec = Specifications.where(spec).and(UploadHospitalDrugItemSpecs.productCatIn(selectedProductCats));
+                if (selectedOnlyNullTMT) {
+                    spec = spec.and(UploadHospitalDrugItemSpecs.tmtidIsNull());
                 }
                 if (wait) {
                     spec = spec.and(UploadHospitalDrugItemSpecs.waitApprove());
