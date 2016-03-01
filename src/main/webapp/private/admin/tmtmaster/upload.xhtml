@@ -122,7 +122,7 @@
 
                 <p:commandButton ajax="false" value="Save" 
                                  action="#{uploadTMTRelation.save()}" 
-                                 disabled="#{empty uploadTMTRelation.passModels or uploadTMTRelation.duplicateFile}" 
+                                 disabled="#{empty uploadTMTRelation.passModels and not empty uploadTMTRelation.notPassModels}" 
                                  onclick="PF('allblock').show()"  
                                  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
