@@ -13,14 +13,36 @@
                     padding: 4px 5px;
                     border: none;
                 }
+                .sub-menu > ul > li > a > span {
+                    color: white;
+                    font-weight: bold;
+                    padding-right: 15px;
+                }
+                .sub-menu > ul > li {
+                    border-right: 1px solid rgba(255,255,255,0.5) !important;
+                }
+                .sub-menu > ul > li:first-child{
+                    border-left: 1px solid rgba(255,255,255,0.5) !important;
+                }
+                
+                .sub-menu {
+                    background-image: none !important;
+                    background-color: #FF8A00 !important;
+                    box-shadow: 0 3px 4px #AF3800 !important;
+                    margin-bottom: 10px !important;
+                    margin-top: -5px !important;
+                }
+                .sub-menu > ul > li:hover{
+                    background-color: #E67814 !important;
+                }
             </style>
             <p:growl id="growl" showDetail="true"/>
             <div class="header-content" style="margin-bottom: 20px;">
                 <i class="fa fa-medkit"></i><h:outputText value="การเชื่อมโยงรหัส TMT"/>
             </div>
-            
+
             <h:form id="menuForm">
-                <p:menubar>
+                <p:menubar styleClass="sub-menu">
                     <p:menuitem action="upload.xhtml" value="อัพโหลดข้อมูล"/>
                     <p:menuitem action="index.xhtml" value="เพิ่มข้อมูล"/>
                 </p:menubar>
