@@ -28,6 +28,8 @@ public interface TMTRelationService {
     
     public void delete(TMTRelation tmt);
     
+    public void deleteAllChildren(TMTDrug tmtDrug);
+    
     public Page<TMTRelation> findBySpec(Specification<TMTRelation> spec,Pageable pageable);
     
     public void deleteAllRelationByParent(TMTRelation relation);

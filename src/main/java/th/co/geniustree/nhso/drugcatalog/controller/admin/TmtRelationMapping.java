@@ -81,7 +81,17 @@ public class TmtRelationMapping implements Serializable {
             filterTypes.add(filterType);
             tmtParents = searchTMTDrug(keyword, filterTypes);
         }
-
+    }
+    
+    public void deleteByParent(){
+        try {
+        selectedTMTParent.setChildren(null);
+        tmtRelationService.deleteAllChildren(selectedTMTParent);
+        FacesMessageUtils.info("ลบความสัมพันธ์ เรียบร้อย");
+        } catch(Exception e){
+            LOG.error("Can't delete",e);
+            FacesMessageUtils.error("ไม่สามารถลบความสัมพันธ์ได้");
+        }
     }
 
     private SpringDataLazyDataModelSupport<TMTDrug> searchTMTDrug(final String keyword, final List<TMTDrug.Type> types) {
@@ -126,6 +136,10 @@ public class TmtRelationMapping implements Serializable {
     public void onHiddenRelationDialog() {
         viewTMTDrugStack = null;
         LOG.debug("close relation dialog");
+    }
+    
+    public void onSelectParentTMT(TMTDrug tmtDrug){
+        selectedTMTParent = tmtDrug;
     }
 
     public void viewPreviousParent() {

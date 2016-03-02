@@ -62,25 +62,30 @@ public class TMTRelationServiceImpl implements TMTRelationService {
     }
 
     @Override
-    public Page<TMTRelation> findBySpec(Specification<TMTRelation> spec,Pageable pageable) {
-        return tmtRelationRepo.findAll(spec,pageable);
+    public Page<TMTRelation> findBySpec(Specification<TMTRelation> spec, Pageable pageable) {
+        return tmtRelationRepo.findAll(spec, pageable);
     }
 
     @Override
     public void deleteAllRelationByParent(TMTRelation relation) {
         List<TMTRelation> relations = tmtRelationRepo.findByParentTmtId(relation.getId().getParentId());
-        for(TMTRelation r : relations){
+        for (TMTRelation r : relations) {
             tmtRelationRepo.delete(r);
         }
     }
 
     @Override
-    public boolean isRelationExist(String parentTmtId,String childTmtId) {
+    public boolean isRelationExist(String parentTmtId, String childTmtId) {
         TMTRelationID relationId = new TMTRelationID();
         relationId.setParentId(parentTmtId);
         relationId.setChildId(childTmtId);
         return tmtRelationRepo.findOne(relationId) != null;
     }
 
+    @Override
+    public void deleteAllChildren(TMTDrug tmtDrug) {
+        List<TMTRelation> tmtList = tmtRelationRepo.findByParentTmtId(tmtDrug.getTmtId());
+        tmtRelationRepo.delete(tmtList);
+    }
 
 }

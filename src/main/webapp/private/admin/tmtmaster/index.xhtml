@@ -24,7 +24,7 @@
                 .sub-menu > ul > li:first-child{
                     border-left: 1px solid rgba(255,255,255,0.5) !important;
                 }
-                
+
                 .sub-menu {
                     background-image: none !important;
                     background-color: #FF8A00 !important;
@@ -111,21 +111,22 @@
                                          disabled="#{item.type eq 'TPU'}"
                                          actionListener="#{tmtRelationMapping.viewParentTMT(item)}"/>
                     </p:column>
-                    <ui:remove>
-                        <p:column style="width: 70px;text-align: center;">
+                    <p:column style="width: 70px;text-align: center;">
+                        <ui:remove>
                             <p:commandButton style="height: 25px;width: 25px;" 
                                              icon="ui-icon-wrench" 
                                              title="แก้ไข"
                                              action="#{tmtRelationMapping.onEdit(item)}"/>
                             <p:spacer width="10"/>
-                            <p:commandButton style="height: 25px;width: 25px;" 
-                                             icon="ui-icon-closethick" 
-                                             title="ลบ"
-                                             actionListener="#{tmtRelationMapping.viewParentTMT(item)}"
-                                             onclick="PF('deleteRelationDialogWidget').show()"
-                                             update=":deleteRelationDialogForm"/>
-                        </p:column>
-                    </ui:remove>
+                        </ui:remove>
+                        <p:commandButton style="height: 25px;width: 25px;" 
+                                         icon="ui-icon-trash" 
+                                         title="ลบ"
+                                         actionListener="#{tmtRelationMapping.viewParentTMT(item)}"
+                                         onclick="PF('deleteRelationDialogWidget').show()"
+                                         update=":deleteRelationDialogForm"/>
+                    </p:column>
+
                 </p:dataTable>
             </h:form>
             <p:dialog id="relationDialog"
@@ -179,38 +180,81 @@
                     </p:dataTable>
                 </h:form>
             </p:dialog>
-            <ui:remove>
-                <p:dialog id="deleteRelationDialog"
-                          appendTo="@(body)"
-                          widgetVar="deleteRelationDialogWidget"
-                          width="800"
-                          closable="true"
-                          closeOnEscape="true"
-                          header="ยืนยันการลบความสัมพันธ์"
-                          modal="true"
-                          height="600">
-                    <h:form id="deleteRelationDialogForm">
-                        <div style="text-align: center;">
-                            <h:outputText value="กรุณายืนยันการลบข้อมูลความสัมพันธ์"/>
-                        </div>
-                        <div style="text-align: left;">
-                            <h:outputText value="TMTID : #{tmtRelationMapping.selectRelation.parent.tmtId}"/><br/>
-                            <h:outputText value="TYPE : #{tmtRelationMapping.selectRelation.parent.type}"/><br/>
-                            <h:outputText value="FSN : #{tmtRelationMapping.selectRelation.parent.fsn}"/>
-                        </div>
-                        <div>
-                            <p:commandButton value="ยืนยัน"
-                                             actionListener="#{tmtRelationMapping.deleteAllRelation}"
-                                             onclick="PF('relationDialogWidget').hide()"
-                                             update=":growl,:viewAllForm"/>
-                            <p:commandButton value="ไม่ยืนยัน"
-                                             type="reset"
-                                             onclick="PF('relationDialogWidget').hide()"/>
-                        </div>
-
-                    </h:form>
-                </p:dialog>
-            </ui:remove>
+            <p:dialog id="deleteRelationDialog"
+                      appendTo="@(body)"
+                      widgetVar="deleteRelationDialogWidget"
+                      width="800"
+                      draggable="false"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      closable="true"
+                      closeOnEscape="true"
+                      header="ยืนยันการลบความสัมพันธ์"
+                      modal="true"
+                      height="400">
+                <h:form id="deleteRelationDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="การลบความสัมพันธ์นี้ จะมีผลคือ ลบรายการยาทุกรายการที่มีความสัมพันธ์ด้วย เพียง 1 ขั้นเท่านั้น"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;width: 70px;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{tmtRelationMapping.selectedTMTParent.tmtId}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="TYPE : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{tmtRelationMapping.selectedTMTParent.type}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="FSN : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{tmtRelationMapping.selectedTMTParent.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:dataTable value="#{tmtRelationMapping.selectedTMTParent.children}"
+                                             var="child"
+                                             rowIndexVar="rowIndex">
+                                    <p:column headerText="#" style="width: 50px;text-align: center;">
+                                        #{rowIndex + 1}
+                                    </p:column>
+                                    <p:column headerText="TMTID" style="width: 70px;text-align: center;">
+                                        #{child.tmtId}
+                                    </p:column>
+                                    <p:column headerText="FSN">
+                                        #{child.fsn}
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center;">
+                                <p:commandButton value="ลบความสัมพันธ์"
+                                                 actionListener="#{tmtRelationMapping.deleteByParent()}"
+                                                 onsuccess="PF('deleteRelationDialogWidget').hide()"
+                                                 update="@form,:viewAllForm,:growl"/>
+                                <p:spacer width="10"/>
+                                <p:commandButton value="ยกเลิก"
+                                                 type="reset"
+                                                 onclick="PF('deleteRelationDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>
