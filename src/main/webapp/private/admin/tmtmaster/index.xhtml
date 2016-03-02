@@ -109,7 +109,7 @@
                                          onclick="PF('relationDialogWidget').show()" 
                                          update=":relationDialogForm"
                                          disabled="#{item.type eq 'TPU'}"
-                                         actionListener="#{tmtRelationMapping.onSelectParentTMT(item)}"/>
+                                         actionListener="#{tmtRelationMapping.viewParentTMT(item)}"/>
                     </p:column>
                     <ui:remove>
                         <p:column style="width: 70px;text-align: center;">
@@ -120,8 +120,8 @@
                             <p:spacer width="10"/>
                             <p:commandButton style="height: 25px;width: 25px;" 
                                              icon="ui-icon-closethick" 
-                                             title="ลบทั้งความสัมพันธ์"
-                                             actionListener="#{tmtRelationMapping.onSelectParentTMT(item)}"
+                                             title="ลบ"
+                                             actionListener="#{tmtRelationMapping.viewParentTMT(item)}"
                                              onclick="PF('deleteRelationDialogWidget').show()"
                                              update=":deleteRelationDialogForm"/>
                         </p:column>
@@ -138,7 +138,7 @@
                       header="ดูการเชื่อมโยงของ TMT"
                       modal="true"
                       height="500">
-                <p:ajax event="close" listener="#{tmtRelationMapping.onRelationDialogHidden()}"/>
+                <p:ajax event="close" listener="#{tmtRelationMapping.onHiddenRelationDialog()}"/>
                 <h:form id="relationDialogForm">
                     <p:commandButton actionListener="#{tmtRelationMapping.viewPreviousParent()}"
                                      rendered="#{tmtRelationMapping.viewTMTDrugStack.size() gt 0}"
@@ -174,7 +174,7 @@
                             <p:commandButton icon="ui-icon-zoomin"
                                              update="@form"
                                              disabled="#{child.type eq 'TPU'}"
-                                             actionListener="#{tmtRelationMapping.onSelectParentTMT(child)}"/>
+                                             actionListener="#{tmtRelationMapping.viewParentTMT(child)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

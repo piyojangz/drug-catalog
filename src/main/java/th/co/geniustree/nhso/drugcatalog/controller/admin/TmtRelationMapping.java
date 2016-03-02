@@ -101,7 +101,7 @@ public class TmtRelationMapping implements Serializable {
         };
     }
 
-    public String onEdit(TMTDrug tmtDrug) {
+    public void onEdit(TMTDrug tmtDrug) {
         if (tmtDrug != null) {
             selectedTMTParent = tmtDrug;
 
@@ -109,10 +109,9 @@ public class TmtRelationMapping implements Serializable {
             beforeEditTMTChildren = new ArrayList<>(selectedTMTParent.getChildren());
             selectedTMTChildren = new HashSet<>(selectedTMTParent.getChildren());
         }
-        return "mapping.xhtml";
     }
 
-    public void onSelectParentTMT(TMTDrug tmt) {
+    public void viewParentTMT(TMTDrug tmt) {
         if (viewTMTDrugStack == null) {
             viewTMTDrugStack = new Stack<>();
         } else {
@@ -120,11 +119,11 @@ public class TmtRelationMapping implements Serializable {
         }
         selectedTMTParent = tmt;
         LOG.debug("selected Parent TMT : {}", selectedTMTParent.getTmtId());
-        searchChildrenFromParent(selectedTMTParent);
+        findChildrenOfSelectParent(selectedTMTParent);
         LOG.debug("total Children of TMT = {} items", children.size());
     }
 
-    public void onRelationDialogHidden() {
+    public void onHiddenRelationDialog() {
         viewTMTDrugStack = null;
         LOG.debug("close relation dialog");
     }
@@ -132,11 +131,11 @@ public class TmtRelationMapping implements Serializable {
     public void viewPreviousParent() {
         if (!viewTMTDrugStack.empty()) {
             selectedTMTParent = viewTMTDrugStack.pop();
-            searchChildrenFromParent(selectedTMTParent);
+            findChildrenOfSelectParent(selectedTMTParent);
         }
     }
 
-    private void searchChildrenFromParent(TMTDrug parent) {
+    private void findChildrenOfSelectParent(TMTDrug parent) {
         children = new LinkedList<>();
         if (parent.getChildren() != null) {
             children.addAll(parent.getChildren());
@@ -173,85 +172,10 @@ public class TmtRelationMapping implements Serializable {
         selectedTMTChildren.addAll(selectedTMTParent.getChildren());
     }
 
-    public void selectItem(TMTDrug tmtDrug) {
-        if (selectedTMTChildren.contains(tmtDrug)) {
-            FacesMessageUtils.warn("รายการนี้ถูกเลือกไปแล้ว");
-            return;
-        }
-        selectedTMTChildren.add(tmtDrug);
-        LOG.debug("add tmt : {}", tmtDrug.getTmtId());
-    }
-
-    public void unSelectItem(TMTDrug tmtDrug) {
-        selectedTMTChildren.remove(tmtDrug);
-        LOG.debug("remove tmt : {}", tmtDrug.getTmtId());
-    }
-
-    public String onSave() {
-        deletedTMTChildren = new ArrayList<>();
-        for (TMTDrug tmt : beforeEditTMTChildren) {
-            if (!selectedTMTChildren.contains(tmt)) {
-                deletedTMTChildren.add(tmt);
-            }
-        }
-        return "confirm_mapping_tp_tpu.xhtml";
-    }
-
-    public String save() {
-        try {
-            TMTRelation relation = new TMTRelation();
-            relation.setParent(selectedTMTParent);
-            for (TMTDrug child : selectedTMTChildren) {
-                if (!beforeEditTMTChildren.contains(child)) {
-                    TMTRelationID id = new TMTRelationID();
-                    id.setParentId(selectedTMTParent.getTmtId());
-                    id.setChildId(child.getTmtId());
-                    relation.setId(id);
-                    relation.setChild(child);
-                    tmtRelationService.save(relation);
-                }
-            }
-            delete(relation);
-            FacesMessageUtils.info("บันทึก/แก้ไข ข้อมูล เรียบร้อย");
-
-        } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถ บันทึก/แก้ไข ได้");
-        }
-        reset();
-        return "tmt_parent_child.xhtml";
-    }
-
-    private void delete(TMTRelation relation) {
-        LOG.debug("DELETE TMT Parent : {}", relation.getParent().getTmtId());
-        for (TMTDrug tmt : deletedTMTChildren) {
-            TMTRelationID id = new TMTRelationID();
-            id.setParentId(relation.getParent().getTmtId());
-            id.setChildId(tmt.getTmtId());
-            relation.setId(id);
-            relation.setChild(tmt);
-            tmtRelationService.delete(relation);
-            LOG.debug("DELETE TMT Child : {}", relation.getId().getChildId());
-        }
-    }
-
-    public void showTMTChildOfSelectParent(TMTDrug drug) {
-        selectedTMTParent = drug;
-        viewChildrenTMT = drug.getChildren();
-    }
-
     public void reset() {
         selectedTMTParent = null;
         selectedTMTChildren.clear();
         keyword = "";
-    }
-
-    public void deleteAllRelation() {
-        try {
-//            tmtRelationService.deleteAllRelationByParent(selectRelation);
-            FacesMessageUtils.warn("ลบความสัมพันธ์ทั้งหมด เรียบร้อย");
-        } catch (Exception e) {
-            FacesMessageUtils.warn("ไม่สามารถ ลบความสัมพันธ์ทั้งหมดได้");
-        }
     }
 
     public String getKeyword() {
