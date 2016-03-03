@@ -34,15 +34,10 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.ICD10</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Fund</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Right</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.DosageFormGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugDosageFormGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.FundReimburseGroup</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.FundGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTRelation</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
