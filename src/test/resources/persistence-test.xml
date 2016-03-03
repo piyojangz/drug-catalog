@@ -34,8 +34,6 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
     <class>th.co.geniustree.nhso.basicmodel.readonly.ICD10</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Fund</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroup</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.ReimburseGroupItem</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Right</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.DosageFormGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugDosageFormGroup</class>
