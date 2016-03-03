@@ -8,210 +8,55 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+            </style>
             <div class="header-content">
-                <h:outputText value="เชื่อมโยงรหัส TMT"/>
+                <i class="fa fa-refresh"></i><h:outputText value="การเชื่อมโยงรหัส TMT"/>
+            </div>
+            <div class="header-content-sub">
+                <i class="fa fa-plus-square"></i><h:outputText value="จัดการการเชื่อมโยง TMT"/>
             </div>
             <h:form id="searchForm">
                 <p:panelGrid>
                     <p:row>
-                        <p:column colspan="3">
-                            <div class="header-content-sub">
-                                <i class="fa fa-plus-square"></i><h:outputText value=" เพิ่มความสัมพันธ์"/>
-                            </div>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;min-width: 100px;width: 100px;">
-                            <h:outputText value="ค้นหา TMT : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="searchText" value="#{tmtRelationMapping.keyword}" size="15">
-                                <p:watermark for="searchText" value="Activev Ingredient"/>
-                            </p:inputText>
-                        </p:column>
-                        <p:column>
-                            <p:commandButton value="search" 
-                                             actionListener="#{tmtRelationMapping.search}"
-                                             onclick="PF('selectParentDialogWidget').show()"
-                                             icon="ui-icon-search"
-                                             update=":selectParentDialogForm">
+                        <p:column colspan="2">
+                            <p:commandButton value="#{tmtRelationMapping.selectedTMTParent eq null ? 'เลือก TMT' : 'เปลี่ยน TMT'}"
+                                             icon="ui-icon-search" iconPos="right" 
+                                             actionListener="#{tmtRelationMapping.openSearchTMTDialog()}">
+                                <p:ajax event="dialogReturn" listener="#{tmtRelationMapping.tmtDrugDialogReturn}" update="@form"/>
                             </p:commandButton>
                         </p:column>
-                        <p:column>
-                            <h:outputText value="รายการ TMT ที่เลือก"/>
+                    </p:row>
+                    <p:row rendered="#{tmtRelationMapping.selectedTMTParent ne null}">
+                        <p:column style="text-align: right;">
+                            <h:outputText value="TMT : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.tmtId} : " rendered="#{tmtRelationMapping.selectedTMTParent ne null}"/>
+                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.tmtId}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{tmtRelationMapping.selectedTMTParent ne null}">
+                        <p:column style="text-align: right;">
+                            <h:outputText value="TYPE : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.type} : " rendered="#{tmtRelationMapping.selectedTMTParent ne null}"/>
+                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.type}"/>
                         </p:column>
-                        <p:column style="width: 300px;">
-                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.fsn}" rendered="#{tmtRelationMapping.selectedTMTParent ne null}"/>
+                    </p:row>
+                    <p:row rendered="#{tmtRelationMapping.selectedTMTParent ne null}">
+                        <p:column style="text-align: right;">
+                            <h:outputText value="FSN : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.fsn}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>
-            <p:spacer height="20"/>
-            <h:form id="tableForm">
-                <p:panelGrid>
-                    <p:row>
-                        <p:column>
-                            <p:dataTable id="childrenTMTTable"
-                                         rendered="#{tmtRelationMapping.selectedTMTParent ne null}"
-                                         value="#{tmtRelationMapping.tmtChildren}"
-                                         var="item"
-                                         rowIndexVar="index"
-                                         styleClass="clean-table"
-                                         paginator="true" 
-                                         scrollable="true"
-                                         scrollHeight="300"
-                                         rows="20" 
-                                         lazy="true"
-                                         rowsPerPageTemplate="20,30,40,50"
-                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                                <f:facet name="header">
-                                    <div style="text-align: center;">
-                                        <h:outputText value="รายการยาที่เลือกได้"/>
-                                    </div>
-                                </f:facet>
-                                <p:column headerText="#" style="text-align: center;">
-                                    <h:outputText value="#{index + 1}"/>
-                                </p:column>
-                                <p:column headerText="TMTID" style="text-align: center;">
-                                    <h:outputText value="#{item.tmtId}"/>
-                                </p:column>
-                                <p:column headerText="FSN">
-                                    <h:outputText value="#{item.fsn}"/>
-                                </p:column>
-                                <p:column>
-                                    <p:commandButton style="height: 25px;width: 25px;" 
-                                                     icon="ui-icon-check" 
-                                                     actionListener="#{tmtRelationMapping.selectItem(item)}" 
-                                                     update="@form"
-                                                     disabled="#{tmtRelationMapping.selectedTMTChildren.contains(item)}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:column>
-                        <p:column>
-                            <p:dataTable id="selectedTPUTable"
-                                         rendered="#{tmtRelationMapping.selectedTMTParent ne null}"
-                                         value="#{tmtRelationMapping.selectedTMTChildren}"
-                                         var="item"
-                                         emptyMessage="ไม่มีข้อมูลที่เพิ่มเข้ามาในตอนนี้"
-                                         rowIndexVar="index"
-                                         styleClass="clean-table table-config"
-                                         paginator="true" 
-                                         scrollable="true"
-                                         scrollHeight="300"
-                                         rows="20" 
-                                         lazy="true"
-                                         rowsPerPageTemplate="20,30,40,50"
-                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                                <f:facet name="header">
-                                    <div style="text-align: center;">
-                                        <h:outputText value="รายการยาที่เลือก"/>
-                                    </div>
-                                </f:facet>
-                                <p:column>
-                                    <p:commandButton style="height: 25px;width: 25px;" icon="ui-icon-closethick" actionListener="#{tmtRelationMapping.unSelectItem(item)}" update="@form"/>
-                                </p:column>
-                                <p:column headerText="TMTID" style="text-align: center;">
-                                    <h:outputText value="#{item.tmtId}"/>
-                                </p:column>
-                                <p:column headerText="FSN" style="width: 200px;">
-                                    <h:outputText value="#{item.fsn}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="2">
-                            <p:commandButton value="บันทึก" action="#{tmtRelationMapping.onSave()}" disabled="#{tmtRelationMapping.selectedTMTChildren.size() eq 0}"/>
-                            <p:commandButton value="เคลียร์" actionListener="#{tmtRelationMapping.reset()}" update="@form" disabled="#{tmtRelationMapping.selectedTMTChildren.size() eq 0}"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-            </h:form>
-
-            <p:dialog appendTo="@(body)"
-                      closable="true"
-                      closeOnEscape="true"
-                      id="sepectParentDialog"
-                      modal="true"
-                      header="เลือก TMT"
-                      width="800"
-                      height="600"
-                      widgetVar="selectParentDialogWidget">
-
-                <h:form id="selectParentDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;min-width: 100px;width: 100px;">
-                                <h:outputText value="ค้นหา TMT : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="searchText" value="#{tmtRelationMapping.keyword}" size="15">
-                                    <p:watermark for="searchText" value="Activev Ingredient"/>
-                                </p:inputText>
-                            </p:column>
-                            <p:column>
-                                <p:spacer width="20"/>
-                                <h:outputText value="กรอง TYPE : "/>
-                            </p:column>
-                            <p:column>
-                                <p:selectOneMenu id="filterTMTType" value="#{tmtRelationMapping.filterType}" style="width: 100px;" >
-                                    <f:selectItem itemLabel="เลือกทั้งหมด" itemValue=""/>
-                                    <f:selectItems itemLabel="#{type}" itemValue="#{type}" var="type" value="#{tmtRelationMapping.allType}"/>
-                                </p:selectOneMenu>
-                            </p:column>
-                            <p:column>
-                                <p:commandButton value="search" 
-                                                 actionListener="#{tmtRelationMapping.search}"
-                                                 icon="ui-icon-search"
-                                                 update="@form">
-                                </p:commandButton>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-
-                    <p:dataTable id="parentTMTTable"
-                                 rendered="#{tmtRelationMapping.tmtParents ne null}"
-                                 value="#{tmtRelationMapping.tmtParents}"
-                                 var="item"
-                                 scrollable="true"
-                                 scrollHeight="500"
-                                 styleClass="clean-table"
-                                 rowIndexVar="tpIndex"
-                                 paginator="true" 
-                                 rows="20" 
-                                 lazy="true" 
-                                 rowsPerPageTemplate="20,30,40,50"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                        <f:facet name="header">
-                            <div style="text-align: center;">
-                                <h:outputText value="รายการ TMT"/>
-                            </div>
-                        </f:facet>
-                        <p:column headerText="#" style="width: 10px;text-align: center;">
-                            #{tpIndex + 1}
-                        </p:column>
-                        <p:column headerText="TMTID" style="text-align: center;width: 50px;">
-                            <p:commandLink value="#{item.tmtId}" style="color: blue;"
-                                           action="#{tmtRelationMapping.onSelectParentTMT(item)}"
-                                           oncomplete="PF('selectParentDialogWidget').hide()"
-                                           update=":searchForm,:tableForm"/>
-                        </p:column>
-                        <p:column headerText="TYPE" style="width: 50px;">
-                            <h:outputText value="#{item.type}"/>
-                        </p:column>
-                        <p:column headerText="FSN" style="width: 200px;">
-                            <h:outputText value="#{item.fsn}"/>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-            </p:dialog>
-
         </ui:define>
     </ui:composition>
 </html>

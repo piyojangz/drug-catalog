@@ -9,12 +9,17 @@ import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import javax.annotation.PostConstruct;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +68,7 @@ public class TmtRelationMapping implements Serializable {
     private TMTDrug.Type filterType;
 
     private Stack<TMTDrug> viewTMTDrugStack;
+    private DualListModel<TMTDrug> dualTMTChildren;
 
     private final List<TMTDrug.Type> allTypes = Arrays.asList(new TMTDrug.Type[]{TMTDrug.Type.SUB, TMTDrug.Type.VTM, TMTDrug.Type.GP, TMTDrug.Type.GPU, TMTDrug.Type.TP});
 
@@ -82,14 +88,36 @@ public class TmtRelationMapping implements Serializable {
             tmtParents = searchTMTDrug(keyword, filterTypes);
         }
     }
-    
-    public void deleteByParent(){
+
+    public void openSearchTMTDialog() {
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 500);
+        options.put("contentWidth", 1000);
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        RequestContext.getCurrentInstance().openDialog("/private/hospital/create/selectDrugDialog.xhtml", options, params);
+    }
+
+    public void tmtDrugDialogReturn(SelectEvent event) {
+        selectedTMTParent = (TMTDrug) event.getObject();
+        findChildrenOfSelectParent(selectedTMTParent);
+        dualTMTChildren = new DualListModel<>(searchTMTDrug(),children);
+    }
+
+    private List<TMTDrug> searchTMTDrug() {
+        Specification spec = Specifications.where(TMTDrugSpecs.typeIn(findChildTypeFromParentType(selectedTMTParent.getType())));
+        return tmtDrugService.findBySpec(spec);
+    }
+
+    public void deleteByParent() {
         try {
-        selectedTMTParent.setChildren(null);
-        tmtRelationService.deleteAllChildren(selectedTMTParent);
-        FacesMessageUtils.info("ลบความสัมพันธ์ เรียบร้อย");
-        } catch(Exception e){
-            LOG.error("Can't delete",e);
+            selectedTMTParent.setChildren(null);
+            tmtRelationService.deleteAllChildren(selectedTMTParent);
+            FacesMessageUtils.info("ลบความสัมพันธ์ เรียบร้อย");
+        } catch (Exception e) {
+            LOG.error("Can't delete", e);
             FacesMessageUtils.error("ไม่สามารถลบความสัมพันธ์ได้");
         }
     }
@@ -137,8 +165,8 @@ public class TmtRelationMapping implements Serializable {
         viewTMTDrugStack = null;
         LOG.debug("close relation dialog");
     }
-    
-    public void onSelectParentTMT(TMTDrug tmtDrug){
+
+    public void onSelectParentTMT(TMTDrug tmtDrug) {
         selectedTMTParent = tmtDrug;
     }
 
@@ -160,19 +188,19 @@ public class TmtRelationMapping implements Serializable {
         List<TMTDrug.Type> childType = new LinkedList<>();
         if (parentType.equals(TMTDrug.Type.SUB)) {
             childType.add(TMTDrug.Type.VTM);
-            childType.add(TMTDrug.Type.GP);
-            childType.add(TMTDrug.Type.GPU);
-            childType.add(TMTDrug.Type.TP);
-            childType.add(TMTDrug.Type.TPU);
+//            childType.add(TMTDrug.Type.GP);
+//            childType.add(TMTDrug.Type.GPU);
+//            childType.add(TMTDrug.Type.TP);
+//            childType.add(TMTDrug.Type.TPU);
         } else if (parentType.equals(TMTDrug.Type.VTM)) {
             childType.add(TMTDrug.Type.GP);
-            childType.add(TMTDrug.Type.GPU);
-            childType.add(TMTDrug.Type.TP);
-            childType.add(TMTDrug.Type.TPU);
+//            childType.add(TMTDrug.Type.GPU);
+//            childType.add(TMTDrug.Type.TP);
+//            childType.add(TMTDrug.Type.TPU);
         } else if (parentType.equals(TMTDrug.Type.GP)) {
             childType.add(TMTDrug.Type.GPU);
             childType.add(TMTDrug.Type.TP);
-            childType.add(TMTDrug.Type.TPU);
+//            childType.add(TMTDrug.Type.TPU);
         } else if (parentType.equals(TMTDrug.Type.GPU) || parentType.equals(TMTDrug.Type.TP)) {
             childType.add(TMTDrug.Type.TPU);
         } else {
@@ -286,6 +314,14 @@ public class TmtRelationMapping implements Serializable {
 
     public void setViewTMTDrugStack(Stack<TMTDrug> viewTMTDrugStack) {
         this.viewTMTDrugStack = viewTMTDrugStack;
+    }
+
+    public DualListModel<TMTDrug> getDualTMTChildren() {
+        return dualTMTChildren;
+    }
+
+    public void setDualTMTChildren(DualListModel<TMTDrug> dualTMTChildren) {
+        this.dualTMTChildren = dualTMTChildren;
     }
 
 }
