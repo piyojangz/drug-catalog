@@ -149,16 +149,18 @@ public class TmtRelationMapping implements Serializable {
         }
     }
 
+    public void selectParentTMT(TMTDrug tmtDrug){
+        selectedTMTParent = tmtDrug;
+        findChildrenOfSelectParent(selectedTMTParent);
+    }
+    
     public void viewParentTMT(TMTDrug tmt) {
         if (viewTMTDrugStack == null) {
             viewTMTDrugStack = new Stack<>();
         } else {
             viewTMTDrugStack.push(selectedTMTParent);
         }
-        selectedTMTParent = tmt;
-        LOG.debug("selected Parent TMT : {}", selectedTMTParent.getTmtId());
-        findChildrenOfSelectParent(selectedTMTParent);
-        LOG.debug("total Children of TMT = {} items", children.size());
+        selectParentTMT(tmt);
     }
 
     public void onHiddenRelationDialog() {
