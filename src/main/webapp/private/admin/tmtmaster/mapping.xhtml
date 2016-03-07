@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 5px;
+                    border: none;
+                }
+            </style>
+            <div class="header-content">
+                <i class="fa fa-refresh"></i><h:outputText value="การเชื่อมโยงรหัส TMT"/>
+            </div>
+            <div class="header-content-sub">
+                <i class="fa fa-plus-square"></i><h:outputText value="จัดการการเชื่อมโยง TMT"/>
+            </div>
+            <script>
+                alert("อยู่ในระหว่างการปรับปรุง");
+                window.location = 'index.xhtml';
+            </script>
+            <h:form id="searchForm">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton value="#{tmtRelationMapping.selectedTMTParent eq null ? 'เลือก TMT' : 'เปลี่ยน TMT'}"
+                                             icon="ui-icon-search" iconPos="right" 
+                                             actionListener="#{tmtRelationMapping.openSearchTMTDialog()}">
+                                <p:ajax event="dialogReturn" listener="#{tmtRelationMapping.tmtDrugDialogReturn}" update="@form"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{tmtRelationMapping.selectedTMTParent ne null}">
+                        <p:column style="text-align: right;">
+                            <h:outputText value="TMT : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.tmtId}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{tmtRelationMapping.selectedTMTParent ne null}">
+                        <p:column style="text-align: right;">
+                            <h:outputText value="TYPE : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.type}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{tmtRelationMapping.selectedTMTParent ne null}">
+                        <p:column style="text-align: right;">
+                            <h:outputText value="FSN : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tmtRelationMapping.selectedTMTParent.fsn}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

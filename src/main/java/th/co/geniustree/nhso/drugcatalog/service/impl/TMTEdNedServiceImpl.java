@@ -6,7 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
@@ -14,16 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.input.ExcelTMTEdNed;
-import th.co.geniustree.nhso.drugcatalog.model.Fund;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNedPK;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTEdNedRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTEdNedSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 
 /**

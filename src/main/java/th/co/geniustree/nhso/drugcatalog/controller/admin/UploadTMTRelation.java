@@ -9,7 +9,6 @@ import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -22,57 +21,64 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
-import th.co.geniustree.nhso.drugcatalog.input.ExcelTMTEdNed;
+import th.co.geniustree.nhso.drugcatalog.input.TMTParentChild;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
-import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
+import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
 import th.co.geniustree.xls.beans.ReadCallback;
 import th.co.geniustree.xls.beans.ReaderUtils;
 
 /**
  *
- * @author moth
+ * @author Thanthathon
  */
 @Component
 @Scope("view")
-public class UploadTMTEdNed implements Serializable {
+public class UploadTMTRelation {
 
-    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UploadTMTEdNed.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UploadTMTRelation.class);
 
     private UploadedFile file;
-    private List<ExcelTMTEdNed> notPassModels = new ArrayList<ExcelTMTEdNed>();
-    private List<ExcelTMTEdNed> passModels = new ArrayList<ExcelTMTEdNed>();
-    private boolean duplicateFile = false;
+    private List<TMTParentChild> notPassModels = new ArrayList<TMTParentChild>();
+    private List<TMTParentChild> passModels = new ArrayList<TMTParentChild>();
     private String originalFileName;
+    private List<TMTRelation> passRelations;
+
     @Autowired
     @Qualifier("app")
     private Properties app;
-    private File uploadtempFileDir;
-    private String saveFileName;
-    private File targetFile;
     @Autowired
     private Validator beanValidator;
     @Autowired
-    private TMTDrugService tmtDrugService;
+    private TMTRelationService tmtRelationService;
     @Autowired
-    private TMTEdNedService tmtEdNedService;
+    private TMTDrugService tmtDrugService;
+
+    private File uploadtempFileDir;
+    private String saveFileName;
+    private File targetFile;
+
     private StreamedContent templateFile;
 
     @PostConstruct
     public void postConstruct() {
+        passRelations = new ArrayList<>();
         String uploadtempLocation = app.getProperty("uploadtempLocation");
-        uploadtempFileDir = new File(uploadtempLocation, "TMTEDNED");
+        uploadtempFileDir = new File(uploadtempLocation, "TMTRELATION");
         if (!uploadtempFileDir.exists()) {
             uploadtempFileDir.mkdirs();
         }
-        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/files/edned_template.xlsx");
-        templateFile = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "edned_template.xlsx");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/files/tmtrelation_template.xlsx");
+        templateFile = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "tmtrelation_template.xlsx");
     }
 
     public UploadedFile getFile() {
@@ -83,19 +89,19 @@ public class UploadTMTEdNed implements Serializable {
         this.file = file;
     }
 
-    public List<ExcelTMTEdNed> getNotPassModels() {
+    public List<TMTParentChild> getNotPassModels() {
         return notPassModels;
     }
 
-    public void setNotPassModels(List<ExcelTMTEdNed> notPassModels) {
+    public void setNotPassModels(List<TMTParentChild> notPassModels) {
         this.notPassModels = notPassModels;
     }
 
-    public List<ExcelTMTEdNed> getPassModels() {
+    public List<TMTParentChild> getPassModels() {
         return passModels;
     }
 
-    public void setPassModels(List<ExcelTMTEdNed> passModels) {
+    public void setPassModels(List<TMTParentChild> passModels) {
         this.passModels = passModels;
     }
 
@@ -112,7 +118,7 @@ public class UploadTMTEdNed implements Serializable {
             targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}", targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
-            ReaderUtils.read(targetFile, ExcelTMTEdNed.class, new ReadCallback<ExcelTMTEdNed>() {
+            ReaderUtils.read(targetFile, TMTParentChild.class, new ReadCallback<TMTParentChild>() {
 
                 @Override
                 public void header(List headers) {
@@ -120,26 +126,34 @@ public class UploadTMTEdNed implements Serializable {
                 }
 
                 @Override
-                public void ok(int rowNum, ExcelTMTEdNed bean) {
+                public void ok(int rowNum, TMTParentChild bean) {
                     bean.setRowNum(rowNum);
                     bean.addErrors(beanValidator.validate(bean));
-                    bean.postConstruct();
                     if (bean.getErrorMap().isEmpty()) {
-                        TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
-                        if (findOneWithoutTx == null) {
-                            bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
-                        }
-                        if (tmtEdNedService.exist(bean.getTmtId(), bean.getDateIn())) {
-                            bean.addError("dateinString", "ED/NED ในวันที่เดียวกันนี้เคยระบุไปแล้ว");
+                        if (bean.getParentTmtId().matches("\\d{6}") && bean.getChildTmtId().matches("\\d{6}")) {
+                            TMTDrug parentTMT = tmtDrugService.findOneWithoutTx(bean.getParentTmtId());
+                            TMTDrug childTMT = tmtDrugService.findOneWithoutTx(bean.getChildTmtId());
+                            if (parentTMT == null) {
+                                bean.addError("TMTID_PARENT", "ไม่พบ TMTID นี้ในระบบ");
+                            } else {
+                                if (childTMT == null) {
+                                    bean.addError("TMTID_CHILD", "ไม่พบ TMTID นี้ในระบบ");
+                                } else {
+                                    boolean exist = tmtRelationService.isRelationExist(parentTMT.getTmtId(), childTMT.getTmtId());
+                                    if (exist) {
+                                        bean.addError("TMTID", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
+                                    } else {
+                                        TMTRelation r = new TMTRelation(parentTMT, childTMT);
+                                        passRelations.add(r);
+                                    }
+                                }
+                            }
+                        } else {
+                            bean.addError("TMTID", "TMTID ที่ใส่มาไม่ถูกต้อง");
                         }
                     }
                     if (bean.getErrorMap().isEmpty()) {
-                        if (!passModels.contains(bean)) {
-                            passModels.add(bean);
-                        } else {
-                            bean.addError("rowNum", "TMTID และ DATEIN ซ้ำกันในไฟล์");
-                            notPassModels.add(bean);
-                        }
+                        passModels.add(bean);
                     } else {
                         notPassModels.add(bean);
                     }
@@ -152,7 +166,8 @@ public class UploadTMTEdNed implements Serializable {
                     }
                     LOG.error(null, e);
                 }
-            });
+            }
+            );
         } catch (ColumnNotFoundException columnNotFound) {
             reset();
             FacesMessageUtils.error("ไม่พบ column => " + Joiner.on(",").join(columnNotFound.getColumnNames()));
@@ -161,14 +176,6 @@ public class UploadTMTEdNed implements Serializable {
             FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
-    }
-
-    public boolean isDuplicateFile() {
-        return duplicateFile;
-    }
-
-    public void setDuplicateFile(boolean duplicateFile) {
-        this.duplicateFile = duplicateFile;
     }
 
     public String getOriginalFileName() {
@@ -180,15 +187,9 @@ public class UploadTMTEdNed implements Serializable {
     }
 
     public void save() {
-        try {
-            tmtEdNedService.save(passModels);
-            FacesMessageUtils.info("บันทึกเสร็จสิ้น");
-        } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถบันทึกได้ อาจเป็นเพราะมีข้อมูลซ้ำกัน");
-            LOG.error(null, e);
-        } finally {
-            reset();
-        }
+        tmtRelationService.saveAll(passRelations);
+        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        reset();
     }
 
     public void reset() {
