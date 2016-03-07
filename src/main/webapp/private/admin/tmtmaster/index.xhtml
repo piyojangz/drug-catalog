@@ -124,16 +124,9 @@
                                          onclick="PF('relationDialogWidget').show()" 
                                          update=":relationDialogForm"
                                          disabled="#{item.type eq 'TPU'}"
-                                         actionListener="#{tmtRelationMapping.viewParentTMT(item)}"/>
+                                         actionListener="#{tmtRelationMapping.selectParentTMT(item)}"/>
                     </p:column>
                     <p:column style="width: 70px;text-align: center;" headerText="ลบ">
-                        <ui:remove>
-                            <p:commandButton style="height: 25px;width: 25px;" 
-                                             icon="ui-icon-wrench" 
-                                             title="แก้ไข"
-                                             action="#{tmtRelationMapping.onEdit(item)}"/>
-                            <p:spacer width="10"/>
-                        </ui:remove>
                         <p:commandButton style="height: 25px;width: 25px;" 
                                          icon="ui-icon-trash" 
                                          title="ลบ"
@@ -154,13 +147,11 @@
                       header="ดูการเชื่อมโยงของ TMT"
                       modal="true"
                       height="500">
-                <p:ajax event="close" listener="#{tmtRelationMapping.onHiddenRelationDialog()}"/>
                 <h:form id="relationDialogForm">
                     <p:commandButton actionListener="#{tmtRelationMapping.viewPreviousParent()}"
-                                     rendered="#{tmtRelationMapping.viewTMTDrugStack.size() gt 0}"
-                                     update="@form"
+                                     rendered="#{tmtRelationMapping.selectedTMTParent.parents.size() eq 1}"                             update="@form"
                                      icon="ui-icon-arrowreturnthick-1-w" iconPos="right"
-                                     value="ดู TMT ก่อนหน้า"/>
+                                     value="ดู TMT แม่"/>
                     <p:dataTable id="relationTable"
                                  value="#{tmtRelationMapping.children}"
                                  paginator="true"
@@ -190,7 +181,7 @@
                             <p:commandButton icon="ui-icon-zoomin"
                                              update="@form"
                                              disabled="#{child.type eq 'TPU'}"
-                                             actionListener="#{tmtRelationMapping.viewParentTMT(child)}"/>
+                                             actionListener="#{tmtRelationMapping.selectParentTMT(child)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

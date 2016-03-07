@@ -67,7 +67,6 @@ public class TmtRelationMapping implements Serializable {
     private boolean checkItem;
     private TMTDrug.Type filterType;
 
-    private Stack<TMTDrug> viewTMTDrugStack;
     private DualListModel<TMTDrug> dualTMTChildren;
 
     private final List<TMTDrug.Type> allTypes = Arrays.asList(new TMTDrug.Type[]{TMTDrug.Type.SUB, TMTDrug.Type.VTM, TMTDrug.Type.GP, TMTDrug.Type.GPU, TMTDrug.Type.TP});
@@ -139,42 +138,14 @@ public class TmtRelationMapping implements Serializable {
         };
     }
 
-    public void onEdit(TMTDrug tmtDrug) {
-        if (tmtDrug != null) {
-            selectedTMTParent = tmtDrug;
-
-            tmtChildren = searchTMTDrug(selectedTMTParent.getFsn(), findChildTypeFromParentType(selectedTMTParent.getType()));
-            beforeEditTMTChildren = new ArrayList<>(selectedTMTParent.getChildren());
-            selectedTMTChildren = new HashSet<>(selectedTMTParent.getChildren());
-        }
-    }
-
     public void selectParentTMT(TMTDrug tmtDrug){
         selectedTMTParent = tmtDrug;
         findChildrenOfSelectParent(selectedTMTParent);
     }
     
-    public void viewParentTMT(TMTDrug tmt) {
-        if (viewTMTDrugStack == null) {
-            viewTMTDrugStack = new Stack<>();
-        } else {
-            viewTMTDrugStack.push(selectedTMTParent);
-        }
-        selectParentTMT(tmt);
-    }
-
-    public void onHiddenRelationDialog() {
-        viewTMTDrugStack = null;
-        LOG.debug("close relation dialog");
-    }
-
-    public void onSelectParentTMT(TMTDrug tmtDrug) {
-        selectedTMTParent = tmtDrug;
-    }
-
     public void viewPreviousParent() {
-        if (!viewTMTDrugStack.empty()) {
-            selectedTMTParent = viewTMTDrugStack.pop();
+        if (selectedTMTParent.getParents().size() == 1) {
+            selectedTMTParent = selectedTMTParent.getParents().get(0);
             findChildrenOfSelectParent(selectedTMTParent);
         }
     }
@@ -308,14 +279,6 @@ public class TmtRelationMapping implements Serializable {
 
     public void setChildren(List<TMTDrug> children) {
         this.children = children;
-    }
-
-    public Stack<TMTDrug> getViewTMTDrugStack() {
-        return viewTMTDrugStack;
-    }
-
-    public void setViewTMTDrugStack(Stack<TMTDrug> viewTMTDrugStack) {
-        this.viewTMTDrugStack = viewTMTDrugStack;
     }
 
     public DualListModel<TMTDrug> getDualTMTChildren() {
