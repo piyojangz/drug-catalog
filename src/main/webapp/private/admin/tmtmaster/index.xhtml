@@ -56,9 +56,6 @@
             <h:form id="menuForm">
                 <p:menubar styleClass="sub-menu">
                     <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
-                    <ui:remove>
-                        <p:menuitem outcome="mapping.xhtml" value="เชื่อมโยงข้อมูล"/>
-                    </ui:remove>
                 </p:menubar>
             </h:form>
 
@@ -66,18 +63,18 @@
                 <p:panelGrid style="margin-bottom: 20px;">
                     <p:row>
                         <p:column style="text-align: right;">
-                            <h:outputText value="ค้นหา TMT : "/>
+                            <h:outputText value="ค้นหารายการยา : "/>
                         </p:column>
                         <p:column>
                             <p:inputText id="searchText" value="#{tmtRelationMapping.keyword}" size="15">
-                                <p:watermark for="searchText" value="Active Ingredient"/>
+                                <p:watermark for="searchText" value="TMTID หรือ FSN"/>
                             </p:inputText>
                         </p:column>
                         <p:column>
                             <p:spacer width="20"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="กรอง TYPE : "/>
+                            <h:outputText value="และกรอง TYPE : "/>
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="filterTMTType" value="#{tmtRelationMapping.filterType}" style="width: 100px;" >
@@ -119,22 +116,13 @@
                     <p:column headerText="FSN">
                         <h:outputText value="#{item.fsn}"/>
                     </p:column>
-                    <p:column headerText="ดู TMT ลูก" style="text-align: center;width: 100px;">
+                    <p:column headerText="ดู TMT ลูก" style="text-align: center;width: 80px;">
                         <p:commandButton icon="ui-icon-zoomin"
                                          onclick="PF('relationDialogWidget').show()" 
                                          update=":relationDialogForm"
                                          disabled="#{item.type eq 'TPU'}"
                                          actionListener="#{tmtRelationMapping.selectParentTMT(item)}"/>
                     </p:column>
-                    <p:column style="width: 70px;text-align: center;" headerText="ลบ">
-                        <p:commandButton style="height: 25px;width: 25px;" 
-                                         icon="ui-icon-trash" 
-                                         title="ลบ"
-                                         actionListener="#{tmtRelationMapping.selectParentTMT(item)}"
-                                         onclick="PF('deleteRelationDialogWidget').show()"
-                                         update=":deleteRelationDialogForm"/>
-                    </p:column>
-
                 </p:dataTable>
             </h:form>
             <p:dialog id="relationDialog"
@@ -186,81 +174,6 @@
                                              actionListener="#{tmtRelationMapping.selectParentTMT(child)}"/>
                         </p:column>
                     </p:dataTable>
-                </h:form>
-            </p:dialog>
-            <p:dialog id="deleteRelationDialog"
-                      appendTo="@(body)"
-                      widgetVar="deleteRelationDialogWidget"
-                      width="800"
-                      draggable="false"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      closable="true"
-                      closeOnEscape="true"
-                      header="ยืนยันการลบความสัมพันธ์"
-                      modal="true"
-                      height="400">
-                <h:form id="deleteRelationDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column colspan="2">
-                                <h:outputText value="การลบความสัมพันธ์นี้ จะมีผลคือ ลบรายการยาทุกรายการที่มีความสัมพันธ์ด้วย เพียง 1 ขั้นเท่านั้น"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;width: 70px;">
-                                <h:outputText value="TMTID : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{tmtRelationMapping.selectedTMTParent.tmtId}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="TYPE : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{tmtRelationMapping.selectedTMTParent.type}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="FSN : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{tmtRelationMapping.selectedTMTParent.fsn}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2">
-                                <p:dataTable value="#{tmtRelationMapping.selectedTMTParent.children}"
-                                             var="child"
-                                             rowIndexVar="rowIndex">
-                                    <p:column headerText="#" style="width: 50px;text-align: center;">
-                                        #{rowIndex + 1}
-                                    </p:column>
-                                    <p:column headerText="TMTID" style="width: 70px;text-align: center;">
-                                        #{child.tmtId}
-                                    </p:column>
-                                    <p:column headerText="FSN">
-                                        #{child.fsn}
-                                    </p:column>
-                                </p:dataTable>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2" style="text-align: center;">
-                                <p:commandButton value="ลบความสัมพันธ์"
-                                                 actionListener="#{tmtRelationMapping.deleteByParent()}"
-                                                 onsuccess="PF('deleteRelationDialogWidget').hide()"
-                                                 update="@form,:viewAllForm,:growl"/>
-                                <p:spacer width="10"/>
-                                <p:commandButton value="ยกเลิก"
-                                                 type="reset"
-                                                 onclick="PF('deleteRelationDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
                 </h:form>
             </p:dialog>
         </ui:define>

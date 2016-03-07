@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import javax.annotation.PostConstruct;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -33,8 +32,6 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
-import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
-import th.co.geniustree.nhso.drugcatalog.model.TMTRelationID;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;
@@ -62,8 +59,6 @@ public class TmtRelationMapping implements Serializable {
     private TMTDrug selectedTMTParent;
     private String keyword;
     private Set<TMTDrug> selectedTMTChildren;
-    private List<TMTDrug> beforeEditTMTChildren;
-    private List<TMTDrug> deletedTMTChildren;
     private boolean checkItem;
     private TMTDrug.Type filterType;
 
@@ -247,22 +242,6 @@ public class TmtRelationMapping implements Serializable {
 
     public void setFilterType(TMTDrug.Type filterType) {
         this.filterType = filterType;
-    }
-
-    public List<TMTDrug> getBeforeEditTMTChildren() {
-        return beforeEditTMTChildren;
-    }
-
-    public void setBeforeEditTMTChildren(List<TMTDrug> beforeEditTMTChildren) {
-        this.beforeEditTMTChildren = beforeEditTMTChildren;
-    }
-
-    public List<TMTDrug> getDeletedTMTChildren() {
-        return deletedTMTChildren;
-    }
-
-    public void setDeletedTMTChildren(List<TMTDrug> deletedTMTChildren) {
-        this.deletedTMTChildren = deletedTMTChildren;
     }
 
     public List<TMTDrug> getViewChildrenTMT() {
