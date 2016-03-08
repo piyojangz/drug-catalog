@@ -224,7 +224,25 @@ public class SplitActiveIngredientFromFSNTest {
                 new String[]{"alkyl ether sulfate 263.1 mg", "makon OP-9 3.57 mg", "phospholipid-PTC 1.78 mg", "syloid 244 19.44 mg"},
                 "irrigation solution",
                 "30 mL bottle",
-                new String[]{"sulfate", "9", "PTC", "244", "syloid", "OP-9", "makon OP", "19.44","BAUSCH","BAUSCH & LOMB, U.S.A.","U.S.A."}
+                new String[]{"sulfate", "9", "PTC", "244", "syloid", "OP-9", "makon OP", "19.44", "BAUSCH", "BAUSCH & LOMB, U.S.A.", "U.S.A."}
+            },
+            {Type.TP,
+                "VULAMOX (BIOCHEMIE, AUSTRIA) (amoxicillin 125 mg/5 mL + clavulanic acid 31.25 mg/5 mL) powder for oral suspension",
+                new String[]{"amoxicillin", "clavulanic acid"},
+                new String[]{"125 mg/5 mL", "31.25 mg/5 mL"},
+                new String[]{"amoxicillin 125 mg/5 mL", "clavulanic acid 31.25 mg/5 mL"},
+                "powder for oral suspension",
+                null,
+                new String[]{"BIOCHEMIE", "acid"}
+            },
+            {Type.TP,
+                "VERCLAV (KARNATAKA ANTIBIOTICS & PHARMACEUTICALS, INDIA) (amoxicillin 1 g + clavulanic acid 200 mg) powder for solution for injection/infusion",
+                new String[]{"amoxicillin", "clavulanic acid"},
+                new String[]{"1 g", "200 mg"},
+                new String[]{"amoxicillin 1 g", "clavulanic acid 200 mg"},
+                "powder for solution for injection/infusion",
+                null,
+                new String[]{"injection", "infusion"}
             }
         });
     }
@@ -240,7 +258,6 @@ public class SplitActiveIngredientFromFSNTest {
     public void before() {
         try {
             splitter.getActiveIngredientAndStrengthFromFSN(this.tmtDrug);
-            System.out.println("FSN : " + this.tmtDrug.getFsn());
         } catch (Exception e) {
             LOG.error(null, e);
         }
@@ -282,10 +299,10 @@ public class SplitActiveIngredientFromFSNTest {
     @Test
     public void findContent() {
         String content = splitter.getContent();
-        if(this.tmtDrug.getType().equals(Type.TPU)){
+        if (this.tmtDrug.getType().equals(Type.TPU)) {
             assertThat(content)
-                .contains(expectedContent);
-        } else if(this.tmtDrug.getType().equals(Type.TPU)){
+                    .contains(expectedContent);
+        } else if (this.tmtDrug.getType().equals(Type.TPU)) {
             assertThat(content)
                     .isNull();
         }

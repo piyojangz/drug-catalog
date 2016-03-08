@@ -25,15 +25,22 @@ public class FSNSplitter {
 
     private static final Logger LOG = LoggerFactory.getLogger(FSNSplitter.class);
 
-    private static final String ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN = "((?<activeIngregient>\\w+[\\w\\s\\d\\-]*)\\s(?<strength>[\\d]+[.\\d]*\\s[a-zA-Z]+(/[\\d.]+\\s*\\w+)*))+";
+    private final String PATTERN_FSN_TP = PATTERN_TRADENAME
+            .concat("\\s\\(").concat(PATTERN_MANUFACTURER).concat("\\)")
+            .concat("\\s\\(").concat(PATTERN_ACTIVEINGREDIENT_MATCH_STRENGTH).concat("\\)")
+            .concat("\\s").concat(PATTERN_DOSAGEFORM).concat("(,\\s\\w+)?");
+
+    private final String PATTERN_FSN_TPU = PATTERN_FSN_TP.concat(",\\s").concat(PATTERN_CONTENT);
+
+    private final String PATTERN_ACTIVEINGREDIENT_STRENGTH = PATTERN_ACTIVEINGREDIENT.concat("\\s").concat(PATTERN_STRENGTH);
     
-    private static final String FSN_TP_PATTERN = "(?<tradeName>.+)"
-            + "\\s[(](?<manufacturer>.+)[)]"
-            + "\\s[(](?<activeIngregientAndStrength>[\\w\\s+\\-,./\\d]+)[)]"
-            + "\\s(?<dosageForm>[\\w\\s\\-\\d]*),{0,1}\\s?[\\w\\s\\-/*+.,]*";
-    
-    private static final String FSN_TPU_PATTERN = FSN_TP_PATTERN + ",{0,1}\\s"
-            + "(?<content>[\\d]+[.]*[\\d]*\\s[\\w\\s\\d]+)";
+    private static final String PATTERN_ACTIVEINGREDIENT_MATCH_STRENGTH = "(?<activeIngregientAndStrength>.+)";
+    private static final String PATTERN_ACTIVEINGREDIENT = "(?<activeIngregient>\\w+[\\w\\s\\d\\-(),/]*)";
+    private static final String PATTERN_STRENGTH = "(?<strength>\\d+(\\.?\\d+)?\\s[a-zA-Z]+(/\\d+(\\.?\\d+)?\\s[a-zA-Z]+)?)";
+    private static final String PATTERN_DOSAGEFORM = "(?<dosageForm>[\\w\\s\\d\\-/]+)";
+    private static final String PATTERN_TRADENAME = "(?<tradeName>.+)";
+    private static final String PATTERN_MANUFACTURER = "(?<manufacturer>.+)";
+    private static final String PATTERN_CONTENT = "(?<content>\\d+(\\.?\\d+)?\\s[\\w\\s\\d\\-/,]+)$";
     
     private final Map<String, String> activeIngredients;
     private String dosageForm;
@@ -47,9 +54,9 @@ public class FSNSplitter {
         activeIngredients.clear();
         String regex;
         if (drug.getType().equals(TMTDrug.Type.TPU)) {
-            regex = FSN_TPU_PATTERN;
+            regex = PATTERN_FSN_TPU;
         } else if (drug.getType().equals(TMTDrug.Type.TP)) {
-            regex = FSN_TP_PATTERN;
+            regex = PATTERN_FSN_TP;
         } else {
             throw new IllegalArgumentException("TMTDrug type must only in {'TP','TPU'}");
         }
@@ -67,7 +74,7 @@ public class FSNSplitter {
         if (m.reset().find()) {
             fsn = m.group("activeIngregientAndStrength");
         }
-        p = Pattern.compile(ACTIVE_INGREDIENT_AND_STRENGTH_PATTERN, Pattern.UNICODE_CHARACTER_CLASS);
+        p = Pattern.compile(PATTERN_ACTIVEINGREDIENT_STRENGTH, Pattern.UNICODE_CHARACTER_CLASS);
         m = p.matcher(fsn);
         while (m.find()) {
             activeIngredients.put(m.group("activeIngregient"), m.group("strength"));
