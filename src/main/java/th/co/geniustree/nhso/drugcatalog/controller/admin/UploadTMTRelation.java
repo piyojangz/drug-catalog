@@ -10,8 +10,10 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -27,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.TMTParentChild;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
@@ -51,7 +54,6 @@ public class UploadTMTRelation {
     private List<TMTParentChild> notPassModels = new ArrayList<TMTParentChild>();
     private List<TMTParentChild> passModels = new ArrayList<TMTParentChild>();
     private String originalFileName;
-    private List<TMTRelation> passRelations;
 
     @Autowired
     @Qualifier("app")
@@ -71,7 +73,6 @@ public class UploadTMTRelation {
 
     @PostConstruct
     public void postConstruct() {
-        passRelations = new ArrayList<>();
         String uploadtempLocation = app.getProperty("uploadtempLocation");
         uploadtempFileDir = new File(uploadtempLocation, "TMTRELATION");
         if (!uploadtempFileDir.exists()) {
@@ -129,33 +130,11 @@ public class UploadTMTRelation {
                 public void ok(int rowNum, TMTParentChild bean) {
                     bean.setRowNum(rowNum);
                     bean.addErrors(beanValidator.validate(bean));
-                    if (bean.getErrorMap().isEmpty()) {
-                        if (bean.getParentTmtId().matches("\\d{6}") && bean.getChildTmtId().matches("\\d{6}")) {
-                            TMTDrug parentTMT = tmtDrugService.findOneWithoutTx(bean.getParentTmtId());
-                            TMTDrug childTMT = tmtDrugService.findOneWithoutTx(bean.getChildTmtId());
-                            if (parentTMT == null) {
-                                bean.addError("TMTID_PARENT", "ไม่พบ TMTID นี้ในระบบ");
-                            } else {
-                                if (childTMT == null) {
-                                    bean.addError("TMTID_CHILD", "ไม่พบ TMTID นี้ในระบบ");
-                                } else {
-                                    boolean exist = tmtRelationService.isRelationExist(parentTMT.getTmtId(), childTMT.getTmtId());
-                                    if (exist) {
-                                        bean.addError("TMTID", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
-                                    } else {
-                                        TMTRelation r = new TMTRelation(parentTMT, childTMT);
-                                        passRelations.add(r);
-                                    }
-                                }
-                            }
-                        } else {
-                            bean.addError("TMTID", "TMTID ที่ใส่มาไม่ถูกต้อง");
-                        }
-                    }
-                    if (bean.getErrorMap().isEmpty()) {
-                        passModels.add(bean);
-                    } else {
+                    processValidate(bean);
+                    if (hasError(bean)) {
                         notPassModels.add(bean);
+                    } else {
+                        passModels.add(bean);
                     }
                 }
 
@@ -178,6 +157,64 @@ public class UploadTMTRelation {
         LOG.debug("File : {}", file);
     }
 
+    private void processValidate(TMTParentChild bean) {
+        if (isNotSixNumberTMTID(bean)) {
+            bean.addError("TMTID", "TMTID ที่ใส่มาไม่ถูกต้อง");
+            return;
+        }
+
+        bean.setParent(tmtDrugService.findOneWithoutTx(bean.getParentTmtId()));
+        bean.setChild(tmtDrugService.findOneWithoutTx(bean.getChildTmtId()));
+
+        if (isNullParentOrChild(bean)) {
+            bean.addError("TMTID_PARENT", "ไม่พบ TMTID นี้ในระบบ");
+            return;
+        }
+        
+        boolean exist = tmtRelationService.isRelationExist(bean.getParent().getTmtId(), bean.getChild().getTmtId());
+        if (exist) {
+            bean.addError("TMTID", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
+        }
+    }
+
+    private boolean hasError(TMTParentChild bean) {
+        return !bean.getErrorMap().isEmpty();
+    }
+
+    private boolean isNotSixNumberTMTID(TMTParentChild bean) {
+        return !(bean.getParentTmtId().matches("\\d{6}") && bean.getChildTmtId().matches("\\d{6}"));
+    }
+
+    private boolean isNullParentOrChild(TMTParentChild bean) {
+        return !(bean.getParent() != null && bean.getChild() != null);
+    }
+    
+    public boolean isAccordActiveIngredient(TMTParentChild bean){
+        FSNSplitter splitter = new FSNSplitter();
+        splitter.getActiveIngredientAndStrengthFromFSN(bean.getParent());
+        Set<String> activeIngredients = splitter.getOnlyActiveIngredients();
+        boolean accord = isFSNContain(bean.getChild().getFsn(), activeIngredients);
+        if(accord){
+            return true;
+        } else {
+            splitter.getActiveIngredientAndStrengthFromFSN(bean.getChild());
+            activeIngredients = splitter.getOnlyActiveIngredients();
+            return isFSNContain(bean.getParent().getFsn(), activeIngredients);
+        }
+    }
+    
+    private boolean isFSNContain(String fsn, Set<String> activeIngredients){
+        LOG.debug("FSN : {}",fsn);
+        LOG.debug("ActiveIngredient : {}",activeIngredients);
+        for(String activeIngredient : activeIngredients){
+            boolean accord = fsn.trim().toLowerCase().contains(activeIngredient.trim().toLowerCase());
+            if(accord){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public String getOriginalFileName() {
         return originalFileName;
     }
@@ -187,9 +224,19 @@ public class UploadTMTRelation {
     }
 
     public void save() {
+        List<TMTRelation> passRelations = convertUploadModelToTMTRelation(passModels);
         tmtRelationService.saveAll(passRelations);
         FacesMessageUtils.info("บันทึกเสร็จสิ้น");
         reset();
+    }
+
+    private List<TMTRelation> convertUploadModelToTMTRelation(List<TMTParentChild> beans) {
+        List<TMTRelation> relationList = new LinkedList<TMTRelation>();
+        for (TMTParentChild bean : beans) {
+            TMTRelation relation = new TMTRelation(bean.getParent(), bean.getChild());
+            relationList.add(relation);
+        }
+        return relationList;
     }
 
     public void reset() {

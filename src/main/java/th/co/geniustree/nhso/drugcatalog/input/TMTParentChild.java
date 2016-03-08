@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.hibernate.validator.constraints.NotEmpty;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -30,10 +31,29 @@ public class TMTParentChild implements Serializable , UploadRelationshipModel {
     @XlsColumn(columnNames = "TMTID_CHILD")
     @NotEmpty
     private String childTmtId;
+    
+    private TMTDrug parent;
+    private TMTDrug child;
 
     private Map<String, List<String>> errorMap;
     private int rowNum;
 
+    public TMTDrug getParent() {
+        return parent;
+    }
+
+    public void setParent(TMTDrug parent) {
+        this.parent = parent;
+    }
+
+    public TMTDrug getChild() {
+        return child;
+    }
+
+    public void setChild(TMTDrug child) {
+        this.child = child;
+    }
+    
     @Override
     public String getParentTmtId() {
         return parentTmtId;

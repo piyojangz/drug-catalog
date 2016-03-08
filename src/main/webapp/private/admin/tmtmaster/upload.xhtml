@@ -75,7 +75,6 @@
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
-
                 <p:panel style="margin-bottom:20px" rendered="#{not empty uploadTMTRelation.passModels}">
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
@@ -84,8 +83,10 @@
                         <h:outputText value="#{uploadTMTRelation.passModels.size()} " style="color:green"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
-
                     <h:panelGrid columns="1" cellpadding="5">
+                        <span class="label-tabledescription-info label-tabledescription">
+                            สามารถเอา mouse ชี้ไปที่ TMTID เพื่อดู FSN ได้
+                        </span>
                         <p:dataTable id="passTable" 
                                      resizableColumns="true" 
                                      rowIndexVar="rowIndex" 
@@ -113,6 +114,9 @@
                             <p:column headerText="TMT_CHILD" style="width: 100px;text-align: center;">
                                 <h:outputText id="modelChild" value="#{model.childTmtId}" title="#{model.errorMap['TMTID_CHILD']}"/>
                                 <p:tooltip value="#{model.child.fsn}" id="tipTmtChild" for="modelChild" style="font-size: 16px;"/>
+                            </p:column>
+                            <p:column headerText="หมายเหตุ">
+                                <h:outputText value="ActiveIngredient ไม่สอดคล้องกัน" style="color: red;font-weight: bold;" rendered="#{not uploadTMTRelation.isAccordActiveIngredient(model)}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>
