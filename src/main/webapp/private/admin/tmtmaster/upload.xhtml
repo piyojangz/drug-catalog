@@ -103,14 +103,16 @@
                                 </h:commandLink>
                             </f:facet>
 
-                            <p:column   headerText="#" width="80">
-                                <h:outputText value="#{rowIndex+1}" style="" />
+                            <p:column headerText="#" style="width: 30px;">
+                                <h:outputText value="#{rowIndex+1}"/>
                             </p:column>
-                            <p:column   headerText="TMTID_PARENT" width="80" >
-                                <h:outputText value="#{model.parentTmtId}" style="" title="#{model.errorMap['TMTID_PARENT']}"/>
+                            <p:column headerText="TMT_PARENT" style="width: 100px;text-align: center;">
+                                <h:outputText id="modelParent" value="#{model.parentTmtId}" style="" title="#{model.errorMap['TMTID_PARENT']}"/>
+                                <p:tooltip value="#{model.parent.fsn}" id="tipTmtParent" for="modelParent" style="font-size: 16px;"/>
                             </p:column>
-                            <p:column headerText="TMTID_CHILD" width="120" >
-                                <h:outputText value="#{model.childTmtId}"  title="#{model.errorMap['TMTID_CHILD']}"/>
+                            <p:column headerText="TMT_CHILD" style="width: 100px;text-align: center;">
+                                <h:outputText id="modelChild" value="#{model.childTmtId}" title="#{model.errorMap['TMTID_CHILD']}"/>
+                                <p:tooltip value="#{model.child.fsn}" id="tipTmtChild" for="modelChild" style="font-size: 16px;"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>
