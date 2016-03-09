@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.TMTParentChild;
-import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;

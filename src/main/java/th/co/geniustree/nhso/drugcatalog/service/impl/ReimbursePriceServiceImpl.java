@@ -36,11 +36,8 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService{
     
     @Override
     public ReimbursePrice save(String tmtid, BigDecimal price, Date dateEffective) {
-        ReimbursePrice reimbursePrice = new ReimbursePrice();
-        ReimbursePricePK pk = new ReimbursePricePK();
-        pk.setTmtId(tmtid);
-        pk.setEffectiveDate(dateEffective);
-        reimbursePrice.setId(pk);
+        ReimbursePricePK pk = new ReimbursePricePK(tmtid, dateEffective);
+        ReimbursePrice reimbursePrice = new ReimbursePrice(pk);
         reimbursePrice.setPrice(price);
         return reimbursePriceRepo.save(reimbursePrice);
     }
@@ -72,7 +69,15 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService{
     public void saveAll(List<ReimbursePrice> reimbursePrices) {
         reimbursePriceRepo.save(reimbursePrices);
     }
-    
-    
+
+    @Override
+    public boolean isExists(ReimbursePricePK id) {
+        return reimbursePriceRepo.exists(id);
+    }
+
+    @Override
+    public boolean isExists(String tmtId, Date dateEffective) {
+        return isExists(new ReimbursePricePK(tmtId, dateEffective));
+    }
     
 }

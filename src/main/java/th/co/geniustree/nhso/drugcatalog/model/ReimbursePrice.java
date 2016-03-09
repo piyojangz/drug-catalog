@@ -31,6 +31,13 @@ public class ReimbursePrice implements Serializable {
     @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
 
+    public ReimbursePrice() {
+    }
+
+    public ReimbursePrice(ReimbursePricePK id) {
+        this.id = id;
+    }
+    
     public ReimbursePricePK getId() {
         return id;
     }

@@ -38,7 +38,7 @@ public class ReimbursePriceExcelModel implements Serializable{
     
     @XlsColumn(columnNames = "PRICE")
     @NotEmpty(message = "ต้องระบุ PRICE มาด้วย")
-    @DoubleValue(message = "UnitPrice ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น", removeSeperator = true)
+    @DoubleValue(message = "Reimburse Price ต้องเป็นตัวเลขหรือจุดทศนิยม เท่านั้น", removeSeperator = true)
     private String price;
     
     private Map<String, List<String>> errorMap = new HashMap<>();

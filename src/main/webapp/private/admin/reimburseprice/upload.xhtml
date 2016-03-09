@@ -27,16 +27,18 @@
                               label="#{not empty uploadReimbursePrice.originalFileName?'File : '.concat(uploadReimbursePrice.originalFileName):'เลือกไฟล์ reimburse price (xls,xlsx)'}"/>
                 <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadReimbursePrice.passModels.size()+uploadReimbursePrice.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadReimbursePrice.file}"/><br/>
                 <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" rendered="#{uploadReimbursePrice.duplicateFile}" style="color:red;font-weight: bold"/><br/>
-                <p:panel   style="margin-bottom:20px;" rendered="#{not empty uploadReimbursePrice.notPassModels}">
+
+                <p:panel style="margin-bottom:20px;" rendered="#{not empty uploadReimbursePrice.notPassModels}">
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ไม่ผ่าน" style="color:red"/>
-                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง Reimburse Price "/>
                         <h:outputText value="#{uploadReimbursePrice.notPassModels.size()} " style="color:red"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="errorTable" 
+                                     styleClass="clean-table"
                                      resizableColumns="true" 
                                      value="#{uploadReimbursePrice.notPassModels}" 
                                      var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
@@ -47,36 +49,44 @@
                                     <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="ROW#" width="40">
+                            <p:column   headerText="ROW#" style="text-align: center;width: 40px;">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
-                            <p:column   headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.tmtid}" style="" title="#{model.errorMap['tmtId']}"/>
+                            <p:column headerText="TMTID" style="text-align: center;width: 60px;" styleClass="#{empty model.errorMap['tmtid']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.tmtid}" title="#{model.errorMap['tmtid']}"/>
                             </p:column>
-                            <p:column headerText="EFFECTIVE_DATE" width="60" styleClass="#{empty model.errorMap['dateinString']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['dateinString']}"/>
+                            <p:column headerText="Date Effective" style="text-align: center;width: 150px;" styleClass="#{empty model.errorMap['effectiveDate']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
+                                    <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="PRICE" width="60" styleClass="#{empty model.errorMap['statusEd']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.price}"  title="#{model.errorMap['statusEd']}"/>
+                            <p:column headerText="Reimburse Price" style="width: 150px;" styleClass="#{empty model.errorMap['price']?'color:black':'errorBackground'}">
+                                <p:panel style="text-align: right;background-color: transparent;">
+                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
+                                </p:panel>
                             </p:column>
-                            <ui:remove>
-                                <p:column headerText="ERROR" width="400">
-                                    <h:outputText value="#{model.errors}" style="color:orange"/>
-                                </p:column>
-                            </ui:remove>
+                            <p:column headerText="ERROR">
+                                <h:outputText value="#{model.errors}" style="color:orange"/>
+                            </p:column>
                         </p:dataTable>
                     </h:panelGrid>
                 </p:panel>
+
                 <p:panel style="margin-bottom:20px" rendered="#{not empty uploadReimbursePrice.passModels}">
                     <f:facet name="header">
                         <h:outputText value="จำนวนข้อมูลที่" />
                         <h:outputText value="ผ่าน" style="color:green"/>
-                        <h:outputText value="การตรวจสอบตามโครงสร้าง ED/NED "/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง Reimburse Price "/>
                         <h:outputText value="#{uploadReimbursePrice.passModels.size()} " style="color:green"/>
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
                     <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="passTable" resizableColumns="true" rowIndexVar="rowIndex" value="#{uploadReimbursePrice.passModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                        <p:dataTable id="passTable" 
+                                     styleClass="clean-table"
+                                     resizableColumns="true" 
+                                     rowIndexVar="rowIndex" 
+                                     value="#{uploadReimbursePrice.passModels}" var="model"  
+                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
@@ -84,17 +94,24 @@
                                     <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="#" width="80" resizable="false">
-                                <h:outputText value="#{rowIndex+1}" style="" />
+                            <p:column   headerText="#" style="text-align: center;width: 40px;" resizable="false">
+                                <h:outputText value="#{rowIndex+1}" />
                             </p:column>
-                            <p:column   headerText="TMTID" width="80" >
-                                <h:outputText value="#{model.tmtid}" style="" title="#{model.errorMap['tmtId']}"/>
+                            <p:column   headerText="TMTID" style="text-align: center;width: 60px;" >
+                                <h:outputText value="#{model.tmtid}" title="#{model.errorMap['tmtid']}"/>
                             </p:column>
-                            <p:column headerText="EFFECTIVE_DATE" width="100" >
-                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['dateinString']}"/>
+                            <p:column headerText="Date Effective" style="text-align: center;width: 150px;">
+                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
+                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="PRICE" width="100" >
-                                <h:outputText value="#{model.hashCode}"  title="#{model.errorMap['statusEd']}"/>
+                            <p:column headerText="Reimburse Price" style="width: 150px;">
+                                <p:panel style="text-align: right;background-color: transparent;">
+                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
+                                </p:panel>
+                            </p:column>
+                            <p:column headerText="หมายเหตุ">
+
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>
@@ -104,7 +121,7 @@
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadReimbursePrice.save()}" disabled="#{empty uploadReimbursePrice.reimbursePrices}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadReimbursePrice.reset()}" disabled="#{empty uploadReimbursePrice.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadReimbursePrice.reset()}" disabled="#{empty uploadReimbursePrice.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
 
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">

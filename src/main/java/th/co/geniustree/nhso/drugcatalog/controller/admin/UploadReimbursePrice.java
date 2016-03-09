@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -144,36 +145,12 @@ public class UploadReimbursePrice implements Serializable {
 
                 @Override
                 public void ok(int rowNum, ReimbursePriceExcelModel bean) {
-                    TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(bean.getTmtid());
-                    if (tmtDrug != null) {
-                        ReimbursePrice reimbursePrice = new ReimbursePrice();
-                        ReimbursePricePK pk = new ReimbursePricePK();
-                        pk.setTmtId(bean.getTmtid());
-                        Date effectiveDate = null;
-                        if (bean.getPrice().matches("\\d+\\.?\\d{0,2}")) {
-                            try {
-                                effectiveDate = DateUtils.parseUSDate("dd/MM/yyyy", bean.getEffectiveDate());
-                                pk.setEffectiveDate(effectiveDate);
-                                reimbursePrice.setId(pk);
-                                LOG.debug("effective date : {}", reimbursePrice.getId().getEffectiveDate());
-                                reimbursePrice.setPrice(new BigDecimal(bean.getPrice()));
-                                reimbursePrices.add(reimbursePrice);
-                                passModels.add(bean);
-                            } catch (RuntimeException e) {
-                                bean.addError("effectiveDate", "รูปแบบของวันที่ไม่ถูกต้อง");
-                                notPassModels.add(bean);
-                            }
-                        } else {
-                            bean.addError("price", "รูปแบบของราคายาไม่ถูกต้อง");
-                            notPassModels.add(bean);
-                        }
-
-                    } else {
-                        bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
+                    processValidate(bean);
+                    if (hasError(bean)) {
                         notPassModels.add(bean);
+                    } else {
+                        passModels.add(bean);
                     }
-
-                    LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDate(), bean.getPrice());
                 }
 
                 @Override
@@ -194,6 +171,72 @@ public class UploadReimbursePrice implements Serializable {
         LOG.debug("File : {}", file);
     }
 
+    private void processValidate(ReimbursePriceExcelModel bean) {
+        if (!isCorrectPatternTmtId(bean)) {
+            bean.addError("tmtid", "รหัส TMTID ไม่ถูกต้อง");
+            return;
+        }
+
+        TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(bean.getTmtid());
+        if (tmtDrug == null) {
+            bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
+            return;
+        }
+
+        if (!isCorrectPatternPrice(bean)) {
+            bean.addError("price", "รูปแบบของราคายาไม่ถูกต้อง");
+            return;
+        }
+
+        Date dateEffective;
+        try {
+            dateEffective = DateUtils.parseUSDate("dd/MM/yyyy", bean.getEffectiveDate());
+        } catch (RuntimeException re) {
+            bean.addError("effectiveDate", "รูปแบบของวันที่ไม่ถูกต้อง");
+            return;
+        }
+
+        if (isDuplicateDateEffective(tmtDrug.getTmtId(), dateEffective)) {
+            bean.addError("tmtid,effectiveDate", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
+            return;
+        }
+        LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDate(), bean.getPrice());
+    }
+
+    private List<ReimbursePrice> convertBeanToReimbursePriceList(List<ReimbursePriceExcelModel> list) {
+        List<ReimbursePrice> prices = new LinkedList<>();
+        for (ReimbursePriceExcelModel item : list) {
+            Date dateEffective;
+            try {
+                dateEffective = DateUtils.parseUSDate("dd/MM/yyyy", item.getEffectiveDate());
+            } catch (RuntimeException re) {
+                continue;
+            }
+            TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(item.getTmtid());
+            ReimbursePrice reimbursePrice = new ReimbursePrice(new ReimbursePricePK(tmtDrug.getTmtId(), dateEffective));
+            reimbursePrice.setTmtDrug(tmtDrug);
+            reimbursePrice.setPrice(new BigDecimal(item.getPrice()));
+            prices.add(reimbursePrice);
+        }
+        return prices;
+    }
+
+    private boolean hasError(ReimbursePriceExcelModel bean) {
+        return !bean.getErrorMap().isEmpty();
+    }
+
+    private boolean isCorrectPatternTmtId(ReimbursePriceExcelModel bean) {
+        return bean.getTmtid().matches("\\w{6}");
+    }
+
+    private boolean isDuplicateDateEffective(String tmtId, Date dateEffective) {
+        return reimbursePriceService.isExists(tmtId, dateEffective);
+    }
+
+    private boolean isCorrectPatternPrice(ReimbursePriceExcelModel bean) {
+        return bean.getPrice().matches("\\d+\\.?\\d{0,2}");
+    }
+
     public boolean isDuplicateFile() {
         return duplicateFile;
     }
@@ -211,9 +254,17 @@ public class UploadReimbursePrice implements Serializable {
     }
 
     public void save() {
-        reimbursePriceService.saveAll(reimbursePrices);
-        FacesMessageUtils.info("บันทึกเสร็จสิ้น");
-        reset();
+        List<ReimbursePrice> list = convertBeanToReimbursePriceList(passModels);
+        try {
+            LOG.debug("total prices list : {}",list.size());
+            reimbursePriceService.saveAll(list);
+            FacesMessageUtils.info("บันทึกเสร็จสิ้น");
+        } catch (Exception e) {
+            LOG.error("Can't save", e);
+            FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูล");
+        } finally {
+            reset();
+        }
     }
 
     public void reset() {

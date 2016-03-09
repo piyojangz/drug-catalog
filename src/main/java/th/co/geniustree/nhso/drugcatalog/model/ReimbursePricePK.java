@@ -26,6 +26,14 @@ public class ReimbursePricePK implements Serializable {
     @Column(name = "EFFECTIVE_DATE", nullable = false)
     private Date effectiveDate;
 
+    public ReimbursePricePK(String tmtId, Date effectiveDate) {
+        this.tmtId = tmtId;
+        this.effectiveDate = effectiveDate;
+    }
+
+    public ReimbursePricePK() {
+    }
+
     public String getTmtId() {
         return tmtId;
     }

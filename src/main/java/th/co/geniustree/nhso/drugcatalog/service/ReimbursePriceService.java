@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
+import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
 
 /**
  *
@@ -29,4 +30,8 @@ public interface ReimbursePriceService {
     public Page<ReimbursePrice> search(String keyword, Pageable pageable);
     
     public void saveAll(List<ReimbursePrice> reimbursePrices);
+    
+    public boolean isExists(ReimbursePricePK id);
+    
+    public boolean isExists(String tmtId, Date dateEffective);
 }
