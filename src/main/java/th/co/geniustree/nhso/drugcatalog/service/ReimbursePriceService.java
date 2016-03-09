@@ -18,7 +18,7 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
  */
 public interface ReimbursePriceService {
     
-    public ReimbursePrice save(String tmtid,BigDecimal price,Integer budgetYear);
+    public ReimbursePrice save(String tmtid,BigDecimal price,Date dateEffective);
     
     public ReimbursePrice edit(ReimbursePrice dosageFormGroup);
     

@@ -13,143 +13,71 @@
                     padding: 4px 5px;
                     border: none;
                 }
-                .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
-                    background-color : rgb(0, 194, 0);
-                    color : #fff;
-                    text-shadow: none; 
-                }
-
-                .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
-                    background-color : rgb(247, 79, 79);
-                    color : #fff;
-                    text-shadow: none; 
-                }
-
-                .ui-datatable-scrollable-header td{
-                    background-color: rgb(255, 250, 179);
-                }
-
-                .clean-table tbody tr td{
-                    border: solid 1px;
-                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
-                }
-
-                .clean-table tbody tr:first-child td{
-                    border-top: 2px solid rgb(156, 156, 156);
-                }
-
-                .clean-table tbody tr{
-                    border-left: 2px rgb(162, 161, 161) solid !important;
-                    border-right: 2px rgb(162, 161, 161) solid !important;
-                }
-
-                .clean-table tbody{
-                    border-color: #999;
-                }
-
-                .clean-table{
-                    border-width: 0 0 1px 0 !important;
-                    background: none !important;
-                }
-
-                .clean-table + .clean-table thead{
-                    visibility: hidden;
-                }
-
-                .clean-table .ui-datatable-tablewrapper{
-                    border-bottom: 2px solid #7F7E7E;
-                }
-                .input{
-                    width: 250px;
-                }
-                .ui-autocomplete-items{
-                    font-size: 16px;
-                }
-                .ui-autocomplete-panel{
-                    overflow-y: scroll;
-                    max-height: 300px;
-                    max-width: 200px;
-                    min-width: 200px;
-                }
             </style>
-
-            <f:metadata>
-                <f:viewAction action="#{reimburseGroupItemController.resetData()}"/>
-            </f:metadata>
-            
-            <div class="header-content">
-                <h:outputText value="รายการ  Reimburse Price"/>
+            <p:growl id="growl" showDetail="true" />
+            <div class="header-content" style="margin-bottom: 10px;">
+                <h:outputText value="รายการ Reimburse Price"/>
             </div>
-            
-            <p:growl id="growl" showDetail="true"/>
-
             <h:form id="form">
-                <p:panelGrid>
-                    <p:row>
-                        <p:column style="font-size: 20px;background-color: #F0F0F0;text-align: center;border-radius: 5px;" colspan="2">
-                            <h:outputText value="เพิ่มรายการ ราคายา"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right; width: 100px;">
-                            <h:outputText value="TMTID : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="tmtid" value="#{reimbursePriceController.tmtDrug.tmtId}" styleClass="input">
-                            </p:inputText>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimbursePriceController.onSearchTMTDrugDialog}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{reimbursePriceController.onTmtDialogReturn}" update="@form" />
-                            </p:commandButton>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="ปีงบประมาณ : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete id="budgetYearComplete" 
-                                            value="#{reimbursePriceController.budgetYear}" 
-                                            completeMethod="#{reimbursePriceController.completeBudgetYear}"
-                                            var="year" 
-                                            itemLabel="#{year}"
-                                            itemValue="#{year}" 
-                                            forceSelection="true" 
-                                            styleClass="input1"
-                                            dropdown="true">
-                                <p:column>
-                                    #{year}
-                                </p:column>
-                            </p:autoComplete>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="ราคายา : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText type="number" id="reimbursePrice" value="#{reimbursePriceController.price}">
-                            </p:inputText>
-                            &nbsp;&nbsp;(หน่วย : บาท)
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" update="@form ,:growl ,:tableForm" actionListener="#{reimbursePriceController.save}"/>
-                            <p:spacer width="20"/>
-                            <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
+                <p:fieldset legend="กำหนดราคาเพดานยา" toggleable="true" toggleSpeed="500" collapsed="true" >
+                    <p:panelGrid style="min-width: 600px;">
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="tmtid" value="#{reimbursePriceController.tmtDrug.tmtId}" styleClass="input" readonly="true"/>
+                                <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimbursePriceController.onSearchTMTDrugDialog}" update="@form">
+                                    <p:ajax event="dialogReturn" listener="#{reimbursePriceController.onTmtDialogReturn}" update="@form" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+                        <p:row rendered="#{reimbursePriceController.tmtDrug ne null}">
+                            <p:column style="text-align: right;" >
+                                <h:outputText value="FSN : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceController.tmtDrug.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="Date Effective : "/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{reimbursePriceController.dateEffective}" 
+                                            locale="en_US" 
+                                            navigator="true" 
+                                            pattern="dd / MMM / yyyy"
+                                            showOn="button"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ราคาเพดาน : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText type="number" id="reimbursePrice" value="#{reimbursePriceController.price}" validatorMessage="ห้ามใส่ราคาต่ำกว่า 0 บาท">
+                                    <f:validateLongRange minimum="0" for="reimbursePrice"/>
+                                    <p:watermark value="หน่วย : บาท" for="reimbursePrice"/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left;">
+                                <p:commandButton value="เพิ่ม" update="@form ,:growl ,:tableForm" actionListener="#{reimbursePriceController.save}"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
             </h:form>           
-            
-            
             <p:spacer height="20"/>
-            
-            
             <h:form id="searchform">
                 <p:panelGrid>
                     <p:row>
-                        <p:column style="text-align: right; width: 100px;">
+                        <p:column style="text-align: right;">
                             <h:outputText value="ค้นหายา : "/>
                         </p:column>
                         <p:column>
@@ -161,13 +89,9 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
-            
-            
-            <p:spacer height="20"/>
-            
-            
             <h:form id="tableForm">
                 <p:dataTable id="table"
+                             styleClass="clean-table"
                              value="#{reimbursePriceController.reimbursePrices}"
                              var="item"
                              rowIndexVar="rowIndex"
@@ -183,35 +107,40 @@
                             <h:outputText value="รายการยาและราคายาทั้งหมด"/>
                         </div>
                     </f:facet>
-                    <p:column headerText="ลำดับที่" style="width: 50px;text-align: center;max-width: 30px;">
+                    <p:column headerText="#" style="width: 50px;text-align: center;max-width: 30px;">
                         #{rowIndex + 1}
                     </p:column>
-                    <p:column headerText="TMT" style="width: 100px;">
-                        <div style="text-align: center;">
-                            <h:outputText value="#{item.tmtDrug.tmtId}"/><br/>
-                            #{item.tmtDrug.fsn}<h:outputText value="#{item.tmtDrug.tradeName}"/>
-                        </div>
+                    <p:column headerText="TMT" style="width: 60px;text-align: center;">
+                        <h:outputText value="#{item.tmtDrug.tmtId}"/>
                     </p:column>
-                    <p:column headerText="DATE_IN" style="width: 100px;text-align: center;">
+                    <p:column headerText="Type" style="width: 40px;text-align: center;">
+                        <h:outputText value="#{item.tmtDrug.type}"/>
+                    </p:column>
+                    <p:column headerText="FSN">
+                        <h:outputText value="#{item.tmtDrug.fsn}"/>
+                    </p:column>
+                    <p:column headerText="Date Effective" style="width: 120px;text-align: center;">
                         <h:outputText value="#{item.id.effectiveDate}">
-                            <f:convertDateTime locale="th_TH" pattern="d MMM yyyy"/>
+                            <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="Reimburse Price" style="width: 100px;">
-                        <h:outputText value="#{item.price} บาท"/>
+                        <p:panel style="text-align: right;background-color: transparent;">
+                            <h:outputText value="#{item.price} บาท"/>
+                        </p:panel>
                     </p:column>
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
                         <p:commandLink value="แก้ไข" 
                                        style="color: blue;" 
                                        action="#{reimbursePriceController.onSelect(item)}" 
                                        onclick="PF('editDialogWidget').show()"
-                                       update="@form , :editDialogForm"/>
+                                       update=":editDialogForm"/>
                     </p:column>
                     <p:column headerText="ลบ" style="width: 50px;text-align: center;">
                         <p:commandLink value="ลบ" 
                                        style="color: blue;" 
                                        action="#{reimbursePriceController.onSelect(item)}" 
-                                       update="@form , :deleteDialogForm"
+                                       update=":deleteDialogForm"
                                        onclick="PF('deleteDialogWidget').show()"/>
                     </p:column>
                 </p:dataTable>
@@ -238,10 +167,12 @@
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="ปีงบประมาณ : "/>
+                                <h:outputText value="Date Effective : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" style="width: 200px;" disabled="true"/>
+                                <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" style="width: 200px;" disabled="true">
+                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                                </p:inputText>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -249,10 +180,12 @@
                                 <h:outputText value="ราคายา : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.price}" style="width: 200px;"/>
+                                <p:inputText type="number" id="editReimbursePrice" value="#{reimbursePriceController.selectedReimbursePrice.price}" validatorMessage="ห้ามใส่ราคาต่ำกว่า 0 บาท">
+                                    <f:validateLongRange minimum="0" for="editReimbursePrice"/>
+                                    <p:watermark value="หน่วย : บาท" for="editReimbursePrice"/>
+                                </p:inputText>
                             </p:column>
                         </p:row>
-
                         <p:row>
                             <p:column colspan="2" style="text-align: right;">
                                 <p:commandButton value="แก้ไข" 
@@ -265,7 +198,6 @@
                         </p:row>
                     </p:panelGrid>
                 </h:form>
-
             </p:dialog>
 
             <p:dialog id="deleteDialog"
@@ -273,8 +205,8 @@
                       modal="true"
                       showEffect="fade"
                       hideEffect="fade"
-                      minWidth="400"
-                      minHeight="200"
+                      minWidth="600"
+                      minHeight="300"
                       widgetVar="deleteDialogWidget"
                       header="ยืนยันการลบข้อมูล">
                 <h:form id="deleteDialogForm">
@@ -288,31 +220,34 @@
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="ราคายา : "/>
+                            <p:column style="text-align: right;width: 120px;">
+                                <h:outputText value="Reimburse price : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{reimbursePriceController.selectedReimbursePrice.price}"/>
+                                <h:outputText value="#{reimbursePriceController.selectedReimbursePrice.price} บาท"/>
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column style="text-align: right;width: 100px;">
-                                <h:outputText value="ปีงบประมาณ : "/>
+                                <h:outputText value="Date Effective : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" />
+                                <h:outputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" >
+                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                                </h:outputText>
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column colspan="2" style="text-align: right;">
-                                <p:commandButton value="ใช่" 
+                            <p:column/>
+                            <p:column style="text-align: right;">
+                                <p:commandButton value="ลบ" 
                                                  actionListener="#{reimbursePriceController.delete()}" 
                                                  styleClass="ui-confirmdialog-yes" 
                                                  icon="ui-icon-check" 
                                                  update="@form , :growl , :tableForm"
                                                  oncomplete="PF('deleteDialogWidget').hide()"/>
                                 <p:spacer width="20"/>
-                                <p:commandButton value="ไม่ใช่" 
+                                <p:commandButton value="ไม่ลบ" 
                                                  styleClass="ui-confirmdialog-no" 
                                                  icon="ui-icon-close" 
                                                  onclick="PF('deleteDialogWidget').hide()"/>
@@ -320,7 +255,6 @@
                         </p:row>
                     </p:panelGrid>
                 </h:form>
-
             </p:dialog>
         </ui:define>
     </ui:composition>

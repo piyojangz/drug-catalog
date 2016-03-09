@@ -21,9 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.BudgetYearConverter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
@@ -47,32 +47,22 @@ public class ReimbursePriceController implements Serializable {
 
     private TMTDrug tmtDrug;
     private BigDecimal price;
-    private Integer budgetYear;
+    private Date dateEffective;
 
     private String keyword;
-    List<Integer> budgetYears;
 
     @PostConstruct
     public void postConstruct() {
-        reset();
-        Integer yearSelector = BudgetYearConverter.dateToBudgetYear(new Date());
-        budgetYears = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            budgetYears.add(yearSelector - i);
-        }
         findAll();
-    }
-
-    public void reset() {
-        tmtDrug = new TMTDrug();
     }
 
     public void save() {
         try {
-            reimbursePriceService.save(tmtDrug.getTmtId(), price, budgetYear);
+            reimbursePriceService.save(tmtDrug.getTmtId(), price, dateEffective);
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้");
+            LOG.debug("can't save", e);
         }
     }
 
@@ -86,7 +76,7 @@ public class ReimbursePriceController implements Serializable {
             FacesMessageUtils.info("แก้ไขข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถแก้ไขข้อมูลได้");
-            LOG.debug(e.getMessage());
+            LOG.debug("can't edit", e);
         }
     }
 
@@ -96,26 +86,24 @@ public class ReimbursePriceController implements Serializable {
             FacesMessageUtils.info("ลบข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
-            LOG.debug(e.getMessage());
+            LOG.debug("can't delete",e);
         }
     }
 
     public void search() {
-        reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>() {
+        reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>(new Sort("id.tmtId")) {
             @Override
-            public Page<ReimbursePrice> load(Pageable pageAble) {
-                Page<ReimbursePrice> page = reimbursePriceService.search(keyword, pageAble);
-                return page;
+            public Page<ReimbursePrice> load(Pageable pageable) {
+                return reimbursePriceService.search(keyword, pageable);
             }
         };
     }
 
     private void findAll() {
-        reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>() {
+        reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>(new Sort("id.tmtId")) {
             @Override
             public Page<ReimbursePrice> load(Pageable pageAble) {
-                Page<ReimbursePrice> page = reimbursePriceService.findAllPaging(pageAble);
-                return page;
+                return reimbursePriceService.findAllPaging(pageAble);
             }
         };
     }
@@ -129,9 +117,8 @@ public class ReimbursePriceController implements Serializable {
         options.put("contentWidth", 800);
         Map<String, List<String>> params = new HashMap<>();
         List<String> keywords = new ArrayList<>();
-        keywords.add(tmtDrug.getTmtId());
         params.put("keyword", keywords);
-        RequestContext.getCurrentInstance().openDialog("/private/admin/reimbursegroup/dialog/tmtdialog", options, params);
+        RequestContext.getCurrentInstance().openDialog("/private/hospital/create/selectDrugDialog.xhtml", options, params);
     }
 
     public void onTmtDialogReturn(SelectEvent event) {
@@ -139,16 +126,6 @@ public class ReimbursePriceController implements Serializable {
         if (tmt != null) {
             tmtDrug = tmt;
         }
-    }
-
-    public List<Integer> completeBudgetYear(String query) {
-        List<Integer> filterBudgetYear = new ArrayList<>();
-        for (Integer year : budgetYears) {
-            if (year.toString().startsWith(query)) {
-                filterBudgetYear.add(year);
-            }
-        }
-        return filterBudgetYear;
     }
 
     public SpringDataLazyDataModelSupport<ReimbursePrice> getReimbursePrices() {
@@ -183,20 +160,20 @@ public class ReimbursePriceController implements Serializable {
         this.price = price;
     }
 
-    public Integer getBudgetYear() {
-        return budgetYear;
-    }
-
-    public void setBudgetYear(Integer budgetYear) {
-        this.budgetYear = budgetYear;
-    }
-
     public String getKeyword() {
         return keyword;
     }
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public Date getDateEffective() {
+        return dateEffective;
+    }
+
+    public void setDateEffective(Date dateEffective) {
+        this.dateEffective = dateEffective;
     }
 
 }

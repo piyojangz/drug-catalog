@@ -17,7 +17,6 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.BudgetYearConverter;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimbursePriceRepo;
@@ -36,8 +35,7 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService{
     private ReimbursePriceRepo reimbursePriceRepo;
     
     @Override
-    public ReimbursePrice save(String tmtid, BigDecimal price, Integer budgetYear) {
-        Date dateEffective = BudgetYearConverter.budgetYearToDate(BudgetYearConverter.convertToCEYear(budgetYear));
+    public ReimbursePrice save(String tmtid, BigDecimal price, Date dateEffective) {
         ReimbursePrice reimbursePrice = new ReimbursePrice();
         ReimbursePricePK pk = new ReimbursePricePK();
         pk.setTmtId(tmtid);

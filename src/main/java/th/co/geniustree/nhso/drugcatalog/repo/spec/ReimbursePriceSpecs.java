@@ -26,15 +26,15 @@ public class ReimbursePriceSpecs {
         return new Specification<ReimbursePrice>() {
             @Override
             public Predicate toPredicate(Root<ReimbursePrice> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
+                Predicate or = null;
                 for (String keyword : tmtid) {
-                    if (and == null) {
-                        and = cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.tmtId), "%" + keyword + "%");
+                    if (or == null) {
+                        or = cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.tmtId), "%" + keyword + "%");
                     } else {
-                        cb.and(and, cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.tmtId), "%" + keyword + "%"));
+                        cb.or(or, cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.tmtId), "%" + keyword + "%"));
                     }
                 }
-                return and;
+                return or;
             }
         };
     }
@@ -43,15 +43,15 @@ public class ReimbursePriceSpecs {
         return new Specification<ReimbursePrice>() {
             @Override
             public Predicate toPredicate(Root<ReimbursePrice> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
+                Predicate or = null;
                 for (String keyword : fsn) {
-                    if (and == null) {
-                        and = cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.fsn), "%" + keyword + "%");
+                    if (or == null) {
+                        or = cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.fsn), "%" + keyword + "%");
                     } else {
-                        cb.and(and, cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.fsn), "%" + keyword + "%"));
+                        cb.or(or, cb.like(root.get(ReimbursePrice_.tmtDrug).get(TMTDrug_.fsn), "%" + keyword + "%"));
                     }
                 }
-                return and;
+                return or;
             }
         };
     }
