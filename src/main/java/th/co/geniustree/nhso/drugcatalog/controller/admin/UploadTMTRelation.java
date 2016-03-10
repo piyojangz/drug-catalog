@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FSNSplitter;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.TMTParentChild;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTRelation;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTRelationService;
@@ -165,14 +166,22 @@ public class UploadTMTRelation {
         bean.setParent(tmtDrugService.findOneWithoutTx(bean.getParentTmtId()));
         bean.setChild(tmtDrugService.findOneWithoutTx(bean.getChildTmtId()));
 
-        if (isNullParentOrChild(bean)) {
+        if (isNullTMT(bean.getParent())) {
             bean.addError("TMTID_PARENT", "ไม่พบ TMTID นี้ในระบบ");
             return;
+        } else if(isNullTMT(bean.getChild())){
+            bean.addError("TMTID_CHILD", "ไม่พบ TMTID นี้ในระบบ");
         }
         
+        if(isTypeRelated(bean)){
+            bean.addError("TMTID_PARENT", "TMT ไม่สำพันธ์กัน");
+            bean.addError("TMTID_CHILD", "TMT ไม่สำพันธ์กัน");
+        }
+
         boolean exist = tmtRelationService.isRelationExist(bean.getParent().getTmtId(), bean.getChild().getTmtId());
         if (exist) {
-            bean.addError("TMTID", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
+            bean.addError("TMTID_PARENT", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
+            bean.addError("TMTID_CHILD", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
         }
     }
 
@@ -184,16 +193,16 @@ public class UploadTMTRelation {
         return !(bean.getParentTmtId().matches("\\d{6}") && bean.getChildTmtId().matches("\\d{6}"));
     }
 
-    private boolean isNullParentOrChild(TMTParentChild bean) {
-        return !(bean.getParent() != null && bean.getChild() != null);
+    private boolean isNullTMT(TMTDrug tmt) {
+        return tmt == null;
     }
-    
-    public boolean isAccordActiveIngredient(TMTParentChild bean){
+
+    public boolean isAccordActiveIngredient(TMTParentChild bean) {
         FSNSplitter splitter = new FSNSplitter();
         splitter.getActiveIngredientAndStrengthFromFSN(bean.getParent());
         Set<String> activeIngredients = splitter.getOnlyActiveIngredients();
         boolean accord = isFSNContain(bean.getChild().getFsn(), activeIngredients);
-        if(accord){
+        if (accord) {
             return true;
         } else {
             splitter.getActiveIngredientAndStrengthFromFSN(bean.getChild());
@@ -201,19 +210,31 @@ public class UploadTMTRelation {
             return isFSNContain(bean.getParent().getFsn(), activeIngredients);
         }
     }
-    
-    private boolean isFSNContain(String fsn, Set<String> activeIngredients){
-        LOG.debug("FSN : {}",fsn);
-        LOG.debug("ActiveIngredient : {}",activeIngredients);
-        for(String activeIngredient : activeIngredients){
+
+    private boolean isFSNContain(String fsn, Set<String> activeIngredients) {
+        LOG.debug("FSN : {}", fsn);
+        LOG.debug("ActiveIngredient : {}", activeIngredients);
+        for (String activeIngredient : activeIngredients) {
             boolean accord = fsn.trim().toLowerCase().contains(activeIngredient.trim().toLowerCase());
-            if(accord){
+            if (accord) {
                 return true;
             }
         }
         return false;
     }
-    
+
+    private boolean isTypeRelated(TMTParentChild bean) {
+        if (bean.getParent().getType().equals(TMTDrug.Type.SUB)) {
+            return bean.getChild().getType().equals(TMTDrug.Type.VTM);
+        } else if (bean.getParent().getType().equals(TMTDrug.Type.VTM)) {
+            return bean.getChild().getType().equals(TMTDrug.Type.GP);
+        } else if (bean.getParent().getType().equals(TMTDrug.Type.GP)) {
+            return bean.getChild().getType().equals(TMTDrug.Type.TP) || bean.getChild().getType().equals(TMTDrug.Type.GPU);
+        } else { //if(bean.getChild().getType().equals(TMTDrug.Type.TP) || bean.getChild().getType().equals(TMTDrug.Type.GPU)){
+            return bean.getChild().getType().equals(TMTDrug.Type.TPU);
+        }
+    }
+
     public String getOriginalFileName() {
         return originalFileName;
     }
