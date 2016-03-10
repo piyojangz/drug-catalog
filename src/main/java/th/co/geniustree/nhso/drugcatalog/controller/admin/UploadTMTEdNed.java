@@ -6,11 +6,13 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -124,24 +126,11 @@ public class UploadTMTEdNed implements Serializable {
                     bean.setRowNum(rowNum);
                     bean.addErrors(beanValidator.validate(bean));
                     bean.postConstruct();
-                    if (bean.getErrorMap().isEmpty()) {
-                        TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
-                        if (findOneWithoutTx == null) {
-                            bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
-                        }
-                        if (tmtEdNedService.exist(bean.getTmtId(), bean.getDateIn())) {
-                            bean.addError("dateinString", "ED/NED ในวันที่เดียวกันนี้เคยระบุไปแล้ว");
-                        }
-                    }
-                    if (bean.getErrorMap().isEmpty()) {
-                        if (!passModels.contains(bean)) {
-                            passModels.add(bean);
-                        } else {
-                            bean.addError("rowNum", "TMTID และ DATEIN ซ้ำกันในไฟล์");
-                            notPassModels.add(bean);
-                        }
-                    } else {
+                    processValidate(bean);
+                    if (hasError(bean)) {
                         notPassModels.add(bean);
+                    } else {
+                        passModels.add(bean);
                     }
                 }
 
@@ -163,10 +152,24 @@ public class UploadTMTEdNed implements Serializable {
         LOG.debug("File : {}", file);
     }
 
-    public boolean isDuplicateFile() {
-        return duplicateFile;
+    private void processValidate(ExcelTMTEdNed bean) {
+        TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
+        if (findOneWithoutTx == null) {
+            bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
+        }
+        if (isExistED(bean.getTmtId(), bean.getDateIn())) {
+            bean.addError("dateinString", "ED/NED ในวันที่เดียวกันนี้เคยระบุไปแล้ว");
+        }
     }
 
+    private boolean hasError(ExcelTMTEdNed bean) {
+        return !bean.getErrorMap().isEmpty();
+    }
+
+    private boolean isExistED(String tmtId, Date dateIn) {
+        return tmtEdNedService.exist(tmtId, dateIn);
+    }
+    
     public void setDuplicateFile(boolean duplicateFile) {
         this.duplicateFile = duplicateFile;
     }
