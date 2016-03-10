@@ -197,7 +197,8 @@ public class UploadReimbursePrice implements Serializable {
         }
 
         if (isDuplicateDateEffective(tmtDrug.getTmtId(), dateEffective)) {
-            bean.addError("tmtid,effectiveDate", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
+            bean.addError("tmtid", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
+            bean.addError("effectiveDate", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
             return;
         }
         LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDate(), bean.getPrice());
@@ -256,7 +257,7 @@ public class UploadReimbursePrice implements Serializable {
     public void save() {
         List<ReimbursePrice> list = convertBeanToReimbursePriceList(passModels);
         try {
-            LOG.debug("total prices list : {}",list.size());
+            LOG.debug("total prices list : {}", list.size());
             reimbursePriceService.saveAll(list);
             FacesMessageUtils.info("บันทึกเสร็จสิ้น");
         } catch (Exception e) {
