@@ -18,9 +18,15 @@
                 }
             </style>
             <p:growl id="growl" showDetail="true"/>
-            <div class="header-content">
+            <div class="header-content" style="margin-bottom: 10px;">
                 <h:outputText value="รายการยาและ ED / NED"/>
             </div>
+            <h:form id="menuForm">
+                <p:menubar styleClass="sub-menu">
+                    <p:menuitem outcome="index.xhtml" value="ED / NED"/>
+                    <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
+                </p:menubar>
+            </h:form>
             <h:form id="addForm">
                 <p:spacer height="10"/>
                 <p:fieldset legend="เพิ่มรายการ ED" toggleable="true" toggleSpeed="500" collapsed="true" >

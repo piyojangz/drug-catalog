@@ -18,6 +18,12 @@
             <div class="header-content" style="margin-bottom: 10px;">
                 <h:outputText value="รายการ Reimburse Price"/>
             </div>
+            <h:form id="menuForm">
+                <p:menubar styleClass="sub-menu">
+                    <p:menuitem outcome="index.xhtml" value="ราคายา"/>
+                    <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
+                </p:menubar>
+            </h:form>
             <h:form id="form">
                 <p:fieldset legend="กำหนดราคาเพดานยา" toggleable="true" toggleSpeed="500" collapsed="true" >
                     <p:panelGrid style="min-width: 600px;">

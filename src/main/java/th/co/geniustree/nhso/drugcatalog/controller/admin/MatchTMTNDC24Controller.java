@@ -6,8 +6,13 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,32 +48,38 @@ public class MatchTMTNDC24Controller implements Serializable {
     private MatchTMTNDC24 selectedMatchTMTNDC24;
 
     @Autowired
-    private TMTDrugService tmtDrugService;
-
-    @Autowired
     private NDC24Service ndc24Service;
 
     @Autowired
     private MatchTMTNDC24Repo matchTMTNDC24Repo;
 
-    public String searchWord;
+    private String searchTMTDrug;
+    private String searchWord;
 
     @PostConstruct
     public void initial() {
         searchMatch();
     }
 
-    public void searchTMT() {
-        tmtDrug = new SpringDataLazyDataModelSupport<TMTDrug>() {
-            @Override
-            public Page<TMTDrug> load(Pageable pageAble) {
-                if (searchWord == null || searchWord.isEmpty()) {
-                    return tmtDrugService.findAll(pageAble);
-                } else {
-                    return tmtDrugService.search(searchWord, pageAble);
-                }
-            }
-        };
+    public void onSearchTMTDrugDialog() {
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", true);
+        options.put("draggable", true);
+        options.put("resizable", true);
+        options.put("contentHeight", 500);
+        options.put("contentWidth", 1000);
+        Map<String, List<String>> params = new HashMap<>();
+        List<String> keywords = new ArrayList<>();
+        keywords.add(searchTMTDrug);
+        params.put("search", keywords);
+        RequestContext.getCurrentInstance().openDialog("/private/hospital/create/selectDrugDialog.xhtml", options, params);
+    }
+    
+    public void onTmtDialogReturn(SelectEvent event) {
+        TMTDrug tmt = (TMTDrug) event.getObject();
+        if (tmt != null) {
+            selectedTMT = tmt;
+        }
     }
 
     public void searchMatch() {
@@ -86,10 +97,6 @@ public class MatchTMTNDC24Controller implements Serializable {
 
     public void save() {
         try {
-//            List<NDC24> list = selectedTMT.getNdc24s();
-//            list.add(selectedNDC24);
-//            selectedTMT.setNdc24s(list);
-//            tmtDrugService.save(selectedTMT);
             MatchTMTNDC24 m = new MatchTMTNDC24();
             m.setTmtid(selectedTMT.getTmtId());
             m.setNdc24(selectedNDC24.getNdc24());
@@ -182,6 +189,14 @@ public class MatchTMTNDC24Controller implements Serializable {
 
     public void setSelectedMatchTMTNDC24(MatchTMTNDC24 selectedMatchTMTNDC24) {
         this.selectedMatchTMTNDC24 = selectedMatchTMTNDC24;
+    }
+
+    public String getSearchTMTDrug() {
+        return searchTMTDrug;
+    }
+
+    public void setSearchTMTDrug(String searchTMTDrug) {
+        this.searchTMTDrug = searchTMTDrug;
     }
 
 }
