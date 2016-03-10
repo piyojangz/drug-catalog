@@ -88,10 +88,8 @@ public class MatchTMTNDC24Controller implements Serializable {
     }
 
     public String ndc24Splitter(String ndc24) {
-        LOG.debug("original : {}", ndc24);
         try {
             String ndc24WithStructure = NDC24Utils.separateWithStructure(ndc24, "-");
-            LOG.debug("original : {}", ndc24WithStructure);
             return ndc24WithStructure;
         } catch (IllegalArgumentException e) {
             return "";
