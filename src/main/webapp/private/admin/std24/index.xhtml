@@ -34,57 +34,59 @@
                 </p:menubar>
             </h:form>
             <h:form id="addForm">
-                <p:panelGrid>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="ค้นหา TMT : "/>
-                        </p:column>
-                        <p:column>
-                            <p:inputText value="#{matchTMTNDC24Controller.searchTMTDrug}" style="width: 200px;"/>
-                        </p:column>
-                        <p:column>
-                            <p:commandButton value="search" icon="ui-icon-search" actionListener="#{matchTMTNDC24Controller.onSearchTMTDrugDialog}" update="@form">
-                                <p:ajax event="dialogReturn" listener="#{matchTMTNDC24Controller.onTmtDialogReturn}" update="@form" />
-                            </p:commandButton>
-                            <h:outputText value="#{matchTMTNDC24Controller.selectedTMT.fsn}" rendered="#{matchTMTNDC24Controller.selectedTMT ne null}"/>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column style="text-align: right;">
-                            <h:outputText value="NDC24 : "/>
-                        </p:column>
-                        <p:column>
-                            <p:autoComplete value="#{matchTMTNDC24Controller.selectedNDC24}"
-                                            completeMethod="#{matchTMTNDC24Controller.completeNDC24}"
-                                            forceSelection="true"
-                                            var="item"
-                                            id="inputNdc"
-                                            converter="ndc24Converter"
-                                            itemLabel="#{item.ndc24}"
-                                            itemValue="#{item.ndc24}"
-                                            minQueryLength="3">
-                            </p:autoComplete>
-                            <p:watermark for="inputNdc" value="กรุณากรอกอย่างน้อย 3 หลัก"/>
-                        </p:column>
-                        <p:column>
+                <p:fieldset legend="เพิ่มรายการ ED" toggleable="true" toggleSpeed="500" collapsed="true" >
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ค้นหา TMT : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{matchTMTNDC24Controller.searchTMTDrug}" style="width: 200px;"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="search" icon="ui-icon-search" actionListener="#{matchTMTNDC24Controller.onSearchTMTDrugDialog}" update="@form">
+                                    <p:ajax event="dialogReturn" listener="#{matchTMTNDC24Controller.onTmtDialogReturn}" update="@form" />
+                                </p:commandButton>
+                                <h:outputText value="#{matchTMTNDC24Controller.selectedTMT.fsn}" rendered="#{matchTMTNDC24Controller.selectedTMT ne null}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="NDC24 : "/>
+                            </p:column>
+                            <p:column>
+                                <p:autoComplete value="#{matchTMTNDC24Controller.selectedNDC24}"
+                                                completeMethod="#{matchTMTNDC24Controller.completeNDC24}"
+                                                forceSelection="true"
+                                                var="item"
+                                                id="inputNdc"
+                                                converter="ndc24Converter"
+                                                itemLabel="#{item.ndc24}"
+                                                itemValue="#{item.ndc24}"
+                                                minQueryLength="3">
+                                </p:autoComplete>
+                                <p:watermark for="inputNdc" value="กรุณากรอกอย่างน้อย 3 หลัก"/>
+                            </p:column>
+                            <p:column>
 
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column colspan="2" style="text-align: center;">
-                            <p:commandButton value="เพิ่ม" 
-                                             update=" :growl , :tableForm:table" 
-                                             actionListener="#{matchTMTNDC24Controller.save()}" 
-                                             oncomplete="window.location.reload()">
-                            </p:commandButton>
-                            <p:spacer width="20"/>
-                            <p:commandButton value="reset" update="@form" type="reset"/>
-                        </p:column>
-                        <p:column>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center;">
+                                <p:commandButton value="เพิ่ม" 
+                                                 update=" :growl , :tableForm:table" 
+                                                 actionListener="#{matchTMTNDC24Controller.save()}" 
+                                                 oncomplete="window.location.reload()">
+                                </p:commandButton>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="reset" update="@form" type="reset"/>
+                            </p:column>
+                            <p:column>
 
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
             </h:form> 
             <p:spacer height="20"/>
             <h:form id="searchform">
