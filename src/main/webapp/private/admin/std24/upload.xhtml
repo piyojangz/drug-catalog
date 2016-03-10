@@ -46,14 +46,14 @@
                                     <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="ROW#" width="40">
+                            <p:column   headerText="ROW#" width="40" styleClass="#{empty model.errorMap['rowNum']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
                             <p:column   headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tmtId']}"/>
                             </p:column>
                             <p:column headerText="NDC24" width="60" styleClass="#{empty model.errorMap['ndc24']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.ndc24}"  title="#{model.errorMap['dateinString']}"/>
+                                <h:outputText value="#{model.ndc24}"  title="#{model.errorMap['ndc24']}"/>
                             </p:column>
                             <p:column headerText="ERROR" width="400">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>

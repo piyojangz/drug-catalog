@@ -119,18 +119,13 @@ public class UploadTMTNDC24 implements Serializable {
                 public void ok(int rowNum, TmtNDC24 bean) {
                     bean.setRowNum(rowNum);
                     bean.addErrors(beanValidator.validate(bean));
-                    if (bean.getErrorMap().isEmpty()) {
-                        TmtNDC24 tmtNdc24 = tmtNDC24Repo.findOne(bean.getTmtId());
-                        if (tmtNdc24 == null) {
-                            bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
-                        } else if (tmtNdc24.getNdc24() != null) {
-                            bean.addError("ndc24", "มีการระบุ NDC24 แล้ว");
-                        }
-                    }
-                    if (bean.getErrorMap().isEmpty()) {
-                        passModels.add(bean);
-                    } else {
+
+                    processValidate(bean);
+
+                    if (hasError(bean)) {
                         notPassModels.add(bean);
+                    } else {
+                        passModels.add(bean);
                     }
                 }
 
@@ -150,6 +145,28 @@ public class UploadTMTNDC24 implements Serializable {
             FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
+    }
+
+    private void processValidate(TmtNDC24 bean) {
+        TmtNDC24 tmtNdc24 = tmtNDC24Repo.findOne(bean.getTmtId());
+        if (tmtNdc24 == null) {
+            bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
+            return;
+        } else if (tmtNdc24.getNdc24().equals(bean.getNdc24())) {
+            bean.addError("ndc24", "มีการระบุ NDC24 แล้ว");
+        }
+
+        if (isDuplicateDataInFile(bean)) {
+            bean.addError("rowNum", "ซ้ำกับรายการอื่นในไฟล์");
+        }
+    }
+
+    private boolean isDuplicateDataInFile(TmtNDC24 bean) {
+        return passModels.contains(bean);
+    }
+
+    private boolean hasError(TmtNDC24 bean) {
+        return !bean.getErrorMap().isEmpty();
     }
 
     public boolean isDuplicateFile() {
