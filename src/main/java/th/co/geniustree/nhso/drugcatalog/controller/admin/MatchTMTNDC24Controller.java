@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +20,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.NDC24Utils;
 import th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24;
 import th.co.geniustree.nhso.drugcatalog.model.NDC24;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.MatchTMTNDC24Repo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.MatchTMTNDC24Specs;
 import th.co.geniustree.nhso.drugcatalog.service.NDC24Service;
-import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
 /**
  *
@@ -74,22 +78,40 @@ public class MatchTMTNDC24Controller implements Serializable {
         params.put("search", keywords);
         RequestContext.getCurrentInstance().openDialog("/private/hospital/create/selectDrugDialog.xhtml", options, params);
     }
-    
+
     public void onTmtDialogReturn(SelectEvent event) {
         TMTDrug tmt = (TMTDrug) event.getObject();
         if (tmt != null) {
             selectedTMT = tmt;
+            searchTMTDrug = tmt.getTmtId();
+        }
+    }
+
+    public String ndc24Splitter(String ndc24) {
+        LOG.debug("original : {}", ndc24);
+        try {
+            String ndc24WithStructure = NDC24Utils.separateWithStructure(ndc24, "-");
+            LOG.debug("original : {}", ndc24WithStructure);
+            return ndc24WithStructure;
+        } catch (IllegalArgumentException e) {
+            return "";
         }
     }
 
     public void searchMatch() {
         matchTMTNDC24s = new SpringDataLazyDataModelSupport<MatchTMTNDC24>() {
             @Override
-            public Page<MatchTMTNDC24> load(Pageable pageAble) {
+            public Page<MatchTMTNDC24> load(Pageable pageable) {
                 if (searchWord == null || searchWord.isEmpty()) {
-                    return matchTMTNDC24Repo.findAll(pageAble);
+                    return matchTMTNDC24Repo.findAll(pageable);
                 } else {
-                    return matchTMTNDC24Repo.findByTmtidContainsOrNdc24Contains(searchWord, searchWord, pageAble);
+                    List<String> keywords = Arrays.asList(searchWord.split("\\s+"));
+                    Specification<MatchTMTNDC24> spec = Specifications.where(null);
+                    spec = Specifications.where(spec)
+                            .or(MatchTMTNDC24Specs.tmtLike(keywords))
+                            .or(MatchTMTNDC24Specs.fsnLike(keywords))
+                            .or(MatchTMTNDC24Specs.ndcLike(keywords));
+                    return matchTMTNDC24Repo.findAll(spec, pageable);
                 }
             }
         };

@@ -128,8 +128,11 @@
                     <p:column headerText="TMTID" style="width: 60px;text-align: center;">
                         <h:outputText value="#{model.tmtid}"/>
                     </p:column>
-                    <p:column headerText="NDC24">
-                        <h:outputText value="#{model.ndc24}"/>
+                    <p:column headerText="FSN" >
+                        <h:outputText value="#{model.tmtDrug.fsn}"/>
+                    </p:column>
+                    <p:column headerText="NDC24" style="width: 200px;text-align: center;">
+                        <h:outputText value="#{matchTMTNDC24Controller.ndc24Splitter(model.ndc24)}"/>
                     </p:column>
                     <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
                         <p:commandLink value="แก้ไข" 

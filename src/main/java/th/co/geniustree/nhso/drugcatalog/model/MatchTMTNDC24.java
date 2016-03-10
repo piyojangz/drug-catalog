@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -29,7 +31,10 @@ public class MatchTMTNDC24 implements Serializable {
     @Id
     @Column(name = "NDC24", length = 24, nullable = false)
     private String ndc24;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "TMTID", insertable = false,updatable = false,nullable = false)
+    private TMTDrug tmtDrug;
 
     public String getTmtid() {
         return tmtid;
@@ -45,6 +50,14 @@ public class MatchTMTNDC24 implements Serializable {
 
     public void setNdc24(String ndc24) {
         this.ndc24 = ndc24;
+    }
+
+    public TMTDrug getTmtDrug() {
+        return tmtDrug;
+    }
+
+    public void setTmtDrug(TMTDrug tmtDrug) {
+        this.tmtDrug = tmtDrug;
     }
 
     @Override
@@ -72,7 +85,5 @@ public class MatchTMTNDC24 implements Serializable {
         }
         return true;
     }
-    
-    
 
 }

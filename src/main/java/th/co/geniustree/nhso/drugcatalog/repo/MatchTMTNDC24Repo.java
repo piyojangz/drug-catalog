@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.repo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24;
 import th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24ID;
 
@@ -15,7 +16,7 @@ import th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24ID;
  *
  * @author Thanthathon
  */
-public interface MatchTMTNDC24Repo extends JpaRepository<MatchTMTNDC24, MatchTMTNDC24ID> {
+public interface MatchTMTNDC24Repo extends JpaRepository<MatchTMTNDC24, MatchTMTNDC24ID>, JpaSpecificationExecutor<MatchTMTNDC24> {
 
     public Page<MatchTMTNDC24> findByTmtidContains(String tmtid, Pageable pageable);
 
