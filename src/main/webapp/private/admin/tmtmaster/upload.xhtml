@@ -66,10 +66,10 @@
                                 </h:commandLink>
                             </f:facet>
 
-                            <p:column   headerText="ROW#" width="40">
-                                <h:outputText value="#{model.rowNum}"/>
+                            <p:column headerText="ROW#" width="40" styleClass="#{empty model.errorMap['rowNum']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.rowNum}" title="#{model.errorMap['rowNum']}"/>
                             </p:column>
-                            <p:column   headerText="TMTID_PARENT" width="80" styleClass="#{empty model.errorMap['TMTID_PARENT']?'color:black':'errorBackground'}">
+                            <p:column headerText="TMTID_PARENT" width="80" styleClass="#{empty model.errorMap['TMTID_PARENT']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.parentTmtId}" style="" title="#{model.errorMap['TMTID_PARENT']}"/>
                             </p:column>
                             <p:column headerText="TMTID_CHILD" width="60" styleClass="#{empty model.errorMap['TMTID_CHILD']?'color:black':'errorBackground'}">

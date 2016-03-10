@@ -174,14 +174,12 @@ public class UploadTMTRelation {
         }
         
         if(isTypeRelated(bean)){
-            bean.addError("TMTID_PARENT", "TMT ไม่สำพันธ์กัน");
-            bean.addError("TMTID_CHILD", "TMT ไม่สำพันธ์กัน");
+            bean.addError("rowNum", "TMT ไม่สัมพันธ์กัน");
         }
 
         boolean exist = tmtRelationService.isRelationExist(bean.getParent().getTmtId(), bean.getChild().getTmtId());
         if (exist) {
-            bean.addError("TMTID_PARENT", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
-            bean.addError("TMTID_CHILD", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
+            bean.addError("rowNum", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
         }
     }
 
