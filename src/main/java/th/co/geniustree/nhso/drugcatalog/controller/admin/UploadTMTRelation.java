@@ -157,6 +157,14 @@ public class UploadTMTRelation {
         LOG.debug("File : {}", file);
     }
 
+    private boolean isPassModelContain(TMTParentChild bean) {
+        return passModels.contains(bean);
+    }
+
+    private boolean isParentAndChildMatched(TMTParentChild bean) {
+        return tmtRelationService.isRelationExist(bean.getParent().getTmtId(), bean.getChild().getTmtId());
+    }
+
     private void processValidate(TMTParentChild bean) {
         if (isNotSixNumberTMTID(bean)) {
             bean.addError("TMTID", "TMTID ที่ใส่มาไม่ถูกต้อง");
@@ -169,16 +177,18 @@ public class UploadTMTRelation {
         if (isNullTMT(bean.getParent())) {
             bean.addError("TMTID_PARENT", "ไม่พบ TMTID นี้ในระบบ");
             return;
-        } else if(isNullTMT(bean.getChild())){
+        } else if (isNullTMT(bean.getChild())) {
             bean.addError("TMTID_CHILD", "ไม่พบ TMTID นี้ในระบบ");
-        }
-        
-        if(isTypeRelated(bean)){
-            bean.addError("rowNum", "TMT ไม่สัมพันธ์กัน");
+            return;
         }
 
-        boolean exist = tmtRelationService.isRelationExist(bean.getParent().getTmtId(), bean.getChild().getTmtId());
-        if (exist) {
+        if (isTypeRelated(bean)) {
+            bean.addError("rowNum", "TMT ไม่สัมพันธ์กัน");
+        }
+        if (isPassModelContain(bean)) {
+            bean.addError("rowNum", "ข้อมูลซ้ำกันในไฟล์");
+        }
+        if (isParentAndChildMatched(bean)) {
             bean.addError("rowNum", "TMT ที่ระบุมีการเชื่อมโยงอยู่แล้ว");
         }
     }
