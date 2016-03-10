@@ -172,19 +172,10 @@ public class UploadReimbursePrice implements Serializable {
     }
 
     private void processValidate(ReimbursePriceExcelModel bean) {
-        if (!isCorrectPatternTmtId(bean)) {
-            bean.addError("tmtid", "รหัส TMTID ไม่ถูกต้อง");
-            return;
-        }
 
         TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(bean.getTmtid());
         if (tmtDrug == null) {
             bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
-            return;
-        }
-
-        if (!isCorrectPatternPrice(bean)) {
-            bean.addError("price", "รูปแบบของราคายาไม่ถูกต้อง");
             return;
         }
 
@@ -226,16 +217,8 @@ public class UploadReimbursePrice implements Serializable {
         return !bean.getErrorMap().isEmpty();
     }
 
-    private boolean isCorrectPatternTmtId(ReimbursePriceExcelModel bean) {
-        return bean.getTmtid().matches("\\w{6}");
-    }
-
     private boolean isDuplicateDateEffective(String tmtId, Date dateEffective) {
         return reimbursePriceService.isExists(tmtId, dateEffective);
-    }
-
-    private boolean isCorrectPatternPrice(ReimbursePriceExcelModel bean) {
-        return bean.getPrice().matches("\\d+\\.?\\d{0,2}");
     }
 
     public boolean isDuplicateFile() {
