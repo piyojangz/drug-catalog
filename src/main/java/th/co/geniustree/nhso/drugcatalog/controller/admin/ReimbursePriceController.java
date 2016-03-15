@@ -70,26 +70,6 @@ public class ReimbursePriceController implements Serializable {
         selectedReimbursePrice = selected;
     }
 
-    public void edit() {
-        try {
-            reimbursePriceService.edit(selectedReimbursePrice);
-            FacesMessageUtils.info("แก้ไขข้อมูล สำเร็จ");
-        } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถแก้ไขข้อมูลได้");
-            LOG.debug("can't edit", e);
-        }
-    }
-
-    public void delete() {
-        try {
-            reimbursePriceService.delete(selectedReimbursePrice);
-            FacesMessageUtils.info("ลบข้อมูล สำเร็จ");
-        } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
-            LOG.debug("can't delete",e);
-        }
-    }
-
     public void search() {
         reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>(new Sort("id.tmtId")) {
             @Override

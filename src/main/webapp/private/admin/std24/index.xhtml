@@ -88,7 +88,9 @@
                     </p:panelGrid>
                 </p:fieldset>
             </h:form> 
-            <p:spacer height="20"/>
+            <div class="header-content-sub">
+                <i class="fa fa-medkit"></i><h:outputText value="รายการยา TMT - NDC24 ที่ถูกจับคู่อยู่"/>
+            </div>
             <h:form id="searchform">
                 <p:panelGrid>
                     <p:row>
@@ -96,20 +98,16 @@
                             <h:outputText value="ค้นหารายการยา : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{matchTMTNDC24Controller.searchWord}" style="width: 250px;"/>
+                            <p:inputText id="searchText" value="#{matchTMTNDC24Controller.searchWord}" style="width: 250px;">
+                                <p:watermark for="searchText" value="สามารถค้นหาด้วย TMTID, FSN หรือ NDC24"/>
+                            </p:inputText>
                         </p:column>
                         <p:column>
                             <p:commandButton value="ค้นหา" update=":tableForm" icon="ui-icon-search" actionListener="#{matchTMTNDC24Controller.searchMatch()}"/>
                         </p:column>
                     </p:row>
-                    <p:row>
-                        <p:column colspan="3">
-                            <h:outputText value="*หมายเหตุ : สามารถค้นหาด้วย TMT และ NDC24" style="color: brown"/>
-                        </p:column>
-                    </p:row>
                 </p:panelGrid>
             </h:form>
-            <p:spacer height="20"/>
             <h:form id="tableForm">
                 <p:dataTable id="table"
                              value="#{matchTMTNDC24Controller.matchTMTNDC24s}"
@@ -136,129 +134,8 @@
                     <p:column headerText="NDC24" style="width: 200px;text-align: center;">
                         <h:outputText value="#{matchTMTNDC24Controller.ndc24Splitter(model.ndc24)}"/>
                     </p:column>
-                    <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
-                        <p:commandLink value="แก้ไข" 
-                                       style="color: blue;" 
-                                       action="#{matchTMTNDC24Controller.onSelect(model)}" 
-                                       onclick="PF('editDialogWidget').show()"
-                                       update=":editDialogForm"/>
-                    </p:column>
-                    <p:column headerText="ลบ" style="width: 50px;text-align: center;">
-                        <p:commandLink value="ลบ" 
-                                       style="color: blue;" 
-                                       action="#{matchTMTNDC24Controller.onSelect(model)}" 
-                                       update=":deleteDialogForm"
-                                       onclick="PF('deleteDialogWidget').show()"/>
-                    </p:column>
                 </p:dataTable>
             </h:form>
-
-
-            <p:dialog id="editDialog"
-                      appendTo="@(body)"
-                      modal="true"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      width="600"
-                      height="150"
-                      widgetVar="editDialogWidget"
-                      header="แก้ไขข้อมูลกองทุน">
-                <h:form id="editDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;width: 60px;">
-                                <h:outputText value="TMTID : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="editId" value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.tmtid}" style="width: 55px;" disabled="true"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="FSN : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.tmtDrug.fsn}" styleClass="textWrap"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="ndc24 : "/>
-                            </p:column>
-                            <p:column>
-                                <p:autoComplete value="#{matchTMTNDC24Controller.selectedNDC24}"
-                                                completeMethod="#{matchTMTNDC24Controller.completeNDC24}"
-                                                forceSelection="true"
-                                                var="item"
-                                                id="inputNdc"
-                                                converter="ndc24Converter"
-                                                itemLabel="#{item.ndc24}"
-                                                itemValue="#{item.ndc24}"
-                                                minQueryLength="3">
-                                </p:autoComplete>
-                                <p:watermark for="inputNdc" value="กรุณากรอกอย่างน้อย 3 หลัก"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2" style="text-align: center;">
-                                <p:commandButton value="แก้ไข" 
-                                                 update=":growl , :tableForm:table" 
-                                                 actionListener="#{matchTMTNDC24Controller.edit()}" 
-                                                 onsuccess="PF('editDialogWidget').hide()"/>
-                                <p:spacer width="20"/>
-                                <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-                </h:form>
-
-            </p:dialog>
-
-            <p:dialog id="deleteDialog"
-                      appendTo="@(body)"
-                      modal="true"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      width="350"
-                      height="100"
-                      widgetVar="deleteDialogWidget"
-                      header="ยืนยันการลบข้อมูล">
-                <h:form id="deleteDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;width: 60px;">
-                                <h:outputText value="tmtid : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.tmtid}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="ndc24 : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{matchTMTNDC24Controller.ndc24Splitter(matchTMTNDC24Controller.selectedMatchTMTNDC24.ndc24)}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2" style="text-align: center;">
-                                <p:commandButton value="ใช่" 
-                                                 actionListener="#{matchTMTNDC24Controller.delete()}" 
-                                                 styleClass="ui-confirmdialog-yes" 
-                                                 icon="ui-icon-check" 
-                                                 oncomplete="PF('deleteDialogWidget').hide()"
-                                                 update=":growl , :tableForm:table"  />
-                                <p:spacer width="20"/>
-                                <p:commandButton value="ไม่ใช่" 
-                                                 styleClass="ui-confirmdialog-no" 
-                                                 icon="ui-icon-close" 
-                                                 onclick="PF('deleteDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-                </h:form>
-            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

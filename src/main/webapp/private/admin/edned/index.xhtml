@@ -86,7 +86,7 @@
                 </p:fieldset>
             </h:form>           
             <div class="header-content-sub">
-                <h:outputText value="ค้นหารายการยา"/>
+                <i class="fa fa-medkit"></i><h:outputText value="สถานะ ED ของรายการยา TMT"/>
             </div>
             <h:form id="searchform">
                 <p:panelGrid>
@@ -150,7 +150,6 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
-            <p:spacer height="20"/>
             <h:form id="tableForm">
                 <p:dataTable id="table"
                              styleClass="clean-table"
@@ -186,152 +185,10 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ED / NED" style="width: 60px;text-align: center">
-                        <h:outputText value="#{model.statusEd}"/>
-                    </p:column>
-                    <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
-                        <p:commandLink value="แก้ไข" 
-                                       style="color: blue;" 
-                                       action="#{edNedController.onSelect(model)}" 
-                                       onclick="PF('editDialogWidget').show()"
-                                       update="@form , :editDialogForm"/>
-                    </p:column>
-                    <p:column headerText="ลบ" style="width: 50px;text-align: center;">
-                        <p:commandLink value="ลบ" 
-                                       style="color: blue;" 
-                                       action="#{edNedController.onSelect(model)}" 
-                                       update="@form ,:deleteDialogForm"
-                                       onclick="PF('deleteDialogWidget').show()"/>
+                        <h:outputText value="#{model.statusEd}" style="color: white;border-radius: 5px;padding: 2px 10px;background-color: #{model.statusEd eq 'E' ? 'green' : model.statusEd eq 'N' ? 'red' : '#FF7600'}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
-
-            <p:dialog id="editDialog"
-                      appendTo="@(body)"
-                      modal="true"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      minWidth="600"
-                      minHeight="400"
-                      widgetVar="editDialogWidget"
-                      header="แก้ไขข้อมูล">
-                <h:form id="editDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="TMTID : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.tmtId}" style="width: 60px;" disabled="true"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="กองทุน : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.classifier}" style="width: 60px;" disabled="true"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="DateIn : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText value="#{edNedController.selectedEdNed.dateIn}" style="width: 200px;" disabled="true">
-                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
-                                </p:inputText>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="ED / NED : "/>
-                            </p:column>
-                            <p:column>
-                                <p:selectOneMenu value="#{edNedController.selectedEdNed.statusEd}">
-                                    <f:selectItem itemLabel="E" itemValue="E"/>
-                                    <f:selectItem itemLabel="N" itemValue="N"/>
-                                    <f:selectItem itemLabel="E*" itemValue="E*"/>
-                                </p:selectOneMenu>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2" style="text-align: right;">
-                                <p:commandButton value="แก้ไข" 
-                                                 update="@form , :growl , :tableForm" 
-                                                 actionListener="#{edNedController.edit()}" 
-                                                 onsuccess="PF('editDialogWidget').hide()"/>
-                                <p:spacer width="20"/>
-                                <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-                </h:form>
-
-            </p:dialog>
-
-            <p:dialog id="deleteDialog"
-                      appendTo="@(body)"
-                      modal="true"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      minWidth="600"
-                      minHeight="400"
-                      widgetVar="deleteDialogWidget"
-                      header="ยืนยันการลบข้อมูล">
-                <h:form id="deleteDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="TMTID : "/>
-                            </p:column>
-                            <p:column style="width: 200px;">
-                                <h:outputText value="#{edNedController.selectedEdNed.tmtId}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="กองทุน : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{edNedController.selectedEdNed.classifier}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="Date in : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{edNedController.selectedEdNed.dateIn}">
-                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
-                                </h:outputText>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="ED / NED : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{edNedController.selectedEdNed.statusEd}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2" style="text-align: right;">
-                                <p:commandButton value="ใช่" 
-                                                 actionListener="#{edNedController.delete()}" 
-                                                 styleClass="ui-confirmdialog-yes" 
-                                                 icon="ui-icon-check" 
-                                                 oncomplete="PF('deleteDialogWidget').hide()"
-                                                 update="@form , :growl , :tableForm"  />
-                                <p:spacer width="20"/>
-                                <p:commandButton value="ไม่ใช่" 
-                                                 styleClass="ui-confirmdialog-no" 
-                                                 icon="ui-icon-close" 
-                                                 onclick="PF('deleteDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-                </h:form>
-            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

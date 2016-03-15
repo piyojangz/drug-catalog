@@ -79,7 +79,9 @@
                     </p:panelGrid>
                 </p:fieldset>
             </h:form>           
-            <p:spacer height="20"/>
+            <div class="header-content-sub">
+                <i class="fa fa-dollar"></i><h:outputText value="ราคา Reimburse ของ TMT"/>
+            </div>
             <h:form id="searchform">
                 <p:panelGrid>
                     <p:row>
@@ -87,7 +89,9 @@
                             <h:outputText value="ค้นหายา : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{reimbursePriceController.keyword}" styleClass="searchFund" style="width: 200px;"/>
+                            <p:inputText id="searchText" value="#{reimbursePriceController.keyword}" styleClass="searchFund" style="width: 200px;">
+                                <p:watermark for="searchText" value="TMTID หรือ FSN"/>
+                            </p:inputText>
                         </p:column>
                         <p:column>
                             <p:commandButton value="ค้นหา" update="@form , :tableForm" icon="ui-icon-search" actionListener="#{reimbursePriceController.search}"/>
@@ -135,132 +139,8 @@
                             <h:outputText value="#{item.price} บาท"/>
                         </p:panel>
                     </p:column>
-                    <p:column headerText="แก้ไข" style="width: 50px;text-align: center;">
-                        <p:commandLink value="แก้ไข" 
-                                       style="color: blue;" 
-                                       action="#{reimbursePriceController.onSelect(item)}" 
-                                       onclick="PF('editDialogWidget').show()"
-                                       update=":editDialogForm"/>
-                    </p:column>
-                    <p:column headerText="ลบ" style="width: 50px;text-align: center;">
-                        <p:commandLink value="ลบ" 
-                                       style="color: blue;" 
-                                       action="#{reimbursePriceController.onSelect(item)}" 
-                                       update=":deleteDialogForm"
-                                       onclick="PF('deleteDialogWidget').show()"/>
-                    </p:column>
                 </p:dataTable>
             </h:form>
-            <p:dialog id="editDialog"
-                      appendTo="@(body)"
-                      modal="true"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      minWidth="400"
-                      minHeight="250"
-                      widgetVar="editDialogWidget"
-                      header="แก้ไข reimburse price">
-                <h:form id="editDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="TMTID : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.id.tmtId}" style="width: 200px;" disabled="true"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="Date Effective : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" style="width: 200px;" disabled="true">
-                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
-                                </p:inputText>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="ราคายา : "/>
-                            </p:column>
-                            <p:column>
-                                <p:inputText type="number" id="editReimbursePrice" value="#{reimbursePriceController.selectedReimbursePrice.price}" validatorMessage="ห้ามใส่ราคาต่ำกว่า 0 บาท">
-                                    <f:validateLongRange minimum="0" for="editReimbursePrice"/>
-                                    <p:watermark value="หน่วย : บาท" for="editReimbursePrice"/>
-                                </p:inputText>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2" style="text-align: right;">
-                                <p:commandButton value="แก้ไข" 
-                                                 update="@form , :growl , :tableForm" 
-                                                 actionListener="#{reimbursePriceController.edit()}" 
-                                                 onsuccess="PF('editDialogWidget').hide()"/>
-                                <p:spacer width="20"/>
-                                <p:commandButton value="ยกเลิก" type="reset" onclick="PF('editDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-                </h:form>
-            </p:dialog>
-
-            <p:dialog id="deleteDialog"
-                      appendTo="@(body)"
-                      modal="true"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      minWidth="600"
-                      minHeight="300"
-                      widgetVar="deleteDialogWidget"
-                      header="ยืนยันการลบข้อมูล">
-                <h:form id="deleteDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="TMTID : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{reimbursePriceController.selectedReimbursePrice.id.tmtId}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;width: 120px;">
-                                <h:outputText value="Reimburse price : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{reimbursePriceController.selectedReimbursePrice.price} บาท"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;width: 100px;">
-                                <h:outputText value="Date Effective : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{reimbursePriceController.selectedReimbursePrice.id.effectiveDate}" >
-                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
-                                </h:outputText>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column/>
-                            <p:column style="text-align: right;">
-                                <p:commandButton value="ลบ" 
-                                                 actionListener="#{reimbursePriceController.delete()}" 
-                                                 styleClass="ui-confirmdialog-yes" 
-                                                 icon="ui-icon-check" 
-                                                 update="@form , :growl , :tableForm"
-                                                 oncomplete="PF('deleteDialogWidget').hide()"/>
-                                <p:spacer width="20"/>
-                                <p:commandButton value="ไม่ลบ" 
-                                                 styleClass="ui-confirmdialog-no" 
-                                                 icon="ui-icon-close" 
-                                                 onclick="PF('deleteDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-                </h:form>
-            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

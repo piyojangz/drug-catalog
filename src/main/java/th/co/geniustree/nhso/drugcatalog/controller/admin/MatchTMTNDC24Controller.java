@@ -128,25 +128,6 @@ public class MatchTMTNDC24Controller implements Serializable {
 //        searchMatch();
     }
 
-    public void edit() {
-        try {
-            selectedMatchTMTNDC24.setNdc24(selectedNDC24.getNdc24());
-            matchTMTNDC24Repo.save(selectedMatchTMTNDC24);
-            FacesMessageUtils.info("แก้ไขข้อมูล สำเร็จ");
-        } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถแก้ไขข้อมูลได้");
-        }
-    }
-
-    public void delete() {
-        try {
-            matchTMTNDC24Repo.delete(selectedMatchTMTNDC24);
-            FacesMessageUtils.info("ลบข้อมูล สำเร็จ");
-        } catch (Exception e) {
-            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
-        }
-    }
-
     public void onSelect(MatchTMTNDC24 item) {
         selectedMatchTMTNDC24 = item;
         selectedNDC24 = null;

@@ -69,26 +69,6 @@ public class EdNedController {
         tmtDrug = new TMTDrug();
     }
 
-    public void delete() {
-        try {
-            tmtEdNedService.delete(selectedEdNed);
-            FacesMessageUtils.info("ลบรายการยา สำเร็จ");
-        } catch (Exception e) {
-            LOG.error(null, e);
-            FacesMessageUtils.error("ไม่สามารถลบรายการยาได้");
-        }
-    }
-
-    public void edit() {
-        try {
-            tmtEdNedService.edit(selectedEdNed);
-            FacesMessageUtils.info("แก้ไขรายการยา สำเร็จ");
-        } catch (Exception e) {
-            LOG.error(null, e);
-            FacesMessageUtils.error("ไม่สามารถแก้ไขรายการยาได้");
-        }
-    }
-
     public void onSelect(TMTEdNed e) {
         selectedEdNed = e;
     }
