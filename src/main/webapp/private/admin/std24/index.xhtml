@@ -25,7 +25,7 @@
             </style>
             <p:growl id="growl" showDetail="true"/>
             <div class="header-content" style="margin-bottom: 10px;">
-                <h:outputText value="จับคู่รหัส TMT - NDC24"/>
+                <i class="fa fa-medkit"></i><h:outputText value="จับคู่รหัส TMT - NDC24"/>
             </div>
             <h:form id="menuForm">
                 <p:menubar styleClass="sub-menu">
@@ -159,18 +159,26 @@
                       modal="true"
                       showEffect="fade"
                       hideEffect="fade"
-                      minWidth="400"
-                      minHeight="200"
+                      width="600"
+                      height="150"
                       widgetVar="editDialogWidget"
                       header="แก้ไขข้อมูลกองทุน">
                 <h:form id="editDialogForm">
                     <p:panelGrid>
                         <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="tmt : "/>
+                            <p:column style="text-align: right;width: 60px;">
+                                <h:outputText value="TMTID : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText id="editId" value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.tmtid}" style="width: 200px;" disabled="true"/>
+                                <p:inputText id="editId" value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.tmtid}" style="width: 55px;" disabled="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="FSN : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.tmtDrug.fsn}" styleClass="textWrap"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -192,7 +200,7 @@
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column colspan="2" style="text-align: right;">
+                            <p:column colspan="2" style="text-align: center;">
                                 <p:commandButton value="แก้ไข" 
                                                  update=":growl , :tableForm:table" 
                                                  actionListener="#{matchTMTNDC24Controller.edit()}" 
@@ -211,17 +219,17 @@
                       modal="true"
                       showEffect="fade"
                       hideEffect="fade"
-                      minWidth="400"
-                      minHeight="200"
+                      width="350"
+                      height="100"
                       widgetVar="deleteDialogWidget"
                       header="ยืนยันการลบข้อมูล">
                 <h:form id="deleteDialogForm">
                     <p:panelGrid>
                         <p:row>
-                            <p:column style="text-align: right;">
+                            <p:column style="text-align: right;width: 60px;">
                                 <h:outputText value="tmtid : "/>
                             </p:column>
-                            <p:column style="width: 200px;">
+                            <p:column>
                                 <h:outputText value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.tmtid}"/>
                             </p:column>
                         </p:row>
@@ -230,11 +238,11 @@
                                 <h:outputText value="ndc24 : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{matchTMTNDC24Controller.selectedMatchTMTNDC24.ndc24}"/>
+                                <h:outputText value="#{matchTMTNDC24Controller.ndc24Splitter(matchTMTNDC24Controller.selectedMatchTMTNDC24.ndc24)}"/>
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column colspan="2" style="text-align: right;">
+                            <p:column colspan="2" style="text-align: center;">
                                 <p:commandButton value="ใช่" 
                                                  actionListener="#{matchTMTNDC24Controller.delete()}" 
                                                  styleClass="ui-confirmdialog-yes" 
