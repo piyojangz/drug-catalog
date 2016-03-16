@@ -19,8 +19,8 @@ import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSuppo
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
@@ -34,11 +34,8 @@ import th.co.geniustree.nhso.drugcatalog.service.RequestItemService;
 public class ApproveByTmt implements Serializable {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ApproveByTmt.class);
-    private static final RequestItem.Status[] STATUS = new RequestItem.Status[]{RequestItem.Status.ACCEPT, RequestItem.Status.REJECT};
     private String selectTmtId;
     private TMTDrug tmtDrug;
-    @Autowired
-    private RequestItemRepo requestItemRepo;
     @Autowired
     private TMTDrugRepo tmtDrugRepo;
     @Autowired
@@ -54,8 +51,18 @@ public class ApproveByTmt implements Serializable {
     @Autowired
     private RequestItemService requestItemService;
 
+    private UploadHospitalDrugItem uploadDrugItem;
+    
     @PostConstruct
     public void postConstruct() {
+    }
+
+    public UploadHospitalDrugItem getUploadDrugItem() {
+        return uploadDrugItem;
+    }
+
+    public void setUploadDrugItem(UploadHospitalDrugItem uploadDrugItem) {
+        this.uploadDrugItem = uploadDrugItem;
     }
 
     public String getSelectTmtId() {

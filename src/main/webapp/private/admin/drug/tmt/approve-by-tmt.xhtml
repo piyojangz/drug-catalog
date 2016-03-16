@@ -58,7 +58,10 @@
                         <h:outputText value="#{model.uploadDrugItem.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="100">
-                        <h:outputText value="#{model.uploadDrugItem.tmtId}"/>
+                        <p:outputPanel styleClass="updateset-#{model.id}">
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.tmtId}" style="#{model.errorColumns.contains('TMTID')?'color:red':'color:blue'}" action="#{approveByTmt.error(model, 'TMTID')}"/>
+                            <p:commandLink value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}" actionListener="#{approveByTmt.setUploadDrugItem(model.uploadDrugItem)}" onclick="PF('fsnDialogWidget').show()" update=":fsnDialogForm"/>
+                        </p:outputPanel>
                     </p:column>
                     <p:column headerText="TradeName" width="600" >
                         <p:outputPanel styleClass="updateset-#{model.id}">
@@ -127,6 +130,47 @@
                 &nbsp;
                 <p:commandButton value="Cancel" immediate="true" ajax="false" action="inbox-groupby-tmt"/>
             </h:form>
+            <p:dialog id="fsnDialog"
+                      appendTo="@(body)"
+                      closable="true"
+                      closeOnEscape="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      widgetVar="fsnDialogWidget">
+                <h:form id="fsnDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;width: 100px;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{approveByTmt.uploadDrugItem.tmtId}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="TYPE : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{approveByTmt.uploadDrugItem.tmtDrug.type}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="FSN : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{approveByTmt.uploadDrugItem.tmtDrug.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-close" update="@form" onclick="PF('fsnDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

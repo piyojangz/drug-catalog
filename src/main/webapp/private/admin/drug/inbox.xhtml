@@ -221,7 +221,7 @@
                                                    value="#{model.uploadDrugItem.tmtId}" 
                                                    style="#{model.errorColumns.contains('TMTID')?'color:red;':'color:blue;'}" 
                                                    action="#{adminInbox.error(model, 'TMTID')}"/>
-                                    <h:outputText value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}"/>
+                                    <p:commandLink value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}" onclick="PF('fsnDialogWidget').show()" update=":fsnDialogForm" actionListener="#{adminInbox.setUploadDrugItem(model.uploadDrugItem)}"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="TRADENAME" style="width: 36ch;">
@@ -349,6 +349,47 @@
                                      action="#{adminInbox.clear()}"/>
                 </p:panelGrid>
             </h:form>
+            <p:dialog id="fsnDialog"
+                      appendTo="@(body)"
+                      closable="true"
+                      closeOnEscape="true"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      widgetVar="fsnDialogWidget">
+                <h:form id="fsnDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column style="text-align: right;width: 100px;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{adminInbox.uploadDrugItem.tmtId}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="TYPE : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.type}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="FSN : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center;">
+                                <p:commandButton icon="ui-icon-close" update="@form" onclick="PF('fsnDialogWidget').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>
