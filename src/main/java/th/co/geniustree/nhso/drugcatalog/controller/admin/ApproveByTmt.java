@@ -217,4 +217,9 @@ public class ApproveByTmt implements Serializable {
             return null;
         }
     }
+    
+    public void searchTMTDrug(String tmtId){
+        TMTDrug tmtDrug = tmtDrugRepo.findOne(tmtId);
+        uploadDrugItem.setTmtDrug(tmtDrug);
+    }
 }

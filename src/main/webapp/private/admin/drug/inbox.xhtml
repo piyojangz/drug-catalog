@@ -221,7 +221,7 @@
                                                    value="#{model.uploadDrugItem.tmtId}" 
                                                    style="#{model.errorColumns.contains('TMTID')?'color:red;':'color:blue;'}" 
                                                    action="#{adminInbox.error(model, 'TMTID')}"/>
-                                    <p:commandLink value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}" onclick="PF('fsnDialogWidget').show()" update=":fsnDialogForm" actionListener="#{adminInbox.setUploadDrugItem(model.uploadDrugItem)}"/>
+                                    <p:commandLink value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}" onclick="PF('fsnDialogWidget').show()" update=":fsnDialogForm" actionListener="#{adminInbox.searchTMTDrug(model.uploadDrugItem.tmtId)}"/>
                                 </p:outputPanel>
                             </p:column>
                             <p:column headerText="TRADENAME" style="width: 36ch;">

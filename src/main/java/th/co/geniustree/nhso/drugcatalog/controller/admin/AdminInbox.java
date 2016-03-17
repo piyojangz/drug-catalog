@@ -572,4 +572,9 @@ public class AdminInbox implements Serializable {
             }
         };
     }
+    
+    public void searchTMTDrug(String tmtId){
+        TMTDrug tmtDrug = tmtDrugRepo.findOne(tmtId);
+        uploadDrugItem.setTmtDrug(tmtDrug);
+    }
 }

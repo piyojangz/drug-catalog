@@ -60,7 +60,7 @@
                     <p:column headerText="TMTID" width="100">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :form:saveBtn @(.updateset-#{model.id})" rendered="#{rowIndex ne 0}" value="#{model.uploadDrugItem.tmtId}" style="#{model.errorColumns.contains('TMTID')?'color:red':'color:blue'}" action="#{approveByTmt.error(model, 'TMTID')}"/>
-                            <p:commandLink value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}" actionListener="#{approveByTmt.setUploadDrugItem(model.uploadDrugItem)}" onclick="PF('fsnDialogWidget').show()" update=":fsnDialogForm"/>
+                            <p:commandLink value="#{model.uploadDrugItem.tmtId}" rendered="#{rowIndex eq 0}" actionListener="#{approveByTmt.searchTMTDrug(model.uploadDrugItem)}" onclick="PF('fsnDialogWidget').show()" update=":fsnDialogForm"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column headerText="TradeName" width="600" >
