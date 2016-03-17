@@ -464,7 +464,7 @@ public class AdminInbox implements Serializable {
             }
         } catch (Exception e) {
             FacesMessageUtils.error("รูปแบบข้อมูลไม่ถูกต้อง ไม่สามารถบันทึกข้อมูลได้");
-            log.error(null,e);
+            log.error(null, e);
         }
         return null;
 
@@ -572,9 +572,10 @@ public class AdminInbox implements Serializable {
             }
         };
     }
-    
-    public void searchTMTDrug(String tmtId){
-        TMTDrug tmtDrug = tmtDrugRepo.findOne(tmtId);
+
+    public void searchTMTDrug(UploadHospitalDrugItem uploadHospitalDrugItem) {
+        this.uploadDrugItem = uploadHospitalDrugItem;
+        TMTDrug tmtDrug = tmtDrugRepo.findOne(uploadDrugItem.getTmtId());
         uploadDrugItem.setTmtDrug(tmtDrug);
     }
 }

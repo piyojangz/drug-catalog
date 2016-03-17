@@ -218,8 +218,9 @@ public class ApproveByTmt implements Serializable {
         }
     }
     
-    public void searchTMTDrug(String tmtId){
-        TMTDrug tmtDrug = tmtDrugRepo.findOne(tmtId);
-        uploadDrugItem.setTmtDrug(tmtDrug);
+    public void searchTMTDrug(UploadHospitalDrugItem uploadHospitalDrugItem) {
+        this.uploadDrugItem = uploadHospitalDrugItem;
+        TMTDrug drug = tmtDrugRepo.findOne(uploadDrugItem.getTmtId());
+        uploadDrugItem.setTmtDrug(drug);
     }
 }
