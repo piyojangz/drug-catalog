@@ -9,7 +9,7 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <div class="header-content">
-                <h:outputText value="Upload รายการยาของหน่วยบริการ"/>
+                <i class="fa fa-upload"></i><h:outputText value="Upload รายการยาของหน่วยบริการ"/>
             </div>
             <h:form enctype="multipart/form-data" id="form">
                 <p:messages id="messages" globalOnly="true" showDetail="true"/>
@@ -29,6 +29,7 @@
                         <p:dataTable id="errorTable" styleClass="clean-table"
                                      scrollable="true"
                                      scrollHeight="300"
+                                     scrollWidth="1024"
                                      resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
@@ -125,6 +126,7 @@
                                      styleClass="clean-table"
                                      scrollable="true"
                                      scrollHeight="300"
+                                     scrollWidth="1024"
                                      resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
@@ -208,7 +210,7 @@
                 <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrug.save()}" 
                                  disabled="#{empty uploadMappedDrug.models or uploadMappedDrug.duplicateFile or (not empty uploadMappedDrug.notPassModels)}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrug.reset()}" disabled="#{empty uploadMappedDrug.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadMappedDrug.reset()}" disabled="#{empty uploadMappedDrug.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
         </ui:define>
     </ui:composition>
