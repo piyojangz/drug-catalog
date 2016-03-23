@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
+import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 
 /**
  *
@@ -21,29 +21,26 @@ import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
 public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
 
     @Autowired
-    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    private UploadHospitalDrugItemService uploadDrugItemService;
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
 
     @Override
     public void checkDuplicateInDatabase(HospitalDrugExcelModel uploadDrugModel) {
-        if ("U".equalsIgnoreCase(uploadDrugModel.getUpdateFlag()) || "E".equalsIgnoreCase(uploadDrugModel.getUpdateFlag()) || "D".equalsIgnoreCase(uploadDrugModel.getUpdateFlag())) {
-            checkDuplicateForUpdateFlageUED(uploadDrugModel);
-        } else {
-            checkDuplicateForUpdateFlageUED(uploadDrugModel);
+        checkDuplicateForUpdateFlageUED(uploadDrugModel);
+        if ("A".equalsIgnoreCase(uploadDrugModel.getUpdateFlag())) {
             checkDuplicateForUpdateFlagA(uploadDrugModel);
         }
     }
 
     private void checkDuplicateForUpdateFlageUED(HospitalDrugExcelModel uploadDrugModel) {
-        long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = 
-                uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(
-                        uploadDrugModel.getHospDrugCode(), 
-                        uploadDrugModel.getHcode(), 
-                        uploadDrugModel.getTmtId(),
-                        uploadDrugModel.getDateEffective(), 
-                        uploadDrugModel.getUpdateFlag());
-        if (countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate > 0) {
+        boolean exist = uploadDrugItemService.isExistsItem(
+                uploadDrugModel.getHcode(),
+                uploadDrugModel.getHospDrugCode(),
+                uploadDrugModel.getTmtId(),
+                uploadDrugModel.getDateEffective(),
+                uploadDrugModel.getUpdateFlag());
+        if (exist) {
             uploadDrugModel.addError("dateEffective", "พบ hospDrugCode , TMTID , dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
         }
     }

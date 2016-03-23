@@ -18,7 +18,9 @@ public interface UploadHospitalDrugItemService {
     public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective);
 
     public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective, String updateFlag);
-
+    
+    public boolean isExistsItem(String hospDrugCode, String hcode, String tmtid, String dateEffective, String updateFlag);
+    
     public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId, String updateFlag);
 
     public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag);

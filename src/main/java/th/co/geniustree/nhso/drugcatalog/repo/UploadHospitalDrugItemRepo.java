@@ -32,9 +32,9 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "from UploadHospitalDrugItem u "
             + "where u.hospDrugCode = ?1 "
             + "and u.uploadDrug.hcode = ?2 "
-            + "and u.tmtId = ?3 "
+            + "and COALESCE(u.tmtId,'NULLID') = COALESCE(?3,'NULLID') "
             + "and u.dateEffective = ?4 "
-            + "and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT , th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
             + "and u.updateFlag = ?5 "
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, String tmtid, String dateEffective, String updateFlag);
@@ -67,9 +67,7 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "from UploadHospitalDrugItem u "
             + "where u.hospDrugCode = ?1 "
             + "and u.uploadDrug.hcode = ?2 "
-            + "and u.dateEffectiveDate >= ?3 "
-            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + "and u.updateFlag in ?4 "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT,th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(String hospDrugCode, String hcode, @Temporal(TemporalType.DATE) Date dateEffective, String... updateFlag);
 
@@ -101,8 +99,7 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "where u.uploadDrug.hcode = ?1 "
             + "and u.hospDrugCode = ?2 "
             + "and COALESCE(u.tmtId,'NULLID') = COALESCE(?3,'NULLID') "
-            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REJECT "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT , th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
             + "and u.requestItem.deleted = 0 "
             + "and (u.updateFlag = ?4 or u.updateFlag = 'A')")
     public List<UploadHospitalDrugItem> findByUploadDrugHcodeAndHospDrugCodeAndTmtIdAndUpdateFlag(String hcode, String hospDrugCode, String tmtId, String updateFlag, Sort sort);

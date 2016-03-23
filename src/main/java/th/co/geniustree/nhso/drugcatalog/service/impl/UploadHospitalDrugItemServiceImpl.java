@@ -45,6 +45,17 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
     }
 
     @Override
+    public boolean isExistsItem(String hcode, String hospDrugCode, String tmtid, String dateEffective, String updateFlag) {
+        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(
+                hospDrugCode,
+                hcode,
+                tmtid,
+                dateEffective,
+                updateFlag);
+        return count > 0;
+    }
+
+    @Override
     public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId, String updateFlag) {
         return repo.findByUploadDrugHcodeAndHospDrugCodeAndTmtIdAndUpdateFlag(hcode, hospDrugCode, tmtId, updateFlag, new Sort(Sort.Direction.ASC, "id"));
     }
