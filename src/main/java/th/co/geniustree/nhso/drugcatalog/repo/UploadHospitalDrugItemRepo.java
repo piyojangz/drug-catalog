@@ -78,6 +78,15 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept(String hospDrugCode, String hcode);
+    
+    @Query("select count(u) "
+            + "from UploadHospitalDrugItem u "
+            + "where u.hospDrugCode = ?1 "
+            + "and u.uploadDrug.hcode = ?2 "
+            + "and u.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT "
+            + "and u.requestItem.deleted = 0 "
+            + "and u.updateFlag = 'A'")
+    public long countByHospitalDrugThatFlagAAndAccept(String hospDrugCode, String hcode);
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Procedure(name = "UploadHospitalDrugItem.INITIAL_HOSPITAL_DRUG")

@@ -24,4 +24,6 @@ public interface UploadHospitalDrugItemService {
     public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId, String updateFlag);
 
     public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag);
+    
+    public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode);
 }

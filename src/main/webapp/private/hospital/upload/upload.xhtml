@@ -28,7 +28,6 @@
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="errorTable" styleClass="clean-table"
                                      scrollable="true"
-                                     scrollHeight="300"
                                      scrollWidth="1024"
                                      resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
@@ -41,8 +40,8 @@
                                                  style="float:right" icon="ui-icon-calculator" />
                                 <p:columnToggler datasource="errorTable" trigger="toggler" />
                             </f:facet>
-                            <p:column   headerText="ROW#" width="40">
-                                <h:outputText value="#{model.rowNum}"/>
+                            <p:column   headerText="ROW#" width="40" styleClass="#{empty model.errorMap['rowNum']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.rowNum}" title="#{model.errorMap['rowNum']}"/>
                             </p:column>
                             <p:column   headerText="HOSPDRUGCODE" width="120" styleClass="#{empty model.errorMap['hospDrugCode']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.hospDrugCode}" style="" title="#{model.errorMap['hospDrugCode']}"/>
@@ -125,7 +124,6 @@
                         <p:dataTable id="passTable" 
                                      styleClass="clean-table"
                                      scrollable="true"
-                                     scrollHeight="300"
                                      scrollWidth="1024"
                                      resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">

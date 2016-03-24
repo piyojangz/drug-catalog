@@ -64,4 +64,13 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
     public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag) {
         return repo.findLatestItemThatAcceptAndNotDeleteByUpdateFlag(hcode, hospDrugCode, updateFlag);
     }
+
+    @Override
+    public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode) {
+        long count = repo.countByHospitalDrugThatFlagAAndAccept(
+                hospDrugCode,
+                hcode);
+        return count > 0;
+    }
+    
 }
