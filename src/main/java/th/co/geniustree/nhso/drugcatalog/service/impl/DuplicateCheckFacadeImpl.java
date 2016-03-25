@@ -31,7 +31,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
         if ("A".equalsIgnoreCase(uploadDrugModel.getUpdateFlag())) {
             checkDuplicateForUpdateFlagA(uploadDrugModel);
         } else {
-            checkHospitalDrugMustHasFlagABefore(uploadDrugModel);
+            isHospitalDrugHasFlagABefore(uploadDrugModel);
         }
     }
 
@@ -47,7 +47,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
         }
     }
     
-    private void checkHospitalDrugMustHasFlagABefore(HospitalDrugExcelModel uploadDrugModel){
+    private void isHospitalDrugHasFlagABefore(HospitalDrugExcelModel uploadDrugModel){
         boolean exists = uploadDrugItemService.isHospitalDrugHasFlagAWithAccept(uploadDrugModel.getHcode(), uploadDrugModel.getHospDrugCode());
         if(!exists){
             uploadDrugModel.addError("rowNum", "รายการยานี้ไมมีรายการยาที่เป็น Flag A มาก่อน หรือส่งมาแล้วแต่ยังไม่ได้รับการอนุมัติ หรืออนุมัติแล้วไม่ผ่านการตรวจสอบ");
