@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.ApproveData;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.BigDecimalUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.ApproveFile;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
@@ -72,20 +73,17 @@ public class ApproveServiceImpl implements ApproveService {
         try {
             if ("U".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
                 UploadHospitalDrugItem item = uploadHospitalDrugItemService.findLatestItemByFlag(requestItem.getUploadDrugItem().getUploadDrug().getHcode(), requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUpdateFlag());
-//                HospitalDrug hospitalDrug = hospitalDrugService.findById(requestItem.getUploadDrugItem().getUploadDrug().getHcode(), requestItem.getUploadDrugItem().getHospDrugCode());
-                BigDecimal oldPrice = new BigDecimal(item.getUnitPrice());
-                BigDecimal newPrice = new BigDecimal(requestItem.getUploadDrugItem().getUnitPrice());
-                if (checkPrice(oldPrice, newPrice)) {
+                String oldPrice = item.getUnitPrice();
+                String newPrice = requestItem.getUploadDrugItem().getUnitPrice();
+                if (BigDecimalUtils.checkPrice(oldPrice, newPrice)) {
                     approve(requestItem, SYSTEM);
                 }
+            } else if ("D".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())){
+                approve(requestItem, SYSTEM);
             }
         } catch (Exception e) {
             LOG.error(null, e);
         }
-    }
-
-    private boolean checkPrice(BigDecimal oldPrice, BigDecimal newPrice) {
-        return newPrice.doubleValue() <= oldPrice.multiply(new BigDecimal(2)).doubleValue();
     }
 
     @Override
