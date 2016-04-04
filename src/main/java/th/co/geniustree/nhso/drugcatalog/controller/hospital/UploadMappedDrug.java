@@ -218,7 +218,7 @@ public class UploadMappedDrug implements Serializable {
             originalFileName = file.getFileName();
             saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
             targetFile = new File(uploadtempFileDir, saveFileName);
-            LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
+            LOG.debug("save target file to = {}", targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
             shaHex = DigestUtils.shaHex(targetFile);
             duplicateFile = uploadHospitalDrugRepo.countByShaHexAndHcode(shaHex, hcodeFromFile) > 0;

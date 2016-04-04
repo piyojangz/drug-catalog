@@ -26,4 +26,12 @@ public interface UploadHospitalDrugItemService {
     public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag);
     
     public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode);
+    
+    public boolean hasHospitalDrugNeverBeenAccept(String hcode, String hospDrugCode);
+
+    public boolean hasHospitalDrugFlagABefore(String hcode, String hospDrugCode);
+
+    public boolean isHospitalDrugWithTmtNotDuplicate(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag);
+
+    public boolean isFlagDAfterFlagA(String hcode, String hospDrugCode, Date dateEffective);
 }

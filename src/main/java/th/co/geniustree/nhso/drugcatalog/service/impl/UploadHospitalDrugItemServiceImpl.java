@@ -72,5 +72,29 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
                 hcode);
         return count > 0;
     }
-    
+
+    @Override
+    public boolean hasHospitalDrugNeverBeenAccept(String hcode, String hospDrugCode) {
+        long count = repo.countByHcodeAndHospDrugCodeThatNotDeleteAndNotReject(hcode, hospDrugCode);
+        return count == 0;
+    }
+
+    @Override
+    public boolean hasHospitalDrugFlagABefore(String hcode, String hospDrugCode) {
+        long count = repo.countByHospitalDrugThatFlagAAndAccept(hospDrugCode, hcode);
+        return count == 1;
+    }
+
+    @Override
+    public boolean isHospitalDrugWithTmtNotDuplicate(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag) {
+        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(hospDrugCode, hcode, tmtid, dateEffective, updateFlag);
+        return count == 0;
+    }
+
+    @Override
+    public boolean isFlagDAfterFlagA(String hcode, String hospDrugCode, Date dateEffective) {
+        long count = repo.countByHospitalDrugThatDateEffectiveBeforeFlagA(hcode, hospDrugCode, dateEffective);
+        return count == 0;
+    }
+
 }

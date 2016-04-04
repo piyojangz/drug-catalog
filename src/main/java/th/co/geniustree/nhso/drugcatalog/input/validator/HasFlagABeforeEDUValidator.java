@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
+import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 
 /**
  *
@@ -13,7 +13,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 public class HasFlagABeforeEDUValidator implements ConstraintValidator<HasFlagABeforeEDU, HospitalDrugExcelModel> {
 
     @Autowired
-    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    private UploadHospitalDrugItemService service;
 
     @Override
     public void initialize(HasFlagABeforeEDU constraintAnnotation) {
@@ -22,11 +22,13 @@ public class HasFlagABeforeEDUValidator implements ConstraintValidator<HasFlagAB
 
     @Override
     public boolean isValid(HospitalDrugExcelModel value, ConstraintValidatorContext context) {
-        if (!"A".equals(value.getUpdateFlag())) {
-            long count = uploadHospitalDrugItemRepo.countByHospitalDrugThatFlagAAndAccept(value.getHospDrugCode(), value.getHcode());
-            return count > 0;
+        boolean valid = false;
+        if (value.getUpdateFlag().equals("E") || 
+                value.getUpdateFlag().equals("U") || 
+                value.getUpdateFlag().equals("D")) {
+            valid = service.hasHospitalDrugFlagABefore(value.getHcode(), value.getHospDrugCode());
         }
-        return true;
+        return valid;
     }
 
 }
