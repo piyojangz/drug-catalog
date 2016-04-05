@@ -54,8 +54,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
 public class TMTDrug implements Serializable, TMT {
 
     public enum Type {
-
-        SUB, VTM, GP, GPU, TP, TPU
+        SUB, VTM, GP, GPU, TP, TPU, X
     }
     @XlsColumn(columnNames = {"TPUCODE"})
     @Id
