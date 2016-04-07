@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -34,10 +35,16 @@ public class ReimbursePriceTP implements Serializable {
 
     @Column(name = "SPECPREP", length = 2)
     private String specprep;
-    
+
     @ManyToOne
-    @JoinColumn(name = "TMTID",insertable = false,updatable = false)
+    @JoinColumn(name = "TMTID", insertable = false, updatable = false)
     private TMTDrug tmtDrug;
+
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "HCODE", referencedColumnName = "HCODE", insertable = false, updatable = false),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE", insertable = false, updatable = false)})
+    private HospitalDrug hospitalDrug;
 
     public ReimbursePriceTP() {
     }
@@ -48,6 +55,14 @@ public class ReimbursePriceTP implements Serializable {
 
     public void setId(ReimbursePriceTPID id) {
         this.id = id;
+    }
+
+    public HospitalDrug getHospitalDrug() {
+        return hospitalDrug;
+    }
+
+    public void setHospitalDrug(HospitalDrug hospitalDrug) {
+        this.hospitalDrug = hospitalDrug;
     }
 
     public BigDecimal getPrice() {
@@ -103,7 +118,5 @@ public class ReimbursePriceTP implements Serializable {
         }
         return true;
     }
-    
-    
 
 }
