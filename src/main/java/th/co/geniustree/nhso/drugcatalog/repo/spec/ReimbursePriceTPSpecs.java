@@ -11,6 +11,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
+import th.co.geniustree.nhso.basicmodel.readonly.Hospital_;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug_;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTPID_;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP_;
@@ -66,6 +68,23 @@ public class ReimbursePriceTPSpecs {
                         or = cb.like(cb.lower(root.get(ReimbursePriceTP_.id).get(ReimbursePriceTPID_.hcode)), "%" + keyword.toLowerCase() + "%");
                     } else {
                         cb.or(or, cb.like(cb.lower(root.get(ReimbursePriceTP_.id).get(ReimbursePriceTPID_.hcode)), "%" + keyword.toLowerCase() + "%"));
+                    }
+                }
+                return or;
+            }
+        };
+    }
+    
+    public static Specification<ReimbursePriceTP> hnameLike(final List<String> kywords) {
+        return new Specification<ReimbursePriceTP>() {
+            @Override
+            public Predicate toPredicate(Root<ReimbursePriceTP> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate or = null;
+                for (String keyword : kywords) {
+                    if (or == null) {
+                        or = cb.like(cb.lower(root.get(ReimbursePriceTP_.hospitalDrug).get(HospitalDrug_.hospital).get(Hospital_.hname)), "%" + keyword.toLowerCase() + "%");
+                    } else {
+                        cb.or(or, cb.like(cb.lower(root.get(ReimbursePriceTP_.hospitalDrug).get(HospitalDrug_.hospital).get(Hospital_.hname)), "%" + keyword.toLowerCase() + "%"));
                     }
                 }
                 return or;

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP;
@@ -40,7 +41,7 @@ public class ReimbursePriceTPController implements Serializable {
     }
     
     public void loadData(){
-        data = new SpringDataLazyDataModelSupport<ReimbursePriceTP>(){
+        data = new SpringDataLazyDataModelSupport<ReimbursePriceTP>(new Sort("id.hcode", "id.hospDrugCode", "id.dateEffective")){
 
             @Override
             public Page<ReimbursePriceTP> load(Pageable pageAble) {

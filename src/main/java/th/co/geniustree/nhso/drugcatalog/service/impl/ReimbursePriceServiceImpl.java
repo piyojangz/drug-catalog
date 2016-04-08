@@ -106,7 +106,8 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService {
                 .where(ReimbursePriceTPSpecs.tmtLike(keyList))
                 .or(ReimbursePriceTPSpecs.fsnLike(keyList))
                 .or(ReimbursePriceTPSpecs.hcodeLike(keyList))
-                .or(ReimbursePriceTPSpecs.hospDrugCodeLike(keyList));
+                .or(ReimbursePriceTPSpecs.hospDrugCodeLike(keyList))
+                .or(ReimbursePriceTPSpecs.hnameLike(keyList));
         return reimbursePriceTPRepo.findAll(spec, pageable);
     }
 
