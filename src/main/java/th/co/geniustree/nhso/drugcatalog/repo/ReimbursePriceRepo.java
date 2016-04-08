@@ -14,6 +14,6 @@ import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
  *
  * @author Thanthathon
  */
-public interface ReimbursePriceRepo extends JpaRepository<ReimbursePrice,ReimbursePricePK>, JpaSpecificationExecutor<ReimbursePrice>{
+public interface ReimbursePriceRepo extends JpaRepository<ReimbursePrice, ReimbursePricePK>, JpaSpecificationExecutor<ReimbursePrice>{
     
 }

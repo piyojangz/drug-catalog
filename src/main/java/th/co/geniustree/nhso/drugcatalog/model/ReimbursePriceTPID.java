@@ -33,6 +33,16 @@ public class ReimbursePriceTPID implements Serializable {
     @Column(name = "EFFECTIVE_DATE")
     private Date dateEffective;
 
+    public ReimbursePriceTPID() {
+    }
+
+    public ReimbursePriceTPID(String tmtId, String hospDrugCode, String hcode, Date dateEffective) {
+        this.tmtId = tmtId;
+        this.hospDrugCode = hospDrugCode;
+        this.hcode = hcode;
+        this.dateEffective = dateEffective;
+    }
+
     public String getTmtId() {
         return tmtId;
     }

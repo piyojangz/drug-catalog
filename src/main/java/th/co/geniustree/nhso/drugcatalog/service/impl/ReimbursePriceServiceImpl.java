@@ -19,8 +19,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
+import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP;
+import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTPID;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimbursePriceRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.ReimbursePriceTPRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimbursePriceSpecs;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimbursePriceTPSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 
 /**
@@ -29,32 +34,61 @@ import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
  */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-public class ReimbursePriceServiceImpl implements ReimbursePriceService{
+public class ReimbursePriceServiceImpl implements ReimbursePriceService {
 
     @Autowired
     private ReimbursePriceRepo reimbursePriceRepo;
-    
+
+    @Autowired
+    private ReimbursePriceTPRepo reimbursePriceTPRepo;
+
     @Override
-    public ReimbursePrice save(String tmtid, BigDecimal price, Date dateEffective) {
-        ReimbursePricePK pk = new ReimbursePricePK(tmtid, dateEffective);
+    public ReimbursePrice save(TMTDrug tmtDrug, BigDecimal price, Date dateEffective) {
+        ReimbursePricePK pk = new ReimbursePricePK(tmtDrug.getTmtId(), dateEffective);
         ReimbursePrice reimbursePrice = new ReimbursePrice(pk);
         reimbursePrice.setPrice(price);
         return reimbursePriceRepo.save(reimbursePrice);
     }
 
     @Override
-    public ReimbursePrice edit(ReimbursePrice reimbursePrice) {
-        return reimbursePriceRepo.save(reimbursePrice);
+    public ReimbursePriceTP save(String hcode, String hospDrugCode, TMTDrug tmtDrug, String content, String specprep, BigDecimal price, Date dateEffective) {
+        ReimbursePriceTPID id = new ReimbursePriceTPID(tmtDrug.getTmtId(), hospDrugCode, hcode, dateEffective);
+        ReimbursePriceTP reimbursePrice = new ReimbursePriceTP(id);
+        reimbursePrice.setContent(content);
+        reimbursePrice.setSpecprep(specprep);
+        reimbursePrice.setTmtDrug(tmtDrug);
+        reimbursePrice.setPrice(price);
+        return reimbursePriceTPRepo.save(reimbursePrice);
     }
 
     @Override
-    public void delete(ReimbursePrice reimbursePrice) {
-        reimbursePriceRepo.delete(reimbursePrice);
+    public ReimbursePrice edit(ReimbursePrice tmt) {
+        return reimbursePriceRepo.save(tmt);
     }
 
     @Override
-    public Page<ReimbursePrice> findAllPaging(Pageable pageable) {
+    public ReimbursePriceTP edit(ReimbursePriceTP tmt) {
+        return reimbursePriceTPRepo.save(tmt);
+    }
+
+    @Override
+    public void delete(ReimbursePrice tmt) {
+        reimbursePriceRepo.delete(tmt);
+    }
+
+    @Override
+    public void delete(ReimbursePriceTP tmt) {
+        reimbursePriceTPRepo.delete(tmt);
+    }
+
+    @Override
+    public Page<ReimbursePrice> findAll(Pageable pageable) {
         return reimbursePriceRepo.findAll(pageable);
+    }
+
+    @Override
+    public Page<ReimbursePriceTP> findAllTP(Pageable pageable) {
+        return reimbursePriceTPRepo.findAll(pageable);
     }
 
     @Override
@@ -66,18 +100,34 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService{
     }
 
     @Override
-    public void saveAll(List<ReimbursePrice> reimbursePrices) {
+    public Page<ReimbursePriceTP> searchTP(String keyword, Pageable pageable) {
+        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
+        Specification<ReimbursePriceTP> spec = Specifications
+                .where(ReimbursePriceTPSpecs.tmtLike(keyList))
+                .or(ReimbursePriceTPSpecs.fsnLike(keyList))
+                .or(ReimbursePriceTPSpecs.hcodeLike(keyList))
+                .or(ReimbursePriceTPSpecs.hospDrugCodeLike(keyList));
+        return reimbursePriceTPRepo.findAll(spec, pageable);
+    }
+
+    @Override
+    public void save(List<ReimbursePrice> reimbursePrices) {
         reimbursePriceRepo.save(reimbursePrices);
     }
 
     @Override
-    public boolean isExists(ReimbursePricePK id) {
-        return reimbursePriceRepo.exists(id);
+    public void saveTP(List<ReimbursePriceTP> reimbursePrices) {
+        reimbursePriceTPRepo.save(reimbursePrices);
     }
 
     @Override
     public boolean isExists(String tmtId, Date dateEffective) {
-        return isExists(new ReimbursePricePK(tmtId, dateEffective));
+        return reimbursePriceRepo.exists(new ReimbursePricePK(tmtId, dateEffective));
     }
-    
+
+    @Override
+    public boolean isExists(String hcode, String hospDrugCode, String tmtId, Date dateEffective) {
+        return reimbursePriceTPRepo.exists(new ReimbursePriceTPID(tmtId, hospDrugCode, hcode, dateEffective));
+    }
+
 }

@@ -58,7 +58,7 @@ public class ReimbursePriceController implements Serializable {
 
     public void save() {
         try {
-            reimbursePriceService.save(tmtDrug.getTmtId(), price, dateEffective);
+            reimbursePriceService.save(tmtDrug, price, dateEffective);
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้");
@@ -83,7 +83,7 @@ public class ReimbursePriceController implements Serializable {
         reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>(new Sort("id.tmtId")) {
             @Override
             public Page<ReimbursePrice> load(Pageable pageAble) {
-                return reimbursePriceService.findAllPaging(pageAble);
+                return reimbursePriceService.findAll(pageAble);
             }
         };
     }

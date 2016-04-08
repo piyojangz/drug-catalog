@@ -13,8 +13,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24;
 import th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24_;
-import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
-import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice_;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug_;
 
 /**

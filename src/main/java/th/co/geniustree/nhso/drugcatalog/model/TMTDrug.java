@@ -14,7 +14,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
@@ -120,7 +119,6 @@ public class TMTDrug implements Serializable, TMT {
     )
     private List<NDC24> ndc24s;
 
-    @XlsColumn
     @ManyToMany
     @JoinTable(name = "TMT_PARENT_CHILD",
             joinColumns = @JoinColumn(name = "TMT_CHILD", referencedColumnName = "TMTID"),
@@ -132,9 +130,6 @@ public class TMTDrug implements Serializable, TMT {
     
     @Column(name = "DOSAGEFORM_GROUP", length = 100)
     private String dosageformGroup;
-
-    @OneToMany(mappedBy = "tmtDrug", fetch = FetchType.LAZY)
-    private List<ReimbursePrice> reimbursePrices;
 
     @Version
     private Integer version;
@@ -318,14 +313,6 @@ public class TMTDrug implements Serializable, TMT {
 
     public void setDosageformGroup(String dosageformGroup) {
         this.dosageformGroup = dosageformGroup;
-    }
-
-    public List<ReimbursePrice> getReimbursePrices() {
-        return reimbursePrices;
-    }
-
-    public void setReimbursePrices(List<ReimbursePrice> reimbursePrices) {
-        this.reimbursePrices = reimbursePrices;
     }
 
     public List<TMTDrug> getParents() {

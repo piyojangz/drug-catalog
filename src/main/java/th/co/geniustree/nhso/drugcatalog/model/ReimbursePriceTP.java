@@ -49,6 +49,10 @@ public class ReimbursePriceTP implements Serializable {
     public ReimbursePriceTP() {
     }
 
+    public ReimbursePriceTP(ReimbursePriceTPID id) {
+        this.id = id;
+    }
+
     public ReimbursePriceTPID getId() {
         return id;
     }
