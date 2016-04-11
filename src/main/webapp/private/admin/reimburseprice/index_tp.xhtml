@@ -25,64 +25,62 @@
                     <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
                 </p:menubar>
             </h:form>
-            <ui:remove>
-                <h:form id="form">
-                    <p:fieldset legend="กำหนดราคายา" toggleable="true" toggleSpeed="500" collapsed="true" >
-                        <p:panelGrid style="min-width: 600px;">
-                            <p:row>
-                                <p:column style="text-align: right; width: 100px;">
-                                    <h:outputText value="TMTID : "/>
-                                </p:column>
-                                <p:column>
-                                    <p:inputText id="tmtid" value="#{reimbursePriceController.tmtDrug.tmtId}" styleClass="input" readonly="true"/>
-                                    <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimbursePriceController.onSearchTMTDrugDialog}" update="@form">
-                                        <p:ajax event="dialogReturn" listener="#{reimbursePriceController.onTmtDialogReturn}" update="@form" />
-                                    </p:commandButton>
-                                </p:column>
-                            </p:row>
-                            <p:row rendered="#{reimbursePriceController.tmtDrug ne null}">
-                                <p:column style="text-align: right;" >
-                                    <h:outputText value="FSN : "/>
-                                </p:column>
-                                <p:column>
-                                    <h:outputText value="#{reimbursePriceController.tmtDrug.fsn}"/>
-                                </p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column style="text-align: right;">
-                                    <h:outputText value="Date Effective : "/>
-                                </p:column>
-                                <p:column>
-                                    <p:calendar value="#{reimbursePriceController.dateEffective}" 
-                                                locale="en_US" 
-                                                navigator="true" 
-                                                pattern="dd / MMM / yyyy"
-                                                showOn="button"/>
-                                </p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column style="text-align: right;">
-                                    <h:outputText value="ราคา : "/>
-                                </p:column>
-                                <p:column>
-                                    <p:inputText type="number" id="reimbursePrice" value="#{reimbursePriceController.price}" validatorMessage="ห้ามใส่ราคาต่ำกว่า 0 บาท">
-                                        <f:validateLongRange minimum="0" for="reimbursePrice"/>
-                                        <p:watermark value="หน่วย : บาท" for="reimbursePrice"/>
-                                    </p:inputText>
-                                </p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column colspan="2" style="text-align: left;">
-                                    <p:commandButton value="เพิ่ม" update="@form ,:growl ,:tableForm" actionListener="#{reimbursePriceController.save}"/>
-                                    <p:spacer width="20"/>
-                                    <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
-                                </p:column>
-                            </p:row>
-                        </p:panelGrid>
-                    </p:fieldset>
-                </h:form>           
-            </ui:remove>
-            <div class="header-content-sub">
+            <h:form id="form">
+                <p:fieldset legend="กำหนดราคายา" toggleable="true" toggleSpeed="500" collapsed="true" >
+                    <p:panelGrid style="min-width: 600px;">
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="tmtid" value="#{reimbursePriceController.tmtDrug.tmtId}" styleClass="input" readonly="true"/>
+                                <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimbursePriceController.onSearchTMTDrugDialog}" update="@form">
+                                    <p:ajax event="dialogReturn" listener="#{reimbursePriceController.onTmtDialogReturn}" update="@form" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+                        <p:row rendered="#{reimbursePriceController.tmtDrug ne null}">
+                            <p:column style="text-align: right;" >
+                                <h:outputText value="FSN : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceController.tmtDrug.fsn}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="Date Effective : "/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{reimbursePriceController.dateEffective}" 
+                                            locale="en_US" 
+                                            navigator="true" 
+                                            pattern="dd / MMM / yyyy"
+                                            showOn="button"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ราคา : "/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText type="number" id="reimbursePrice" value="#{reimbursePriceController.price}" validatorMessage="ห้ามใส่ราคาต่ำกว่า 0 บาท">
+                                    <f:validateLongRange minimum="0" for="reimbursePrice"/>
+                                    <p:watermark value="หน่วย : บาท" for="reimbursePrice"/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2" style="text-align: left;">
+                                <p:commandButton value="เพิ่ม" update="@form ,:growl ,:tableForm" actionListener="#{reimbursePriceController.save}"/>
+                                <p:spacer width="20"/>
+                                <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:fieldset>
+            </h:form>           
+            <div class="header-content-sub" style="margin-top: -5px;">
                 <i class="fa fa-dollar"></i><h:outputText value="ราคายา TMT"/>
             </div>
             <h:form id="searchform">
@@ -116,13 +114,14 @@
                              rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
+                        <h:commandLink style="float:left">
+                            <p:graphicImage name="images/excel24.png" />
+                            <p:dataExporter type="xls" target="table" fileName="price_TP" pageOnly="false"/>
+                        </h:commandLink>
                         <div style="text-align: center;">
                             <h:outputText value="ราคายาและวันที่มีผลบังคับใช้ทั้งหมด"/>
                         </div>
                     </f:facet>
-                    <p:column headerText="#" style="width: 40px;text-align: center;">
-                        #{rowIndex + 1}
-                    </p:column>
                     <p:column headerText="HCODE" style="width: 50px;text-align: center;">
                         <h:outputText value="#{item.id.hcode}" title="#{item.hospitalDrug.hospital.hname}"/>
                     </p:column>
@@ -130,13 +129,16 @@
                         <h:outputText value="#{item.id.hospDrugCode}"/>
                     </p:column>
                     <p:column headerText="TMTID" style="width: 50px;text-align: center;">
-                        <h:outputText value="#{item.tmtDrug.tmtId}" title="#{item.tmtDrug.fsn}"/>
+                        <h:outputText value="#{item.tmtDrug.tmtId}"/>
                     </p:column>
                     <p:column headerText="FSN">
                         <h:outputText value="#{item.tmtDrug.fsn}"/>
                     </p:column>
-                    <p:column headerText="Content" style="width: 80px;">
+                    <p:column headerText="CONTENT" style="width: 80px;">
                         <h:outputText value="#{item.content}"/>
+                    </p:column>
+                    <p:column headerText="SPECPREP" style="width: 80px;text-align: center;">
+                        <h:outputText value="#{item.specprep}"/>
                     </p:column>
                     <p:column headerText="Date Effective" style="width: 100px;text-align: center;">
                         <h:outputText value="#{item.id.dateEffective}">
@@ -144,9 +146,7 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="Reimburse Price" style="width: 100px;">
-                        <div style="text-align: right;background-color: transparent;">
-                            <h:outputText value="#{item.price} บาท"/>
-                        </div>
+                        <h:outputText value="#{item.price} บาท"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
