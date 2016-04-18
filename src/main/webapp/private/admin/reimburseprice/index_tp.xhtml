@@ -28,17 +28,12 @@
                     background-color: #5bc0de;
                 }
             </style>
-            <p:growl id="growl" showDetail="true" />
             <div class="header-content" style="margin-bottom: 10px;">
                 <i class="fa fa-medkit"></i><h:outputText value="รายการ Reimburse Price"/>
             </div>
-            <h:form id="menuForm">
-                <p:menubar styleClass="sub-menu">
-                    <p:menuitem outcome="index.xhtml" value="TPU"/>
-                    <p:menuitem outcome="index_tp.xhtml" value="TP"/>
-                    <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
-                </p:menubar>
-            </h:form>
+            <ui:insert name="menu">
+                <ui:include src="menu.xhtml"/>
+            </ui:insert>
             <h:form id="addForm">
                 <p:fieldset legend="กำหนดราคายา" toggleable="true" toggleSpeed="500" collapsed="true" >
                     <p:panelGrid id="addPanel" style="min-width: 600px;">
@@ -59,7 +54,7 @@
                             </p:column>
                             <p:column>
                                 <span class="label-tabledescription label-tabledescription-info">
-                                <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.hcode}"/>
+                                    <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.hcode}"/>
                                 </span>
                                 <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.hospital.hname}"/>
                             </p:column>

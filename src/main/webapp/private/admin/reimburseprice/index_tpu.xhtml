@@ -14,18 +14,12 @@
                     border: none;
                 }
             </style>
-            <p:growl id="growl" showDetail="true" />
             <div class="header-content" style="margin-bottom: 10px;">
                 <i class="fa fa-medkit"></i><h:outputText value="รายการ Reimburse Price"/>
             </div>
-            <h:form id="menuForm">
-                <p:menubar styleClass="sub-menu">
-                    <p:menuitem outcome="index.xhtml" value="TPU"/>
-                    <p:menuitem outcome="index_tp.xhtml" value="TP"/>
-                    <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
-                </p:menubar>
-            </h:form>
-            <ui:define name="content_sub"/>
+            <ui:insert name="menu">
+                <ui:include src="menu.xhtml"/>
+            </ui:insert>
             <h:form id="form">
                 <p:fieldset legend="กำหนดราคายา" toggleable="true" toggleSpeed="500" collapsed="true" >
                     <p:panelGrid style="min-width: 600px;">

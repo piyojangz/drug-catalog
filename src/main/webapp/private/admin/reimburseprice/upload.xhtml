@@ -11,13 +11,9 @@
             <div class="header-content" style="margin-bottom: 10px;">
                 <h:outputText value="Upload รายการ  Reimburse Price"/>
             </div>
-            <h:form id="menuForm">
-                <p:menubar styleClass="sub-menu">
-                    <p:menuitem outcome="index.xhtml" value="TPU"/>
-                    <p:menuitem outcome="index_tp.xhtml" value="TP"/>
-                    <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
-                </p:menubar>
-            </h:form>
+            <ui:insert name="menu">
+                <ui:include src="menu.xhtml"/>
+            </ui:insert>
             <h:form>
                 <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า reimburse price" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
                     <p:fileDownload value="#{uploadReimbursePrice.templateFile}" />
