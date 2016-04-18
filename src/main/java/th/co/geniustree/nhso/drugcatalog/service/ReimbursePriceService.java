@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
@@ -22,7 +23,8 @@ public interface ReimbursePriceService {
 
     public ReimbursePrice save(TMTDrug tmtDrug, BigDecimal price, Date dateEffective);
     public ReimbursePriceTP save(String hcode, String hospDrugCode, TMTDrug tmtDrug, String content, String specprep, BigDecimal price, Date dateEffective);
-
+    public ReimbursePriceTP save(HospitalDrug hospitalDrug, BigDecimal price, Date dateEffective);
+    
     public ReimbursePrice edit(ReimbursePrice tmt);
     public ReimbursePriceTP edit(ReimbursePriceTP tmt);
 

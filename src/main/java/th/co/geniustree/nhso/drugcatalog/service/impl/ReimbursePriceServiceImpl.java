@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePricePK;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP;
@@ -59,6 +60,17 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService {
         reimbursePrice.setTmtDrug(tmtDrug);
         reimbursePrice.setPrice(price);
         return reimbursePriceTPRepo.save(reimbursePrice);
+    }
+
+    @Override
+    public ReimbursePriceTP save(HospitalDrug hospitalDrug, BigDecimal price, Date dateEffective) {
+        return save(hospitalDrug.getHcode(),
+                hospitalDrug.getHospDrugCode(),
+                hospitalDrug.getTmtDrug(),
+                hospitalDrug.getContent(),
+                hospitalDrug.getSpecPrep(),
+                price,
+                dateEffective);
     }
 
     @Override

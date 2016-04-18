@@ -25,26 +25,59 @@
                     <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
                 </p:menubar>
             </h:form>
-            <h:form id="form">
+            <h:form id="addForm">
                 <p:fieldset legend="กำหนดราคายา" toggleable="true" toggleSpeed="500" collapsed="true" >
-                    <p:panelGrid style="min-width: 600px;">
+                    <p:panelGrid id="addPanel" style="min-width: 600px;">
                         <p:row>
                             <p:column style="text-align: right; width: 100px;">
-                                <h:outputText value="TMTID : "/>
+                                <h:outputText value="เลือกรายการยา : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText id="tmtid" value="#{reimbursePriceController.tmtDrug.tmtId}" styleClass="input" readonly="true"/>
-                                <p:commandButton value="search" icon="ui-icon-search" actionListener="#{reimbursePriceController.onSearchTMTDrugDialog}" update="@form">
-                                    <p:ajax event="dialogReturn" listener="#{reimbursePriceController.onTmtDialogReturn}" update="@form" />
-                                </p:commandButton>
+                                <p:commandButton onclick="PF('selectHospitalDrugDialogWidget').show()" 
+                                                 update=":selectHospitalDrugDialogForm"
+                                                 actionListener="#{reimbursePriceTPController.loadHospitalDrug()}"
+                                                 value="#{reimbursePriceTPController.selectHospitalDrug eq null ? 'เลือกรายการยา' : 'เปลี่ยนรายการยา'}"/>
                             </p:column>
                         </p:row>
-                        <p:row rendered="#{reimbursePriceController.tmtDrug ne null}">
-                            <p:column style="text-align: right;" >
-                                <h:outputText value="FSN : "/>
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="หน่วยบริการ : "/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{reimbursePriceController.tmtDrug.fsn}"/>
+                                <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.hospital.fullName}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="รหัสยา : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.hospDrugCode}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="รหัส TMT : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.tmtDrug.tmtId} - #{reimbursePriceTPController.selectHospitalDrug.tmtDrug.fsn}"
+                                              rendered="#{reimbursePriceTPController.selectHospitalDrug ne null}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="Content : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.content}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right; width: 100px;">
+                                <h:outputText value="Specprep : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectHospitalDrug.specPrep}"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -52,7 +85,7 @@
                                 <h:outputText value="Date Effective : "/>
                             </p:column>
                             <p:column>
-                                <p:calendar value="#{reimbursePriceController.dateEffective}" 
+                                <p:calendar value="#{reimbursePriceTPController.dateEffective}" 
                                             locale="en_US" 
                                             navigator="true" 
                                             pattern="dd / MMM / yyyy"
@@ -64,7 +97,7 @@
                                 <h:outputText value="ราคา : "/>
                             </p:column>
                             <p:column>
-                                <p:inputText type="number" id="reimbursePrice" value="#{reimbursePriceController.price}" validatorMessage="ห้ามใส่ราคาต่ำกว่า 0 บาท">
+                                <p:inputText type="number" id="reimbursePrice" value="#{reimbursePriceTPController.price}" validatorMessage="ห้ามใส่ราคาต่ำกว่า 0 บาท">
                                     <f:validateLongRange minimum="0" for="reimbursePrice"/>
                                     <p:watermark value="หน่วย : บาท" for="reimbursePrice"/>
                                 </p:inputText>
@@ -72,9 +105,9 @@
                         </p:row>
                         <p:row>
                             <p:column colspan="2" style="text-align: left;">
-                                <p:commandButton value="เพิ่ม" update="@form ,:growl ,:tableForm" actionListener="#{reimbursePriceController.save}"/>
+                                <p:commandButton value="เพิ่ม" update="@form ,:growl ,:tableForm" actionListener="#{reimbursePriceTPController.addNewReimbursePriceTP()}"/>
                                 <p:spacer width="20"/>
-                                <p:commandButton value="reset" update="@form" type="reset" onclick="location.reload()"/>
+                                <p:commandButton value="reset" update="@form" actionListener="#{reimbursePriceTPController.reset()}"/>
                             </p:column>
                         </p:row>
                     </p:panelGrid>
@@ -150,6 +183,53 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
+
+            <p:dialog id="selectHospitalDrugDialog"
+                      appendTo="@(body)"
+                      closable="true" closeOnEscape="true"
+                      showEffect="fade" hideEffect="fade"
+                      modal="true"
+                      header="เลือกรายการยาของหน่วยบริการ"
+                      widgetVar="selectHospitalDrugDialogWidget">
+                <h:form id="selectHospitalDrugDialogForm">
+                    <p:dataTable id="hospitalDrugTable"
+                                 value="#{reimbursePriceTPController.hospitalDrugs}"
+                                 var="item"
+                                 styleClass="clean-table"
+                                 scrollable="true"
+                                 scrollHeight="400"
+                                 paginator="true" 
+                                 rows="20" 
+                                 lazy="true" 
+                                 rowsPerPageTemplate="20,30,40,50"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                        <p:column style="width: 40px; text-align: center;">
+                            <p:commandLink value="เลือก" style="color: blue;"
+                                           actionListener="#{reimbursePriceTPController.select(item)}" 
+                                           update="@form,:addForm"
+                                           onclick="PF('selectHospitalDrugDialogWidget').hide()"/>
+                        </p:column>
+                        <p:column headerText="รหัสหน่วยบริการ" style="width: 150px;">
+                            <h:outputText value="#{item.hospital.fullName}"/>
+                        </p:column>
+                        <p:column headerText="รหัสยา" style="width: 120px;">
+                            <h:outputText value="#{item.hospDrugCode}"/>
+                        </p:column>
+                        <p:column headerText="รหัส TMT" style="width: 80px;text-align: center;">
+                            <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                        </p:column>
+                        <p:column headerText="FSN">
+                            <h:outputText value="#{item.tmtDrug.fsn}"/>
+                        </p:column>
+                        <p:column headerText="content" style="width: 120px;">
+                            <h:outputText value="#{item.content}"/>
+                        </p:column>
+                        <p:column headerText="specprep" style="width: 60px;text-align: center;">
+                            <h:outputText value="#{item.specPrep}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>

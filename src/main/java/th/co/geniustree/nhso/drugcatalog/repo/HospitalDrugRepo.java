@@ -61,4 +61,12 @@ public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDr
     public Page<HospitalDrug> findByHcode(String hcode, Pageable page);
     
     public HospitalDrug findByHcodeAndHospDrugCodeAndTmtId(String hcode,String hospDrugCode,String tmtId);
+    
+    @Query("select hd "
+            + "from HospitalDrug hd "
+            + "where hd.approved = 1 "
+            + "and hd.deleted = 0 "
+            + "and hd.tmtId is not null "
+            + "and hd.tmtDrug.type = th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type.TP")
+    public Page<HospitalDrug> findByApprovedAndNotDeleted(Pageable pageable);
 }
