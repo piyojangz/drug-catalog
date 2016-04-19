@@ -33,7 +33,7 @@ public class ReimbursePriceTP implements Serializable {
     @Column(name = "CONTENT_CR", length = 50)
     private String content;
 
-    @Column(name = "SPECPREP", length = 2)
+    @Column(name = "SPECPREP", length = 3)
     private String specprep;
 
     @ManyToOne
