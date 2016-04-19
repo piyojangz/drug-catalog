@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <div class="header-content" style="margin-bottom: 10px;">
+                <h:outputText value="Upload รายการ  Reimburse Price TP"/>
+            </div>
+            <ui:insert name="menu">
+                <ui:include src="menu.xhtml"/>
+            </ui:insert>
+            <h:form>
+                <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า reimburse price" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
+                    <p:fileDownload value="#{uploadReimbursePriceTP.templateFile}" />
+                </p:commandLink>
+            </h:form>
+            <br/>
+            <h:form enctype="multipart/form-data" id="form">
+                <p:messages id="messages" globalOnly="true" showDetail="true"/>
+                <p:fileUpload fileUploadListener="#{uploadReimbursePriceTP.handleFileUpload}" mode="advanced"
+                              update="form" 
+                              auto="true" 
+                              sizeLimit="10000000" 
+                              allowTypes="/(\.|\/)(xls|xlsx)$/" 
+                              label="#{not empty uploadReimbursePriceTP.originalFileName?'File : '.concat(uploadReimbursePriceTP.originalFileName):'เลือกไฟล์ reimburse price (xls,xlsx)'}"/>
+                <h:outputLabel value="จำนวนข้อมูลทั้งหมด #{uploadReimbursePriceTP.passModels.size()+uploadReimbursePriceTP.notPassModels.size()} เรคคอร์ด" rendered="#{not empty uploadReimbursePriceTP.file}"/><br/>
+                <h:outputLabel value="ไฟล์นี้เคยนำเข้าแล้ว" rendered="#{uploadReimbursePriceTP.duplicateFile}" style="color:red;font-weight: bold"/><br/>
+
+                <p:panel style="margin-bottom:20px;" rendered="#{not empty uploadReimbursePriceTP.notPassModels}">
+                    <f:facet name="header">
+                        <h:outputText value="จำนวนข้อมูลที่" />
+                        <h:outputText value="ไม่ผ่าน" style="color:red"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง Reimburse Price "/>
+                        <h:outputText value="#{uploadReimbursePriceTP.notPassModels.size()} " style="color:red"/>
+                        <h:outputText value="เรคคอร์ด"/>
+                    </f:facet>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:dataTable id="errorTable" 
+                                     styleClass="clean-table"
+                                     resizableColumns="true" 
+                                     value="#{uploadReimbursePriceTP.notPassModels}" 
+                                     var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                            <f:facet name="header">
+                                <h:commandLink style="float:left">
+                                    <p:graphicImage name="images/excel24.png" />
+                                    <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
+                                </h:commandLink>
+                            </f:facet>
+                            <p:column   headerText="ROW#" style="text-align: center;width: 40px;">
+                                <h:outputText value="#{model.rowNum}"/>
+                            </p:column>
+                            <p:column headerText="HCODE" style="text-align: center;width: 200px;" styleClass="#{empty model.errorMap['hcode']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.hcode}" title="#{model.errorMap['hcode']}"/>
+                            </p:column>
+                            <p:column headerText="HOSPDRUGCODE" style="width: 100px;" styleClass="#{empty model.errorMap['hospDrugCode']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.hospDrugCode}" title="#{model.errorMap['hospDrugCode']}"/>
+                            </p:column>
+                            <p:column headerText="TMTID" style="text-align: center;width: 60px;" styleClass="#{empty model.errorMap['tmtid']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.tmtid}" title="#{model.errorMap['tmtid']}"/>
+                            </p:column>
+                            <p:column headerText="Content" styleClass="#{empty model.errorMap['content']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.content}" title="#{model.errorMap['content']}"/>
+                            </p:column>
+                            <p:column headerText="Specprep" styleClass="#{empty model.errorMap['specprep']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.specprep}" title="#{model.errorMap['specprep']}"/>
+                            </p:column>
+                            <p:column headerText="Date Effective" style="text-align: center;width: 150px;" styleClass="#{empty model.errorMap['effectiveDate']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
+                                    <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Reimburse Price" style="width: 150px;" styleClass="#{empty model.errorMap['price']?'color:black':'errorBackground'}">
+                                <p:panel style="text-align: right;background-color: transparent;">
+                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
+                                </p:panel>
+                            </p:column>
+                            <p:column headerText="ERROR">
+                                <h:outputText value="#{model.errors}" style="color:orange"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel style="margin-bottom:20px" rendered="#{not empty uploadReimbursePriceTP.passModels}">
+                    <f:facet name="header">
+                        <h:outputText value="จำนวนข้อมูลที่" />
+                        <h:outputText value="ผ่าน" style="color:green"/>
+                        <h:outputText value="การตรวจสอบตามโครงสร้าง Reimburse Price "/>
+                        <h:outputText value="#{uploadReimbursePriceTP.passModels.size()} " style="color:green"/>
+                        <h:outputText value="เรคคอร์ด"/>
+                    </f:facet>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:dataTable id="passTable" 
+                                     styleClass="clean-table"
+                                     resizableColumns="true" 
+                                     rowIndexVar="rowIndex" 
+                                     value="#{uploadReimbursePriceTP.passModels}" var="model"  
+                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                            <f:facet name="header">
+                                <h:commandLink style="float:left">
+                                    <p:graphicImage name="images/excel24.png"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                                </h:commandLink>
+                            </f:facet>
+                            <p:column   headerText="#" style="text-align: center;width: 40px;" resizable="false">
+                                <h:outputText value="#{rowIndex+1}" />
+                            </p:column>
+                            <p:column headerText="HCODE" style="text-align: center;width: 200px;" styleClass="#{empty model.errorMap['hcode']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.hcode}" title="#{model.errorMap['hcode']}"/>
+                            </p:column>
+                            <p:column headerText="HOSPDRUGCODE" style="width: 100px;" styleClass="#{empty model.errorMap['hospDrugCode']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.hospDrugCode}" title="#{model.errorMap['hospDrugCode']}"/>
+                            </p:column>
+                            <p:column headerText="TMTID" style="text-align: center;width: 60px;" styleClass="#{empty model.errorMap['tmtid']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.tmtid}" title="#{model.errorMap['tmtid']}"/>
+                            </p:column>
+                            <p:column headerText="Content" styleClass="#{empty model.errorMap['content']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.content}" title="#{model.errorMap['content']}"/>
+                            </p:column>
+                            <p:column headerText="Specprep" styleClass="#{empty model.errorMap['specprep']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.specprep}" title="#{model.errorMap['specprep']}"/>
+                            </p:column>
+                            <p:column headerText="Date Effective" style="text-align: center;width: 150px;" styleClass="#{empty model.errorMap['effectiveDate']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
+                                    <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Reimburse Price" style="width: 150px;" styleClass="#{empty model.errorMap['price']?'color:black':'errorBackground'}">
+                                <p:panel style="text-align: right;background-color: transparent;">
+                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
+                                </p:panel>
+                            </p:column>
+                            <p:column headerText="หมายเหตุ">
+
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+                <p:blockUI block="form" widgetVar="allblock" >
+                    Please wait...
+                </p:blockUI>
+                <p:commandButton ajax="false" value="Save" action="#{uploadReimbursePriceTP.save()}" disabled="#{empty uploadReimbursePriceTP.reimbursePriceTPs}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
+                &nbsp;
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadReimbursePriceTP.reset()}" disabled="#{empty uploadReimbursePriceTP.file}" update="form"  onclick="PF('allblock').show()" />
+            </h:form>
+
+            <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+            </p:dialog>
+
+            <script type="text/javascript">
+                function start() {
+                    PF('statusDialog').show();
+                }
+
+                function stop() {
+                    PF('statusDialog').hide();
+                }
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>
