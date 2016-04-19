@@ -33,7 +33,7 @@ public class ReimbursePriceTPExcelModel implements Serializable{
     private String hcode;
     
     @XlsColumn(columnNames = "HOSPDRUGCODE")
-    @NotEmpty(message = "ต้องระบุรหัสหน่วยบริการ")
+    @NotEmpty(message = "ต้องระบุรหัสยา")
     private String hospDrugCode;
     
     @XlsColumn(columnNames = "TMTID")
@@ -51,13 +51,13 @@ public class ReimbursePriceTPExcelModel implements Serializable{
     private String price;
     
     @XlsColumn(columnNames = "CONTENT")
-    @Size(max = 100, message = "Content ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 50, message = "Content ต้องไม่เกิน {max} ตัวอักษร")
     @NotEmpty(message = "ต้องกำหนด Content มาด้วยทุกครั้ง")
     private String content;
     
     @XlsColumn(columnNames = "SPECPREP")
     @Size(max = 3, message = "Specprep ต้องไม่เกิน {max} ตัวอักษร")
-    @StartWith(values = {"F", "M", "R"}, message = "SpecRep ตัวอักษรตัวแรก ต้องประกอบด้วย F หรือ M หรือ R เท่านั้น")
+    @StartWith(values = {"F", "M", "R"}, message = "Specprep ตัวอักษรตัวแรก ต้องประกอบด้วย F หรือ M หรือ R เท่านั้น")
     private String specprep;
     
     private Map<String, List<String>> errorMap = new HashMap<>();

@@ -31,12 +31,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ReimbursePriceTPExcelModel;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTPID;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 import th.co.geniustree.xls.beans.ColumnNotFoundException;
@@ -65,6 +67,9 @@ public class UploadReimbursePriceTP implements Serializable {
 
     @Autowired
     private TMTDrugService tmtDrugService;
+
+    @Autowired
+    private HospitalDrugService hospitalDrugService;
 
     private UploadedFile file;
     private List<ReimbursePriceTPExcelModel> notPassModels = new ArrayList<>();
@@ -178,15 +183,18 @@ public class UploadReimbursePriceTP implements Serializable {
             bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
             return;
         }
-        if(!tmtDrug.getType().equals(TMTDrug.Type.TP)){
+        if (!tmtDrug.getType().equals(TMTDrug.Type.TP)) {
             bean.addError("tmtid", "TMT นี้ไม่ใช่ระดับ TP");
+        }
+        if (isHospitalDrugNotFound(bean.getHcode(), bean.getHospDrugCode())) {
+            bean.addError("hcode", "ไม่พบข้อมูลรายการยาของหน่วยบริการ");
+            bean.addError("hospDrugCode", "ไม่พบข้อมูลรายการยาของหน่วยบริการ");
         }
 
         Date dateEffective;
         try {
-            dateEffective = DateUtils.parseUSDate("dd/MM/yyyy", bean.getEffectiveDate());
+            dateEffective = DateUtils.parseUSDate(Constants.TMT_DATE_FORMAT, bean.getEffectiveDate());
         } catch (RuntimeException re) {
-            bean.addError("effectiveDate", "รูปแบบของวันที่ไม่ถูกต้อง");
             return;
         }
 
@@ -195,9 +203,11 @@ public class UploadReimbursePriceTP implements Serializable {
             bean.addError("hcode", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
             bean.addError("hospDrugCode", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
             bean.addError("effectiveDate", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
-            return;
         }
-        LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDate(), bean.getPrice());
+    }
+
+    private boolean isHospitalDrugNotFound(String hcode, String hospDrugCode) {
+        return hospitalDrugService.findById(hcode, hospDrugCode) == null;
     }
 
     private List<ReimbursePriceTP> convertBeanToReimbursePriceTPList(List<ReimbursePriceTPExcelModel> list) {
@@ -205,7 +215,7 @@ public class UploadReimbursePriceTP implements Serializable {
         for (ReimbursePriceTPExcelModel item : list) {
             Date dateEffective;
             try {
-                dateEffective = DateUtils.parseUSDate("dd/MM/yyyy", item.getEffectiveDate());
+                dateEffective = DateUtils.parseUSDate(Constants.TMT_DATE_FORMAT, item.getEffectiveDate());
             } catch (RuntimeException re) {
                 continue;
             }
@@ -221,8 +231,6 @@ public class UploadReimbursePriceTP implements Serializable {
     private boolean hasError(ReimbursePriceTPExcelModel bean) {
         return !bean.getErrorMap().isEmpty();
     }
-    
-    
 
     private boolean isDuplicateDateEffective(String tmtId, String hospDrugCode, String hcode, Date dateEffective) {
         return reimbursePriceService.isExists(hcode, hospDrugCode, tmtId, dateEffective);
