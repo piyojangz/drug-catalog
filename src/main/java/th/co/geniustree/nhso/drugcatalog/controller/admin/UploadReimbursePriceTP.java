@@ -178,6 +178,9 @@ public class UploadReimbursePriceTP implements Serializable {
             bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
             return;
         }
+        if(!tmtDrug.getType().equals(TMTDrug.Type.TP)){
+            bean.addError("tmtid", "TMT นี้ไม่ใช่ระดับ TP");
+        }
 
         Date dateEffective;
         try {
