@@ -150,6 +150,7 @@ public class UploadReimbursePriceTP implements Serializable {
 
                 @Override
                 public void ok(int rowNum, ReimbursePriceTPExcelModel bean) {
+                    bean.setRowNum(rowNum);
                     processValidate(bean);
                     if (hasError(bean)) {
                         notPassModels.add(bean);
@@ -187,8 +188,7 @@ public class UploadReimbursePriceTP implements Serializable {
             bean.addError("tmtid", "TMT นี้ไม่ใช่ระดับ TP");
         }
         if (isHospitalDrugNotFound(bean.getHcode(), bean.getHospDrugCode())) {
-            bean.addError("hcode", "ไม่พบข้อมูลรายการยาของหน่วยบริการ");
-            bean.addError("hospDrugCode", "ไม่พบข้อมูลรายการยาของหน่วยบริการ");
+            bean.addError("rowNum", "ไม่พบข้อมูลรายการยาของหน่วยบริการ");
         }
 
         Date dateEffective;
@@ -199,15 +199,21 @@ public class UploadReimbursePriceTP implements Serializable {
         }
 
         if (isDuplicateDateEffective(tmtDrug.getTmtId(), bean.getHospDrugCode(), bean.getHcode(), dateEffective)) {
-            bean.addError("tmtid", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
-            bean.addError("hcode", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
-            bean.addError("hospDrugCode", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
-            bean.addError("effectiveDate", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
+            bean.addError("rowNum", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
         }
     }
 
     private boolean isHospitalDrugNotFound(String hcode, String hospDrugCode) {
         return hospitalDrugService.findById(hcode, hospDrugCode) == null;
+    }
+
+    public Date convertStringToDate(String date) {
+        try {
+            return DateUtils.parseUSDate(Constants.TMT_DATE_FORMAT, date);
+        } catch (Exception e){
+            LOG.debug("Can't parse to Date", e);
+            return null;
+        }
     }
 
     private List<ReimbursePriceTP> convertBeanToReimbursePriceTPList(List<ReimbursePriceTPExcelModel> list) {

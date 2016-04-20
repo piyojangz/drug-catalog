@@ -64,11 +64,9 @@
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="Reimburse Price" style="width: 150px;" styleClass="#{empty model.errorMap['price']?'color:black':'errorBackground'}">
-                                <p:panel style="text-align: right;background-color: transparent;">
-                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
-                                </p:panel>
+                                <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
                             </p:column>
-                            <p:column headerText="ERROR">
+                            <p:column headerText="ERROR" style="width: 300px;">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
                         </p:dataTable>
@@ -94,7 +92,7 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
                             <p:column   headerText="#" style="text-align: center;width: 40px;" resizable="false">
@@ -105,13 +103,11 @@
                             </p:column>
                             <p:column headerText="Date Effective" style="text-align: center;width: 150px;">
                                 <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
-                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                                    <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="Reimburse Price" style="width: 150px;">
-                                <p:panel style="text-align: right;background-color: transparent;">
-                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
-                                </p:panel>
+                                <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
                             </p:column>
                             <p:column headerText="หมายเหตุ">
 
