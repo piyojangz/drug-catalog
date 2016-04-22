@@ -27,6 +27,9 @@
                 .label-tabledescription-info{
                     background-color: #5bc0de;
                 }
+                .label-tabledescription-info:hover{
+                    cursor: pointer;
+                }
             </style>
             <div class="header-content" style="margin-bottom: 10px;">
                 <i class="fa fa-medkit"></i><h:outputText value="รายการ Reimburse Price TP"/>
@@ -171,10 +174,18 @@
                             <h:outputText value="ราคายาและวันที่มีผลบังคับใช้ทั้งหมด"/>
                         </div>
                     </f:facet>
-                    <p:column headerText="HCODE" style="width: 50px;text-align: center;">
-                        <h:outputText value="#{item.id.hcode}" title="#{item.hospitalDrug.hospital.hname}"/>
+                    <p:column style="width: 30px;text-align: center;" exportable="false">
+                        <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
-                    <p:column headerText="HOSPDRUGCODE" style="width: 120px;d">
+                    <p:column headerText="HCODE" style="width: 50px;text-align: center;" exportable="false">
+                        <span class="label-tabledescription label-tabledescription-info">
+                            <h:outputText value="#{item.id.hcode}" title="#{item.hospitalDrug.hospital.hname}"/>
+                        </span>
+                    </p:column>
+                    <p:column headerText="HCODE" style="display: none;">
+                        <h:outputText value="#{item.id.hcode}"/>
+                    </p:column>
+                    <p:column headerText="HOSPDRUGCODE" style="width: 120px;">
                         <h:outputText value="#{item.id.hospDrugCode}"/>
                     </p:column>
                     <p:column headerText="TMTID" style="width: 50px;text-align: center;">
@@ -189,13 +200,23 @@
                     <p:column headerText="SPECPREP" style="width: 80px;text-align: center;">
                         <h:outputText value="#{item.specprep}"/>
                     </p:column>
-                    <p:column headerText="Date Effective" style="width: 100px;text-align: center;">
+                    <p:column headerText="Date Effective" style="width: 120px;text-align: center;" exportable="false">
                         <h:outputText value="#{item.id.dateEffective}">
-                            <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                            <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Reimburse Price" style="width: 100px;">
-                        <h:outputText value="#{item.price} บาท"/>
+                    <p:column headerText="EFFECTIVE_DATE" style="display: none;">
+                        <h:outputText value="#{item.id.dateEffective}">
+                            <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Reimburse Price" style="width: 100px;" exportable="false">
+                        <div style="text-align: right;background-color: transparent;">
+                            <h:outputText value="#{item.price} บาท"/>
+                        </div>
+                    </p:column>
+                    <p:column headerText="PRICE" style="display: none;">
+                        <h:outputText value="#{item.price}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -210,7 +231,7 @@
                 <h:form id="selectHospitalDrugDialogForm">
                     <p:dataTable id="hospitalDrugTable"
                                  value="#{reimbursePriceTPController.hospitalDrugs}"
-                                 var="item"
+                                 var="drug"
                                  styleClass="clean-table"
                                  scrollable="true"
                                  scrollHeight="400"
@@ -221,27 +242,27 @@
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                         <p:column style="width: 40px; text-align: center;">
                             <p:commandLink value="เลือก" style="color: blue;"
-                                           actionListener="#{reimbursePriceTPController.select(item)}" 
+                                           actionListener="#{reimbursePriceTPController.select(drug)}" 
                                            update="@form,:addForm"
                                            onclick="PF('selectHospitalDrugDialogWidget').hide()"/>
                         </p:column>
                         <p:column headerText="รหัสหน่วยบริการ" style="width: 150px;">
-                            <h:outputText value="#{item.hospital.fullName}"/>
+                            <h:outputText value="#{drug.hospital.fullName}"/>
                         </p:column>
                         <p:column headerText="รหัสยา" style="width: 120px;">
-                            <h:outputText value="#{item.hospDrugCode}"/>
+                            <h:outputText value="#{drug.hospDrugCode}"/>
                         </p:column>
                         <p:column headerText="รหัส TMT" style="width: 80px;text-align: center;">
-                            <h:outputText value="#{item.tmtDrug.tmtId}"/>
+                            <h:outputText value="#{drug.tmtDrug.tmtId}"/>
                         </p:column>
                         <p:column headerText="FSN">
-                            <h:outputText value="#{item.tmtDrug.fsn}"/>
+                            <h:outputText value="#{drug.tmtDrug.fsn}"/>
                         </p:column>
                         <p:column headerText="content" style="width: 120px;">
-                            <h:outputText value="#{item.content}"/>
+                            <h:outputText value="#{drug.content}"/>
                         </p:column>
                         <p:column headerText="specprep" style="width: 60px;text-align: center;">
-                            <h:outputText value="#{item.specPrep}"/>
+                            <h:outputText value="#{drug.specPrep}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

@@ -112,16 +112,16 @@
                     <f:facet name="header">
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
-                            <p:dataExporter type="xls" target="table" fileName="price_TP" pageOnly="false"/>
+                            <p:dataExporter type="xls" target="table" fileName="price_TPU" pageOnly="false"/>
                         </h:commandLink>
                         <div style="text-align: center;">
                             <h:outputText value="ราคายาและวันที่มีผลบังคับใช้ทั้งหมด"/>
                         </div>
                     </f:facet>
-                    <p:column headerText="#" style="width: 50px;text-align: center;max-width: 30px;">
-                        #{rowIndex + 1}
+                    <p:column style="width: 30px;text-align: center;" exportable="false">
+                        <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
-                    <p:column headerText="TMT" style="width: 60px;text-align: center;">
+                    <p:column headerText="TMTID" style="width: 60px;text-align: center;">
                         <h:outputText value="#{item.tmtDrug.tmtId}"/>
                     </p:column>
                     <p:column headerText="Type" style="width: 40px;text-align: center;">
@@ -130,15 +130,23 @@
                     <p:column headerText="FSN">
                         <h:outputText value="#{item.tmtDrug.fsn}"/>
                     </p:column>
-                    <p:column headerText="Date Effective" style="width: 120px;text-align: center;">
+                    <p:column headerText="Date Effective" style="width: 120px;text-align: center;" exportable="false">
                         <h:outputText value="#{item.id.effectiveDate}">
-                            <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                            <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Reimburse Price" style="width: 100px;">
+                    <p:column headerText="EFFECTIVE_DATE" style="display: none;">
+                        <h:outputText value="#{item.id.effectiveDate}">
+                            <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Reimburse Price" style="width: 100px;" exportable="false">
                         <div style="text-align: right;background-color: transparent;">
                             <h:outputText value="#{item.price} บาท"/>
                         </div>
+                    </p:column>
+                    <p:column headerText="PRICE" style="display: none;">
+                        <h:outputText value="#{item.price}"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
