@@ -79,7 +79,7 @@
                             <p:column headerText="Reimburse Price" style="width: 110px;" resizable="false" styleClass="#{empty model.errorMap['price']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
                             </p:column>
-                            <p:column headerText="ERROR">
+                            <p:column headerText="ERROR" style="width: auto;">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
                         </p:dataTable>
@@ -135,7 +135,7 @@
                             <p:column headerText="Reimburse Price" style="width: 110px;" resizable="false">
                                 <h:outputText value="#{model.price}"/>
                             </p:column>
-                            <p:column headerText="หมายเหตุ">
+                            <p:column headerText="หมายเหตุ" style="width: auto;">
 
                             </p:column>
                         </p:dataTable>
