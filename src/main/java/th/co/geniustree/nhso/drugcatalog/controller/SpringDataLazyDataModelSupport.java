@@ -46,8 +46,8 @@ public class SpringDataLazyDataModelSupport<T> extends LazyDataModel {
         return page.getContent();
     }
 
-    public Page<T> load(Pageable pageAble) {
-        throw new IllegalStateException("Must overide.");
+    public Page<T> load(Pageable pageable) {
+        throw new IllegalStateException("Must override.");
     }
 
 }
