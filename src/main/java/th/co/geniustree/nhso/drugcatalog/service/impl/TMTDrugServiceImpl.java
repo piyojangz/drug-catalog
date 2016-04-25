@@ -34,7 +34,7 @@ public class TMTDrugServiceImpl implements TMTDrugService {
 
     @Override
     public Page<TMTDrug> findAllAndEagerGroup(Specification<TMTDrug> spec, Pageable pgbl) {
-        Page<TMTDrug> findAll = tMTDrugRepo.findAll(Specifications.where(spec).and(TMTDrugSpecs.tmtIdNotNull()), pgbl);
+        Page<TMTDrug> findAll = tMTDrugRepo.findAll(spec, pgbl);
 //        for (TMTDrug tmtDrug : findAll) {
 //            tmtDrug.getDrugGroupItems().size();
 //        }
@@ -50,14 +50,8 @@ public class TMTDrugServiceImpl implements TMTDrugService {
     }
 
     @Override
-    public List<TMTDrug> findBySpec(Specification<TMTDrug> s) {
-        return tMTDrugRepo.findAll(Specifications.where(s).and(TMTDrugSpecs.tmtIdNotNull()));
-    }
-
-    @Override
-    public List<TMTDrug> searchByFSN(String keyword) {
-        List<String> keyList = Arrays.asList(keyword.split("\\s+"));
-        return tMTDrugRepo.findAll(Specifications.where(TMTDrugSpecs.fsnContains(keyList)).and(TMTDrugSpecs.tmtIdNotNull()));
+    public List<TMTDrug> findBySpec(Specification<TMTDrug> spec) {
+        return tMTDrugRepo.findAll(spec);
     }
 
     @Override

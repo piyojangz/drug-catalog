@@ -133,13 +133,4 @@ public class TMTDrugSpecs {
         };
     }
 
-    public static Specification<TMTDrug> tmtIdNotNull() {
-        return new Specification<TMTDrug>() {
-
-            @Override
-            public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.isNotNull(root.get(TMTDrug_.tmtId));
-            }
-        };
-    }
 }
