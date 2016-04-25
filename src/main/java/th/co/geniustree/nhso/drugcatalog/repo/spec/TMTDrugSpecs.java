@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
+import th.co.geniustree.nhso.drugcatalog.model.NDC24;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug_;
@@ -105,20 +106,12 @@ public class TMTDrugSpecs {
         };
     }
 
-    public static Specification<TMTDrug> ndcContains(final List<String> keywords) {
+    public static Specification<TMTDrug> ndcContains(final List<NDC24> keywords) {
         return new Specification<TMTDrug>() {
 
             @Override
             public Predicate toPredicate(Root<TMTDrug> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate and = null;
-//                for (String key : keywords) {
-//                    if (and == null) {
-//                        and = cb.like(root.get(TMTDrug_.ndc24s), "%" + key.toLowerCase() + "%");
-//                    } else {
-//                        and = cb.and(and, cb.like(root.get(TMTDrug_.ndc24s), "%" + key.toLowerCase() + "%"));
-//                    }
-//                }
-                return and;
+                return root.get(TMTDrug_.ndc24s).in(keywords);
             }
         };
     }
