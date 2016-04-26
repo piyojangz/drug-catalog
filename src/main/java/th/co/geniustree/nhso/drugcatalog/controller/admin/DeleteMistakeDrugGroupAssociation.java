@@ -68,7 +68,7 @@ public class DeleteMistakeDrugGroupAssociation {
         Collections.sort(drugGroupItems, new Comparator<TMTDrugGroupItem>() {
             @Override
             public int compare(TMTDrugGroupItem o1, TMTDrugGroupItem o2) {
-                return o1.getCreateDate().compareTo(o2.getCreateDate());
+                return o1.getDatein().compareTo(o2.getDatein());
             }
         });
     }
