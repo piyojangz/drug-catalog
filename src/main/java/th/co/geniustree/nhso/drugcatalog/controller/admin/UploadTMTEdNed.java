@@ -6,7 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
@@ -168,6 +167,10 @@ public class UploadTMTEdNed implements Serializable {
 
     private boolean isExistED(String tmtId, Date dateIn) {
         return tmtEdNedService.exist(tmtId, dateIn);
+    }
+
+    public boolean isDuplicateFile() {
+        return duplicateFile;
     }
     
     public void setDuplicateFile(boolean duplicateFile) {
