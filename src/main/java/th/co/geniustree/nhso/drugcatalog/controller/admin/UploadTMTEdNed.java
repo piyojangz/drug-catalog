@@ -152,6 +152,9 @@ public class UploadTMTEdNed implements Serializable {
     }
 
     private void processValidate(ExcelTMTEdNed bean) {
+        if (isDuplicateInFile(bean)) {
+            bean.addError("rowNum", "พบข้อมูลซ้ำกันในไฟล์");
+        }
         TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
         if (findOneWithoutTx == null) {
             bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
@@ -159,6 +162,10 @@ public class UploadTMTEdNed implements Serializable {
         if (isExistED(bean.getTmtId(), bean.getDateIn())) {
             bean.addError("dateinString", "ED/NED ในวันที่เดียวกันนี้เคยระบุไปแล้ว");
         }
+    }
+
+    private boolean isDuplicateInFile(ExcelTMTEdNed bean) {
+        return passModels.contains(bean);
     }
 
     private boolean hasError(ExcelTMTEdNed bean) {
@@ -172,7 +179,7 @@ public class UploadTMTEdNed implements Serializable {
     public boolean isDuplicateFile() {
         return duplicateFile;
     }
-    
+
     public void setDuplicateFile(boolean duplicateFile) {
         this.duplicateFile = duplicateFile;
     }
