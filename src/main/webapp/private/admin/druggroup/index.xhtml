@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <style>
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 2px;
+                    border: none;
+                }
+            </style>
+            <div class="header-content">
+                <i class="fa fa-database"></i><h:outputText value="TMT - Druggroup"/>
+            </div>
+            <h:form id="searchForm">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <div class="header-content-sub">
+                                <i class="fa fa-search"></i><h:outputText value="ค้นหารายการยา"/>
+                            </div>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:inputText id="searchInput" style="width: 200px;" value="#{deleteMistakeDrugGroupAssociation.searchText}" >
+                                <p:watermark for="searchInput" value="ค้นหาด้วย TMTID หรือ FSN" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="ค้นหา" actionListener="#{deleteMistakeDrugGroupAssociation.searchTMTDrug()}"
+                                             update=":tableForm"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="tableForm">
+                <p:dataTable id="table" styleClass="clean-table"
+                             var="drug" value="#{deleteMistakeDrugGroupAssociation.tmtDrugs}"
+                             rowIndexVar="rowIndex"
+                             scrollable="true" scrollHeight="400"
+                             rows="20" rowsPerPageTemplate="20,30,40,50"
+                             lazy="true" 
+                             paginator="true" 
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <p:column style="width: 30px;text-align: center;">
+                        <h:outputText value="#{rowIndex + 1}"/>
+                    </p:column>
+                    <p:column headerText="TMTID" style="width: 50px;text-align: center;">
+                        <h:outputText value="#{drug.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="Type" style="width: 50px;text-align: center;">
+                        <h:outputText value="#{drug.type}"/>
+                    </p:column>
+                    <p:column headerText="FSN">
+                        <h:outputText value="#{drug.fsn}"/>
+                    </p:column>
+                    <p:column headerText="Drug group" style="width: 50px;text-align: center;">
+                        <p:commandLink actionListener="#{deleteMistakeDrugGroupAssociation.showDrugGroup(drug)}">
+                            <i class="fa fa-search-plus"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
