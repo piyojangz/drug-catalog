@@ -60,13 +60,17 @@
                     <p:column headerText="FSN">
                         <h:outputText value="#{drug.fsn}"/>
                     </p:column>
-                    <p:column headerText="Drug group" style="width: 50px;text-align: center;">
-                        <p:commandLink actionListener="#{deleteMistakeDrugGroupAssociation.showDrugGroup(drug)}">
+                    <p:column headerText="Drug group" style="width: 80px;text-align: center;">
+                        <p:commandLink onclick="PF('showDrugGroupDialogWidget').show()" 
+                                       title="ดูรายการ drug group ของ TMT นี้"
+                                       actionListener="#{deleteMistakeDrugGroupAssociation.showDrugGroup(drug)}"
+                                       update=":showDrugGroupDialogForm">
                             <i class="fa fa-search-plus"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
             </h:form>
+            <ui:include src="druggroupAssociateDialog.xhtml"/>
         </ui:define>
     </ui:composition>
 </html>

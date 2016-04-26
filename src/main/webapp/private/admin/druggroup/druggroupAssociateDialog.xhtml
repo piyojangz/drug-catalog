@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition>
+        <p:dialog id="showDrugGroupDialog" widgetVar="showDrugGroupDialogWidget" appendTo="@(body)"
+                  closable="true" closeOnEscape="true"
+                  showEffect="fade" hideEffect="fade" modal="true"
+                  width="1024" height="480">
+            <h:form id="showDrugGroupDialogForm">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <div class="header-content-sub" style="font-size: 28px;margin-top: -25px;">
+                                <i style="color: red;font-size: 25px;" class="fa fa-remove"></i><h:outputText value="เลือก Drug group ที่ต้องการลบข้อมูล"/>
+                            </div>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="width: 60px;font-weight: bold;">
+                            <h:outputText value="#{deleteMistakeDrugGroupAssociation.selectedTMTDrug.tmtId}"/>
+                        </p:column>
+                        <p:column style="font-weight: bold;">
+                            <h:outputText value="#{deleteMistakeDrugGroupAssociation.selectedTMTDrug.type}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <h:outputText value="#{deleteMistakeDrugGroupAssociation.selectedTMTDrug.fsn}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dataTable id="drugGroupAssociateTable" styleClass="clean-table"
+                             rendered="#{deleteMistakeDrugGroupAssociation.deleteTMTDrugGroupItem eq null}"
+                             var="drugGroup" value="#{deleteMistakeDrugGroupAssociation.drugGroupItems}"
+                             rowIndexVar="rowIndex"
+                             scrollable="true">
+                    <p:column style="width: 30px;text-align: center;">
+                        <h:outputText value="#{rowIndex + 1}"/>
+                    </p:column>
+                    <p:column headerText="วันที่จัดทำข้อมูล" style="width: 130px;">
+                        <div style="text-align: right;">
+                            <h:outputText value="#{drugGroup.createDate}">
+                                <f:convertDateTime locale="en_US" pattern="d/MMM/yyyy HH:mm"/>
+                            </h:outputText>
+                        </div>
+                    </p:column>
+                    <p:column headerText="Drug group" style="#{drugGroup.drugGroup.description ne null ? '' : 'text-align: center;'}">
+                        <h:outputText value="#{drugGroup.drugGroup.id}"/>
+                        <h:outputText value=" - #{drugGroup.drugGroup.description}" rendered="#{drugGroup.drugGroup.description ne null}"/>
+                    </p:column>
+                    <p:column headerText="DateIn" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{drugGroup.datein}">
+                            <f:convertDateTime locale="en_US" pattern="d/MMM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="DateOut" style="width: 100px;text-align: center;">
+                        <h:outputText value="#{drugGroup.dateOut}">
+                            <f:convertDateTime locale="en_US" pattern="d/MMM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="เลือกเพื่อลบ" style="width: 80px;text-align: center;">
+                        <p:commandLink update="@form" 
+                                       actionListener="#{deleteMistakeDrugGroupAssociation.onDeleteDrugGroupItem(drugGroup)}">
+                            <i class="fa fa-remove fa-2x"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid rendered="#{deleteMistakeDrugGroupAssociation.deleteTMTDrugGroupItem ne null}"
+                             style="margin-top: 20px;margin-left: auto;margin-right: auto;">
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center;font-size: 28px;color: red;">
+                            <i class="fa fa-trash"></i><p:spacer width="5"/><h:outputText value="ยืนยันการลบข้อมูล"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="width: 100px;text-align: right;">
+                            <h:outputText value="DRUGGROUP : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteMistakeDrugGroupAssociation.deleteTMTDrugGroupItem.drugGroup.id}"/>
+                            <h:outputText value=" - #{deleteMistakeDrugGroupAssociation.deleteTMTDrugGroupItem.drugGroup.description}"
+                                          rendered="#{deleteMistakeDrugGroupAssociation.deleteTMTDrugGroupItem.drugGroup.description ne null}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="width: 100px;text-align: right;">
+                            <h:outputText value="DATE IN : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteMistakeDrugGroupAssociation.deleteTMTDrugGroupItem.datein}">
+                                <f:convertDateTime locale="en_US" pattern="d / MMM / yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="width: 100px;text-align: right;">
+                            <h:outputText value="DATE OUT : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteMistakeDrugGroupAssociation.deleteTMTDrugGroupItem.dateOut}">
+                                <f:convertDateTime locale="en_US" pattern="d / MMM / yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center;">
+                            <p:commandButton value="ลบ" update="@form, :tableForm"
+                                             onclick="PF('showDrugGroupDialogWidget').hide()"
+                                             actionListener="#{deleteMistakeDrugGroupAssociation.deleteDrugGroupAssociate()}"/>
+                            <p:spacer width="5"/>
+                            <p:commandButton value="ไม่ลบ" update="@form"
+                                             actionListener="#{deleteMistakeDrugGroupAssociation.deleteDrugGroupAssociate()}">
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

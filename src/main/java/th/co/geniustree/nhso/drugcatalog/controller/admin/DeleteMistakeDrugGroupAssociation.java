@@ -7,11 +7,14 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import com.google.common.base.Strings;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +23,12 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem;
-import th.co.geniustree.nhso.drugcatalog.repo.DrugGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugGroupItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
 /**
@@ -40,10 +44,18 @@ public class DeleteMistakeDrugGroupAssociation {
     @Autowired
     private TMTDrugService tmtDrugService;
 
-    private SpringDataLazyDataModelSupport<TMTDrugGroupItem> drugGroupItems;
+    @Autowired
+    private TMTDrugGroupItemRepo tmtDrugGroupItemRepo;
+    
+    @Autowired
+    @Qualifier("TMTDrugGroupItemDeletedLogServiceImpl")
+    private DeletedLogService deletedLogService;
+
+    private List<TMTDrugGroupItem> drugGroupItems;
     private SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs;
     private String searchText;
-    private TMTDrugGroupItem selectDrugGroupItem;
+    private TMTDrug selectedTMTDrug;
+    private TMTDrugGroupItem deleteTMTDrugGroupItem;
 
     @PostConstruct
     public void postConstruct() {
@@ -51,9 +63,38 @@ public class DeleteMistakeDrugGroupAssociation {
     }
 
     public void showDrugGroup(TMTDrug selectedDrug) {
-        for (TMTDrugGroupItem drugGroup : selectedDrug.getDrugGroupItems()) {
-            LOG.debug("{} : {}", DateUtils.format("dd-MMM-yyyy", drugGroup.getDatein()), drugGroup.getDrugGroup().getId());
+        selectedTMTDrug = selectedDrug;
+        drugGroupItems = selectedTMTDrug.getDrugGroupItems();
+        Collections.sort(drugGroupItems, new Comparator<TMTDrugGroupItem>() {
+            @Override
+            public int compare(TMTDrugGroupItem o1, TMTDrugGroupItem o2) {
+                return o1.getCreateDate().compareTo(o2.getCreateDate());
+            }
+        });
+    }
+
+    public void onDeleteDrugGroupItem(TMTDrugGroupItem item) {
+        deleteTMTDrugGroupItem = item;
+    }
+
+    public void deleteDrugGroupAssociate() {
+        LOG.info("Delete Drug group [TMT : {}, DRUGGROUP : {}, DATEIN : {}, DATEOUT : {}]",
+                deleteTMTDrugGroupItem.getTmtDrug().getTmtId(),
+                deleteTMTDrugGroupItem.getDrugGroup().getId(),
+                DateUtils.format("dd/MMM/yyyy", deleteTMTDrugGroupItem.getDatein()),
+                deleteTMTDrugGroupItem.getDateOut());
+        try {
+            tmtDrugGroupItemRepo.delete(deleteTMTDrugGroupItem);
+            deletedLogService.createLog(deleteTMTDrugGroupItem);
+            FacesMessageUtils.info("ลบข้อมูลเรียบร้อยแล้ว กรุณาตรวจสอบข้อมูล");
+        } catch (Exception e) {
+            LOG.error("Can't delete Drug group", e);
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
         }
+    }
+
+    public void cancelDelete() {
+        deleteTMTDrugGroupItem = null;
     }
 
     public void searchTMTDrug() {
@@ -86,11 +127,11 @@ public class DeleteMistakeDrugGroupAssociation {
         };
     }
 
-    public SpringDataLazyDataModelSupport<TMTDrugGroupItem> getDrugGroupItems() {
+    public List<TMTDrugGroupItem> getDrugGroupItems() {
         return drugGroupItems;
     }
 
-    public void setDrugGroupItems(SpringDataLazyDataModelSupport<TMTDrugGroupItem> drugGroupItems) {
+    public void setDrugGroupItems(List<TMTDrugGroupItem> drugGroupItems) {
         this.drugGroupItems = drugGroupItems;
     }
 
@@ -110,12 +151,20 @@ public class DeleteMistakeDrugGroupAssociation {
         this.searchText = searchText;
     }
 
-    public TMTDrugGroupItem getSelectDrugGroupItem() {
-        return selectDrugGroupItem;
+    public TMTDrug getSelectedTMTDrug() {
+        return selectedTMTDrug;
     }
 
-    public void setSelectDrugGroupItem(TMTDrugGroupItem selectDrugGroupItem) {
-        this.selectDrugGroupItem = selectDrugGroupItem;
+    public void setSelectedTMTDrug(TMTDrug selectedTMTDrug) {
+        this.selectedTMTDrug = selectedTMTDrug;
+    }
+
+    public TMTDrugGroupItem getDeleteTMTDrugGroupItem() {
+        return deleteTMTDrugGroupItem;
+    }
+
+    public void setDeleteTMTDrugGroupItem(TMTDrugGroupItem deleteTMTDrugGroupItem) {
+        this.deleteTMTDrugGroupItem = deleteTMTDrugGroupItem;
     }
 
 }
