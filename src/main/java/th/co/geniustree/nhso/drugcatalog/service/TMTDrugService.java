@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import th.co.geniustree.nhso.drugcatalog.input.DrugAndDosageFormGroup;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 
@@ -19,8 +18,6 @@ public interface TMTDrugService {
 
     public Page<TMTDrug> findAllAndEagerGroup(Specification<TMTDrug> s, Pageable pgbl);
 
-    public List<TMTDrug> searchByFSN(String keyword);
-    
     public Page<TMTDrug> search(String keyword,Pageable pageable);
     
     public List<TMTDrug> findBySpec(Specification<TMTDrug> s);

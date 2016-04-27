@@ -7,15 +7,14 @@ package th.co.geniustree.nhso.drugcatalog.controller.common;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.faces.event.FacesEvent;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
@@ -27,10 +26,11 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
+import th.co.geniustree.nhso.drugcatalog.model.NDC24;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.model.TMTReleaseFileUpload;
-import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.NDC24Repo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTReleaseFileUploadRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
@@ -55,6 +55,8 @@ public class SearchTmtDrug implements Serializable {
     private String latestFile;
     @Autowired
     private TMTReleaseFileUploadRepo tmtReleaseFileUploadRepo;
+    @Autowired
+    private NDC24Repo ndcRepo;
 
     @PostConstruct
     public void postConstruct() {
@@ -123,33 +125,55 @@ public class SearchTmtDrug implements Serializable {
         models = new SpringDataLazyDataModelSupport<TMTDrug>() {
 
             @Override
-            public Page<TMTDrug> load(Pageable pageAble) {
+            public Page<TMTDrug> load(Pageable pageable) {
                 List<String> keywords = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().trimResults().splitToList(keyword);
-                Specifications<TMTDrug> spec = Specifications.where(null);
-                if (selectTypes.length > 0) {
-                    spec = spec.and(Specifications.where(TMTDrugSpecs.typeIn(Arrays.asList(selectTypes))));
-                }
 
+                Specifications<TMTDrug> typeSpec = Specifications.where(null);
+                Specifications<TMTDrug> drugGroupSpec = Specifications.where(null);
+                if (selectTypes.length > 0) {
+                    typeSpec = Specifications.where(TMTDrugSpecs.typeIn(Arrays.asList(selectTypes)));
+                }
+                if (!Strings.isNullOrEmpty(drugGroupFilter)) {
+                    switch (drugGroupFilter) {
+                        case "YES":
+                            drugGroupSpec = Specifications.where(TMTDrugSpecs.hasDrugGroup());
+                            break;
+                        case "NO":
+                            drugGroupSpec = Specifications.where(TMTDrugSpecs.dontHaveDrugGroup());
+                            break;
+                        case "ALL":
+                            break;
+                    }
+                }
+                Specifications<TMTDrug> spec = Specifications.where(typeSpec).and(drugGroupSpec);
+                if (Strings.isNullOrEmpty(keyword)) {
+                    return tmtDrugService.findAllAndEagerGroup(spec, pageable);
+                }
+                Specifications<TMTDrug> columnSpec = Specifications.where(null);
                 if (selectColumns.isEmpty()) {
                     selectColumns.add("FSN");
                     selectColumns.add("TMTID");
                     selectColumns.add("NDC24");
                 }
                 if (selectColumns.contains("FSN")) {
-                    spec = spec.and(TMTDrugSpecs.fsnContains(keywords));
+                    columnSpec = columnSpec.or(TMTDrugSpecs.fsnContains(keywords));
                 }
                 if (selectColumns.contains("TMTID")) {
-                    spec = spec.or(TMTDrugSpecs.tmtIdContains(keywords));
+                    columnSpec = columnSpec.or(TMTDrugSpecs.tmtIdContains(keywords));
                 }
                 if (selectColumns.contains("NDC24")) {
-                    spec = spec.or(TMTDrugSpecs.ndcContains(keywords));
+                    if (keyword.matches("\\d{7,}")) {
+                        List<NDC24> ndc24 = ndcRepo.findByNdc24Contains(keyword);
+                        if (ndc24 != null && !ndc24.isEmpty()) {
+                            for (NDC24 ndc : ndc24) {
+                                LOG.debug(ndc.getNdc24());
+                            }
+                            columnSpec = columnSpec.or(TMTDrugSpecs.ndcContains(ndc24));
+                        }
+                    }
                 }
-                if ("YES".equals(drugGroupFilter)) {
-                    spec = spec.and(TMTDrugSpecs.hasDrugGroup());
-                } else if ("NO".equals(drugGroupFilter)) {
-                    spec = spec.and(TMTDrugSpecs.dontHaveDrugGroup());
-                }
-                return tmtDrugService.findAllAndEagerGroup(spec, pageAble);
+                spec = Specifications.where(spec).and(columnSpec);
+                return tmtDrugService.findAllAndEagerGroup(spec, pageable);
             }
         };
 

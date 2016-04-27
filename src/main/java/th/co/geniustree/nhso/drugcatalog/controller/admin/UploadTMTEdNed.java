@@ -6,7 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
@@ -153,6 +152,9 @@ public class UploadTMTEdNed implements Serializable {
     }
 
     private void processValidate(ExcelTMTEdNed bean) {
+        if (isDuplicateInFile(bean)) {
+            bean.addError("rowNum", "พบข้อมูลซ้ำกันในไฟล์");
+        }
         TMTDrug findOneWithoutTx = tmtDrugService.findOneWithoutTx(bean.getTmtId().trim());
         if (findOneWithoutTx == null) {
             bean.addError("tmtId", "ไม่พบ TMTID นี้ในระบบ");
@@ -162,6 +164,10 @@ public class UploadTMTEdNed implements Serializable {
         }
     }
 
+    private boolean isDuplicateInFile(ExcelTMTEdNed bean) {
+        return passModels.contains(bean);
+    }
+
     private boolean hasError(ExcelTMTEdNed bean) {
         return !bean.getErrorMap().isEmpty();
     }
@@ -169,7 +175,11 @@ public class UploadTMTEdNed implements Serializable {
     private boolean isExistED(String tmtId, Date dateIn) {
         return tmtEdNedService.exist(tmtId, dateIn);
     }
-    
+
+    public boolean isDuplicateFile() {
+        return duplicateFile;
+    }
+
     public void setDuplicateFile(boolean duplicateFile) {
         this.duplicateFile = duplicateFile;
     }
