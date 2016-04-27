@@ -50,7 +50,7 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png" />
-                                    <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="errorTable" fileName="TP-ErrorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
                             <p:column   headerText="ROW#" style="text-align: center;width: 30px;" resizable="false" styleClass="#{empty model.errorMap['rowNum']?'color:black':'errorBackground'}">
@@ -106,7 +106,7 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="TP-PassTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
                             <p:column   headerText="#" style="text-align: center;width: 30px;" resizable="false">
