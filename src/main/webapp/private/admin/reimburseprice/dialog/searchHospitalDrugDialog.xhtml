@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition>
+        <p:dialog id="selectHospitalDrugDialog"
+                  appendTo="@(body)"
+                  closable="true" closeOnEscape="true"
+                  showEffect="fade" hideEffect="fade"
+                  modal="true"
+                  header="เลือกรายการยาของหน่วยบริการ"
+                  widgetVar="selectHospitalDrugDialogWidget">
+            <h:form id="searchHospitalDrugForSelectForm">
+                <p:inputText id="searchForSelect" value="#{reimbursePriceTPController.searchForSelectKeyword}">
+                    <p:watermark for="searchForSelect" value="ค้นหา TMT ที่ต้องการ"/>
+                </p:inputText>
+                <p:spacer width="5"/>
+                <p:commandButton icon="ui-icon-search" update=":selectHospitalDrugDialogForm" 
+                                 actionListener="#{reimbursePriceTPController.searchTMTDrug()}"/>
+            </h:form>
+            <h:form id="selectHospitalDrugDialogForm">
+                <p:commandButton value="เลือก TMT ใหม่" rendered="#{reimbursePriceTPController.selectTMTDrug ne null}"
+                                 icon="ui-icon-arrowreturnthick-1-w" iconPos="right"
+                                 actionListener="#{reimbursePriceTPController.backToSelectTMT()}"
+                                 update="@form"/>
+                <p:dataTable id="tmtDrugTable" rendered="#{reimbursePriceTPController.selectTMTDrug eq null}"
+                             value="#{reimbursePriceTPController.tmtDrugs}" var="tmtDrug"
+                             styleClass="clean-table"
+                             scrollable="true" scrollHeight="400"
+                             lazy="true"
+                             rows="20" rowsPerPageTemplate="20,30,40,50"
+                             paginator="true"  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <p:column style="width: 40px;text-align: center;">
+                        <p:commandLink value="เลือก" style="color: blue;"
+                                       actionListener="#{reimbursePriceTPController.loadHospitalDrug(tmtDrug)}"
+                                       update="@form"/>
+                    </p:column>
+                    <p:column headerText="TMTID" style="width: 60px;text-align: center;">
+                        <h:outputText value="#{tmtDrug.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="FSN">
+                        <h:outputText value="#{tmtDrug.fsn}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="hospitalDrugTable" rendered="#{reimbursePriceTPController.selectTMTDrug ne null}"
+                             value="#{reimbursePriceTPController.hospitalDrugs}" var="drug"
+                             styleClass="clean-table"
+                             scrollable="true" scrollHeight="400"
+                             lazy="true"
+                             rows="20" rowsPerPageTemplate="20,30,40,50"
+                             paginator="true"  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                    <p:column style="width: 40px; text-align: center;">
+                        <p:commandLink value="เลือก" style="color: blue;"
+                                       actionListener="#{reimbursePriceTPController.select(drug)}" 
+                                       update="@form,:addForm"
+                                       onclick="PF('selectHospitalDrugDialogWidget').hide()"/>
+                    </p:column>
+                    <p:column headerText="รหัสหน่วยบริการ" style="width: 150px;">
+                        <h:outputText value="#{drug.hospital.fullName}"/>
+                    </p:column>
+                    <p:column headerText="รหัสยา" style="width: 120px;">
+                        <h:outputText value="#{drug.hospDrugCode}"/>
+                    </p:column>
+                    <p:column headerText="รหัส TMT" style="width: 80px;text-align: center;">
+                        <h:outputText value="#{drug.tmtDrug.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="FSN">
+                        <h:outputText value="#{drug.tmtDrug.fsn}"/>
+                    </p:column>
+                    <p:column headerText="content" style="width: 120px;">
+                        <h:outputText value="#{drug.content}"/>
+                    </p:column>
+                    <p:column headerText="specprep" style="width: 60px;text-align: center;">
+                        <h:outputText value="#{drug.specPrep}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

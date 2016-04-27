@@ -47,7 +47,7 @@
                             <p:column>
                                 <p:commandButton onclick="PF('selectHospitalDrugDialogWidget').show()" 
                                                  update=":selectHospitalDrugDialogForm"
-                                                 actionListener="#{reimbursePriceTPController.loadHospitalDrug()}"
+                                                 actionListener="#{reimbursePriceTPController.searchTMTDrug()}"
                                                  value="#{reimbursePriceTPController.selectHospitalDrug eq null ? 'เลือกรายการยา' : 'เปลี่ยนรายการยา'}"/>
                             </p:column>
                         </p:row>
@@ -220,53 +220,7 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-
-            <p:dialog id="selectHospitalDrugDialog"
-                      appendTo="@(body)"
-                      closable="true" closeOnEscape="true"
-                      showEffect="fade" hideEffect="fade"
-                      modal="true"
-                      header="เลือกรายการยาของหน่วยบริการ"
-                      widgetVar="selectHospitalDrugDialogWidget">
-                <h:form id="selectHospitalDrugDialogForm">
-                    <p:dataTable id="hospitalDrugTable"
-                                 value="#{reimbursePriceTPController.hospitalDrugs}"
-                                 var="drug"
-                                 styleClass="clean-table"
-                                 scrollable="true"
-                                 scrollHeight="400"
-                                 paginator="true" 
-                                 rows="20" 
-                                 lazy="true" 
-                                 rowsPerPageTemplate="20,30,40,50"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-                        <p:column style="width: 40px; text-align: center;">
-                            <p:commandLink value="เลือก" style="color: blue;"
-                                           actionListener="#{reimbursePriceTPController.select(drug)}" 
-                                           update="@form,:addForm"
-                                           onclick="PF('selectHospitalDrugDialogWidget').hide()"/>
-                        </p:column>
-                        <p:column headerText="รหัสหน่วยบริการ" style="width: 150px;">
-                            <h:outputText value="#{drug.hospital.fullName}"/>
-                        </p:column>
-                        <p:column headerText="รหัสยา" style="width: 120px;">
-                            <h:outputText value="#{drug.hospDrugCode}"/>
-                        </p:column>
-                        <p:column headerText="รหัส TMT" style="width: 80px;text-align: center;">
-                            <h:outputText value="#{drug.tmtDrug.tmtId}"/>
-                        </p:column>
-                        <p:column headerText="FSN">
-                            <h:outputText value="#{drug.tmtDrug.fsn}"/>
-                        </p:column>
-                        <p:column headerText="content" style="width: 120px;">
-                            <h:outputText value="#{drug.content}"/>
-                        </p:column>
-                        <p:column headerText="specprep" style="width: 60px;text-align: center;">
-                            <h:outputText value="#{drug.specPrep}"/>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-            </p:dialog>
+            <ui:include src="dialog/searchHospitalDrugDialog.xhtml"/>
         </ui:define>
     </ui:composition>
 </html>

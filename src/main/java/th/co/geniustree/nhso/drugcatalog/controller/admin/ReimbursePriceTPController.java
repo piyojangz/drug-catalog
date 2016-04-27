@@ -5,9 +5,12 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
+import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +18,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
+import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
 /**
  *
@@ -40,31 +48,59 @@ public class ReimbursePriceTPController implements Serializable {
     @Autowired
     private HospitalDrugRepo hospitalDrugRepo;
 
+    @Autowired
+    private TMTDrugService tmtDrugService;
+
+    private SpringDataLazyDataModelSupport<ReimbursePriceTP> data;
+    private String keyword;
+
+    private SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs;
+    private String searchForSelectKeyword;
+    private TMTDrug selectTMTDrug;
     private SpringDataLazyDataModelSupport<HospitalDrug> hospitalDrugs;
     private HospitalDrug selectHospitalDrug;
-    private SpringDataLazyDataModelSupport<ReimbursePriceTP> data;
     private Date dateEffective;
     private BigDecimal price;
-
-    private String keyword;
 
     @PostConstruct
     public void postConstruct() {
         loadData();
     }
 
-    public void loadHospitalDrug() {
-        hospitalDrugs = new SpringDataLazyDataModelSupport<HospitalDrug>() {
-
+    public void searchTMTDrug() {
+        tmtDrugs = new SpringDataLazyDataModelSupport<TMTDrug>() {
             @Override
-            public Page<HospitalDrug> load(Pageable pageAble) {
-                return hospitalDrugRepo.findByApprovedAndNotDeleted(pageAble);
+            public Page<TMTDrug> load(Pageable pageable) {
+                Specification<TMTDrug> spec = Specifications
+                        .where(TMTDrugSpecs.typeIn(Arrays.asList(new TMTDrug.Type[]{Type.TP})));
+                if (!Strings.isNullOrEmpty(searchForSelectKeyword)) {
+                    List<String> keywords = Arrays.asList(searchForSelectKeyword.split("\\s+"));
+                    spec = Specifications.where(spec)
+                            .and(Specifications
+                                    .where(TMTDrugSpecs.tmtIdContains(keywords))
+                                    .or(TMTDrugSpecs.fsnContains(keywords)));
+                }
+                return tmtDrugService.findAllAndEagerGroup(spec, pageable);
             }
-
         };
     }
-    
-    public void reset(){
+
+    public void loadHospitalDrug(TMTDrug select) {
+        selectTMTDrug = select;
+        hospitalDrugs = new SpringDataLazyDataModelSupport<HospitalDrug>() {
+            @Override
+            public Page<HospitalDrug> load(Pageable pageAble) {
+                return hospitalDrugRepo.findByTMTIDAndApprovedAndNotDeleted(selectTMTDrug.getTmtId(), pageAble);
+            }
+        };
+    }
+
+    public void backToSelectTMT() {
+        selectTMTDrug = null;
+        hospitalDrugs = null;
+    }
+
+    public void reset() {
         selectHospitalDrug = null;
         dateEffective = null;
         price = null;
@@ -153,6 +189,30 @@ public class ReimbursePriceTPController implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getSearchForSelectKeyword() {
+        return searchForSelectKeyword;
+    }
+
+    public void setSearchForSelectKeyword(String searchForSelectKeyword) {
+        this.searchForSelectKeyword = searchForSelectKeyword;
+    }
+
+    public SpringDataLazyDataModelSupport<TMTDrug> getTmtDrugs() {
+        return tmtDrugs;
+    }
+
+    public void setTmtDrugs(SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs) {
+        this.tmtDrugs = tmtDrugs;
+    }
+
+    public TMTDrug getSelectTMTDrug() {
+        return selectTMTDrug;
+    }
+
+    public void setSelectTMTDrug(TMTDrug selectTMTDrug) {
+        this.selectTMTDrug = selectTMTDrug;
     }
 
 }
