@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
-import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,11 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTEdNedSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 
 /**
@@ -45,6 +47,10 @@ public class EdNedController {
     @Autowired
     private TMTEdNedService tmtEdNedService;
 
+    @Autowired
+    @Qualifier("TMTEdNedDeletedLogServiceImpl")
+    private DeletedLogService deletedLogService;
+
     private TMTDrug tmtDrug;
     private Date datein;
     private String edStatus;
@@ -58,6 +64,8 @@ public class EdNedController {
     private TMTEdNed selectedEdNed;
 
     private SpringDataLazyDataModelSupport<TMTEdNed> tmtEdNeds;
+
+    private String deleteAction;
 
     @PostConstruct
     public void postConstruct() {
@@ -92,9 +100,9 @@ public class EdNedController {
             FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
         }
     }
-    
-    public void checkDateAfter(){
-        if(searchEndDate.before(searchStartDate)){
+
+    public void checkDateAfter() {
+        if (searchEndDate.before(searchStartDate)) {
             searchEndDate = searchStartDate;
             LOG.debug("start date -> end date");
         }
@@ -156,6 +164,21 @@ public class EdNedController {
             tmtDrug = tmt;
             LOG.info("selected drug from search dialog is => {}", tmtDrug.getTmtId());
         }
+    }
+
+    public void deleteED() {
+        try {
+            deletedLogService.createLog(selectedEdNed);
+            tmtEdNedService.delete(selectedEdNed);
+            FacesMessageUtils.info("ลบข้อมูลสถานะ ED เรียบร้อย กรุณาตรวจสอบข้อมูล");
+        } catch (Exception e) {
+            LOG.error("Can't delete TMT_TMTEDNED", e);
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+        }
+    }
+
+    public void cancelDelete() {
+        selectedEdNed = null;
     }
 
 //    *************************** getter and setter method
@@ -237,6 +260,14 @@ public class EdNedController {
 
     public void setSearchType(String searchType) {
         this.searchType = searchType;
+    }
+
+    public String getDeleteAction() {
+        return deleteAction;
+    }
+
+    public void setDeleteAction(String deleteAction) {
+        this.deleteAction = deleteAction;
     }
 
 }
