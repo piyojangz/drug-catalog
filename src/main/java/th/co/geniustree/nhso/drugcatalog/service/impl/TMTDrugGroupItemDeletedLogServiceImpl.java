@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem;
 import th.co.geniustree.nhso.drugcatalog.model.log.TMTDrugGroupItemDeleted;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugGroupItemDeletedRepo;
@@ -25,7 +26,7 @@ import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 public class TMTDrugGroupItemDeletedLogServiceImpl implements DeletedLogService<TMTDrugGroupItem> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TMTDrugGroupItemDeletedLogServiceImpl.class);
-    
+
     @Autowired
     private TMTDrugGroupItemDeletedRepo repo;
 
@@ -39,6 +40,11 @@ public class TMTDrugGroupItemDeletedLogServiceImpl implements DeletedLogService<
             deleted.setTmtId(item.getTmtDrug().getTmtId());
             deleted.setDrugGroup(item.getDrugGroup().getId());
             repo.save(deleted);
+            LOG.info("Delete Drug group [TMT : {}, DRUGGROUP : {}, DATEIN : {}, DATEOUT : {}]",
+                    item.getTmtDrug().getTmtId(),
+                    item.getDrugGroup().getId(),
+                    DateUtils.format("dd/MMM/yyyy", item.getDatein()),
+                    item.getDateOut());
             return true;
         } catch (Exception e) {
             LOG.error("Can't save new LOG", e);

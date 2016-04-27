@@ -22,7 +22,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSupport;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem;
@@ -78,17 +77,12 @@ public class DeleteMistakeDrugGroupAssociation {
     }
 
     public void deleteDrugGroupAssociate() {
-        LOG.info("Delete Drug group [TMT : {}, DRUGGROUP : {}, DATEIN : {}, DATEOUT : {}]",
-                deleteTMTDrugGroupItem.getTmtDrug().getTmtId(),
-                deleteTMTDrugGroupItem.getDrugGroup().getId(),
-                DateUtils.format("dd/MMM/yyyy", deleteTMTDrugGroupItem.getDatein()),
-                deleteTMTDrugGroupItem.getDateOut());
         try {
             tmtDrugGroupItemRepo.delete(deleteTMTDrugGroupItem);
             deletedLogService.createLog(deleteTMTDrugGroupItem);
             FacesMessageUtils.info("ลบข้อมูลเรียบร้อยแล้ว กรุณาตรวจสอบข้อมูล");
         } catch (Exception e) {
-            LOG.error("Can't delete Drug group", e);
+            LOG.error("Can't delete TMT_DRUGGROUPITEM", e);
             FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
         }
     }
