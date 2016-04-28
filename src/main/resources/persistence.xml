@@ -39,6 +39,7 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTDrugGroupItemDeleted</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTEdNedDeleted</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTReimbursePriceDeleted</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTReimbursePriceTPDeleted</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

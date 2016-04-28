@@ -8,6 +8,9 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="action" value="#{reimbursePriceTPController.deleteAction}"/>
+            </f:metadata>
             <style>
                 .ui-panelgrid .ui-panelgrid-cell{
                     padding: 4px 5px;
@@ -218,8 +221,104 @@
                     <p:column headerText="PRICE" style="display: none;">
                         <h:outputText value="#{item.price}"/>
                     </p:column>
+                    <p:column headerText="ลบถาวร" style="width: 60px;text-align: center" rendered="#{reimbursePriceTPController.deleteAction eq 'DELETE'}">
+                        <p:commandLink value="ลบข้อมูล" style="color: blue;" 
+                                       onclick="PF('confirmDeleteDialogWidget').show()" 
+                                       actionListener="#{reimbursePriceTPController.onSelectReimbursePriceTP(item)}"
+                                       update=":confirmDeleteDialogForm"/>
+                    </p:column>
                 </p:dataTable>
             </h:form>
+            <p:dialog id="confirmDeleteDialog" widgetVar="confirmDeleteDialogWidget" appendTo="@(body)"
+                      modal="false" resizable="false" closable="false"
+                      showEffect="fade" hideEffect="fade"
+                      width="340" height="160">
+                <h:form id="confirmDeleteDialogForm">
+                    <p:panelGrid style="margin-left: auto; margin-right: auto;">
+                        <p:row>
+                            <p:column colspan="2">
+                                <div class="header-content-sub" style="margin-top: -30px;margin-left: -55px;">
+                                    <i class="fa fa-trash"></i><h:outputText value="ยืนยันการลบข้อมูล อย่างถาวร"/>
+                                </div>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="TMTID : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectedReimbursePriceTP.id.tmtId}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="HCODE : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectedReimbursePriceTP.id.hcode}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="HOSPDRUGCODE : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectedReimbursePriceTP.id.hospDrugCode}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="DateEffective : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectedReimbursePriceTP.id.dateEffective}">
+                                    <f:convertDateTime locale="en_US" pattern="d / MMM / yyy"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="CONTENT : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectedReimbursePriceTP.content}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="SPECPREP : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectedReimbursePriceTP.specprep}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <h:outputText value="ราคากลาง : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{reimbursePriceTPController.selectedReimbursePriceTP.price}" />
+                                <h:outputText value=" บาท"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;">
+                                <p:commandButton value="ลบ" update="@form, :tableForm, :growl"
+                                                 style="margin-right: 15px;"
+                                                 icon="ui-icon-trash"
+                                                 onclick="PF('confirmDeleteDialogWidget').hide()"
+                                                 actionListener="#{reimbursePriceTPController.delete()}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="ไม่ลบ" update="@form" 
+                                                 onclick="PF('confirmDeleteDialogWidget').hide()"
+                                                 actionListener="#{reimbursePriceTPController.cancelDelete()}"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog> 
+            
             <ui:include src="dialog/searchHospitalDrugDialog.xhtml"/>
         </ui:define>
     </ui:composition>

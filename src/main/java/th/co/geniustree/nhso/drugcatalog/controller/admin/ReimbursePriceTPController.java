@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug.Type;
 import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
@@ -50,9 +52,14 @@ public class ReimbursePriceTPController implements Serializable {
 
     @Autowired
     private TMTDrugService tmtDrugService;
+    
+    @Autowired
+    @Qualifier("TMTReimbursePriceTPDeletedLogServiceImpl")
+    private DeletedLogService deletedLogService;
 
     private SpringDataLazyDataModelSupport<ReimbursePriceTP> data;
     private String keyword;
+    private ReimbursePriceTP selectedReimbursePriceTP;
 
     private SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs;
     private String searchForSelectKeyword;
@@ -61,6 +68,8 @@ public class ReimbursePriceTPController implements Serializable {
     private HospitalDrug selectHospitalDrug;
     private Date dateEffective;
     private BigDecimal price;
+    
+    private String deleteAction;
 
     @PostConstruct
     public void postConstruct() {
@@ -142,6 +151,25 @@ public class ReimbursePriceTPController implements Serializable {
         }
 
     }
+    
+    public void onSelectReimbursePriceTP(ReimbursePriceTP selected){
+        selectedReimbursePriceTP = selected;
+    }
+    
+    public void delete() {
+        try {
+            deletedLogService.createLog(selectedReimbursePriceTP);
+            reimbursePriceService.delete(selectedReimbursePriceTP);
+            FacesMessageUtils.info("ลบข้อมูลราคายา เรียบร้อย กรุณาตรวจสอบข้อมูล");
+        } catch (Exception e) {
+            LOG.error("Can't delete TMT_TMTEDNED", e);
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+        }
+    }
+
+    public void cancelDelete() {
+        selectedReimbursePriceTP = null;
+    }
 
     public SpringDataLazyDataModelSupport<ReimbursePriceTP> getData() {
         return data;
@@ -213,6 +241,22 @@ public class ReimbursePriceTPController implements Serializable {
 
     public void setSelectTMTDrug(TMTDrug selectTMTDrug) {
         this.selectTMTDrug = selectTMTDrug;
+    }
+
+    public ReimbursePriceTP getSelectedReimbursePriceTP() {
+        return selectedReimbursePriceTP;
+    }
+
+    public void setSelectedReimbursePriceTP(ReimbursePriceTP selectedReimbursePriceTP) {
+        this.selectedReimbursePriceTP = selectedReimbursePriceTP;
+    }
+
+    public String getDeleteAction() {
+        return deleteAction;
+    }
+
+    public void setDeleteAction(String deleteAction) {
+        this.deleteAction = deleteAction;
     }
 
 }
