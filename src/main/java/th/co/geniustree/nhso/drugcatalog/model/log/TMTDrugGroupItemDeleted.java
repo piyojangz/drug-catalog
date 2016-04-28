@@ -50,7 +50,7 @@ public class TMTDrugGroupItemDeleted implements Serializable {
     @Column(name = "DATEOUT")
     private Date dateOut;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATEDATE")
     private Date createDate;
     
