@@ -18,6 +18,7 @@ import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSuppo
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 
 /**
@@ -41,6 +43,10 @@ public class ReimbursePriceController implements Serializable {
 
     @Autowired
     private ReimbursePriceService reimbursePriceService;
+    
+    @Autowired
+    @Qualifier("TMTReimbursePriceDeletedLogServiceImpl")
+    private DeletedLogService deletedLogService;
 
     private SpringDataLazyDataModelSupport<ReimbursePrice> reimbursePrices;
     private ReimbursePrice selectedReimbursePrice;
@@ -50,6 +56,8 @@ public class ReimbursePriceController implements Serializable {
     private Date dateEffective;
 
     private String keyword;
+    
+    private String deleteAction;
 
     @PostConstruct
     public void postConstruct() {
@@ -107,6 +115,21 @@ public class ReimbursePriceController implements Serializable {
             tmtDrug = tmt;
         }
     }
+    
+    public void delete() {
+        try {
+            deletedLogService.createLog(selectedReimbursePrice);
+            reimbursePriceService.delete(selectedReimbursePrice);
+            FacesMessageUtils.info("ลบข้อมูลราคายา เรียบร้อย กรุณาตรวจสอบข้อมูล");
+        } catch (Exception e) {
+            LOG.error("Can't delete TMT_TMTEDNED", e);
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+        }
+    }
+
+    public void cancelDelete() {
+        selectedReimbursePrice = null;
+    }
 
     public SpringDataLazyDataModelSupport<ReimbursePrice> getReimbursePrices() {
         return reimbursePrices;
@@ -154,6 +177,14 @@ public class ReimbursePriceController implements Serializable {
 
     public void setDateEffective(Date dateEffective) {
         this.dateEffective = dateEffective;
+    }
+
+    public String getDeleteAction() {
+        return deleteAction;
+    }
+
+    public void setDeleteAction(String deleteAction) {
+        this.deleteAction = deleteAction;
     }
 
 }
