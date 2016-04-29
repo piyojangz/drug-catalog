@@ -84,7 +84,12 @@
                          scrollable="true"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                 <f:facet name="header">
-                    <h:commandLink style="float:left">
+                    <h:commandLink style="float:left" rendered="#{searchTmtDrug.models eq null}"
+                                   onclick="alert('กรุณาคลิกปุ่ม Search ก่อน');
+                                           return fault;">
+                        <p:graphicImage name="images/excel24.png" />
+                    </h:commandLink>
+                    <h:commandLink style="float:left" rendered="#{searchTmtDrug.models ne null}">
                         <p:graphicImage name="images/excel24.png" />
                         <p:dataExporter type="xls" target="table" fileName="tmt_drug" pageOnly="false"/>
                     </h:commandLink>
