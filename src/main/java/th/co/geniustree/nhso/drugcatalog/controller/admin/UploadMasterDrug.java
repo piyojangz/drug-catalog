@@ -18,8 +18,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import net.java.truevfs.access.TArchiveDetector;
 import net.java.truevfs.access.TFile;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +152,7 @@ public class UploadMasterDrug implements Serializable {
     public String save() {
         try {
             tmtrfService.save(tmtDrugs, tp, gpu, gp, vtm, subs, releaseDate);
+            latestFile = originalFileName;
             reset();
             saveRelationship(subsToVtm);
             saveRelationship(vtmToGp);
@@ -281,18 +284,18 @@ public class UploadMasterDrug implements Serializable {
         LOG.info("----------------VTM size {}(\"----------------", vtm.size());
         subs = readGenericDrug("SUBS", GenericDrugExcelModel.class, Type.SUB);
         LOG.info("----------------SUBS size {}(\"----------------", subs.size());
-        subsToVtm = readRelationShip("SUBStoVTM", TMTSubsToVtm.class, subsToVtm);
-        LOG.info("----------------SUBStoVTM size {}(\"----------------", subsToVtm.size());
-        vtmToGp = readRelationShip("VTMtoGP", TMTVtmToGp.class, vtmToGp);
-        LOG.info("----------------VTMtoGP size {}(\"----------------", vtmToGp.size());
-        gpToGpu = readRelationShip("GPtoGPU", TMTGpToGpu.class, gpToGpu);
-        LOG.info("----------------GPtoGPU size {}(\"----------------", gpToGpu.size());
-        gpToTp = readRelationShip("GPtoTP", TMTGpToTp.class, gpToTp);
-        LOG.info("----------------GPtoTP size {}(\"----------------", gpToTp.size());
-        gpuToTpu = readRelationShip("GPUtoTPU", TMTGpuToTpu.class, gpuToTpu);
-        LOG.info("----------------GPUtoTPU size {}(\"----------------", gpuToTpu.size());
-        tpToTpu = readRelationShip("TPtoTPU", TMTTpToTpu.class, tpToTpu);
-        LOG.info("----------------TPtoTPU size {}(\"----------------", tpToTpu.size());
+//        subsToVtm = readRelationShip("SUBStoVTM", TMTSubsToVtm.class, subsToVtm);
+//        LOG.info("----------------SUBStoVTM size {}(\"----------------", subsToVtm.size());
+//        vtmToGp = readRelationShip("VTMtoGP", TMTVtmToGp.class, vtmToGp);
+//        LOG.info("----------------VTMtoGP size {}(\"----------------", vtmToGp.size());
+//        gpToGpu = readRelationShip("GPtoGPU", TMTGpToGpu.class, gpToGpu);
+//        LOG.info("----------------GPtoGPU size {}(\"----------------", gpToGpu.size());
+//        gpToTp = readRelationShip("GPtoTP", TMTGpToTp.class, gpToTp);
+//        LOG.info("----------------GPtoTP size {}(\"----------------", gpToTp.size());
+//        gpuToTpu = readRelationShip("GPUtoTPU", TMTGpuToTpu.class, gpuToTpu);
+//        LOG.info("----------------GPUtoTPU size {}(\"----------------", gpuToTpu.size());
+//        tpToTpu = readRelationShip("TPtoTPU", TMTTpToTpu.class, tpToTpu);
+//        LOG.info("----------------TPtoTPU size {}(\"----------------", tpToTpu.size());
     }
 
     private void createTempFile(UploadedFile file) {
