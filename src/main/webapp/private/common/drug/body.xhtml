@@ -17,6 +17,12 @@
                     padding: 4px 2px;
                     border: none;
                 }
+                .ui-chkbox-box {
+                    margin-left: 20px;
+                }
+                .ui-radiobutton-box table tbody tr td label{
+                    margin-left: 10px;
+                }
             </style>
             <p:panelGrid>
                 <p:row>
@@ -40,43 +46,35 @@
                     <p:column style="text-align: right">
                         <h:outputLabel value="Columns:"/>
                     </p:column>
-                    <p:column>
+                    <p:column colspan="2">
                         <p:selectManyCheckbox id="selectColumns" value="#{searchTmtDrug.selectColumns}">
                             <f:selectItem  itemValue="FSN" itemLabel="FSN"/>
                             <f:selectItem  itemValue="TMTID" itemLabel="TMTID"/>
                             <f:selectItem  itemValue="NDC24" itemLabel="NDC24"/>
                         </p:selectManyCheckbox>
                     </p:column>
-                    <p:column>
-                        <h:outputLabel value=""/>
-                    </p:column>
                 </p:row>
                 <p:row>
                     <p:column style="text-align: right">
                         <h:outputLabel value="Type:"/>
                     </p:column>
-                    <p:column>
+                    <p:column colspan="2">
                         <p:selectManyCheckbox id="selectTypes" value="#{searchTmtDrug.selectTypes}">
                             <f:selectItems value="#{searchTmtDrug.types}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
                         </p:selectManyCheckbox>
-                    </p:column>
-                    <p:column>
-                        <h:outputLabel value=""/>
                     </p:column>
                 </p:row>
                 <p:row>
                     <p:column style="text-align: right">
                         <h:outputLabel value="Drug group:"/>
                     </p:column>
-                    <p:column>
-                        <p:selectOneRadio id="dg" value="#{searchTmtDrug.drugGroupFilter}">
+                    <p:column colspan="2">
+                        <p:selectOneRadio id="dg" value="#{searchTmtDrug.drugGroupFilter}"
+                                          style="margin-left: 20px;">
                             <f:selectItem itemLabel="ทั้งหมด" itemValue="ALL" />
                             <f:selectItem itemLabel="มี" itemValue="YES" />
                             <f:selectItem itemLabel="ไม่มี" itemValue="NO" />
                         </p:selectOneRadio>
-                    </p:column>
-                    <p:column>
-                        <h:outputLabel value=""/>
                     </p:column>
                 </p:row>
             </p:panelGrid>
@@ -86,7 +84,12 @@
                          scrollable="true"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                 <f:facet name="header">
-                    <h:commandLink style="float:left">
+                    <h:commandLink style="float:left" rendered="#{searchTmtDrug.models eq null}"
+                                   onclick="alert('กรุณาคลิกปุ่ม Search ก่อน');
+                                           return false;">
+                        <p:graphicImage name="images/excel24.png" />
+                    </h:commandLink>
+                    <h:commandLink style="float:left" rendered="#{searchTmtDrug.models ne null}">
                         <p:graphicImage name="images/excel24.png" />
                         <p:dataExporter type="xls" target="table" fileName="tmt_drug" pageOnly="false"/>
                     </h:commandLink>
