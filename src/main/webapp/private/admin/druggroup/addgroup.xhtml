@@ -53,11 +53,11 @@
             <h:form id="tableForm">
                 <p:dataTable id="table" styleClass="clean-table"
                              resizableColumns="true"  
-                             value="#{addDrugGroup.druggroups}" var="model"
+                             value="#{addDrugGroup.druggroups}" var="model" rowIndexVar="rowIndex"
                              lazy="true" 
                              scrollable="true" scrollHeight="500"
                              paginator="true" rows="20" rowsPerPageTemplate="20,30,40,50"
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowIndexVar="rowIndex">
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
                         <h:outputText value="Drug group"/>
                         <h:commandLink style="float:left">
@@ -71,23 +71,23 @@
                     <p:column   headerText="Group" width="50">
                         <h:outputText value="#{model.id}"/>
                     </p:column>
-                    <p:column   headerText="Description" width="150">
+                    <p:column   headerText="Description" width="190">
                         <h:outputText value="#{model.description}"/>
                     </p:column>
-                    <p:column   headerText="createDate" width="100">
+                    <p:column   headerText="createDate" width="60">
                         <h:outputText value="#{model.createDate}">
                             <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="แก้ไข" width="30" exportable="false" style="text-align: center;">
                         <h:commandLink action="#{addDrugGroup.edit(model.id)}">
-                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                            <i class="fa fa-wrench" aria-hidden="true" style="color: #2196F3"></i>
                             <f:ajax execute="@this" render=":addForm"/>
                         </h:commandLink>
                     </p:column>
                     <p:column headerText="ยกเลิก" width="30" exportable="false" style="text-align: center;">
                         <p:commandLink action="#{addDrugGroup.delete(model.id)}" partialSubmit="true" process="@this" update="@form"> 
-                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            <i class="fa fa-trash" aria-hidden="true" style="color: red;"></i>
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                         </p:commandLink>
                     </p:column>
