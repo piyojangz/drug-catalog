@@ -17,11 +17,11 @@
                     padding: 4px 2px;
                     border: none;
                 }
-                .ui-chkbox-box {
-                    margin-left: 20px;
+                .ui-selectmanycheckbox tbody tr td:nth-child(2n+2){
+                    width: 50px;
                 }
-                .ui-radiobutton-box table tbody tr td label{
-                    margin-left: 10px;
+                .ui-selectoneradio tbody tr td:nth-child(2n+2){
+                    width: 50px;
                 }
             </style>
             <p:panelGrid>
@@ -69,8 +69,7 @@
                         <h:outputLabel value="Drug group:"/>
                     </p:column>
                     <p:column colspan="2">
-                        <p:selectOneRadio id="dg" value="#{searchTmtDrug.drugGroupFilter}"
-                                          style="margin-left: 20px;">
+                        <p:selectOneRadio id="dg" value="#{searchTmtDrug.drugGroupFilter}">
                             <f:selectItem itemLabel="ทั้งหมด" itemValue="ALL" />
                             <f:selectItem itemLabel="มี" itemValue="YES" />
                             <f:selectItem itemLabel="ไม่มี" itemValue="NO" />
