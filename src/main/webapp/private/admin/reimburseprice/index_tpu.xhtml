@@ -151,11 +151,12 @@
                     <p:column headerText="PRICE" style="display: none;">
                         <h:outputText value="#{item.price}"/>
                     </p:column>
-                    <p:column headerText="ลบถาวร" style="width: 60px;text-align: center" rendered="#{reimbursePriceController.deleteAction eq 'DELETE'}">
-                        <p:commandLink value="ลบข้อมูล" style="color: blue;" 
-                                       onclick="PF('confirmDeleteDialogWidget').show()" 
+                    <p:column headerText="ลบถาวร" style="width: 48px;text-align: center" rendered="#{reimbursePriceController.deleteAction eq 'DELETE'}">
+                        <p:commandLink onclick="PF('confirmDeleteDialogWidget').show()" 
                                        actionListener="#{reimbursePriceController.onSelect(item)}"
-                                       update=":confirmDeleteDialogForm"/>
+                                       update=":confirmDeleteDialogForm">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
             </h:form>
