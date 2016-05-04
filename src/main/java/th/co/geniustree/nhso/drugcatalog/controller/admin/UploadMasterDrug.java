@@ -150,6 +150,7 @@ public class UploadMasterDrug implements Serializable {
     public String save() {
         try {
             tmtrfService.save(tmtDrugs, tp, gpu, gp, vtm, subs, releaseDate);
+            latestFile = originalFileName;
             reset();
             saveRelationship(subsToVtm);
             saveRelationship(vtmToGp);

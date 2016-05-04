@@ -8,48 +8,13 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            <h:form id="form" >
-                <style type="text/css">
-                    .ui-panelgrid .ui-panelgrid-cell{
-                        padding: 4px 2px;
-                        border: none;
-                    }
-                    
-                    .ui-datatable-scrollable-header td{
-                        background-color: rgb(255, 250, 179);
-                    }
-
-                    .clean-table tbody tr td{
-                        border: solid 1px;
-                        border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
-                    }
-
-                    .clean-table tbody tr:first-child td{
-                        border-top: 2px solid rgb(156, 156, 156);
-                    }
-
-                    .clean-table tbody tr{
-                        border-left: 2px rgb(162, 161, 161) solid !important;
-                        border-right: 2px rgb(162, 161, 161) solid !important;
-                    }
-
-                    .clean-table tbody{
-                        border-color: #999;
-                    }
-
-                    .clean-table{
-                        border-width: 0 0 1px 0 !important;
-                        background: none !important;
-                    }
-
-                    .clean-table + .clean-table thead{
-                        visibility: hidden;
-                    }
-
-                    .clean-table .ui-datatable-tablewrapper{
-                        border-bottom: 2px solid #7F7E7E;
-                    }
-                </style>
+            <style type="text/css">
+                .ui-panelgrid .ui-panelgrid-cell{
+                    padding: 4px 2px;
+                    border: none;
+                }
+            </style>
+            <h:form id="addForm">
                 <div class="header-content">
                     <h:outputText value="เพิ่มรายการ Drug group"/>
                 </div>
@@ -78,52 +43,51 @@
                     <p:row>
                         <p:column/>
                         <p:column>
-                            <p:commandButton action="#{addDrugGroup.add()}" ajax="true" update="@form" value="Save"/>
-                            <p:commandButton action="#{addDrugGroup.clear()}" ajax="true" update="form:groupName form:desc form:msg" value="Cancel"/>
+                            <p:commandButton action="#{addDrugGroup.add()}" ajax="true" update="@form, :tableForm" value="Save"/>
+                            <p:commandButton action="#{addDrugGroup.clear()}" ajax="true" update="@form" value="Cancel"/>
                         </p:column>   
                     </p:row>
                 </p:panelGrid>
                 <p:messages id="msg" showDetail="true" showSummary="true" />
-                <p:dataTable id="table" 
-                             styleClass="clean-table"
+            </h:form>
+            <h:form id="tableForm">
+                <p:dataTable id="table" styleClass="clean-table"
                              resizableColumns="true"  
-                             value="#{addDrugGroup.druggroups}"
-                             scrollable="true"
-                             scrollHeight="500"
-                             var="model"  
-                             paginator="true" 
-                             rows="20" 
+                             value="#{addDrugGroup.druggroups}" var="model" rowIndexVar="rowIndex"
                              lazy="true" 
-                             rowsPerPageTemplate="20,30,40,50"
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowIndexVar="rowIndex">
+                             scrollable="true" scrollHeight="500"
+                             paginator="true" rows="20" rowsPerPageTemplate="20,30,40,50"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                     <f:facet name="header">
-                        Drug group
+                        <h:outputText value="Drug group"/>
                         <h:commandLink style="float:left">
                             <p:graphicImage name="images/excel24.png" />
                             <p:dataExporter type="xls" target="table" fileName="druggroup" pageOnly="false"/>
                         </h:commandLink>
                     </f:facet>
-                    <p:column   headerText="#" width="10">
+                    <p:column   headerText="#" width="10" style="text-align: center;">
                         <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
                     <p:column   headerText="Group" width="50">
                         <h:outputText value="#{model.id}"/>
                     </p:column>
-                    <p:column   headerText="Description" width="150">
+                    <p:column   headerText="Description" width="190">
                         <h:outputText value="#{model.description}"/>
                     </p:column>
-                    <p:column   headerText="createDate" width="100">
+                    <p:column   headerText="createDate" width="60">
                         <h:outputText value="#{model.createDate}">
                             <f:convertDateTime locale="en" pattern="dd/MM/yyyy HH:mm"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Edit" width="30">
-                        <h:commandLink action="#{addDrugGroup.edit(model.id)}" value="Edit" style="color: blue;" >
-                            <f:ajax execute="@this" render=":form:groupName :form:desc"/>
+                    <p:column headerText="แก้ไข" width="30" exportable="false" style="text-align: center;">
+                        <h:commandLink action="#{addDrugGroup.edit(model.id)}">
+                            <i class="fa fa-wrench" aria-hidden="true" style="color: #2196F3"></i>
+                            <f:ajax execute="@this" render=":addForm"/>
                         </h:commandLink>
                     </p:column>
-                    <p:column headerText="Delete" width="30">
-                        <p:commandLink action="#{addDrugGroup.delete(model.id)}" value="Delete" partialSubmit="true" process="@this" update="@form" style="color: blue;"> 
+                    <p:column headerText="ยกเลิก" width="30" exportable="false" style="text-align: center;">
+                        <p:commandLink action="#{addDrugGroup.delete(model.id)}" partialSubmit="true" process="@this" update="@form"> 
+                            <i class="fa fa-trash" aria-hidden="true" style="color: red;"></i>
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                         </p:commandLink>
                     </p:column>
