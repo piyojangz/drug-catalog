@@ -71,8 +71,19 @@ public class ApproveServiceImpl implements ApproveService {
     @Override
     public void approveBySystem(RequestItem requestItem) {
         try {
+            UploadHospitalDrugItem item;
             if ("U".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
-                UploadHospitalDrugItem item = uploadHospitalDrugItemService.findLatestItemByFlag(requestItem.getUploadDrugItem().getUploadDrug().getHcode(), requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUpdateFlag());
+                item = uploadHospitalDrugItemService.findLatestItemByFlag(
+                        requestItem.getUploadDrugItem().getUploadDrug().getHcode(), 
+                        requestItem.getUploadDrugItem().getHospDrugCode(), 
+                        requestItem.getUploadDrugItem().getUpdateFlag());
+                
+                if(item == null){
+                    item = uploadHospitalDrugItemService.findLatestItemByFlag(
+                        requestItem.getUploadDrugItem().getUploadDrug().getHcode(), 
+                        requestItem.getUploadDrugItem().getHospDrugCode(), 
+                        "A");
+                }
                 String oldPrice = item.getUnitPrice();
                 String newPrice = requestItem.getUploadDrugItem().getUnitPrice();
                 if (BigDecimalUtils.checkPrice(oldPrice, newPrice)) {
