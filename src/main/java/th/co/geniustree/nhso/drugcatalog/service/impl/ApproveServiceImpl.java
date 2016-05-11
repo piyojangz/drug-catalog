@@ -47,9 +47,6 @@ public class ApproveServiceImpl implements ApproveService {
     @Autowired
     private ApproveFileRepo approveFileRepo;
 
-    @Autowired
-    private UploadHospitalDrugItemService uploadHospitalDrugItemService;
-
     @Override
     public void approve(RequestItem requestItem) {
         approve(requestItem, SecurityUtil.getUserDetails().getPid());
@@ -67,23 +64,9 @@ public class ApproveServiceImpl implements ApproveService {
         reject(requestItem, SecurityUtil.getUserDetails().getPid());
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void approveBySystem(RequestItem requestItem) {
-        try {
-            if ("U".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
-                UploadHospitalDrugItem item = uploadHospitalDrugItemService.findLatestItemByFlag(requestItem.getUploadDrugItem().getUploadDrug().getHcode(), requestItem.getUploadDrugItem().getHospDrugCode(), requestItem.getUploadDrugItem().getUpdateFlag());
-                String oldPrice = item.getUnitPrice();
-                String newPrice = requestItem.getUploadDrugItem().getUnitPrice();
-                if (BigDecimalUtils.checkPrice(oldPrice, newPrice)) {
-                    approve(requestItem, SYSTEM);
-                }
-            } else if ("D".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())){
-                approve(requestItem, SYSTEM);
-            }
-        } catch (Exception e) {
-            LOG.error(null, e);
-        }
+        approve(requestItem, SYSTEM);
     }
 
     @Override

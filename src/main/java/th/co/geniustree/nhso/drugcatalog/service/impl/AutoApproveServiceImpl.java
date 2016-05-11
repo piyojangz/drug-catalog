@@ -6,6 +6,7 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
+import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugService;
 
 /**
@@ -36,6 +38,8 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     private ApproveService approveService;
     @Autowired
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
+    @Autowired
+    private UploadHospitalDrugItemService uploadHospitalDrugItemService;
 
     @Override
     public void approveRejectAndEditCountGreaterThanZero() {
@@ -89,15 +93,38 @@ public class AutoApproveServiceImpl implements AutoApproveService {
 
     @Override
     public void approveRequestFlag(String flag) {
-        List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, flag);
-        log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
+        List<RequestItem> items = findAllRequestItemByFlag(flag);
+        items = validate(items);
         approveService.approve(items);
     }
 
-    @Override
-    public void approveSelectedFlagBySystem(String flag) {
+    private List<RequestItem> findAllRequestItemByFlag(String flag) {
         List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, flag);
         log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
+        return items;
+    }
+
+    private List<RequestItem> validate(List<RequestItem> requestItems) {
+        List<RequestItem> passItems = new LinkedList<>();
+        for (RequestItem requestItem : requestItems) {
+            if (isValid(requestItem)) {
+                passItems.add(requestItem);
+            }
+        }
+        return passItems;
+    }
+
+    private boolean isValid(RequestItem requestItem) {
+        if ("U".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
+            return uploadHospitalDrugItemService.isUnitPriceNotMoreThanDoubleLatestItem(requestItem.getUploadDrugItem());
+        }
+        return true;
+    }
+
+    @Override
+    public void approveBySystem(String flag) {
+        List<RequestItem> items = findAllRequestItemByFlag(flag);
+        items = validate(items);
         approveService.approveBySystem(items);
     }
 
