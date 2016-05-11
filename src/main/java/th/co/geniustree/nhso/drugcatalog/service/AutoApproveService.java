@@ -23,5 +23,5 @@ public interface AutoApproveService {
 
     public void approveRequestFlag(String flag);
 
-    public void approveSelectedFlagBySystem(String flag);
+    public void approveBySystem(String flag);
 }

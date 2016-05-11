@@ -5,6 +5,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -66,6 +67,22 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
     }
 
     @Override
+    public boolean isUnitPriceNotMoreThanDoubleLatestItem(UploadHospitalDrugItem newItem) {
+        UploadHospitalDrugItem latestItem = findLatestItemByFlag(
+                newItem.getUploadDrug().getHcode(),
+                newItem.getHospDrugCode(),
+                newItem.getUpdateFlag());
+
+        if (latestItem == null) {
+            latestItem = findLatestItemByFlag(
+                    newItem.getUploadDrug().getHcode(),
+                    newItem.getHospDrugCode(),
+                    "A");
+        }
+        BigDecimal oldPr = new BigDecimal(latestItem.getUnitPrice());
+        BigDecimal newPr = new BigDecimal(newItem.getUnitPrice());
+        return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(2)).doubleValue();
+    }
     public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode) {
         long count = repo.countByHospitalDrugThatFlagAAndAccept(
                 hospDrugCode,
