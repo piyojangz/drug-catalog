@@ -85,7 +85,7 @@
                             <f:ajax execute="@this" render=":addForm"/>
                         </h:commandLink>
                     </p:column>
-                    <p:column headerText="ยกเลิก" width="30" exportable="false" style="text-align: center;">
+                    <p:column headerText="ลบ" width="30" exportable="false" style="text-align: center;">
                         <p:commandLink action="#{addDrugGroup.delete(model.id)}" partialSubmit="true" process="@this" update="@form"> 
                             <i class="fa fa-trash" aria-hidden="true" style="color: red;"></i>
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
