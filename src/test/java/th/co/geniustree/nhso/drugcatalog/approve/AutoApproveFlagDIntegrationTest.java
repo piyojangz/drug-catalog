@@ -25,7 +25,7 @@ import th.co.geniustree.nhso.drugcatalog.schedule.Processor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/applicationContext-persistence.xml"})
 @Transactional(propagation = Propagation.REQUIRED)
-public class AutoApproveFlagDTest {
+public class AutoApproveFlagDIntegrationTest {
 
     @Autowired
     private Processor processor;
