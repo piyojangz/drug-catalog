@@ -16,6 +16,7 @@ import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 /**
  *
  * @author moth
+ * @author thanthathon.b
  */
 @Service
 public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
@@ -50,7 +51,7 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     private void isHospitalDrugHasFlagABefore(HospitalDrugExcelModel uploadDrugModel){
         boolean exists = uploadDrugItemService.isHospitalDrugHasFlagAWithAccept(uploadDrugModel.getHcode(), uploadDrugModel.getHospDrugCode());
         if(!exists){
-            uploadDrugModel.addError("rowNum", "รายการยานี้ไมมีรายการยาที่เป็น Flag A มาก่อน หรือส่งมาแล้วแต่ยังไม่ได้รับการอนุมัติ หรืออนุมัติแล้วไม่ผ่านการตรวจสอบ");
+            uploadDrugModel.addError("rowNum", "รายการยานี้ไม่มีรายการยาที่เป็น Flag A มาก่อน หรือส่งมาแล้วแต่ยังไม่ได้รับการอนุมัติ หรืออนุมัติแล้วไม่ผ่านการตรวจสอบ");
         }
     }
 

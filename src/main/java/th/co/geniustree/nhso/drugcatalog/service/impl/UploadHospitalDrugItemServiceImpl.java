@@ -83,6 +83,8 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
         BigDecimal newPr = new BigDecimal(newItem.getUnitPrice());
         return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(2)).doubleValue();
     }
+    
+    @Override
     public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode) {
         long count = repo.countByHospitalDrugThatFlagAAndAccept(
                 hospDrugCode,
