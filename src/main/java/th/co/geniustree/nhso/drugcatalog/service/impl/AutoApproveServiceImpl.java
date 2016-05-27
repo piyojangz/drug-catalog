@@ -115,10 +115,17 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     }
 
     private boolean isValid(RequestItem requestItem) {
+        boolean valid = false;
         if ("U".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
-            return uploadHospitalDrugItemService.isUnitPriceNotMoreThanDoubleLatestItem(requestItem.getUploadDrugItem());
+            try {
+                valid = uploadHospitalDrugItemService.isUnitPriceNotMoreThanDoubleLatestItem(requestItem.getUploadDrugItem());
+            } catch (RuntimeException re) {
+                
+            }
+        } else if ("D".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
+            valid = true;
         }
-        return true;
+        return valid;
     }
 
     @Override
