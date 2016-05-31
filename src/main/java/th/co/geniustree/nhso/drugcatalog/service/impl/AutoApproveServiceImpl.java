@@ -120,7 +120,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
             try {
                 valid = uploadHospitalDrugItemService.isUnitPriceNotMoreThanDoubleLatestItem(requestItem.getUploadDrugItem());
             } catch (RuntimeException re) {
-                
+                log.error("Can't APPROVE UploadHospitalDrugItem -> " + requestItem.getUploadDrugItem().getId(), re);
             }
         } else if ("D".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
             valid = true;
