@@ -23,8 +23,8 @@ public class AutoApproveScheduler implements Processor{
     @Scheduled(cron = " 0 0 21 * * ?")
     @Override
     public void process() {
-        autoApproveService.approveBySystem("U");
-        autoApproveService.approveBySystem("D");
+        autoApproveService.approveByRequestFlag("U");
+        autoApproveService.approveByRequestFlag("D");
     }
     
 }

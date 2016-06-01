@@ -77,7 +77,7 @@ public class AutoApprove implements Serializable {
 
     public void approveAllRequestWithFlag() {
         try {
-            autoApproveService.approveRequestFlag(flagApprove);
+            autoApproveService.approveByRequestFlag(flagApprove);
             FacesMessageUtils.info("อนุมัติทุกรายการยา Flag " + flagApprove + " เรียบร้อย");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถอนุมัติรายการยาได้");

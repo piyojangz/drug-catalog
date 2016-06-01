@@ -33,7 +33,4 @@ public interface ApproveService {
 
     public void reApproveAndNotChangeRequestItemState(List<RequestItem> requestItems);
 
-    public void approveBySystem(RequestItem requestItem);
-
-    public void approveBySystem(List<RequestItem> requestItems);
 }

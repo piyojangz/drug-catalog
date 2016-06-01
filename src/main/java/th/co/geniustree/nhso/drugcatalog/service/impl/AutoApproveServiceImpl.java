@@ -92,7 +92,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     }
 
     @Override
-    public void approveRequestFlag(String flag) {
+    public void approveByRequestFlag(String flag) {
         List<RequestItem> items = findAllRequestItemByFlag(flag);
         items = validate(items);
         approveService.approve(items);
@@ -126,13 +126,6 @@ public class AutoApproveServiceImpl implements AutoApproveService {
             valid = true;
         }
         return valid;
-    }
-
-    @Override
-    public void approveBySystem(String flag) {
-        List<RequestItem> items = findAllRequestItemByFlag(flag);
-        items = validate(items);
-        approveService.approveBySystem(items);
     }
 
 }

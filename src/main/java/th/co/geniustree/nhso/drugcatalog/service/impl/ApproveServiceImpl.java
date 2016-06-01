@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -15,17 +14,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.ApproveData;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.BigDecimalUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.ApproveFile;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.ApproveFileRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
-import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 
 /**
  *
@@ -54,26 +50,20 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Override
     public void approve(List<RequestItem> requestItems) {
+        String approveUser;
+        if (SecurityUtil.isLoggedIn()) {
+            approveUser = SecurityUtil.getUserDetails().getPid();
+        } else {
+            approveUser = SYSTEM;
+        }
         for (RequestItem requestItem : requestItems) {
-            approve(requestItem, SecurityUtil.getUserDetails().getPid());
+            approve(requestItem, approveUser);
         }
     }
 
     @Override
     public void reject(RequestItem requestItem) {
         reject(requestItem, SecurityUtil.getUserDetails().getPid());
-    }
-
-    @Override
-    public void approveBySystem(RequestItem requestItem) {
-        approve(requestItem, SYSTEM);
-    }
-
-    @Override
-    public void approveBySystem(List<RequestItem> requestItems) {
-        for (RequestItem requestItem : requestItems) {
-            approveBySystem(requestItem);
-        }
     }
 
     private void approve(RequestItem requestItem, String pid) {
