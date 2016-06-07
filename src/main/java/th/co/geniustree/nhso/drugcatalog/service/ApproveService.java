@@ -17,11 +17,11 @@ import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
  */
 public interface ApproveService {
 
-    public void approve(RequestItem item);
+    public void approve(RequestItem item, String approveUser);
 
-    public void approve(List<RequestItem> requestItems);
+    public void approve(List<RequestItem> requestItems, String User);
 
-    public void reject(RequestItem requestItem);
+    public void reject(RequestItem requestItem, String rejectUser);
 
     public void approveOrReject(List<RequestItem> items);
 

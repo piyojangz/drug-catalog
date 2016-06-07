@@ -15,16 +15,18 @@ import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
  * @author thanthathon.b
  */
 @Service
-public class AutoApproveScheduler implements Processor{
+public class AutoApproveScheduler implements Processor {
 
     @Autowired
     private AutoApproveService autoApproveService;
-    
+
+    private final String SYSTEM_APPROVE = "SYSTEM";
+
     @Scheduled(cron = " 0 0 21 * * ?")
     @Override
     public void process() {
-        autoApproveService.approveByRequestFlag("U");
-        autoApproveService.approveByRequestFlag("D");
+        autoApproveService.approveByRequestFlag("U", SYSTEM_APPROVE);
+        autoApproveService.approveByRequestFlag("D", SYSTEM_APPROVE);
     }
-    
+
 }

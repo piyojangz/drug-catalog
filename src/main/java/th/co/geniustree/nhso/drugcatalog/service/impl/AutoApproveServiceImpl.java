@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
@@ -51,7 +52,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
                 itemsThatExports.add(item);
             }
             log.info("auto approve for request and editCount=0 ==>{}", itemsThatExports.size());
-            approveService.approve(itemsThatExports);
+            approveService.approve(itemsThatExports, SecurityUtil.getUserDetails().getPid());
         }
         uploadHospitalDrugItemRepo.copyDataProcedure();
     }
@@ -60,7 +61,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     public void approveRequestWhichTMTisNull() {
         List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemTmtIdIsNull(RequestItem.Status.REQUEST);
         log.info("auto approve for request and tmt is null ==>{}", items.size());
-        approveService.approve(items);
+        approveService.approve(items, SecurityUtil.getUserDetails().getPid());
         uploadHospitalDrugItemRepo.copyDataProcedure();
         log.info("auto approve for request and tmt is null ==>{} completed", items.size());
     }
@@ -69,7 +70,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     public void approveRequestWhichCreateOneline() {
         List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugShaHex(RequestItem.Status.REQUEST, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
         log.info("auto approve for request and that creat ONLINE ==>{}", items.size());
-        approveService.approve(items);
+        approveService.approve(items, SecurityUtil.getUserDetails().getPid());
         uploadHospitalDrugItemRepo.copyDataProcedure();
         log.info("auto approve for request and that creat ONLINE ==>{} completed", items.size());
     }
@@ -78,7 +79,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     public void approveByHcode(String hcode) {
         List<RequestItem> items = requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcode(RequestItem.Status.REQUEST, hcode);
         log.info("auto approve request for HCODE size ==>{}", items.size());
-        approveService.approve(items);
+        approveService.approve(items, SecurityUtil.getUserDetails().getPid());
         uploadHospitalDrugItemRepo.copyDataProcedure();
         log.info("auto approve request for HCODE size ==>{} completed", items.size());
     }
@@ -92,10 +93,10 @@ public class AutoApproveServiceImpl implements AutoApproveService {
     }
 
     @Override
-    public void approveByRequestFlag(String flag) {
+    public void approveByRequestFlag(String flag, String approveUser) {
         List<RequestItem> items = findAllRequestItemByFlag(flag);
         items = validate(items);
-        approveService.approve(items);
+        approveService.approve(items, approveUser);
     }
 
     private List<RequestItem> findAllRequestItemByFlag(String flag) {
@@ -120,7 +121,7 @@ public class AutoApproveServiceImpl implements AutoApproveService {
             try {
                 valid = uploadHospitalDrugItemService.isUnitPriceNotMoreThanDoubleLatestItem(requestItem.getUploadDrugItem());
             } catch (RuntimeException re) {
-                log.error("Can't APPROVE UploadHospitalDrugItem -> " + requestItem.getUploadDrugItem().getId(), re);
+                log.error("Can't APPROVE UploadHospitalDrugItem -> " + requestItem.getUploadDrugItem().getId());
             }
         } else if ("D".equalsIgnoreCase(requestItem.getUploadDrugItem().getUpdateFlag())) {
             valid = true;

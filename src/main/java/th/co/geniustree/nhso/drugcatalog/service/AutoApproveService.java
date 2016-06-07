@@ -21,6 +21,6 @@ public interface AutoApproveService {
 
     public boolean approvePartial(int page, int pageSize);
 
-    public void approveByRequestFlag(String flag);
+    public void approveByRequestFlag(String flag, String approveUser);
 
 }

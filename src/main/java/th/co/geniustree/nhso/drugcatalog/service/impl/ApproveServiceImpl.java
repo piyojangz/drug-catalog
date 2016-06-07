@@ -32,7 +32,6 @@ import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
 public class ApproveServiceImpl implements ApproveService {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ApproveServiceImpl.class);
-    private static final String SYSTEM = "SYSTEM";
 
     @Autowired
     private RequestItemRepo requestItemRepo;
@@ -44,29 +43,14 @@ public class ApproveServiceImpl implements ApproveService {
     private ApproveFileRepo approveFileRepo;
 
     @Override
-    public void approve(RequestItem requestItem) {
-        approve(requestItem, SecurityUtil.getUserDetails().getPid());
-    }
-
-    @Override
-    public void approve(List<RequestItem> requestItems) {
-        String approveUser;
-        if (SecurityUtil.isLoggedIn()) {
-            approveUser = SecurityUtil.getUserDetails().getPid();
-        } else {
-            approveUser = SYSTEM;
-        }
+    public void approve(List<RequestItem> requestItems, String approveUser) {
         for (RequestItem requestItem : requestItems) {
             approve(requestItem, approveUser);
         }
     }
-
+    
     @Override
-    public void reject(RequestItem requestItem) {
-        reject(requestItem, SecurityUtil.getUserDetails().getPid());
-    }
-
-    private void approve(RequestItem requestItem, String pid) {
+    public void approve(RequestItem requestItem, String pid) {
         if (requestItem.isDeleted()) {
             return;
         }
@@ -79,7 +63,8 @@ public class ApproveServiceImpl implements ApproveService {
         requestItemRepo.save(requestItem);
     }
 
-    private void reject(RequestItem requestItem, String pid) {
+    @Override
+    public void reject(RequestItem requestItem, String pid) {
         if (requestItem.isDeleted()) {
             return;
         }
@@ -93,9 +78,9 @@ public class ApproveServiceImpl implements ApproveService {
     public void approveOrReject(List<RequestItem> items) {
         for (RequestItem item : items) {
             if (RequestItem.Status.ACCEPT == item.getStatus()) {
-                approve(item);
+                approve(item, SecurityUtil.getUserDetails().getPid());
             } else {
-                reject(item);
+                reject(item, SecurityUtil.getUserDetails().getPid());
             }
         }
     }
@@ -131,10 +116,10 @@ public class ApproveServiceImpl implements ApproveService {
                     requestItem.getUploadDrugItem().setDosageForm(data.getDosageForm());
                     requestItem.getUploadDrugItem().setContent(data.getContent());
                     requestItem.getUploadDrugItem().setManufacturer(data.getManufacturer());
-                    approve(requestItem);
+                    approve(requestItem, SecurityUtil.getUserDetails().getPid());
                 } else {
                     requestItem.setErrorColumns(data.getErrorColumns());
-                    reject(requestItem);
+                    reject(requestItem, SecurityUtil.getUserDetails().getPid());
                 }
             }
         }
