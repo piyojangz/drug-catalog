@@ -68,6 +68,9 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
                     newItem.getHospDrugCode(),
                     "A");
         }
+        if (latestItem == null) {
+            throw new RuntimeException("Not found uploadHospitalDrugItem");
+        }
         BigDecimal oldPr = new BigDecimal(latestItem.getUnitPrice());
         BigDecimal newPr = new BigDecimal(newItem.getUnitPrice());
         return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(2)).doubleValue();

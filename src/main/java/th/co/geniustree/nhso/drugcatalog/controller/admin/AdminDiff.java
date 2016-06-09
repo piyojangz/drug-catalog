@@ -9,6 +9,7 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
@@ -79,14 +80,14 @@ public class AdminDiff implements Serializable {
     }
 
     public String accept() {
-        approveService.approve(requestItem);
+        approveService.approve(requestItem, SecurityUtil.getUserDetails().getPid());
         FacesMessageUtils.info("Approve completed.");
         back = true;
         return null;
     }
 
     public String reject() {
-        approveService.reject(requestItem);
+        approveService.reject(requestItem, SecurityUtil.getUserDetails().getPid());
         FacesMessageUtils.info("Reject completed.");
         back = true;
         return null;
