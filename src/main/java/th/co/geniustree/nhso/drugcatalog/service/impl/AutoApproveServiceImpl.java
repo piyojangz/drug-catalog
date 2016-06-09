@@ -6,7 +6,6 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -94,25 +93,12 @@ public class AutoApproveServiceImpl implements AutoApproveService {
 
     @Override
     public void approveByRequestFlag(String flag, String approveUser) {
-        List<RequestItem> items = findAllRequestItemByFlag(flag);
-        items = validate(items);
-        approveService.approve(items, approveUser);
-    }
-
-    private List<RequestItem> findAllRequestItemByFlag(String flag) {
         List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, flag);
-        log.info("auto approve for request and flag \'{}\' ==> {} items", flag, items.size());
-        return items;
-    }
-
-    private List<RequestItem> validate(List<RequestItem> requestItems) {
-        List<RequestItem> passItems = new LinkedList<>();
-        for (RequestItem requestItem : requestItems) {
+        for (RequestItem requestItem : items) {
             if (isValid(requestItem)) {
-                passItems.add(requestItem);
+                approveService.approve(requestItem, approveUser);
             }
         }
-        return passItems;
     }
 
     private boolean isValid(RequestItem requestItem) {
