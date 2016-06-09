@@ -3,8 +3,6 @@ package th.co.geniustree.nhso.drugcatalog.authen;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
-
 public class SecurityUtil {
 
     public static WSUserDetails getUserDetails() {
@@ -14,6 +12,10 @@ public class SecurityUtil {
     }
 
     public static boolean isLoggedIn() {
-        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            return authentication.isAuthenticated();
+        }
+        return false;
     }
 }
