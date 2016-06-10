@@ -399,7 +399,7 @@
                       fitViewport="true"
                       header="เขียนคำอธิบายเพื่อให้ทางหน่วยบริการเข้าใจได้มากยิ่งขึ้น">
                 <h:form id="commentDialogForm">
-                    <p:inputTextarea value="#{adminInbox.editMessageRequestItem.message}" 
+                    <p:inputTextarea value="#{adminInbox.messageOfRequestItem}" 
                                      placeholder="อธิบายรายละเอียดเพิ่มเติม..."
                                      style="width: 500px;white-space: pre;"
                                      rows="3" 
@@ -407,9 +407,10 @@
                                      maxlength="255"/>
                     <br/>
                     <p:commandButton value="#{adminInbox.editMessageRequestItem.message eq null ? 'บันทึก' : 'แก้ไข'}"
-                                     onsuccess="PF('commentDialogWidget').hide()" />
+                                     onsuccess="PF('commentDialogWidget').hide()" 
+                                     actionListener="#{adminInbox.editMessage()}"/>
                     <p:commandButton value="ยกเลิก"
-                                     onsuccess="PF('commentDialogWidget').hide()" actionListener="#{adminInbox.cancelEditMessage()}"/>
+                                     onsuccess="PF('commentDialogWidget').hide()" />
                 </h:form>
             </p:dialog>
         </ui:define>

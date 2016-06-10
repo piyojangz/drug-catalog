@@ -91,7 +91,7 @@ public class AdminInbox implements Serializable {
     private long totalElementOfSearchTmt;
     
     private RequestItem editMessageRequestItem;
-    private String beforeEditMessage;
+    private String messageOfRequestItem;
 
     @PostConstruct
     public void postConstruct() {
@@ -591,10 +591,20 @@ public class AdminInbox implements Serializable {
     
     public void selectRequestItem(RequestItem item){
         this.editMessageRequestItem = item;
-        beforeEditMessage = item.getMessage();
+        messageOfRequestItem = editMessageRequestItem.getMessage();
     }
     
-    public void cancelEditMessage(){
-        this.editMessageRequestItem.setMessage(beforeEditMessage);
+    public void editMessage(){
+        this.editMessageRequestItem.setMessage(messageOfRequestItem);
+        messageOfRequestItem = null;
     }
+
+    public String getMessageOfRequestItem() {
+        return messageOfRequestItem;
+    }
+
+    public void setMessageOfRequestItem(String messageOfRequestItem) {
+        this.messageOfRequestItem = messageOfRequestItem;
+    }
+    
 }

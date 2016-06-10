@@ -14,24 +14,13 @@ public class CommentUtils {
     /**
      * Convert <code>String</code> for save in database
      * @param text input string with line break
-     * @return <code>String</code> with convert line break to <code>&lt;br/&gt;</code> tag
+     * @return <code>String</code> with convert line break to ", "
      */
-    public static String convertLineBreakToHtmlTag(String text) {
+    public static String convertLineBreakToSeparator(String text) {
         if(text == null){
             return null;
         }
-        return text.replaceAll("\r\n", "<br/>");
+        return text.replaceAll("\r\n", ", ");
     }
 
-    /**
-     * Convert <code>String</code> for rendering on <code>p:inputTextarea</code>
-     * @param text
-     * @return 
-     */
-    public static String convertLineBreakToEscapeCharacter(String text) {
-        if(text == null){
-            return null;
-        }
-        return text.replaceAll("<br/>", "\r\n");
-    }
 }

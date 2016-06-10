@@ -111,13 +111,13 @@ public class RequestItem implements Serializable {
     public void prePersist() {
         requestDate = new Date();
         lastUpdate = requestDate;
-        message = CommentUtils.convertLineBreakToHtmlTag(message);
+        message = CommentUtils.convertLineBreakToSeparator(message);
     }
 
     @PreUpdate
     public void preUpdate() {
         lastUpdate = new Date();
-        message = CommentUtils.convertLineBreakToHtmlTag(message);
+        message = CommentUtils.convertLineBreakToSeparator(message);
     }
 
     public Integer getId() {

@@ -16,60 +16,33 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.CommentUtils;
 public class CommentWithMultiLineTest {
 
     @Test
-    public void englishNewLineMustConvertToHtmlTag() {
+    public void englishNewLineMustUseSeparator() {
         String input = "Hello world.\r\nThis is a new line.";
-        String output = CommentUtils.convertLineBreakToHtmlTag(input);
+        String output = CommentUtils.convertLineBreakToSeparator(input);
         System.out.println("output : " + output);
 
         Assertions.assertThat(input)
                 .contains("\r", "\n");
 
         Assertions.assertThat(output)
-                .contains("<br/>")
+                .contains(", ")
                 .doesNotContain("\r")
                 .doesNotContain("\n");
     }
     
     @Test
-    public void englishNewLineMustConvertToEscapeCharacter() {
-        String input = "Hello world.<br/>This is a new line.";
-        String output = CommentUtils.convertLineBreakToEscapeCharacter(input);
-        System.out.println("output : " + output);
-
-        Assertions.assertThat(input)
-                .contains("<br/>");
-
-        Assertions.assertThat(output)
-                .contains("\r","\n")
-                .doesNotContain("<br/>");
-    }
-
-    @Test
-    public void thaiNewLineMustConvertToHtmlTag() {
+    public void thaiNewLineMustUseSeparator() {
         String input = "สวัสดี\r\nนี่คือบรรทัดใหม่";
-        String output = CommentUtils.convertLineBreakToHtmlTag(input);
+        String output = CommentUtils.convertLineBreakToSeparator(input);
         System.out.println("output : " + output);
 
         Assertions.assertThat(input)
                 .contains("\r", "\n");
 
         Assertions.assertThat(output)
-                .contains("<br/>")
+                .contains(", ")
                 .doesNotContain("\r")
                 .doesNotContain("\n");
     }
     
-    @Test
-    public void thaiNewLineMustConvertToEscapeCharacter() {
-        String input = "สวัสดี<br/>นี่คือบรรทัดใหม่";
-        String output = CommentUtils.convertLineBreakToEscapeCharacter(input);
-        System.out.println("output : " + output);
-
-        Assertions.assertThat(input)
-                .contains("<br/>");
-
-        Assertions.assertThat(output)
-                .contains("\r","\n")
-                .doesNotContain("<br/>");
-    }
 }
