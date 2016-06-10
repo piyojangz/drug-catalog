@@ -17,6 +17,9 @@ public class CommentUtils {
      * @return <code>String</code> with convert line break to <code>&lt;br/&gt;</code> tag
      */
     public static String convertLineBreakToHtmlTag(String text) {
+        if(text == null){
+            return null;
+        }
         return text.replaceAll("\r\n", "<br/>");
     }
 
@@ -26,6 +29,9 @@ public class CommentUtils {
      * @return 
      */
     public static String convertLineBreakToEscapeCharacter(String text) {
+        if(text == null){
+            return null;
+        }
         return text.replaceAll("<br/>", "\r\n");
     }
 }
