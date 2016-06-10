@@ -13,10 +13,13 @@
                     padding: 4px 5px;
                     border: none;
                 }
+                .approved-button > .ui-button{
+                    width: 45px;
+                }
                 .approved-button .ui-button.ui-state-active:first-child .ui-button-text{
                     background-color : rgb(0, 194, 0);
                     color : #fff;
-                    text-shadow: none; 
+                    text-shadow: none;
                 }
 
                 .approved-button .ui-button:first-child + .ui-button.ui-state-active .ui-button-text{
@@ -27,38 +30,6 @@
 
                 .ui-datatable-scrollable-header td{
                     background-color: rgb(255, 250, 179);
-                }
-
-                .clean-table tbody tr td{
-                    border: solid 1px;
-                    border-color: #ddd #F0F0F0 #E1E1E1 #F3F3F3;
-                }
-
-                .clean-table tbody tr:first-child td{
-                    border-top: 2px solid rgb(156, 156, 156);
-                }
-
-                .clean-table tbody tr{
-                    border-left: 2px rgb(162, 161, 161) solid !important;
-                    border-right: 2px rgb(162, 161, 161) solid !important;
-                }
-
-                .clean-table tbody{
-                    border-color: #999;
-                }
-
-                .clean-table{
-                    border-width: 0 0 1px 0 !important;
-                    background: none !important;
-                    min-width: 600px;
-                }
-
-                .clean-table + .clean-table thead{
-                    visibility: hidden;
-                }
-
-                .clean-table .ui-datatable-tablewrapper{
-                    border-bottom: 2px solid #7F7E7E;
                 }
                 .tab{
                     background-color: #FD6B6B;
@@ -96,6 +67,20 @@
                 }
                 .advancePanel{
                     display: none;
+                }
+                .addMessage{
+                    width: 60px;
+                    height: 30px;
+                    background-color: rgba(255, 138, 0, 0.29); 
+                    box-shadow: 2px 2px 2px;
+                    border-radius: 0.2em;
+                    text-align: center;
+                    padding-top: 6px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+                .addMessage:hover{
+                    background-color: rgba(255, 138, 0, 0.5); 
                 }
             </style>
 
@@ -146,7 +131,9 @@
                             <p:outputLabel value="keyword : " for="keyword"/>
                         </p:column>
                         <p:column colspan="2">
-                            <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
+                            <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50">
+                                <p:watermark for="keyword" value="ค้นหารายการยาที่ต้องการ"/>
+                            </p:inputText>
                             <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="@form , :tableForm" />
                             &nbsp;
                             <span onclick="jQuery('.advancePanel').fadeToggle('fast');" style="color:blue;cursor: pointer">Advance Search</span>
@@ -200,6 +187,17 @@
                                 </p:outputPanel>
                             </p:column>
 
+                            <p:column headerText="เขียนคำอธิบาย" width="120" style="text-align: center;">
+                                <p:commandLink rendered="#{rowIndex ne 0}"
+                                               actionListener="#{adminInbox.selectRequestItem(model)}"
+                                               onclick="PF('commentDialogWidget').show()"
+                                               update=":commentDialogForm">
+                                    <div class="addMessage">
+                                        <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                                    </div>
+                                </p:commandLink>
+                            </p:column>
+
                             <p:column headerText="HOSPDRUGCODE" width="120" style="width: 120px;">
                                 <h:outputText value="#{model.uploadDrugItem.hospDrugCode}"/>
                             </p:column>
@@ -213,7 +211,7 @@
                                                    action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
                                 </p:outputPanel>
                             </p:column>
-                            
+
                             <p:column headerText="TMTID" width="70" style="text-align: center;">
                                 <p:outputPanel styleClass="updateset-#{model.id}">
                                     <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})" 
@@ -388,6 +386,30 @@
                             </p:column>
                         </p:row>
                     </p:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="commentDialog" widgetVar="commentDialogWidget"
+                      showEffect="fade"
+                      hideEffect="fade"
+                      height="150"
+                      appendTo="@(body)"
+                      closable="false"
+                      closeOnEscape="true"
+                      fitViewport="true"
+                      header="เขียนคำอธิบายเพื่อให้ทางหน่วยบริการเข้าใจได้มากยิ่งขึ้น">
+                <h:form id="commentDialogForm">
+                    <p:inputTextarea value="#{adminInbox.editMessageRequestItem.message}" 
+                                     placeholder="อธิบายรายละเอียดเพิ่มเติม..."
+                                     style="width: 500px;white-space: pre;"
+                                     rows="3" 
+                                     addLine="true"
+                                     maxlength="255"/>
+                    <br/>
+                    <p:commandButton value="#{adminInbox.editMessageRequestItem.message eq null ? 'บันทึก' : 'แก้ไข'}"
+                                     onsuccess="PF('commentDialogWidget').hide()" />
+                    <p:commandButton value="ยกเลิก"
+                                     onsuccess="PF('commentDialogWidget').hide()" actionListener="#{adminInbox.cancelEditMessage()}"/>
                 </h:form>
             </p:dialog>
         </ui:define>
