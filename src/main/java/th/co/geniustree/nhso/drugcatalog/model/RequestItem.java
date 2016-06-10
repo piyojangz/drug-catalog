@@ -26,6 +26,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.CommentUtils;
 
 /**
  *
@@ -110,11 +111,13 @@ public class RequestItem implements Serializable {
     public void prePersist() {
         requestDate = new Date();
         lastUpdate = requestDate;
+        message = CommentUtils.convertLineBreakToHtmlTag(message);
     }
 
     @PreUpdate
     public void preUpdate() {
         lastUpdate = new Date();
+        message = CommentUtils.convertLineBreakToHtmlTag(message);
     }
 
     public Integer getId() {
