@@ -68,7 +68,7 @@
                 .advancePanel{
                     display: none;
                 }
-                .addMessage{
+                .addMessageBtn{
                     width: 60px;
                     height: 30px;
                     background-color: rgba(255, 138, 0, 0.29); 
@@ -79,7 +79,7 @@
                     margin-left: auto;
                     margin-right: auto;
                 }
-                .addMessage:hover{
+                .addMessageBtn:hover{
                     background-color: rgba(255, 138, 0, 0.5); 
                 }
             </style>
@@ -192,7 +192,7 @@
                                                actionListener="#{adminInbox.selectRequestItem(model)}"
                                                onclick="PF('commentDialogWidget').show()"
                                                update=":commentDialogForm">
-                                    <div class="addMessage">
+                                    <div class="addMessageBtn">
                                         <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
                                     </div>
                                 </p:commandLink>
@@ -347,72 +347,8 @@
                                      action="#{adminInbox.clear()}"/>
                 </p:panelGrid>
             </h:form>
-            <p:dialog id="fsnDialog"
-                      appendTo="@(body)"
-                      closable="true"
-                      closeOnEscape="true"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      widgetVar="fsnDialogWidget">
-                <h:form id="fsnDialogForm">
-                    <p:panelGrid>
-                        <p:row>
-                            <p:column style="text-align: right;width: 100px;">
-                                <h:outputText value="TMTID : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.tmtId}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="TYPE : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.type}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="text-align: right;">
-                                <h:outputText value="FSN : "/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.fsn}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2" style="text-align: center;">
-                                <p:commandButton icon="ui-icon-close" update="@form" onclick="PF('fsnDialogWidget').hide()"/>
-                            </p:column>
-                        </p:row>
-                    </p:panelGrid>
-                </h:form>
-            </p:dialog>
-
-            <p:dialog id="commentDialog" widgetVar="commentDialogWidget"
-                      showEffect="fade"
-                      hideEffect="fade"
-                      height="150"
-                      appendTo="@(body)"
-                      closable="false"
-                      closeOnEscape="true"
-                      fitViewport="true"
-                      header="เขียนคำอธิบายเพื่อให้ทางหน่วยบริการเข้าใจได้มากยิ่งขึ้น">
-                <h:form id="commentDialogForm">
-                    <p:inputTextarea value="#{adminInbox.messageOfRequestItem}" 
-                                     placeholder="อธิบายรายละเอียดเพิ่มเติม..."
-                                     style="width: 500px;white-space: pre;"
-                                     rows="3" 
-                                     addLine="true"
-                                     maxlength="255"/>
-                    <br/>
-                    <p:commandButton value="#{adminInbox.editMessageRequestItem.message eq null ? 'บันทึก' : 'แก้ไข'}"
-                                     onsuccess="PF('commentDialogWidget').hide()" 
-                                     actionListener="#{adminInbox.editMessage()}"/>
-                    <p:commandButton value="ยกเลิก"
-                                     onsuccess="PF('commentDialogWidget').hide()" />
-                </h:form>
-            </p:dialog>
+            <ui:include src="dialog/fsnDialog.xhtml"/>
+            <ui:include src="dialog/commentDialog.xhtml"/>
         </ui:define>
     </ui:composition>
 </html>

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition>
+        <p:dialog id="fsnDialog"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  showEffect="fade"
+                  position="left"
+                  hideEffect="fade"
+                  widgetVar="fsnDialogWidget">
+            <h:form id="fsnDialogForm">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="text-align: right;width: 100px;">
+                            <h:outputText value="TMTID : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.tmtId}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="TYPE : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.type}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right;">
+                            <h:outputText value="FSN : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{adminInbox.uploadDrugItem.tmtDrug.fsn}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center;">
+                            <p:commandButton icon="ui-icon-close" update="@form" onclick="PF('fsnDialogWidget').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
