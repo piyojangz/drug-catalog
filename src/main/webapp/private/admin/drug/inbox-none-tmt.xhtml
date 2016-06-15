@@ -104,6 +104,20 @@
                 .advancePanel{
                     display: none;
                 }
+                .addMessageBtn{
+                    width: 60px;
+                    height: 30px;
+                    background-color: rgba(255, 138, 0, 0.29); 
+                    box-shadow: 2px 2px 2px;
+                    border-radius: 0.2em;
+                    text-align: center;
+                    padding-top: 6px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+                .addMessageBtn:hover{
+                    background-color: rgba(255, 138, 0, 0.5); 
+                }
             </style>
             <f:metadata>
                 <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
@@ -128,8 +142,8 @@
                     </p:row>
                 </p:panelGrid>
             </h:form>
-            
-            
+
+
             <h:form id="searchForm">
                 <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}" style="min-width: 680px;">
                     <p:row>
@@ -201,6 +215,15 @@
                                            style="color:blue; display: block; width: 100%;" 
                                            action="#{adminInbox.clearErrorColumns(model)}"/>
                         </p:outputPanel>
+                    </p:column>
+                    <p:column headerText="เขียนคำอธิบาย" width="120" style="text-align: center;">
+                        <p:commandLink actionListener="#{adminInbox.selectRequestItem(model)}"
+                                       onclick="PF('commentDialogWidget').show()"
+                                       update=":commentDialogForm">
+                            <div class="addMessageBtn">
+                                <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                            </div>
+                        </p:commandLink>
                     </p:column>
                     <p:column headerText="HOSPDRUGCODE" width="120">
                         <h:outputText value="#{model.uploadDrugItem.hospDrugCode}"/>
@@ -315,6 +338,8 @@
 
 
             </h:form>
+
+            <ui:include src="dialog/commentDialog.xhtml"/>
         </ui:define>
     </ui:composition>
 </html>
