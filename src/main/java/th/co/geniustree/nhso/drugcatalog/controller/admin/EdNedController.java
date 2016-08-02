@@ -47,10 +47,6 @@ public class EdNedController {
     @Autowired
     private TMTEdNedService tmtEdNedService;
 
-    @Autowired
-    @Qualifier("TMTEdNedDeletedLogServiceImpl")
-    private DeletedLogService deletedLogService;
-
     private TMTDrug tmtDrug;
     private Date datein;
     private String edStatus;
@@ -64,8 +60,6 @@ public class EdNedController {
     private TMTEdNed selectedEdNed;
 
     private SpringDataLazyDataModelSupport<TMTEdNed> tmtEdNeds;
-
-    private String deleteAction;
 
     @PostConstruct
     public void postConstruct() {
@@ -168,7 +162,6 @@ public class EdNedController {
 
     public void deleteED() {
         try {
-            deletedLogService.createLog(selectedEdNed);
             tmtEdNedService.delete(selectedEdNed);
             FacesMessageUtils.info("ลบข้อมูลสถานะ ED เรียบร้อย กรุณาตรวจสอบข้อมูล");
         } catch (Exception e) {
@@ -260,14 +253,6 @@ public class EdNedController {
 
     public void setSearchType(String searchType) {
         this.searchType = searchType;
-    }
-
-    public String getDeleteAction() {
-        return deleteAction;
-    }
-
-    public void setDeleteAction(String deleteAction) {
-        this.deleteAction = deleteAction;
     }
 
 }

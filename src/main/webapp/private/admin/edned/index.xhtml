@@ -8,9 +8,6 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            <f:metadata>
-                <f:viewParam name="action" value="#{edNedController.deleteAction}"/>
-            </f:metadata>
             <style>
                 .ui-panelgrid .ui-panelgrid-cell{
                     padding: 4px 5px;
@@ -197,7 +194,7 @@
                     <p:column headerText="ISED" style="display: none;">
                         <h:outputText value="#{model.statusEd}"/>
                     </p:column>
-                    <p:column headerText="ลบถาวร" style="width: 60px;text-align: center" rendered="#{edNedController.deleteAction eq 'DELETE'}" exportable="false">
+                    <p:column headerText="ลบถาวร" style="width: 60px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
                         <p:commandLink value="ลบข้อมูล" style="color: blue;" 
                                        onclick="PF('confirmDeleteDialogWidget').show()" 
                                        actionListener="#{edNedController.onSelect(model)}"
@@ -270,7 +267,6 @@
                     </p:panelGrid>
                 </h:form>
             </p:dialog>
-
         </ui:define>
     </ui:composition>
 </html>
