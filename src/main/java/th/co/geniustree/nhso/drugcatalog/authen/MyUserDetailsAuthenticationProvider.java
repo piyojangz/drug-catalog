@@ -51,6 +51,9 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
             if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1150", "GC2")) {
                 wsUserDetails.getAuthorities().add(Role.ADMIN);
             }
+            if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1434", "GC2")) {
+                wsUserDetails.getAuthorities().add(Role.SUPER_ADMIN);
+            }
             if ("Z".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
                 wsUserDetails.getAuthorities().add(Role.ZONE);
                 wsUserDetails.setZone(nhsoZoneService.findZoneByOrgId(userDto.getOrgId()));
