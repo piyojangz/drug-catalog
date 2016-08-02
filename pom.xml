@@ -4,7 +4,7 @@
 
     <groupId>th.co.geniustree.nhso</groupId>
     <artifactId>drug-catalog</artifactId>
-    <version>1.1.52-SNAPSHOT</version>
+    <version>1.1.55-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>drug-catalog</name>
@@ -15,19 +15,19 @@
         <org.springframework.version>4.1.5.RELEASE</org.springframework.version>
     </properties>
     <scm>
-        <connection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</connection>
-        <developerConnection>scm:git:http://pramoth@192.168.1.126/git/drug-catalog.git</developerConnection>
-        <url>http://192.168.1.126/git/drug-catalog.git</url>
+        <connection>scm:git:git@git.geniustree.ath.cx:nhso/drug-catalog.git</connection>
+        <developerConnection>scm:git:git@git.geniustree.ath.cx:nhso/drug-catalog.git</developerConnection>
+        <url>git@git.geniustree.ath.cx:nhso/drug-catalog.git</url>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
             <id>Geniustree Release</id>
-            <url>http://192.168.1.126:8088/nexus/content/repositories/geniustree/</url>
+            <url>http://nexus.geniustree.ath.cx/content/repositories/geniustree/</url>
         </repository>
         <snapshotRepository>
             <id>Geniustree Snapshots</id>
-            <url>http://192.168.1.126:8088/nexus/content/repositories/GeniustreeSnapshots/</url>
+            <url>http://nexus.geniustree.ath.cx/content/repositories/GeniustreeSnapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <dependencies>

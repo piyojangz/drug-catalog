@@ -46,17 +46,6 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
     }
 
     @Override
-    public boolean isExistsItem(String hcode, String hospDrugCode, String tmtid, String dateEffective, String updateFlag) {
-        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(
-                hospDrugCode,
-                hcode,
-                tmtid,
-                dateEffective,
-                updateFlag);
-        return count > 0;
-    }
-
-    @Override
     public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId, String updateFlag) {
         return repo.findByUploadDrugHcodeAndHospDrugCodeAndTmtIdAndUpdateFlag(hcode, hospDrugCode, tmtId, updateFlag, new Sort(Sort.Direction.ASC, "id"));
     }
@@ -79,11 +68,25 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
                     newItem.getHospDrugCode(),
                     "A");
         }
+        if (latestItem == null) {
+            throw new RuntimeException("Not found uploadHospitalDrugItem");
+        }
         BigDecimal oldPr = new BigDecimal(latestItem.getUnitPrice());
         BigDecimal newPr = new BigDecimal(newItem.getUnitPrice());
         return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(2)).doubleValue();
     }
-    
+
+    @Override
+    public boolean isExistsItem(String hcode, String hospDrugCode, String tmtid, String dateEffective, String updateFlag) {
+        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(
+                hospDrugCode,
+                hcode,
+                tmtid,
+                dateEffective,
+                updateFlag);
+        return count > 0;
+    }
+
     @Override
     public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode) {
         long count = repo.countByHospitalDrugThatFlagAAndAccept(

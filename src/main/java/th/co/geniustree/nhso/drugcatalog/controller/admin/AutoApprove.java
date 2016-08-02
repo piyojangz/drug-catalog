@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
@@ -77,7 +78,7 @@ public class AutoApprove implements Serializable {
 
     public void approveAllRequestWithFlag() {
         try {
-            autoApproveService.approveRequestFlag(flagApprove);
+            autoApproveService.approveByRequestFlag(flagApprove, SecurityUtil.getUserDetails().getPid());
             FacesMessageUtils.info("อนุมัติทุกรายการยา Flag " + flagApprove + " เรียบร้อย");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถอนุมัติรายการยาได้");
