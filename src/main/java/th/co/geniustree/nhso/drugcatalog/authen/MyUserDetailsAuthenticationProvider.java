@@ -69,7 +69,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
             }
             if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1468", "GC2")) {
-                wsUserDetails.getAuthorities().add(Role.EMCO);
+                wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
             }
             wsUserDetails.setPid(userDto.getPid());
             log.debug(ToStringBuilder.reflectionToString(wsUserDetails));
