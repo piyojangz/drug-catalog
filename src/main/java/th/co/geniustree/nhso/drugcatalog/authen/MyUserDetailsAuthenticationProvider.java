@@ -4,6 +4,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.authen;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,7 +53,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
                 wsUserDetails.getAuthorities().add(Role.ADMIN);
             }
             if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1434", "GC2")) {
-                wsUserDetails.getAuthorities().add(Role.SUPER_ADMIN);
+                wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.SUPER_ADMIN, Role.ADMIN));
             }
             if ("Z".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
                 wsUserDetails.getAuthorities().add(Role.ZONE);

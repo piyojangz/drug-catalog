@@ -66,7 +66,7 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
             wsUserDetails.setHospital(hospital);
             wsUserDetails.setOrgName(hospital.getHname());
         } else if ("super".equalsIgnoreCase(username)) {
-            wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.SUPER_ADMIN});
+            wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.ADMIN, Role.SUPER_ADMIN});
             wsUserDetails.setOrgName("สำนักงานหลักประกันสุขภาพแห่งชาติ");
             wsUserDetails.setFromType("O");
         } else {
