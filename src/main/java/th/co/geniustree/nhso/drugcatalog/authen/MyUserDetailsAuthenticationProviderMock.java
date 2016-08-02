@@ -38,14 +38,14 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        log.debug("{} try to login ",username);
+        log.debug("{} try to login ", username);
         if (username == null || username.isEmpty()) {
             throw new UsernameNotFoundException("Check username.");
         }
         if (authentication.getCredentials() == null) {
             throw new UsernameNotFoundException("Check password.");
         }
-        
+
         WSUserDetails wsUserDetails;
         if ("nhso".equalsIgnoreCase(username)) {
             wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.ADMIN});
@@ -66,7 +66,7 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
             wsUserDetails.setHospital(hospital);
             wsUserDetails.setOrgName(hospital.getHname());
         } else {
-            wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.HOSPITAL});
+            wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.HOSPITAL, Role.EMCO});
             Hospital hospital = hospitalRepo.findByHcode(username);
             if (hospital == null) {
                 throw new UsernameNotFoundException("Not found HCODE " + username);
@@ -74,9 +74,6 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
             wsUserDetails.setHospital(hospital);
             wsUserDetails.setOrgName(hospital.getHname());
             wsUserDetails.setFromType("H");
-            if("10666".equals(username)){
-                wsUserDetails.getAuthorities().add(Role.EMCO);
-            }
         }
         wsUserDetails.setPid(username);
         wsUserDetails.setStaffName(username + " " + username);
