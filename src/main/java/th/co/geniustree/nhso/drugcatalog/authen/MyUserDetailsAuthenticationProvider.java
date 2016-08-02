@@ -4,6 +4,7 @@
  */
 package th.co.geniustree.nhso.drugcatalog.authen;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
             }
             if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1468", "GC2")) {
-                wsUserDetails.getAuthorities().add(Role.EMCO);
+                wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
             }
             wsUserDetails.setPid(userDto.getPid());
             log.debug(ToStringBuilder.reflectionToString(wsUserDetails));
