@@ -74,6 +74,9 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
             wsUserDetails.setHospital(hospital);
             wsUserDetails.setOrgName(hospital.getHname());
             wsUserDetails.setFromType("H");
+            if("10666".equals(username)){
+                wsUserDetails.getAuthorities().add(Role.EMCO);
+            }
         }
         wsUserDetails.setPid(username);
         wsUserDetails.setStaffName(username + " " + username);

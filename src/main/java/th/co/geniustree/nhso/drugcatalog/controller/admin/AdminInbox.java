@@ -554,7 +554,7 @@ public class AdminInbox implements Serializable {
         }
     }
 
-    public void onSearchFSN() {
+    public void searchTMTDrugByFSN() {
         searchTmt = new SpringDataLazyDataModelSupport<TMTDrug>() {
             @Override
             public Page<TMTDrug> load(Pageable pageAble) {
