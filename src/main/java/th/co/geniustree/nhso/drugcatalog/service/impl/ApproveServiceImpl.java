@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -15,17 +14,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.admin.ApproveData;
-import th.co.geniustree.nhso.drugcatalog.controller.utils.BigDecimalUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.model.ApproveFile;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.HospitalDrug;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
 import th.co.geniustree.nhso.drugcatalog.repo.ApproveFileRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.ApproveService;
 import th.co.geniustree.nhso.drugcatalog.service.HospitalDrugService;
-import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 
 /**
  *
@@ -36,7 +32,6 @@ import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
 public class ApproveServiceImpl implements ApproveService {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ApproveServiceImpl.class);
-    private static final String SYSTEM = "SYSTEM";
 
     @Autowired
     private RequestItemRepo requestItemRepo;
@@ -48,35 +43,14 @@ public class ApproveServiceImpl implements ApproveService {
     private ApproveFileRepo approveFileRepo;
 
     @Override
-    public void approve(RequestItem requestItem) {
-        approve(requestItem, SecurityUtil.getUserDetails().getPid());
-    }
-
-    @Override
-    public void approve(List<RequestItem> requestItems) {
+    public void approve(List<RequestItem> requestItems, String approveUser) {
         for (RequestItem requestItem : requestItems) {
-            approve(requestItem, SecurityUtil.getUserDetails().getPid());
+            approve(requestItem, approveUser);
         }
     }
-
+    
     @Override
-    public void reject(RequestItem requestItem) {
-        reject(requestItem, SecurityUtil.getUserDetails().getPid());
-    }
-
-    @Override
-    public void approveBySystem(RequestItem requestItem) {
-        approve(requestItem, SYSTEM);
-    }
-
-    @Override
-    public void approveBySystem(List<RequestItem> requestItems) {
-        for (RequestItem requestItem : requestItems) {
-            approveBySystem(requestItem);
-        }
-    }
-
-    private void approve(RequestItem requestItem, String pid) {
+    public void approve(RequestItem requestItem, String pid) {
         if (requestItem.isDeleted()) {
             return;
         }
@@ -89,7 +63,8 @@ public class ApproveServiceImpl implements ApproveService {
         requestItemRepo.save(requestItem);
     }
 
-    private void reject(RequestItem requestItem, String pid) {
+    @Override
+    public void reject(RequestItem requestItem, String pid) {
         if (requestItem.isDeleted()) {
             return;
         }
@@ -103,9 +78,9 @@ public class ApproveServiceImpl implements ApproveService {
     public void approveOrReject(List<RequestItem> items) {
         for (RequestItem item : items) {
             if (RequestItem.Status.ACCEPT == item.getStatus()) {
-                approve(item);
+                approve(item, SecurityUtil.getUserDetails().getPid());
             } else {
-                reject(item);
+                reject(item, SecurityUtil.getUserDetails().getPid());
             }
         }
     }
@@ -141,10 +116,10 @@ public class ApproveServiceImpl implements ApproveService {
                     requestItem.getUploadDrugItem().setDosageForm(data.getDosageForm());
                     requestItem.getUploadDrugItem().setContent(data.getContent());
                     requestItem.getUploadDrugItem().setManufacturer(data.getManufacturer());
-                    approve(requestItem);
+                    approve(requestItem, SecurityUtil.getUserDetails().getPid());
                 } else {
                     requestItem.setErrorColumns(data.getErrorColumns());
-                    reject(requestItem);
+                    reject(requestItem, SecurityUtil.getUserDetails().getPid());
                 }
             }
         }

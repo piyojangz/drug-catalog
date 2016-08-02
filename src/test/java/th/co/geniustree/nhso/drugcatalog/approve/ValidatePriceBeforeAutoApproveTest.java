@@ -20,7 +20,7 @@ import th.co.geniustree.nhso.drugcatalog.service.impl.UploadHospitalDrugItemServ
  *
  * @author thanthathon.b
  */
-public class AutoApproveFlagUTest {
+public class ValidatePriceBeforeAutoApproveTest {
 
     private UploadHospitalDrugItemService uploadHospitalDrugItemService;
     private UploadHospitalDrugItem newItem;

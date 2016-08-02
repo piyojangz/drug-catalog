@@ -6,7 +6,8 @@
 package th.co.geniustree.nhso.drugcatalog.approve;
 
 import java.util.List;
-import org.assertj.core.api.Assertions;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
-import th.co.geniustree.nhso.drugcatalog.repo.RequestItemRepo;
-import th.co.geniustree.nhso.drugcatalog.schedule.Processor;
+import th.co.geniustree.nhso.drugcatalog.service.AutoApproveService;
 
 /**
  *
@@ -25,19 +25,23 @@ import th.co.geniustree.nhso.drugcatalog.schedule.Processor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/applicationContext-persistence.xml"})
 @Transactional(propagation = Propagation.REQUIRED)
-public class AutoApproveFlagDTest {
+public class CheckRequestItemSequenceBeforeAutoApproveTest {
 
     @Autowired
-    private Processor processor;
+    private AutoApproveService autoApproveService;
 
-    @Autowired
-    private RequestItemRepo requestItemRepo;
+    private static List<RequestItem> requestItems;
 
-    @Test
-    public void mustApproveAllItemFlagD() {
-        processor.process();
-        List<RequestItem> items = requestItemRepo.findAllByFlag(RequestItem.Status.REQUEST, "D");
-        Assertions.assertThat(items).isNullOrEmpty();
+    @BeforeClass
+    public static void setUpClass() {
+
     }
 
+    @AfterClass
+    public static void tearDownClass() {
+    }
+
+    @Test
+    public void hello() {
+    }
 }
