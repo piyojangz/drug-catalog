@@ -53,10 +53,6 @@ public class ReimbursePriceTPController implements Serializable {
     @Autowired
     private TMTDrugService tmtDrugService;
     
-    @Autowired
-    @Qualifier("TMTReimbursePriceTPDeletedLogServiceImpl")
-    private DeletedLogService deletedLogService;
-
     private SpringDataLazyDataModelSupport<ReimbursePriceTP> data;
     private String keyword;
     private ReimbursePriceTP selectedReimbursePriceTP;
@@ -156,7 +152,6 @@ public class ReimbursePriceTPController implements Serializable {
     
     public void delete() {
         try {
-            deletedLogService.createLog(selectedReimbursePriceTP);
             reimbursePriceService.delete(selectedReimbursePriceTP);
             FacesMessageUtils.info("ลบข้อมูลราคายา เรียบร้อย กรุณาตรวจสอบข้อมูล");
         } catch (Exception e) {

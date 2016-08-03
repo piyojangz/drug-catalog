@@ -87,8 +87,8 @@ public class TMTEdNedServiceImpl implements TMTEdNedService {
 
     @Override
     public void delete(TMTEdNed edNed) {
-        deletedLogService.createLog(edNed);
         tmtEdNedRepo.delete(edNed);
+        deletedLogService.createLog(edNed);
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,6 +28,7 @@ import th.co.geniustree.nhso.drugcatalog.repo.ReimbursePriceRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.ReimbursePriceTPRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimbursePriceSpecs;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.ReimbursePriceTPSpecs;
+import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 
 /**
@@ -36,6 +38,14 @@ import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class ReimbursePriceServiceImpl implements ReimbursePriceService {
+    
+    @Autowired
+    @Qualifier("TMTReimbursePriceDeletedLogServiceImpl")
+    private DeletedLogService<ReimbursePrice> deletedLogService;
+    
+    @Autowired
+    @Qualifier("TMTReimbursePriceTPDeletedLogServiceImpl")
+    private DeletedLogService<ReimbursePriceTP> deletedLogTPService;
 
     @Autowired
     private ReimbursePriceRepo reimbursePriceRepo;
@@ -86,11 +96,13 @@ public class ReimbursePriceServiceImpl implements ReimbursePriceService {
     @Override
     public void delete(ReimbursePrice tmt) {
         reimbursePriceRepo.delete(tmt);
+        deletedLogService.createLog(tmt);
     }
 
     @Override
     public void delete(ReimbursePriceTP tmt) {
         reimbursePriceTPRepo.delete(tmt);
+        deletedLogTPService.createLog(tmt);
     }
 
     @Override
