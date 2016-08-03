@@ -13,13 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +29,6 @@ import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTEdNedSpecs;
-import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTEdNedService;
 
 /**

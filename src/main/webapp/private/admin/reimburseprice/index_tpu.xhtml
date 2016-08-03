@@ -8,9 +8,6 @@
       shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
-            <f:metadata>
-                <f:viewParam name="action" value="#{reimbursePriceController.deleteAction}"/>
-            </f:metadata>
             <style>
                 .ui-panelgrid .ui-panelgrid-cell{
                     padding: 4px 5px;
@@ -151,7 +148,7 @@
                     <p:column headerText="PRICE" style="display: none;">
                         <h:outputText value="#{item.price}"/>
                     </p:column>
-                    <p:column headerText="ลบถาวร" style="width: 48px;text-align: center" rendered="#{reimbursePriceController.deleteAction eq 'DELETE'}" exportable="false">
+                    <p:column headerText="ลบถาวร" style="width: 48px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
                         <p:commandLink onclick="PF('confirmDeleteDialogWidget').show()" 
                                        actionListener="#{reimbursePriceController.onSelect(item)}"
                                        update=":confirmDeleteDialogForm">

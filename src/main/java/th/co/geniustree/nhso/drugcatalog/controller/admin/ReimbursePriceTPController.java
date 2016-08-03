@@ -69,8 +69,6 @@ public class ReimbursePriceTPController implements Serializable {
     private Date dateEffective;
     private BigDecimal price;
     
-    private String deleteAction;
-
     @PostConstruct
     public void postConstruct() {
         loadData();
@@ -249,14 +247,6 @@ public class ReimbursePriceTPController implements Serializable {
 
     public void setSelectedReimbursePriceTP(ReimbursePriceTP selectedReimbursePriceTP) {
         this.selectedReimbursePriceTP = selectedReimbursePriceTP;
-    }
-
-    public String getDeleteAction() {
-        return deleteAction;
-    }
-
-    public void setDeleteAction(String deleteAction) {
-        this.deleteAction = deleteAction;
     }
 
 }

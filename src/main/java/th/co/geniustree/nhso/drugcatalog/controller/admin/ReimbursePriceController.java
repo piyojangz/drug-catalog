@@ -57,8 +57,6 @@ public class ReimbursePriceController implements Serializable {
 
     private String keyword;
     
-    private String deleteAction;
-
     @PostConstruct
     public void postConstruct() {
         findAll();
@@ -177,14 +175,6 @@ public class ReimbursePriceController implements Serializable {
 
     public void setDateEffective(Date dateEffective) {
         this.dateEffective = dateEffective;
-    }
-
-    public String getDeleteAction() {
-        return deleteAction;
-    }
-
-    public void setDeleteAction(String deleteAction) {
-        this.deleteAction = deleteAction;
     }
 
 }
