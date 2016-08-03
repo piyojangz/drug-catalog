@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.service;
 
 import java.util.List;
 import th.co.geniustree.nhso.drugcatalog.input.DrugAndGroup;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem;
 
 /**
  *
@@ -17,4 +18,6 @@ public interface TMTDrugGroupItemService {
     public void validate(DrugAndGroup drugAndGroup);
 
     public void save(List<DrugAndGroup> passModels);
+    
+    public void delete(TMTDrugGroupItem drugGroupItem);
 }

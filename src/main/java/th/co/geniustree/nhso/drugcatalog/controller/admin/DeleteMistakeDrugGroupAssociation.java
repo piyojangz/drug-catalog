@@ -14,7 +14,6 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +24,8 @@ import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSuppo
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem;
-import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugGroupItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.spec.TMTDrugSpecs;
-import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
+import th.co.geniustree.nhso.drugcatalog.service.TMTDrugGroupItemService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
 
 /**
@@ -44,12 +42,8 @@ public class DeleteMistakeDrugGroupAssociation {
     private TMTDrugService tmtDrugService;
 
     @Autowired
-    private TMTDrugGroupItemRepo tmtDrugGroupItemRepo;
+    private TMTDrugGroupItemService tmtDrugGroupItemService;
     
-    @Autowired
-    @Qualifier("TMTDrugGroupItemDeletedLogServiceImpl")
-    private DeletedLogService deletedLogService;
-
     private List<TMTDrugGroupItem> drugGroupItems;
     private SpringDataLazyDataModelSupport<TMTDrug> tmtDrugs;
     private String searchText;
@@ -78,8 +72,7 @@ public class DeleteMistakeDrugGroupAssociation {
 
     public void deleteDrugGroupAssociate() {
         try {
-            tmtDrugGroupItemRepo.delete(deleteTMTDrugGroupItem);
-            deletedLogService.createLog(deleteTMTDrugGroupItem);
+            tmtDrugGroupItemService.delete(deleteTMTDrugGroupItem);
             FacesMessageUtils.info("ลบข้อมูลเรียบร้อยแล้ว กรุณาตรวจสอบข้อมูล");
         } catch (Exception e) {
             LOG.error("Can't delete TMT_DRUGGROUPITEM", e);

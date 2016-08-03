@@ -63,7 +63,7 @@
                             <f:convertDateTime locale="en_US" pattern="d/MMM/yyyy"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="เลือกเพื่อลบ" style="width: 80px;text-align: center;">
+                    <p:column headerText="เลือกเพื่อลบ" style="width: 80px;text-align: center;" rendered="#{request.isUserInRole('SUPER_ADMIN')}">
                         <p:commandLink update="@form" 
                                        actionListener="#{deleteMistakeDrugGroupAssociation.onDeleteDrugGroupItem(drugGroup)}">
                             <i class="fa fa-remove fa-2x"></i>

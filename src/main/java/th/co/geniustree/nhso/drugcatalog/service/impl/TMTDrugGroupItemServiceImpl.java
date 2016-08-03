@@ -7,6 +7,7 @@ package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.input.DrugAndGroup;
 import th.co.geniustree.nhso.drugcatalog.model.DrugGroup;
@@ -16,6 +17,7 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItemPK;
 import th.co.geniustree.nhso.drugcatalog.repo.DrugGroupRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugGroupItemRepo;
 import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugRepo;
+import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugGroupItemService;
 
 /**
@@ -31,6 +33,10 @@ public class TMTDrugGroupItemServiceImpl implements TMTDrugGroupItemService {
     private DrugGroupRepo drugGroupRepo;
     @Autowired
     private TMTDrugRepo tMTDrugRepo;
+
+    @Autowired
+    @Qualifier("TMTDrugGroupItemDeletedLogServiceImpl")
+    private DeletedLogService deletedLogService;
 
     @Override
     public void validate(DrugAndGroup drugAndGroup) {
@@ -56,6 +62,12 @@ public class TMTDrugGroupItemServiceImpl implements TMTDrugGroupItemService {
 
             }
         }
+    }
+
+    @Override
+    public void delete(TMTDrugGroupItem drugGroupItem) {
+        tMTDrugGroupItemRepo.delete(drugGroupItem);
+        deletedLogService.createLog(drugGroupItem);
     }
 
 }
