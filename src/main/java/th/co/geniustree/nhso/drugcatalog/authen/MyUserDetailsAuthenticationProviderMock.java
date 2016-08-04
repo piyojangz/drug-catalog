@@ -70,7 +70,7 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
             wsUserDetails.setOrgName("สำนักงานหลักประกันสุขภาพแห่งชาติ");
             wsUserDetails.setFromType("O");
         } else {
-            wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.HOSPITAL});
+            wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.HOSPITAL, Role.EMCO});
             Hospital hospital = hospitalRepo.findByHcode(username);
             if (hospital == null) {
                 throw new UsernameNotFoundException("Not found HCODE " + username);
@@ -78,9 +78,6 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
             wsUserDetails.setHospital(hospital);
             wsUserDetails.setOrgName(hospital.getHname());
             wsUserDetails.setFromType("H");
-            if ("10666".equals(username)) {
-                wsUserDetails.getAuthorities().add(Role.EMCO);
-            }
         }
         wsUserDetails.setPid(username);
         wsUserDetails.setStaffName(username + " " + username);
