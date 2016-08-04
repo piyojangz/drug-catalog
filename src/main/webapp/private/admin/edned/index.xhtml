@@ -194,11 +194,12 @@
                     <p:column headerText="ISED" style="display: none;">
                         <h:outputText value="#{model.statusEd}"/>
                     </p:column>
-                    <p:column headerText="ลบถาวร" style="width: 60px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
-                        <p:commandLink value="ลบข้อมูล" style="color: blue;" 
-                                       onclick="PF('confirmDeleteDialogWidget').show()" 
+                    <p:column headerText="ลบข้อมูล" style="width: 60px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
+                        <p:commandLink onclick="PF('confirmDeleteDialogWidget').show()" 
                                        actionListener="#{edNedController.onSelect(model)}"
-                                       update=":confirmDeleteDialogForm"/>
+                                       update=":confirmDeleteDialogForm">
+                            <i style="color: red;" class="fa fa-trash fa-2x"></i>
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
             </h:form>

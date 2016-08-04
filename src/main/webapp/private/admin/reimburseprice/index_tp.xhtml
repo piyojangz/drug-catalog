@@ -197,7 +197,7 @@
                     <p:column headerText="CONTENT" style="width: 80px;">
                         <h:outputText value="#{item.content}"/>
                     </p:column>
-                    <p:column headerText="Date Effective" style="width: 120px;text-align: center;" exportable="false">
+                    <p:column headerText="Date Effective" style="width: 90px;text-align: center;" exportable="false">
                         <h:outputText value="#{item.id.dateEffective}">
                             <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
                         </h:outputText>
@@ -207,7 +207,7 @@
                             <f:convertDateTime locale="en_US" pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Reimburse Price" style="width: 100px;" exportable="false">
+                    <p:column headerText="Reimburse Price" style="width: 80px;" exportable="false">
                         <div style="text-align: right;background-color: transparent;">
                             <h:outputText value="#{item.price} บาท"/>
                         </div>
@@ -215,11 +215,11 @@
                     <p:column headerText="PRICE" style="display: none;">
                         <h:outputText value="#{item.price}"/>
                     </p:column>
-                    <p:column headerText="ลบถาวร" style="width: 48px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
+                    <p:column headerText="ลบข้อมูล" style="width: 48px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
                         <p:commandLink onclick="PF('confirmDeleteDialogWidget').show()" 
                                        actionListener="#{reimbursePriceTPController.onSelectReimbursePriceTP(item)}"
                                        update=":confirmDeleteDialogForm">
-                            <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                            <i style="color: red;" class="fa fa-trash fa-2x"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
@@ -227,13 +227,13 @@
             <p:dialog id="confirmDeleteDialog" widgetVar="confirmDeleteDialogWidget" appendTo="@(body)"
                       modal="false" resizable="false" closable="false"
                       showEffect="fade" hideEffect="fade"
-                      width="340" height="160">
+                      width="340" height="250">
                 <h:form id="confirmDeleteDialogForm">
                     <p:panelGrid style="margin-left: auto; margin-right: auto;">
                         <p:row>
                             <p:column colspan="2">
                                 <div class="header-content-sub" style="margin-top: -30px;margin-left: -55px;">
-                                    <i class="fa fa-trash"></i><h:outputText value="ยืนยันการลบข้อมูล อย่างถาวร"/>
+                                    <i class="fa fa-trash"></i><h:outputText value="ยืนยันการลบข้อมูล"/>
                                 </div>
                             </p:column>
                         </p:row>

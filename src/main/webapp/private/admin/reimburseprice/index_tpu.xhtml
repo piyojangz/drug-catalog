@@ -148,11 +148,11 @@
                     <p:column headerText="PRICE" style="display: none;">
                         <h:outputText value="#{item.price}"/>
                     </p:column>
-                    <p:column headerText="ลบถาวร" style="width: 48px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
+                    <p:column headerText="ลบข้อมูล" style="width: 48px;text-align: center" rendered="#{request.isUserInRole('SUPER_ADMIN')}" exportable="false">
                         <p:commandLink onclick="PF('confirmDeleteDialogWidget').show()" 
                                        actionListener="#{reimbursePriceController.onSelect(item)}"
                                        update=":confirmDeleteDialogForm">
-                            <i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+                            <i style="color: red;" class="fa fa-trash fa-2x"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
@@ -166,7 +166,7 @@
                         <p:row>
                             <p:column colspan="2">
                                 <div class="header-content-sub" style="margin-top: -30px;margin-left: -55px;">
-                                    <i class="fa fa-trash"></i><h:outputText value="ยืนยันการลบข้อมูล อย่างถาวร"/>
+                                    <i class="fa fa-trash"></i><h:outputText value="ยืนยันการลบข้อมูล"/>
                                 </div>
                             </p:column>
                         </p:row>
