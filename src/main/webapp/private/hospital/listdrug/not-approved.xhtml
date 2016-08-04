@@ -48,7 +48,7 @@
                         </p:commandLink>
                     </p:column>
                     <p:column   headerText="สาเหตุ" width="110">
-                        <h:outputText value="#{empty model.requestItem.message? model.requestItem.errorColumns : model.requestItem.message}"/>
+                        <h:outputText value="#{empty model.requestItem.message? model.requestItem.errorColumns : model.requestItem.message.concat(' &gt;&gt; ').concat(model.requestItem.errorColumns)}"/>
                     </p:column>
                     <p:column   headerText="HOSPDRUGCODE" width="110" styleClass="#{model.requestItem.errorColumns.contains('HOSPDRUGCODE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.hospDrugCode}"/>
