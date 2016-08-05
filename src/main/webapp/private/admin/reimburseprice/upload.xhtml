@@ -11,12 +11,9 @@
             <div class="header-content" style="margin-bottom: 10px;">
                 <h:outputText value="Upload รายการ  Reimburse Price"/>
             </div>
-            <h:form id="menuForm">
-                <p:menubar styleClass="sub-menu">
-                    <p:menuitem outcome="index.xhtml" value="ราคายา"/>
-                    <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
-                </p:menubar>
-            </h:form>
+            <ui:insert name="menu">
+                <ui:include src="menu.xhtml"/>
+            </ui:insert>
             <h:form>
                 <p:commandLink value="Download ตัวอย่างรูปแบบไฟล์สำหรับนำเข้า reimburse price" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" style="color:blue">
                     <p:fileDownload value="#{uploadReimbursePrice.templateFile}" />
@@ -52,7 +49,7 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png" />
-                                    <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="errorTable" fileName="TPU-ErrorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
                             <p:column   headerText="ROW#" style="text-align: center;width: 40px;">
@@ -67,11 +64,9 @@
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="Reimburse Price" style="width: 150px;" styleClass="#{empty model.errorMap['price']?'color:black':'errorBackground'}">
-                                <p:panel style="text-align: right;background-color: transparent;">
-                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
-                                </p:panel>
+                                <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
                             </p:column>
-                            <p:column headerText="ERROR">
+                            <p:column headerText="ERROR" style="width: 300px;">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
                         </p:dataTable>
@@ -97,7 +92,7 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="TPU-PassTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
                             <p:column   headerText="#" style="text-align: center;width: 40px;" resizable="false">
@@ -108,13 +103,11 @@
                             </p:column>
                             <p:column headerText="Date Effective" style="text-align: center;width: 150px;">
                                 <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
-                                    <f:convertDateTime locale="en_US" pattern="dd / MMM / yyyy"/>
+                                    <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="Reimburse Price" style="width: 150px;">
-                                <p:panel style="text-align: right;background-color: transparent;">
-                                    <h:outputText value="#{model.price} บาท"  title="#{model.errorMap['price']}"/>
-                                </p:panel>
+                                <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
                             </p:column>
                             <p:column headerText="หมายเหตุ">
 

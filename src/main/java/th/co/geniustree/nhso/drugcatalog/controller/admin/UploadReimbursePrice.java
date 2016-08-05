@@ -241,7 +241,7 @@ public class UploadReimbursePrice implements Serializable {
         List<ReimbursePrice> list = convertBeanToReimbursePriceList(passModels);
         try {
             LOG.debug("total prices list : {}", list.size());
-            reimbursePriceService.saveAll(list);
+            reimbursePriceService.save(list);
             FacesMessageUtils.info("บันทึกเสร็จสิ้น");
         } catch (Exception e) {
             LOG.error("Can't save", e);

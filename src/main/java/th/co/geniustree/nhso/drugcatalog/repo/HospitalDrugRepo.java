@@ -27,6 +27,7 @@ public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDr
     public Integer countByHospDrugCodeAndHcodeAndApproved(String hospDrugCode, String hcode, boolean approved);
 
     public Page<HospitalDrug> findByHcodeAndApproved(String hcode, boolean b, Pageable page);
+
     public Long countByHcodeAndApproved(String hcode, boolean b);
 
     public Page<HospitalDrug> findByHcodeAndTmtIdIsNull(String hcode, Pageable page);
@@ -59,6 +60,14 @@ public interface HospitalDrugRepo extends JpaRepository<HospitalDrug, HospitalDr
     public BigDecimal stddev(String tmtId);
 
     public Page<HospitalDrug> findByHcode(String hcode, Pageable page);
+
+    public HospitalDrug findByHcodeAndHospDrugCodeAndTmtId(String hcode, String hospDrugCode, String tmtId);
+
+    @Query("select hd "
+            + "from HospitalDrug hd "
+            + "where hd.approved = 1 "
+            + "and hd.deleted = 0 "
+            + "and hd.tmtId = ?1")
+    public Page<HospitalDrug> findByTMTIDAndApprovedAndNotDeleted(String tmtid, Pageable pageable);
     
-    public HospitalDrug findByHcodeAndHospDrugCodeAndTmtId(String hcode,String hospDrugCode,String tmtId);
 }

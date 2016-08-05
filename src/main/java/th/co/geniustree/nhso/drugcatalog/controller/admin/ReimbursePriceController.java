@@ -18,6 +18,7 @@ import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import th.co.geniustree.nhso.drugcatalog.controller.SpringDataLazyDataModelSuppo
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
+import th.co.geniustree.nhso.drugcatalog.service.DeletedLogService;
 import th.co.geniustree.nhso.drugcatalog.service.ReimbursePriceService;
 
 /**
@@ -41,7 +43,7 @@ public class ReimbursePriceController implements Serializable {
 
     @Autowired
     private ReimbursePriceService reimbursePriceService;
-
+    
     private SpringDataLazyDataModelSupport<ReimbursePrice> reimbursePrices;
     private ReimbursePrice selectedReimbursePrice;
 
@@ -50,7 +52,7 @@ public class ReimbursePriceController implements Serializable {
     private Date dateEffective;
 
     private String keyword;
-
+    
     @PostConstruct
     public void postConstruct() {
         findAll();
@@ -58,7 +60,7 @@ public class ReimbursePriceController implements Serializable {
 
     public void save() {
         try {
-            reimbursePriceService.save(tmtDrug.getTmtId(), price, dateEffective);
+            reimbursePriceService.save(tmtDrug, price, dateEffective);
             FacesMessageUtils.info("บันทึกข้อมูล สำเร็จ");
         } catch (Exception e) {
             FacesMessageUtils.error("ไม่สามารถบันทึกข้อมูลได้");
@@ -83,7 +85,7 @@ public class ReimbursePriceController implements Serializable {
         reimbursePrices = new SpringDataLazyDataModelSupport<ReimbursePrice>(new Sort("id.tmtId")) {
             @Override
             public Page<ReimbursePrice> load(Pageable pageAble) {
-                return reimbursePriceService.findAllPaging(pageAble);
+                return reimbursePriceService.findAll(pageAble);
             }
         };
     }
@@ -106,6 +108,20 @@ public class ReimbursePriceController implements Serializable {
         if (tmt != null) {
             tmtDrug = tmt;
         }
+    }
+    
+    public void delete() {
+        try {
+            reimbursePriceService.delete(selectedReimbursePrice);
+            FacesMessageUtils.info("ลบข้อมูลราคายา เรียบร้อย กรุณาตรวจสอบข้อมูล");
+        } catch (Exception e) {
+            LOG.error("Can't delete TMT_TMTEDNED", e);
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+        }
+    }
+
+    public void cancelDelete() {
+        selectedReimbursePrice = null;
     }
 
     public SpringDataLazyDataModelSupport<ReimbursePrice> getReimbursePrices() {

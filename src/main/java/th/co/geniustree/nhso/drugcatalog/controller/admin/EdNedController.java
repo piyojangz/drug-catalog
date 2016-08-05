@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
-import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -92,9 +91,9 @@ public class EdNedController {
             FacesMessageUtils.error("บันทึกข้อมูล ไม่สำเร็จ");
         }
     }
-    
-    public void checkDateAfter(){
-        if(searchEndDate.before(searchStartDate)){
+
+    public void checkDateAfter() {
+        if (searchEndDate.before(searchStartDate)) {
             searchEndDate = searchStartDate;
             LOG.debug("start date -> end date");
         }
@@ -156,6 +155,20 @@ public class EdNedController {
             tmtDrug = tmt;
             LOG.info("selected drug from search dialog is => {}", tmtDrug.getTmtId());
         }
+    }
+
+    public void deleteED() {
+        try {
+            tmtEdNedService.delete(selectedEdNed);
+            FacesMessageUtils.info("ลบข้อมูลสถานะ ED เรียบร้อย กรุณาตรวจสอบข้อมูล");
+        } catch (Exception e) {
+            LOG.error("Can't delete TMT_TMTEDNED", e);
+            FacesMessageUtils.error("ไม่สามารถลบข้อมูลได้");
+        }
+    }
+
+    public void cancelDelete() {
+        selectedEdNed = null;
     }
 
 //    *************************** getter and setter method

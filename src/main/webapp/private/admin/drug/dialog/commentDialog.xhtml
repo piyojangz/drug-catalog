@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd">
+    <ui:composition>
+        <p:dialog id="commentDialog" widgetVar="commentDialogWidget"
+                  showEffect="fade"
+                  hideEffect="fade"
+                  height="150"
+                  appendTo="@(body)"
+                  closable="false"
+                  closeOnEscape="true"
+                  fitViewport="true"
+                  header="เขียนคำอธิบายเพื่อให้ทางหน่วยบริการเข้าใจได้มากยิ่งขึ้น">
+            <h:form id="commentDialogForm">
+                <p:inputTextarea value="#{adminInbox.messageOfRequestItem}" 
+                                 placeholder="อธิบายรายละเอียดเพิ่มเติม..."
+                                 style="width: 500px;white-space: pre;"
+                                 rows="3" 
+                                 addLine="true"
+                                 maxlength="255"/>
+                <br/>
+                <p:commandButton value="#{adminInbox.editMessageRequestItem.message eq null ? 'บันทึก' : 'แก้ไข'}"
+                                 onsuccess="PF('commentDialogWidget').hide()" 
+                                 actionListener="#{adminInbox.editMessage()}"/>
+                <p:commandButton value="ยกเลิก"
+                                 onsuccess="PF('commentDialogWidget').hide()" />
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

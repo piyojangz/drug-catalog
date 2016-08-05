@@ -27,16 +27,19 @@
     <class>th.co.geniustree.nhso.drugcatalog.model.ReimbursePrice</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.ApproveFile</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp</class>
-    <class>th.co.geniustree.nhso.drugcatalog.pl.HospitalDrugType</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.HospitalDrugTran</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugHistory</class>
-    <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugUpload</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.Fund</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.DosageFormGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTDrugDosageFormGroup</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.MatchTMTNDC24</class>
     <class>th.co.geniustree.nhso.drugcatalog.model.TMTRelation</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.ReimbursePriceTP</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTDrugGroupItemDeleted</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTEdNedDeleted</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTReimbursePriceDeleted</class>
+    <class>th.co.geniustree.nhso.drugcatalog.model.log.TMTReimbursePriceTPDeleted</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

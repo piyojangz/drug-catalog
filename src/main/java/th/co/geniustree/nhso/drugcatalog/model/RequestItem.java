@@ -26,6 +26,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import th.co.geniustree.nhso.drugcatalog.controller.utils.CommentUtils;
 
 /**
  *
@@ -86,7 +87,7 @@ public class RequestItem implements Serializable {
     @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "HCODE", referencedColumnName = "HCODE"),
-        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE"),
+        @JoinColumn(name = "HOSPDRUGCODE", referencedColumnName = "HOSPDRUGCODE")
     })
     private HospitalDrug targetItem;
 
@@ -110,11 +111,13 @@ public class RequestItem implements Serializable {
     public void prePersist() {
         requestDate = new Date();
         lastUpdate = requestDate;
+        message = CommentUtils.convertLineBreakToSeparator(message);
     }
 
     @PreUpdate
     public void preUpdate() {
         lastUpdate = new Date();
+        message = CommentUtils.convertLineBreakToSeparator(message);
     }
 
     public Integer getId() {

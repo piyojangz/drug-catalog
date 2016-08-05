@@ -9,7 +9,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import java.io.Serializable;
-import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -90,6 +89,9 @@ public class AdminInbox implements Serializable {
     private String searchType;
     private SpringDataLazyDataModelSupport<TMTDrug> searchTmt;
     private long totalElementOfSearchTmt;
+    
+    private RequestItem editMessageRequestItem;
+    private String messageOfRequestItem;
 
     @PostConstruct
     public void postConstruct() {
@@ -258,6 +260,14 @@ public class AdminInbox implements Serializable {
 
     public void setSearchTmt(SpringDataLazyDataModelSupport<TMTDrug> searchTmt) {
         this.searchTmt = searchTmt;
+    }
+
+    public RequestItem getEditMessageRequestItem() {
+        return editMessageRequestItem;
+    }
+
+    public void setEditMessageRequestItem(RequestItem editMessageRequestItem) {
+        this.editMessageRequestItem = editMessageRequestItem;
     }
 
     public void showSearchHospitalDialog() {
@@ -554,7 +564,7 @@ public class AdminInbox implements Serializable {
         }
     }
 
-    public void onSearchFSN() {
+    public void searchTMTDrugByFSN() {
         searchTmt = new SpringDataLazyDataModelSupport<TMTDrug>() {
             @Override
             public Page<TMTDrug> load(Pageable pageAble) {
@@ -578,4 +588,23 @@ public class AdminInbox implements Serializable {
         TMTDrug tmtDrug = tmtDrugRepo.findOne(uploadDrugItem.getTmtId());
         uploadDrugItem.setTmtDrug(tmtDrug);
     }
+    
+    public void selectRequestItem(RequestItem item){
+        this.editMessageRequestItem = item;
+        messageOfRequestItem = editMessageRequestItem.getMessage();
+    }
+    
+    public void editMessage(){
+        this.editMessageRequestItem.setMessage(messageOfRequestItem);
+        messageOfRequestItem = null;
+    }
+
+    public String getMessageOfRequestItem() {
+        return messageOfRequestItem;
+    }
+
+    public void setMessageOfRequestItem(String messageOfRequestItem) {
+        this.messageOfRequestItem = messageOfRequestItem;
+    }
+    
 }

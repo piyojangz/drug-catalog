@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.repo.spec;
 
-import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

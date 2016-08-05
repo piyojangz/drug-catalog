@@ -32,6 +32,7 @@ public class ReimbursePrice implements Serializable {
     private TMTDrug tmtDrug;
 
     public ReimbursePrice() {
+        this.id = new ReimbursePricePK();
     }
 
     public ReimbursePrice(ReimbursePricePK id) {

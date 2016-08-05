@@ -46,12 +46,17 @@ public class TMTDrugServiceImpl implements TMTDrugService {
     public Page<TMTDrug> search(String keyword, Pageable pageable) {
         List<String> keyList = Arrays.asList(keyword.split("\\s+"));
         Specification<TMTDrug> spec = Specifications.where(TMTDrugSpecs.tmtIdContains(keyList)).or(TMTDrugSpecs.fsnContains(keyList));
-        return tMTDrugRepo.findAll(spec,pageable);
+        return tMTDrugRepo.findAll(spec, pageable);
     }
 
     @Override
     public List<TMTDrug> findBySpec(Specification<TMTDrug> spec) {
         return tMTDrugRepo.findAll(spec);
+    }
+
+    @Override
+    public Page<TMTDrug> findBySpec(Specification<TMTDrug> spec, Pageable pageable) {
+        return tMTDrugRepo.findAll(spec, pageable);
     }
 
     @Override
@@ -66,14 +71,12 @@ public class TMTDrugServiceImpl implements TMTDrugService {
 
     @Override
     public void uploadEditDosageFormGroup(List<DrugAndDosageFormGroup> drugAndDosageFormGroups) {
-        for(DrugAndDosageFormGroup group : drugAndDosageFormGroups){
+        for (DrugAndDosageFormGroup group : drugAndDosageFormGroups) {
             TMTDrug tmtDrug = tMTDrugRepo.findOne(group.getTmtid());
             tmtDrug.setDosageformGroup(group.getDosageFormGroup());
             tMTDrugRepo.save(tmtDrug);
         }
-        
-    }
 
-    
+    }
 
 }
