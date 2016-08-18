@@ -208,7 +208,7 @@ public class UploadMappedDrug implements Serializable {
             return null;
         }
         hcodeFromFile = file.getFileName().substring(0, 5);
-        if (!hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
+        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
             FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
             return null;
         }
