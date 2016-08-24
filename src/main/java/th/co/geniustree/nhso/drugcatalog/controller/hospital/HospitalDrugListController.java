@@ -59,6 +59,8 @@ public class HospitalDrugListController implements Serializable {
     private TMTEdNedRepo tmtEdNedRepo;
     private List<String> selectedProductCats = Arrays.asList(new String[]{"1", "2", "3", "4", "5", "6", "7"});
     private boolean selectedOnlyNullTMT = false;
+    
+    private UploadHospitalDrugItem errorItem;
 
     @PostConstruct
     public void postConstruct() {
@@ -128,6 +130,14 @@ public class HospitalDrugListController implements Serializable {
 
     public void setSelectedProductCats(List<String> selectedProductCats) {
         this.selectedProductCats = selectedProductCats;
+    }
+
+    public UploadHospitalDrugItem getErrorItem() {
+        return errorItem;
+    }
+
+    public void setErrorItem(UploadHospitalDrugItem errorItem) {
+        this.errorItem = errorItem;
     }
 
     public boolean isSelectedOnlyNullTMT() {
@@ -242,6 +252,14 @@ public class HospitalDrugListController implements Serializable {
             }
 
         });
+    }
+    
+    public void showRemarkDialog(UploadHospitalDrugItem item){
+        errorItem = item;
+    }
+    
+    public void closeRemarkDialog(){
+        errorItem = null;
     }
 
     public static class UploadHospitalDrugItemEx {
