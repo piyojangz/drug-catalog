@@ -98,48 +98,48 @@
                                          style="float:right" icon="ui-icon-calculator" />
                         <p:columnToggler datasource="table" trigger="toggler" />
                     </f:facet>
-                    <p:column   headerText="" width="60" exportable="false">
+                    <p:column   headerText="" width="60" exportable="false" style="text-align: center;">
                         <h:link rendered="true" outcome="/private/hospital/create/index" value="แก้ไข" style="color:blue">
                             <f:param name="editMode" value="true"/>
                             <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
                         </h:link>
                     </p:column>
-                    <p:column   headerText="" width="60" exportable="false">
+                    <p:column   headerText="" width="60" exportable="false" style="text-align: center;">
                         <h:link rendered="true" outcome="/private/hospital/listdrug/displayHistory" value="ประวัติ" style="color:blue">
                             <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
                         </h:link>
                     </p:column>
-                    <p:column   headerText="HOSPDRUGCODE" width="110">
+                    <p:column   headerText="HOSPDRUGCODE" width="120">
                         <h:outputText value="#{model.hospDrugCode}"/>
                     </p:column>
-                    <p:column headerText="PRODUCTCAT" width="80">
+                    <p:column headerText="PRODUCTCAT" width="100" style="text-align: center;">
                         <h:outputText value="#{model.productCat}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="60">
                         <h:outputText value="#{model.tmtId}"/>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="60">
+                    <p:column headerText="SPECPREP" width="80">
                         <h:outputText value="#{model.specPrep}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME" width="200">
+                    <p:column headerText="GENERICNAME" width="300">
                         <h:outputText value="#{model.genericName}"/>
                     </p:column>
-                    <p:column headerText="TRADENAME" width="200">
+                    <p:column headerText="TRADENAME" width="300">
                         <h:outputText value="#{model.tradeName}"/>
                     </p:column>
-                    <p:column headerText="DFSCODE" width="60">
+                    <p:column headerText="DFSCODE" width="80">
                         <h:outputText value="#{model.dfsCode}"/>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM" width="100">
+                    <p:column headerText="DOSAGEFORM" width="150">
                         <h:outputText value="#{model.dosageForm}"/>
                     </p:column>
-                    <p:column headerText="STRENGTH" width="100">
+                    <p:column headerText="STRENGTH" width="300">
                         <h:outputText value="#{model.strength}"/>
                     </p:column>
-                    <p:column headerText="CONTENT" width="80">
+                    <p:column headerText="CONTENT" width="150">
                         <h:outputText value="#{model.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="60">
+                    <p:column headerText="UNITPRICE" width="80">
                         <h:outputText value="#{model.unitPrice}"/>
                     </p:column>
                     <p:column headerText="DISTRIBUTOR" width="260">
@@ -148,10 +148,10 @@
                     <p:column headerText="MANUFACTURER" width="260">
                         <h:outputText value="#{model.manufacturer}"/>
                     </p:column>
-                    <p:column headerText="ISED" width="40">
+                    <p:column headerText="ISED" width="40" style="text-align: center;">
                         <h:outputText value="#{model.ised}"/>
                     </p:column>
-                    <p:column headerText="NDC24" width="100">
+                    <p:column headerText="NDC24" width="190" style="text-align: center;">
                         <h:outputText value="#{model.ndc24}"/>
                     </p:column>
                     <p:column headerText="PACKSIZE" width="100">
@@ -160,7 +160,7 @@
                     <p:column headerText="PACKPRICE" width="100">
                         <h:outputText value="#{model.packPrice}"/>
                     </p:column>
-                    <p:column headerText="UPDATEFLAG" width="100">
+                    <p:column headerText="UPDATEFLAG" width="100" style="text-align: center;">
                         <h:outputText value="#{model.updateFlag}"/>
                     </p:column>
                     <p:column headerText="DATECHANGE" width="120">
