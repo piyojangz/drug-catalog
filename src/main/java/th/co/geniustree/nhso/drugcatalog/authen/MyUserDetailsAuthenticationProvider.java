@@ -49,17 +49,18 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
         if (authenResultDto.getUserDto() != null) {
             UserDto userDto = authenResultDto.getUserDto();
             WSUserDetails wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
-            if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1150", "GC2")) {
-                wsUserDetails.getAuthorities().add(Role.ADMIN);
-            }
             if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1434", "GC2")) {
                 wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.SUPER_ADMIN, Role.ADMIN));
-            }
-            if ("Z".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
+            } else if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1150", "GC2")) {
+                wsUserDetails.getAuthorities().add(Role.ADMIN);
+            } else if ("Z".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
                 wsUserDetails.getAuthorities().add(Role.ZONE);
                 wsUserDetails.setZone(nhsoZoneService.findZoneByOrgId(userDto.getOrgId()));
             } else if ("P".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
                 wsUserDetails.getAuthorities().add(Role.PROVINCE);
+                wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
+            } else if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1468", "GC2")) {
+                wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
             } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1149", "GC2")) {
                 wsUserDetails.getAuthorities().add(Role.HOSPITAL);
@@ -68,9 +69,7 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
                 wsUserDetails.getAuthorities().add(Role.ECLAIM);
                 wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
             }
-            if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1468", "GC2")) {
-                wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
-            }
+
             wsUserDetails.setPid(userDto.getPid());
             log.debug(ToStringBuilder.reflectionToString(wsUserDetails));
             return wsUserDetails;

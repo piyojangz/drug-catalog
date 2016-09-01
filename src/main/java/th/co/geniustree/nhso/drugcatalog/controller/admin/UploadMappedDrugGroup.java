@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -22,6 +23,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -73,7 +75,7 @@ public class UploadMappedDrugGroup implements Serializable {
         if (!uploadtempFileDir.exists()) {
             uploadtempFileDir.mkdirs();
         }
-        InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/files/druggroup_template.xlsx");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/files/druggroup_template.xlsx");
         templateFile = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "druggroup_template.xlsx");
     }
 
@@ -104,7 +106,6 @@ public class UploadMappedDrugGroup implements Serializable {
     public StreamedContent getTemplateFile() {
         return templateFile;
     }
-    
 
     public void handleFileUpload(FileUploadEvent event) {
         reset();
@@ -128,18 +129,27 @@ public class UploadMappedDrugGroup implements Serializable {
                     bean.addErrors(beanValidator.validate(bean));
                     bean.postConstruct();
                     if (bean.getErrorMap().isEmpty()) {
-                        if (drugGroupService.findOne(bean.getDrugGroup()) == null) {
-                            bean.addError("drugGroup", "ไม่พบ Drug group");
-                        } else if (tmtDrugService.findOneWithoutTx(bean.getTmtId()) == null) {
-                            bean.addError("tmtId", "ไม่พบ  TMT DRUG");
-                        }else{
-                            tmtDrugGroupItemService.validate(bean);
+                        List<String> drugGroups = Arrays.asList(bean.getDrugGroup().split(","));
+                        for (String drugGroupStr : drugGroups) {
+                            DrugAndGroup _group = new DrugAndGroup();
+                            BeanUtils.copyProperties(bean, _group);
+                            if(_group.getDateout()!= null && _group.getDateout().equals("")){
+                                _group.setDateout(null);
+                            }
+                            _group.setDrugGroup(drugGroupStr);
+                            if (drugGroupService.findOne(drugGroupStr.trim()) == null) {
+                                _group.addError("drugGroup", "ไม่พบ Drug group");
+                            } else if (tmtDrugService.findOneWithoutTx(_group.getTmtId()) == null) {
+                                _group.addError("tmtId", "ไม่พบ  TMT DRUG");
+                            } else {
+                                tmtDrugGroupItemService.validate(_group);
+                            }
+                            if (_group.getErrorMap().isEmpty()) {
+                                passModels.add(_group);
+                            } else {
+                                notPassModels.add(bean);
+                            }
                         }
-                    }
-                    if (bean.getErrorMap().isEmpty()) {
-                        passModels.add(bean);
-                    } else {
-                        notPassModels.add(bean);
                     }
                 }
 

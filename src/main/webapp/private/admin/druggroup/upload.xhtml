@@ -75,14 +75,14 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="#" width="80" resizable="false">
-                                <h:outputText value="#{rowIndex+1}" style="" />
+                            <p:column   headerText="#" width="30" resizable="false" exportable="false">
+                                <h:outputText value="#{rowIndex+1}" />
                             </p:column>
                             <p:column   headerText="TMTID" width="80" >
-                                <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tmtId']}"/>
+                                <h:outputText value="#{model.tmtId}" title="#{model.errorMap['tmtId']}"/>
                             </p:column>
                             <p:column headerText="DRUGGROUP" width="80" >
                                 <h:outputText value="#{model.drugGroup}"  title="#{model.errorMap['drugGroup']}"/>
