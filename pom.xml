@@ -530,11 +530,11 @@
                 <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderMock</authentication.provider>
                 <report.temp.location>/${project.artifactId}/report</report.temp.location>
                 <upload.temp.location>/${project.artifactId}/upload</upload.temp.location>
-                <wsdlDocumentResource>http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
+                <wsdlDocumentResource>http://tucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
                 <namespaceUri>http://www.mfec.co.th</namespaceUri>
                 <serviceName>UCDCAuthenService</serviceName>
                 <portName>UCDCAuthenInfPort</portName>
-                <endpointAddress>http://ucdcws.nhso.go.th/UCDCWS/authenService</endpointAddress>
+                <endpointAddress>http://tucdcws.nhso.go.th/UCDCWS/authenService</endpointAddress>
             </properties>
         </profile>
         <profile>
@@ -549,11 +549,11 @@
                 <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
                 <report.temp.location>/${project.artifactId}/report</report.temp.location>
                 <upload.temp.location>/${project.artifactId}/upload</upload.temp.location>
-                <wsdlDocumentResource>http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
+                <wsdlDocumentResource>http://tucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
                 <namespaceUri>http://www.mfec.co.th</namespaceUri>
                 <serviceName>UCDCAuthenService</serviceName>
                 <portName>UCDCAuthenInfPort</portName>
-                <endpointAddress>http://ucdcws.nhso.go.th/UCDCWS/authenService</endpointAddress>
+                <endpointAddress>http://tucdcws.nhso.go.th/UCDCWS/authenService</endpointAddress>
             </properties>
         </profile>
         <profile>
