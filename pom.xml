@@ -554,6 +554,8 @@
                 <serviceName>UCDCAuthenService</serviceName>
                 <portName>UCDCAuthenInfPort</portName>
                 <endpointAddress>http://tucdcws.nhso.go.th/UCDCWS/authenService</endpointAddress>
+                <timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>dd-MM-yyyy HH:mm</maven.build.timestamp.format>
             </properties>
         </profile>
         <profile>
