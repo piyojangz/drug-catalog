@@ -208,15 +208,14 @@ public class UploadMappedDrug implements Serializable {
             return null;
         }
         hcodeFromFile = file.getFileName().substring(0, 5);
-        if (!hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
-            FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
-            return null;
-        }
-        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) || !SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO)) {
+        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO)) {
             FacesMessageUtils.error("ไม่มีสิทธิ์ในการนำเข้าข้อมูล");
             return null;
         }
-
+        if (SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
+            FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
+            return null;
+        }
         try (InputStream inputFileStream = file.getInputstream()) {
             final List<HospitalDrugExcelModel> allRowModels = new ArrayList<>();
             originalFileName = file.getFileName();

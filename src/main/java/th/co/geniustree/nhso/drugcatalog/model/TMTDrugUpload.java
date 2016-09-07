@@ -35,7 +35,7 @@ public class TMTDrugUpload implements Serializable, TMT,Typeable {
     @Column(name = "TMTID", length = 6, nullable = false)
     private String tmtId;
     @XlsColumn
-    @Column(name = "ACTIVEINGREDIENT", length = 300)
+    @Column(name = "ACTIVEINGREDIENT", length = 1000)
     private String activeIngredient;
     @XlsColumn
     @Column(name = "STRENGTH", length = 255)

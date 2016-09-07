@@ -44,43 +44,49 @@
                     </p:column>
                     <p:column    width="40"  exportable="false">
                         <p:commandLink value="ลบ" style="color:blue" action="#{hospitalDrugListController.delete(model)}" process="@this" update="table">
-                            
+
                         </p:commandLink>
                     </p:column>
-                    <p:column   headerText="สาเหตุ" width="110">
+                    <p:column   headerText="สาเหตุ" width="110" rendered="false">
                         <h:outputText value="#{empty model.requestItem.message? model.requestItem.errorColumns : model.requestItem.message.concat(' &gt;&gt; ').concat(model.requestItem.errorColumns)}"/>
+                    </p:column>
+                    <p:column   headerText="สาเหตุ" width="60" style="text-align: center;" exportable="false">
+                        <p:commandButton icon="ui-icon-search" 
+                                         onclick="PF('remarkDialogWidget').show()"
+                                         actionListener="#{hospitalDrugListController.showRemarkDialog(model)}"
+                                         update=":remarkDialogForm"/>
                     </p:column>
                     <p:column   headerText="HOSPDRUGCODE" width="110" styleClass="#{model.requestItem.errorColumns.contains('HOSPDRUGCODE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.hospDrugCode}"/>
                     </p:column>
-                    <p:column headerText="PRODUCTCAT" width="80" styleClass="#{model.requestItem.errorColumns.contains('PRODUCTCAT')?'errorBackground':'color:black'}">
+                    <p:column headerText="PRODUCTCAT" style="text-align: center;" width="90" styleClass="#{model.requestItem.errorColumns.contains('PRODUCTCAT')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.productCat}"/>
                     </p:column>
-                    <p:column headerText="TMTID" width="60" styleClass="#{model.requestItem.errorColumns.contains('TMTID')?'errorBackground':'color:black'}">
+                    <p:column headerText="TMTID" style="text-align: center;" width="60" styleClass="#{model.requestItem.errorColumns.contains('TMTID')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.tmtId}"/>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="60" styleClass="#{model.requestItem.errorColumns.contains('SPECPREP')?'errorBackground':'color:black'}">
+                    <p:column headerText="SPECPREP" width="80" styleClass="#{model.requestItem.errorColumns.contains('SPECPREP')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.specPrep}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME" width="200" styleClass="#{model.requestItem.errorColumns.contains('GENERICNAME')?'errorBackground':'color:black'}">
+                    <p:column headerText="GENERICNAME" width="300" styleClass="#{model.requestItem.errorColumns.contains('GENERICNAME')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.genericName}"/>
                     </p:column>
-                    <p:column headerText="TRADENAME" width="200" styleClass="#{model.requestItem.errorColumns.contains('TRADENAME')?'errorBackground':'color:black'}">
+                    <p:column headerText="TRADENAME" width="300" styleClass="#{model.requestItem.errorColumns.contains('TRADENAME')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.tradeName}"/>
                     </p:column>
-                    <p:column headerText="DFSCODE" width="60" styleClass="#{model.requestItem.errorColumns.contains('DFSCODE')?'errorBackground':'color:black'}">
+                    <p:column headerText="DFSCODE" width="70" styleClass="#{model.requestItem.errorColumns.contains('DFSCODE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.dfsCode}"/>
                     </p:column>
                     <p:column headerText="DOSAGEFORM" width="100" styleClass="#{model.requestItem.errorColumns.contains('DOSAGEFORM')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.dosageForm}"/>
                     </p:column>
-                    <p:column headerText="STRENGTH" width="100" styleClass="#{model.requestItem.errorColumns.contains('STRENGTH')?'errorBackground':'color:black'}">
+                    <p:column headerText="STRENGTH" width="300" styleClass="#{model.requestItem.errorColumns.contains('STRENGTH')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.strength}"/>
                     </p:column>
                     <p:column headerText="CONTENT" width="80" styleClass="#{model.requestItem.errorColumns.contains('CONTENT')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.content}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="60" styleClass="#{model.requestItem.errorColumns.contains('UNITPRICE')?'warnBackground':'color:black'}">
+                    <p:column headerText="UNITPRICE" width="80" styleClass="#{model.requestItem.errorColumns.contains('UNITPRICE')?'warnBackground':'color:black'}">
                         <h:outputText value="#{model.unitPrice}"/>
                     </p:column>
                     <p:column headerText="DISTRIBUTOR" width="260" styleClass="#{model.requestItem.errorColumns.contains('DISTRIBUTOR')?'errorBackground':'color:black'}">
@@ -89,10 +95,10 @@
                     <p:column headerText="MANUFACTURER" width="260" styleClass="#{model.requestItem.errorColumns.contains('MANUFACTURER')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.manufacturer}"/>
                     </p:column>
-                    <p:column headerText="ISED" width="40" styleClass="#{model.requestItem.errorColumns.contains('ISED')?'errorBackground':'color:black'}">
+                    <p:column headerText="ISED" style="text-align: center;" width="40" styleClass="#{model.requestItem.errorColumns.contains('ISED')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.ised}"/>
                     </p:column>
-                    <p:column headerText="NDC24" width="100" styleClass="#{model.requestItem.errorColumns.contains('NDC24')?'errorBackground':'color:black'}">
+                    <p:column headerText="NDC24" style="text-align: center;" width="190" styleClass="#{model.requestItem.errorColumns.contains('NDC24')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.ndc24}"/>
                     </p:column>
                     <p:column headerText="PACKSIZE" width="100" styleClass="#{model.requestItem.errorColumns.contains('PACKSIZE')?'errorBackground':'color:black'}">
@@ -101,7 +107,7 @@
                     <p:column headerText="PACKPRICE" width="100" styleClass="#{model.requestItem.errorColumns.contains('PACKPRICE')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.packPrice}"/>
                     </p:column>
-                    <p:column headerText="UPDATEFLAG" width="100" styleClass="#{model.requestItem.errorColumns.contains('UPDATEFLAG')?'errorBackground':'color:black'}">
+                    <p:column headerText="UPDATEFLAG" style="text-align: center;" width="100" styleClass="#{model.requestItem.errorColumns.contains('UPDATEFLAG')?'errorBackground':'color:black'}">
                         <h:outputText value="#{model.updateFlag}"/>
                     </p:column>
                     <p:column headerText="DATECHANGE" width="120" styleClass="#{model.requestItem.errorColumns.contains('DATECHANGE')?'errorBackground':'color:black'}">
@@ -119,6 +125,49 @@
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
             </h:form>
+            <p:dialog id="remarkDialog"
+                      appendTo="@(body)"
+                      widgetVar="remarkDialogWidget"
+                      closable="true"
+                      width="800"
+                      position="center top"
+                      onHide="#{hospitalDrugListController.closeRemarkDialog()}">
+                <h:form id="remarkDialogForm">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column colspan="2">
+                                <div class="header-content-sub" style="margin-top: -30px !important;">
+                                    <i class="fa fa-times-circle"></i><h:outputText value="รายละเอียด ของ #{hospitalDrugListController.errorItem.hospDrugCode}"/>
+                                </div>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;width: 60px;">
+                                <h:outputText value="สาเหตุ : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{hospitalDrugListController.errorItem.requestItem.message}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="text-align: right;width: 60px;">
+                                <h:outputText value="คอลัมน์ : "/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{hospitalDrugListController.errorItem.requestItem.errorColumns}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="ปิด"
+                                                 actionListener="#{hospitalDrugListController.closeRemarkDialog()}" 
+                                                 update="@form" 
+                                                 onclick="PF('remarkDialogWidget').hide()" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </html>
