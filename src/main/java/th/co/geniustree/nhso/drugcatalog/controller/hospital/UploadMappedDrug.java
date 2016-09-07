@@ -212,7 +212,7 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.error("ไม่มีสิทธิ์ในการนำเข้าข้อมูล");
             return null;
         }
-        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
+        if (SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
             FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
             return null;
         }
