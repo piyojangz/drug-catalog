@@ -29,12 +29,12 @@ import javax.persistence.TemporalType;
 public class TMTReimbursePriceDeleted implements Serializable {
 
     @Id
-    @TableGenerator(name = "TMT_TMTEDNED_DELETED_GEN",
+    @TableGenerator(name = "TMT_REIMBURSE_PRICE_DELETED_GEN",
             table = "TMT_SEQUENCE",
             pkColumnName = "name",
             valueColumnName = "value",
-            pkColumnValue = "TMT_TMTEDNED_DELETED")
-    @GeneratedValue(generator = "TMT_TMTEDNED_DELETED_GEN", strategy = GenerationType.TABLE)
+            pkColumnValue = "TMT_REIMBURSE_PRICE_DELETED")
+    @GeneratedValue(generator = "TMT_REIMBURSE_PRICE_DELETED_GEN", strategy = GenerationType.TABLE)
     private Integer id;
     
     @Column(name = "PRICE", nullable = false, precision = 10, scale = 2)
