@@ -8,11 +8,11 @@ public class MyUserDetailsAuthenticationProviderTest extends MyUserDetailsAuthen
 
     @Override
     protected void defineFunctionId() {
-        this.functionIdAdmin = "1291";
-        this.functionIdSuperAdmin = "1294";
-        this.functionIdHospital = "1292";
-        this.functionIdEmco = "1293";
-        this.functionIdEclaim = "1295";
+        this.FUNCTION_ADMIN = "1291";
+        this.FUNCTION_SUPERADMIN = "1294";
+        this.FUNCTION_HOSPITAL = "1292";
+        this.FUNCTION_EMCO = "1293";
+        this.FUNCTION_ECLAIM = "1295";
     }
 
 }

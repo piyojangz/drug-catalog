@@ -12,11 +12,11 @@ public class MyUserDetailsAuthenticationProviderProduction extends MyUserDetails
     
     @Override
     protected void defineFunctionId() {
-        this.functionIdAdmin = "1150";
-        this.functionIdSuperAdmin = "1434";
-        this.functionIdHospital = "1149";
-        this.functionIdEmco = "1468";
-        this.functionIdEclaim = "1245";
+        this.FUNCTION_ADMIN = "1150";
+        this.FUNCTION_SUPERADMIN = "1434";
+        this.FUNCTION_HOSPITAL = "1149";
+        this.FUNCTION_EMCO = "1468";
+        this.FUNCTION_ECLAIM = "1245";
     }
     
 }
