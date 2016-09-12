@@ -73,6 +73,6 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
         }
         BigDecimal oldPr = new BigDecimal(latestItem.getUnitPrice());
         BigDecimal newPr = new BigDecimal(newItem.getUnitPrice());
-        return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(2)).doubleValue();
+        return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(3)).doubleValue();
     }
 }
