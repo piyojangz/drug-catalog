@@ -69,6 +69,12 @@ public abstract class MyUserDetailsAuthenticationProvider extends AbstractUserDe
             wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.SUPER_ADMIN, Role.ADMIN));
         } else if (hasFunction(authenResultDto, FUNCTION_ADMIN, "GC2")) {
             wsUserDetails.getAuthorities().add(Role.ADMIN);
+        } else if ("Z".equalsIgnoreCase(userDto.getFromType())) {
+            wsUserDetails.getAuthorities().add(Role.ZONE);
+            wsUserDetails.setZone(nhsoZoneService.findZoneByOrgId(userDto.getOrgId()));
+        } else if ("P".equalsIgnoreCase(userDto.getFromType())) {
+            wsUserDetails.getAuthorities().add(Role.PROVINCE);
+            wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
         } else if (hasFunction(authenResultDto, FUNCTION_EMCO, "GC2")) {
             wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
         } else if (hasFunction(authenResultDto, FUNCTION_HOSPITAL, "GC2")) {
@@ -76,12 +82,6 @@ public abstract class MyUserDetailsAuthenticationProvider extends AbstractUserDe
             wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
         } else if (hasFunction(authenResultDto, FUNCTION_ECLAIM, "GC2")) {
             wsUserDetails.getAuthorities().add(Role.ECLAIM);
-            wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-        } else if ("Z".equalsIgnoreCase(userDto.getFromType())) {
-            wsUserDetails.getAuthorities().add(Role.ZONE);
-            wsUserDetails.setZone(nhsoZoneService.findZoneByOrgId(userDto.getOrgId()));
-        } else if ("P".equalsIgnoreCase(userDto.getFromType())) {
-            wsUserDetails.getAuthorities().add(Role.PROVINCE);
             wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
         }
         wsUserDetails.setPid(userDto.getPid());
