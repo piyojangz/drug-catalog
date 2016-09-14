@@ -51,16 +51,16 @@ public class ValidatePriceBeforeAutoApproveTest {
     }
 
     @Test
-    public void oldPrice10_newPrice20_MustApprove() {
-        newItem.setUnitPrice("20");
+    public void oldPrice10_newPrice21_MustApprove() {
+        newItem.setUnitPrice("21");
         boolean notMoreThanTwiceAsMuch = uploadHospitalDrugItemService.isUnitPriceNotMoreThanDoubleLatestItem(newItem);
         Assertions.assertThat(notMoreThanTwiceAsMuch)
                 .isTrue();
     }
 
     @Test
-    public void oldPrice10_newPrice21_MustNotApprove() {
-        newItem.setUnitPrice("21");
+    public void oldPrice10_newPrice31_MustNotApprove() {
+        newItem.setUnitPrice("31");
         boolean notMoreThanTwiceAsMuch = uploadHospitalDrugItemService.isUnitPriceNotMoreThanDoubleLatestItem(newItem);
         Assertions.assertThat(notMoreThanTwiceAsMuch)
                 .isFalse();
