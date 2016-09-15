@@ -94,6 +94,14 @@ public class UploadMappedDrug implements Serializable {
         uploadDir.mkdir();
     }
 
+    public String getHcodeFromFile() {
+        return hcodeFromFile;
+    }
+
+    public void setHcodeFromFile(String hcodeFromFile) {
+        this.hcodeFromFile = hcodeFromFile;
+    }
+
     public List<HospitalDrugExcelModel> getModels() {
         return models;
     }
