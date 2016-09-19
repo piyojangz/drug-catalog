@@ -101,7 +101,7 @@
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrugGroup.save()}" disabled="#{empty uploadMappedDrugGroup.passModels or uploadMappedDrugGroup.duplicateFile}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrugGroup.reset()}" disabled="#{empty uploadMappedDrugGroup.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadMappedDrugGroup.reset()}" disabled="#{empty uploadMappedDrugGroup.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
             
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
