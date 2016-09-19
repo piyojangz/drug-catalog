@@ -70,7 +70,14 @@ public class MyUserDetailsAuthenticationProviderMock extends AbstractUserDetails
             wsUserDetails.setOrgName("สำนักงานหลักประกันสุขภาพแห่งชาติ");
             wsUserDetails.setFromType("O");
         } else {
-            wsUserDetails = new WSUserDetails(username, username, new GrantedAuthority[]{Role.HOSPITAL, Role.EMCO});
+            String password = authentication.getCredentials().toString();
+            GrantedAuthority[] authorities;
+            if (password.equalsIgnoreCase("EMCO")) {
+                authorities = new GrantedAuthority[]{Role.HOSPITAL, Role.EMCO};
+            } else {
+                authorities = new GrantedAuthority[]{Role.HOSPITAL};
+            }
+            wsUserDetails = new WSUserDetails(username, username, authorities);
             Hospital hospital = hospitalRepo.findByHcode(username);
             if (hospital == null) {
                 throw new UsernameNotFoundException("Not found HCODE " + username);

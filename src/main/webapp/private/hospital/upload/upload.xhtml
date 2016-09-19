@@ -130,7 +130,7 @@
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="#{uploadMappedDrug.hcodeFromFile.concat('passTable')}" pageOnly="false"/>
                                 </h:commandLink>
                                 <p:commandButton id="toggler" type="button" value="Columns"
                                                  style="float:right" icon="ui-icon-calculator" />

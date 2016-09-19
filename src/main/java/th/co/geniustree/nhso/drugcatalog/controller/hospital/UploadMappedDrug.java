@@ -17,9 +17,13 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.BeanUtils;
@@ -92,6 +96,14 @@ public class UploadMappedDrug implements Serializable {
             uploadtempFileDir.mkdirs();
         }
         uploadDir.mkdir();
+    }
+
+    public String getHcodeFromFile() {
+        return hcodeFromFile;
+    }
+
+    public void setHcodeFromFile(String hcodeFromFile) {
+        this.hcodeFromFile = hcodeFromFile;
     }
 
     public List<HospitalDrugExcelModel> getModels() {
@@ -202,16 +214,16 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.info("Please select file first.");
             return null;
         }
+        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO)) {
+            FacesMessageUtils.error("ไม่มีสิทธิ์ในการนำเข้าข้อมูล");
+            return null;
+        }
         String nameWithoutExtension = Files.getNameWithoutExtension(file.getFileName());
         if (nameWithoutExtension.length() < 5) {
             FacesMessageUtils.info("ชื่อไฟล์จะต้องขึ้นต้นด้วย HCODE 5 ตัวอักษร");
             return null;
         }
         hcodeFromFile = file.getFileName().substring(0, 5);
-        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO)) {
-            FacesMessageUtils.error("ไม่มีสิทธิ์ในการนำเข้าข้อมูล");
-            return null;
-        }
         if (SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
             FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
             return null;

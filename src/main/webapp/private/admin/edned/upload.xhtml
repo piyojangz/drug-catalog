@@ -101,7 +101,7 @@
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadTMTEdNed.save()}" disabled="#{empty uploadTMTEdNed.passModels or uploadTMTEdNed.duplicateFile}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadTMTEdNed.reset()}" disabled="#{empty uploadTMTEdNed.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadTMTEdNed.reset()}" disabled="#{empty uploadTMTEdNed.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
 
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
