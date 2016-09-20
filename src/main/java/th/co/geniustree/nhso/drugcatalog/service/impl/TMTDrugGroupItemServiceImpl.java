@@ -39,14 +39,6 @@ public class TMTDrugGroupItemServiceImpl implements TMTDrugGroupItemService {
     private DeletedLogService deletedLogService;
 
     @Override
-    public void validate(DrugAndGroup drugAndGroup) {
-        TMTDrugGroupItem findOne = tMTDrugGroupItemRepo.findOne(new TMTDrugGroupItemPK(drugAndGroup.getTmtId(), drugAndGroup.getDrugGroup(), drugAndGroup.getDateInDate()));
-        if (findOne != null && drugAndGroup.getDateOutDate() == null) {
-            drugAndGroup.addError("drugGroup", "มีการเพิ่ม Drug group นี้แล้ว.");
-        }
-    }
-
-    @Override
     public void save(List<DrugAndGroup> passModels) {
         for (DrugAndGroup drugAndGrooup : passModels) {
             TMTDrugGroupItem findOne = tMTDrugGroupItemRepo.findOne(new TMTDrugGroupItemPK(drugAndGrooup.getTmtId(), drugAndGrooup.getDrugGroup(), drugAndGrooup.getDateInDate()));
