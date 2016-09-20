@@ -43,7 +43,7 @@
                                     <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="ROW#" style="text-align: center;width: 30px;">
+                            <p:column   headerText="ROW#" style="text-align: center;width: 50px;">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
                             <p:column   headerText="TMTID" style="text-align: center;width: 60px;" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
