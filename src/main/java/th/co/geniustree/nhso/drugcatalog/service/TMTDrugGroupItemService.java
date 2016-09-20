@@ -15,8 +15,6 @@ import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem;
  */
 public interface TMTDrugGroupItemService {
 
-    public void validate(DrugAndGroup drugAndGroup);
-
     public void save(List<DrugAndGroup> passModels);
     
     public void delete(TMTDrugGroupItem drugGroupItem);
