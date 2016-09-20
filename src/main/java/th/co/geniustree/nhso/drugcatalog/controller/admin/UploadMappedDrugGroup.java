@@ -189,6 +189,10 @@ public class UploadMappedDrugGroup implements Serializable {
     }
 
     private void processValidate(DrugAndGroup bean) {
+        if (passModels.contains(bean)) {
+            bean.addError("rowNum", "ซ้ำกับรายการยาที่ผ่านการตรวจสอบ");
+            return;
+        }
         List<DrugAndGroup> groups = splitDrugGroup(bean);
         Map<String, String> errors = new HashMap<>();
         for (DrugAndGroup group : groups) {
