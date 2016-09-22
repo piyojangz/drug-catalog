@@ -15,7 +15,8 @@
             </f:metadata>
             <h:messages globalOnly="true"/>
             <h:form>
-                <p:dataTable  id="passTable" resizableColumns="true"  value="#{uploadFileListDeatiail.uploadHospitalDrugItems}" var="model"  paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
+                <p:dataTable  id="passTable" resizableColumns="true" styleClass="clean-table"
+                              value="#{uploadFileListDeatiail.uploadHospitalDrugItems}" var="model"  paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowIndexVar="rowIndex">
                     <f:facet name="header">
                         ไฟล์ #{uploadFileListDeatiail.fileName} 
