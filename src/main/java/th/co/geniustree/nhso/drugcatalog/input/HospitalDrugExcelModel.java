@@ -35,7 +35,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
  *
  * @author moth
  */
-@HasFlagABeforeEDU(groups = {UGroup.class,EDGroup.class})
+@HasFlagABeforeEDU(groups = {UGroup.class,EDGroup.class},message = "ต้องมีรายการยาที่เป็น Flag A ที่ผ่านการตรวจสอบแล้วเท่านั้น")
 public class HospitalDrugExcelModel implements Serializable {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugExcelModel.class);
