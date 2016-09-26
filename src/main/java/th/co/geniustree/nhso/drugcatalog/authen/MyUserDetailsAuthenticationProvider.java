@@ -28,7 +28,7 @@ import th.co.geniustree.nhso.ws.authen.api.UserDto;
  *
  * @author pramoth
  */
-public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider implements Role {
+public abstract class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider implements Role {
 
     private static final Logger log = LoggerFactory.getLogger(MyUserDetailsAuthenticationProvider.class);
     @Autowired
@@ -38,42 +38,55 @@ public class MyUserDetailsAuthenticationProvider extends AbstractUserDetailsAuth
     @Autowired
     private HospitalRepository hospitalRepo;
 
+    protected String FUNCTION_SUPERADMIN;
+    protected String FUNCTION_ADMIN;
+    protected String FUNCTION_HOSPITAL;
+    protected String FUNCTION_EMCO;
+    protected String FUNCTION_ECLAIM;
+
+    protected static final String DRUG_CATALOG_CATEGORY_ID = "51";
+
+    protected abstract void defineFunctionId();
+
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
     }
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+        defineFunctionId();
         AuthenResultDto authenResultDto = dcService.getUserWithPermissions(username, authentication.getCredentials().toString(), "51");
         log.info("Login DC {}", ToStringBuilder.reflectionToString(authenResultDto));
-        if (authenResultDto.getUserDto() != null) {
-            UserDto userDto = authenResultDto.getUserDto();
-            WSUserDetails wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
-            if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1434", "GC2")) {
-                wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.SUPER_ADMIN, Role.ADMIN));
-            } else if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1150", "GC2")) {
-                wsUserDetails.getAuthorities().add(Role.ADMIN);
-            } else if ("Z".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
-                wsUserDetails.getAuthorities().add(Role.ZONE);
-                wsUserDetails.setZone(nhsoZoneService.findZoneByOrgId(userDto.getOrgId()));
-            } else if ("P".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51")) {
-                wsUserDetails.getAuthorities().add(Role.PROVINCE);
-                wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-            } else if (categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1468", "GC2")) {
-                wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
-            } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1149", "GC2")) {
-                wsUserDetails.getAuthorities().add(Role.HOSPITAL);
-                wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-            } else if ("H".equalsIgnoreCase(userDto.getFromType()) && categoryContains(authenResultDto, "51") && hasFunction(authenResultDto, "1245", "GC2")) {
-                wsUserDetails.getAuthorities().add(Role.ECLAIM);
-                wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
-            }
-            wsUserDetails.setPid(userDto.getPid());
-            log.debug(ToStringBuilder.reflectionToString(wsUserDetails));
-            return wsUserDetails;
-        } else {
+        if (authenResultDto.getUserDto() == null) {
             throw new AuthenticationCredentialsNotFoundException("Not found user. " + username);
         }
+        if (!categoryContains(authenResultDto, DRUG_CATALOG_CATEGORY_ID)) {
+            throw new AuthenticationCredentialsNotFoundException("Username " + username + " hasn't permissions to login");
+        }
+        UserDto userDto = authenResultDto.getUserDto();
+        WSUserDetails wsUserDetails = new WSUserDetails(userDto, authentication.getCredentials().toString());
+        if (hasFunction(authenResultDto, FUNCTION_SUPERADMIN, "GC2")) {
+            wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.SUPER_ADMIN, Role.ADMIN));
+        } else if (hasFunction(authenResultDto, FUNCTION_ADMIN, "GC2")) {
+            wsUserDetails.getAuthorities().add(Role.ADMIN);
+        } else if ("Z".equalsIgnoreCase(userDto.getFromType())) {
+            wsUserDetails.getAuthorities().add(Role.ZONE);
+            wsUserDetails.setZone(nhsoZoneService.findZoneByOrgId(userDto.getOrgId()));
+        } else if ("P".equalsIgnoreCase(userDto.getFromType())) {
+            wsUserDetails.getAuthorities().add(Role.PROVINCE);
+            wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
+        } else if (hasFunction(authenResultDto, FUNCTION_EMCO, "GC2")) {
+            wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
+        } else if (hasFunction(authenResultDto, FUNCTION_HOSPITAL, "GC2")) {
+            wsUserDetails.getAuthorities().add(Role.HOSPITAL);
+            wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
+        } else if (hasFunction(authenResultDto, FUNCTION_ECLAIM, "GC2")) {
+            wsUserDetails.getAuthorities().add(Role.ECLAIM);
+            wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
+        }
+        wsUserDetails.setPid(userDto.getPid());
+        log.debug(ToStringBuilder.reflectionToString(wsUserDetails));
+        return wsUserDetails;
     }
 
     private boolean categoryContains(AuthenResultDto authenResultDto, String checkCategory) {

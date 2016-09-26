@@ -15,7 +15,8 @@
             </f:metadata>
             <h:messages globalOnly="true"/>
             <h:form>
-                <p:dataTable  id="passTable" resizableColumns="true"  value="#{uploadFileListDeatiail.uploadHospitalDrugItems}" var="model"  paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
+                <p:dataTable  id="passTable" resizableColumns="true" styleClass="clean-table"
+                              value="#{uploadFileListDeatiail.uploadHospitalDrugItems}" var="model"  paginator="true" rows="20" lazy="true" rowsPerPageTemplate="20,30,40,50"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowIndexVar="rowIndex">
                     <f:facet name="header">
                         ไฟล์ #{uploadFileListDeatiail.fileName} 
@@ -30,37 +31,37 @@
                     <p:column   headerText="#" width="40">
                         <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
-                    <p:column   headerText="HOSPDRUGCODE" width="110" >
+                    <p:column   headerText="HOSPDRUGCODE" width="120" >
                         <h:outputText value="#{model.hospDrugCode}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="PRODUCTCAT" width="80">
+                    <p:column headerText="PRODUCTCAT" width="100">
                         <h:outputText value="#{model.productCat}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
                     <p:column headerText="TMTID" width="60">
                         <h:outputText value="#{model.tmtId}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="SPECPREP" width="60">
+                    <p:column headerText="SPECPREP" width="80">
                         <h:outputText value="#{model.specPrep}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="GENERICNAME" width="200">
+                    <p:column headerText="GENERICNAME" width="300">
                         <h:outputText value="#{model.genericName}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="TRADENAME" width="200">
+                    <p:column headerText="TRADENAME" width="300">
                         <h:outputText value="#{model.tradeName}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="DFSCODE"  width="60">
+                    <p:column headerText="DFSCODE"  width="80">
                         <h:outputText value="#{model.dfsCode}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="DOSAGEFORM" width="100">
+                    <p:column headerText="DOSAGEFORM" width="150">
                         <h:outputText value="#{model.dosageForm}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="STRENGTH" width="100">
+                    <p:column headerText="STRENGTH" width="300">
                         <h:outputText value="#{model.strength}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="CONTENT" width="80">
+                    <p:column headerText="CONTENT" width="150">
                         <h:outputText value="#{model.content}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="UNITPRICE" width="60">
+                    <p:column headerText="UNITPRICE" width="80">
                         <h:outputText value="#{model.unitPrice}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
                     <p:column headerText="DISTRIBUTOR" width="260">
@@ -72,7 +73,7 @@
                     <p:column headerText="ISED" width="40">
                         <h:outputText value="#{model.ised}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
-                    <p:column headerText="NDC24" width="100">
+                    <p:column headerText="NDC24" width="190">
                         <h:outputText value="#{model.ndc24}" style="#{model.requestItem.deleted?'color:red;text-decoration: line-through;':'color:black'}}"/>
                     </p:column>
                     <p:column headerText="PACKSIZE" width="100">
