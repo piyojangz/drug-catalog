@@ -1,21 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package th.co.geniustree.nhso.drugcatalog.repo;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.TemporalType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,14 +66,6 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "and u.updateFlag in ?4 "
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, Date dateEffective, Collection updateFlags);
-
-    @Query("select count(u) "
-            + "from UploadHospitalDrugItem u "
-            + "where u.hospDrugCode = ?1 "
-            + "and u.uploadDrug.hcode = ?2 "
-            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT,th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
-            + "and u.requestItem.deleted = 0")
-    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(String hospDrugCode, String hcode, @Temporal(TemporalType.DATE) Date dateEffective, String... updateFlag);
 
     @Query("select count(u) "
             + "from UploadHospitalDrugItem u "
