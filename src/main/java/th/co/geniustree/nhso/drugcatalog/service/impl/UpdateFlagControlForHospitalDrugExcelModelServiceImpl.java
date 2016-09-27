@@ -19,7 +19,7 @@ import th.co.geniustree.nhso.drugcatalog.service.UploadHospitalDrugItemService;
  *
  * @author thanthathon.b
  */
-@Service
+@Service("UpdateFlagControlForHospitalDrugExcelModelServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED)
 public class UpdateFlagControlForHospitalDrugExcelModelServiceImpl implements UpdateFlagControlService<HospitalDrugExcelModel> {
 
