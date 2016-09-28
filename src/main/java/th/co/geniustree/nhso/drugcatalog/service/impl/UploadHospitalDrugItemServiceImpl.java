@@ -108,15 +108,15 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
     }
 
     @Override
-    public boolean isHospitalDrugWithTmtNotDuplicate(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag) {
+    public boolean isHospitalDrugWithTmtDuplicated(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag) {
         long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(hospDrugCode, hcode, tmtid, dateEffective, updateFlag);
-        return count == 0;
+        return count > 0;
     }
 
     @Override
-    public boolean isFlagDAfterFlagA(String hcode, String hospDrugCode, Date dateEffective) {
+    public boolean isFlagDBeforeFlagA(String hcode, String hospDrugCode, Date dateEffective) {
         long count = repo.countByHospitalDrugThatDateEffectiveBeforeFlagA(hcode, hospDrugCode, dateEffective);
-        return count == 0;
+        return count > 0;
     }
 
 }

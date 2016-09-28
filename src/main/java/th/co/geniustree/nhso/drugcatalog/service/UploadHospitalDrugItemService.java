@@ -33,7 +33,7 @@ public interface UploadHospitalDrugItemService {
 
     public boolean hasHospitalDrugFlagABefore(String hcode, String hospDrugCode);
 
-    public boolean isHospitalDrugWithTmtNotDuplicate(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag);
+    public boolean isHospitalDrugWithTmtDuplicated(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag);
 
-    public boolean isFlagDAfterFlagA(String hcode, String hospDrugCode, Date dateEffective);
+    public boolean isFlagDBeforeFlagA(String hcode, String hospDrugCode, Date dateEffective);
 }
