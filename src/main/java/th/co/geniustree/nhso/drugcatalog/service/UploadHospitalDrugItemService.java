@@ -29,9 +29,9 @@ public interface UploadHospitalDrugItemService {
     
     public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode);
     
-    public boolean hasHospitalDrugNeverBeenAccept(String hcode, String hospDrugCode);
+    public boolean hasHospitalDrugNeverAccepted(String hcode, String hospDrugCode);
 
-    public boolean hasHospitalDrugFlagABefore(String hcode, String hospDrugCode);
+    public boolean hasHospitalDrugWithFlagABefore(String hcode, String hospDrugCode);
 
     public boolean isHospitalDrugWithTmtDuplicated(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag);
 

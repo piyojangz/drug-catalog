@@ -32,24 +32,20 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
 
     @Override
     public boolean validateFlagA(UploadHospitalDrugItem item, boolean addError) {
-        boolean hasHospitalDrug;
-        hasHospitalDrug = uploadHospitalDrugItemService.hasHospitalDrugNeverBeenAccept(
-                item.getUploadDrug().getHcode(),
-                item.getHospDrugCode());
-        if (!hasHospitalDrug && addError) {
+        boolean everBeenAccepted = uploadHospitalDrugItemService.hasHospitalDrugNeverAccepted(item.getUploadDrug().getHcode(), item.getHospDrugCode());
+        if (everBeenAccepted && addError) {
             LOG.debug("ไม่สามารถเพิ่มรายการยา {} เนื่องจากมี HospDrugCode นี้อยู่ในระบบอยู่แล้ว", item.getHospDrugCode());
 //            item.addError("updateFlag", "ไม่สามารถเพิ่มรายการยานี้ได้ เนื่องจากมี HospDrugCode นี้อยู่ในระบบอยู่แล้ว");
         }
-        return hasHospitalDrug;
+        return everBeenAccepted;
     }
 
     @Override
     public boolean validateFlagEU(UploadHospitalDrugItem item, boolean addError) {
-        boolean hasFlagABefore;
-        hasFlagABefore = uploadHospitalDrugItemService.hasHospitalDrugFlagABefore(
+        boolean flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugWithFlagABefore(
                 item.getUploadDrug().getHcode(),
                 item.getHospDrugCode());
-        if (!hasFlagABefore && addError) {
+        if (!flagAHasBefore && addError) {
             LOG.debug("ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
 //            item.addError("updateFlag", "ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
         }
@@ -67,25 +63,23 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
                     item.getUpdateFlag());
 //            item.addError("dateEffective", "พบ hospDrugCode , TMTID , dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
         }
-        return hasFlagABefore && duplicate;
+        return flagAHasBefore && duplicate;
     }
 
     @Override
     public boolean validateFlagD(UploadHospitalDrugItem item, boolean addError) {
-        boolean hasFlagABefore;
-        hasFlagABefore = uploadHospitalDrugItemService.hasHospitalDrugFlagABefore(
+        boolean flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugWithFlagABefore(
                 item.getUploadDrug().getHcode(),
                 item.getHospDrugCode());
-        if (!hasFlagABefore && addError) {
+        if (!flagAHasBefore && addError) {
             LOG.debug("ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
 //            item.addError("updateFlag", "ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
         }
-        boolean flagDBeforeOrEqualA;
-        flagDBeforeOrEqualA = uploadHospitalDrugItemService.isFlagDBeforeFlagA(
+        boolean flagDBeforeA = uploadHospitalDrugItemService.isFlagDBeforeFlagA(
                 item.getUploadDrug().getHcode(),
                 item.getHospDrugCode(),
                 DateUtils.parseUSDate(Constants.TMT_DATETIME_FORMAT, item.getDateEffective()));
-        if (flagDBeforeOrEqualA && addError) {
+        if (flagDBeforeA && addError) {
             LOG.debug("ไม่สามารถดำเนินการ Flag D ก่อนที่จะมี Flag A ได้");
 //            item.addError("dateEffective", "ไม่สามารถดำเนินการ Flag D ก่อนที่จะมี Flag A ได้");
         }
@@ -103,7 +97,7 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
                     item.getUpdateFlag());
 //            item.addError("dateEffective", "พบ hospDrugCode , TMTID , dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
         }
-        return hasFlagABefore && flagDBeforeOrEqualA && duplicate;
+        return flagAHasBefore && flagDBeforeA && duplicate;
     }
 
 }

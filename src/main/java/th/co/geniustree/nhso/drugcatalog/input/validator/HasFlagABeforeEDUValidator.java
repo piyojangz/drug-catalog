@@ -24,7 +24,7 @@ public class HasFlagABeforeEDUValidator implements ConstraintValidator<HasFlagAB
     public boolean isValid(HospitalDrugExcelModel value, ConstraintValidatorContext context) {
         boolean valid = false;
         if (!value.getUpdateFlag().equals("A")) {
-            valid = service.hasHospitalDrugFlagABefore(value.getHcode(), value.getHospDrugCode());
+            valid = service.hasHospitalDrugWithFlagABefore(value.getHcode(), value.getHospDrugCode());
         }
         return valid;
     }

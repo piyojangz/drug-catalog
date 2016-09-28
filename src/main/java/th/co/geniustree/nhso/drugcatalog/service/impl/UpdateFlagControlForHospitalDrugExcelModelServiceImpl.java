@@ -28,18 +28,16 @@ public class UpdateFlagControlForHospitalDrugExcelModelServiceImpl implements Up
 
     @Override
     public boolean validateFlagA(HospitalDrugExcelModel item, boolean addError) {
-        boolean flagAHasBefore;
-        flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugNeverBeenAccept(item.getHcode(), item.getHospDrugCode());
-        if (!flagAHasBefore && addError) {
+        boolean everBeenAccepted = uploadHospitalDrugItemService.hasHospitalDrugNeverAccepted(item.getHcode(), item.getHospDrugCode());
+        if (everBeenAccepted && addError) {
             item.addError("updateFlag", "ไม่สามารถเพิ่มรายการยานี้ได้ เนื่องจากมี HospDrugCode นี้อยู่ในระบบอยู่แล้ว");
         }
-        return flagAHasBefore;
+        return everBeenAccepted;
     }
 
     @Override
     public boolean validateFlagEU(HospitalDrugExcelModel item, boolean addError) {
-        boolean flagAHasBefore;
-        flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugFlagABefore(item.getHcode(), item.getHospDrugCode());
+        boolean flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugWithFlagABefore(item.getHcode(), item.getHospDrugCode());
         if (!flagAHasBefore && addError) {
             item.addError("updateFlag", "ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
         }
@@ -57,14 +55,12 @@ public class UpdateFlagControlForHospitalDrugExcelModelServiceImpl implements Up
 
     @Override
     public boolean validateFlagD(HospitalDrugExcelModel item, boolean addError) {
-        boolean flagAHasBefore;
-        flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugFlagABefore(item.getHcode(), item.getHospDrugCode());
+        boolean flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugWithFlagABefore(item.getHcode(), item.getHospDrugCode());
         if (!flagAHasBefore && addError) {
             item.addError("updateFlag", "ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
         }
-        boolean flagDBeforeOrEqualA;
-        flagDBeforeOrEqualA = uploadHospitalDrugItemService.isFlagDBeforeFlagA(item.getHcode(), item.getHospDrugCode(), DateUtils.parseUSDate(Constants.TMT_DATETIME_FORMAT, item.getDateEffective()));
-        if (flagDBeforeOrEqualA && addError) {
+        boolean flagDBeforeA = uploadHospitalDrugItemService.isFlagDBeforeFlagA(item.getHcode(), item.getHospDrugCode(), DateUtils.parseUSDate(Constants.TMT_DATETIME_FORMAT, item.getDateEffective()));
+        if (flagDBeforeA && addError) {
             item.addError("dateEffective", "ไม่สามารถดำเนินการ Flag D ก่อนที่จะมี Flag A ได้");
         }
         boolean duplicate = uploadHospitalDrugItemService.isHospitalDrugWithTmtDuplicated(
@@ -76,7 +72,7 @@ public class UpdateFlagControlForHospitalDrugExcelModelServiceImpl implements Up
         if (duplicate && addError) {
             item.addError("dateEffective", "พบ hospDrugCode , TMTID , dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
         }
-        return flagAHasBefore && flagDBeforeOrEqualA && duplicate;
+        return flagAHasBefore && flagDBeforeA && duplicate;
     }
 
 }

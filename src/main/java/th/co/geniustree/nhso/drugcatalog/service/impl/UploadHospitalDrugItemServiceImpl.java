@@ -96,13 +96,13 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
     }
 
     @Override
-    public boolean hasHospitalDrugNeverBeenAccept(String hcode, String hospDrugCode) {
+    public boolean hasHospitalDrugNeverAccepted(String hcode, String hospDrugCode) {
         long count = repo.countByHcodeAndHospDrugCodeThatNotDeleteAndNotReject(hcode, hospDrugCode);
         return count == 0;
     }
 
     @Override
-    public boolean hasHospitalDrugFlagABefore(String hcode, String hospDrugCode) {
+    public boolean hasHospitalDrugWithFlagABefore(String hcode, String hospDrugCode) {
         long count = repo.countByHospitalDrugThatFlagAAndAccept(hospDrugCode, hcode);
         return count == 1;
     }
