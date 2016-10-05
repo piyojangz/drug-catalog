@@ -77,6 +77,7 @@ public abstract class MyUserDetailsAuthenticationProvider extends AbstractUserDe
             wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
         } else if (hasFunction(authenResultDto, FUNCTION_EMCO, "GC2")) {
             wsUserDetails.getAuthorities().addAll(Arrays.asList(Role.EMCO, Role.HOSPITAL));
+            wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
         } else if (hasFunction(authenResultDto, FUNCTION_HOSPITAL, "GC2")) {
             wsUserDetails.getAuthorities().add(Role.HOSPITAL);
             wsUserDetails.setHospital(hospitalRepo.findByHcode(userDto.getOrgId()));
