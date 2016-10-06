@@ -69,6 +69,7 @@ public class CreateHospitalDrug implements Serializable {
 
     private String contentValue;
     private String contentUnit;
+    private String oldContent;
 
     private List<UploadHospitalDrugItem> history;
 
@@ -131,6 +132,14 @@ public class CreateHospitalDrug implements Serializable {
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
+    }
+
+    public String getOldContent() {
+        return oldContent;
+    }
+
+    public void setOldContent(String oldContent) {
+        this.oldContent = oldContent;
     }
 
     public String getUpdateFlag() {
@@ -302,10 +311,12 @@ public class CreateHospitalDrug implements Serializable {
         if (editHospitalDrug.getPackPrice() != null) {
             item.setPackPrice(editHospitalDrug.getPackPrice().toPlainString());
         }
-        Matcher m = Pattern.compile("([\\d+(\\.\\d+)?]?)\\s?(.*)", Pattern.UNICODE_CHARACTER_CLASS).matcher(editHospitalDrug.getContent());
+        Matcher m = Pattern.compile("(\\d+(\\.\\d+)?)\\s*(.*)", Pattern.UNICODE_CHARACTER_CLASS).matcher(editHospitalDrug.getContent());
         if (m.find()) {
             this.contentValue = m.group(1);
-            this.contentUnit = m.group(2);
+            this.contentUnit = m.group(3);
+        } else {
+            this.oldContent = editHospitalDrug.getContent();
         }
         saveBeforeEditStatus();
     }

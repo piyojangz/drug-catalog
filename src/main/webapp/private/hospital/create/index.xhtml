@@ -215,6 +215,8 @@
                                          style="width: 200px;">
                                 <p:watermark for="CONTENTUNIT" value="หน่วย"/>
                             </p:inputText>
+                            <h:outputText value=" content เก่า : " style="#{createHospitalDrug.oldContent == null ? 'display: none;' : 'color: red;'}"/>
+                            <h:outputText value="#{createHospitalDrug.oldContent}" style="#{createHospitalDrug.oldContent == null ? 'display: none' : 'color: red;font-weight: bold;'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="CONTENTVALUE"/>
