@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -56,6 +58,34 @@ public class EditNotPassRequest implements Serializable {
     @Autowired
     private EdNEdService edNEdService;
 
+    private String contentValue;
+    private String contentUnit;
+    private String oldContent;
+
+    public String getContentValue() {
+        return contentValue;
+    }
+
+    public void setContentValue(String contentValue) {
+        this.contentValue = contentValue;
+    }
+
+    public String getContentUnit() {
+        return contentUnit;
+    }
+
+    public void setContentUnit(String contentUnit) {
+        this.contentUnit = contentUnit;
+    }
+
+    public String getOldContent() {
+        return oldContent;
+    }
+
+    public void setOldContent(String oldContent) {
+        this.oldContent = oldContent;
+    }
+
     public Integer getRequestItemId() {
         return requestItemId;
     }
@@ -96,11 +126,18 @@ public class EditNotPassRequest implements Serializable {
             return;
         }
         item = requestItem.getUploadDrugItem();
-        
+
         updateFlag = item.getUpdateFlag();
         if (!item.getUploadDrug().getHcode().equals(SecurityUtil.getUserDetails().getHospital().getHcode())) {
             FacesMessageUtils.warn("แก้ไขได้เฉพาะรายการของหน่วยบริการตนเองเท่านั้น");
             return;
+        }
+        Matcher m = Pattern.compile("(\\d+(\\.\\d+)?)\\s*(.*)", Pattern.UNICODE_CHARACTER_CLASS).matcher(item.getContent());
+        if (m.find()) {
+            this.contentValue = m.group(1);
+            this.contentUnit = m.group(3);
+        } else {
+            this.oldContent = item.getContent();
         }
     }
 
@@ -164,6 +201,7 @@ public class EditNotPassRequest implements Serializable {
     }
 
     public String save() {
+        item.setContent(contentValue + " " + contentUnit);
         item.setUpdateFlag(updateFlag);
         item.getRequestItem().setEditCount(item.getRequestItem().getEditCount() + 1);
         item.getRequestItem().setApproveDate(null);

@@ -156,10 +156,29 @@
                             <span style="color:red">*</span>CONTENT:
                         </p:column>
                         <p:column>
-                            <p:inputText id="CONTENT" value="#{editNotPassRequest.item.content}" />
+                            <p:inputText id="CONTENTVALUE"
+                                         value="#{editNotPassRequest.contentValue}" 
+                                         type="number"
+                                         required="true"
+                                         requiredMessage="กรุณาระบุ content value"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         style="width: 80px;">
+                                <p:watermark for="CONTENTVALUE" value="ปริมาณ"/>
+                            </p:inputText>
+                            <p:inputText id="CONTENTUNIT" 
+                                         required="true"
+                                         requiredMessage="กรุณาระบุ content unit"
+                                         value="#{editNotPassRequest.contentUnit}" 
+                                         disabled="#{editNotPassRequest.item.updateFlag eq 'U' or editNotPassRequest.item.updateFlag eq 'D'}" 
+                                         style="width: 200px;">
+                                <p:watermark for="CONTENTUNIT" value="หน่วย"/>
+                            </p:inputText>
+                            <h:outputText value=" content เก่า : " style="#{editNotPassRequest.oldContent == null ? 'display: none;' : 'color: red;'}"/>
+                            <h:outputText value="#{editNotPassRequest.oldContent}" style="#{editNotPassRequest.oldContent == null ? 'display: none' : 'color: red;font-weight: bold;'}"/>
                         </p:column>
                         <p:column>
-                            <p:message for="CONTENT"/>
+                            <p:message for="CONTENTVALUE"/>
+                            <p:message for="CONTENTUNIT"/>
                         </p:column>
                     </p:row>
                     <p:row>
