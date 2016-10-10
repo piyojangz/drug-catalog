@@ -202,18 +202,20 @@
                                          value="#{createHospitalDrug.contentValue}" 
                                          type="number"
                                          required="true"
+                                         validatorMessage="content value ไม่ถูกต้อง"
                                          requiredMessage="กรุณาระบุ content value"
                                          disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
-                                         style="width: 80px;">
-                                <p:watermark for="CONTENTVALUE" value="ปริมาณ"/>
+                                         style="width: 100px;">
+                                <p:watermark for="CONTENTVALUE" value="content value"/>
+                                <f:validateDoubleRange minimum="0"/>
                             </p:inputText>
                             <p:inputText id="CONTENTUNIT" 
                                          required="true"
-                                         requiredMessage="กรุณาระบุ content unit"
+                                         requiredMessage="กรุณาระบุ content unit และ dispensing unit"
                                          value="#{createHospitalDrug.contentUnit}" 
                                          disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
                                          style="width: 200px;">
-                                <p:watermark for="CONTENTUNIT" value="หน่วย"/>
+                                <p:watermark for="CONTENTUNIT" value="content unit และ dispensing unit"/>
                             </p:inputText>
                             <h:outputText value=" content เก่า : " style="#{createHospitalDrug.oldContent == null ? 'display: none;' : 'color: red;'}"/>
                             <h:outputText value="#{createHospitalDrug.oldContent}" style="#{createHospitalDrug.oldContent == null ? 'display: none' : 'color: red;font-weight: bold;'}"/>
@@ -228,7 +230,14 @@
                             <span style="color:red">*</span>UNITPRICE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="UNITPRICE" value="#{createHospitalDrug.item.unitPrice}" disabled="#{createHospitalDrug.updateFlag eq 'E' or createHospitalDrug.updateFlag eq 'D'}">
+                            <p:inputText id="UNITPRICE" 
+                                         value="#{createHospitalDrug.item.unitPrice}" 
+                                         disabled="#{createHospitalDrug.updateFlag eq 'E' or createHospitalDrug.updateFlag eq 'D'}"
+                                         type="number"
+                                         required="true"
+                                         validatorMessage="unit price ไม่ถูกต้อง"
+                                         requiredMessage="กรุณาระบุราคายา">
+                            <f:validateDoubleRange minimum="0" />
                             </p:inputText>
                         </p:column>
                         <p:column>

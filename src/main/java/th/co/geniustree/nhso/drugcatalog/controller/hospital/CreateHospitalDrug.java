@@ -344,6 +344,8 @@ public class CreateHospitalDrug implements Serializable {
         updateFlag = item.getUpdateFlag();
         editMode = false;
         hospDrugCode = null;
+        contentValue = null;
+        contentUnit = null;
         return null;
     }
 
