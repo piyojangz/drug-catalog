@@ -193,19 +193,22 @@ public class UploadMappedDrugGroup implements Serializable {
             bean.addError("rowNum", "ซ้ำกับรายการยาที่ผ่านการตรวจสอบ");
             return;
         }
+
         List<DrugAndGroup> groups = splitDrugGroup(bean);
         Map<String, String> errors = new HashMap<>();
+        if (tmtDrugService.findOneWithoutTx(bean.getTmtId()) == null) {
+            if (errors.get("tmtId") == null) {
+                errors.put("tmtId", "ไม่พบรายการยามาตรฐาน TMT นี้");
+            }
+        }
         for (DrugAndGroup group : groups) {
             if (drugGroupService.findOne(group.getDrugGroup().trim()) == null) {
                 if (errors.get("drugGroup") == null) {
                     errors.put("drugGroup", "ไม่พบ Drug group : " + group.getDrugGroup().trim());
                 } else {
-                    errors.replace("drugGroup", errors.get("drugGroup") + ", " + group.getDrugGroup().trim());
-                }
-            }
-            if (tmtDrugService.findOneWithoutTx(group.getTmtId()) == null) {
-                if (errors.get("tmtId") == null) {
-                    errors.put("tmtId", "ไม่พบรายการยามาตรฐาน TMT นี้");
+                    String oldError = errors.get("drugGroup");
+                    errors.remove("drugGroup");
+                    errors.put("drugGroup", oldError + ", " + group.getDrugGroup().trim());
                 }
             }
             TMTDrugGroupItem findOne = tMTDrugGroupItemRepo.findOne(new TMTDrugGroupItemPK(group.getTmtId(), group.getDrugGroup(), group.getDateInDate()));
@@ -213,7 +216,9 @@ public class UploadMappedDrugGroup implements Serializable {
                 if (errors.get("rowNum") == null) {
                     errors.put("rowNum", "มีการเพิ่ม Drug group นี้แล้ว : " + group.getDrugGroup().trim());
                 } else {
-                    errors.replace("rowNum", errors.get("drugGroup") + ", " + group.getDrugGroup().trim());
+                    String oldError = errors.get("drugGroup");
+                    errors.remove("drugGroup");
+                    errors.put("rowNum", oldError + ", " + group.getDrugGroup().trim());
                 }
             }
             for (String key : errors.keySet()) {

@@ -86,7 +86,7 @@
                                 </h:commandLink>
                             </f:facet>
                             <p:column   headerText="#" style="text-align: center;width: 30px;" resizable="false" exportable="false">
-                                <h:outputText value="#{rowIndex+1}" />
+                                <h:outputText value="#{model.rowNum}" />
                             </p:column>
                             <p:column   headerText="TMTID" style="text-align: center;width: 60px;" >
                                 <h:outputText value="#{model.tmtId}" title="#{model.errorMap['tmtId']}"/>
