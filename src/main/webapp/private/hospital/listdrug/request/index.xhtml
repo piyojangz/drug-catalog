@@ -47,7 +47,8 @@
                             <span style="color:red">*</span>HOSPDRUGCODE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="HOSPDRUGCODE" value="#{editNotPassRequest.item.hospDrugCode}"/>
+                            <p:inputText id="HOSPDRUGCODE" value="#{editNotPassRequest.item.hospDrugCode}" 
+                                         disabled="#{editNotPassRequest.updateFlag ne 'A'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="HOSPDRUGCODE"/>
@@ -59,6 +60,7 @@
                         </p:column>
                         <p:column>
                             <p:selectOneMenu id="PRODUCTCAT"
+                                             disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
                                              value="#{editNotPassRequest.item.productCat}">
                                 <f:selectItem itemLabel="1" itemValue="1"/>
                                 <f:selectItem itemLabel="2" itemValue="2"/>
@@ -76,8 +78,10 @@
                             <span style="color:blue">TMTID:</span>
                         </p:column>
                         <p:column>
-                            <p:inputText id="TMTID" value="#{editNotPassRequest.item.tmtId}" readonly="#{facesContext.renderResponse}"/>
-                            <p:commandButton  value="Find" action="#{editNotPassRequest.findTmt}" process="@this">
+                            <p:inputText id="TMTID" value="#{editNotPassRequest.item.tmtId}" readonly="#{facesContext.renderResponse}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" />
+                            <p:commandButton  value="Find" action="#{editNotPassRequest.findTmt}" process="@this"
+                                              disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}">
                                 <p:ajax event="dialogReturn" listener="#{editNotPassRequest.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH" />
                             </p:commandButton>
                         </p:column>
@@ -90,7 +94,8 @@
                             SPECPREP:
                         </p:column>
                         <p:column>
-                            <p:inputText id="SPECPREP" value="#{editNotPassRequest.item.specPrep}"/>
+                            <p:inputText id="SPECPREP" value="#{editNotPassRequest.item.specPrep}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" />
                         </p:column>
                         <p:column>
                             <p:message for="SPECPREP"/>
@@ -101,7 +106,9 @@
                             <span style="color:red">*</span><span style="color:blue">GENERICNAME:</span>
                         </p:column>
                         <p:column>
-                            <p:inputText id="GENERICNAME" value="#{editNotPassRequest.item.genericName}"  size="80"/>
+                            <p:inputText id="GENERICNAME" value="#{editNotPassRequest.item.genericName}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="GENERICNAME"/>
@@ -112,7 +119,9 @@
                             <span style="color:red">*</span><span style="color:blue">TRADENAME:</span>
                         </p:column>
                         <p:column>
-                            <p:inputText id="TRADENAME" value="#{editNotPassRequest.item.tradeName}"  size="80"/>
+                            <p:inputText id="TRADENAME" value="#{editNotPassRequest.item.tradeName}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="TRADENAME"/>
@@ -123,7 +132,9 @@
                             DFSCODE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DFSCODE" value="#{editNotPassRequest.item.dfsCode}"  size="50"/>
+                            <p:inputText id="DFSCODE" value="#{editNotPassRequest.item.dfsCode}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="DFSCODE"/>
@@ -134,7 +145,9 @@
                             <span style="color:red">*</span><span style="color:blue">DOSAGEFORM:</span>
                         </p:column>
                         <p:column>
-                            <p:inputText id="DOSAGEFORM" value="#{editNotPassRequest.item.dosageForm}"  size="50"/>
+                            <p:inputText id="DOSAGEFORM" value="#{editNotPassRequest.item.dosageForm}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="DOSAGEFORM"/>
@@ -145,7 +158,9 @@
                             <span style="color:red">*</span><span style="color:blue">STRENGTH:</span>
                         </p:column>
                         <p:column>
-                            <p:inputText id="STRENGTH" value="#{editNotPassRequest.item.strength}"  size="50"/>
+                            <p:inputText id="STRENGTH" value="#{editNotPassRequest.item.strength}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         size="50"/>
                         </p:column>
                         <p:column>
                             <p:message for="STRENGTH"/>
@@ -160,18 +175,20 @@
                                          value="#{editNotPassRequest.contentValue}" 
                                          type="number"
                                          required="true"
+                                         validatorMessage="content value ไม่ถูกต้อง"
                                          requiredMessage="กรุณาระบุ content value"
                                          disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
-                                         style="width: 80px;">
-                                <p:watermark for="CONTENTVALUE" value="ปริมาณ"/>
+                                         style="width: 100px;">
+                                <p:watermark for="CONTENTVALUE" value="content value"/>
+                                <f:validateDoubleRange minimum="0"/>
                             </p:inputText>
                             <p:inputText id="CONTENTUNIT" 
                                          required="true"
-                                         requiredMessage="กรุณาระบุ content unit"
+                                         requiredMessage="กรุณาระบุ content unit และ dispensing unit"
                                          value="#{editNotPassRequest.contentUnit}" 
                                          disabled="#{editNotPassRequest.item.updateFlag eq 'U' or editNotPassRequest.item.updateFlag eq 'D'}" 
                                          style="width: 200px;">
-                                <p:watermark for="CONTENTUNIT" value="หน่วย"/>
+                                <p:watermark for="CONTENTUNIT" value="content unit และ dispensing unit"/>
                             </p:inputText>
                             <h:outputText value=" content เก่า : " style="#{editNotPassRequest.oldContent == null ? 'display: none;' : 'color: red;'}"/>
                             <h:outputText value="#{editNotPassRequest.oldContent}" style="#{editNotPassRequest.oldContent == null ? 'display: none' : 'color: red;font-weight: bold;'}"/>
@@ -186,7 +203,13 @@
                             <span style="color:red">*</span>UNITPRICE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="UNITPRICE" value="#{editNotPassRequest.item.unitPrice}" >
+                            <p:inputText id="UNITPRICE" value="#{editNotPassRequest.item.unitPrice}"
+                                         disabled="#{editNotPassRequest.item.updateFlag eq 'E' or editNotPassRequest.item.updateFlag eq 'D'}"
+                                         type="number"
+                                         required="true"
+                                         validatorMessage="unit price ไม่ถูกต้อง"
+                                         requiredMessage="กรุณาระบุราคายา">
+                                <f:validateDoubleRange minimum="0" />
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -198,7 +221,9 @@
                             DISTRIBUTOR:
                         </p:column>
                         <p:column>
-                            <p:inputText id="DISTRIBUTOR" value="#{editNotPassRequest.item.distributor}"  size="80"/>
+                            <p:inputText id="DISTRIBUTOR" value="#{editNotPassRequest.item.distributor}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="DISTRIBUTOR"/>
@@ -209,7 +234,9 @@
                             <span style="color:red">*</span><span style="color:blue">MANUFACTURER:</span>
                         </p:column>
                         <p:column>
-                            <p:inputText id="MANUFACTURER" value="#{editNotPassRequest.item.manufacturer}"  size="80"/>
+                            <p:inputText id="MANUFACTURER" value="#{editNotPassRequest.item.manufacturer}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
+                                         size="80"/>
                         </p:column>
                         <p:column>
                             <p:message for="MANUFACTURER"/>
@@ -220,7 +247,8 @@
                             <span style="color:red">*</span>ISED:
                         </p:column>
                         <p:column>
-                            <p:selectOneMenu id="ISED" value="#{editNotPassRequest.item.ised}">
+                            <p:selectOneMenu id="ISED" value="#{editNotPassRequest.item.ised}"
+                                             disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" >
                                 <f:selectItem itemValue="" itemLabel=""/>
                                 <f:selectItem itemValue="E" itemLabel="E"/>
                                 <f:selectItem itemValue="E*" itemLabel="E*"/>
@@ -236,7 +264,8 @@
                             NDC24:
                         </p:column>
                         <p:column>
-                            <p:inputText id="NDC24" value="#{editNotPassRequest.item.ndc24}" />
+                            <p:inputText id="NDC24" value="#{editNotPassRequest.item.ndc24}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
                         </p:column>
                         <p:column>
                             <p:message for="NDC24"/>
@@ -247,7 +276,8 @@
                             PACKSIZE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PACKSIZE" value="#{editNotPassRequest.item.packSize}"/>
+                            <p:inputText id="PACKSIZE" value="#{editNotPassRequest.item.packSize}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" />
                         </p:column>
                         <p:column>
                             <p:message for="PACKSIZE"/>
@@ -258,7 +288,10 @@
                             PACKPRICE:
                         </p:column>
                         <p:column>
-                            <p:inputText id="PACKPRICE" value="#{editNotPassRequest.item.packPrice}">
+                            <p:inputText id="PACKPRICE" value="#{editNotPassRequest.item.packPrice}"
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" type="number"
+                                         validatorMessage="pack price ไม่ถูกต้อง">
+                                <f:validateDoubleRange minimum="0" />
                             </p:inputText>
                         </p:column>
                         <p:column>
