@@ -486,7 +486,7 @@
                 <log.geniustree.level>DEBUG</log.geniustree.level>
                 <log.appender>STDOUT</log.appender>
                 <log.file.location>c:\\${project.artifactId}\log</log.file.location>
-                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderTest</authentication.provider>
                 <report.temp.location>c:\\${project.artifactId}\report</report.temp.location>
                 <upload.temp.location>c:\\${project.artifactId}\upload_temp</upload.temp.location> 
                 <wsdlDocumentResource>http://gucws.nhso.go.th/nhso-wsauthen-wrapper/UCDCAuthenService?wsdl</wsdlDocumentResource>
@@ -546,7 +546,7 @@
                 <log.geniustree.level>TRACE</log.geniustree.level>
                 <log.appender>FILE</log.appender>
                 <log.file.location>/${project.artifactId}/log/</log.file.location>
-                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderTest</authentication.provider>
                 <report.temp.location>/${project.artifactId}/report</report.temp.location>
                 <upload.temp.location>/${project.artifactId}/upload</upload.temp.location>
                 <wsdlDocumentResource>http://tucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
@@ -567,7 +567,7 @@
                 <log.geniustree.level>INFO</log.geniustree.level>
                 <log.appender>FILE</log.appender>
                 <log.file.location>/${project.artifactId}/log/</log.file.location>
-                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProvider</authentication.provider>
+                <authentication.provider>th.co.geniustree.nhso.drugcatalog.authen.MyUserDetailsAuthenticationProviderProduction</authentication.provider>
                 <report.temp.location>/${project.artifactId}/report</report.temp.location>
                 <upload.temp.location>/${project.artifactId}/upload</upload.temp.location>
                 <wsdlDocumentResource>http://ucdcws.nhso.go.th/UCDCWS/authenService?wsdl</wsdlDocumentResource>
