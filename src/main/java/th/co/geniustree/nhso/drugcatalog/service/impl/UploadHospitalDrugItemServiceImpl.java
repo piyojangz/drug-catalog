@@ -73,6 +73,50 @@ public class UploadHospitalDrugItemServiceImpl implements UploadHospitalDrugItem
         }
         BigDecimal oldPr = new BigDecimal(latestItem.getUnitPrice());
         BigDecimal newPr = new BigDecimal(newItem.getUnitPrice());
-        return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(2)).doubleValue();
+        return newPr.doubleValue() <= oldPr.multiply(new BigDecimal(3)).doubleValue();
     }
+
+    @Override
+    public boolean isExistsItem(String hcode, String hospDrugCode, String tmtid, String dateEffective, String updateFlag) {
+        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(
+                hospDrugCode,
+                hcode,
+                tmtid,
+                dateEffective,
+                updateFlag);
+        return count > 0;
+    }
+
+    @Override
+    public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode) {
+        long count = repo.countByHospitalDrugThatFlagAAndAccept(
+                hospDrugCode,
+                hcode);
+        return count > 0;
+    }
+
+    @Override
+    public boolean hasHospitalDrugNeverAccepted(String hcode, String hospDrugCode) {
+        long count = repo.countByHcodeAndHospDrugCodeThatNotDeleteAndNotReject(hcode, hospDrugCode);
+        return count == 0;
+    }
+
+    @Override
+    public boolean hasHospitalDrugWithFlagABefore(String hcode, String hospDrugCode) {
+        long count = repo.countByHospitalDrugThatFlagAAndAccept(hospDrugCode, hcode);
+        return count == 1;
+    }
+
+    @Override
+    public boolean isHospitalDrugWithTmtDuplicated(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag) {
+        long count = repo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(hospDrugCode, hcode, tmtid, dateEffective, updateFlag);
+        return count > 0;
+    }
+
+    @Override
+    public boolean isFlagDBeforeFlagA(String hcode, String hospDrugCode, Date dateEffective) {
+        long count = repo.countByHospitalDrugThatDateEffectiveBeforeFlagA(hcode, hospDrugCode, dateEffective);
+        return count > 0;
+    }
+
 }

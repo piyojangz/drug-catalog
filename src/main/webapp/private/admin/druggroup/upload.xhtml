@@ -32,7 +32,10 @@
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
                     <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="errorTable" resizableColumns="true"  value="#{uploadMappedDrugGroup.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                        <p:dataTable id="errorTable" resizableColumns="true" 
+                                     styleClass="clean-table"
+                                     value="#{uploadMappedDrugGroup.notPassModels}" var="model"  
+                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
@@ -40,22 +43,22 @@
                                     <p:dataExporter type="xls" target="errorTable" fileName="errorTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="ROW#" width="40">
+                            <p:column   headerText="ROW#" style="text-align: center;width: 50px;">
                                 <h:outputText value="#{model.rowNum}"/>
                             </p:column>
-                            <p:column   headerText="TMTID" width="80" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
+                            <p:column   headerText="TMTID" style="text-align: center;width: 60px;" styleClass="#{empty model.errorMap['tmtId']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tmtId']}"/>
                             </p:column>
-                            <p:column headerText="DRUGGROUP" width="80" styleClass="#{empty model.errorMap['drugGroup']?'color:black':'errorBackground'}">
+                            <p:column headerText="DRUGGROUP" styleClass="#{empty model.errorMap['drugGroup']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.drugGroup}"  title="#{model.errorMap['drugGroup']}"/>
                             </p:column>
-                            <p:column headerText="DATEIN" width="60" styleClass="#{empty model.errorMap['datein']?'color:black':'errorBackground'}">
+                            <p:column headerText="DATEIN" style="text-align: center; width: 150px;" styleClass="#{empty model.errorMap['datein']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.datein}"  title="#{model.errorMap['datein']}"/>
                             </p:column>
-                            <p:column headerText="DATEOUT" width="60" styleClass="#{empty model.errorMap['dateout']?'color:black':'errorBackground'}">
+                            <p:column headerText="DATEOUT" style="text-align: center; width: 150px;" styleClass="#{empty model.errorMap['dateout']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.dateout}"  title="#{model.errorMap['dateout']}"/>
                             </p:column>
-                            <p:column headerText="ERROR" width="400">
+                            <p:column headerText="ERROR" style="width: 400px;">
                                 <h:outputText value="#{model.errors}" style="color:orange"/>
                             </p:column>
                         </p:dataTable>
@@ -70,27 +73,31 @@
                         <h:outputText value="เรคคอร์ด"/>
                     </f:facet>
                     <h:panelGrid columns="1" cellpadding="5">
-                        <p:dataTable id="passTable" resizableColumns="true" rowIndexVar="rowIndex" value="#{uploadMappedDrugGroup.passModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
+                        <p:dataTable id="passTable" 
+                                     styleClass="clean-table"
+                                     resizableColumns="true" rowIndexVar="rowIndex" 
+                                     value="#{uploadMappedDrugGroup.passModels}" var="model"  
+                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="errorTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
                                 </h:commandLink>
                             </f:facet>
-                            <p:column   headerText="#" width="80" resizable="false">
-                                <h:outputText value="#{rowIndex+1}" style="" />
+                            <p:column   headerText="#" style="text-align: center;width: 30px;" resizable="false" exportable="false">
+                                <h:outputText value="#{model.rowNum}" />
                             </p:column>
-                            <p:column   headerText="TMTID" width="80" >
-                                <h:outputText value="#{model.tmtId}" style="" title="#{model.errorMap['tmtId']}"/>
+                            <p:column   headerText="TMTID" style="text-align: center;width: 60px;" >
+                                <h:outputText value="#{model.tmtId}" title="#{model.errorMap['tmtId']}"/>
                             </p:column>
-                            <p:column headerText="DRUGGROUP" width="80" >
+                            <p:column headerText="DRUGGROUP" >
                                 <h:outputText value="#{model.drugGroup}"  title="#{model.errorMap['drugGroup']}"/>
                             </p:column>
-                            <p:column headerText="DATEIN" width="100" >
+                            <p:column headerText="DATEIN" style="text-align: center; width: 150px;" >
                                 <h:outputText value="#{model.datein}"  title="#{model.errorMap['datein']}"/>
                             </p:column>
-                            <p:column headerText="DATEOUT" width="100" >
+                            <p:column headerText="DATEOUT" style="text-align: center;width: 150px;">
                                 <h:outputText value="#{model.dateout}"  title="#{model.errorMap['dateout']}"/>
                             </p:column>
                         </p:dataTable>
@@ -101,9 +108,9 @@
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadMappedDrugGroup.save()}" disabled="#{empty uploadMappedDrugGroup.passModels or uploadMappedDrugGroup.duplicateFile}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadMappedDrugGroup.reset()}" disabled="#{empty uploadMappedDrugGroup.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadMappedDrugGroup.reset()}" disabled="#{empty uploadMappedDrugGroup.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
-            
+
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
                 <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
             </p:dialog>

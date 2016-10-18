@@ -5,8 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.input.validator;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;import java.util.Locale;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;

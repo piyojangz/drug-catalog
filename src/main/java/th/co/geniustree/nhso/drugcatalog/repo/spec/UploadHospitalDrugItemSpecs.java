@@ -14,8 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem;
 import th.co.geniustree.nhso.drugcatalog.model.RequestItem_;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp;
-import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItemTemp_;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrugItem_;
 import th.co.geniustree.nhso.drugcatalog.model.UploadHospitalDrug_;
 

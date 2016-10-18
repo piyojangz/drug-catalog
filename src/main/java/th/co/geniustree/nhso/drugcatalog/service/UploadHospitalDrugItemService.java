@@ -18,10 +18,22 @@ public interface UploadHospitalDrugItemService {
     public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective);
 
     public boolean isExistsItem(String hcode, String hospDrugCode, Date dateEffective, String updateFlag);
-
+    
+    public boolean isExistsItem(String hospDrugCode, String hcode, String tmtid, String dateEffective, String updateFlag);
+    
     public List<UploadHospitalDrugItem> findEditHistory(String hcode, String hospDrugCode, String tmtId, String updateFlag);
 
     public UploadHospitalDrugItem findLatestItemByFlag(String hcode, String hospDrugCode, String updateFlag);
 
     public boolean isUnitPriceNotMoreThanDoubleLatestItem(UploadHospitalDrugItem item);
+    
+    public boolean isHospitalDrugHasFlagAWithAccept(String hcode, String hospDrugCode);
+    
+    public boolean hasHospitalDrugNeverAccepted(String hcode, String hospDrugCode);
+
+    public boolean hasHospitalDrugWithFlagABefore(String hcode, String hospDrugCode);
+
+    public boolean isHospitalDrugWithTmtDuplicated(String hcode, String hospDrugCode, String tmtid, Date dateEffective, String updateFlag);
+
+    public boolean isFlagDBeforeFlagA(String hcode, String hospDrugCode, Date dateEffective);
 }

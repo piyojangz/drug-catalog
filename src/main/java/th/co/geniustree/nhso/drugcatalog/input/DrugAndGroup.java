@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -135,6 +136,36 @@ public class DrugAndGroup implements Serializable {
         if (dateout != null) {
             dateOutDate = DateUtils.parseDateWithOptionalTimeAndNoneLeneint(dateout);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DrugAndGroup other = (DrugAndGroup) obj;
+        if (!Objects.equals(this.tmtId, other.tmtId)) {
+            return false;
+        }
+        if (!Objects.equals(this.drugGroup, other.drugGroup)) {
+            return false;
+        }
+        if (!Objects.equals(this.datein, other.datein)) {
+            return false;
+        }
+        return true;
     }
 
 }

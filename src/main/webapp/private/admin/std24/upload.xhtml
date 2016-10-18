@@ -95,7 +95,7 @@
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadTMTNDC24.save()}" disabled="#{empty uploadTMTNDC24.passModels or uploadTMTNDC24.duplicateFile}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadTMTNDC24.reset()}" disabled="#{empty uploadTMTNDC24.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadTMTNDC24.reset()}" disabled="#{empty uploadTMTNDC24.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
 
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">

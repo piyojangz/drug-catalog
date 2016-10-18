@@ -5,7 +5,6 @@
  */
 package th.co.geniustree.nhso.drugcatalog.dao.impl;
 
-import com.google.common.base.Strings;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.ResultSet;
@@ -17,7 +16,6 @@ import javax.persistence.PersistenceContext;
 import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.eclipse.persistence.jpa.JpaEntityManager;
 import org.eclipse.persistence.platform.database.jdbc.JDBCTypes;
 import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLStoredFunctionCall;

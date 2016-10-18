@@ -1,21 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package th.co.geniustree.nhso.drugcatalog.repo;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.TemporalType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,13 +25,24 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "from UploadHospitalDrugItem u "
             + "where u.hospDrugCode = ?1 "
             + "and u.uploadDrug.hcode = ?2 "
-            + "and u.tmtId = ?3 "
+            + "and COALESCE(u.tmtId,'NULLID') = COALESCE(?3,'NULLID') "
             + "and u.dateEffective = ?4 "
-            + "and u.requestItem.status <>  th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT , th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
             + "and u.updateFlag = ?5 "
             + "and u.requestItem.deleted = 0")
     public long countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, String tmtid, String dateEffective, String updateFlag);
 
+    @Query("select count(u) "
+            + "from UploadHospitalDrugItem u "
+            + "where u.hospDrugCode = ?1 "
+            + "and u.uploadDrug.hcode = ?2 "
+            + "and COALESCE(u.tmtId,'NULLID') = COALESCE(?3,'NULLID') "
+            + "and function('trunc',u.dateEffectiveDate) = function('trunc',?4) "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT , th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
+            + "and u.updateFlag = ?5 "
+            + "and u.requestItem.deleted = 0")
+    public long countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(String hospDrugCode, String hcode, String tmtid, Date dateEffective, String updateFlag);
+    
     @Query("select u.requestItem "
             + "from UploadHospitalDrugItem u "
             + "where u.hospDrugCode = ?1 "
@@ -67,19 +71,18 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "from UploadHospitalDrugItem u "
             + "where u.hospDrugCode = ?1 "
             + "and u.uploadDrug.hcode = ?2 "
-            + "and u.dateEffectiveDate >= ?3 "
             + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + "and u.updateFlag in ?4 "
             + "and u.requestItem.deleted = 0")
-    public long countByHospDrugCodeAndUploadDrugHcodeAndDateEffectiveMoreThanAndRequestAndAccept(String hospDrugCode, String hcode, @Temporal(TemporalType.DATE) Date dateEffective, String... updateFlag);
-
+    public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept(String hospDrugCode, String hcode);
+    
     @Query("select count(u) "
             + "from UploadHospitalDrugItem u "
             + "where u.hospDrugCode = ?1 "
             + "and u.uploadDrug.hcode = ?2 "
-            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + "and u.requestItem.deleted = 0")
-    public long countByHospDrugCodeAndUploadDrugHcodeAndRequestAndAccept(String hospDrugCode, String hcode);
+            + "and u.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT "
+            + "and u.requestItem.deleted = 0 "
+            + "and u.updateFlag = 'A'")
+    public long countByHospitalDrugThatFlagAAndAccept(String hospDrugCode, String hcode);
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Procedure(name = "UploadHospitalDrugItem.INITIAL_HOSPITAL_DRUG")
@@ -101,8 +104,7 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "where u.uploadDrug.hcode = ?1 "
             + "and u.hospDrugCode = ?2 "
             + "and COALESCE(u.tmtId,'NULLID') = COALESCE(?3,'NULLID') "
-            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.IGNORED "
-            + "and u.requestItem.status <> th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REJECT "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT , th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST) "
             + "and u.requestItem.deleted = 0 "
             + "and (u.updateFlag = ?4 or u.updateFlag = 'A')")
     public List<UploadHospitalDrugItem> findByUploadDrugHcodeAndHospDrugCodeAndTmtIdAndUpdateFlag(String hcode, String hospDrugCode, String tmtId, String updateFlag, Sort sort);
@@ -123,4 +125,20 @@ public interface UploadHospitalDrugItemRepo extends JpaRepository<UploadHospital
             + "     and u2.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT "
             + "     and u2.requestItem.deleted = 0 )")
     public UploadHospitalDrugItem findLatestItemThatAcceptAndNotDeleteByUpdateFlag(String hcode, String hospDrugCode, String updateFlag);
+
+    @Query(value = "select count(u) from UploadHospitalDrugItem u "
+            + "where u.uploadDrug.hcode = ?1 "
+            + "and u.hospDrugCode = ?2 "
+            + "and u.requestItem.deleted = 0 "
+            + "and u.requestItem.status in (th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT , th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.REQUEST)")
+    public long countByHcodeAndHospDrugCodeThatNotDeleteAndNotReject(String hcode, String hospDrugCode);
+    
+    @Query(value = "select count(u) from UploadHospitalDrugItem u "
+            + "where u.uploadDrug.hcode = ?1 "
+            + "and u.hospDrugCode = ?2 "
+            + "and function('trunc',u.dateEffectiveDate) > function('trunc',?3) "
+            + "and u.updateFlag = 'A'"
+            + "and u.requestItem.deleted = 0 "
+            + "and u.requestItem.status = th.co.geniustree.nhso.drugcatalog.model.RequestItem.Status.ACCEPT")
+    public long countByHospitalDrugThatDateEffectiveBeforeFlagA(String hcode, String hospDrugCode, Date dateEffective);
 }

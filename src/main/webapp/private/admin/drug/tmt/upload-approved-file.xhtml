@@ -20,7 +20,7 @@
                 </p:blockUI>
                 <p:commandButton ajax="false" value="Save" action="#{uploadApprovedTmtFile.save()}" disabled="#{empty uploadApprovedTmtFile.file}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
-                <p:commandButton ajax="false" value="Cancle" action="#{uploadApprovedTmtFile.reset()}" disabled="#{empty uploadApprovedTmtFile.file}" update="form"  onclick="PF('allblock').show()" />
+                <p:commandButton ajax="false" value="Cancel" action="#{uploadApprovedTmtFile.reset()}" disabled="#{empty uploadApprovedTmtFile.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>
         </ui:define>
     </ui:composition>
