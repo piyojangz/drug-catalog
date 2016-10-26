@@ -36,21 +36,21 @@ public class TMTEdNedDeleted implements Serializable {
     @GeneratedValue(generator = "TMT_TMTEDNED_DELETED_GEN", strategy = GenerationType.TABLE)
     private Integer id;
     
-    @Column(name = "TMTID", nullable = false, length = 6)
+    @Column(name = "TMTID", length = 6)
     private String tmtId;
     
     @Temporal(TemporalType.DATE)
-    @Column(name = "DATEIN", nullable = false)
+    @Column(name = "DATEIN")
     private Date dateIn;
 
-    @Column(name = "CLASSIFIER", nullable = false, length = 3)
+    @Column(name = "CLASSIFIER", length = 3)
     private String classifier;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CREATEDATE", nullable = false)
+    @Column(name = "CREATEDATE")
     private Date createDate;
     
-    @Column(name = "STATUS_ED", length = 2, nullable = false)
+    @Column(name = "STATUS_ED", length = 2)
     private String statusEd;
     
     

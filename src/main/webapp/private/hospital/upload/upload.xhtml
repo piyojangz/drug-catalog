@@ -9,7 +9,7 @@
     <ui:composition template="/template/main-template2.xhtml">
         <ui:define name="content">
             <div class="header-content">
-                <h:outputText value="Upload รายการยาของหน่วยบริการ"/>
+                <i class="fa fa-upload"></i><h:outputText value="Upload รายการยาของหน่วยบริการ"/>
             </div>
             <h:form enctype="multipart/form-data" id="form">
                 <p:messages id="messages" globalOnly="true" showDetail="true"/>
@@ -28,7 +28,7 @@
                     <h:panelGrid columns="1" cellpadding="5">
                         <p:dataTable id="errorTable" styleClass="clean-table"
                                      scrollable="true"
-                                     scrollHeight="300"
+                                     scrollWidth="1024"
                                      resizableColumns="true"  value="#{uploadMappedDrug.notPassModels}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
@@ -40,8 +40,8 @@
                                                  style="float:right" icon="ui-icon-calculator" />
                                 <p:columnToggler datasource="errorTable" trigger="toggler" />
                             </f:facet>
-                            <p:column   headerText="ROW#" width="40">
-                                <h:outputText value="#{model.rowNum}"/>
+                            <p:column   headerText="ROW#" width="40" styleClass="#{empty model.errorMap['rowNum']?'color:black':'errorBackground'}">
+                                <h:outputText value="#{model.rowNum}" title="#{model.errorMap['rowNum']}"/>
                             </p:column>
                             <p:column   headerText="HOSPDRUGCODE" width="120" styleClass="#{empty model.errorMap['hospDrugCode']?'color:black':'errorBackground'}">
                                 <h:outputText value="#{model.hospDrugCode}" style="" title="#{model.errorMap['hospDrugCode']}"/>
@@ -124,13 +124,13 @@
                         <p:dataTable id="passTable" 
                                      styleClass="clean-table"
                                      scrollable="true"
-                                     scrollHeight="300"
+                                     scrollWidth="1024"
                                      resizableColumns="true"  value="#{uploadMappedDrug.models}" var="model"  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40,50"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
                             <f:facet name="header">
                                 <h:commandLink style="float:left">
                                     <p:graphicImage name="images/excel24.png"/>
-                                    <p:dataExporter type="xls" target="passTable" fileName="passTable" pageOnly="false"/>
+                                    <p:dataExporter type="xls" target="passTable" fileName="#{uploadMappedDrug.hcodeFromFile.concat('passTable')}" pageOnly="false"/>
                                 </h:commandLink>
                                 <p:commandButton id="toggler" type="button" value="Columns"
                                                  style="float:right" icon="ui-icon-calculator" />

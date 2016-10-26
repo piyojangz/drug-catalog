@@ -36,14 +36,14 @@ public class TMTDrugGroupItemDeleted implements Serializable {
     @GeneratedValue(generator = "TMT_DRUGGROUPITEM_DELETED_GEN", strategy = GenerationType.TABLE)
     private Integer id;
 
-    @Column(name = "TMTID", nullable = false)
+    @Column(name = "TMTID")
     private String tmtId;
 
-    @Column(name = "DRUGGROUP_NAME", nullable = false)
+    @Column(name = "DRUGGROUP_NAME")
     private String drugGroup;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "DATEIN", nullable = false)
+    @Column(name = "DATEIN")
     private Date dateIn;
 
     @Temporal(TemporalType.DATE)

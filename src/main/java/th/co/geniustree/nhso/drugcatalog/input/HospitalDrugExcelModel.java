@@ -20,7 +20,6 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
@@ -36,7 +35,7 @@ import th.co.geniustree.xls.beans.XlsColumn;
  *
  * @author moth
  */
-@HasFlagABeforeEDU(groups = {UGroup.class,EDGroup.class})
+@HasFlagABeforeEDU(groups = {UGroup.class,EDGroup.class},message = "ต้องมีรายการยาที่เป็น Flag A ที่ผ่านการตรวจสอบแล้วเท่านั้น")
 public class HospitalDrugExcelModel implements Serializable {
 
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HospitalDrugExcelModel.class);

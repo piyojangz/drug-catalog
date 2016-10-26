@@ -6,12 +6,17 @@
 package th.co.geniustree.nhso.drugcatalog.controller.admin;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
@@ -22,12 +27,16 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.DrugAndGroup;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItem;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrugGroupItemPK;
+import th.co.geniustree.nhso.drugcatalog.repo.TMTDrugGroupItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DrugGroupService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugGroupItemService;
 import th.co.geniustree.nhso.drugcatalog.service.TMTDrugService;
@@ -56,6 +65,7 @@ public class UploadMappedDrugGroup implements Serializable {
     private File uploadtempFileDir;
     private String saveFileName;
     private File targetFile;
+
     @Autowired
     private Validator beanValidator;
     @Autowired
@@ -64,6 +74,9 @@ public class UploadMappedDrugGroup implements Serializable {
     private TMTDrugGroupItemService tmtDrugGroupItemService;
     @Autowired
     private TMTDrugService tmtDrugService;
+    @Autowired
+    private TMTDrugGroupItemRepo tMTDrugGroupItemRepo;
+
     private StreamedContent templateFile;
 
     @PostConstruct
@@ -73,7 +86,7 @@ public class UploadMappedDrugGroup implements Serializable {
         if (!uploadtempFileDir.exists()) {
             uploadtempFileDir.mkdirs();
         }
-        InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/files/druggroup_template.xlsx");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/files/druggroup_template.xlsx");
         templateFile = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "druggroup_template.xlsx");
     }
 
@@ -104,7 +117,6 @@ public class UploadMappedDrugGroup implements Serializable {
     public StreamedContent getTemplateFile() {
         return templateFile;
     }
-    
 
     public void handleFileUpload(FileUploadEvent event) {
         reset();
@@ -128,13 +140,7 @@ public class UploadMappedDrugGroup implements Serializable {
                     bean.addErrors(beanValidator.validate(bean));
                     bean.postConstruct();
                     if (bean.getErrorMap().isEmpty()) {
-                        if (drugGroupService.findOne(bean.getDrugGroup()) == null) {
-                            bean.addError("drugGroup", "ไม่พบ Drug group");
-                        } else if (tmtDrugService.findOneWithoutTx(bean.getTmtId()) == null) {
-                            bean.addError("tmtId", "ไม่พบ  TMT DRUG");
-                        }else{
-                            tmtDrugGroupItemService.validate(bean);
-                        }
+                        processValidate(bean);
                     }
                     if (bean.getErrorMap().isEmpty()) {
                         passModels.add(bean);
@@ -150,7 +156,8 @@ public class UploadMappedDrugGroup implements Serializable {
                     }
                     LOG.error(null, e);
                 }
-            });
+            }
+            );
         } catch (ColumnNotFoundException columnNotFound) {
             reset();
             FacesMessageUtils.error("ไม่พบ column => " + Joiner.on(",").join(columnNotFound.getColumnNames()));
@@ -159,6 +166,65 @@ public class UploadMappedDrugGroup implements Serializable {
             FacesMessageUtils.error(iOException);
         }
         LOG.debug("File : {}", file);
+    }
+
+    private List<DrugAndGroup> splitDrugGroup(DrugAndGroup bean) {
+        List<String> drugGroups;
+        if (bean.getDrugGroup().split(",") == null) {
+            drugGroups = Arrays.asList(bean.getDrugGroup());
+        } else {
+            drugGroups = Arrays.asList(bean.getDrugGroup().split(","));
+        }
+        List<DrugAndGroup> groups = new LinkedList<>();
+        for (String drugGroupStr : drugGroups) {
+            DrugAndGroup _group = new DrugAndGroup();
+            BeanUtils.copyProperties(bean, _group);
+            _group.setDrugGroup(drugGroupStr);
+            if (_group.getDateout() != null && _group.getDateout().equals("")) {
+                _group.setDateout(null);
+            }
+            groups.add(_group);
+        }
+        return groups;
+    }
+
+    private void processValidate(DrugAndGroup bean) {
+        if (passModels.contains(bean)) {
+            bean.addError("rowNum", "ซ้ำกับรายการยาที่ผ่านการตรวจสอบ");
+            return;
+        }
+
+        List<DrugAndGroup> groups = splitDrugGroup(bean);
+        Map<String, String> errors = new HashMap<>();
+        if (tmtDrugService.findOneWithoutTx(bean.getTmtId()) == null) {
+            if (errors.get("tmtId") == null) {
+                errors.put("tmtId", "ไม่พบรายการยามาตรฐาน TMT นี้");
+            }
+        }
+        for (DrugAndGroup group : groups) {
+            if (drugGroupService.findOne(group.getDrugGroup().trim()) == null) {
+                if (errors.get("drugGroup") == null) {
+                    errors.put("drugGroup", "ไม่พบ Drug group : " + group.getDrugGroup().trim());
+                } else {
+                    String oldError = errors.get("drugGroup");
+                    errors.remove("drugGroup");
+                    errors.put("drugGroup", oldError + ", " + group.getDrugGroup().trim());
+                }
+            }
+            TMTDrugGroupItem findOne = tMTDrugGroupItemRepo.findOne(new TMTDrugGroupItemPK(group.getTmtId(), group.getDrugGroup(), group.getDateInDate()));
+            if (findOne != null && group.getDateOutDate() == null) {
+                if (errors.get("rowNum") == null) {
+                    errors.put("rowNum", "มีการเพิ่ม Drug group นี้แล้ว : " + group.getDrugGroup().trim());
+                } else {
+                    String oldError = errors.get("drugGroup");
+                    errors.remove("drugGroup");
+                    errors.put("rowNum", oldError + ", " + group.getDrugGroup().trim());
+                }
+            }
+            for (String key : errors.keySet()) {
+                bean.addError(key, errors.get(key));
+            }
+        }
     }
 
     public boolean isDuplicateFile() {
@@ -178,7 +244,11 @@ public class UploadMappedDrugGroup implements Serializable {
     }
 
     public void save() {
-        tmtDrugGroupItemService.save(passModels);
+        List<DrugAndGroup> passList = new LinkedList<>();
+        for (DrugAndGroup group : passModels) {
+            passList.addAll(splitDrugGroup(group));
+        }
+        tmtDrugGroupItemService.save(passList);
         FacesMessageUtils.info("บันทึกเสร็จสิ้น");
         reset();
     }
@@ -186,5 +256,6 @@ public class UploadMappedDrugGroup implements Serializable {
     public void reset() {
         notPassModels.clear();
         passModels.clear();
+        originalFileName = null;
     }
 }

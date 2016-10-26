@@ -94,6 +94,14 @@ public class UploadMappedDrug implements Serializable {
         uploadDir.mkdir();
     }
 
+    public String getHcodeFromFile() {
+        return hcodeFromFile;
+    }
+
+    public void setHcodeFromFile(String hcodeFromFile) {
+        this.hcodeFromFile = hcodeFromFile;
+    }
+
     public List<HospitalDrugExcelModel> getModels() {
         return models;
     }
@@ -202,16 +210,16 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.info("Please select file first.");
             return null;
         }
+        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO)) {
+            FacesMessageUtils.error("ไม่มีสิทธิ์ในการนำเข้าข้อมูล");
+            return null;
+        }
         String nameWithoutExtension = Files.getNameWithoutExtension(file.getFileName());
         if (nameWithoutExtension.length() < 5) {
             FacesMessageUtils.info("ชื่อไฟล์จะต้องขึ้นต้นด้วย HCODE 5 ตัวอักษร");
             return null;
         }
         hcodeFromFile = file.getFileName().substring(0, 5);
-        if (!SecurityUtil.getUserDetails().getAuthorities().contains(Role.ADMIN) && !SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO)) {
-            FacesMessageUtils.error("ไม่มีสิทธิ์ในการนำเข้าข้อมูล");
-            return null;
-        }
         if (SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
             FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
             return null;
@@ -221,7 +229,7 @@ public class UploadMappedDrug implements Serializable {
             originalFileName = file.getFileName();
             saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
             targetFile = new File(uploadtempFileDir, saveFileName);
-            LOG.debug("save target file to = {}" + targetFile.getAbsolutePath());
+            LOG.debug("save target file to = {}", targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
             shaHex = DigestUtils.shaHex(targetFile);
             duplicateFile = uploadHospitalDrugRepo.countByShaHexAndHcode(shaHex, hcodeFromFile) > 0;

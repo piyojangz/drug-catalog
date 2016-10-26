@@ -37,26 +37,26 @@ public class TMTReimbursePriceTPDeleted implements Serializable {
     @GeneratedValue(generator = "TMT_REIMBURSE_PRICE_TP_DELETED_GEN", strategy = GenerationType.TABLE)
     private Integer id;
 
-    @Column(name = "PRICE", nullable = false, precision = 10, scale = 2)
+    @Column(name = "PRICE", precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "CONTENT_CR", length = 50, nullable = false)
+    @Column(name = "CONTENT_CR", length = 50)
     private String content;
 
     @Column(name = "SPECPREP", length = 3)
     private String specprep;
 
-    @Column(name = "TMTID", nullable = false)
+    @Column(name = "TMTID")
     private String tmtId;
 
-    @Column(name = "HCODE", nullable = false)
+    @Column(name = "HCODE")
     private String hcode;
 
-    @Column(name = "HOSPDRUGCODE", nullable = false)
+    @Column(name = "HOSPDRUGCODE")
     private String hospDrugCode;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "EFFECTIVE_DATE", nullable = false)
+    @Column(name = "EFFECTIVE_DATE")
     private Date dateEffective;
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{
-                background: linear-gradient(black, white);
+                background: radial-gradient(white 40% , black);
                 background-repeat: no-repeat;
             }
             img {
@@ -20,7 +20,7 @@ and open the template in the editor.
                 height: 640px;
             }
             .button {
-                background-color: #3c3c3e; /* Green */
+                background-color: #3c3c3e;
                 border: none;
                 color: white;
                 padding: 15px 32px;
@@ -31,6 +31,14 @@ and open the template in the editor.
                 cursor: pointer;
                 box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
             } 
+            .button:active {
+                background-color: rgba(60, 60, 62, 0.67);
+                box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 3px 10px 0 rgba(0,0,0,0.19) !important;
+            }
+            .button:hover {
+                background-color: rgba(60, 60, 62, 0.67);
+            }
+            
         </style>
     </head>
     <body>

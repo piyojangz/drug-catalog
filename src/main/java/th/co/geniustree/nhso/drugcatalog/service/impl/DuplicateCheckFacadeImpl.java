@@ -6,53 +6,32 @@
 package th.co.geniustree.nhso.drugcatalog.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import th.co.geniustree.nhso.drugcatalog.input.HospitalDrugExcelModel;
-import th.co.geniustree.nhso.drugcatalog.model.HospitalDrugPK;
-import th.co.geniustree.nhso.drugcatalog.repo.HospitalDrugRepo;
-import th.co.geniustree.nhso.drugcatalog.repo.UploadHospitalDrugItemRepo;
 import th.co.geniustree.nhso.drugcatalog.service.DuplicateCheckFacade;
+import th.co.geniustree.nhso.drugcatalog.service.UpdateFlagControlService;
 
 /**
  *
  * @author moth
+ * @author thanthathon.b
  */
 @Service
 public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
 
     @Autowired
-    private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
-    @Autowired
-    private HospitalDrugRepo hospitalDrugRepo;
+    @Qualifier("UpdateFlagControlForHospitalDrugExcelModelServiceImpl")
+    private UpdateFlagControlService<HospitalDrugExcelModel> updateFlagControlService;
 
     @Override
     public void checkDuplicateInDatabase(HospitalDrugExcelModel uploadDrugModel) {
-        if ("U".equalsIgnoreCase(uploadDrugModel.getUpdateFlag()) || "E".equalsIgnoreCase(uploadDrugModel.getUpdateFlag()) || "D".equalsIgnoreCase(uploadDrugModel.getUpdateFlag())) {
-            checkDuplicateForUpdateFlageUED(uploadDrugModel);
-        } else {
-            checkDuplicateForUpdateFlageUED(uploadDrugModel);
-            checkDuplicateForUpdateFlagA(uploadDrugModel);
+        if(uploadDrugModel.getUpdateFlag().equalsIgnoreCase("A")){
+            updateFlagControlService.validateFlagA(uploadDrugModel, true);
+        } else if(uploadDrugModel.getUpdateFlag().equalsIgnoreCase("E") || uploadDrugModel.getUpdateFlag().equalsIgnoreCase("U")){
+            updateFlagControlService.validateFlagEU(uploadDrugModel, true);
+        } else if(uploadDrugModel.getUpdateFlag().equalsIgnoreCase("D") ){
+            updateFlagControlService.validateFlagD(uploadDrugModel, true);
         }
     }
-
-    private void checkDuplicateForUpdateFlageUED(HospitalDrugExcelModel uploadDrugModel) {
-        long countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate = 
-                uploadHospitalDrugItemRepo.countByHospDrugCodeAndUploadDrugHcodeAndTMTIDAndDateEffectiveAndRequestAndAccept(
-                        uploadDrugModel.getHospDrugCode(), 
-                        uploadDrugModel.getHcode(), 
-                        uploadDrugModel.getTmtId(),
-                        uploadDrugModel.getDateEffective(), 
-                        uploadDrugModel.getUpdateFlag());
-        if (countByHospDrugCodeAndUploadDrugHcodeAndDateUpdate > 0) {
-            uploadDrugModel.addError("dateEffective", "พบ hospDrugCode , TMTID , dateEffective , UpdateFlag ซ้ำในฐานข้อมูล");
-        }
-    }
-
-    private void checkDuplicateForUpdateFlagA(HospitalDrugExcelModel uploadDrugModel) {
-        boolean exists = hospitalDrugRepo.exists(new HospitalDrugPK(uploadDrugModel.getHospDrugCode(), uploadDrugModel.getHcode()));
-        if (exists) {
-            uploadDrugModel.addError("updateFlag", "UpdateFlag \"A\" ใช้เฉพาะเพิ่มรายการยาใหม่ เท่านั้น หากต้องการปรับปรุง/แก้ไขรายการยาเดิม ให้ระบุ UpdateFlag ให้ถูกต้อง");
-        }
-    }
-
 }
