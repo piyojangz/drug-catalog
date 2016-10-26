@@ -37,14 +37,14 @@ public class TMTReimbursePriceDeleted implements Serializable {
     @GeneratedValue(generator = "TMT_REIMBURSE_PRICE_DELETED_GEN", strategy = GenerationType.TABLE)
     private Integer id;
     
-    @Column(name = "PRICE", nullable = false, precision = 10, scale = 2)
+    @Column(name = "PRICE", precision = 10, scale = 2)
     private BigDecimal price;
     
     @Temporal(TemporalType.DATE)
-    @Column(name = "EFFECTIVE_DATE", nullable = false)
+    @Column(name = "EFFECTIVE_DATE")
     private Date effectiveDate;
     
-    @Column(name = "TMTID", nullable = false)
+    @Column(name = "TMTID")
     private String tmtId;
 
     @Temporal(TemporalType.TIMESTAMP)
