@@ -15,10 +15,9 @@ public interface UpdateFlagControlService<T> {
      * Validate รายการยาที่เป็น Flag A
      * รายการยานี้ (HCODE + HOSPDRUGCODE) ต้องไม่มีในฐานข้อมูล หรือมีแต่ ต้องมีสถานะเป็น REJECT เท่านั้น และห้ามมี Flag อื่นเข้ามาก่อน 
      * @param item
-     * @param addError set true for add error
      * @return true if valid
      */
-    public boolean validateFlagA(T item, boolean addError);
+    public boolean validateFlagA(T item);
     
     /**
      * Validate รายการยาที่เป็น Flag E หรือ Flag U
@@ -27,10 +26,9 @@ public interface UpdateFlagControlService<T> {
      * <li>ห้ามมีข้อมูล (HCODE, HOSPDRUGCODE, TMTID, DATEEFFECTIVE, UPDATEFLAG) ซ้ำกันใน flag นั้นๆ</li>
      * </ul>
      * @param item
-     * @param addError set true for add error
      * @return true if valid
      */
-    public boolean validateFlagEU(T item, boolean addError);
+    public boolean validateFlagEU(T item);
     
     /**
      * Validate รายการยาที่เป็น Flag D
@@ -40,8 +38,7 @@ public interface UpdateFlagControlService<T> {
      * <li>ห้ามใช้ dateeffective ซ้ำกับวันอื่น</li>
      * </ul>
      * @param item
-     * @param addError set true for add error
      * @return true if valid
      */
-    public boolean validateFlagD(T item, boolean addError);
+    public boolean validateFlagD(T item);
 }

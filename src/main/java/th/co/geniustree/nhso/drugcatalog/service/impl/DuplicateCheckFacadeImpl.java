@@ -27,11 +27,11 @@ public class DuplicateCheckFacadeImpl implements DuplicateCheckFacade {
     @Override
     public void checkDuplicateInDatabase(HospitalDrugExcelModel uploadDrugModel) {
         if(uploadDrugModel.getUpdateFlag().equalsIgnoreCase("A")){
-            updateFlagControlService.validateFlagA(uploadDrugModel, true);
+            updateFlagControlService.validateFlagA(uploadDrugModel);
         } else if(uploadDrugModel.getUpdateFlag().equalsIgnoreCase("E") || uploadDrugModel.getUpdateFlag().equalsIgnoreCase("U")){
-            updateFlagControlService.validateFlagEU(uploadDrugModel, true);
+            updateFlagControlService.validateFlagEU(uploadDrugModel);
         } else if(uploadDrugModel.getUpdateFlag().equalsIgnoreCase("D") ){
-            updateFlagControlService.validateFlagD(uploadDrugModel, true);
+            updateFlagControlService.validateFlagD(uploadDrugModel);
         }
     }
 }

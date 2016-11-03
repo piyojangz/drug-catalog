@@ -31,9 +31,9 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
     private UploadHospitalDrugItemService uploadHospitalDrugItemService;
 
     @Override
-    public boolean validateFlagA(UploadHospitalDrugItem item, boolean addError) {
+    public boolean validateFlagA(UploadHospitalDrugItem item) {
         boolean everBeenAccepted = uploadHospitalDrugItemService.hasHospitalDrugNeverAccepted(item.getUploadDrug().getHcode(), item.getHospDrugCode());
-        if (everBeenAccepted && addError) {
+        if (everBeenAccepted) {
             LOG.debug("ไม่สามารถเพิ่มรายการยา {} เนื่องจากมี HospDrugCode นี้อยู่ในระบบอยู่แล้ว", item.getHospDrugCode());
 //            item.addError("updateFlag", "ไม่สามารถเพิ่มรายการยานี้ได้ เนื่องจากมี HospDrugCode นี้อยู่ในระบบอยู่แล้ว");
         }
@@ -41,11 +41,11 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
     }
 
     @Override
-    public boolean validateFlagEU(UploadHospitalDrugItem item, boolean addError) {
+    public boolean validateFlagEU(UploadHospitalDrugItem item) {
         boolean flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugWithFlagABefore(
                 item.getUploadDrug().getHcode(),
                 item.getHospDrugCode());
-        if (!flagAHasBefore && addError) {
+        if (!flagAHasBefore) {
             LOG.debug("ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
 //            item.addError("updateFlag", "ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
         }
@@ -55,7 +55,7 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
                 item.getTmtId(),
                 DateUtils.parseUSDate(Constants.TMT_DATETIME_FORMAT, item.getDateEffective()),
                 item.getUpdateFlag());
-        if (duplicate && addError) {
+        if (duplicate) {
             LOG.debug("พบข้อมูล {} , {} , {} , {} ซ้ำในฐานข้อมูล",
                     item.getHospDrugCode(),
                     item.getTmtId(),
@@ -67,11 +67,11 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
     }
 
     @Override
-    public boolean validateFlagD(UploadHospitalDrugItem item, boolean addError) {
+    public boolean validateFlagD(UploadHospitalDrugItem item) {
         boolean flagAHasBefore = uploadHospitalDrugItemService.hasHospitalDrugWithFlagABefore(
                 item.getUploadDrug().getHcode(),
                 item.getHospDrugCode());
-        if (!flagAHasBefore && addError) {
+        if (!flagAHasBefore) {
             LOG.debug("ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
 //            item.addError("updateFlag", "ไม่พบรายการยาที่มี UpdateFlag A กรุณาตรวจสอบข้อมูลอีกครั้ง");
         }
@@ -79,7 +79,7 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
                 item.getUploadDrug().getHcode(),
                 item.getHospDrugCode(),
                 DateUtils.parseUSDate(Constants.TMT_DATETIME_FORMAT, item.getDateEffective()));
-        if (flagDBeforeA && addError) {
+        if (flagDBeforeA) {
             LOG.debug("ไม่สามารถดำเนินการ Flag D ก่อนที่จะมี Flag A ได้");
 //            item.addError("dateEffective", "ไม่สามารถดำเนินการ Flag D ก่อนที่จะมี Flag A ได้");
         }
@@ -89,7 +89,7 @@ public class UpdateFlagControlServiceImpl implements UpdateFlagControlService<Up
                 item.getTmtId(),
                 DateUtils.parseUSDate(Constants.TMT_DATETIME_FORMAT, item.getDateEffective()),
                 item.getUpdateFlag());
-        if (duplicate && addError) {
+        if (duplicate) {
             LOG.debug("พบข้อมูล {} , {} , {} , {} ซ้ำในฐานข้อมูล",
                     item.getHospDrugCode(),
                     item.getTmtId(),
