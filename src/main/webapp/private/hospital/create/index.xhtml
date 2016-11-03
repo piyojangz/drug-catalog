@@ -310,11 +310,7 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="PACKPRICE" value="#{createHospitalDrug.item.packPrice}" 
-                                         disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"
-                                         required="true"
-                                         validatorMessage="pack price ไม่ถูกต้อง"
-                                         requiredMessage="กรุณาระบุราคายา">
-                                <f:validateDoubleRange minimum="0" />
+                                         disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}">
                             </p:inputText>
                         </p:column>
                         <p:column>

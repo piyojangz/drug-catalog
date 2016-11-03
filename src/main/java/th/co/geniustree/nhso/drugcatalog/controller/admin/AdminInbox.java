@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import org.primefaces.component.log.Log;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +93,7 @@ public class AdminInbox implements Serializable {
     
     private RequestItem editMessageRequestItem;
     private String messageOfRequestItem;
-
+    
     @PostConstruct
     public void postConstruct() {
         selectColumns.add("HOSPDRUGCODE");
