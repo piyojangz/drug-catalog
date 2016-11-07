@@ -43,7 +43,7 @@ public class ReimbursePriceController implements Serializable {
 
     @Autowired
     private ReimbursePriceService reimbursePriceService;
-    
+
     private SpringDataLazyDataModelSupport<ReimbursePrice> reimbursePrices;
     private ReimbursePrice selectedReimbursePrice;
 
@@ -52,7 +52,7 @@ public class ReimbursePriceController implements Serializable {
     private Date dateEffective;
 
     private String keyword;
-    
+
     @PostConstruct
     public void postConstruct() {
         findAll();
@@ -106,10 +106,17 @@ public class ReimbursePriceController implements Serializable {
     public void onTmtDialogReturn(SelectEvent event) {
         TMTDrug tmt = (TMTDrug) event.getObject();
         if (tmt != null) {
-            tmtDrug = tmt;
+            if (tmt.getType().equals(TMTDrug.Type.TPU)) {
+                tmtDrug = tmt;
+            } else {
+                FacesMessageUtils.warn("กรุณาเลือก TMT ระดับ TPU");
+            }
+        } else {
+            FacesMessageUtils.error("พบปัญหาระหว่างการเลือก TMT กรุณาลองใหม่อีกครั้ง");
+            LOG.error("Error while add TPU Reimburse Price");
         }
     }
-    
+
     public void delete() {
         try {
             reimbursePriceService.delete(selectedReimbursePrice);
