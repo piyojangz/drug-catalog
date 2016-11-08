@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -67,31 +65,11 @@ public class CreateHospitalDrug implements Serializable {
     private String oldEdStatus;
     private boolean disableSaveBtn = Boolean.FALSE;
 
-    private String contentValue;
-    private String contentUnit;
-    private String oldContent;
-
     private List<UploadHospitalDrugItem> history;
 
     @PostConstruct
     public void postConstruct() {
         clear();
-    }
-
-    public String getContentValue() {
-        return contentValue;
-    }
-
-    public void setContentValue(String contentValue) {
-        this.contentValue = contentValue;
-    }
-
-    public String getContentUnit() {
-        return contentUnit;
-    }
-
-    public void setContentUnit(String contentUnit) {
-        this.contentUnit = contentUnit;
     }
 
     public String getOldEdStatus() {
@@ -132,14 +110,6 @@ public class CreateHospitalDrug implements Serializable {
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
-    }
-
-    public String getOldContent() {
-        return oldContent;
-    }
-
-    public void setOldContent(String oldContent) {
-        this.oldContent = oldContent;
     }
 
     public String getUpdateFlag() {
@@ -245,7 +215,7 @@ public class CreateHospitalDrug implements Serializable {
     }
 
     public void showHistory() {
-        LOG.debug("show date effective of flag {A,{}}", updateFlag);
+        LOG.debug("show date effective of flag {A,{}}",updateFlag);
         history = uploadHospitalDrugItemService.findEditHistory(
                 SecurityUtil.getUserDetails().getHospital().getHcode(),
                 hospDrugCode,
@@ -273,16 +243,6 @@ public class CreateHospitalDrug implements Serializable {
         item.setStrength(tmtDrug.getStrength());
         item.setDosageForm(tmtDrug.getDosageform());
         if (!Strings.isNullOrEmpty(tmtDrug.getContvalue())) {
-            String _contentValue = tmtDrug.getContvalue();
-            if (Strings.isNullOrEmpty(_contentValue) || _contentValue.equals("0")) {
-                _contentValue = "";
-            }
-            contentValue = _contentValue;
-            String _contentUnit = tmtDrug.getContunit() + " " + tmtDrug.getDispUnit();
-            if (Strings.isNullOrEmpty(_contentUnit) || _contentUnit.startsWith("null")) {
-                _contentUnit = "";
-            }
-            contentUnit = _contentUnit;
             item.setContent(tmtDrug.getContvalue() + " " + tmtDrug.getContunit() + " " + tmtDrug.getDispUnit());
         }
         LOG.info("selected tmt drug => {}", tmtDrug.getTmtId());
@@ -311,19 +271,11 @@ public class CreateHospitalDrug implements Serializable {
         if (editHospitalDrug.getPackPrice() != null) {
             item.setPackPrice(editHospitalDrug.getPackPrice().toPlainString());
         }
-        Matcher m = Pattern.compile("(\\d+(\\.\\d+)?)\\s*(.*)", Pattern.UNICODE_CHARACTER_CLASS).matcher(editHospitalDrug.getContent());
-        if (m.find()) {
-            this.contentValue = m.group(1);
-            this.contentUnit = m.group(3);
-        } else {
-            this.oldContent = editHospitalDrug.getContent();
-        }
         saveBeforeEditStatus();
     }
 
     public String save() {
         item.timString();
-        item.setContent(contentValue + " " + contentUnit);
         if (!editMode) {
             uploadHospitalDrugService.addNewDrugByHand(SecurityUtil.getUserDetails().getHospital().getHcode(), item);
             FacesMessageUtils.info("บันทึกเสร็จสิ้น");
@@ -344,8 +296,6 @@ public class CreateHospitalDrug implements Serializable {
         updateFlag = item.getUpdateFlag();
         editMode = false;
         hospDrugCode = null;
-        contentValue = null;
-        contentUnit = null;
         return null;
     }
 

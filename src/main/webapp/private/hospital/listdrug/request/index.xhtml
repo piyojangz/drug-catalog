@@ -171,31 +171,11 @@
                             <span style="color:red">*</span>CONTENT:
                         </p:column>
                         <p:column>
-                            <p:inputText id="CONTENTVALUE"
-                                         value="#{editNotPassRequest.contentValue}" 
-                                         type="number"
-                                         required="true"
-                                         validatorMessage="content value ไม่ถูกต้อง"
-                                         requiredMessage="กรุณาระบุ content value"
-                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
-                                         style="width: 100px;">
-                                <p:watermark for="CONTENTVALUE" value="content value"/>
-                                <f:validateDoubleRange minimum="0"/>
-                            </p:inputText>
-                            <p:inputText id="CONTENTUNIT" 
-                                         required="true"
-                                         requiredMessage="กรุณาระบุ content unit และ dispensing unit"
-                                         value="#{editNotPassRequest.contentUnit}" 
-                                         disabled="#{editNotPassRequest.item.updateFlag eq 'U' or editNotPassRequest.item.updateFlag eq 'D'}" 
-                                         style="width: 200px;">
-                                <p:watermark for="CONTENTUNIT" value="content unit และ dispensing unit"/>
-                            </p:inputText>
-                            <h:outputText value=" content เก่า : " style="#{editNotPassRequest.oldContent == null ? 'display: none;' : 'color: red;'}"/>
-                            <h:outputText value="#{editNotPassRequest.oldContent}" style="#{editNotPassRequest.oldContent == null ? 'display: none' : 'color: red;font-weight: bold;'}"/>
+                            <p:inputText id="CONTENT" value="#{editNotPassRequest.item.content}" 
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
                         </p:column>
                         <p:column>
-                            <p:message for="CONTENTVALUE"/>
-                            <p:message for="CONTENTUNIT"/>
+                            <p:message for="CONTENT"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -289,9 +269,7 @@
                         </p:column>
                         <p:column>
                             <p:inputText id="PACKPRICE" value="#{editNotPassRequest.item.packPrice}"
-                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" type="number"
-                                         validatorMessage="pack price ไม่ถูกต้อง">
-                                <f:validateDoubleRange minimum="0" />
+                                         disabled="#{editNotPassRequest.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" type="number">
                             </p:inputText>
                         </p:column>
                         <p:column>

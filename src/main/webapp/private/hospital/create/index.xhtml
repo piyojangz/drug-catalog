@@ -120,7 +120,7 @@
                                          readonly="#{facesContext.renderResponse}"
                                          disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}"/>
                             <p:commandButton disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" value="ค้นหา TMTID" action="#{createHospitalDrug.findTmt}" process="@this">
-                                <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH CONTENTUNIT CONTENTVALUE" />
+                                <p:ajax event="dialogReturn" listener="#{createHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH CONTENT" />
                             </p:commandButton>
                         </p:column>
                         <p:column>
@@ -198,31 +198,16 @@
                             <span style="color:red">*</span>CONTENT:
                         </p:column>
                         <p:column>
-                            <p:inputText id="CONTENTVALUE"
-                                         value="#{createHospitalDrug.contentValue}" 
-                                         type="number"
+                            <p:inputText id="CONTENT" 
                                          required="true"
-                                         validatorMessage="content value ไม่ถูกต้อง"
-                                         requiredMessage="กรุณาระบุ content value"
-                                         disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
-                                         style="width: 100px;">
-                                <p:watermark for="CONTENTVALUE" value="content value"/>
-                                <f:validateDoubleRange minimum="0"/>
-                            </p:inputText>
-                            <p:inputText id="CONTENTUNIT" 
-                                         required="true"
-                                         requiredMessage="กรุณาระบุ content unit และ dispensing unit"
-                                         value="#{createHospitalDrug.contentUnit}" 
+                                         requiredMessage="กรุณาระบุ content value, content unit และ dispensing unit"
+                                         value="#{createHospitalDrug.item.content}" 
                                          disabled="#{createHospitalDrug.updateFlag eq 'U' or createHospitalDrug.updateFlag eq 'D'}" 
                                          style="width: 200px;">
-                                <p:watermark for="CONTENTUNIT" value="content unit และ dispensing unit"/>
                             </p:inputText>
-                            <h:outputText value=" content เก่า : " style="#{createHospitalDrug.oldContent == null ? 'display: none;' : 'color: red;'}"/>
-                            <h:outputText value="#{createHospitalDrug.oldContent}" style="#{createHospitalDrug.oldContent == null ? 'display: none' : 'color: red;font-weight: bold;'}"/>
                         </p:column>
                         <p:column>
-                            <p:message for="CONTENTVALUE"/>
-                            <p:message for="CONTENTUNIT"/>
+                            <p:message for="CONTENT"/>
                         </p:column>
                     </p:row>
                     <p:row>
