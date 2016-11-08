@@ -16,10 +16,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -145,6 +147,11 @@ public class UploadReimbursePrice implements Serializable {
 
                 @Override
                 public void ok(int rowNum, ReimbursePriceExcelModel bean) {
+                    bean.setRowNum(rowNum);
+                    Set<ConstraintViolation<ReimbursePriceExcelModel>> violations = beanValidator.validate(bean);
+                    if (!violations.isEmpty()) {
+                        bean.addErrors(violations);
+                    }
                     processValidate(bean);
                     if (hasError(bean)) {
                         notPassModels.add(bean);
@@ -176,21 +183,25 @@ public class UploadReimbursePrice implements Serializable {
         TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(bean.getTmtid());
         if (tmtDrug == null) {
             bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
-            return;
         }
 
-        Date dateEffective;
+        Date dateEffective = null;
         try {
             dateEffective = DateUtils.parseUSDate("dd/MM/yyyy", bean.getEffectiveDate());
         } catch (RuntimeException re) {
             bean.addError("effectiveDate", "รูปแบบของวันที่ไม่ถูกต้อง");
-            return;
         }
 
-        if (isDuplicateDateEffective(tmtDrug.getTmtId(), dateEffective)) {
+        if (tmtDrug != null && dateEffective != null && isDuplicateDateEffective(tmtDrug.getTmtId(), dateEffective)) {
             bean.addError("tmtid", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
             bean.addError("effectiveDate", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
             return;
+        }
+        for (ReimbursePriceExcelModel pass : passModels) {
+            if (pass.equals(bean)) {
+                bean.addError("rowNum", "พบข้อมูลซ้ำในรายการที่ผ่านการตรวจสอบ");
+                break;
+            }
         }
         LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDate(), bean.getPrice());
     }

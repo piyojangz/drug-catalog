@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -86,8 +87,8 @@ public class ReimbursePriceExcelModel implements Serializable{
         return Joiner.on(",").join(errorMap.values());
     }
     
-    public void addErrors(Set<ConstraintViolation<DrugAndDosageFormGroup>> violations) {
-        for (ConstraintViolation<DrugAndDosageFormGroup> violation : violations) {
+    public void addErrors(Set<ConstraintViolation<ReimbursePriceExcelModel>> violations) {
+        for (ConstraintViolation<ReimbursePriceExcelModel> violation : violations) {
             addError(violation.getPropertyPath().toString(), violation.getMessage());
         }
     }
@@ -98,4 +99,35 @@ public class ReimbursePriceExcelModel implements Serializable{
         }
         getErrorMap().get(propertyPath).add(message);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.tmtid);
+        hash = 31 * hash + Objects.hashCode(this.effectiveDate);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ReimbursePriceExcelModel other = (ReimbursePriceExcelModel) obj;
+        if (!Objects.equals(this.tmtid, other.tmtid)) {
+            return false;
+        }
+        if (!Objects.equals(this.effectiveDate, other.effectiveDate)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
