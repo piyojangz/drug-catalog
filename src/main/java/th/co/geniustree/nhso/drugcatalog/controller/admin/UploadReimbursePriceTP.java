@@ -180,25 +180,20 @@ public class UploadReimbursePriceTP implements Serializable {
     private void processValidate(ReimbursePriceTPExcelModel bean) {
 
         TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(bean.getTmtid());
-        if (tmtDrug == null) {
-            bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
-            return;
-        }
-        if (!tmtDrug.getType().equals(TMTDrug.Type.TP)) {
-            bean.addError("tmtid", "TMT นี้ไม่ใช่ระดับ TP");
-        }
-        if (isHospitalDrugNotFound(bean.getHcode(), bean.getHospDrugCode())) {
-            bean.addError("rowNum", "ไม่พบข้อมูลรายการยาของหน่วยบริการ");
-        }
-
-        Date dateEffective;
+        Date dateEffective = null;
         try {
             dateEffective = DateUtils.parseUSDate(Constants.TMT_DATE_FORMAT, bean.getEffectiveDate());
         } catch (RuntimeException re) {
             return;
         }
-
-        if (isDuplicateDateEffective(tmtDrug.getTmtId(), bean.getHospDrugCode(), bean.getHcode(), dateEffective)) {
+        if (isHospitalDrugNotFound(bean.getHcode(), bean.getHospDrugCode())) {
+            bean.addError("rowNum", "ไม่พบข้อมูลรายการยาของหน่วยบริการ");
+        }
+        if (tmtDrug == null) {
+            bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
+        } else if (!tmtDrug.getType().equals(TMTDrug.Type.TP)) {
+            bean.addError("tmtid", "TMT นี้ไม่ใช่ระดับ TP");
+        } else if (dateEffective != null && isDuplicateDateEffective(tmtDrug.getTmtId(), bean.getHospDrugCode(), bean.getHcode(), dateEffective)) {
             bean.addError("rowNum", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
         }
     }
