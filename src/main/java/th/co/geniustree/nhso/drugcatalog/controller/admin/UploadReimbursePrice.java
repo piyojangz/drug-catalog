@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -33,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ReimbursePriceExcelModel;
@@ -71,7 +73,6 @@ public class UploadReimbursePrice implements Serializable {
     private UploadedFile file;
     private List<ReimbursePriceExcelModel> notPassModels = new ArrayList<>();
     private List<ReimbursePriceExcelModel> passModels = new ArrayList<>();
-    private List<ReimbursePrice> reimbursePrices = new ArrayList<>();
 
     private boolean duplicateFile = false;
     private String originalFileName;
@@ -119,14 +120,6 @@ public class UploadReimbursePrice implements Serializable {
 
     public StreamedContent getTemplateFile() {
         return templateFile;
-    }
-
-    public List<ReimbursePrice> getReimbursePrices() {
-        return reimbursePrices;
-    }
-
-    public void setReimbursePrices(List<ReimbursePrice> reimbursePrices) {
-        this.reimbursePrices = reimbursePrices;
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -179,19 +172,19 @@ public class UploadReimbursePrice implements Serializable {
     }
 
     private void processValidate(ReimbursePriceExcelModel bean) {
-
         TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(bean.getTmtid());
         if (tmtDrug == null) {
             bean.addError("tmtid", "ไม่พบ TMTID นี้ในระบบ");
+        } else {
+            bean.setTmtDrug(tmtDrug);
         }
-
         Date dateEffective = null;
         try {
-            dateEffective = DateUtils.parseUSDate("dd/MM/yyyy", bean.getEffectiveDate());
+            dateEffective = DateUtils.parseUSDate(Constants.TMT_DATE_FORMAT, bean.getEffectiveDateStr());
+            bean.setEffectiveDate(dateEffective);
         } catch (RuntimeException re) {
             bean.addError("effectiveDate", "รูปแบบของวันที่ไม่ถูกต้อง");
         }
-
         if (tmtDrug != null && dateEffective != null && isDuplicateDateEffective(tmtDrug.getTmtId(), dateEffective)) {
             bean.addError("tmtid", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
             bean.addError("effectiveDate", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
@@ -203,7 +196,7 @@ public class UploadReimbursePrice implements Serializable {
                 break;
             }
         }
-        LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDate(), bean.getPrice());
+        LOG.debug("tmtid : {} \t\t effective_date : {} \t\t price : {}", bean.getTmtid(), bean.getEffectiveDateStr(), bean.getPrice());
     }
 
     private List<ReimbursePrice> convertBeanToReimbursePriceList(List<ReimbursePriceExcelModel> list) {
@@ -211,13 +204,12 @@ public class UploadReimbursePrice implements Serializable {
         for (ReimbursePriceExcelModel item : list) {
             Date dateEffective;
             try {
-                dateEffective = DateUtils.parseUSDate("dd/MM/yyyy", item.getEffectiveDate());
+                dateEffective = DateUtils.parseUSDate(Constants.TMT_DATE_FORMAT, item.getEffectiveDateStr());
             } catch (RuntimeException re) {
                 continue;
             }
-            TMTDrug tmtDrug = tmtDrugService.findOneWithoutTx(item.getTmtid());
-            ReimbursePrice reimbursePrice = new ReimbursePrice(new ReimbursePricePK(tmtDrug.getTmtId(), dateEffective));
-            reimbursePrice.setTmtDrug(tmtDrug);
+            ReimbursePrice reimbursePrice = new ReimbursePrice(new ReimbursePricePK(item.getTmtid(), dateEffective));
+            reimbursePrice.setTmtDrug(item.getTmtDrug());
             reimbursePrice.setPrice(new BigDecimal(item.getPrice()));
             prices.add(reimbursePrice);
         }
@@ -265,7 +257,6 @@ public class UploadReimbursePrice implements Serializable {
     public void reset() {
         notPassModels.clear();
         passModels.clear();
-        reimbursePrices.clear();
     }
 
 }

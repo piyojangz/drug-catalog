@@ -59,7 +59,7 @@
                                 <h:outputText value="#{model.tmtid}" title="#{model.errorMap['tmtid']}"/>
                             </p:column>
                             <p:column headerText="Date Effective" style="text-align: center;width: 150px;" styleClass="#{empty model.errorMap['effectiveDate']?'color:black':'errorBackground'}">
-                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
+                                <h:outputText value="#{model.effectiveDateStr}"  title="#{model.errorMap['effectiveDate']}">
                                     <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
                                 </h:outputText>
                             </p:column>
@@ -101,12 +101,20 @@
                             <p:column   headerText="TMTID" style="text-align: center;width: 60px;" >
                                 <h:outputText value="#{model.tmtid}" title="#{model.errorMap['tmtid']}"/>
                             </p:column>
-                            <p:column headerText="Date Effective" style="text-align: center;width: 150px;">
-                                <h:outputText value="#{model.effectiveDate}"  title="#{model.errorMap['effectiveDate']}">
+                            <p:column headerText="Date Effective" style="text-align: center;width: 150px;" exportable="false">
+                                <h:outputText value="#{model.effectiveDateStr}"  title="#{model.errorMap['effectiveDate']}">
                                     <f:convertDateTime locale="en_US" pattern="dd-MMM-yyyy"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="Reimburse Price" style="width: 150px;">
+                            <p:column headerText="EFFECTIVE_DATE" style="text-align: center;width: 150px; display: none;" >
+                                <h:outputText value="#{model.effectiveDateStr}">
+                                    <f:convertDateTime locale="en_US" pattern="dd/mm/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Reimburse Price" style="width: 150px;" exportable="false">
+                                <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
+                            </p:column>
+                            <p:column headerText="PRICE" style="width: 150px; display: none;" >
                                 <h:outputText value="#{model.price}"  title="#{model.errorMap['price']}"/>
                             </p:column>
                             <p:column headerText="หมายเหตุ">
@@ -118,7 +126,7 @@
                 <p:blockUI block="form" widgetVar="allblock" >
                     Please wait...
                 </p:blockUI>
-                <p:commandButton ajax="false" value="Save" action="#{uploadReimbursePrice.save()}" disabled="#{empty uploadReimbursePrice.reimbursePrices}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
+                <p:commandButton ajax="false" value="Save" action="#{uploadReimbursePrice.save()}" disabled="#{not empty uploadReimbursePrice.notPassModels}" onclick="PF('allblock').show()"  oncomplete="PF('allblock').hide()"/>
                 &nbsp;
                 <p:commandButton ajax="false" value="Cancel" action="#{uploadReimbursePrice.reset()}" disabled="#{empty uploadReimbursePrice.file}" update="form"  onclick="PF('allblock').show()" />
             </h:form>

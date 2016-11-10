@@ -196,6 +196,12 @@ public class UploadReimbursePriceTP implements Serializable {
         } else if (dateEffective != null && isDuplicateDateEffective(tmtDrug.getTmtId(), bean.getHospDrugCode(), bean.getHcode(), dateEffective)) {
             bean.addError("rowNum", "มีข้อมูลนี้อยู่แล้วในฐานข้อมูล");
         }
+        for(ReimbursePriceTPExcelModel pass : passModels){
+            if(pass.equals(bean)){
+                bean.addError("rowNum", "พบข้อมูลซ้ำในรายการที่ผ่านการตรวจสอบ");
+                break;
+            }
+        }
     }
 
     private boolean isHospitalDrugNotFound(String hcode, String hospDrugCode) {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Size;
@@ -149,4 +150,42 @@ public class ReimbursePriceTPExcelModel implements Serializable{
         }
         getErrorMap().get(propertyPath).add(message);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.hcode);
+        hash = 31 * hash + Objects.hashCode(this.hospDrugCode);
+        hash = 31 * hash + Objects.hashCode(this.tmtid);
+        hash = 31 * hash + Objects.hashCode(this.effectiveDate);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ReimbursePriceTPExcelModel other = (ReimbursePriceTPExcelModel) obj;
+        if (!Objects.equals(this.hcode, other.hcode)) {
+            return false;
+        }
+        if (!Objects.equals(this.hospDrugCode, other.hospDrugCode)) {
+            return false;
+        }
+        if (!Objects.equals(this.tmtid, other.tmtid)) {
+            return false;
+        }
+        if (!Objects.equals(this.effectiveDate, other.effectiveDate)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

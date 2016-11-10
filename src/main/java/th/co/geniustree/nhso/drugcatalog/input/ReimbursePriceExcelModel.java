@@ -7,7 +7,9 @@ package th.co.geniustree.nhso.drugcatalog.input;
 
 import com.google.common.base.Joiner;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +17,10 @@ import java.util.Objects;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateAndOptionalTime;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
+import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
 import th.co.geniustree.xls.beans.XlsColumn;
 
 /**
@@ -33,7 +37,7 @@ public class ReimbursePriceExcelModel implements Serializable{
     @XlsColumn(columnNames = "EFFECTIVE_DATE")
     @NotEmpty(message = "ต้องระบุ EFFECTIVE_DATE มาด้วย")
     @DateAndOptionalTime(message = "รูปแบบวันที่ของ EFFECTIVE_DATE ไม่ถูกต้อง (dd/mm/yyyy)")
-    private String effectiveDate;
+    private String effectiveDateStr;
     
     @XlsColumn(columnNames = "PRICE")
     @NotEmpty(message = "ต้องระบุ PRICE มาด้วย")
@@ -42,6 +46,33 @@ public class ReimbursePriceExcelModel implements Serializable{
     
     private Map<String, List<String>> errorMap = new HashMap<>();
     private int rowNum;
+    private TMTDrug tmtDrug;
+    private Date effectiveDate;
+    private BigDecimal reimbursePrice;
+
+    public TMTDrug getTmtDrug() {
+        return tmtDrug;
+    }
+
+    public void setTmtDrug(TMTDrug tmtDrug) {
+        this.tmtDrug = tmtDrug;
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public BigDecimal getReimbursePrice() {
+        return reimbursePrice;
+    }
+
+    public void setReimbursePrice(BigDecimal reimbursePrice) {
+        this.reimbursePrice = reimbursePrice;
+    }
 
     public String getTmtid() {
         return tmtid;
@@ -51,12 +82,12 @@ public class ReimbursePriceExcelModel implements Serializable{
         this.tmtid = tmtid;
     }
 
-    public String getEffectiveDate() {
-        return effectiveDate;
+    public String getEffectiveDateStr() {
+        return effectiveDateStr;
     }
 
-    public void setEffectiveDate(String effectiveDate) {
-        this.effectiveDate = effectiveDate;
+    public void setEffectiveDateStr(String effectiveDateStr) {
+        this.effectiveDateStr = effectiveDateStr;
     }
 
     public String getPrice() {
@@ -104,7 +135,7 @@ public class ReimbursePriceExcelModel implements Serializable{
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + Objects.hashCode(this.tmtid);
-        hash = 31 * hash + Objects.hashCode(this.effectiveDate);
+        hash = 31 * hash + Objects.hashCode(this.effectiveDateStr);
         return hash;
     }
 
@@ -123,7 +154,7 @@ public class ReimbursePriceExcelModel implements Serializable{
         if (!Objects.equals(this.tmtid, other.tmtid)) {
             return false;
         }
-        if (!Objects.equals(this.effectiveDate, other.effectiveDate)) {
+        if (!Objects.equals(this.effectiveDateStr, other.effectiveDateStr)) {
             return false;
         }
         return true;
