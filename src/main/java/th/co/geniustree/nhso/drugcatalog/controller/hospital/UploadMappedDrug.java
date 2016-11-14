@@ -219,15 +219,20 @@ public class UploadMappedDrug implements Serializable {
             FacesMessageUtils.info("ชื่อไฟล์จะต้องขึ้นต้นด้วย HCODE 5 ตัวอักษร");
             return null;
         }
-        hcodeFromFile = file.getFileName().substring(0, 5);
+        String fileName = file.getFileName();
+        int index = fileName.lastIndexOf("\\");
+        if (index != -1) {
+            fileName = fileName.substring(index + 1);
+        }
+        hcodeFromFile = fileName.substring(0, 5);
         if (SecurityUtil.getUserDetails().getAuthorities().contains(Role.EMCO) && !hcodeFromFile.equalsIgnoreCase(SecurityUtil.getUserDetails().getOrgId())) {
             FacesMessageUtils.error("ไม่ใช่ไฟล์ Drug Catalogue ของโรงพยาบาลท่าน");
             return null;
         }
         try (InputStream inputFileStream = file.getInputstream()) {
             final List<HospitalDrugExcelModel> allRowModels = new ArrayList<>();
-            originalFileName = file.getFileName();
-            saveFileName = UUID.randomUUID().toString() + "-" + file.getFileName();
+            originalFileName = fileName;
+            saveFileName = UUID.randomUUID().toString() + "-" + fileName;
             targetFile = new File(uploadtempFileDir, saveFileName);
             LOG.debug("save target file to = {}", targetFile.getAbsolutePath());
             Files.asByteSink(targetFile).writeFrom(inputFileStream);
