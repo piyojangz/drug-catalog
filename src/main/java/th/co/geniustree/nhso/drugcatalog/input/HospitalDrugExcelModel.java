@@ -61,29 +61,29 @@ public class HospitalDrugExcelModel implements Serializable {
     private String specPrep;
 
     @XlsColumn
-    @Size(max = 255, message = "GenericName ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "GenericName ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด GenericName มาด้วยทุกครั้ง")
     private String genericName;
     @XlsColumn
-    @Size(max = 255, message = "TradeName ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "TradeName ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด TradeName มาด้วยทุกครั้ง")
     private String tradeName;
 
     @XlsColumn(columnNames = {"dfsCode", "dsfCode"})
-    @Size(max = 100, message = "DFSCode ต้องไม่เกิน 100 ตัวอักษร")
+    @Size(max = 1000, message = "DFSCode ต้องไม่เกิน 1000 ตัวอักษร")
     private String dfsCode;
 
     @XlsColumn
-    @Size(max = 255, message = "DosageForm ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "DosageForm ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด DosageForm มาด้วยทุกครั้ง")
     private String dosageForm;
 
     @XlsColumn
-    @Size(max = 255, message = "Strength ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "Strength ต้องไม่เกิน 1000 ตัวอักษร")
     private String strength;
 
     @XlsColumn
-    @Size(max = 100, message = "Content ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "Content ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด Content มาด้วยทุกครั้ง")
     private String content;
 
@@ -94,11 +94,11 @@ public class HospitalDrugExcelModel implements Serializable {
     private String unitPrice;
 
     @XlsColumn
-    @Size(max = 255, message = "Distributer ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "Distributer ต้องไม่เกิน 1000 ตัวอักษร")
     private String distributor;
 
     @XlsColumn(columnNames = {"manufacturer", "manufacture"})
-    @Size(max = 255, message = "Manufacturer ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "Manufacturer ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด Manufacturer มาด้วยทุกครั้ง")
     private String manufacturer;
 

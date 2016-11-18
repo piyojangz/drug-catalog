@@ -30,7 +30,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import th.co.geniustree.nhso.drugcatalog.Constants;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.DateUtils;
-import th.co.geniustree.nhso.drugcatalog.input.Lastgroup;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DateRange;
 import th.co.geniustree.nhso.drugcatalog.input.validator.DoubleValue;
 import th.co.geniustree.nhso.drugcatalog.input.validator.NDC24;
@@ -92,32 +91,32 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "SPECPREP", nullable = true, length = 3)
     private String specPrep;
 
-    @Size(max = 255, message = "GenericName ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "GenericName ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด GenericName มาด้วยทุกครั้ง")
-    @Column(name = "GENERICNAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "GENERICNAME", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String genericName;
 
-    @Size(max = 255, message = "TradeName ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "TradeName ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด TradeName มาด้วยทุกครั้ง")
-    @Column(name = "TRADENAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "TRADENAME", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String tradeName;
 
-    @Size(max = 100, message = "DFSCode ต้องไม่เกิน 100 ตัวอักษร")
-    @Column(name = "DFSCODE", nullable = true, length = 100, columnDefinition = "NVARCHAR2(100)")
+    @Size(max = 255, message = "DFSCode ต้องไม่เกิน 255 ตัวอักษร")
+    @Column(name = "DFSCODE", nullable = true, length = 255, columnDefinition = "NVARCHAR2(255)")
     private String dfsCode;
 
-    @Size(max = 255, message = "DosageForm ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "DosageForm ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด DosageForm มาด้วยทุกครั้ง")
-    @Column(name = "DOSAGEFORM", nullable = false, length = 255, columnDefinition = "NVARCHAR2(100)")
+    @Column(name = "DOSAGEFORM", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String dosageForm;
 
-    @Size(max = 255, message = "Strength ต้องไม่เกิน 255 ตัวอักษร")
-    @Column(name = "STRENGTH", nullable = true, length = 255)
+    @Size(max = 1000, message = "Strength ต้องไม่เกิน 1000 ตัวอักษร")
+    @Column(name = "STRENGTH", nullable = true, length = 1000)
     private String strength;
 
-    @Size(max = 100, message = "Content ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "Content ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด Content มาด้วยทุกครั้ง")
-    @Column(name = "CONTENT", nullable = false, length = 100)
+    @Column(name = "CONTENT", nullable = false, length = 1000)
     private String content;
 
     @Size(max = 11, message = "UnitPrice ต้องประกอบด้วยตัวเลขหรือจุดทศนิยม ไม่เกิน 11 ตัวอักษร (99999999.99)")
@@ -126,13 +125,13 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "UNITPRICE", nullable = false)
     private String unitPrice;
 
-    @Size(max = 255, message = "Distributer ต้องไม่เกิน 255 ตัวอักษร")
-    @Column(name = "DISTRIBUTOR", nullable = true, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Size(max = 1000, message = "Distributer ต้องไม่เกิน 1000 ตัวอักษร")
+    @Column(name = "DISTRIBUTOR", nullable = true, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String distributor;
 
-    @Size(max = 255, message = "Manufacturer ต้องไม่เกิน 255 ตัวอักษร")
+    @Size(max = 1000, message = "Manufacturer ต้องไม่เกิน 1000 ตัวอักษร")
     @NotBlank(message = "ต้องกำหนด Manufacturer มาด้วยทุกครั้ง")
-    @Column(name = "MANUFACTURER", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "MANUFACTURER", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String manufacturer;
 
     @Size(max = 2, message = "ISED ต้องไม่เกิน 2 ตัวอักษร")

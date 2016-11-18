@@ -53,36 +53,36 @@ public class HospitalDrug implements Serializable {
     private String specPrep;
 
     @NotEmpty
-    @Column(name = "GENERICNAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "GENERICNAME", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String genericName;
 
     @NotEmpty
-    @Column(name = "TRADENAME", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "TRADENAME", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String tradeName;
 
-    @Column(name = "DFSCODE", nullable = true, length = 100, columnDefinition = "NVARCHAR2(100)")
+    @Column(name = "DFSCODE", nullable = true, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String dfsCode;
 
     @NotEmpty
-    @Column(name = "DOSAGEFORM", nullable = false, length = 255, columnDefinition = "NVARCHAR2(100)")
+    @Column(name = "DOSAGEFORM", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String dosageForm;
 
-    @Column(name = "STRENGTH", nullable = true, length = 255)
+    @Column(name = "STRENGTH", nullable = true, length = 1000)
     private String strength;
 
     @NotEmpty
-    @Column(name = "CONTENT", nullable = false, length = 100)
+    @Column(name = "CONTENT", nullable = false, length = 1000)
     private String content;
 
     @NotEmpty
     @Column(name = "UNITPRICE", precision = 10, scale = 2, nullable = false)
     private BigDecimal unitPrice;
 
-    @Column(name = "DISTRIBUTOR", nullable = true, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "DISTRIBUTOR", nullable = true, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String distributor;
 
     @NotEmpty
-    @Column(name = "MANUFACTURER", nullable = false, length = 255, columnDefinition = "NVARCHAR2(255)")
+    @Column(name = "MANUFACTURER", nullable = false, length = 1000, columnDefinition = "NVARCHAR2(1000)")
     private String manufacturer;
 
     @NotEmpty
