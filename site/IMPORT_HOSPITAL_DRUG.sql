@@ -1,13 +1,4 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  thanthathon.b
- * Created: Nov 28, 2016
- */
-create or replace PROCEDURE "INITIAL_HOSPITAL_DRUG" is
+create or replace PROCEDURE              "INITIAL_HOSPITAL_DRUG" is
 
   -- Created on 26/12/2014 by CHIROD.N 
 
@@ -80,7 +71,7 @@ begin
       v_ised_status   := null;
       d_date_ed_ned   := trunc(sysdate); --- วันที่ตรวจสอบ ED / NED ใช้วันที่ Download 
       
-        begin
+/*        begin
           select a.status_ed
             into v_ised_approved
             from (select e.status_ed
@@ -99,7 +90,7 @@ begin
       else
         v_ised_approved := initial_rec.ised;
         v_ised_status   := '99';
-      end if;
+      end if;*/
       --- สำหรับ เติม 25 fields
     
       begin
@@ -165,10 +156,10 @@ begin
            initial_rec.uploadhospdrug_id,
            initial_rec.id,
            sysdate,
-           v_ised_approved,
+           null,
            v_ndc24_approved,
            sysdate,
-           v_ised_status);
+           null);
            
       exception
         when others then
