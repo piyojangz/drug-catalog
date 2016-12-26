@@ -8,6 +8,7 @@ package th.co.geniustree.nhso.drugcatalog.controller.admin;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -27,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import th.co.geniustree.nhso.drugcatalog.authen.Role;
+import th.co.geniustree.nhso.drugcatalog.authen.SecurityUtil;
 import th.co.geniustree.nhso.drugcatalog.controller.utils.FacesMessageUtils;
 import th.co.geniustree.nhso.drugcatalog.input.ExcelTMTEdNed;
 import th.co.geniustree.nhso.drugcatalog.model.TMTDrug;
@@ -67,6 +72,14 @@ public class UploadTMTEdNed implements Serializable {
 
     @PostConstruct
     public void postConstruct() {
+        if(SecurityUtil.getUserDetails().getAuthorities().contains(Role.HOSPITAL)){
+            try {
+                LOG.warn("No permission to use this function");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+                
+            }
+        }
         String uploadtempLocation = app.getProperty("uploadtempLocation");
         uploadtempFileDir = new File(uploadtempLocation, "TMTEDNED");
         if (!uploadtempFileDir.exists()) {

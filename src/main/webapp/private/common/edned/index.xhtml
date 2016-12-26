@@ -21,13 +21,13 @@
             <div class="header-content" style="margin-bottom: 10px;">
                 <i class="fa fa-medkit"></i><h:outputText value="รายการยาและ ED / NED"/>
             </div>
-            <h:form id="menuForm">
+            <h:form id="menuForm" rendered="#{request.isUserInRole('ADMIN')}" >
                 <p:menubar styleClass="sub-menu">
                     <p:menuitem outcome="index.xhtml" value="ED / NED"/>
                     <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
                 </p:menubar>
             </h:form>
-            <h:form id="addForm">
+            <h:form id="addForm" rendered="#{request.isUserInRole('ADMIN')}">
                 <p:fieldset legend="เพิ่มรายการ ED" toggleable="true" toggleSpeed="500" collapsed="true" >
                     <p:panelGrid style="min-width: 600px;">
                         <p:row>
