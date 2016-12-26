@@ -120,9 +120,9 @@
                 }
             </style>
             <f:metadata>
-                <f:viewParam name="tmt" value="#{adminInbox.nullTmt}"/>
-                <f:viewParam name="hcode" value="#{adminInbox.hcode}"/>
-                <f:viewAction action="#{adminInbox.onActionAfterSelectHospitalFromInBoxZone()}"/>
+                <f:viewParam name="tmt" value="#{adminInboxNullTMT.nullTmt}"/>
+                <f:viewParam name="hcode" value="#{adminInboxNullTMT.hcode}"/>
+                <f:viewAction action="#{adminInboxNullTMT.onActionAfterSelectHospitalFromInBoxZone()}"/>
             </f:metadata>
             <div class="header-content">
                 <h:outputText value="อนุมัติรายการยากรณี ไม่มี TMT (รายโรงพยาบาล)"/>
@@ -134,9 +134,9 @@
                             หน่วยบริการ :
                         </p:column>
                         <p:column>
-                            <p:inputText value="#{adminInbox.hcode}" size="50" autocomplete="false"/>
-                            <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{adminInbox.showSearchHospitalDialog()}" update="@form , :tableForm, :searchForm">
-                                <p:ajax event="dialogReturn" listener="#{adminInbox.searchHospitalDialogReturn}" update="@form , :searchForm , :tableForm" />
+                            <p:inputText value="#{adminInboxNullTMT.hcode}" size="50" autocomplete="false"/>
+                            <p:commandButton style="position: absolute" value="ค้นหา" actionListener="#{adminInboxNullTMT.showSearchHospitalDialog()}" update="@form , :tableForm, :searchForm">
+                                <p:ajax event="dialogReturn" listener="#{adminInboxNullTMT.searchHospitalDialogReturn}" update="@form , :searchForm , :tableForm" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -145,14 +145,14 @@
 
 
             <h:form id="searchForm">
-                <p:panelGrid rendered="#{not empty adminInbox.requestItemHoldersNullTMT}" style="min-width: 680px;">
+                <p:panelGrid rendered="#{not empty adminInboxNullTMT.requestItemHoldersNullTMT}" style="min-width: 680px;">
                     <p:row>
                         <p:column style="text-align: right;width: 75px;" styleClass="advancePanel">
                             <p:outputLabel value="filter by : "/>
                         </p:column>
                         <p:column styleClass="advancePanel">
                             <p:outputLabel value="(คลิกเลือกเพื่อค้นหาตามคอลัมน์ที่กำหนด)" style="color: rgb(59, 156, 157);"/><br/>
-                            <p:selectManyCheckbox value="#{adminInbox.selectColumns}">
+                            <p:selectManyCheckbox value="#{adminInboxNullTMT.selectColumns}">
                                 <f:selectItem itemLabel="HOSPDRUGCODE" itemValue="HOSPDRUGCODE"/>
                                 <f:selectItem itemLabel="GENERICNAME" itemValue="GENERICNAME"/>
                                 <f:selectItem itemLabel="TRADENAME" itemValue="TRADENAME"/>
@@ -165,8 +165,8 @@
                             <p:outputLabel value="keyword : " for="keyword"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="keyword" value="#{adminInbox.keyword}" size="50"/>
-                            <p:commandButton value="Search" action="#{adminInbox.searchByKeyword()}" update="@form, :tableForm"/>
+                            <p:inputText id="keyword" value="#{adminInboxNullTMT.keyword}" size="50"/>
+                            <p:commandButton value="Search" action="#{adminInboxNullTMT.searchByKeyword()}" update="@form, :tableForm"/>
                             &nbsp;
                             <span onclick="jQuery('.advancePanel').fadeToggle('fast')" style="color:blue;cursor: pointer;">Advance Search</span>
                         </p:column>
@@ -175,7 +175,7 @@
             </h:form>
 
             <h:form id="tableForm">
-                <h:panelGroup rendered="#{not empty adminInbox.requestItemHoldersNullTMT}">
+                <h:panelGroup rendered="#{not empty adminInboxNullTMT.requestItemHoldersNullTMT}">
                     <span class="label-tabledescription label-tabledescription-info">
                         คำอธิบายคำย่อ<br/>
                         PC = PRODUCTCAT , SP = SPECPREP
@@ -192,8 +192,8 @@
                              rowIndexVar="rowIndex" 
                              scrollable="true" 
                              scrollHeight="450"
-                             value="#{adminInbox.requestItemHoldersNullTMT.get(0)}"
-                             rendered="#{not empty adminInbox.requestItemHoldersNullTMT}"
+                             value="#{adminInboxNullTMT.requestItemHoldersNullTMT.get(0)}"
+                             rendered="#{not empty adminInboxNullTMT.requestItemHoldersNullTMT}"
                              paginator="true" 
                              rows="20" 
                              lazy="true" 
@@ -202,7 +202,7 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 
                     <p:column headerText="Approve"  width="120" style="text-align: center;" >
-                        <p:selectOneButton value="#{model.status}" valueChangeListener="#{adminInbox.approve}" styleClass="approved-button updateBtn-#{model.id}">
+                        <p:selectOneButton value="#{model.status}" valueChangeListener="#{adminInboxNullTMT.approve}" styleClass="approved-button updateBtn-#{model.id}">
                             <p:ajax event="change" process="@this" update="@(.updateset-#{model.id}) :tableForm:saveBtn"/>
                             <f:selectItem itemLabel="Yes" itemValue="ACCEPT" />
                             <f:selectItem itemLabel="No" itemValue="REJECT" />
@@ -213,11 +213,11 @@
                                            rendered="#{model.status ne 'REQUEST'}" 
                                            value="reset" 
                                            style="color:blue; display: block; width: 100%;" 
-                                           action="#{adminInbox.clearErrorColumns(model)}"/>
+                                           action="#{adminInboxNullTMT.clearErrorColumns(model)}"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column headerText="เขียนคำอธิบาย" width="120" style="text-align: center;">
-                        <p:commandLink actionListener="#{adminInbox.selectRequestItem(model)}"
+                        <p:commandLink actionListener="#{adminInboxNullTMT.selectRequestItem(model)}"
                                        onclick="PF('commentDialogWidget').show()"
                                        update=":commentDialogForm">
                             <div class="addMessageBtn">
@@ -230,7 +230,7 @@
                     </p:column>
                     <p:column headerText="PC" width="30">
                         <p:outputPanel styleClass="updateset-#{model.id}">
-                            <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'PRODUCTCAT')}"/>
+                            <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'PRODUCTCAT')}"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column headerText="TMTID" width="85">
@@ -238,11 +238,11 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="มี TMT แล้ว" 
                                            style="#{model.errorColumns.contains('TMTID')?'color:red':'display: none;'}" 
-                                           action="#{adminInbox.error(model, 'TMTID')}"/>
+                                           action="#{adminInboxNullTMT.error(model, 'TMTID')}"/>
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="TMT" 
                                            style="#{model.errorColumns.contains('TMTID')?'display: none;':'color: blue;'}" 
-                                           action="#{adminInbox.error(model, 'TMTID')}"/>
+                                           action="#{adminInboxNullTMT.error(model, 'TMTID')}"/>
                         </p:outputPanel>
                     </p:column>
 
@@ -250,9 +250,9 @@
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.tradeName}" 
                                            style="#{model.errorColumns.contains('TRADENAME')?'color:red':'color:blue'}" 
-                                           action="#{adminInbox.error(model, 'TRADENAME')}"
+                                           action="#{adminInboxNullTMT.error(model, 'TRADENAME')}"
                                            styleClass="textWrap"/>
-                            <p:commandButton style="margin-left: 5px;" value=""  actionListener="#{adminInbox.showCompareTmtDialog()}" styleClass="icon-search" title="TMT &lt;-&gt; TradeName">
+                            <p:commandButton style="margin-left: 5px;" value=""  actionListener="#{adminInboxNullTMT.showCompareTmtDialog()}" styleClass="icon-search" title="TMT &lt;-&gt; TradeName">
                                 <f:param name="search" value="#{model.uploadDrugItem.tradeName}"/>
                                 <f:param name="typeOfSearch" value="TradeName"/>
                             </p:commandButton>
@@ -264,9 +264,9 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="#{model.uploadDrugItem.genericName}" 
                                            style="#{model.errorColumns.contains('GENRICNAME')?'color:red':'color:blue'}" 
-                                           action="#{adminInbox.error(model, 'GENRICNAME')}"
+                                           action="#{adminInboxNullTMT.error(model, 'GENRICNAME')}"
                                            styleClass="textWrap"/>
-                            <p:commandButton style="margin-left: 5px;" value="" actionListener="#{adminInbox.showCompareTmtDialog()}" styleClass="icon-search" title="TMT &lt;-&gt; GenericName">
+                            <p:commandButton style="margin-left: 5px;" value="" actionListener="#{adminInboxNullTMT.showCompareTmtDialog()}" styleClass="icon-search" title="TMT &lt;-&gt; GenericName">
                                 <f:param name="search" value="#{model.uploadDrugItem.genericName}"/>
                                 <f:param name="typeOfSearch" value="GenericName"/>
                             </p:commandButton>
@@ -278,7 +278,7 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="#{model.uploadDrugItem.strength}" 
                                            style="#{model.errorColumns.contains('STRENGTH')?'color:red':'color:blue'}" 
-                                           action="#{adminInbox.error(model, 'STRENGTH')}"
+                                           action="#{adminInboxNullTMT.error(model, 'STRENGTH')}"
                                            styleClass="textWrap"/>
                         </p:outputPanel>
                     </p:column>
@@ -286,35 +286,35 @@
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"
-                                           value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'DOSAGEFORM')}"/>
+                                           value="#{model.uploadDrugItem.dosageForm}" style="#{model.errorColumns.contains('DOSAGEFORM')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'DOSAGEFORM')}"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column headerText="CONTENT" width="120">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"
-                                           value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'CONTENT')}"/>
+                                           value="#{model.uploadDrugItem.content}" style="#{model.errorColumns.contains('CONTENT')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'CONTENT')}"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column headerText="MANUFACTURER" style="width: 36ch;">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"
-                                           value="#{model.uploadDrugItem.manufacturer}" style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'MANUFACTURER')}"/>
+                                           value="#{model.uploadDrugItem.manufacturer}" style="#{model.errorColumns.contains('MANUFACTURER')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'MANUFACTURER')}"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column headerText="UNITPRICE" width="80">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"
-                                           value="#{model.uploadDrugItem.unitPrice}" style="#{model.errorColumns.contains('UNITPRICE')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'UNITPRICE')}"/>
+                                           value="#{model.uploadDrugItem.unitPrice}" style="#{model.errorColumns.contains('UNITPRICE')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'UNITPRICE')}"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column headerText="ISED" width="40">
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"
-                                           value="#{model.uploadDrugItem.ised}" style="#{model.errorColumns.contains('ISED')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'ISED')}"/>
+                                           value="#{model.uploadDrugItem.ised}" style="#{model.errorColumns.contains('ISED')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'ISED')}"/>
                         </p:outputPanel>
                     </p:column>
                     <p:column   headerText="ISED_APPROVE" width="120">
@@ -324,17 +324,17 @@
                         <p:outputPanel styleClass="updateset-#{model.id}">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            styleClass="textWrap"
-                                           value="#{model.uploadDrugItem.specPrep}" style="#{model.errorColumns.contains('SPECPREP')?'color:red':'color:blue'}" action="#{adminInbox.error(model, 'SPECPREP')}"/>
+                                           value="#{model.uploadDrugItem.specPrep}" style="#{model.errorColumns.contains('SPECPREP')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'SPECPREP')}"/>
                         </p:outputPanel>
                     </p:column>
 
 
                 </p:dataTable>
 
-                <p:commandButton value="Save" id="saveBtn" onclick="return confirm('ยืนยันการอนุมัติ');" action="#{adminInbox.save}" ajax="false" 
-                                 disabled="#{(empty adminInbox.notApproveRequests) and (empty adminInbox.approveRequests)}"/>
+                <p:commandButton value="Save" id="saveBtn" onclick="return confirm('ยืนยันการอนุมัติ');" action="#{adminInboxNullTMT.save}" ajax="false" 
+                                 disabled="#{(empty adminInboxNullTMT.notApproveRequests) and (empty adminInboxNullTMT.approveRequests)}"/>
                 &nbsp;
-                <p:commandButton value="Cancel" immediate="true" ajax="false" action="#{adminInbox.clear()}"/>
+                <p:commandButton value="Cancel" immediate="true" ajax="false" action="#{adminInboxNullTMT.clear()}"/>
 
 
             </h:form>
