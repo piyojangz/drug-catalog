@@ -52,7 +52,7 @@ public class HospitalDrugExcelModel implements Serializable {
     private String productCat;
 
     @XlsColumn
-    @Size(min = 6, max = 6, message = "TMTID ต้องไม่เกิน {max} ตัวอักษร")
+    @Size(min = 6, max = 7, message = "TMTID ต้องไม่เกิน {max} ตัวอักษร")
     private String tmtId;
 
     @XlsColumn
