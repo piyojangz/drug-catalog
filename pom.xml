@@ -22,12 +22,12 @@
     </scm>
     <distributionManagement>
         <repository>
-            <id>Geniustree Release</id>
-            <url>http://nexus.geniustree.ath.cx/content/repositories/geniustree/</url>
+            <id>geniustree</id>
+            <url>http://nexus.geniustree.ath.cx/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>Geniustree Snapshots</id>
-            <url>http://nexus.geniustree.ath.cx/content/repositories/GeniustreeSnapshots/</url>
+            <id>GeniustreeSnapshots</id>
+            <url>http://nexus.geniustree.ath.cx/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <dependencies>
