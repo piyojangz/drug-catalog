@@ -82,7 +82,7 @@ public class UploadHospitalDrugItem implements Serializable {
     @Column(name = "PRODUCTCAT", nullable = false, length = 3)
     private String productCat;
 
-    @Size(min = 6, max = 6, message = "tmtId size must be {max}.")
+    @Size(min = 6, max = 7, message = "tmtId size must be {max}.")
     @Column(name = "TMTID", nullable = true, length = 6)
     private String tmtId;
 
