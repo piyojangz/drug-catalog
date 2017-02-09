@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
@@ -73,7 +74,7 @@ public class EdNedController {
     }
 
     public void findAll() {
-        tmtEdNeds = new SpringDataLazyDataModelSupport<TMTEdNed>() {
+        tmtEdNeds = new SpringDataLazyDataModelSupport<TMTEdNed>(new Sort("tmtDrug.fsn","dateIn")) {
             @Override
             public Page<TMTEdNed> load(Pageable pageAble) {
                 Page<TMTEdNed> page = tmtEdNedService.findAll(pageAble);
@@ -100,7 +101,7 @@ public class EdNedController {
     }
 
     public void search() {
-        tmtEdNeds = new SpringDataLazyDataModelSupport<TMTEdNed>() {
+        tmtEdNeds = new SpringDataLazyDataModelSupport<TMTEdNed>(new Sort("tmtDrug.fsn","dateIn")) {
             @Override
             public Page<TMTEdNed> load(Pageable pageAble) {
                 Specification<TMTEdNed> spec = specifiedBySearchInput(searchWord, searchEdStatus, searchStartDate, searchEndDate);
