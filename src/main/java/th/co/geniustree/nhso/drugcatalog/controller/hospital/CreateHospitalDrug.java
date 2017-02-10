@@ -66,6 +66,7 @@ public class CreateHospitalDrug implements Serializable {
     private boolean disableSaveBtn = Boolean.FALSE;
 
     private List<UploadHospitalDrugItem> history;
+    private boolean renderInputItem = false;
 
     @PostConstruct
     public void postConstruct() {
@@ -168,8 +169,17 @@ public class CreateHospitalDrug implements Serializable {
         } else {
             BeanUtils.copyProperties(beforeEditHospitalDrug, item);
         }
+        configRender();
+    }
+    
+    public void configRender(){
+        this.renderInputItem = !(editMode== true && updateFlag.equals("A"));
     }
 
+    public boolean isRenderInputItem() {
+        return renderInputItem;
+    }
+    
     public void checkHospDrugCodeExist(FacesContext context, UIComponent component, Object value) {
         if (value == null) {
             return;
