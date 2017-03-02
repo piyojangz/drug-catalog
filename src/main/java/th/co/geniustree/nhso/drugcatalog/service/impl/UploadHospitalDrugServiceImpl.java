@@ -39,7 +39,7 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
     private UploadHospitalDrugItemRepo uploadHospitalDrugItemRepo;
     @Autowired
     private RequestItemService requestItemService;
-
+    
     @Override
     public void saveUploadHospitalDrugAndRequest(UploadHospitalDrug uploadHospitalDrug) {
         uploadHospitalDrug = uploadHospitalDrugRepo.save(uploadHospitalDrug);
@@ -89,6 +89,16 @@ public class UploadHospitalDrugServiceImpl implements UploadHospitalDrugService 
         if (!exist) {
             throw new IllegalStateException("Can't edit HospitalDrug that not already exist.");
         }
+        uploadItem = uploadHospitalDrugItemRepo.save(uploadItem);
+        UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
+        makeSpecialUploadDrug(uploadHospitalDrug, hcode, uploadItem);
+        createRequestItem(uploadItem);
+    }
+    
+    @Override
+    public void editDrugFlagAByHand(String hcode, UploadHospitalDrugItem uploadItem) {
+        requestItemService.delete(uploadItem.getRequestItem());
+        uploadItem.setRequestItem(null);
         uploadItem = uploadHospitalDrugItemRepo.save(uploadItem);
         UploadHospitalDrug uploadHospitalDrug = uploadHospitalDrugRepo.findByHcodeAndShaHex(hcode, UploadHospitalDrugService.SPECIAL_SHAHEX_VALUE);
         makeSpecialUploadDrug(uploadHospitalDrug, hcode, uploadItem);

@@ -21,4 +21,6 @@ public interface UploadHospitalDrugService {
     public void addNewDrugByHand(String hcode, UploadHospitalDrugItem item);
 
     public void editDrugByHand(String hcode, UploadHospitalDrugItem item);
+    
+    public void editDrugFlagAByHand(String hcode, UploadHospitalDrugItem uploadItem);
 }

@@ -24,5 +24,6 @@ public interface RequestItemService {
     public List<RequestItem> findAllByStatusAndTmtId(RequestItem.Status status, String tmtId);
 
     public Page<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode, Pageable pageable);
-
+    
+    public void delete(RequestItem item);
 }

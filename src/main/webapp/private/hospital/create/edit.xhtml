@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      shemaLocation="http://xmlns.jcp.org/jsf/html http://www.w3.org/1999/xhtml.xsd"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/template/main-template2.xhtml">
+        <ui:define name="content">
+            <f:metadata>
+                <f:viewParam name="itemId" value="#{editRequestHospitalDrug.itemId}"/>
+                <f:viewAction action="#{editRequestHospitalDrug.loadHospitalDrug}"/>
+            </f:metadata>
+            <style>
+                .ui-widget-content .ui-inputfield.ui-state-error{
+                    border: 1px solid #F42020;
+                    box-shadow: inset 1px 1px 2px #E58888;
+                }
+                .ui-widget-content .ui-state-error{
+                    border: 1px solid #F42020;
+                    box-shadow: inset 1px 1px 2px #E58888;
+                }
+                .label-tabledescription{
+                    display: inline;
+                    padding: .2em .6em .3em;
+                    line-height: 1;
+                    text-align: right;
+                    white-space: nowrap;
+                    vertical-align: baseline;
+                    border-radius: .25em;
+                    margin-right: 5px;
+                    border: 1px solid transparent;
+                    border-radius: 4px;
+                }
+                .label-tabledescription-danger{
+                    color: #a94442;
+                    border-color: #ebccd1;
+                    background-color: #f2dede;
+                }
+                .label-tabledescription-warning{
+                    background-color: #fcf8e3;
+                    color: #8a6d3b;
+                    border-color: #faebcc;
+                }
+            </style>
+            <h:form id="form">
+                <style type="text/css">
+                    .ui-panelgrid .ui-panelgrid-cell{
+                        padding: 4px 2px;
+                        border: none;
+                    }
+                </style>
+                <div class="header-content">
+                    <i class="fa fa-wrench"></i><h:outputText value="ปรับปรุงรายการยาเดิม"/>
+                </div>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>HOSPDRUGCODE:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="HOSPDRUGCODE" value="#{editRequestHospitalDrug.item.hospDrugCode}"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="HOSPDRUGCODE"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>PRODUCTCAT:
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="PRODUCTCAT" value="#{editRequestHospitalDrug.item.productCat}">
+                                <f:selectItem itemLabel="1" itemValue="1"/>
+                                <f:selectItem itemLabel="2" itemValue="2"/>
+                                <f:selectItem itemLabel="3" itemValue="3"/>
+                                <f:selectItem itemLabel="4" itemValue="4"/>
+                                <f:selectItem itemLabel="5" itemValue="5"/>
+                                <f:selectItem itemLabel="6" itemValue="6"/>
+                                <f:selectItem itemLabel="7" itemValue="7"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:message for="PRODUCTCAT"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            TMTID:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="TMTID" value="#{editRequestHospitalDrug.item.tmtId}" readonly="#{facesContext.renderResponse}"/>
+                            <p:commandButton value="ค้นหา TMTID" action="#{editRequestHospitalDrug.findTmt}" process="@this">
+                                <p:ajax event="dialogReturn" listener="#{editRequestHospitalDrug.selectTmt}" update="GENERICNAME TMTID TRADENAME MANUFACTURER DOSAGEFORM STRENGTH CONTENT" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <p:message for="TMTID"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            SPECPREP:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="SPECPREP" value="#{editRequestHospitalDrug.item.specPrep}"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="SPECPREP"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>GENERICNAME:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="GENERICNAME" value="#{editRequestHospitalDrug.item.genericName}" size="80"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="GENERICNAME"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>TRADENAME:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="TRADENAME" value="#{editRequestHospitalDrug.item.tradeName}" size="80"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="TRADENAME"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            DFSCODE:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="DFSCODE" value="#{editRequestHospitalDrug.item.dfsCode}" size="50"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="DFSCODE"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>DOSAGEFORM:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="DOSAGEFORM" value="#{editRequestHospitalDrug.item.dosageForm}" size="50"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="DOSAGEFORM"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            STRENGTH:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="STRENGTH" value="#{editRequestHospitalDrug.item.strength}" size="50"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="STRENGTH"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>CONTENT:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="CONTENT" 
+                                         required="true"
+                                         requiredMessage="กรุณาระบุปริมาณและหน่วยของ content"
+                                         value="#{editRequestHospitalDrug.item.content}"
+                                         style="width: 200px;">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="CONTENT"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>UNITPRICE:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="UNITPRICE" 
+                                         value="#{editRequestHospitalDrug.item.unitPrice}" 
+                                         type="number"
+                                         required="true"
+                                         validatorMessage="unit price ไม่ถูกต้อง"
+                                         requiredMessage="กรุณาระบุราคายา">
+                                <f:validateDoubleRange minimum="0" />
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="UNITPRICE"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            DISTRIBUTOR:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="DISTRIBUTOR" value="#{editRequestHospitalDrug.item.distributor}" size="80"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="DISTRIBUTOR"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>MANUFACTURER:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="MANUFACTURER" value="#{editRequestHospitalDrug.item.manufacturer}" size="80"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="MANUFACTURER"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <span style="color:red">*</span>ISED:
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="ISED" value="#{editRequestHospitalDrug.item.ised}">
+                                <f:selectItem itemValue="" itemLabel="กรุณาเลือก" noSelectionOption="true"/>
+                                <f:selectItem itemValue="E" itemLabel="E"/>
+                                <f:selectItem itemValue="E*" itemLabel="E*"/>
+                                <f:selectItem itemValue="N" itemLabel="N"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:message for="ISED"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            NDC24:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="NDC24" value="#{editRequestHospitalDrug.item.ndc24}"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="NDC24"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            PACKSIZE:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="PACKSIZE" value="#{editRequestHospitalDrug.item.packSize}"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="PACKSIZE"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            PACKPRICE:
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="PACKPRICE" value="#{editRequestHospitalDrug.item.packPrice}">
+                            </p:inputText>
+                        </p:column>
+                        <p:column>
+                            <p:message for="PACKPRICE"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column style="text-align: right">
+                            <h:outputLabel  style="color:red">*</h:outputLabel>DATEEFFECTIVE:
+                        </p:column>
+                        <p:column>
+                            <p:calendar id="DATEEFFECTIVE" 
+                                        locale="en_US" 
+                                        pattern="dd/MM/yyyy" 
+                                        value="#{editRequestHospitalDrug.item.dateEffectiveDate}"  
+                                        showOn="button"
+                                        navigator="true">
+                            </p:calendar>
+                        </p:column>
+                        <p:column>
+                            <p:message for="DATEEFFECTIVE"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column/>
+                        <p:column>
+                            <p:commandButton value="บันทึก" action="#{editRequestHospitalDrug.save()}" 
+                                             update="@form" 
+                                             onclick="PF('allblock').show()" oncomplete="PF('allblock').hide()">
+                            </p:commandButton>
+                            <p:commandButton value="ยกเลิก" 
+                                             action="#{editRequestHospitalDrug.cancel()}" 
+                                             update="@form" 
+                                             process="@this"/>
+                            <p:commandButton value="คืนค่าเดิม"
+                                             actionListener="#{editRequestHospitalDrug.restoreItem()}" 
+                                             update="@form" 
+                                             process="@this"/>
+                        </p:column>  
+                        <p:column/>
+                    </p:row>
+                </p:panelGrid>
+                <p:blockUI block="form" widgetVar="allblock" >
+                    Please wait...
+                </p:blockUI>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

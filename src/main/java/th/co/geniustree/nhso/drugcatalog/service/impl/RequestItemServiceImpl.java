@@ -90,4 +90,9 @@ public class RequestItemServiceImpl implements RequestItemService {
     public Page<RequestItem> findByStatusAndHcodeAndTmtIdIsNull(RequestItem.Status status, String hcode, Pageable pageable) {
         return requestItemRepo.findByStatusAndUploadDrugItemUploadDrugHcodeAndUploadDrugItemTmtIdIsNullAndDeletedFalse(status, hcode, pageable);
     }
+    
+    @Override
+    public void delete(RequestItem item){
+        requestItemRepo.delete(item);
+    }
 }

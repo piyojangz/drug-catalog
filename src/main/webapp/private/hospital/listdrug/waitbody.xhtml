@@ -35,7 +35,12 @@
                     <p:confirm header="Confirmation" message="ยืนยันการลบ" icon="ui-icon-alert" />
                 </p:commandLink>
             </p:column>
-            <p:column width="50" exportable="false">
+            <p:column width="50" exportable="false" rendered="#{model.updateFlag eq 'A'}">
+                <h:link rendered="true" outcome="/private/hospital/create/edit" value="แก้ไข" style="color:blue">
+                    <f:param name="itemId" value="#{model.id}"/>
+                </h:link>
+            </p:column>
+            <p:column width="50" exportable="false" rendered="#{model.updateFlag ne 'A'}">
                 <h:link rendered="true" outcome="/private/hospital/create/index" value="แก้ไข" style="color:blue">
                     <f:param name="editMode" value="true"/>
                     <f:param name="hospDrugCode" value="#{model.hospDrugCode}"/>
