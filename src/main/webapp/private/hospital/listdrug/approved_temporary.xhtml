@@ -59,8 +59,11 @@
                     <p:column headerText="PRODUCTCAT" width="100" style="text-align: center;">
                         <h:outputText value="#{model.productCat}"/>
                     </p:column>
-                    <p:column headerText="TMTID" width="80">
+                    <p:column headerText="TMTID/TTMTID" width="120">
                         <h:outputText value="#{model.tmtId}"/>
+                    </p:column>
+                    <p:column headerText="Drug Type" width="100">
+                        <font color="green">ยาแผนปัจจุบัน</font>
                     </p:column>
                     <p:column headerText="SPECPREP" width="80">
                         <h:outputText value="#{model.specPrep}"/>

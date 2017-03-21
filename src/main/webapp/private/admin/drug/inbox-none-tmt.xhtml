@@ -125,7 +125,7 @@
                 <f:viewAction action="#{adminInboxNullTMT.onActionAfterSelectHospitalFromInBoxZone()}"/>
             </f:metadata>
             <div class="header-content">
-                <h:outputText value="อนุมัติรายการยากรณี ไม่มี TMT (รายโรงพยาบาล)"/>
+                <h:outputText value="อนุมัติรายการยากรณี ไม่มี TMT/TTMT (รายโรงพยาบาล)"/>
             </div>
             <h:form id="form">
                 <p:panelGrid style="min-width: 680px;">
@@ -233,7 +233,7 @@
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  value="#{model.uploadDrugItem.productCat}" style="#{model.errorColumns.contains('PRODUCTCAT')?'color:red':'color:blue'}" action="#{adminInboxNullTMT.error(model, 'PRODUCTCAT')}"/>
                         </p:outputPanel>
                     </p:column>
-                    <p:column headerText="TMTID" width="85">
+                    <p:column headerText="TMTID/TTMTID" width="125">
                         <p:outputPanel styleClass="updateset-#{model.id}" style="text-align: center;">
                             <p:commandLink update="@(.updateBtn-#{model.id}) :tableForm:saveBtn @(.updateset-#{model.id})"  
                                            value="มี TMT แล้ว" 

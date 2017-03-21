@@ -25,11 +25,11 @@
             </style>
             <p:growl id="growl" showDetail="true"/>
             <div class="header-content" style="margin-bottom: 10px;">
-                <i class="fa fa-medkit"></i><h:outputText value="จับคู่รหัส TMT - NDC24"/>
+                <i class="fa fa-medkit"></i><h:outputText value="จับคู่รหัส TMT/TTMT - NDC24"/>
             </div>
             <h:form id="menuForm">
                 <p:menubar styleClass="sub-menu">
-                    <p:menuitem outcome="index.xhtml" value="TMT - NDC24"/>
+                    <p:menuitem outcome="index.xhtml" value="TMT/TMT - NDC24"/>
                     <p:menuitem outcome="upload.xhtml" value="อัพโหลดข้อมูล"/>
                 </p:menubar>
             </h:form>
@@ -38,7 +38,7 @@
                     <p:panelGrid>
                         <p:row>
                             <p:column style="text-align: right;">
-                                <h:outputText value="ค้นหา TMT : "/>
+                                <h:outputText value="ค้นหา TMT/TTMT : "/>
                             </p:column>
                             <p:column>
                                 <p:inputText value="#{matchTMTNDC24Controller.searchTMTDrug}" style="width: 200px;"/>
@@ -89,7 +89,7 @@
                 </p:fieldset>
             </h:form> 
             <div class="header-content-sub">
-                <i class="fa fa-medkit"></i><h:outputText value="รายการยา TMT - NDC24 ที่ถูกจับคู่อยู่"/>
+                <i class="fa fa-medkit"></i><h:outputText value="รายการยา TMT/TTMT - NDC24 ที่ถูกจับคู่อยู่"/>
             </div>
             <h:form id="searchform">
                 <p:panelGrid>
@@ -98,8 +98,8 @@
                             <h:outputText value="ค้นหารายการยา : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="searchText" value="#{matchTMTNDC24Controller.searchWord}" style="width: 250px;">
-                                <p:watermark for="searchText" value="สามารถค้นหาด้วย TMTID, FSN หรือ NDC24"/>
+                            <p:inputText id="searchText" value="#{matchTMTNDC24Controller.searchWord}" style="width: 300px;">
+                                <p:watermark for="searchText" value="สามารถค้นหาด้วย TMTID/TTMTID, FSN หรือ NDC24"/>
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -125,8 +125,11 @@
                     <p:column headerText="#" style="width: 50px;text-align: center;max-width: 50px;">
                         #{rowIndex + 1}
                     </p:column>
-                    <p:column headerText="TMTID" style="width: 60px;text-align: center;">
+                    <p:column headerText="TMTID/TTMTID" style="width: 100px;text-align: center;">
                         <h:outputText value="#{model.tmtid}"/>
+                    </p:column>
+                    <p:column headerText="Drug Type"  style="width: 60px;text-align: center;">
+                         <font color="green">ยาแผนปัจจุบัน</font>
                     </p:column>
                     <p:column headerText="FSN" >
                         <h:outputText value="#{model.tmtDrug.fsn}"/>

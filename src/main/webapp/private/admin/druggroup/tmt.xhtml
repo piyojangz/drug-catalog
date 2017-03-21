@@ -28,8 +28,8 @@
                     </p:row>
                     <p:row>
                         <p:column>
-                            <p:inputText id="searchInput" style="width: 200px;" value="#{deleteMistakeDrugGroupAssociation.searchText}" >
-                                <p:watermark for="searchInput" value="ค้นหาด้วย TMTID หรือ FSN" />
+                            <p:inputText id="searchInput" style="width: 220px;" value="#{deleteMistakeDrugGroupAssociation.searchText}" >
+                                <p:watermark for="searchInput" value="ค้นหาด้วย TMTID/TTMTID หรือ FSN" />
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -51,11 +51,14 @@
                     <p:column style="width: 30px;text-align: center;">
                         <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
-                    <p:column headerText="TMTID" style="width: 50px;text-align: center;">
+                    <p:column headerText="TMTID/TTMTID" style="width: 100px;text-align: center;">
                         <h:outputText value="#{drug.tmtId}"/>
                     </p:column>
                     <p:column headerText="Type" style="width: 50px;text-align: center;">
                         <h:outputText value="#{drug.type}"/>
+                    </p:column>
+                     <p:column headerText="Drug Type" style="width: 50px;text-align: center;">
+                         <font color="green">ยาแผนปัจจุบัน</font>
                     </p:column>
                     <p:column headerText="FSN">
                         <h:outputText value="#{drug.fsn}"/>

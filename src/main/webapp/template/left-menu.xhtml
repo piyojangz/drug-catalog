@@ -35,11 +35,11 @@
                 <p:submenu label="Request" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('ZONE')}">
                     <p:menuitem value="รายการยารอตรวจสอบ (ทั้งหมด)" outcome="/private/admin/drug/inbox-zone" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox-zone.xhtml'), 0)?'background-color: #FFF2DB':''}">
                     </p:menuitem>
-                    <p:menuitem value="อนุมัติรายการยากรณี มี TMT (ราย รพ.)" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox.xhtml'), 0)?'background-color: #FFF2DB':''}">
+                    <p:menuitem value="อนุมัติรายการยากรณี มี TMT/TTMT (ราย รพ.)" outcome="/private/admin/drug/inbox" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox.xhtml'), 0)?'background-color: #FFF2DB':''}">
                         <f:param name="tmt" value="false"/>
                         <f:param name="hcode" value=""/>
                     </p:menuitem>
-                    <p:menuitem value="อนุมัติรายการยากรณี ไม่มี TMT (ราย รพ.)" outcome="/private/admin/drug/inbox-none-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox-none-tmt'), 0)?'background-color: #FFF2DB':''}">
+                    <p:menuitem value="อนุมัติรายการยากรณี ไม่มี TMT/TTMT (ราย รพ.)" outcome="/private/admin/drug/inbox-none-tmt" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/inbox-none-tmt'), 0)?'background-color: #FFF2DB':''}">
                         <f:param name="tmt" value="true"/>
                         <f:param name="hcode" value=""/>
                     </p:menuitem>
@@ -52,15 +52,15 @@
                     <ui:remove>
                         <p:menuitem value="Drug-Druggroup association" outcome="/private/admin/druggroup/assigngroup" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/assigngroup'), 0)?'background-color: #FFF2DB':''}"/>
                     </ui:remove>
-                    <p:menuitem value="TMT" outcome="/private/admin/druggroup/tmt.xhtml" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/tmt.xhtml'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="TMT/TTMT" outcome="/private/admin/druggroup/tmt.xhtml" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/druggroup/tmt.xhtml'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
-                <p:submenu label="ฐานข้อมูลยา TMT Master">
-                    <p:menuitem value="TMT - NDC24" outcome="/private/admin/std24/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/std24/index'), 0)?'background-color: #FFF2DB':''}"/>
+                <p:submenu label="ฐานข้อมูลยา TMT/TTMT Maste">
+                    <p:menuitem value="TMT/TTMT - NDC24" outcome="/private/admin/std24/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/std24/index'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="รายการ ED/NED" outcome="/private/common/edned/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN') or request.isUserInRole('HOSPITAL')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/edned/index'), 0)?'background-color: #FFF2DB':''}"/>
                     <p:menuitem value="Reimburse Price" outcome="/private/admin/reimburseprice/index_tpu" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/reimburseprice/'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem value="การเชื่อมโยงรหัส TMT" outcome="/private/admin/tmtmaster/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/tmtmaster/index'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem value="นำเข้าฐาน TMT" outcome="/private/admin/drug/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/index'), 0)?'background-color: #FFF2DB':''}"/>
-                    <p:menuitem value="ฐานข้อมูลรหัสยา TMT" outcome="/private/common/drug/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/common/drug/index'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="การเชื่อมโยงรหัส TMT/TTMT" outcome="/private/admin/tmtmaster/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/tmtmaster/index'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="นำเข้าฐาน TMT/TTMT" outcome="/private/admin/drug/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" rendered="#{request.isUserInRole('ADMIN')}" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/drug/index'), 0)?'background-color: #FFF2DB':''}"/>
+                    <p:menuitem value="ฐานข้อมูลรหัสยา TMT/TTMT" outcome="/private/common/drug/index" icon="temIconSize24 temIconBackgroundImportTMT temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/common/drug/index'), 0)?'background-color: #FFF2DB':''}"/>
                 </p:submenu>
                 <p:submenu label="รายงาน" rendered="#{request.isUserInRole('ADMIN')}">
                     <p:menuitem value="#{msg.menu_report_upload_label}" outcome="/private/admin/report/import-report" icon="temIconSize24 temIconBackgroundInbox temMarginRight5" style="#{request.requestURI.startsWith(request.contextPath.concat('/private/admin/report/import-report'), 0)?'background-color: #FFF2DB':''}">

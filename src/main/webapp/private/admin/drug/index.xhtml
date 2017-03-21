@@ -14,8 +14,14 @@
                 }
             </style>
             <div class="header-content">
-                <i class="fa fa-upload"></i><h:outputText value="นำเข้าฐานข้อมูลยา TMT Master"/>
+                <i class="fa fa-upload"></i><h:outputText value="นำเข้าฐานข้อมูลยา"/>
             </div>
+               <h:form id="menuForm">
+                <p:menubar styleClass="sub-menu">
+                    <p:menuitem outcome="index.xhtml" value="นำเข้าฐานข้อมูลยา TMT Master"/>
+                    <p:menuitem   value="นำเข้าฐานข้อมูลยา TTMT Master"/>
+                </p:menubar>
+            </h:form>
             <div class="header-content-sub">
                 <i class="fa fa-medkit"></i><h:outputText value="ไฟล์ version ปัจจุบัน : #{uploadMasterDrug.latestFile}"/><br/>
             </div>

@@ -20,6 +20,7 @@
                         border: none;
                     }
                 </style>
+                 <div style="float:left;display:block;width: 80%;">
                 <p:panelGrid>
                     <p:row>
                         <p:column style="text-align: right">
@@ -75,7 +76,7 @@
                     </p:row>
                     <p:row>
                         <p:column style="text-align: right" styleClass="#{editNotPassRequest.item.requestItem.errorColumns.contains('TMTID')?'errorBackground':''}">
-                            <span style="color:blue">TMTID:</span>
+                            <span style="color:blue">TMTID/TTMTID:</span>
                         </p:column>
                         <p:column>
                             <p:inputText id="TMTID" value="#{editNotPassRequest.item.tmtId}" readonly="#{facesContext.renderResponse}"
@@ -285,6 +286,8 @@
                         <p:column/>
                     </p:row>
                 </p:panelGrid>
+            </div>
+                <div style="float:left;display:block;width: 20%;min-height: 100px;"><font color="red">*** REMARK</font> <p>-</p></div>
             </h:form>
         </ui:define>
     </ui:composition>

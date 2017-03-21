@@ -9,7 +9,7 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
         <div class="header-content">
-            <i class="fa fa-database"></i><h:outputText value="ฐานข้อมูลรหัสยา TMT"/>
+            <i class="fa fa-database"></i><h:outputText value="ฐานข้อมูลรหัสยา TMT/TTMT"/>
         </div>
         <h:form id="form">
             <style type="text/css">
@@ -50,6 +50,7 @@
                         <p:selectManyCheckbox id="selectColumns" value="#{searchTmtDrug.selectColumns}">
                             <f:selectItem  itemValue="FSN" itemLabel="FSN"/>
                             <f:selectItem  itemValue="TMTID" itemLabel="TMTID"/>
+                            <f:selectItem  itemValue="TTMTID" itemLabel="TTMTID"/>
                             <f:selectItem  itemValue="NDC24" itemLabel="NDC24"/>
                         </p:selectManyCheckbox>
                     </p:column>

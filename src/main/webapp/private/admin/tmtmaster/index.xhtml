@@ -16,7 +16,7 @@
             </style>
             <p:growl id="growl" showDetail="true"/>
             <div class="header-content" style="margin-bottom: 10px;">
-                <i class="fa fa-medkit"></i><h:outputText value="การเชื่อมโยงรหัส TMT"/>
+                <i class="fa fa-medkit"></i><h:outputText value="การเชื่อมโยงรหัส TMT/TTMT"/>
             </div>
 
             <h:form id="menuForm">
@@ -33,8 +33,8 @@
                             <h:outputText value="ค้นหารายการยา : "/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="searchText" value="#{tmtRelationMapping.keyword}" size="15">
-                                <p:watermark for="searchText" value="TMTID หรือ FSN"/>
+                            <p:inputText id="searchText" value="#{tmtRelationMapping.keyword}" size="30">
+                                <p:watermark for="searchText" value="TMTID/TTMTID หรือ FSN"/>
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -77,16 +77,19 @@
                     <p:column headerText="#" style="text-align: center;width: 40px;">
                         <h:outputText value="#{rowIndex + 1}"/>
                     </p:column>
-                    <p:column headerText="TMTID" style="width: 50px;text-align: center;">
+                    <p:column headerText="TMTID/TTMTID" style="width: 100px;text-align: center;">
                         <h:outputText value="#{item.tmtId}"/>
                     </p:column>
                     <p:column headerText="TYPE" style="width: 50px;text-align: center;">
                         <h:outputText value="#{item.type}"/>
                     </p:column>
+                     <p:column headerText="Drug Type" style="width: 50px;text-align: center;">
+                         <font color="green">ยาแผนปัจจุบัน</font>
+                    </p:column>
                     <p:column headerText="FSN">
                         <h:outputText value="#{item.fsn}"/>
                     </p:column>
-                    <p:column headerText="ดู TMT Child" style="text-align: center;width: 80px;">
+                    <p:column headerText="ดู TMT/TTMT Child" style="text-align: center;width: 80px;">
                         <p:commandButton icon="ui-icon-zoomin"
                                          onclick="PF('relationDialogWidget').show()" 
                                          update=":relationDialogForm"
